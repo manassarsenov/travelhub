@@ -1,0 +1,175 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block main_content %}
+
+
+
+    <!-- Featured Destinations -->
+    <section class="section">
+        <h2 class="section-title">Featured Destinations</h2>
+        <div class="card-grid" id="featured-destinations">
+            <!-- Loading Skeletons -->
+            <div class="skeleton-card">
+                <div class="skeleton skeleton-image"></div>
+                <div class="skeleton-content">
+                    <div class="skeleton skeleton-title"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text" style="width: 30%;"></div>
+                </div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skeleton skeleton-image"></div>
+                <div class="skeleton-content">
+                    <div class="skeleton skeleton-title"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text" style="width: 30%;"></div>
+                </div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skeleton skeleton-image"></div>
+                <div class="skeleton-content">
+                    <div class="skeleton skeleton-title"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text" style="width: 30%;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Categories -->
+    <section class="section" style="background: linear-gradient(180deg, var(--light) 0%, white 100%);">
+        <h2 class="section-title">Browse by Category</h2>
+        <div class="card-grid" style="grid-template-columns: repeat(4, 1fr);">
+            {% for category in categories %}
+                <div class="destination-card" style="text-align: center; cursor: pointer;"
+                     onclick="filterCategory('{{ category.slug }}')">
+                    <div style="padding: 50px 30px;">
+                        <i class="fas fa-{{ category.icon }}"
+                           style="font-size: 70px; color: {{ category.color }}; margin-bottom: 25px;"></i>
+                        <h3 style="font-size: 24px; margin-bottom: 12px;">
+                            {{ category.name }}
+                        </h3>
+                        <p style="color: var(--gray); font-size: 16px;">
+                            {{ category.destinations_count }}+ destinations
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Trending Destinations -->
+    <section class="section">
+        <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 60px; justify-content: center;">
+            <i class="fas fa-fire" style="font-size: 52px; color: #f59e0b;"></i>
+            <h2 style="font-size: 48px; font-weight: 900;">Trending Now</h2>
+        </div>
+        <div class="card-grid" id="trending-destinations"></div>
+    </section>
+
+    {#    <!-- Interactive Map Section -->#}
+    {#    <section class="section">#}
+    {#        <h2 class="section-title">Explore on Map</h2>#}
+    {#        <div id="map"></div>#}
+    {#    </section>#}
+
+{#    <!-- Testimonials -->#}
+{#    <section class="section" style="background: var(--light);">#}
+{#        <h2 class="section-title">What Our Travelers Say</h2>#}
+{#        <div class="card-grid">#}
+{#            <div class="destination-card">#}
+{#                <div class="card-content">#}
+{#                    <div class="rating" style="margin-bottom: 25px;">#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                    </div>#}
+{#                    <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">"Absolutely#}
+{#                        amazing! The AI recommendations were spot-on. Found my dream vacation in minutes!"</p>#}
+{#                    <div style="display: flex; align-items: center; gap: 18px;">#}
+{#                        <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=70"#}
+{#                             style="border-radius: 50%;">#}
+{#                        <div>#}
+{#                            <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 5px;">Sarah Johnson</h4>#}
+{#                            <p style="color: var(--gray); font-size: 14px;">Traveled to Maldives</p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="destination-card">#}
+{#                <div class="card-content">#}
+{#                    <div class="rating" style="margin-bottom: 25px;">#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                    </div>#}
+{#                    <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">"Best booking#}
+{#                        experience ever! Smooth, fast, and incredibly helpful customer service."</p>#}
+{#                    <div style="display: flex; align-items: center; gap: 18px;">#}
+{#                        <img src="https://ui-avatars.com/api/?name=Michael+Chen&background=764ba2&color=fff&size=70"#}
+{#                             style="border-radius: 50%;">#}
+{#                        <div>#}
+{#                            <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 5px;">Michael Chen</h4>#}
+{#                            <p style="color: var(--gray); font-size: 14px;">Traveled to Switzerland</p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="destination-card">#}
+{#                <div class="card-content">#}
+{#                    <div class="rating" style="margin-bottom: 25px;">#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                        <i class="fas fa-star stars"></i>#}
+{#                    </div>#}
+{#                    <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">"The#}
+{#                        personalized#}
+{#                        recommendations saved us hours of research. Highly recommend!"</p>#}
+{#                    <div style="display: flex; align-items: center; gap: 18px;">#}
+{#                        <img src="https://ui-avatars.com/api/?name=Emma+Wilson&background=a855f7&color=fff&size=70"#}
+{#                             style="border-radius: 50%;">#}
+{#                        <div>#}
+{#                            <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 5px;">Emma Wilson</h4>#}
+{#                            <p style="color: var(--gray); font-size: 14px;">Traveled to Bali</p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+
+    <!-- Statistics -->
+{#    <section class="section"#}
+{#             style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white;">#}
+{#        <div class="card-grid" style="grid-template-columns: repeat(4, 1fr); text-align: center;">#}
+{#            <div>#}
+{#                <h2 style="font-size: 64px; font-weight: 900; margin-bottom: 15px;">450+</h2>#}
+{#                <p style="font-size: 22px; opacity: 0.95;">Destinations</p>#}
+{#            </div>#}
+{#            <div>#}
+{#                <h2 style="font-size: 64px; font-weight: 900; margin-bottom: 15px;">50K+</h2>#}
+{#                <p style="font-size: 22px; opacity: 0.95;">Happy Travelers</p>#}
+{#            </div>#}
+{#            <div>#}
+{#                <h2 style="font-size: 64px; font-weight: 900; margin-bottom: 15px;">98%</h2>#}
+{#                <p style="font-size: 22px; opacity: 0.95;">Satisfaction Rate</p>#}
+{#            </div>#}
+{#            <div>#}
+{#                <h2 style="font-size: 64px; font-weight: 900; margin-bottom: 15px;">24/7</h2>#}
+{#                <p style="font-size: 22px; opacity: 0.95;">Customer Support</p>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+
+
+
+{% endblock %}

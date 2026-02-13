@@ -1,0 +1,583 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+<title>TravelHub - Join Our Telegram Channel</title>
+{% endblock %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'apps/css/telegram_channel.css' %}">
+{% endblock %}
+
+{% block main_content %}
+
+<!-- Hero Section -->
+<section id="telegram-hero">
+    <div class="hero-background">
+        <div class="floating-icons">
+            <i class="fab fa-telegram-plane float-icon"></i>
+            <i class="fas fa-paper-plane float-icon"></i>
+            <i class="fas fa-bell float-icon"></i>
+            <i class="fas fa-globe float-icon"></i>
+            <i class="fas fa-plane float-icon"></i>
+        </div>
+    </div>
+    
+    <div class="hero-content">
+        <div class="telegram-logo-wrapper">
+            <i class="fab fa-telegram telegram-logo"></i>
+        </div>
+        
+        <h1 class="hero-title">
+            <span class="typing-text">Join Our Exclusive Travel Community</span>
+        </h1>
+        
+        <p class="hero-subtitle">Get instant access to deals, tips & insider secrets</p>
+        
+        <div class="live-stats">
+            <i class="fas fa-users"></i>
+            <span class="counter" data-target="12547">0</span>
+            <span class="stats-label">Travel Enthusiasts</span>
+        </div>
+        
+        <div class="hero-buttons">
+            <button class="btn-primary pulse-btn" onclick="joinTelegramChannel()">
+                <i class="fab fa-telegram"></i>
+                Join Channel Now
+            </button>
+            <button class="btn-secondary" onclick="scrollToPreview()">
+                <i class="fas fa-chevron-down"></i>
+                Preview Content
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Content Showcase -->
+<section id="content-showcase">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">What You'll Get</h2>
+            <p class="section-subtitle">Exclusive benefits for our channel members</p>
+        </div>
+        
+        <div class="showcase-grid">
+            <div class="showcase-card" data-aos="fade-up" data-aos-delay="0">
+                <div class="card-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <div class="card-badge">Members Only</div>
+                <h3 class="card-title">Exclusive Deals</h3>
+                <p class="card-description">Up to 50% OFF exclusive hotel deals</p>
+                <p class="card-description">Daily flight discount alerts</p>
+                <div class="card-shine"></div>
+            </div>
+            
+            <div class="showcase-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div class="card-badge">Daily Updates</div>
+                <h3 class="card-title">Travel Tips & Guides</h3>
+                <p class="card-description">Expert destination guides</p>
+                <p class="card-description">Hidden gems & local secrets</p>
+                <div class="card-shine"></div>
+            </div>
+            
+            <div class="showcase-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="card-badge">Active Community</div>
+                <h3 class="card-title">Community Stories</h3>
+                <p class="card-description">Real traveler experiences</p>
+                <p class="card-description">Photo contests & challenges</p>
+                <div class="card-shine"></div>
+            </div>
+            
+            <div class="showcase-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="card-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="card-badge">Real-time</div>
+                <h3 class="card-title">Instant Notifications</h3>
+                <p class="card-description">Be the first to know</p>
+                <p class="card-description">Last-minute deals & flash sales</p>
+                <div class="card-shine"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Live Content Preview -->
+<section id="live-preview">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Live Channel Preview</h2>
+            <p class="section-subtitle">See what our members are getting right now</p>
+        </div>
+        
+        <div class="telegram-feed">
+            <div class="feed-header">
+                <div class="channel-info">
+                    <div class="channel-avatar">
+                        <i class="fas fa-compass"></i>
+                    </div>
+                    <div class="channel-details">
+                        <h4>TravelHub Official</h4>
+                        <p>12,547 subscribers</p>
+                    </div>
+                </div>
+                <button class="join-btn-small" onclick="joinTelegramChannel()">
+                    <i class="fab fa-telegram"></i>
+                    Join
+                </button>
+            </div>
+            
+            <div class="messages-container" id="messages-container">
+                <!-- Deal Post -->
+                <div class="telegram-message">
+                    <div class="message-content deal-message">
+                        <div class="message-header">
+                            <span class="message-time">2 hours ago</span>
+                        </div>
+                        <h4>🔥 HOT DEAL ALERT!</h4>
+                        <p>Bali 5★ Resort - 40% OFF</p>
+                        <p>Limited Time: 48 hours only!</p>
+                        <div class="deal-tag">EXCLUSIVE</div>
+                    </div>
+                    <div class="message-footer">
+                        <span class="view-count"><i class="fas fa-eye"></i> 1.2K</span>
+                        <div class="check-marks">✓✓</div>
+                    </div>
+                </div>
+                
+                <!-- Tip Post -->
+                <div class="telegram-message">
+                    <div class="message-content">
+                        <div class="message-header">
+                            <span class="message-time">5 hours ago</span>
+                        </div>
+                        <h4>✈️ Pro Travel Tip</h4>
+                        <p>Best time to book international flights? Tuesday afternoons! Airlines typically release deals on Monday nights.</p>
+                    </div>
+                    <div class="message-footer">
+                        <span class="view-count"><i class="fas fa-eye"></i> 856</span>
+                        <div class="check-marks">✓✓</div>
+                    </div>
+                </div>
+                
+                <!-- Photo Post -->
+                <div class="telegram-message">
+                    <div class="message-content">
+                        <div class="message-header">
+                            <span class="message-time">1 day ago</span>
+                        </div>
+                        <div class="message-image">
+                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800" alt="Mountain">
+                        </div>
+                        <p>📸 Member @Sarah shared: "Sunrise at Swiss Alps - absolutely breathtaking! Thanks TravelHub for the recommendation!"</p>
+                    </div>
+                    <div class="message-footer">
+                        <span class="view-count"><i class="fas fa-eye"></i> 2.3K</span>
+                        <div class="check-marks">✓✓</div>
+                    </div>
+                </div>
+                
+                <!-- Poll Post -->
+                <div class="telegram-message">
+                    <div class="message-content">
+                        <div class="message-header">
+                            <span class="message-time">2 days ago</span>
+                        </div>
+                        <h4>📊 Community Poll</h4>
+                        <p>Where should we organize our next group trip?</p>
+                        <div class="poll-options">
+                            <div class="poll-option">
+                                <div class="poll-bar" style="width: 45%"></div>
+                                <span>🇹🇭 Thailand</span>
+                                <span class="poll-percentage">45%</span>
+                            </div>
+                            <div class="poll-option">
+                                <div class="poll-bar" style="width: 30%"></div>
+                                <span>🇮🇹 Italy</span>
+                                <span class="poll-percentage">30%</span>
+                            </div>
+                            <div class="poll-option">
+                                <div class="poll-bar" style="width: 25%"></div>
+                                <span>🇯🇵 Japan</span>
+                                <span class="poll-percentage">25%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-footer">
+                        <span class="view-count"><i class="fas fa-users"></i> 547 votes</span>
+                        <div class="check-marks">✓✓</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+                <p>TravelHub is typing...</p>
+            </div>
+            
+            <button class="load-more-btn" onclick="joinTelegramChannel()">
+                <i class="fab fa-telegram"></i>
+                View More in Channel
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Comparison -->
+<section id="benefits-comparison">
+    <div class="container">
+        <div class="comparison-wrapper">
+            <div class="comparison-side without-channel">
+                <div class="side-icon sad">😔</div>
+                <h3>Without Our Channel</h3>
+                <ul class="comparison-list">
+                    <li><i class="fas fa-times"></i> Miss exclusive deals</li>
+                    <li><i class="fas fa-times"></i> Pay full price</li>
+                    <li><i class="fas fa-times"></i> Travel alone</li>
+                    <li><i class="fas fa-times"></i> Limited information</li>
+                </ul>
+            </div>
+            
+            <div class="comparison-divider">
+                <div class="arrow-container">
+                    <i class="fas fa-arrow-right"></i>
+                    <button class="join-btn-center" onclick="joinTelegramChannel()">
+                        Join Now
+                    </button>
+                </div>
+            </div>
+            
+            <div class="comparison-side with-channel">
+                <div class="side-icon happy">🎉</div>
+                <h3>With Our Channel</h3>
+                <ul class="comparison-list">
+                    <li><i class="fas fa-check"></i> Instant deal alerts</li>
+                    <li><i class="fas fa-check"></i> Save up to 50%</li>
+                    <li><i class="fas fa-check"></i> Join 12K+ travelers</li>
+                    <li><i class="fas fa-check"></i> Expert guidance 24/7</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">What Our Members Say</h2>
+            <p class="section-subtitle">Real feedback from real travelers</p>
+        </div>
+        
+        <div class="testimonials-carousel">
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="user-avatar">SM</div>
+                    <div class="user-info">
+                        <h4>Sarah M. <i class="fas fa-check-circle verified"></i></h4>
+                        <p>Verified Member</p>
+                    </div>
+                </div>
+                <div class="testimonial-content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"Saved $800 on my Thailand trip thanks to TravelHub's exclusive deals! Best travel channel ever! 🙌"</p>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="user-avatar">AK</div>
+                    <div class="user-info">
+                        <h4>Ahmed K. <i class="fas fa-check-circle verified"></i></h4>
+                        <p>Verified Member</p>
+                    </div>
+                </div>
+                <div class="testimonial-content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"The travel tips are gold! Found hidden gems in Paris that weren't in any guidebook. Community is amazing! ⭐"</p>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="user-avatar">MR</div>
+                    <div class="user-info">
+                        <h4>Maria R. <i class="fas fa-check-circle verified"></i></h4>
+                        <p>Verified Member</p>
+                    </div>
+                </div>
+                <div class="testimonial-content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"Instant notifications helped me grab a last-minute flight deal to Maldives. Saved 60%! This channel pays for itself! 💯"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Channel Stats -->
+<section id="channel-stats">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="stat-number counter" data-target="12547">0</h3>
+                <p class="stat-label">Active Members</p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <h3 class="stat-number"><span class="counter" data-target="500">0</span>+</h3>
+                <p class="stat-label">Daily Posts</p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h3 class="stat-number"><span class="counter" data-target="2">0</span>M+</h3>
+                <p class="stat-label">Saved by Members</p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3 class="stat-number"><span class="counter" data-target="4.9">0</span>/5</h3>
+                <p class="stat-label">Member Rating</p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3 class="stat-number"><span class="counter" data-target="150">0</span>+</h3>
+                <p class="stat-label">Countries Covered</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Timeline -->
+<section id="features-timeline">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Your Journey With Us</h2>
+            <p class="section-subtitle">See what awaits you as a member</p>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-item" data-aos="fade-right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-badge">Week 1</div>
+                    <h3>Welcome Bonus</h3>
+                    <p>Get instant 10% discount code for your first booking</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item" data-aos="fade-left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-badge">Week 2</div>
+                    <h3>Exclusive Webinars</h3>
+                    <p>Access to travel expert sessions and Q&A</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item" data-aos="fade-right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-badge">Week 3</div>
+                    <h3>VIP Group Access</h3>
+                    <p>Join our private travel planning community</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item" data-aos="fade-left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-badge">Monthly</div>
+                    <h3>Contests & Giveaways</h3>
+                    <p>Win free trips, vouchers, and exclusive merchandise</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item" data-aos="fade-right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-badge">Yearly</div>
+                    <h3>Top Member Rewards</h3>
+                    <p>Annual recognition and premium benefits program</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How to Join -->
+<section id="how-to-join">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">How to Join</h2>
+            <p class="section-subtitle">3 simple steps to start your journey</p>
+        </div>
+        
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-icon">
+                    <i class="fas fa-hand-pointer"></i>
+                </div>
+                <h3>Click Join Button</h3>
+                <p>Click the "Join Channel Now" button below</p>
+            </div>
+            
+            <div class="step-arrow">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Open in Telegram</h3>
+                <p>Our channel will open in Telegram app or web</p>
+            </div>
+            
+            <div class="step-arrow">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <h3>Hit Subscribe</h3>
+                <p>Press subscribe and start receiving exclusive content!</p>
+            </div>
+        </div>
+        
+        <div class="welcome-preview">
+            <h4>You'll instantly receive:</h4>
+            <div class="welcome-message">
+                <i class="fab fa-telegram"></i>
+                <p>"Welcome to TravelHub! 🎉 Here's your exclusive 10% discount code: WELCOME10"</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Final CTA -->
+<section id="final-cta">
+    <div class="cta-background">
+        <div class="particles" id="particles"></div>
+    </div>
+    
+    <div class="cta-content">
+        <h2 class="cta-title">Ready to Transform Your Travel Experience?</h2>
+        <p class="cta-subtitle">Join thousands of smart travelers who never miss a deal</p>
+        
+        <div class="countdown-timer">
+            <div class="timer-box">
+                <span class="timer-number" id="hours">23</span>
+                <span class="timer-label">Hours</span>
+            </div>
+            <span class="timer-separator">:</span>
+            <div class="timer-box">
+                <span class="timer-number" id="minutes">45</span>
+                <span class="timer-label">Minutes</span>
+            </div>
+            <span class="timer-separator">:</span>
+            <div class="timer-box">
+                <span class="timer-number" id="seconds">30</span>
+                <span class="timer-label">Seconds</span>
+            </div>
+        </div>
+        
+        <p class="timer-text">Join in the next 24 hours and get an extra welcome bonus!</p>
+        
+        <button class="btn-cta-giant" onclick="joinTelegramChannel()">
+            <i class="fab fa-telegram"></i>
+            Join TravelHub Channel
+            <span class="btn-shine"></span>
+        </button>
+        
+        <p class="members-count">
+            <i class="fas fa-users"></i>
+            14,000+ travelers are already inside
+        </p>
+        
+        <div class="trust-badges">
+            <span class="badge-item"><i class="fas fa-shield-alt"></i> Secure</span>
+            <span class="badge-item"><i class="fas fa-infinity"></i> Free Forever</span>
+            <span class="badge-item"><i class="fas fa-ban"></i> No Spam</span>
+        </div>
+        
+        <div class="social-proof">
+            <div class="avatars">
+                <div class="avatar">SM</div>
+                <div class="avatar">AK</div>
+                <div class="avatar">MR</div>
+                <div class="avatar">JD</div>
+                <div class="avatar">+12K</div>
+            </div>
+            <p>Join Sarah, Ahmed, Maria and 12,544 others</p>
+        </div>
+    </div>
+</section>
+
+<!-- Sticky Bottom Bar (Mobile) -->
+<div id="sticky-bottom-bar" class="sticky-bottom-bar">
+    <div class="sticky-content">
+        <div class="sticky-info">
+            <i class="fab fa-telegram"></i>
+            <div>
+                <p class="sticky-title">Join TravelHub</p>
+                <p class="sticky-members"><span class="counter" data-target="12547">12547</span> members</p>
+            </div>
+        </div>
+        <button class="sticky-btn" onclick="joinTelegramChannel()">
+            Join Now
+        </button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block custom_js %}
+<script src="{% static 'apps/js/telegram_channel.js' %}"></script>
+{% endblock %}

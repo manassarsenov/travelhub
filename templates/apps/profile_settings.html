@@ -1,0 +1,550 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Profile Settings - TravelHub</title>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/profile_settings.css' %}">
+{% endblock %}
+
+{% block main_content %}
+
+<!-- Profile Settings Container -->
+<div class="profile-settings-wrapper">
+
+    <!-- Profile Header Section -->
+    <div class="profile-header">
+        <div class="cover-photo">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920" alt="Cover" id="cover-image">
+            <button class="edit-cover-btn" onclick="editCover()">
+                <i class="fas fa-camera"></i>
+                <span>Change Cover</span>
+            </button>
+        </div>
+
+        <div class="profile-info-header">
+            <div class="profile-picture-wrapper">
+                <img src="https://i.pravatar.cc/200?img=12" alt="Profile" class="profile-picture" id="profile-pic">
+                <button class="edit-profile-pic-btn" onclick="editProfilePic()">
+                    <i class="fas fa-camera"></i>
+                </button>
+            </div>
+
+            <div class="user-info">
+                <h1>John Doe</h1>
+                <p class="username">@johndoe</p>
+                <div class="user-stats">
+                    <div class="stat-item">
+                        <strong>248</strong>
+                        <span>Posts</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>12.5K</strong>
+                        <span>Followers</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>892</strong>
+                        <span>Following</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn-secondary" onclick="viewPublicProfile()">
+                    <i class="fas fa-eye"></i>
+                    <span>View Public Profile</span>
+                </button>
+                <button class="btn-primary" onclick="shareProfile()">
+                    <i class="fas fa-share-alt"></i>
+                    <span>Share Profile</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Profile Completion -->
+        <div class="profile-completion">
+            <div class="completion-header">
+                <span>Profile Completion</span>
+                <strong>85%</strong>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 85%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Settings Content -->
+    <div class="settings-container">
+
+        <!-- Left Sidebar Navigation -->
+        <div class="settings-sidebar">
+            <nav class="settings-nav">
+                <a href="#profile" class="nav-item active" onclick="switchTab(event, 'profile')">
+                    <i class="fas fa-user"></i>
+                    <span>Profile Information</span>
+                </a>
+                <a href="#privacy" class="nav-item" onclick="switchTab(event, 'privacy')">
+                    <i class="fas fa-lock"></i>
+                    <span>Privacy & Security</span>
+                </a>
+                <a href="#notifications" class="nav-item" onclick="switchTab(event, 'notifications')">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                </a>
+                <a href="#appearance" class="nav-item" onclick="switchTab(event, 'appearance')">
+                    <i class="fas fa-palette"></i>
+                    <span>Appearance</span>
+                </a>
+                <a href="#travel" class="nav-item" onclick="switchTab(event, 'travel')">
+                    <i class="fas fa-plane"></i>
+                    <span>Travel Preferences</span>
+                </a>
+                <a href="#payment" class="nav-item" onclick="switchTab(event, 'payment')">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payment Methods</span>
+                </a>
+                <a href="#statistics" class="nav-item" onclick="switchTab(event, 'statistics')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Account Statistics</span>
+                </a>
+                <a href="#connected" class="nav-item" onclick="switchTab(event, 'connected')">
+                    <i class="fas fa-link"></i>
+                    <span>Connected Accounts</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="settings-content">
+
+            <!-- 1. PROFILE INFORMATION TAB -->
+            <div id="profile" class="tab-content active">
+                <div class="section-header">
+                    <h2>Profile Information</h2>
+                    <p>Manage your personal details and public profile</p>
+                </div>
+
+                <!-- Personal Details -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-user-circle"></i> Personal Details</h3>
+
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" value="John Doe" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Username</label>
+                        <div class="input-with-icon">
+                            <span class="input-prefix">@</span>
+                            <input type="text" value="johndoe" class="form-input with-prefix">
+                            <i class="fas fa-check-circle input-status success"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bio <span class="char-count">125/250</span></label>
+                        <textarea class="form-textarea" rows="4" maxlength="250">Passionate traveler 🌍 | Adventure seeker | Documenting my journey around the world ✈️</textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn-save">
+                            <i class="fas fa-check"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-envelope"></i> Contact Information</h3>
+
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="input-with-badge">
+                            <input type="email" value="john@example.com" class="form-input">
+                            <span class="badge-verified"><i class="fas fa-check-circle"></i> Verified</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" value="+1 (555) 123-4567" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Website / Blog</label>
+                        <input type="url" placeholder="https://yourwebsite.com" class="form-input">
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn-save">
+                            <i class="fas fa-check"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Location Settings -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-map-marker-alt"></i> Location Settings</h3>
+
+                    <div class="form-group">
+                        <label>Current Location</label>
+                        <input type="text" value="New York, USA" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Home Country</label>
+                        <select class="form-select">
+                            <option>United States</option>
+                            <option>United Kingdom</option>
+                            <option>Uzbekistan</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Languages Spoken</label>
+                        <div class="tag-input">
+                            <span class="tag">English <i class="fas fa-times"></i></span>
+                            <span class="tag">Spanish <i class="fas fa-times"></i></span>
+                            <input type="text" placeholder="Add language..." class="tag-input-field">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. PRIVACY & SECURITY TAB -->
+            <div id="privacy" class="tab-content">
+                <div class="section-header">
+                    <h2>Privacy & Security</h2>
+                    <p>Control your account privacy and security settings</p>
+                </div>
+
+                <!-- Account Privacy -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-shield-alt"></i> Account Privacy</h3>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <strong>Private Account</strong>
+                            <p>When your account is private, only followers can see your posts</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Who can see your posts</label>
+                        <select class="form-select">
+                            <option>Everyone</option>
+                            <option>Followers Only</option>
+                            <option>Only Me</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Password & Authentication -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-key"></i> Password & Authentication</h3>
+
+                    <button class="btn-secondary full-width">
+                        <i class="fas fa-lock"></i>
+                        <span>Change Password</span>
+                    </button>
+
+                    <div class="setting-item" style="margin-top: 20px;">
+                        <div class="setting-info">
+                            <strong>Two-Factor Authentication (2FA)</strong>
+                            <p>Add an extra layer of security to your account</p>
+                        </div>
+                        <button class="btn-primary">Enable 2FA</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. NOTIFICATIONS TAB -->
+            <div id="notifications" class="tab-content">
+                <div class="section-header">
+                    <h2>Notifications</h2>
+                    <p>Manage how you receive notifications</p>
+                </div>
+
+                <!-- Push Notifications -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-bell"></i> Push Notifications</h3>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <strong>Likes & Comments</strong>
+                            <p>Get notified when someone likes or comments</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <strong>New Followers</strong>
+                            <p>Get notified when someone follows you</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <strong>Messages</strong>
+                            <p>Get notified for new direct messages</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. APPEARANCE TAB -->
+            <div id="appearance" class="tab-content">
+                <div class="section-header">
+                    <h2>Appearance</h2>
+                    <p>Customize the look and feel</p>
+                </div>
+
+                <!-- Theme Settings -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-moon"></i> Theme Settings</h3>
+
+                    <div class="theme-selector">
+                        <div class="theme-option active">
+                            <div class="theme-preview light">
+                                <div class="preview-header"></div>
+                                <div class="preview-content">
+                                    <div class="preview-line"></div>
+                                    <div class="preview-line short"></div>
+                                </div>
+                            </div>
+                            <span>Light Mode</span>
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+
+                        <div class="theme-option">
+                            <div class="theme-preview dark">
+                                <div class="preview-header"></div>
+                                <div class="preview-content">
+                                    <div class="preview-line"></div>
+                                    <div class="preview-line short"></div>
+                                </div>
+                            </div>
+                            <span>Dark Mode</span>
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Display Preferences -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-desktop"></i> Display Preferences</h3>
+
+                    <div class="form-group">
+                        <label>Language</label>
+                        <select class="form-select">
+                            <option>English</option>
+                            <option>O'zbek</option>
+                            <option>Русский</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Profile Theme Color</label>
+                        <div class="color-picker">
+                            <button class="color-option active" style="background: #4f46e5;"></button>
+                            <button class="color-option" style="background: #ec4899;"></button>
+                            <button class="color-option" style="background: #f59e0b;"></button>
+                            <button class="color-option" style="background: #10b981;"></button>
+                            <button class="color-option" style="background: #3b82f6;"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. TRAVEL PREFERENCES TAB -->
+            <div id="travel" class="tab-content">
+                <div class="section-header">
+                    <h2>Travel Preferences</h2>
+                    <p>Customize your travel experience</p>
+                </div>
+
+                <!-- Travel Style -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-hiking"></i> Travel Style</h3>
+
+                    <div class="preference-cards">
+                        <div class="pref-card active">
+                            <i class="fas fa-mountain"></i>
+                            <span>Adventure</span>
+                        </div>
+                        <div class="pref-card">
+                            <i class="fas fa-spa"></i>
+                            <span>Relaxation</span>
+                        </div>
+                        <div class="pref-card active">
+                            <i class="fas fa-landmark"></i>
+                            <span>Cultural</span>
+                        </div>
+                        <div class="pref-card">
+                            <i class="fas fa-gem"></i>
+                            <span>Luxury</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Budget Range (per day)</label>
+                        <select class="form-select">
+                            <option>Budget ($0-50)</option>
+                            <option selected>Mid-Range ($50-150)</option>
+                            <option>Luxury ($150+)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. PAYMENT METHODS TAB -->
+            <div id="payment" class="tab-content">
+                <div class="section-header">
+                    <h2>Payment Methods</h2>
+                    <p>Manage your payment options</p>
+                </div>
+
+                <div class="settings-card">
+                    <h3><i class="fas fa-credit-card"></i> Saved Cards</h3>
+
+                    <div class="payment-card">
+                        <div class="card-icon">
+                            <i class="fab fa-cc-visa"></i>
+                        </div>
+                        <div class="card-details">
+                            <strong>Visa ending in 4242</strong>
+                            <p>Expires 12/2025</p>
+                        </div>
+                        <span class="badge-primary">Default</span>
+                    </div>
+
+                    <button class="btn-secondary full-width">
+                        <i class="fas fa-plus"></i>
+                        <span>Add New Card</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 7. STATISTICS TAB -->
+            <div id="statistics" class="tab-content">
+                <div class="section-header">
+                    <h2>Account Statistics</h2>
+                    <p>View your performance and analytics</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4>24.5K</h4>
+                            <p>Profile Views</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4>18.2K</h4>
+                            <p>Total Likes</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4>3.4K</h4>
+                            <p>Comments</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                            <i class="fas fa-share"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4>1.2K</h4>
+                            <p>Shares</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. CONNECTED ACCOUNTS TAB -->
+            <div id="connected" class="tab-content">
+                <div class="section-header">
+                    <h2>Connected Accounts</h2>
+                    <p>Link your social media accounts</p>
+                </div>
+
+                <div class="settings-card">
+                    <h3><i class="fas fa-link"></i> Social Media Integration</h3>
+
+                    <div class="connected-account">
+                        <div class="account-icon instagram">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="account-info">
+                            <strong>Instagram</strong>
+                            <p>Connected as @johndoe</p>
+                        </div>
+                        <button class="btn-danger-outline">Disconnect</button>
+                    </div>
+
+                    <div class="connected-account">
+                        <div class="account-icon facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <div class="account-info">
+                            <strong>Facebook</strong>
+                            <p>Not connected</p>
+                        </div>
+                        <button class="btn-primary">Connect</button>
+                    </div>
+
+                    <div class="connected-account">
+                        <div class="account-icon google">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="account-info">
+                            <strong>Google</strong>
+                            <p>Connected as john@gmail.com</p>
+                        </div>
+                        <button class="btn-danger-outline">Disconnect</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block custom_js %}
+<script src="{% static 'apps/js/profile_settings.js' %}"></script>
+{% endblock %}

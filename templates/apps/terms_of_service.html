@@ -1,0 +1,1000 @@
+{% extends 'apps/../example file/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Terms of Service - TravelHub</title>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/terms_of_service.css' %}">
+{% endblock %}
+
+{% block main_content %}
+
+    <!-- Hero Section -->
+    <section class="terms-hero">
+        <div class="terms-hero-overlay"></div>
+        <div class="terms-hero-content">
+            <div class="terms-hero-icon">
+                <i class="fas fa-file-contract"></i>
+            </div>
+            <h1 class="terms-hero-title">Terms of Service</h1>
+            <p class="terms-hero-subtitle">Legal Agreement Between You and TravelHub</p>
+            <div class="terms-hero-meta">
+                <div class="meta-item">
+                    <i class="far fa-calendar"></i>
+                    <span>Last Updated: December 16, 2025</span>
+                </div>
+                <div class="meta-item">
+                    <i class="far fa-clock"></i>
+                    <span>15 min read</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-globe"></i>
+                    <span>Effective Worldwide</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Animated Background Elements -->
+        <div class="hero-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="terms-container">
+
+        <!-- Quick Actions Bar -->
+        <div class="quick-actions">
+            <button class="action-btn" onclick="window.print()">
+                <i class="fas fa-print"></i>
+                <span>Print</span>
+            </button>
+            <button class="action-btn" onclick="downloadPDF()">
+                <i class="fas fa-download"></i>
+                <span>Download PDF</span>
+            </button>
+            <button class="action-btn" onclick="shareTerms()">
+                <i class="fas fa-share-alt"></i>
+                <span>Share</span>
+            </button>
+            <button class="action-btn" onclick="translateTerms()">
+                <i class="fas fa-language"></i>
+                <span>Translate</span>
+            </button>
+        </div>
+
+        <div class="terms-layout">
+
+            <!-- Sidebar Navigation -->
+            <aside class="terms-sidebar">
+                <div class="sidebar-sticky">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-list"></i>
+                        Table of Contents
+                    </h3>
+
+                    <div class="progress-indicator">
+                        <div class="progress-bar" id="reading-progress"></div>
+                    </div>
+
+                    <nav class="sidebar-nav">
+                        <a href="#introduction" class="nav-item active">
+                            <span class="nav-number">01</span>
+                            <span class="nav-text">Introduction</span>
+                        </a>
+                        <a href="#acceptance" class="nav-item">
+                            <span class="nav-number">02</span>
+                            <span class="nav-text">Acceptance of Terms</span>
+                        </a>
+                        <a href="#account" class="nav-item">
+                            <span class="nav-number">03</span>
+                            <span class="nav-text">Account Registration</span>
+                        </a>
+                        <a href="#obligations" class="nav-item">
+                            <span class="nav-number">04</span>
+                            <span class="nav-text">User Obligations</span>
+                        </a>
+                        <a href="#booking" class="nav-item">
+                            <span class="nav-number">05</span>
+                            <span class="nav-text">Booking & Payment</span>
+                        </a>
+                        <a href="#cancellation" class="nav-item">
+                            <span class="nav-number">06</span>
+                            <span class="nav-text">Cancellation & Refund</span>
+                        </a>
+                        <a href="#intellectual" class="nav-item">
+                            <span class="nav-number">07</span>
+                            <span class="nav-text">Intellectual Property</span>
+                        </a>
+                        <a href="#privacy" class="nav-item">
+                            <span class="nav-number">08</span>
+                            <span class="nav-text">Privacy & Data</span>
+                        </a>
+                        <a href="#liability" class="nav-item">
+                            <span class="nav-number">09</span>
+                            <span class="nav-text">Limitation of Liability</span>
+                        </a>
+                        <a href="#third-party" class="nav-item">
+                            <span class="nav-number">10</span>
+                            <span class="nav-text">Third-Party Services</span>
+                        </a>
+                        <a href="#prohibited" class="nav-item">
+                            <span class="nav-number">11</span>
+                            <span class="nav-text">Prohibited Activities</span>
+                        </a>
+                        <a href="#termination" class="nav-item">
+                            <span class="nav-number">12</span>
+                            <span class="nav-text">Account Termination</span>
+                        </a>
+                        <a href="#dispute" class="nav-item">
+                            <span class="nav-number">13</span>
+                            <span class="nav-text">Dispute Resolution</span>
+                        </a>
+                        <a href="#force-majeure" class="nav-item">
+                            <span class="nav-number">14</span>
+                            <span class="nav-text">Force Majeure</span>
+                        </a>
+                        <a href="#changes" class="nav-item">
+                            <span class="nav-number">15</span>
+                            <span class="nav-text">Changes to Terms</span>
+                        </a>
+                        <a href="#contact" class="nav-item">
+                            <span class="nav-number">16</span>
+                            <span class="nav-text">Contact Information</span>
+                        </a>
+                        <a href="#governing" class="nav-item">
+                            <span class="nav-number">17</span>
+                            <span class="nav-text">Governing Law</span>
+                        </a>
+                    </nav>
+
+                    <div class="sidebar-help">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Need help understanding these terms?</p>
+                        <a href="{% url 'contact_page' %}" class="help-link">Contact Legal Team</a>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="terms-content">
+
+                <!-- Introduction Banner -->
+                <div class="welcome-banner">
+                    <div class="banner-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="banner-content">
+                        <h2>Welcome to TravelHub</h2>
+                        <p>These Terms of Service govern your use of our platform. Please read them carefully before
+                            using our services. By accessing or using TravelHub, you agree to be bound by these
+                            terms.</p>
+                    </div>
+                </div>
+
+                <!-- Section 1: Introduction -->
+                <section id="introduction" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">01</span>
+                        <h2 class="section-title">Introduction</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p class="lead-text">Welcome to TravelHub, your trusted partner for travel planning and booking
+                            services. These Terms of Service constitute a legally binding agreement between you (the
+                            "User") and TravelHub ("we", "us", or "our").</p>
+
+                        <div class="info-box info-primary">
+                            <div class="info-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="info-content">
+                                <h4>Who Should Read This?</h4>
+                                <p>These terms apply to all users of TravelHub, including visitors, registered users,
+                                    and subscribers to our services.</p>
+                            </div>
+                        </div>
+
+                        <p>By accessing or using our platform, you acknowledge that you have read, understood, and agree
+                            to be bound by these Terms of Service and our Privacy Policy. If you do not agree with any
+                            part of these terms, you must not use our services.</p>
+
+                        <div class="highlight-box">
+                            <h4><i class="fas fa-calendar-check"></i> Effective Date</h4>
+                            <p>These terms became effective on <strong>December 16, 2025</strong> and apply to all users
+                                worldwide.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Acceptance of Terms -->
+                <section id="acceptance" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">02</span>
+                        <h2 class="section-title">Acceptance of Terms</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>By using TravelHub, you automatically accept these Terms of Service. Your continued use of
+                            our platform constitutes ongoing acceptance of any updates or modifications to these
+                            terms.</p>
+
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>You are at least 18 years old or have parental consent</span>
+                            </div>
+                            <div class="checklist-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>You have the legal capacity to enter into binding agreements</span>
+                            </div>
+                            <div class="checklist-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>You agree to comply with all applicable laws and regulations</span>
+                            </div>
+                            <div class="checklist-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>You will provide accurate and truthful information</span>
+                            </div>
+                        </div>
+
+                        <div class="info-box info-warning">
+                            <div class="info-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="info-content">
+                                <h4>Age Restriction</h4>
+                                <p>Users under 18 years of age must obtain permission from a parent or legal guardian
+                                    before using TravelHub. The parent or guardian assumes full responsibility for the
+                                    minor's use of our services.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Account Registration -->
+                <section id="account" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">03</span>
+                        <h2 class="section-title">Account Registration</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>To access certain features of TravelHub, you must create an account. You are responsible for
+                            maintaining the confidentiality of your account credentials.</p>
+
+                        <div class="two-column-grid">
+                            <div class="grid-item">
+                                <div class="grid-icon success">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                                <h4>Your Responsibilities</h4>
+                                <ul>
+                                    <li>Provide accurate and complete information</li>
+                                    <li>Keep your password secure and confidential</li>
+                                    <li>Notify us immediately of unauthorized access</li>
+                                    <li>Update your information when necessary</li>
+                                    <li>Maintain only one account per person</li>
+                                </ul>
+                            </div>
+
+                            <div class="grid-item">
+                                <div class="grid-icon danger">
+                                    <i class="fas fa-ban"></i>
+                                </div>
+                                <h4>Prohibited Actions</h4>
+                                <ul>
+                                    <li>Creating accounts with false information</li>
+                                    <li>Sharing your account with others</li>
+                                    <li>Using someone else's account</li>
+                                    <li>Creating multiple accounts</li>
+                                    <li>Selling or transferring your account</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="info-box info-danger">
+                            <div class="info-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <h4>Account Security</h4>
+                                <p>You are fully responsible for all activities that occur under your account. We
+                                    recommend using a strong, unique password and enabling two-factor authentication for
+                                    enhanced security.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: User Obligations -->
+                <section id="obligations" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">04</span>
+                        <h2 class="section-title">User Obligations</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>As a user of TravelHub, you agree to use our platform responsibly and in accordance with
+                            these terms.</p>
+
+                        <div class="obligation-cards">
+                            <div class="obligation-card allowed">
+                                <div class="card-header">
+                                    <i class="fas fa-check-circle"></i>
+                                    <h4>Allowed Activities</h4>
+                                </div>
+                                <div class="card-body">
+                                    <ul>
+                                        <li><i class="fas fa-angle-right"></i> Search and browse destinations</li>
+                                        <li><i class="fas fa-angle-right"></i> Make bookings and reservations</li>
+                                        <li><i class="fas fa-angle-right"></i> Write honest reviews and ratings</li>
+                                        <li><i class="fas fa-angle-right"></i> Update your profile information</li>
+                                        <li><i class="fas fa-angle-right"></i> Contact customer support</li>
+                                        <li><i class="fas fa-angle-right"></i> Share content on social media</li>
+                                        <li><i class="fas fa-angle-right"></i> Download your booking confirmations</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="obligation-card prohibited">
+                                <div class="card-header">
+                                    <i class="fas fa-times-circle"></i>
+                                    <h4>Prohibited Activities</h4>
+                                </div>
+                                <div class="card-body">
+                                    <ul>
+                                        <li><i class="fas fa-angle-right"></i> Posting spam or promotional content</li>
+                                        <li><i class="fas fa-angle-right"></i> Attempting to hack or breach security
+                                        </li>
+                                        <li><i class="fas fa-angle-right"></i> Writing fake or misleading reviews</li>
+                                        <li><i class="fas fa-angle-right"></i> Harassing other users or staff</li>
+                                        <li><i class="fas fa-angle-right"></i> Infringing on copyrights or trademarks
+                                        </li>
+                                        <li><i class="fas fa-angle-right"></i> Using automated bots or scrapers</li>
+                                        <li><i class="fas fa-angle-right"></i> Engaging in fraudulent activities</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Booking & Payment Terms -->
+                <section id="booking" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">05</span>
+                        <h2 class="section-title">Booking & Payment Terms</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>All bookings made through TravelHub are subject to availability and confirmation. We act as
+                            an intermediary between you and our partner service providers.</p>
+
+                        <div class="payment-info">
+                            <div class="payment-methods">
+                                <h4><i class="fas fa-credit-card"></i> Accepted Payment Methods</h4>
+                                <div class="methods-grid">
+                                    <div class="method-item">
+                                        <i class="fab fa-cc-visa"></i>
+                                        <span>Visa</span>
+                                    </div>
+                                    <div class="method-item">
+                                        <i class="fab fa-cc-mastercard"></i>
+                                        <span>Mastercard</span>
+                                    </div>
+                                    <div class="method-item">
+                                        <i class="fab fa-cc-paypal"></i>
+                                        <span>PayPal</span>
+                                    </div>
+                                    <div class="method-item">
+                                        <i class="fab fa-cc-stripe"></i>
+                                        <span>Stripe</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pricing-details">
+                                <h4><i class="fas fa-dollar-sign"></i> Pricing Information</h4>
+                                <ul>
+                                    <li>All prices are displayed in USD unless otherwise specified</li>
+                                    <li>Prices are subject to change without prior notice</li>
+                                    <li>Additional taxes and fees may apply</li>
+                                    <li>Service charges are clearly indicated at checkout</li>
+                                    <li>Currency conversion fees may be charged by your bank</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="info-box info-warning">
+                            <div class="info-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="info-content">
+                                <h4>Payment Security</h4>
+                                <p>All transactions are processed through secure, encrypted payment gateways. TravelHub
+                                    does not store your complete credit card information on our servers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 6: Cancellation & Refund -->
+                <section id="cancellation" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">06</span>
+                        <h2 class="section-title">Cancellation & Refund Policy</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>Cancellation and refund policies vary depending on the service provider and booking type.
+                            Please review the specific terms before making a booking.</p>
+
+                        <div class="refund-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-icon success">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <h4>Free Cancellation</h4>
+                                    <p>Cancel up to <strong>24 hours</strong> before check-in for a full refund</p>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-icon warning">
+                                    <i class="fas fa-percent"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <h4>Partial Refund</h4>
+                                    <p>50% refund if cancelled between <strong>24 hours and 7 days</strong> before
+                                        check-in</p>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-icon danger">
+                                    <i class="fas fa-times"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <h4>No Refund</h4>
+                                    <p>No refund for cancellations made less than <strong>24 hours</strong> before
+                                        check-in</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="refund-process">
+                            <h4><i class="fas fa-redo"></i> Refund Processing</h4>
+                            <p>Approved refunds are processed within <strong>7-14 business days</strong>. The timeframe
+                                may vary depending on your payment method and financial institution.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 7: Intellectual Property -->
+                <section id="intellectual" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">07</span>
+                        <h2 class="section-title">Intellectual Property</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>All content on TravelHub, including but not limited to text, graphics, logos, images, videos,
+                            and software, is the property of TravelHub or its content suppliers and is protected by
+                            international copyright laws.</p>
+
+                        <div class="ip-grid">
+                            <div class="ip-card">
+                                <div class="ip-icon">
+                                    <i class="fas fa-copyright"></i>
+                                </div>
+                                <h4>Our Content</h4>
+                                <p>TravelHub owns all rights to the platform design, logo, branding, and original
+                                    content. Unauthorized use is prohibited.</p>
+                            </div>
+
+                            <div class="ip-card">
+                                <div class="ip-icon">
+                                    <i class="fas fa-user-edit"></i>
+                                </div>
+                                <h4>User Content</h4>
+                                <p>You retain ownership of content you submit (reviews, photos). By submitting, you
+                                    grant us a license to use it.</p>
+                            </div>
+
+                            <div class="ip-card">
+                                <div class="ip-icon">
+                                    <i class="fas fa-balance-scale"></i>
+                                </div>
+                                <h4>Fair Use</h4>
+                                <p>Limited use of content for personal, non-commercial purposes is permitted with proper
+                                    attribution to TravelHub.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 8: Privacy & Data -->
+                <section id="privacy" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">08</span>
+                        <h2 class="section-title">Privacy & Data Protection</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>Your privacy is important to us. Please review our <a href="{% url 'privacy_policy_page' %}">Privacy
+                            Policy</a> for detailed information on how we collect, use, and protect your personal data.
+                        </p>
+
+                        <div class="data-practices">
+                            <div class="practice-item">
+                                <i class="fas fa-database"></i>
+                                <h4>Data Collection</h4>
+                                <p>We collect information necessary to provide our services, including name, email,
+                                    payment details, and booking preferences.</p>
+                            </div>
+
+                            <div class="practice-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <h4>Data Security</h4>
+                                <p>We implement industry-standard security measures to protect your data from
+                                    unauthorized access, disclosure, or destruction.</p>
+                            </div>
+
+                            <div class="practice-item">
+                                <i class="fas fa-share-alt"></i>
+                                <h4>Data Sharing</h4>
+                                <p>We share data with service providers, payment processors, and partners only as
+                                    necessary to fulfill bookings.</p>
+                            </div>
+
+                            <div class="practice-item">
+                                <i class="fas fa-cookie-bite"></i>
+                                <h4>Cookies</h4>
+                                <p>We use cookies to enhance your experience. You can control cookie preferences through
+                                    your browser settings.</p>
+                            </div>
+                        </div>
+
+                        <div class="info-box info-primary">
+                            <div class="info-icon">
+                                <i class="fas fa-globe-europe"></i>
+                            </div>
+                            <div class="info-content">
+                                <h4>GDPR Compliance</h4>
+                                <p>For users in the European Union, we comply with GDPR regulations. You have the right
+                                    to access, correct, or delete your personal data at any time.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 9: Limitation of Liability -->
+                <section id="liability" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">09</span>
+                        <h2 class="section-title">Limitation of Liability</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>TravelHub acts as an intermediary platform. Our liability is limited as described below.</p>
+
+                        <div class="liability-boxes">
+                            <div class="liability-box not-responsible">
+                                <div class="box-header">
+                                    <i class="fas fa-times-circle"></i>
+                                    <h4>We Are NOT Responsible For:</h4>
+                                </div>
+                                <ul>
+                                    <li>Quality of services provided by hotels, airlines, or other partners</li>
+                                    <li>Flight cancellations or delays beyond our control</li>
+                                    <li>Natural disasters, pandemics, or force majeure events</li>
+                                    <li>Errors or inaccuracies in third-party information</li>
+                                    <li>User negligence or misconduct</li>
+                                    <li>Lost or stolen personal belongings</li>
+                                    <li>Changes in visa or travel requirements</li>
+                                </ul>
+                            </div>
+
+                            <div class="liability-box responsible">
+                                <div class="box-header">
+                                    <i class="fas fa-check-circle"></i>
+                                    <h4>We ARE Responsible For:</h4>
+                                </div>
+                                <ul>
+                                    <li>Technical errors on our platform affecting bookings</li>
+                                    <li>Payment processing security and integrity</li>
+                                    <li>Data breaches caused by our negligence</li>
+                                    <li>Unauthorized charges to your account</li>
+                                    <li>Failure to deliver booking confirmations</li>
+                                    <li>Misrepresentation of services on our platform</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="info-box info-danger">
+                            <div class="info-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="info-content">
+                                <h4>Maximum Liability</h4>
+                                <p>In no event shall TravelHub's total liability exceed the amount paid by you for the
+                                    specific booking in question. We are not liable for any indirect, incidental, or
+                                    consequential damages.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 10: Third-Party Services -->
+                <section id="third-party" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">10</span>
+                        <h2 class="section-title">Third-Party Services</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>TravelHub partners with various third-party service providers to offer you the best travel
+                            experience. Each partner has its own terms and conditions.</p>
+
+                        <div class="partner-categories">
+                            <div class="category-card">
+                                <div class="category-icon">
+                                    <i class="fas fa-hotel"></i>
+                                </div>
+                                <h4>Accommodation Partners</h4>
+                                <p>Hotels, resorts, hostels, and vacation rentals have their own policies regarding
+                                    check-in, amenities, and house rules.</p>
+                            </div>
+
+                            <div class="category-card">
+                                <div class="category-icon">
+                                    <i class="fas fa-plane"></i>
+                                </div>
+                                <h4>Airlines</h4>
+                                <p>Flight bookings are subject to the airline's terms, baggage policies, and
+                                    cancellation rules.</p>
+                            </div>
+
+                            <div class="category-card">
+                                <div class="category-icon">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <h4>Payment Processors</h4>
+                                <p>Stripe, PayPal, and other payment gateways handle transactions securely with their
+                                    own terms of service.</p>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box">
+                            <h4><i class="fas fa-link"></i> Third-Party Links</h4>
+                            <p>Our platform may contain links to third-party websites. We are not responsible for the
+                                content, privacy practices, or terms of these external sites.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 11: Prohibited Activities -->
+                <section id="prohibited" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">11</span>
+                        <h2 class="section-title">Prohibited Activities</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>The following activities are strictly prohibited and may result in immediate account
+                            termination and legal action.</p>
+
+                        <div class="prohibited-list">
+                            <div class="prohibited-item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <h4>Spam & Unsolicited Messages</h4>
+                                    <p>Sending spam, advertising, or promotional content through our platform.</p>
+                                </div>
+                            </div>
+
+                            <div class="prohibited-item">
+                                <i class="fas fa-comment-slash"></i>
+                                <div>
+                                    <h4>Fake Reviews</h4>
+                                    <p>Posting fraudulent, misleading, or paid reviews to manipulate ratings.</p>
+                                </div>
+                            </div>
+
+                            <div class="prohibited-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <div>
+                                    <h4>Price Manipulation</h4>
+                                    <p>Attempting to manipulate prices, exploit system errors, or engage in fraudulent
+                                        bookings.</p>
+                                </div>
+                            </div>
+
+                            <div class="prohibited-item">
+                                <i class="fas fa-gavel"></i>
+                                <div>
+                                    <h4>Illegal Activities</h4>
+                                    <p>Using our platform for any illegal purpose or to facilitate criminal
+                                        activity.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 12: Account Termination -->
+                <section id="termination" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">12</span>
+                        <h2 class="section-title">Account Termination</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>We reserve the right to suspend or terminate your account at our discretion if you violate
+                            these terms.</p>
+
+                        <div class="termination-process">
+                            <div class="process-step">
+                                <div class="step-number">1</div>
+                                <h4>Warning</h4>
+                                <p>First violation typically results in a warning and temporary suspension.</p>
+                            </div>
+
+                            <div class="process-step">
+                                <div class="step-number">2</div>
+                                <h4>Suspension</h4>
+                                <p>Repeated violations lead to account suspension for a specified period.</p>
+                            </div>
+
+                            <div class="process-step">
+                                <div class="step-number">3</div>
+                                <h4>Termination</h4>
+                                <p>Serious or repeated violations result in permanent account termination.</p>
+                            </div>
+                        </div>
+
+                        <div class="termination-consequences">
+                            <h4><i class="fas fa-info-circle"></i> After Termination:</h4>
+                            <ul>
+                                <li>Your access to all services will be immediately revoked</li>
+                                <li>Active bookings may be cancelled without refund</li>
+                                <li>Personal data will be retained as required by law</li>
+                                <li>You may not create a new account without permission</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 13: Dispute Resolution -->
+                <section id="dispute" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">13</span>
+                        <h2 class="section-title">Dispute Resolution</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>We are committed to resolving disputes fairly and efficiently. Follow these steps:</p>
+
+                        <div class="dispute-steps">
+                            <div class="dispute-step">
+                                <div class="step-icon primary">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                                <h4>Step 1: Contact Support</h4>
+                                <p>Reach out to our customer support team at <a href="mailto:support@travelhub.com">support@travelhub.com</a>.
+                                    Most issues are resolved within 48 hours.</p>
+                            </div>
+
+                            <div class="dispute-step">
+                                <div class="step-icon warning">
+                                    <i class="fas fa-handshake"></i>
+                                </div>
+                                <h4>Step 2: Mediation</h4>
+                                <p>If support cannot resolve the issue, we offer free mediation services through a
+                                    neutral third party.</p>
+                            </div>
+
+                            <div class="dispute-step">
+                                <div class="step-icon danger">
+                                    <i class="fas fa-gavel"></i>
+                                </div>
+                                <h4>Step 3: Legal Action</h4>
+                                <p>As a last resort, disputes may be settled through arbitration or court proceedings as
+                                    outlined in the Governing Law section.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 14: Force Majeure -->
+                <section id="force-majeure" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">14</span>
+                        <h2 class="section-title">Force Majeure</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>Neither party shall be liable for failure to perform obligations due to circumstances beyond
+                            reasonable control.</p>
+
+                        <div class="force-majeure-examples">
+                            <div class="fm-card">
+                                <i class="fas fa-bolt"></i>
+                                <h4>Natural Disasters</h4>
+                                <p>Earthquakes, floods, hurricanes, tsunamis</p>
+                            </div>
+
+                            <div class="fm-card">
+                                <i class="fas fa-virus"></i>
+                                <h4>Pandemics</h4>
+                                <p>Global health emergencies, disease outbreaks</p>
+                            </div>
+
+                            <div class="fm-card">
+                                <i class="fas fa-fist-raised"></i>
+                                <h4>War & Conflict</h4>
+                                <p>Military actions, terrorism, civil unrest</p>
+                            </div>
+
+                            <div class="fm-card">
+                                <i class="fas fa-landmark"></i>
+                                <h4>Government Actions</h4>
+                                <p>Travel bans, border closures, lockdowns</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 15: Changes to Terms -->
+                <section id="changes" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">15</span>
+                        <h2 class="section-title">Changes to Terms</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>We may update these Terms of Service periodically to reflect changes in our practices or for
+                            legal reasons.</p>
+
+                        <div class="changes-notification">
+                            <div class="notification-method">
+                                <i class="fas fa-envelope"></i>
+                                <h4>Email Notification</h4>
+                                <p>Registered users will receive email notification of significant changes.</p>
+                            </div>
+
+                            <div class="notification-method">
+                                <i class="fas fa-bell"></i>
+                                <h4>Platform Alert</h4>
+                                <p>A notification banner will appear on the platform when you log in.</p>
+                            </div>
+
+                            <div class="notification-method">
+                                <i class="fas fa-calendar"></i>
+                                <h4>30-Day Notice</h4>
+                                <p>Major changes will be announced at least 30 days in advance.</p>
+                            </div>
+                        </div>
+
+                        <div class="info-box info-warning">
+                            <div class="info-icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="info-content">
+                                <h4>Continued Use = Acceptance</h4>
+                                <p>By continuing to use TravelHub after changes take effect, you agree to the updated
+                                    terms. If you disagree, you must stop using our services.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 16: Contact Information -->
+                <section id="contact" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">16</span>
+                        <h2 class="section-title">Contact Information</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>For questions about these Terms of Service, please contact us:</p>
+
+                        <div class="contact-cards">
+                            <div class="contact-card">
+                                <i class="fas fa-balance-scale"></i>
+                                <h4>Legal Department</h4>
+                                <p><a href="mailto:legal@travelhub.com">legal@travelhub.com</a></p>
+                                <span class="response-time">Response within 2-3 business days</span>
+                            </div>
+
+                            <div class="contact-card">
+                                <i class="fas fa-life-ring"></i>
+                                <h4>Customer Support</h4>
+                                <p><a href="mailto:support@travelhub.com">support@travelhub.com</a></p>
+                                <span class="response-time">24/7 support available</span>
+                            </div>
+
+                            <div class="contact-card">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <h4>Office Address</h4>
+                                <p>123 Travel Street, Suite 456<br>Tashkent, Uzbekistan</p>
+                                <span class="response-time">Mon-Fri, 9 AM - 6 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 17: Governing Law -->
+                <section id="governing" class="terms-section">
+                    <div class="section-header">
+                        <span class="section-number">17</span>
+                        <h2 class="section-title">Governing Law</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <p>These Terms of Service shall be governed by and construed in accordance with the laws of
+                            Uzbekistan, without regard to conflict of law principles.</p>
+
+                        <div class="law-details">
+                            <div class="law-item">
+                                <i class="fas fa-gavel"></i>
+                                <h4>Jurisdiction</h4>
+                                <p>Any legal disputes shall be resolved in the courts of Tashkent, Uzbekistan.</p>
+                            </div>
+
+                            <div class="law-item">
+                                <i class="fas fa-language"></i>
+                                <h4>Official Language</h4>
+                                <p>The English version of these terms is the official version. Translations are provided
+                                    for convenience only.</p>
+                            </div>
+
+                            <div class="law-item">
+                                <i class="fas fa-globe"></i>
+                                <h4>International Users</h4>
+                                <p>Users from other countries agree to submit to the jurisdiction specified in these
+                                    terms.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Final Notice -->
+                <div class="final-notice">
+                    <div class="notice-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="notice-content">
+                        <h3>Thank You for Reading</h3>
+                        <p>By using TravelHub, you acknowledge that you have read, understood, and agree to be bound by
+                            these Terms of Service. We value your trust and are committed to providing you with the best
+                            travel experience possible.</p>
+                        <div class="notice-actions">
+                            <button class="btn-accept" onclick="acceptTerms()">
+                                <i class="fas fa-check"></i>
+                                I Accept These Terms
+                            </button>
+                            <a href="{% url 'contact_page' %}" class="btn-questions">
+                                <i class="fas fa-question-circle"></i>
+                                I Have Questions
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{% static 'apps/js/terms_of_service.js' %}"></script>
+{% endblock %}
+

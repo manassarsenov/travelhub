@@ -1,0 +1,354 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {#    <title>TravelHub - Discover Your Dream Destination</title>#}
+    {% block title %}
+    {% endblock %}
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'apps/css/main_base.css' %}">
+    {% block custom_css %}{% endblock %}
+
+
+</head>
+<body>
+<!-- Loading Screen -->
+<div id="loading-screen">
+    <div class="loader-content">
+        <div class="spinner"></div>
+        <i class="fas fa-plane" style="font-size: 90px; margin-bottom: 30px;"></i>
+        <h2 style="font-size: 32px; font-weight: 900; margin-bottom: 15px;">TravelHub</h2>
+        <p style="font-size: 18px; opacity: 0.9;">Preparing your journey...</p>
+    </div>
+</div>
+
+<!-- Navigation -->
+<nav id="navbar">
+    <div class="navbar">
+
+        <div class="logo">
+            <i class="fas fa-compass"></i>
+            <span>TravelHub</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="{% url 'home_page' %}" class="nav-link">Home</a></li>
+            <li><a href="{% url 'destinations_page' %}" class="nav-link">Destinations</a></li>
+            <li><a href="{% url 'recommendation_page' %}" class="nav-link">Recommendations</a></li>
+            <li><a href="{% url 'about_page' %}" class="nav-link">About</a></li>
+            <li><a href="{% url 'contact_page' %}" class="nav-link">Contact</a></li>
+            <li><a href="{% url 'blog_page' %}" class="nav-link">Blog</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <!-- Language Switcher -->
+            <div class="lang-switcher">
+                <div class="lang-slider" id="lang-slider"></div>
+                <button class="lang-btn active" data-lang="en" onclick="switchLang('en', 0)">EN</button>
+                <button class="lang-btn" data-lang="uz" onclick="switchLang('uz', 1)">UZ</button>
+                <button class="lang-btn" data-lang="ru" onclick="switchLang('ru', 2)">RU</button>
+            </div>
+
+            <!-- Dark Mode -->
+            <button class="icon-btn tooltip" onclick="toggleDarkMode()">
+                <i id="theme-icon" class="fas fa-moon"></i>
+                <span class="tooltip-text">Toggle Dark Mode</span>
+            </button>
+
+            <!-- Wishlist -->
+            <button class="icon-btn tooltip" onclick="openWishlist()">
+                <i class="far fa-heart"></i>
+                <span id="wishlist-count" class="badge">0</span>
+                <span class="tooltip-text">Wishlist</span>
+            </button>
+
+            <button class="icon-btn tooltip" onclick=" window.location.href ={% url 'notification_page' %}">
+                <i class="far fa-bell"></i>
+                <span id="notification-count" class="badge">0</span>
+                <span class="tooltip-text">Notification</span>
+            </button>
+
+            {% if user.is_authenticated %}
+
+                <!-- User Menu -->
+                <div class="user-menu">
+                    <button class="user-btn" onclick="toggleUserMenu()">
+                        <div class="user-avatar">JD</div>
+                        <span>John Doe</span>
+                        <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+                    </button>
+
+                    <div id="user-dropdown" class="dropdown">
+                        <div class="dropdown-header">
+                            <h4>John Doe</h4>
+                            <p>john@example.com</p>
+                        </div>
+
+
+                        {#                    <a href="#" class="dropdown-item">#}
+                        {#                        <i class="fas fa-user"></i>#}
+                        {#                        <span>Login </span>#}
+                        {#                    </a>#}
+
+
+                        <a href="{% url 'dashboard_page' %}" class="dropdown-item">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="{% url 'my_bookings_page' %}" class="dropdown-item">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>My Bookings</span>
+                        </a>
+                        <a href="{% url 'wishlist_page' %}" class="dropdown-item">
+                            <i class="fas fa-heart"></i>
+                            <span>Wishlist</span>
+                        </a>
+
+                        <a href="{% url 'profile_settings_page' %}" class="dropdown-item">
+                            <i class="fas fa-user-cog"></i>
+                            <span>Profile Settings</span>
+                        </a>
+                        <a href="{% url 'admin_panel_page' %}" class="dropdown-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Admin Panel</span>
+                        </a>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-gear"></i>
+                            <span>Settings</span>
+                        </a>
+
+                        <a href="{% url 'telegram_channel_page' %}" class="dropdown-item">
+                            <i class="fab fa-telegram"></i>
+                            <span>Telegram channel </span>
+                        </a>
+                        <a href="{% url 'instagram_page' %}" class="dropdown-item">
+                            <i class="fab fa-instagram" style="color: #E4405F;"></i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="{% url 'logout_page' %}" class="dropdown-item" style="color: var(--danger);">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hamburger -->
+                <div class="hamburger" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            {% else %}
+                <button class="user-btn" onclick="window.location.href='{% url 'login_page' %}'">
+                    <span>Login</span>
+                    <i class="fas fa-user" style="font-size: 12px;"></i>
+                </button>
+
+
+                <button class="user-btn" onclick="window.location.href='{% url 'register_page' %}'">
+                    <span>Register</span>
+                    <i class="fas fa-user-plus" style="font-size: 12px;"></i>
+                </button>
+
+
+
+
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+
+<!-- Full Screen Mobile Menu -->
+<div id="mobile-menu" class="mobile-menu-overlay">
+    <div class="mobile-menu-content">
+        <ul class="mobile-menu-links">
+            <li>
+                <a href="#" class="mobile-menu-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="mobile-menu-link">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Destinations</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="mobile-menu-link">
+                    <i class="fas fa-star"></i>
+                    <span>Recommendations</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="mobile-menu-link">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="mobile-menu-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contact</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="mobile-menu-footer">
+            <div class="mobile-lang-btns">
+                <button class="mobile-lang-btn active" onclick="switchMobileLang('en')">English</button>
+                <button class="mobile-lang-btn" onclick="switchMobileLang('uz')">O'zbek</button>
+                <button class="mobile-lang-btn" onclick="switchMobileLang('ru')">Русский</button>
+            </div>
+
+            <div class="mobile-social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-telegram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% block main_content %}
+
+{% endblock %}
+
+
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <div class="logo-content">
+                        <i class="fas fa-compass"></i>
+                        <span>TravelHub</span>
+                    </div>
+                </div>
+                <p>Your trusted partner in discovering amazing destinations worldwide. AI-powered recommendations
+                    for
+                    unforgettable travel experiences.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/ManasSarsenov/" class="social-link" target="_blank"
+                       rel="noopener noreferrer">
+                        <i class="fab fa-facebook-f"></i></a>
+                    <a href="https://t.me/travelhub_official" class="social-link" target="_blank"
+                       rel="noopener noreferrer"><i class="fab fa-telegram"></i></a>
+                    <a href="https://www.instagram.com/travelhub.officiall/" class="social-link" target="_blank"
+                       rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@MS-sj9up" class="social-link" target="_blank"
+                       rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.linkedin.com/in/manas-sarsenov" class="social-link" target="_blank"
+                       rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="{% url 'about_page' %}">About Us</a></li>
+                    <li><a href="{% url 'destinations_page' %}">Destinations</a></li>
+                    <li><a href="{% url 'recommendation_page' %}">Recommendations</a></li>
+                    <li><a href="{% url 'blog_page' %}">Blog</a></li>
+                    <li><a href="{% url 'contact_page' %}">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="{% url 'help_center_page' %}">Help Center</a></li>
+                    <li><a href="{% url 'terms_of_service_page' %}">Terms of Service</a></li>
+                    <li><a href="{% url 'privacy_policy_page' %}">Privacy Policy</a></li>
+                    <li><a href="{% url 'cancellation_page' %}">Cancellation</a></li>
+                    <li><a href="{% url 'faq_page' %}">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Newsletter</h4>
+                <p>Subscribe for exclusive deals and travel tips</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Your email" id="newsletter-email">
+                    <button class="btn"
+                            style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 16px 25px;"
+                            onclick="subscribeNewsletter()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 TravelHub. All rights reserved. Made with <i class="fas fa-heart"
+                                                                        style="color: var(--danger);"></i> for travelers
+                worldwide.</p>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Scroll to Top -->
+<div id="scroll-top" class="scroll-top" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up" style="font-size: 26px;"></i>
+</div>
+
+
+<!-- Toast Notification -->
+<div id="toast" class="toast">
+    <div class="toast-content">
+        <i id="toast-icon" class="fas fa-check-circle toast-icon"></i>
+        <div>
+            <h4 id="toast-title" style="font-weight: 800; margin-bottom: 6px; font-size: 16px;">Success</h4>
+            <p id="toast-message" style="color: var(--gray); font-size: 14px;">Operation completed</p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="modal-title">Modal Title</h2>
+            <button class="modal-close" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body" id="modal-body">
+            Modal content goes here
+        </div>
+    </div>
+</div>
+
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="{% static 'apps/js/main_base.js' %}"></script>
+
+{% block custom_js %}
+{% endblock %}
+
+</body>
+
+</html>
+

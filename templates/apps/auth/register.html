@@ -1,0 +1,374 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - TravelHub</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Main Base CSS -->
+    <link rel="stylesheet" href="{% static 'apps/css/main_base.css' %}">
+
+    <!-- Register Page CSS -->
+    <link rel="stylesheet" href="{% static 'apps/css/auth/register.css' %}">
+</head>
+<body>
+
+<!-- Registration Container -->
+<div class="register-container">
+
+    <!-- Left Side - Form -->
+    <div class="register-left">
+        <div class="register-form-wrapper">
+
+            <!-- Logo & Back Button -->
+            <div class="register-header">
+                <a href="{% url 'home_page' %}" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <a href="{% url 'home_page' %}" class="register-logo">
+                    <i class="fas fa-compass"></i>
+                    <span>TravelHub</span>
+                </a>
+            </div>
+
+            <!-- Form Title -->
+            <div class="form-title">
+                <h1>Create Your Account</h1>
+                <p>Start your journey with us and explore the world</p>
+            </div>
+
+            <!-- Social Registration -->
+            <div class="social-register">
+
+                <button class="social-btn google-btn" onclick="window.location.href='{% url 'google_login_page' %}'">
+                    <i class="fab fa-google"></i>
+                    <span>Continue with Google</span>
+                </button>
+
+                <button class="social-btn facebook-btn">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>Continue with Facebook</span>
+                </button>
+
+                <button class="social-btn apple-btn">
+                    <i class="fab fa-apple"></i>
+                    <span>Continue with Apple</span>
+                </button>
+
+                <button class="social-btn telegram-btn">
+                    <i class="fab fa-telegram"></i>
+                    <span>Continue with Telegram</span>
+                </button>
+
+            </div>
+
+            <!-- Divider -->
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+
+            {% if form.errors %}
+                <div class="alert alert-danger" style="color: white; background-color: #dc3545;">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <div>
+                                <strong>{{ field|capfirst }}:</strong> {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Django Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}"
+                         style="margin-bottom: 20px; padding: 15px; border-radius: 12px; background-color: {% if message.tags == 'success' %}#10b981{% elif message.tags == 'error' %}#ef4444{% else %}#3b82f6{% endif %}; color: white;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Registration Form -->
+            <form method="POST" action="{% url 'register_page' %}">
+                {% csrf_token %}
+
+                <!-- First Name -->
+                <div class="form-group">
+                    <label for="firstName">
+                        <i class="fas fa-user"></i>
+                        First Name
+                    </label>
+                    <input
+                            type="text"
+                            id="firstname"
+                            name="first_name"
+                            placeholder="Enter your first name"
+                            required
+                    >
+                    <span class="error-message" id="firstNameError"></span>
+                </div>
+
+                <!-- Last Name -->
+                <div class="form-group">
+                    <label for="lastName">
+                        <i class="fas fa-user"></i>
+                        Last Name
+                    </label>
+                    <input
+                            type="text"
+                            id="lastName"
+                            name="last_name"
+                            placeholder="Enter your last name"
+                            required
+                    >
+                    <span class="error-message" id="lastNameError"></span>
+                </div>
+
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user-circle"></i>
+                        Username
+                    </label>
+                    <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter your username"
+                            required
+                    >
+                    <span class="error-message" id="usernameError"></span>
+                </div>
+
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i>
+                        Email Address
+                    </label>
+                    <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                    >
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <!-- Phone Number (Optional) -->
+                <div class="form-group">
+                    <label for="phone">
+                        <i class="fas fa-phone"></i>
+                        Phone Number <span class="optional">(Optional)</span>
+                    </label>
+                    <input
+                            type="tel"
+                            id="phone"
+                            name="phone_number"
+                            placeholder="+998 (__) ___-__-__"
+                            required
+                    >
+                    <span class="error-message" id="phoneError"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i>
+                        Password
+                    </label>
+                    <div class="password-input-wrapper">
+                        <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Create a password"
+                                required
+                        >
+                        <button type="button" class="toggle-password" onclick="togglePassword('password')">
+                            <i class="far fa-eye" id="passwordIcon"></i>
+                        </button>
+                    </div>
+
+                    <!-- Password Strength Indicator -->
+                    <div class="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <span class="strength-text" id="strengthText">Password strength</span>
+                    </div>
+                    <span class="error-message" id="passwordError"></span>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label for="confirmPassword">
+                        <i class="fas fa-lock"></i>
+                        Confirm Password
+                    </label>
+                    <div class="password-input-wrapper">
+                        <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirm_password"
+                                placeholder="Confirm your password"
+                                required
+                        >
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">
+                            <i class="far fa-eye" id="confirmPasswordIcon"></i>
+                        </button>
+                    </div>
+                    <span class="error-message" id="confirmPasswordError"></span>
+                </div>
+
+                <!-- Date of Birth -->
+                <div class="form-group">
+                    <label for="dateOfBirth">
+                        <i class="fas fa-calendar"></i>
+                        Date of Birth <span class="optional">(Optional)</span>
+                    </label>
+                    <input
+                            type="date"
+                            id="dateOfBirth"
+                            name="date_of_birth"
+                    >
+                    <span class="error-message" id="dobError"></span>
+                </div>
+
+                <!-- Country -->
+                <div class="form-group">
+                    <label for="country">
+                        <i class="fas fa-globe"></i>
+                        Country
+                    </label>
+                    <select id="country" name="country" required>
+                        <option value="">Select your country</option>
+                        <option value="UZ">Uzbekistan</option>
+                        <option value="US">United States</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="RU">Russia</option>
+                        <option value="TR">Turkey</option>
+                        <option value="AE">United Arab Emirates</option>
+                        <option value="KR">South Korea</option>
+                        <option value="JP">Japan</option>
+                        <option value="CN">China</option>
+                        <option value="IN">India</option>
+                    </select>
+                    <span class="error-message" id="countryError"></span>
+                </div>
+
+                <!-- Terms & Conditions -->
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <span class="checkmark"></span>
+                        <span class="checkbox-text">
+                            I agree to the
+                            <a href="{% url 'terms_of_service_page' %}">Terms of Service</a> and
+                            <a href="{% url 'privacy_policy_page' %}">Privacy Policy</a>
+                        </span>
+                    </label>
+                    <span class="error-message" id="termsError"></span>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="newsletter" name="newsletter">
+                        <span class="checkmark"></span>
+                        <span class="checkbox-text">
+                            Subscribe to newsletter and travel updates
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="register-btn" id="registerBtn">
+                    <span class="btn-text">Create Account</span>
+                    <span class="btn-loader" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </span>
+                </button>
+
+                <!-- Login Link -->
+                <div class="login-link">
+                    Already have an account?
+                    <a href="{% url 'login_page' %}">Login here</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Right Side - Branding -->
+    <div class="register-right">
+        <div class="branding-content">
+            <div class="brand-overlay"></div>
+
+            <div class="brand-text">
+                <h2>Welcome to TravelHub</h2>
+                <p>Join thousands of travelers discovering amazing destinations worldwide</p>
+
+                <div class="benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>AI-Powered Recommendations</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Exclusive Travel Deals</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Save Your Favorites</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Travel Community</span>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-avatar">
+                        <img src="https://i.pravatar.cc/80?img=1" alt="User">
+                    </div>
+                    <div class="testimonial-content">
+                        <p>"TravelHub helped me discover hidden gems I never knew existed!"</p>
+                        <h4>Sarah Johnson</h4>
+                        <span>Travel Enthusiast</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast">
+    <div class="toast-content">
+        <i id="toast-icon" class="fas fa-check-circle"></i>
+        <div>
+            <h4 id="toast-title">Success</h4>
+            <p id="toast-message">Operation completed</p>
+        </div>
+    </div>
+</div>
+
+<!-- Register JS -->
+<script src="{% static 'apps/js/password-toggle.js' %}"></script>
+
+</body>
+</html>

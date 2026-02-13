@@ -1,0 +1,403 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Cancellation Policy - TravelHub</title>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/cancellation.css' %}">
+{% endblock %}
+
+{% block main_content %}
+
+    <!-- Hero Section -->
+    <section class="cancellation-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+
+
+            <div class="breadcrumb">
+                <a href="{% url 'home_page' %}">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Cancellation Policy</span>
+            </div>
+            <h1 class="hero-title">
+                <i class="fas fa-ban"></i>
+                Cancellation Policy
+            </h1>
+            <p class="hero-subtitle">Understanding our booking cancellation terms and refund process</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="cancellation-content">
+        <div class="container">
+
+            <!-- Quick Info Cards -->
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Free Cancellation</h3>
+                    <p>Cancel up to 48 hours before your trip for a full refund</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3>Flexible Refunds</h3>
+                    <p>Get 50% refund within 24 hours of departure</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Our team is always ready to help you</p>
+                </div>
+            </div>
+
+            <!-- Cancellation Form -->
+            <div class="cancellation-form-section">
+                <div class="form-header">
+                    <h2>
+                        <i class="fas fa-exclamation-circle"></i>
+                        Cancel Your Booking
+                    </h2>
+                    <p>We're sorry to see you go. Please provide your booking details to proceed with cancellation.</p>
+                </div>
+
+                <form id="cancellationForm" class="cancellation-form">
+                    <!-- Booking Information -->
+                    <div class="form-group">
+                        <label for="bookingId">
+                            <i class="fas fa-ticket-alt"></i>
+                            Booking ID
+                        </label>
+                        <input type="text" id="bookingId" placeholder="Enter your booking ID (e.g., TH123456)" required>
+                        <small>You can find this in your confirmation email</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i>
+                            Email Address
+                        </label>
+                        <input type="email" id="email" placeholder="your@email.com" required>
+                    </div>
+
+                    <!-- Cancellation Reason -->
+                    <div class="form-group">
+                        <label for="reason">
+                            <i class="fas fa-question-circle"></i>
+                            Reason for Cancellation
+                        </label>
+                        <select id="reason" required>
+                            <option value="">Select a reason</option>
+                            <option value="schedule">Schedule changed</option>
+                            <option value="expensive">Too expensive</option>
+                            <option value="alternative">Found better alternative</option>
+                            <option value="personal">Personal reasons</option>
+                            <option value="emergency">Emergency</option>
+                            <option value="weather">Weather concerns</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="otherReasonGroup" style="display: none;">
+                        <label for="otherReason">
+                            <i class="fas fa-comment-dots"></i>
+                            Please specify
+                        </label>
+                        <textarea id="otherReason" rows="3" placeholder="Tell us more about your reason..."></textarea>
+                    </div>
+
+                    <!-- Warning Alert -->
+                    <div class="warning-box">
+                        <div class="warning-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="warning-content">
+                            <h4>Important Notice</h4>
+                            <ul>
+                                <li>Cancellations made 48+ hours before departure: <strong>100% refund</strong></li>
+                                <li>Cancellations made 24-48 hours before: <strong>50% refund</strong></li>
+                                <li>Cancellations made less than 24 hours: <strong>No refund</strong></li>
+                                <li>Refunds will be processed within 5-7 business days</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Refund Information -->
+                    <div class="refund-calculation" id="refundInfo" style="display: none;">
+                        <h4>
+                            <i class="fas fa-calculator"></i>
+                            Refund Estimate
+                        </h4>
+                        <div class="refund-details">
+                            <div class="refund-row">
+                                <span>Original Amount:</span>
+                                <span id="originalAmount">$0.00</span>
+                            </div>
+                            <div class="refund-row">
+                                <span>Cancellation Fee:</span>
+                                <span id="cancellationFee" class="text-danger">-$0.00</span>
+                            </div>
+                            <div class="refund-row total">
+                                <span>Refund Amount:</span>
+                                <span id="refundAmount" class="text-success">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Confirmation Checkbox -->
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="confirmCancel" required>
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">
+                            I understand the cancellation policy and agree to proceed with cancellation
+                        </span>
+                        </label>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="history.back()">
+                            <i class="fas fa-arrow-left"></i>
+                            Go Back
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-times-circle"></i>
+                            Cancel Booking
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Policy Details -->
+            <div class="policy-details">
+                <h2>
+                    <i class="fas fa-file-contract"></i>
+                    Detailed Cancellation Policy
+                </h2>
+
+                <div class="policy-accordion">
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>
+                            <i class="fas fa-calendar-times"></i>
+                            Standard Cancellation Policy
+                        </span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Our standard cancellation policy applies to most bookings:</p>
+                            <ul>
+                                <li><strong>More than 48 hours before departure:</strong> Full refund (100%)</li>
+                                <li><strong>24-48 hours before departure:</strong> Partial refund (50%)</li>
+                                <li><strong>Less than 24 hours before departure:</strong> No refund</li>
+                            </ul>
+                            <p>Processing time for refunds is typically 5-7 business days.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>
+                            <i class="fas fa-plane-departure"></i>
+                            Flight & Hotel Bookings
+                        </span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Flight and hotel bookings may have different cancellation terms:</p>
+                            <ul>
+                                <li>Non-refundable tickets: No refund available</li>
+                                <li>Flexible tickets: Subject to airline/hotel policies</li>
+                                <li>Premium bookings: Usually fully refundable up to 24 hours before</li>
+                            </ul>
+                            <p>Please check your specific booking confirmation for exact terms.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>
+                            <i class="fas fa-shield-alt"></i>
+                            Travel Insurance
+                        </span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <p>We highly recommend purchasing travel insurance:</p>
+                            <ul>
+                                <li>Coverage for medical emergencies</li>
+                                <li>Trip cancellation protection</li>
+                                <li>Lost luggage compensation</li>
+                                <li>24/7 emergency assistance</li>
+                            </ul>
+                            <p>Insurance can be added during booking or up to 24 hours after confirmation.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Emergency Situations
+                        </span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Special considerations for emergency cancellations:</p>
+                            <ul>
+                                <li>Medical emergencies (with documentation): Case-by-case review</li>
+                                <li>Natural disasters: Full refund or rescheduling</li>
+                                <li>Government travel bans: Full refund</li>
+                                <li>Family emergencies: Flexible rescheduling options</li>
+                            </ul>
+                            <p>Contact our support team immediately for emergency assistance.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <h2>
+                    <i class="fas fa-question-circle"></i>
+                    Frequently Asked Questions
+                </h2>
+
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h4>How long does refund take?</h4>
+                        <p>Refunds are typically processed within 5-7 business days. The exact time depends on your
+                            payment method and bank.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>Can I reschedule instead of canceling?</h4>
+                        <p>Yes! You can reschedule your booking up to 48 hours before departure without any fees.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>What if I need to cancel due to COVID-19?</h4>
+                        <p>We offer flexible cancellation for COVID-related issues. Please contact support with
+                            documentation.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>Are there any non-refundable items?</h4>
+                        <p>Some promotional deals and special packages may be non-refundable. Check your booking
+                            details.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>Can I get a travel credit instead?</h4>
+                        <p>Yes! We offer 110% travel credit (10% bonus) valid for 12 months instead of a cash
+                            refund.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>What if my flight is cancelled by the airline?</h4>
+                        <p>Airline cancellations result in automatic full refund. We'll process this within 24
+                            hours.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Support -->
+            <div class="support-cta">
+                <div class="support-content">
+                    <div class="support-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="support-text">
+                        <h3>Need Help with Cancellation?</h3>
+                        <p>Our support team is available 24/7 to assist you with any questions or concerns</p>
+                    </div>
+                    <div class="support-actions">
+                        <a href="{% url 'contact_page' %}" class="btn btn-primary">
+                            <i class="fas fa-envelope"></i>
+                            Contact Support
+                        </a>
+                        <a href="tel:+998901234567" class="btn btn-outline">
+                            <i class="fas fa-phone"></i>
+                            Call Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block custom_js %}
+    <script>
+        // Show/hide other reason textarea
+        document.getElementById('reason').addEventListener('change', function () {
+            const otherGroup = document.getElementById('otherReasonGroup');
+            otherGroup.style.display = this.value === 'other' ? 'block' : 'none';
+        });
+
+        // Accordion toggle
+        function toggleAccordion(button) {
+            const item = button.parentElement;
+            const wasActive = item.classList.contains('active');
+
+            // Close all accordions
+            document.querySelectorAll('.accordion-item').forEach(i => {
+                i.classList.remove('active');
+            });
+
+            // Open clicked accordion if it wasn't active
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+        }
+
+        // Form submission
+        document.getElementById('cancellationForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!document.getElementById('confirmCancel').checked) {
+                showToast('Error', 'Please confirm that you understand the cancellation policy', 'error');
+                return;
+            }
+
+            // Simulate processing
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                showToast('Success', 'Your cancellation request has been submitted successfully', 'success');
+
+                // Show refund info
+                document.getElementById('refundInfo').style.display = 'block';
+                document.getElementById('originalAmount').textContent = '$599.00';
+                document.getElementById('cancellationFee').textContent = '-$59.90';
+                document.getElementById('refundAmount').textContent = '$539.10';
+
+                submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Cancellation Confirmed';
+                submitBtn.classList.remove('btn-danger');
+                submitBtn.classList.add('btn-success');
+
+                // Redirect after 3 seconds
+                setTimeout(() => {
+                    window.location.href = "{% url 'my_bookings_page' %}";
+                }, 3000);
+            }, 2000);
+        });
+    </script>
+{% endblock %}

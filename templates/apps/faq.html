@@ -1,0 +1,697 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>FAQ - Frequently Asked Questions | TravelHub</title>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/faq.css' %}">
+{% endblock %}
+
+{% block main_content %}
+
+<!-- Hero Section -->
+<section class="faq-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="breadcrumb">
+            <a href="{% url 'home_page' %}">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <i class="fas fa-chevron-right"></i>
+            <span>FAQ</span>
+        </div>
+        <h1 class="hero-title">
+            <i class="fas fa-question-circle"></i>
+            Frequently Asked Questions
+        </h1>
+        <p class="hero-subtitle">Find answers to common questions about TravelHub services</p>
+        
+        <!-- Search Bar -->
+        <div class="faq-search">
+            <i class="fas fa-search"></i>
+            <input type="text" id="faqSearch" placeholder="Search for answers...">
+            <button onclick="searchFAQ()">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="faq-content">
+    <div class="container">
+        
+        <!-- Quick Stats -->
+        <div class="faq-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3>150+</h3>
+                <p>Articles</p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>24/7</h3>
+                <p>Support</p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>50K+</h3>
+                <p>Happy Users</p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>4.9/5</h3>
+                <p>Rating</p>
+            </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="category-filter">
+            <h2>Browse by Category</h2>
+            <div class="category-buttons">
+                <button class="category-btn active" onclick="filterCategory('all')">
+                    <i class="fas fa-th"></i>
+                    All Questions
+                </button>
+                <button class="category-btn" onclick="filterCategory('booking')">
+                    <i class="fas fa-calendar-check"></i>
+                    Booking
+                </button>
+                <button class="category-btn" onclick="filterCategory('payment')">
+                    <i class="fas fa-credit-card"></i>
+                    Payment
+                </button>
+                <button class="category-btn" onclick="filterCategory('cancellation')">
+                    <i class="fas fa-times-circle"></i>
+                    Cancellation
+                </button>
+                <button class="category-btn" onclick="filterCategory('account')">
+                    <i class="fas fa-user"></i>
+                    Account
+                </button>
+                <button class="category-btn" onclick="filterCategory('travel')">
+                    <i class="fas fa-plane"></i>
+                    Travel Tips
+                </button>
+            </div>
+        </div>
+
+        <!-- FAQ Sections -->
+        <div class="faq-sections">
+            
+            <!-- Booking Questions -->
+            <div class="faq-category" data-category="booking">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h2>Booking Questions</h2>
+                </div>
+                
+                <div class="faq-accordion">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>How do I make a booking on TravelHub?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Making a booking on TravelHub is simple and straightforward:</p>
+                            <ol>
+                                <li>Search for your desired destination using our search bar</li>
+                                <li>Browse through available options and select your preferred package</li>
+                                <li>Choose your travel dates and number of travelers</li>
+                                <li>Add any additional services or upgrades</li>
+                                <li>Review your booking details and proceed to payment</li>
+                                <li>Complete the payment process securely</li>
+                                <li>Receive instant confirmation via email</li>
+                            </ol>
+                            <p>You can also contact our support team for assistance with your booking.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Can I modify my booking after confirmation?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, you can modify your booking depending on the package terms:</p>
+                            <ul>
+                                <li><strong>Date Changes:</strong> Available up to 48 hours before departure (may incur fees)</li>
+                                <li><strong>Guest Details:</strong> Can be updated anytime before check-in</li>
+                                <li><strong>Upgrades:</strong> Subject to availability and price difference</li>
+                                <li><strong>Downgrades:</strong> Refund difference minus processing fee</li>
+                            </ul>
+                            <p>To modify your booking, go to "My Bookings" in your dashboard or contact support.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>What documents do I need for booking?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Required documents vary by destination and service type:</p>
+                            <ul>
+                                <li><strong>Passport:</strong> Valid for at least 6 months from travel date</li>
+                                <li><strong>Visa:</strong> If required for your destination</li>
+                                <li><strong>ID Card:</strong> For domestic travel</li>
+                                <li><strong>Travel Insurance:</strong> Highly recommended</li>
+                                <li><strong>Vaccination Certificate:</strong> If required by destination country</li>
+                            </ul>
+                            <p>We'll notify you of specific requirements during the booking process.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>How far in advance should I book?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Booking timelines for best prices and availability:</p>
+                            <ul>
+                                <li><strong>International Travel:</strong> 2-3 months in advance</li>
+                                <li><strong>Domestic Travel:</strong> 3-4 weeks in advance</li>
+                                <li><strong>Peak Season:</strong> 4-6 months in advance</li>
+                                <li><strong>Last Minute:</strong> Available but limited options</li>
+                            </ul>
+                            <p>Early booking often secures better rates and more availability.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Questions -->
+            <div class="faq-category" data-category="payment">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h2>Payment & Pricing</h2>
+                </div>
+                
+                <div class="faq-accordion">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>What payment methods do you accept?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>We accept various secure payment methods:</p>
+                            <ul>
+                                <li><strong>Credit Cards:</strong> Visa, Mastercard, American Express</li>
+                                <li><strong>Debit Cards:</strong> Major banks supported</li>
+                                <li><strong>Digital Wallets:</strong> PayPal, Apple Pay, Google Pay</li>
+                                <li><strong>Bank Transfer:</strong> Direct bank transfer option</li>
+                                <li><strong>Cryptocurrency:</strong> Bitcoin, Ethereum (select packages)</li>
+                            </ul>
+                            <p>All payments are processed through secure, encrypted gateways.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Is my payment information secure?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, your payment security is our top priority:</p>
+                            <ul>
+                                <li>256-bit SSL encryption for all transactions</li>
+                                <li>PCI DSS Level 1 certified payment processors</li>
+                                <li>We never store complete credit card details</li>
+                                <li>Two-factor authentication available</li>
+                                <li>Fraud detection and prevention systems</li>
+                            </ul>
+                            <p>Your financial data is protected by industry-leading security measures.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Can I pay in installments?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes! We offer flexible payment plans:</p>
+                            <ul>
+                                <li><strong>Pay in 3:</strong> Split payment into 3 monthly installments</li>
+                                <li><strong>Pay in 6:</strong> Available for bookings over $1000</li>
+                                <li><strong>Deposit Option:</strong> Pay 30% now, rest before departure</li>
+                                <li><strong>Monthly Plans:</strong> For premium packages</li>
+                            </ul>
+                            <p>Interest-free options available for select packages. Terms apply.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>What is your refund policy?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Our refund policy is fair and transparent:</p>
+                            <ul>
+                                <li><strong>48+ hours before:</strong> 100% refund</li>
+                                <li><strong>24-48 hours before:</strong> 50% refund</li>
+                                <li><strong>Less than 24 hours:</strong> No refund</li>
+                                <li><strong>Processing time:</strong> 5-7 business days</li>
+                            </ul>
+                            <p>Special circumstances may be considered. Contact support for details.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cancellation Questions -->
+            <div class="faq-category" data-category="cancellation">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <h2>Cancellation & Refunds</h2>
+                </div>
+                
+                <div class="faq-accordion">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>How do I cancel my booking?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Canceling your booking is easy:</p>
+                            <ol>
+                                <li>Log in to your TravelHub account</li>
+                                <li>Go to "My Bookings" section</li>
+                                <li>Select the booking you want to cancel</li>
+                                <li>Click "Cancel Booking" button</li>
+                                <li>Select your cancellation reason</li>
+                                <li>Confirm cancellation</li>
+                                <li>Receive confirmation email</li>
+                            </ol>
+                            <p>You can also visit our <a href="{% url 'cancellation_page' %}">Cancellation Page</a> for direct access.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>When will I receive my refund?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Refund processing times:</p>
+                            <ul>
+                                <li><strong>Initiation:</strong> Within 24 hours of cancellation</li>
+                                <li><strong>Credit Card:</strong> 5-7 business days</li>
+                                <li><strong>Bank Transfer:</strong> 7-10 business days</li>
+                                <li><strong>Digital Wallet:</strong> 3-5 business days</li>
+                            </ul>
+                            <p>You'll receive email notifications at each stage of the refund process.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Can I get a travel credit instead of refund?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes! Travel credit option offers more value:</p>
+                            <ul>
+                                <li><strong>Bonus:</strong> Get 110% of your booking value (10% extra)</li>
+                                <li><strong>Validity:</strong> 12 months from issue date</li>
+                                <li><strong>Usage:</strong> Can be used for any booking on TravelHub</li>
+                                <li><strong>Transferable:</strong> Share with family or friends</li>
+                                <li><strong>No expiry extensions:</strong> Use within 12 months</li>
+                            </ul>
+                            <p>Choose this option during cancellation process.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Questions -->
+            <div class="faq-category" data-category="account">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h2>Account & Profile</h2>
+                </div>
+                
+                <div class="faq-accordion">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>How do I create an account?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Creating an account is quick and free:</p>
+                            <ol>
+                                <li>Click "Register" button in the top navigation</li>
+                                <li>Enter your email address and password</li>
+                                <li>Verify your email address</li>
+                                <li>Complete your profile information</li>
+                                <li>Start exploring and booking!</li>
+                            </ol>
+                            <p>Or sign up instantly using Google, Facebook, or Apple account.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>I forgot my password. What should I do?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Resetting your password is simple:</p>
+                            <ol>
+                                <li>Click "Login" button</li>
+                                <li>Click "Forgot Password?" link</li>
+                                <li>Enter your registered email address</li>
+                                <li>Check your email for reset link</li>
+                                <li>Click the link and create new password</li>
+                                <li>Log in with your new password</li>
+                            </ol>
+                            <p>If you don't receive the email, check your spam folder or contact support.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>How do I update my profile information?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Keep your profile up to date:</p>
+                            <ol>
+                                <li>Log in to your account</li>
+                                <li>Click on your profile picture or name</li>
+                                <li>Select "Profile Settings"</li>
+                                <li>Update your information</li>
+                                <li>Save changes</li>
+                            </ol>
+                            <p>You can update: name, email, phone, address, preferences, and profile picture.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Can I delete my account?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, you can delete your account anytime:</p>
+                            <ul>
+                                <li>Go to Profile Settings</li>
+                                <li>Scroll to "Account Management"</li>
+                                <li>Click "Delete Account"</li>
+                                <li>Confirm deletion</li>
+                            </ul>
+                            <p><strong>Warning:</strong> This action is permanent. All your bookings history, wishlist, and data will be deleted. Active bookings must be cancelled first.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Travel Tips -->
+            <div class="faq-category" data-category="travel">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <h2>Travel Tips & Guidelines</h2>
+                </div>
+                
+                <div class="faq-accordion">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>What should I pack for my trip?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Essential packing checklist:</p>
+                            <ul>
+                                <li><strong>Documents:</strong> Passport, visa, tickets, insurance</li>
+                                <li><strong>Clothing:</strong> Weather-appropriate attire</li>
+                                <li><strong>Electronics:</strong> Phone, charger, adapter, camera</li>
+                                <li><strong>Medications:</strong> Prescriptions and first-aid kit</li>
+                                <li><strong>Money:</strong> Cash, cards, emergency funds</li>
+                                <li><strong>Toiletries:</strong> Travel-sized essentials</li>
+                            </ul>
+                            <p>Download our comprehensive packing list from your booking confirmation.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Do I need travel insurance?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Travel insurance is highly recommended:</p>
+                            <ul>
+                                <li><strong>Medical Coverage:</strong> Emergency medical expenses abroad</li>
+                                <li><strong>Trip Cancellation:</strong> Protect your investment</li>
+                                <li><strong>Lost Luggage:</strong> Compensation for lost belongings</li>
+                                <li><strong>Flight Delays:</strong> Coverage for unexpected delays</li>
+                                <li><strong>24/7 Assistance:</strong> Emergency support anywhere</li>
+                            </ul>
+                            <p>We offer comprehensive insurance packages at competitive rates.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>What are the COVID-19 travel requirements?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>COVID-19 requirements vary by destination:</p>
+                            <ul>
+                                <li>Check current travel restrictions for your destination</li>
+                                <li>Vaccination certificates may be required</li>
+                                <li>PCR/Rapid test results (if applicable)</li>
+                                <li>Health declaration forms</li>
+                                <li>Quarantine requirements (destination-specific)</li>
+                            </ul>
+                            <p>We provide up-to-date information for each destination in your booking details.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>How can I stay safe while traveling?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Important safety tips:</p>
+                            <ul>
+                                <li>Register with your embassy</li>
+                                <li>Keep copies of important documents</li>
+                                <li>Stay aware of your surroundings</li>
+                                <li>Use hotel safes for valuables</li>
+                                <li>Keep emergency contacts handy</li>
+                                <li>Follow local laws and customs</li>
+                                <li>Purchase comprehensive travel insurance</li>
+                            </ul>
+                            <p>Download our Travel Safety Guide for detailed information.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Still Have Questions -->
+        <div class="contact-cta">
+            <div class="cta-content">
+                <div class="cta-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="cta-text">
+                    <h3>Still Have Questions?</h3>
+                    <p>Can't find the answer you're looking for? Our support team is here to help!</p>
+                </div>
+                <div class="cta-actions">
+                    <a href="{% url 'contact_page' %}" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i>
+                        Contact Support
+                    </a>
+                    <a href="{% url 'help_center_page' %}" class="btn btn-outline">
+                        <i class="fas fa-life-ring"></i>
+                        Help Center
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Popular Articles -->
+        <div class="popular-articles">
+            <h2>
+                <i class="fas fa-fire"></i>
+                Popular Help Articles
+            </h2>
+            <div class="articles-grid">
+                <a href="#" class="article-card">
+                    <div class="article-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h4>How to Choose Your Perfect Destination</h4>
+                    <p>Learn how to select the best travel destination based on your preferences</p>
+                    <span class="read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="#" class="article-card">
+                    <div class="article-icon">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <h4>Best Time to Visit Popular Destinations</h4>
+                    <p>Discover the ideal seasons for traveling to your favorite places</p>
+                    <span class="read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="#" class="article-card">
+                    <div class="article-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h4>Budget Travel Tips and Tricks</h4>
+                    <p>Save money on your trips with our expert budget travel advice</p>
+                    <span class="read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
+
+{% block custom_js %}
+<script>
+    // Toggle FAQ Answer
+    function toggleFAQ(button) {
+        const item = button.parentElement;
+        const wasActive = item.classList.contains('active');
+        
+        // Close all FAQs in the same category
+        const category = item.closest('.faq-accordion');
+        category.querySelectorAll('.faq-item').forEach(i => {
+            i.classList.remove('active');
+        });
+        
+        // Open clicked FAQ if it wasn't active
+        if (!wasActive) {
+            item.classList.add('active');
+        }
+    }
+
+    // Filter by Category
+    function filterCategory(category) {
+        // Update active button
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.closest('.category-btn').classList.add('active');
+
+        // Show/hide categories
+        const categories = document.querySelectorAll('.faq-category');
+        categories.forEach(cat => {
+            if (category === 'all') {
+                cat.style.display = 'block';
+            } else {
+                cat.style.display = cat.dataset.category === category ? 'block' : 'none';
+            }
+        });
+
+        // Smooth scroll to first visible category
+        setTimeout(() => {
+            const firstVisible = document.querySelector('.faq-category[style*="display: block"]');
+            if (firstVisible) {
+                firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 100);
+    }
+
+    // Search FAQ
+    function searchFAQ() {
+        const searchTerm = document.getElementById('faqSearch').value.toLowerCase();
+        
+        if (searchTerm.length < 2) {
+            showToast('Info', 'Please enter at least 2 characters to search', 'info');
+            return;
+        }
+
+        let found = false;
+        const allItems = document.querySelectorAll('.faq-item');
+        
+        // Show all categories first
+        document.querySelectorAll('.faq-category').forEach(cat => {
+            cat.style.display = 'block';
+        });
+
+        // Filter items
+        allItems.forEach(item => {
+            const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+            const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+            
+            if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                item.style.display = 'block';
+                found = true;
+                
+                // Highlight search term
+                const questionSpan = item.querySelector('.faq-question span');
+                questionSpan.innerHTML = questionSpan.textContent.replace(
+                    new RegExp(searchTerm, 'gi'),
+                    match => `<mark>${match}</mark>`
+                );
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        if (!found) {
+            showToast('No Results', 'No questions found matching your search', 'warning');
+        } else {
+            // Scroll to first result
+            const firstResult = document.querySelector('.faq-item[style*="display: block"]');
+            if (firstResult) {
+                firstResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    }
+
+    // Clear search on input clear
+    document.getElementById('faqSearch').addEventListener('input', function() {
+        if (this.value === '') {
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.style.display = 'block';
+                const questionSpan = item.querySelector('.faq-question span');
+                questionSpan.innerHTML = questionSpan.textContent;
+            });
+        }
+    });
+
+    // Search on Enter key
+    document.getElementById('faqSearch').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            searchFAQ();
+        }
+    });
+</script>
+{% endblock %}

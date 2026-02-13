@@ -1,0 +1,592 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>TravelHub - My Dashboard</title>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/dashboard.css' %}">
+{% endblock %}
+
+{% block main_content %}
+
+<!-- Dashboard Page -->
+<div class="dashboard-page">
+    <div class="dashboard-container">
+        
+        <!-- Welcome Header -->
+        <div class="welcome-header">
+            <div class="welcome-content">
+                <div class="welcome-text">
+                    <h1>👋 Welcome back, <span class="user-name">John Doe</span>!</h1>
+                    <p class="welcome-subtitle">
+                        <span class="member-badge gold">
+                            <i class="fas fa-crown"></i> Gold Member
+                        </span>
+                        <span class="separator">•</span>
+                        <span>Member since Jan 2024</span>
+                    </p>
+                    <p class="welcome-quote">"Your next adventure is just a click away!"</p>
+                </div>
+                <div class="welcome-actions">
+                    <button class="btn-action primary" onclick="window.location.href='{% url 'destinations_page' %}'">
+                        <i class="fas fa-search"></i>
+                        <span>Search Trips</span>
+                    </button>
+                    <button class="btn-action secondary" onclick="window.location.href='{% url 'destinations_page' %}'">
+                        <i class="fas fa-plane"></i>
+                        <span>Book Now</span>
+                    </button>
+                    <button class="btn-action support" onclick="window.location.href='{% url 'contact_page' %}'">
+                        <i class="fas fa-headset"></i>
+                        <span>Support</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon trips">
+                    <i class="fas fa-suitcase-rolling"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value">12</h3>
+                    <p class="stat-label">My Trips</p>
+                    <span class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> +2 this year
+                    </span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon spent">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value">$8,450</h3>
+                    <p class="stat-label">Total Spent</p>
+                    <span class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> +$1,200
+                    </span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon countries">
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value">8</h3>
+                    <p class="stat-label">Countries</p>
+                    <span class="stat-change positive">
+                        <i class="fas fa-plus"></i> 2 new
+                    </span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon reviews">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value">15</h3>
+                    <p class="stat-label">Reviews</p>
+                    <div class="rating-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="dashboard-grid">
+            
+            <!-- Left Column -->
+            <div class="dashboard-left">
+                
+                <!-- Upcoming Trips -->
+                <section class="dashboard-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-plane-departure"></i> Upcoming Trips (2)</h2>
+                        <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="trips-list">
+                        <!-- Trip Card 1 -->
+                        <div class="trip-card confirmed">
+                            <div class="trip-image">
+                                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400" alt="Dubai">
+                                <span class="trip-status confirmed">
+                                    <i class="fas fa-check-circle"></i> Confirmed
+                                </span>
+                            </div>
+                            <div class="trip-content">
+                                <div class="trip-destination">
+                                    <span class="flag">🇦🇪</span>
+                                    <h3>Dubai, United Arab Emirates</h3>
+                                </div>
+                                <div class="trip-details">
+                                    <div class="detail-item">
+                                        <i class="far fa-calendar"></i>
+                                        <span>Jan 15 - Jan 22, 2025 (7 days, 6 nights)</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-hotel"></i>
+                                        <span>Burj Al Arab Hotel</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-users"></i>
+                                        <span>2 Adults</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        <span class="price">$1,299</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-hashtag"></i>
+                                        <span>Booking ID: #TH-2024-001234</span>
+                                    </div>
+                                </div>
+                                <div class="trip-countdown">
+                                    <i class="far fa-clock"></i>
+                                    <span>Trip starts in <strong>38 days</strong></span>
+                                </div>
+                                <div class="trip-actions">
+                                    <button class="btn-trip primary">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                    <button class="btn-trip secondary">
+                                        <i class="fas fa-plane-arrival"></i> Check-in Online
+                                    </button>
+                                    <button class="btn-trip download">
+                                        <i class="fas fa-download"></i> Download Voucher
+                                    </button>
+                                    <button class="btn-trip danger">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trip Card 2 -->
+                        <div class="trip-card pending">
+                            <div class="trip-image">
+                                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400" alt="Paris">
+                                <span class="trip-status pending">
+                                    <i class="fas fa-clock"></i> Pending Payment
+                                </span>
+                            </div>
+                            <div class="trip-content">
+                                <div class="trip-destination">
+                                    <span class="flag">🇫🇷</span>
+                                    <h3>Paris, France</h3>
+                                </div>
+                                <div class="trip-details">
+                                    <div class="detail-item">
+                                        <i class="far fa-calendar"></i>
+                                        <span>Mar 10 - Mar 17, 2025 (7 days, 6 nights)</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-hotel"></i>
+                                        <span>Le Meurice</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-users"></i>
+                                        <span>2 Adults, 1 Child</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        <span class="price">$2,499</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-hashtag"></i>
+                                        <span>Booking ID: #TH-2024-001567</span>
+                                    </div>
+                                </div>
+                                <div class="trip-warning">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span>Complete payment within <strong>24 hours</strong></span>
+                                </div>
+                                <div class="trip-actions">
+                                    <button class="btn-trip primary">
+                                        <i class="fas fa-credit-card"></i> Complete Payment
+                                    </button>
+                                    <button class="btn-trip secondary">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                    <button class="btn-trip danger">
+                                        <i class="fas fa-times"></i> Cancel Booking
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Travel Timeline -->
+                <section class="dashboard-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-history"></i> My Travel History</h2>
+                        <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="timeline">
+                        <div class="timeline-year">
+                            <h3>2024</h3>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="flag">🇹🇷</span>
+                                    <h4>Istanbul, Turkey</h4>
+                                </div>
+                                <p class="timeline-date">
+                                    <i class="far fa-calendar"></i> Nov 15-22, 2024
+                                </p>
+                                <p class="timeline-hotel">
+                                    <i class="fas fa-hotel"></i> Four Seasons Sultanahmet
+                                </p>
+                                <div class="timeline-review">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <p>"Absolutely amazing trip! The culture and food were incredible."</p>
+                                </div>
+                                <div class="timeline-actions">
+                                    <button class="btn-small">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                    <button class="btn-small">
+                                        <i class="fas fa-images"></i> Photos
+                                    </button>
+                                    <button class="btn-small">
+                                        <i class="fas fa-redo"></i> Book Again
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="flag">🇮🇹</span>
+                                    <h4>Rome, Italy</h4>
+                                </div>
+                                <p class="timeline-date">
+                                    <i class="far fa-calendar"></i> Aug 5-12, 2024
+                                </p>
+                                <p class="timeline-hotel">
+                                    <i class="fas fa-hotel"></i> Hotel Artemide
+                                </p>
+                                <div class="timeline-review">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <p>"Beautiful city with rich history. Highly recommend!"</p>
+                                </div>
+                                <div class="timeline-actions">
+                                    <button class="btn-small">
+                                        <i class="fas fa-edit"></i> Write Review
+                                    </button>
+                                    <button class="btn-small">
+                                        <i class="fas fa-eye"></i> Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="flag">🇯🇵</span>
+                                    <h4>Tokyo, Japan</h4>
+                                </div>
+                                <p class="timeline-date">
+                                    <i class="far fa-calendar"></i> May 20-30, 2024
+                                </p>
+                                <p class="timeline-hotel">
+                                    <i class="fas fa-hotel"></i> Park Hyatt Tokyo
+                                </p>
+                                <div class="timeline-review">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <p>"Dream destination fulfilled! Everything was perfect."</p>
+                                </div>
+                                <div class="timeline-actions">
+                                    <button class="btn-small">
+                                        <i class="fas fa-share"></i> Share
+                                    </button>
+                                    <button class="btn-small">
+                                        <i class="fas fa-eye"></i> Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Right Column -->
+            <div class="dashboard-right">
+                
+                <!-- Loyalty Program -->
+                <section class="dashboard-section loyalty-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-trophy"></i> Loyalty Rewards</h2>
+                    </div>
+                    
+                    <div class="loyalty-card">
+                        <div class="loyalty-status">
+                            <div class="status-badge gold">
+                                <i class="fas fa-crown"></i>
+                                <span>GOLD MEMBER</span>
+                            </div>
+                        </div>
+                        
+                        <div class="loyalty-progress">
+                            <div class="progress-header">
+                                <span>Progress to Platinum</span>
+                                <span class="progress-percent">65%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                            <div class="progress-points">
+                                <span class="current">6,500 points</span>
+                                <span class="target">/ 10,000</span>
+                            </div>
+                        </div>
+
+                        <div class="loyalty-benefits">
+                            <h4>Your Current Benefits:</h4>
+                            <ul class="benefits-list">
+                                <li><i class="fas fa-check"></i> 15% discount on all bookings</li>
+                                <li><i class="fas fa-check"></i> Free airport lounge access</li>
+                                <li><i class="fas fa-check"></i> Priority customer support 24/7</li>
+                                <li><i class="fas fa-check"></i> Early access to flash sales</li>
+                            </ul>
+                        </div>
+
+                        <div class="loyalty-actions">
+                            <button class="btn-loyalty primary">
+                                <i class="fas fa-gift"></i> Earn More Points
+                            </button>
+                            <button class="btn-loyalty secondary">
+                                <i class="fas fa-list"></i> View All Benefits
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Wishlist -->
+                <section class="dashboard-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-heart"></i> My Wishlist (8)</h2>
+                        <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="wishlist-grid">
+                        <div class="wishlist-card">
+                            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=300" alt="Paris">
+                            <div class="wishlist-content">
+                                <h4>🗼 Paris</h4>
+                                <p class="country">France</p>
+                                <p class="price">From $1,899</p>
+                                <div class="wishlist-actions">
+                                    <button class="btn-wishlist remove">
+                                        <i class="fas fa-heart-broken"></i>
+                                    </button>
+                                    <button class="btn-wishlist book">
+                                        <i class="fas fa-plane"></i> Book
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wishlist-card">
+                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300" alt="Swiss">
+                            <div class="wishlist-content">
+                                <h4>🏔️ Swiss Alps</h4>
+                                <p class="country">Switzerland</p>
+                                <p class="price">From $2,499</p>
+                                <div class="wishlist-actions">
+                                    <button class="btn-wishlist remove">
+                                        <i class="fas fa-heart-broken"></i>
+                                    </button>
+                                    <button class="btn-wishlist book">
+                                        <i class="fas fa-plane"></i> Book
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wishlist-card">
+                            <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=300" alt="Maldives">
+                            <div class="wishlist-content">
+                                <h4>🏖️ Maldives</h4>
+                                <p class="country">Indian Ocean</p>
+                                <p class="price">From $3,299</p>
+                                <div class="wishlist-actions">
+                                    <button class="btn-wishlist remove">
+                                        <i class="fas fa-heart-broken"></i>
+                                    </button>
+                                    <button class="btn-wishlist book">
+                                        <i class="fas fa-plane"></i> Book
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wishlist-card">
+                            <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=300" alt="Istanbul">
+                            <div class="wishlist-content">
+                                <h4>🕌 Istanbul</h4>
+                                <p class="country">Turkey</p>
+                                <p class="price">From $1,199</p>
+                                <div class="wishlist-actions">
+                                    <button class="btn-wishlist remove">
+                                        <i class="fas fa-heart-broken"></i>
+                                    </button>
+                                    <button class="btn-wishlist book">
+                                        <i class="fas fa-plane"></i> Book
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Activity -->
+                <section class="dashboard-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-line"></i> Recent Activity</h2>
+                    </div>
+
+                    <div class="activity-feed">
+                        <div class="activity-item">
+                            <div class="activity-icon booking">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>Booking confirmed</strong> for Dubai</p>
+                                <span class="activity-time">2 hours ago</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon payment">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>Payment successful</strong> - $1,299</p>
+                                <span class="activity-time">5 hours ago</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon wishlist">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>Added to wishlist</strong> - Santorini, Greece</p>
+                                <span class="activity-time">Yesterday</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon review">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>Review posted</strong> - 5 stars for Bali</p>
+                                <span class="activity-time">2 days ago</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon points">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>Loyalty points earned</strong> - +500 points</p>
+                                <span class="activity-time">3 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-view-all">
+                        View All Activity <i class="fas fa-arrow-right"></i>
+                    </button>
+                </section>
+
+                <!-- Quick Actions -->
+                <section class="dashboard-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                    </div>
+
+                    <div class="quick-actions-grid">
+                        <button class="quick-action-btn" onclick="window.location.href='{% url 'destinations_page' %}'">
+                            <i class="fas fa-search"></i>
+                            <span>Search Destinations</span>
+                        </button>
+                        <button class="quick-action-btn">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>My Bookings</span>
+                        </button>
+                        <button class="quick-action-btn">
+                            <i class="fas fa-heart"></i>
+                            <span>Wishlist</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="window.location.href='{% url 'contact_page' %}'">
+                            <i class="fas fa-headset"></i>
+                            <span>Support</span>
+                        </button>
+                        <button class="quick-action-btn">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </button>
+                        <button class="quick-action-btn">
+                            <i class="fas fa-gift"></i>
+                            <span>Offers</span>
+                        </button>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{% static 'apps/js/dashboard.js' %}"></script>
+{% endblock %}

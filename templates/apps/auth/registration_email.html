@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelHub - Ro'yxatdan o'tishni tasdiqlang</title>
+    <link rel="stylesheet" href=" {% static 'apps/css/auth/registration_email.css' %}">
+</head>
+<body>
+<div class="email-wrapper">
+    <div class="email-container">
+
+        <!-- Header Section -->
+        <div class="email-header">
+            <div class="logo-circle">
+                <span class="logo-icon">✈️</span>
+            </div>
+            <h1 class="company-name">TravelHub</h1>
+            <p class="tagline">Dunyoni kashf eting biz bilan</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="email-content">
+            <h2 class="greeting">Assalomu alaykum, {{ first_name }}! 👋</h2>
+            <div class="divider"></div>
+
+            <p class="main-message">
+                TravelHub oilasiga xush kelibsiz! 🎉 Ro'yxatdan o'tganingiz uchun katta rahmat!
+            </p>
+
+            <p class="description">
+                Hisobingizni faollashtirish va ajoyib sayohatlar dunyosiga kirish uchun quyidagi tugmani bosing.
+            </p>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <span class="info-icon">💡</span>
+                <p class="info-text">
+                    <strong>Eslatma:</strong> Agar siz ro'yxatdan o'tmagan bo'lsangiz, bu xabarni e'tiborsiz qoldiring.
+                    Hech qanday harakatga ehtiyoj yo'q.
+                </p>
+            </div>
+
+            <!-- Confirmation Button -->
+            <div class="button-container">
+                <a href="{{ confirm_link }}" class="confirm-button">
+                    <span class="button-icon">✅</span>
+                    <span class="button-text">Hisobni Tasdiqlash</span>
+                </a>
+            </div>
+
+            <!-- Alternative Link -->
+            <div class="link-box">
+                <p class="link-label">🔗 Tugma ishlamasa, quyidagi havolani nusxalang:</p>
+                <p class="link-url">{{ confirm_link }}</p>
+            </div>
+
+            <!-- Benefits Section -->
+            <div class="benefits-section">
+                <h3 class="benefits-title">⚡ Tasdiqlashdan keyin:</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <span class="benefit-icon">🌍</span>
+                        <p class="benefit-text">1000+ sayohat yo'nalishlari</p>
+                    </div>
+                    <div class="benefit-card">
+                        <span class="benefit-icon">💰</span>
+                        <p class="benefit-text">Maxsus chegirmalar</p>
+                    </div>
+                    <div class="benefit-card">
+                        <span class="benefit-icon">🎫</span>
+                        <p class="benefit-text">Oson bron qilish</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Notice -->
+            <div class="security-notice">
+                <p class="security-text">
+                    🔒 <strong>Xavfsizlik:</strong> Bu havola faqat bir marta ishlatiladi va 24 soat davomida amal
+                    qiladi.
+                </p>
+            </div>
+
+            <!-- Signature -->
+            <div class="signature">
+                <p class="signature-greeting">Hurmat bilan, 💙</p>
+                <p class="signature-company">TravelHub Jamoasi</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="email-footer">
+            <div class="footer-content">
+                <p class="footer-contact-title">📞 Biz bilan bog'laning</p>
+
+                <p class="footer-item">📍 Toshkent, O'zbekiston</p>
+                <p class="footer-item">📧 info@travelhub.uz</p>
+                <p class="footer-item">📱 +998 90 123 45 67</p>
+
+                <!-- Social Media -->
+                <div class="social-links">
+                    <a href="{{ telegram_link }}" class="social-icon">💬</a>
+                    <a href="{{ instagram_link }}" class="social-icon">📷</a>
+                    <a href="{{ facebook_link }}" class="social-icon">👥</a>
+                </div>
+
+                <div class="footer-copyright">
+                    <p>© 2024 TravelHub. Barcha huquqlar himoyalangan.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

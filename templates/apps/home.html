@@ -1,0 +1,647 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>TravelHub - AI-Powered Travel Recommendations | Book Your Dream Vacation</title>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/home.css' %}">
+{% endblock %}
+
+{% block main_content %}
+
+    <!-- VIDEO HERO SECTION -->
+    {#    <section class="video-hero">#}
+    {#        <div class="video-background">#}
+    {#            <video id="hero-video" autoplay muted loop playsinline>#}
+    {#                <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-beautiful-resort-2069-large.mp4"#}
+    {#                        type="video/mp4">#}
+    {#            </video>#}
+    {#            <div class="video-overlay"></div>#}
+    {#        </div>#}
+    {##}
+    {#        <button class="video-control" id="video-control">#}
+    {#            <i class="fas fa-pause"></i>#}
+    {#        </button>#}
+    {##}
+    {#        <div class="hero-content-wrapper">#}
+    {#            <div class="hero-badge">#}
+    {#                <i class="fas fa-star"></i>#}
+    {#                <span>Rated #1 Travel Platform 2025</span>#}
+    {#            </div>#}
+    {##}
+    {#            <h1 class="hero-title">#}
+    {#                Discover Your#}
+    {#                <span class="gradient-text-animate">Dream Destination</span>#}
+    {#            </h1>#}
+    {##}
+    {#            <p class="hero-description">#}
+    {#                AI-powered recommendations • 450+ destinations • Instant booking#}
+    {#            </p>#}
+    {##}
+    {#        <!-- Enhanced Search with Quick Filters -->#}
+    {#        <div class="search-wrapper">#}
+    {#            <div class="quick-filters">#}
+    {#                <button class="filter-chip active" data-budget="all">#}
+    {#                    <i class="fas fa-globe"></i> All#}
+    {#                </button>#}
+    {#                <button class="filter-chip" data-budget="budget">#}
+    {#                    <i class="fas fa-dollar-sign"></i> Budget#}
+    {#                </button>#}
+    {#                <button class="filter-chip" data-budget="mid">#}
+    {#                    <i class="fas fa-star"></i> Premium#}
+    {#                </button>#}
+    {#                <button class="filter-chip" data-budget="luxury">#}
+    {#                    <i class="fas fa-gem"></i> Luxury#}
+    {#                </button>#}
+    {#            </div>#}
+    {##}
+    {#        </div>#}
+    {##}
+    {#        </div>#}
+    {#    </section>#}
+
+    <section class="hero">
+        <div class="hero-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+        </div>
+
+        <div class="hero-content">
+            <h1>Discover Your Dream Destination</h1>
+            <p>AI-powered recommendations for unforgettable travel experiences worldwide</p>
+
+            <!-- Enhanced Search with Quick Filters -->
+            <div class="search-wrapper">
+                <div class="quick-filters">
+                    <button class="filter-chip active" data-budget="all">
+                        <i class="fas fa-globe"></i> All
+                    </button>
+                    <button class="filter-chip" data-budget="budget">
+                        <i class="fas fa-dollar-sign"></i> Budget
+                    </button>
+                    <button class="filter-chip" data-budget="mid">
+                        <i class="fas fa-star"></i> Premium
+                    </button>
+                    <button class="filter-chip" data-budget="luxury">
+                        <i class="fas fa-gem"></i> Luxury
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="search-container">
+                <div class="search-bar">
+                    <div class="search-field">
+                        <label><i class="fas fa-map-marker-alt"></i> Where to?</label>
+                        <input type="text" placeholder="Search destinations..." id="search-location"
+                               oninput="showAutocomplete(this.value)">
+                        <div id="autocomplete-results" class="autocomplete-results"></div>
+                    </div>
+                    <div class="search-field">
+                        <label><i class="fas fa-calendar"></i> Check In</label>
+                        <input type="date" id="check-in">
+                    </div>
+                    <div class="search-field">
+                        <label><i class="fas fa-calendar"></i> Check Out</label>
+                        <input type="date" id="check-out">
+                    </div>
+                    <div class="search-field">
+                        <label><i class="fas fa-users"></i> Guests</label>
+                        <select id="guests">
+                            <option>1 Guest</option>
+                            <option>2 Guests</option>
+                            <option>3 Guests</option>
+                            <option>4+ Guests</option>
+                        </select>
+                    </div>
+                    <button class="search-btn" onclick="searchDestinations()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FLASH SALES / LIMITED OFFERS -->
+    <section class="flash-deals">
+        <div class="container-custom">
+            <div class="section-header-custom">
+                <div class="flash-badge">
+                    <i class="fas fa-bolt"></i>
+                    <span>Flash Sale</span>
+                </div>
+                <h2>Today's Best Deals</h2>
+                <p>Limited time offers - Book now and save up to 60%</p>
+            </div>
+
+            <div class="deals-grid">
+                <!-- Deal Card 1 -->
+                <div class="deal-card">
+                    <div class="deal-ribbon">
+                        <span>HOT DEAL</span>
+                    </div>
+                    <div class="deal-timer" data-end="2024-12-31T23:59:59">
+                        <div class="timer-item">
+                            <span class="hours">12</span>
+                            <small>Hours</small>
+                        </div>
+                        <div class="timer-item">
+                            <span class="minutes">34</span>
+                            <small>Mins</small>
+                        </div>
+                        <div class="timer-item">
+                            <span class="seconds">56</span>
+                            <small>Secs</small>
+                        </div>
+                    </div>
+                    <div class="deal-image">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600" alt="Maldives">
+                        <div class="discount-badge">-50%</div>
+                    </div>
+                    <div class="deal-content">
+                        <h3>Maldives Paradise</h3>
+                        <p>7 Days • All Inclusive</p>
+                        <div class="deal-price">
+                            <span class="old-price">$5,000</span>
+                            <span class="new-price">$2,500</span>
+                        </div>
+                        <button class="deal-btn">Book Now</button>
+                    </div>
+                </div>
+
+                <!-- Deal Card 2 -->
+                <div class="deal-card">
+                    <div class="deal-ribbon">
+                        <span>LIMITED</span>
+                    </div>
+                    <div class="deal-timer">
+                        <div class="timer-item">
+                            <span class="hours">08</span>
+                            <small>Hours</small>
+                        </div>
+                        <div class="timer-item">
+                            <span class="minutes">15</span>
+                            <small>Mins</small>
+                        </div>
+                        <div class="timer-item">
+                            <span class="seconds">42</span>
+                            <small>Secs</small>
+                        </div>
+                    </div>
+                    <div class="deal-image">
+                        <img src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?w=600" alt="Dubai">
+                        <div class="discount-badge">-40%</div>
+                    </div>
+                    <div class="deal-content">
+                        <h3>Dubai Luxury</h3>
+                        <p>5 Days • Premium Hotels</p>
+                        <div class="deal-price">
+                            <span class="old-price">$3,500</span>
+                            <span class="new-price">$2,100</span>
+                        </div>
+                        <button class="deal-btn">Book Now</button>
+                    </div>
+                </div>
+
+                <!-- Deal Card 3 -->
+                <div class="deal-card">
+                    <div class="deal-ribbon">
+                        <span>NEW</span>
+                    </div>
+                    <div class="deal-timer">
+                        <div class="timer-item">
+                            <span class="hours">18</span>
+                            <small>Hours</small>
+                        </div>
+                        <div class="timer-item">
+                            <span class="minutes">20</span>
+                            <small>Mins</small>
+                        </div>
+                        <div class="timer-item">
+                            <span class="seconds">30</span>
+                            <small>Secs</small>
+                        </div>
+                    </div>
+                    <div class="deal-image">
+                        <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=600" alt="Bali">
+                        <div class="discount-badge">-35%</div>
+                    </div>
+                    <div class="deal-content">
+                        <h3>Bali Adventure</h3>
+                        <p>10 Days • Cultural Tour</p>
+                        <div class="deal-price">
+                            <span class="old-price">$2,000</span>
+                            <span class="new-price">$1,300</span>
+                        </div>
+                        <button class="deal-btn">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PACKAGE DEALS -->
+    <section class="package-deals">
+        <div class="container-custom">
+            <div class="section-header-custom">
+                <h2>All-Inclusive Packages</h2>
+                <p>Flight + Hotel + Activities - Everything you need in one package</p>
+            </div>
+
+            <div class="packages-grid">
+                <!-- Package 1 -->
+                <div class="package-card">
+                    <div class="package-header">
+                        <span class="package-type">HONEYMOON SPECIAL</span>
+                    </div>
+                    <div class="package-image">
+                        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600" alt="Package">
+                    </div>
+                    <div class="package-content">
+                        <h3>Romantic Maldives Escape</h3>
+                        <div class="package-includes">
+                            <div class="include-item">
+                                <i class="fas fa-plane"></i>
+                                <span>Round-trip Flights</span>
+                            </div>
+                            <div class="include-item">
+                                <i class="fas fa-hotel"></i>
+                                <span>5-Star Resort</span>
+                            </div>
+                            <div class="include-item">
+                                <i class="fas fa-utensils"></i>
+                                <span>All Meals</span>
+                            </div>
+                            <div class="include-item">
+                                <i class="fas fa-swimming-pool"></i>
+                                <span>Pool & Spa Access</span>
+                            </div>
+                        </div>
+                        <div class="package-footer">
+                            <div class="package-price">
+                                <span class="from">From</span>
+                                <span class="price">$3,999</span>
+                                <span class="per">per couple</span>
+                            </div>
+                            <button class="package-btn">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package 2 -->
+                <div class="package-card">
+                    <div class="package-header">
+                        <span class="package-type">FAMILY FUN</span>
+                    </div>
+                    <div class="package-image">
+                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600" alt="Dubai">
+                    </div>
+                    <div class="package-content">
+                        <h3>Dubai Family Adventure</h3>
+                        <div class="package-includes">
+                            <div class="include-item">
+                                <i class="fas fa-plane"></i>
+                                <span>Flights (4 pax)</span>
+                            </div>
+                            <div class="include-item">
+                                <i class="fas fa-hotel"></i>
+                                <span>Family Suite</span>
+                            </div>
+                            <div class="include-item">
+                                <i class="fas fa-ticket-alt"></i>
+                                <span>Theme Park Tickets</span>
+                            </div>
+                            <div class="include-item">
+                                <i class="fas fa-car"></i>
+                                <span>Airport Transfers</span>
+                            </div>
+                        </div>
+                        <div class="package-footer">
+                            <div class="package-price">
+                                <span class="from">From</span>
+                                <span class="price">$5,499</span>
+                                <span class="per">per family</span>
+                            </div>
+                            <button class="package-btn">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package 3 -->
+                <div class="package-card">
+                    <div class="package-header">
+                        <span class="package-type">ADVENTURE</span>
+                    </div>
+                    <div class="package-image">
+                        <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600" alt="Swiss">
+                    </div>
+                    <div class="package-content">
+                        <h3>Swiss Alps Expedition</h3>
+                        <div class="package-includes">
+                            <div class="include-item">
+                                <i class="fas fa-plane"></i>
+                                <span>Flights</span>
+                            </div>
+                            <div class="include-item">
+                                <i class="fas fa-hotel"></i>
+                                <span>Mountain Lodge</span>
+                            </div>
+                            <div class="include-item">
+                                <i class="fas fa-skiing"></i>
+                                <span>Ski Pass</span>
+                            </div>
+                            <div class="include-item">
+                                <i class="fas fa-binoculars"></i>
+                                <span>Guided Tours</span>
+                            </div>
+                        </div>
+                        <div class="package-footer">
+                            <div class="package-price">
+                                <span class="from">From</span>
+                                <span class="price">$2,799</span>
+                                <span class="per">per person</span>
+                            </div>
+                            <button class="package-btn">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE ACTIVITY FEED -->
+    <section class="live-feed">
+        <div class="container-custom">
+            <div class="feed-header">
+                <div class="live-indicator">
+                    <span class="pulse-dot"></span>
+                    <span>LIVE</span>
+                </div>
+                <h3>Recent Bookings</h3>
+            </div>
+
+            <div class="feed-container" id="live-feed">
+                <!-- Feed items will be dynamically added here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works">
+        <div class="container-custom">
+            <div class="section-header-custom">
+                <h2>How It Works</h2>
+                <p>Book your dream vacation in 4 simple steps</p>
+            </div>
+
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Search & Explore</h3>
+                    <p>Browse 450+ destinations or let our AI recommend perfect spots for you</p>
+                </div>
+
+                <div class="step-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Compare & Choose</h3>
+                    <p>Compare prices, amenities, and reviews to find the best deal</p>
+                </div>
+
+                <div class="step-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>Secure Booking</h3>
+                    <p>Book instantly with secure payment and instant confirmation</p>
+                </div>
+
+                <div class="step-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">04</div>
+                    <div class="step-icon">
+                        <i class="fas fa-plane-departure"></i>
+                    </div>
+                    <h3>Travel & Enjoy</h3>
+                    <p>Pack your bags and enjoy your perfect vacation with 24/7 support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST & PARTNERS -->
+    <section class="trust-partners">
+        <div class="container-custom">
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Secure Payments</h4>
+                    <p>SSL encrypted transactions</p>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-award"></i>
+                    <h4>Best Price Guarantee</h4>
+                    <p>Find it cheaper, we'll refund the difference</p>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-headset"></i>
+                    <h4>24/7 Support</h4>
+                    <p>Always here to help you</p>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-undo"></i>
+                    <h4>Free Cancellation</h4>
+                    <p>Cancel up to 24hrs before</p>
+                </div>
+            </div>
+            <!-- Testimonials -->
+            <section class="section" style="background: var(--light);">
+                <h2 class="section-title">What Our Travelers Say</h2>
+                <div class="card-grid">
+                    <div class="destination-card">
+                        <div class="card-content">
+                            <div class="rating" style="margin-bottom: 25px;">
+                                <i class="fas fa-star stars"></i>
+                                <i class="fas fa-star stars"></i>
+                                <i class="fas fa-star stars"></i>
+                                <i class="fas fa-star stars"></i>
+                                <i class="fas fa-star stars"></i>
+                            </div>
+                            <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">
+                                "Absolutely
+                                amazing! The AI recommendations were spot-on. Found my dream vacation in minutes!"</p>
+                            <div style="display: flex; align-items: center; gap: 18px;">
+                                <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=70"
+                                     style="border-radius: 50%;">
+                                <div>
+                                    <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 5px;">Sarah
+                                        Johnson</h4>
+                                    <p style="color: var(--gray); font-size: 14px;">Traveled to Maldives</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <div class="card-content">
+                            <div class="rating" style="margin-bottom: 25px;">
+                                <i class="fas fa-star stars"></i>
+                                <i class="fas fa-star stars"></i>
+                                <i class="fas fa-star stars"></i>
+                                <i class="fas fa-star stars"></i>
+                                <i class="fas fa-star stars"></i>
+                            </div>
+                            <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">"Best
+                                booking
+                                experience ever! Smooth, fast, and incredibly helpful customer service."</p>
+                            <div style="display: flex; align-items: center; gap: 18px;">
+                                <img src="https://ui-avatars.com/api/?name=Michael+Chen&background=764ba2&color=fff&size=70"
+                                     style="border-radius: 50%;">
+                                <div>
+                                    <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 5px;">Michael Chen</h4>
+                                    <p style="color: var(--gray); font-size: 14px;">Traveled to Switzerland</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <div class="card-content">
+                            <div class="rating" style="margin-bottom: 25px;">
+                                <i class="fas fa-star stars"></i>
+                                <i class="fas fa-star stars"></i>
+                                <i class="fas fa-star stars"></i>
+                                <i class="fas fa-star stars"></i>
+                                <i class="fas fa-star stars"></i>
+                            </div>
+                            <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">"The
+                                personalized
+                                recommendations saved us hours of research. Highly recommend!"</p>
+                            <div style="display: flex; align-items: center; gap: 18px;">
+                                <img src="https://ui-avatars.com/api/?name=Emma+Wilson&background=a855f7&color=fff&size=70"
+                                     style="border-radius: 50%;">
+                                <div>
+                                    <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 5px;">Emma Wilson</h4>
+                                    <p style="color: var(--gray); font-size: 14px;">Traveled to Bali</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="payment-methods">
+                <p>We Accept:</p>
+                <div class="payment-icons">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                    <i class="fab fa-apple-pay"></i>
+                    <i class="fab fa-google-pay"></i>
+                </div>
+            </div>
+
+            <div class="partners-section">
+                <p>Trusted Partners:</p>
+                <div class="partners-logos">
+                    <div class="partner-logo">Emirates</div>
+                    <div class="partner-logo">Marriott</div>
+                    <div class="partner-logo">Hilton</div>
+                    <div class="partner-logo">Booking.com</div>
+                    <div class="partner-logo">Airbnb</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOWNLOAD APP -->
+    <section class="download-app">
+        <div class="container-custom">
+            <div class="app-content">
+                <div class="app-text">
+                    <h2>Travel Smarter with Our Mobile App</h2>
+                    <p>Get exclusive mobile-only deals and manage your bookings on the go</p>
+
+                    <div class="app-features">
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Instant booking confirmations</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Real-time flight updates</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Offline access to itineraries</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Mobile-exclusive discounts</span>
+                        </div>
+                    </div>
+
+                    <div class="download-buttons">
+                        <a href="#" class="store-btn">
+                            <i class="fab fa-apple"></i>
+                            <div>
+                                <small>Download on the</small>
+                                <strong>App Store</strong>
+                            </div>
+                        </a>
+                        <a href="#" class="store-btn">
+                            <i class="fab fa-google-play"></i>
+                            <div>
+                                <small>GET IT ON</small>
+                                <strong>Google Play</strong>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="app-mockup">
+                    <div class="phone-frame">
+                        <div class="phone-screen">
+                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400" alt="App">
+                        </div>
+                    </div>
+                    <div class="qr-code">
+                        <div class="qr-box">
+                            <div class="qr-pattern"></div>
+                            <p>Scan to Download</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLOATING WHATSAPP -->
+    <a href="https://wa.me/998900955304" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{% static 'apps/js/home.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,755 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+<title>TravelHub - Follow Us on Instagram</title>
+{% endblock %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'apps/css/instagram.css' %}">
+{% endblock %}
+
+{% block main_content %}
+
+<!-- Hero Section -->
+<section id="instagram-hero">
+    <div class="hero-background">
+        <div class="floating-icons">
+            <i class="fab fa-instagram float-icon"></i>
+            <i class="fas fa-camera float-icon"></i>
+            <i class="fas fa-heart float-icon"></i>
+            <i class="fas fa-image float-icon"></i>
+            <i class="fas fa-video float-icon"></i>
+        </div>
+    </div>
+    
+    <div class="hero-content">
+        <div class="instagram-logo-wrapper">
+            <i class="fab fa-instagram instagram-logo"></i>
+        </div>
+        
+        <h1 class="hero-title">
+            <span class="typing-text">Join Our Visual Travel Journey</span>
+        </h1>
+        
+        <p class="hero-subtitle">Daily inspiration, stunning destinations & exclusive content</p>
+        
+        <div class="live-stats">
+            <i class="fas fa-users"></i>
+            <span class="counter" data-target="24500">0</span>
+            <span class="stats-label">Followers</span>
+        </div>
+        
+        <div class="hero-buttons">
+            <button class="btn-primary pulse-btn" onclick="followInstagram()">
+                <i class="fab fa-instagram"></i>
+                Follow Us Now
+            </button>
+            <button class="btn-secondary" onclick="scrollToFeed()">
+                <i class="fas fa-chevron-down"></i>
+                View Feed
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Instagram Feed Preview -->
+<section id="instagram-feed">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Latest Posts</h2>
+            <p class="section-subtitle">See what we're sharing with our community</p>
+        </div>
+        
+        <div class="feed-grid">
+            <!-- Post 1 -->
+            <div class="instagram-post" onclick="openPostModal(1)">
+                <div class="post-image">
+                    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800" alt="Travel">
+                    <div class="post-overlay">
+                        <div class="post-stats">
+                            <span><i class="fas fa-heart"></i> 2.4K</span>
+                            <span><i class="fas fa-comment"></i> 186</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Post 2 -->
+            <div class="instagram-post" onclick="openPostModal(2)">
+                <div class="post-image">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800" alt="Mountain">
+                    <div class="post-overlay">
+                        <div class="post-stats">
+                            <span><i class="fas fa-heart"></i> 3.1K</span>
+                            <span><i class="fas fa-comment"></i> 245</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Post 3 -->
+            <div class="instagram-post" onclick="openPostModal(3)">
+                <div class="post-image">
+                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800" alt="Beach">
+                    <div class="post-overlay">
+                        <div class="post-stats">
+                            <span><i class="fas fa-heart"></i> 1.8K</span>
+                            <span><i class="fas fa-comment"></i> 132</span>
+                        </div>
+                    </div>
+                    <div class="post-badge">
+                        <i class="fas fa-play"></i> REEL
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Post 4 -->
+            <div class="instagram-post" onclick="openPostModal(4)">
+                <div class="post-image">
+                    <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800" alt="City">
+                    <div class="post-overlay">
+                        <div class="post-stats">
+                            <span><i class="fas fa-heart"></i> 2.9K</span>
+                            <span><i class="fas fa-comment"></i> 198</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Post 5 -->
+            <div class="instagram-post" onclick="openPostModal(5)">
+                <div class="post-image">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800" alt="Tropical">
+                    <div class="post-overlay">
+                        <div class="post-stats">
+                            <span><i class="fas fa-heart"></i> 4.2K</span>
+                            <span><i class="fas fa-comment"></i> 321</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Post 6 -->
+            <div class="instagram-post" onclick="openPostModal(6)">
+                <div class="post-image">
+                    <img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=800" alt="Desert">
+                    <div class="post-overlay">
+                        <div class="post-stats">
+                            <span><i class="fas fa-heart"></i> 2.1K</span>
+                            <span><i class="fas fa-comment"></i> 167</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Post 7 -->
+            <div class="instagram-post" onclick="openPostModal(7)">
+                <div class="post-image">
+                    <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800" alt="Paris">
+                    <div class="post-overlay">
+                        <div class="post-stats">
+                            <span><i class="fas fa-heart"></i> 5.3K</span>
+                            <span><i class="fas fa-comment"></i> 412</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Post 8 -->
+            <div class="instagram-post" onclick="openPostModal(8)">
+                <div class="post-image">
+                    <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=800" alt="Sunset">
+                    <div class="post-overlay">
+                        <div class="post-stats">
+                            <span><i class="fas fa-heart"></i> 3.7K</span>
+                            <span><i class="fas fa-comment"></i> 289</span>
+                        </div>
+                    </div>
+                    <div class="post-badge">
+                        <i class="fas fa-images"></i> CAROUSEL
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Post 9 -->
+            <div class="instagram-post" onclick="openPostModal(9)">
+                <div class="post-image">
+                    <img src="https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=800" alt="Adventure">
+                    <div class="post-overlay">
+                        <div class="post-stats">
+                            <span><i class="fas fa-heart"></i> 2.6K</span>
+                            <span><i class="fas fa-comment"></i> 203</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="view-more-btn" onclick="followInstagram()">
+            <i class="fab fa-instagram"></i>
+            View Full Profile on Instagram
+        </button>
+    </div>
+</section>
+
+<!-- Stories Highlights -->
+<section id="stories-highlights">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Stories Highlights</h2>
+            <p class="section-subtitle">Curated collections of our best moments</p>
+        </div>
+        
+        <div class="highlights-container">
+            <div class="highlight-item" onclick="openStoryModal('destinations')">
+                <div class="highlight-ring">
+                    <div class="highlight-avatar">
+                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=200" alt="Destinations">
+                    </div>
+                </div>
+                <p class="highlight-name">Destinations</p>
+            </div>
+            
+            <div class="highlight-item" onclick="openStoryModal('deals')">
+                <div class="highlight-ring">
+                    <div class="highlight-avatar">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200" alt="Deals">
+                    </div>
+                </div>
+                <p class="highlight-name">Deals</p>
+            </div>
+            
+            <div class="highlight-item" onclick="openStoryModal('tips')">
+                <div class="highlight-ring">
+                    <div class="highlight-avatar">
+                        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=200" alt="Tips">
+                    </div>
+                </div>
+                <p class="highlight-name">Travel Tips</p>
+            </div>
+            
+            <div class="highlight-item" onclick="openStoryModal('community')">
+                <div class="highlight-ring">
+                    <div class="highlight-avatar">
+                        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=200" alt="Community">
+                    </div>
+                </div>
+                <p class="highlight-name">Community</p>
+            </div>
+            
+            <div class="highlight-item" onclick="openStoryModal('reels')">
+                <div class="highlight-ring">
+                    <div class="highlight-avatar">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200" alt="Reels">
+                    </div>
+                </div>
+                <p class="highlight-name">Reels</p>
+            </div>
+            
+            <div class="highlight-item" onclick="openStoryModal('guides')">
+                <div class="highlight-ring">
+                    <div class="highlight-avatar">
+                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=200" alt="Guides">
+                    </div>
+                </div>
+                <p class="highlight-name">Guides</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reels Showcase -->
+<section id="reels-showcase">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Featured Reels</h2>
+            <p class="section-subtitle">Short videos, endless inspiration</p>
+        </div>
+        
+        <div class="reels-grid">
+            <div class="reel-card" onclick="playReel(1)">
+                <div class="reel-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600" alt="Reel">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="reel-stats">
+                        <span><i class="fas fa-play"></i> 45.2K</span>
+                    </div>
+                </div>
+                <p class="reel-title">Paradise Found 🏝️</p>
+            </div>
+            
+            <div class="reel-card" onclick="playReel(2)">
+                <div class="reel-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600" alt="Reel">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="reel-stats">
+                        <span><i class="fas fa-play"></i> 38.7K</span>
+                    </div>
+                </div>
+                <p class="reel-title">Mountain Magic ⛰️</p>
+            </div>
+            
+            <div class="reel-card" onclick="playReel(3)">
+                <div class="reel-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600" alt="Reel">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="reel-stats">
+                        <span><i class="fas fa-play"></i> 52.1K</span>
+                    </div>
+                </div>
+                <p class="reel-title">City Vibes 🌆</p>
+            </div>
+            
+            <div class="reel-card" onclick="playReel(4)">
+                <div class="reel-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600" alt="Reel">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="reel-stats">
+                        <span><i class="fas fa-play"></i> 61.3K</span>
+                    </div>
+                </div>
+                <p class="reel-title">Beach Life 🌊</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- User Generated Content -->
+<section id="user-content">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Community Gallery</h2>
+            <p class="section-subtitle">Share your moments with #TravelHubAdventures</p>
+        </div>
+        
+        <div class="ugc-grid">
+            <div class="ugc-card">
+                <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400" alt="UGC">
+                <div class="ugc-overlay">
+                    <div class="ugc-user">
+                        <div class="user-avatar-small">SM</div>
+                        <span>@sarah_travels</span>
+                    </div>
+                    <p class="ugc-location"><i class="fas fa-map-marker-alt"></i> Santorini, Greece</p>
+                </div>
+            </div>
+            
+            <div class="ugc-card">
+                <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400" alt="UGC">
+                <div class="ugc-overlay">
+                    <div class="ugc-user">
+                        <div class="user-avatar-small">AK</div>
+                        <span>@ahmed_explorer</span>
+                    </div>
+                    <p class="ugc-location"><i class="fas fa-map-marker-alt"></i> Bali, Indonesia</p>
+                </div>
+            </div>
+            
+            <div class="ugc-card">
+                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400" alt="UGC">
+                <div class="ugc-overlay">
+                    <div class="ugc-user">
+                        <div class="user-avatar-small">MR</div>
+                        <span>@maria_wanderlust</span>
+                    </div>
+                    <p class="ugc-location"><i class="fas fa-map-marker-alt"></i> Paris, France</p>
+                </div>
+            </div>
+            
+            <div class="ugc-card">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" alt="UGC">
+                <div class="ugc-overlay">
+                    <div class="ugc-user">
+                        <div class="user-avatar-small">JD</div>
+                        <span>@john_adventures</span>
+                    </div>
+                    <p class="ugc-location"><i class="fas fa-map-marker-alt"></i> Swiss Alps</p>
+                </div>
+            </div>
+            
+            <div class="ugc-card">
+                <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400" alt="UGC">
+                <div class="ugc-overlay">
+                    <div class="ugc-user">
+                        <div class="user-avatar-small">LK</div>
+                        <span>@lisa_traveler</span>
+                    </div>
+                    <p class="ugc-location"><i class="fas fa-map-marker-alt"></i> Tokyo, Japan</p>
+                </div>
+            </div>
+            
+            <div class="ugc-card">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400" alt="UGC">
+                <div class="ugc-overlay">
+                    <div class="ugc-user">
+                        <div class="user-avatar-small">RN</div>
+                        <span>@robert_roamer</span>
+                    </div>
+                    <p class="ugc-location"><i class="fas fa-map-marker-alt"></i> Maldives</p>
+                </div>
+            </div>
+        </div>
+        
+        <button class="upload-btn" onclick="showUploadModal()">
+            <i class="fas fa-camera"></i>
+            Share Your Travel Photos
+        </button>
+    </div>
+</section>
+
+<!-- Interactive Section -->
+<section id="interactive-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Let's Interact!</h2>
+            <p class="section-subtitle">Vote, play and discover</p>
+        </div>
+        
+        <div class="interactive-grid">
+            <!-- Poll -->
+            <div class="interactive-card poll-card">
+                <h3>📊 Quick Poll</h3>
+                <p class="poll-question">What's your dream destination for 2025?</p>
+                <div class="poll-options">
+                    <button class="poll-option" onclick="votePoll(1)">
+                        <span class="poll-emoji">🏝️</span>
+                        <span>Maldives</span>
+                        <span class="poll-bar"><span style="width: 45%"></span></span>
+                        <span class="poll-percent">45%</span>
+                    </button>
+                    <button class="poll-option" onclick="votePoll(2)">
+                        <span class="poll-emoji">🗼</span>
+                        <span>Paris</span>
+                        <span class="poll-bar"><span style="width: 30%"></span></span>
+                        <span class="poll-percent">30%</span>
+                    </button>
+                    <button class="poll-option" onclick="votePoll(3)">
+                        <span class="poll-emoji">🗾</span>
+                        <span>Japan</span>
+                        <span class="poll-bar"><span style="width: 25%"></span></span>
+                        <span class="poll-percent">25%</span>
+                    </button>
+                </div>
+                <p class="poll-votes">2,547 votes</p>
+            </div>
+            
+            <!-- This or That -->
+            <div class="interactive-card this-or-that-card">
+                <h3>🤔 This or That?</h3>
+                <div class="tot-options">
+                    <button class="tot-btn" onclick="chooseOption('beach')">
+                        <div class="tot-image" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400')"></div>
+                        <span>Beach Vacation 🏖️</span>
+                    </button>
+                    <div class="tot-vs">VS</div>
+                    <button class="tot-btn" onclick="chooseOption('mountain')">
+                        <div class="tot-image" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400')"></div>
+                        <span>Mountain Adventure ⛰️</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quiz -->
+            <div class="interactive-card quiz-card">
+                <h3>🎯 Travel Quiz</h3>
+                <p class="quiz-question">Which destination matches your personality?</p>
+                <button class="quiz-start-btn" onclick="startQuiz()">
+                    <i class="fas fa-play"></i>
+                    Start Quiz
+                </button>
+                <p class="quiz-info">Takes only 2 minutes</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Follow Us -->
+<section id="why-follow">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Why Follow Us?</h2>
+            <p class="section-subtitle">More than just pretty pictures</p>
+        </div>
+        
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h3>Daily Inspiration</h3>
+                <p>Stunning travel photography posted every single day</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h3>Exclusive Contests</h3>
+                <p>Win free trips and travel vouchers monthly</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <h3>Behind the Scenes</h3>
+                <p>Stories and reels showing real travel experiences</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3>Direct Support</h3>
+                <p>DM us anytime for travel advice and bookings</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <h3>Exclusive Deals</h3>
+                <p>Instagram-only discounts and flash sales</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Engagement Stats -->
+<section id="engagement-stats">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Our Community Impact</h2>
+            <p class="section-subtitle">Real numbers, real engagement</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="stat-number">
+                    <span class="counter" data-target="1200000">0</span>+
+                </h3>
+                <p class="stat-label">Total Likes</p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-comment"></i>
+                </div>
+                <h3 class="stat-number">
+                    <span class="counter" data-target="48500">0</span>+
+                </h3>
+                <p class="stat-label">Comments</p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-share"></i>
+                </div>
+                <h3 class="stat-number">
+                    <span class="counter" data-target="35600">0</span>+
+                </h3>
+                <p class="stat-label">Shares</p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-bookmark"></i>
+                </div>
+                <h3 class="stat-number">
+                    <span class="counter" data-target="92300">0</span>+
+                </h3>
+                <p class="stat-label">Saves</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">What Our Followers Say</h2>
+            <p class="section-subtitle">Real comments from real people</p>
+        </div>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">SM</div>
+                    <div class="testimonial-user">
+                        <h4>@sarah_travels <i class="fas fa-check-circle verified"></i></h4>
+                        <p>Verified Follower</p>
+                    </div>
+                </div>
+                <div class="testimonial-content">
+                    <p>"Your Instagram feed is pure gold! 🌟 Every post makes me want to pack my bags and explore. Best travel account I follow!"</p>
+                    <div class="testimonial-meta">
+                        <span><i class="fas fa-heart"></i> 234</span>
+                        <span>2 days ago</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">AK</div>
+                    <div class="testimonial-user">
+                        <h4>@ahmed_explorer <i class="fas fa-check-circle verified"></i></h4>
+                        <p>Verified Follower</p>
+                    </div>
+                </div>
+                <div class="testimonial-content">
+                    <p>"The quality of your content is unmatched! 📸 Love the reels and the stories. Keep inspiring us to travel more!"</p>
+                    <div class="testimonial-meta">
+                        <span><i class="fas fa-heart"></i> 189</span>
+                        <span>5 days ago</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">MR</div>
+                    <div class="testimonial-user">
+                        <h4>@maria_wanderlust <i class="fas fa-check-circle verified"></i></h4>
+                        <p>Verified Follower</p>
+                    </div>
+                </div>
+                <div class="testimonial-content">
+                    <p>"Been following for 6 months and visited 3 destinations you recommended. All were AMAZING! Thank you! 🙏✨"</p>
+                    <div class="testimonial-meta">
+                        <span><i class="fas fa-heart"></i> 312</span>
+                        <span>1 week ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Hashtags -->
+<section id="hashtags-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Popular Hashtags</h2>
+            <p class="section-subtitle">Join the conversation</p>
+        </div>
+        
+        <div class="hashtags-cloud">
+            <span class="hashtag-item">#TravelHubAdventures</span>
+            <span class="hashtag-item">#Wanderlust</span>
+            <span class="hashtag-item">#TravelGoals</span>
+            <span class="hashtag-item">#ExploreMore</span>
+            <span class="hashtag-item">#TravelPhotography</span>
+            <span class="hashtag-item">#BeautifulDestinations</span>
+            <span class="hashtag-item">#TravelGram</span>
+            <span class="hashtag-item">#AdventureTime</span>
+            <span class="hashtag-item">#InstaTravel</span>
+            <span class="hashtag-item">#TravelAddict</span>
+            <span class="hashtag-item">#WorldExplorer</span>
+            <span class="hashtag-item">#TravelCommunity</span>
+        </div>
+    </div>
+</section>
+
+<!-- Final CTA -->
+<section id="final-cta">
+    <div class="cta-background">
+        <div class="gradient-overlay"></div>
+    </div>
+    
+    <div class="cta-content">
+        <div class="cta-icon">
+            <i class="fab fa-instagram"></i>
+        </div>
+        
+        <h2 class="cta-title">Ready to Join Our Journey?</h2>
+        <p class="cta-subtitle">Follow us now and never miss an adventure</p>
+        
+        <div class="cta-features">
+            <div class="cta-feature">
+                <i class="fas fa-check"></i>
+                <span>Daily travel inspiration</span>
+            </div>
+            <div class="cta-feature">
+                <i class="fas fa-check"></i>
+                <span>Exclusive contests & giveaways</span>
+            </div>
+            <div class="cta-feature">
+                <i class="fas fa-check"></i>
+                <span>Behind-the-scenes content</span>
+            </div>
+            <div class="cta-feature">
+                <i class="fas fa-check"></i>
+                <span>Direct messaging support</span>
+            </div>
+        </div>
+        
+        <button class="btn-cta-giant" onclick="followInstagram()">
+            <i class="fab fa-instagram"></i>
+            Follow @travelhub_official
+            <span class="btn-shine"></span>
+        </button>
+        
+        <div class="cta-followers">
+            <div class="follower-avatars">
+                <div class="follower-avatar">SM</div>
+                <div class="follower-avatar">AK</div>
+                <div class="follower-avatar">MR</div>
+                <div class="follower-avatar">JD</div>
+                <div class="follower-avatar">+24K</div>
+            </div>
+            <p>Join 24,500+ travel enthusiasts</p>
+        </div>
+        
+        <div class="trust-indicators">
+            <span class="trust-badge">
+                <i class="fas fa-shield-check"></i>
+                Verified Account
+            </span>
+            <span class="trust-badge">
+                <i class="fas fa-infinity"></i>
+                Free Forever
+            </span>
+            <span class="trust-badge">
+                <i class="fas fa-star"></i>
+                Quality Content
+            </span>
+        </div>
+    </div>
+</section>
+
+<!-- Sticky Bottom Bar (Mobile) -->
+<div id="sticky-bottom-bar" class="sticky-bottom-bar">
+    <div class="sticky-content">
+        <div class="sticky-info">
+            <i class="fab fa-instagram"></i>
+            <div>
+                <p class="sticky-title">Follow TravelHub</p>
+                <p class="sticky-followers"><span class="counter" data-target="24500">24500</span> followers</p>
+            </div>
+        </div>
+        <button class="sticky-btn" onclick="followInstagram()">
+            Follow
+        </button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block custom_js %}
+<script src="{% static 'apps/js/instagram.js' %}"></script>
+
+{% endblock %}

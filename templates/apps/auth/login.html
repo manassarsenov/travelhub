@@ -1,0 +1,277 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TravelHub</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Main Base CSS -->
+    <link rel="stylesheet" href="{% static 'apps/css/main_base.css' %}">
+
+    <!-- Login Page CSS -->
+    <link rel="stylesheet" href="{% static 'apps/css/auth/login.css' %}">
+</head>
+<body>
+
+<!-- Animated Background -->
+<div class="animated-background">
+    <div class="gradient-bg"></div>
+    <canvas id="particles-canvas"></canvas>
+</div>
+
+<!-- Floating Travel Icons -->
+<div class="floating-icons">
+    <i class="fas fa-plane float-icon" style="--i: 1"></i>
+    <i class="fas fa-globe-americas float-icon" style="--i: 2"></i>
+    <i class="fas fa-umbrella-beach float-icon" style="--i: 3"></i>
+    <i class="fas fa-compass float-icon" style="--i: 4"></i>
+    <i class="fas fa-map-marked-alt float-icon" style="--i: 5"></i>
+    <i class="fas fa-camera float-icon" style="--i: 6"></i>
+    <i class="fas fa-suitcase-rolling float-icon" style="--i: 7"></i>
+    <i class="fas fa-mountain float-icon" style="--i: 8"></i>
+</div>
+
+<!-- Login Container -->
+<div class="login-container">
+
+    <!-- Back to Home Button -->
+    <a href="{% url 'home_page' %}" class="back-home">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Home</span>
+    </a>
+
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon" id="theme-icon"></i>
+    </button>
+
+    <!-- Login Card -->
+    <div class="login-card" id="loginCard">
+
+        <!-- Logo -->
+        <div class="login-logo">
+            <div class="logo-icon">
+                <i class="fas fa-compass"></i>
+            </div>
+            <h2>TravelHub</h2>
+        </div>
+
+        <!-- Title with Typewriter Effect -->
+        <div class="login-title">
+            <h1 id="typewriter">Welcome Back!</h1>
+            <p>Login to continue your amazing journey</p>
+        </div>
+
+        <!-- Social Login Buttons -->
+        <div class="social-login">
+            <button class="social-btn google" onclick="window.location.href='{% url 'google_login_page' %}'">
+                <i class="fab fa-google"></i>
+                <span>Google</span>
+            </button>
+            <button class="social-btn facebook" onclick="socialLogin('facebook')">
+                <i class="fab fa-facebook-f"></i>
+                <span>Facebook</span>
+            </button>
+            <button class="social-btn apple" onclick="socialLogin('apple')">
+                <i class="fab fa-apple"></i>
+                <span>Apple</span>
+            </button>
+            <button class="social-btn telegram" onclick="socialLogin('telegram')">
+                <i class="fab fa-telegram"></i>
+                <span>Telegram</span>
+            </button>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider">
+            <span>OR</span>
+        </div>
+
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-error"
+                     style="margin-bottom: 20px; padding: 15px; border-radius: 12px; background-color: #ef4444; color: white;">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+
+        <!-- Django Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}"
+                     style="margin-bottom: 20px; padding: 15px; border-radius: 12px; background-color: {% if message.tags == 'success' %}#10b981{% elif message.tags == 'error' %}#ef4444{% else %}#3b82f6{% endif %}; color: white;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Login Form -->
+        <form method="post" action="{% url 'login_page' %}">
+            {% csrf_token %}
+
+            <!-- Username or Email Input -->
+            <div class="input-group" id="usernameGroup">
+                <div class="input-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <input
+                        type="text"
+                        id="identifier"
+                        name="identifier"
+                        required
+                        autocomplete="username"
+                >
+                <label for="identifier">Username or Email</label>
+                <div class="input-border"></div>
+                <span class="error-message" id="identifierError"></span>
+                <i class="fas fa-check-circle success-icon"></i>
+            </div>
+
+
+            <!-- Password Input -->
+            <div class="input-group" id="passwordGroup">
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        autocomplete="current-password"
+                >
+                <label for="password">Password</label>
+                <button type="button" class="toggle-password" onclick="togglePassword('password')">
+                    <i class="far fa-eye" id="passwordToggleIcon"></i>
+                </button>
+                <div class="input-border"></div>
+                <span class="error-message" id="passwordError"></span>
+                <i class="fas fa-check-circle success-icon"></i>
+            </div>
+
+            <!-- Remember & Forgot -->
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe" name="remember">
+                    <span class="checkmark">
+                        <i class="fas fa-check"></i>
+                    </span>
+                    <span class="label-text">Remember me</span>
+                </label>
+                <a href="{% url 'forgot_password_page' %}" class="forgot-password">
+                    Forgot Password?
+                </a>
+            </div>
+
+            <!-- Login Button -->
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span class="btn-text">Login to Account</span>
+                <span class="btn-loader">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </span>
+                <span class="btn-success">
+                    <i class="fas fa-check"></i>
+                </span>
+            </button>
+
+            <!-- Register Link -->
+            <div class="register-link">
+                Don't have an account?
+                <a href="{% url 'register_page' %}">Register here</a>
+            </div>
+        </form>
+
+        <!-- Stats -->
+        <div class="login-stats">
+            <div class="stat-item">
+                <i class="fas fa-users"></i>
+                <span>50K+ Travelers</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>1000+ Destinations</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-star"></i>
+                <span>4.9 Rating</span>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Forgot Password Modal -->
+<div id="forgotPasswordModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeForgotPassword()">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="modal-icon">
+                <i class="fas fa-key"></i>
+            </div>
+
+            <h2>Reset Password</h2>
+            <p>Enter your email address and we'll send you a link to reset your password.</p>
+
+            <form id="forgotPasswordForm">
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <input
+                            type="email"
+                            id="resetEmail"
+                            name="reset_email"
+                            required
+                    >
+                    <label for="resetEmail">Email Address</label>
+                    <div class="input-border"></div>
+                </div>
+
+                <button type="submit" class="reset-btn">
+                    <span>Send Reset Link</span>
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast">
+    <div class="toast-icon">
+        <i id="toastIcon" class="fas fa-check-circle"></i>
+    </div>
+    <div class="toast-content">
+        <h4 id="toastTitle">Success</h4>
+        <p id="toastMessage">Operation completed successfully</p>
+    </div>
+    <button class="toast-close" onclick="closeToast()">
+        <i class="fas fa-times"></i>
+    </button>
+    <div class="toast-progress"></div>
+</div>
+
+<!-- Success Confetti -->
+<canvas id="confetti-canvas"></canvas>
+
+<script
+        src="{% static 'apps/js/password-toggle.js' %}">
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,379 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>AI Travel Recommendations - TravelHub</title>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/recommendations.css' %}">
+{% endblock %}
+
+{% block main_content %}
+
+    <!-- Hero Section with AI Questionnaire -->
+    <section class="recommendation-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+            <span class="hero-badge">
+                <i class="fas fa-magic"></i>
+                AI-Powered Recommendations
+            </span>
+                <h1 class="hero-title">Discover Your Perfect <span class="gradient-text">Destination</span></h1>
+                <p class="hero-subtitle">Let our intelligent AI analyze your preferences and find the ideal travel
+                    destinations tailored just for you.</p>
+            </div>
+            <!-- AI Recommendation CTA -->
+            <section class="section"
+                     style="background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); color: white; text-align: center;">
+                <i class="fas fa-robot" style="font-size: 90px; margin-bottom: 35px; animation: pulse 2s infinite;"></i>
+                <h2 style="font-size: 52px; font-weight: 900; margin-bottom: 25px;">Get AI-Powered Recommendations</h2>
+                <p style="font-size: 24px; margin-bottom: 50px; opacity: 0.95;">Answer quick questions and let AI find
+                    your
+                    perfect
+                    destination</p>
+                <button class="btn"
+                        style="background: white; color: #a855f7; padding: 20px 50px; font-size: 20px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);"
+                        onclick="startQuiz()">
+                    <i class="fas fa-brain"></i> Start Quiz Now
+                </button>
+            </section>
+            <div style="height: 150px;"></div>
+
+
+            <div class="questionnaire-card">
+                <div class="questionnaire-header">
+                    <h3>
+                        <i class="fas fa-brain ai-icon"></i>
+                        Tell us about your dream trip
+                    </h3>
+                    <div class="step-indicator">
+                        <span class="step active" data-step="1">1</span>
+                        <span class="step" data-step="2">2</span>
+                        <span class="step" data-step="3">3</span>
+                    </div>
+                </div>
+
+                <form id="recommendation-form">
+                    <!-- Step 1: Basic Info -->
+                    <div class="form-step active" data-step="1">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-wallet"></i> Budget Range</label>
+                                <div class="budget-slider-container">
+                                    <input type="range" id="budget-slider" min="500" max="10000" value="3000"
+                                           step="100">
+                                    <div class="budget-display">
+                                        <span id="budget-value">$3,000</span>
+                                        <small>per person</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar-alt"></i> Travel Dates</label>
+                                <input type="date" id="travel-date" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-clock"></i> Trip Duration</label>
+                                <select id="trip-duration" class="input-field">
+                                    <option value="">Select duration</option>
+                                    <option value="1-3">1-3 days</option>
+                                    <option value="4-7">4-7 days</option>
+                                    <option value="8-14">1-2 weeks</option>
+                                    <option value="15-30">2-4 weeks</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-users"></i> Number of Travelers</label>
+                                <div class="counter-group">
+                                    <button type="button" class="counter-btn" onclick="changeTravelers(-1)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" id="travelers-count" value="2" min="1" max="20" readonly>
+                                    <button type="button" class="counter-btn" onclick="changeTravelers(1)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-next" onclick="nextStep()">
+                            Continue <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Step 2: Interests & Preferences -->
+                    <div class="form-step" data-step="2">
+                        <div class="form-group">
+                            <label><i class="fas fa-heart"></i> Your Interests (Select multiple)</label>
+                            <div class="interests-grid">
+                                <div class="interest-card" data-interest="adventure">
+                                    <i class="fas fa-hiking"></i>
+                                    <span>Adventure</span>
+                                </div>
+                                <div class="interest-card" data-interest="beach">
+                                    <i class="fas fa-umbrella-beach"></i>
+                                    <span>Beach</span>
+                                </div>
+                                <div class="interest-card" data-interest="culture">
+                                    <i class="fas fa-landmark"></i>
+                                    <span>Culture</span>
+                                </div>
+                                <div class="interest-card" data-interest="food">
+                                    <i class="fas fa-utensils"></i>
+                                    <span>Food & Wine</span>
+                                </div>
+                                <div class="interest-card" data-interest="nature">
+                                    <i class="fas fa-tree"></i>
+                                    <span>Nature</span>
+                                </div>
+                                <div class="interest-card" data-interest="shopping">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    <span>Shopping</span>
+                                </div>
+                                <div class="interest-card" data-interest="nightlife">
+                                    <i class="fas fa-glass-cheers"></i>
+                                    <span>Nightlife</span>
+                                </div>
+                                <div class="interest-card" data-interest="photography">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Photography</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-sun"></i> Climate Preference</label>
+                            <div class="climate-options">
+                                <label class="radio-card">
+                                    <input type="radio" name="climate" value="hot">
+                                    <div class="radio-content">
+                                        <i class="fas fa-sun" style="color: #ff6b6b;"></i>
+                                        <span>Hot & Sunny</span>
+                                    </div>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="climate" value="mild" checked>
+                                    <div class="radio-content">
+                                        <i class="fas fa-cloud-sun" style="color: #51cf66;"></i>
+                                        <span>Mild & Pleasant</span>
+                                    </div>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="climate" value="cold">
+                                    <div class="radio-content">
+                                        <i class="fas fa-snowflake" style="color: #339af0;"></i>
+                                        <span>Cool & Cold</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-back" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn-next" onclick="nextStep()">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Travel Style -->
+                    <div class="form-step" data-step="3">
+                        <div class="form-group">
+                            <label><i class="fas fa-suitcase"></i> Travel Style</label>
+                            <div class="travel-style-grid">
+                                <label class="style-card">
+                                    <input type="radio" name="travel-style" value="budget">
+                                    <div class="style-content">
+                                        <i class="fas fa-piggy-bank"></i>
+                                        <h4>Budget Traveler</h4>
+                                        <p>Hostels & local experiences</p>
+                                    </div>
+                                </label>
+                                <label class="style-card">
+                                    <input type="radio" name="travel-style" value="comfort" checked>
+                                    <div class="style-content">
+                                        <i class="fas fa-hotel"></i>
+                                        <h4>Comfort Seeker</h4>
+                                        <p>Mid-range hotels & tours</p>
+                                    </div>
+                                </label>
+                                <label class="style-card">
+                                    <input type="radio" name="travel-style" value="luxury">
+                                    <div class="style-content">
+                                        <i class="fas fa-gem"></i>
+                                        <h4>Luxury Explorer</h4>
+                                        <p>5-star hotels & premium experiences</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marked-alt"></i> Destination Type</label>
+                            <div class="destination-type">
+                                <label class="checkbox-card">
+                                    <input type="checkbox" value="popular">
+                                    <span>Popular Destinations</span>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" value="hidden">
+                                    <span>Hidden Gems</span>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" value="adventure">
+                                    <span>Adventure Spots</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-back" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn-submit" onclick="getRecommendations()">
+                                <i class="fas fa-magic"></i> Get AI Recommendations
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Processing Animation -->
+    <div id="ai-loading" class="ai-loading">
+        <div class="ai-animation">
+            <div class="brain-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            <div class="loading-text">
+                <h3>AI is analyzing your preferences...</h3>
+                <p id="loading-fact">Exploring thousands of destinations worldwide</p>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="loading-stats">
+                <div class="stat">
+                    <span class="stat-value" id="destinations-checked">0</span>
+                    <span class="stat-label">Destinations Analyzed</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="match-score">0%</span>
+                    <span class="stat-label">Best Match Found</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations Results -->
+    <section id="recommendations-section" class="recommendations-section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2>Your Personalized Recommendations</h2>
+                    <p>Based on your preferences, we found <span id="results-count">9</span> perfect destinations for
+                        you</p>
+                </div>
+                <div class="view-toggle">
+                    <button class="toggle-btn active" data-view="grid" onclick="toggleView('grid')">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="toggle-btn" data-view="list" onclick="toggleView('list')">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filters & Sort -->
+            <div class="filters-bar">
+                <div class="filter-chips">
+                    <button class="chip active" data-filter="all">All Results</button>
+                    <button class="chip" data-filter="best-match">Best Match</button>
+                    <button class="chip" data-filter="budget">Budget Friendly</button>
+                    <button class="chip" data-filter="popular">Most Popular</button>
+                </div>
+
+                <div class="sort-dropdown">
+                    <button class="sort-btn" onclick="toggleSort()">
+                        <i class="fas fa-sort"></i>
+                        Sort by: <span id="sort-label">Best Match</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="sort-menu" class="sort-menu">
+                        <button onclick="sortResults('match')">Best Match</button>
+                        <button onclick="sortResults('price-low')">Price: Low to High</button>
+                        <button onclick="sortResults('price-high')">Price: High to Low</button>
+                        <button onclick="sortResults('rating')">Highest Rated</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Grid -->
+            <div id="results-grid" class="results-grid">
+                <!-- Results will be dynamically inserted here -->
+            </div>
+
+            <div class="load-more">
+                <button class="btn-load-more" onclick="loadMoreResults()">
+                    <i class="fas fa-plus-circle"></i>
+                    Load More Destinations
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Recommendations -->
+    <section class="trending-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-fire"></i> Trending Now</h2>
+                <p>Popular destinations among travelers this month</p>
+            </div>
+
+            <div class="trending-slider">
+                <button class="slider-btn prev" onclick="slideLeft()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="trending-cards">
+                    <!-- Trending cards will be inserted here -->
+                </div>
+
+                <button class="slider-btn next" onclick="slideRight()">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compare Modal -->
+    <div id="compare-modal" class="compare-modal">
+        <div class="compare-content">
+            <div class="compare-header">
+                <h3><i class="fas fa-balance-scale"></i> Compare Destinations</h3>
+                <button class="close-btn" onclick="closeCompare()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="compare-table" class="compare-table">
+                <!-- Comparison table will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{% static 'apps/js/recommendation.js' %}"></script>
+{% endblock %}

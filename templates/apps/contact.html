@@ -1,0 +1,569 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>TravelHub - Contact Page</title>
+{% endblock %}
+
+{% block custom_css %}
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- AOS Animation CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+
+    <!-- Contact Page CSS -->
+    <link rel="stylesheet" href="{% static 'apps/css/contact.css' %}">
+
+    <style>
+        /* Inline CSS to ensure footer links work */
+        footer .footer-links a {
+            pointer-events: auto !important;
+            cursor: pointer !important;
+        }
+    </style>
+{% endblock %}
+
+{% block main_content %}
+
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-blob blob-1"></div>
+        <div class="gradient-blob blob-2"></div>
+        <div class="gradient-blob blob-3"></div>
+        <canvas id="particleCanvas"></canvas>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section" data-aos="fade-up">
+        <div class="container">
+            <h1 class="hero-title">Get in Touch with TravelHub</h1>
+            <p class="hero-subtitle">We're here to help 24/7 - Choose your preferred way to connect</p>
+            <div class="status-badge">
+                <span class="status-dot online"></span>
+                <span>Support Team Online</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Contact Cards Grid -->
+    <section class="contact-cards-section">
+        <div class="container">
+            <div class="cards-grid">
+                <!-- Telegram Channel Card -->
+                <div class="contact-card" data-aos="zoom-in" data-aos-delay="100" data-channel="telegram">
+                    <div class="card-icon telegram">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <h3>Telegram Channel</h3>
+                    <p class="channel-handle">@travelhubofficial</p>
+                    <div class="card-meta">
+                        <span class="status-indicator online">
+                            <span class="dot"></span> Online
+                        </span>
+                        <span class="response-time">< 5 min</span>
+                    </div>
+                    <button class="card-action" onclick="openTelegram('channel')">
+                        <i class="fas fa-external-link-alt"></i> Open Channel
+                    </button>
+                    <button class="copy-btn" onclick="copyToClipboard('@travelhubofficial', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+
+                <!-- WhatsApp Card -->
+                <div class="contact-card" data-aos="zoom-in" data-aos-delay="200" data-channel="whatsapp">
+                    <div class="card-icon whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>WhatsApp Support</h3>
+                    <p class="channel-handle">+998 90 123 45 67</p>
+                    <div class="card-meta">
+                        <span class="status-indicator online">
+                            <span class="dot"></span> Online
+                        </span>
+                        <span class="response-time">< 10 min</span>
+                    </div>
+                    <button class="card-action" onclick="openWhatsApp()">
+                        <i class="fas fa-comment"></i> Start Chat
+                    </button>
+                    <button class="copy-btn" onclick="copyToClipboard('+998901234567', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+
+                <!-- Email Card -->
+                <div class="contact-card" data-aos="zoom-in" data-aos-delay="300" data-channel="email">
+                    <div class="card-icon email">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email Support</h3>
+                    <p class="channel-handle">support@travelhub.com</p>
+                    <div class="card-meta">
+                        <span class="status-indicator online">
+                            <span class="dot"></span> Active
+                        </span>
+                        <span class="response-time">< 2 hours</span>
+                    </div>
+                    <button class="card-action" onclick="scrollToForm()">
+                        <i class="fas fa-paper-plane"></i> Send Email
+                    </button>
+                    <button class="copy-btn" onclick="copyToClipboard('support@travelhub.com', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+
+                <!-- Telegram Bot Card -->
+                <div class="contact-card" data-aos="zoom-in" data-aos-delay="100" data-channel="bot">
+                    <div class="card-icon bot">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Telegram Bot</h3>
+                    <p class="channel-handle">@travelhub_bot</p>
+                    <div class="card-meta">
+                        <span class="status-indicator online">
+                            <span class="dot"></span> 24/7
+                        </span>
+                        <span class="response-time">Instant</span>
+                    </div>
+                    <button class="card-action" onclick="openTelegram('bot')">
+                        <i class="fas fa-robot"></i> Start Bot
+                    </button>
+                    <button class="copy-btn" onclick="copyToClipboard('@travelhub_bot', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+
+                <!-- Instagram Card -->
+                <div class="contact-card" data-aos="zoom-in" data-aos-delay="200" data-channel="instagram">
+                    <div class="card-icon instagram">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <h3>Instagram</h3>
+                    <p class="channel-handle">@travelhub</p>
+                    <div class="card-meta">
+                        <span class="status-indicator online">
+                            <span class="dot"></span> Online
+                        </span>
+                        <span class="response-time">< 30 min</span>
+                    </div>
+                    <button class="card-action" onclick="openInstagram()">
+                        <i class="fas fa-external-link-alt"></i> Visit Page
+                    </button>
+                    <button class="copy-btn" onclick="copyToClipboard('@travelhub', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+
+                <!-- Facebook Card -->
+                <div class="contact-card" data-aos="zoom-in" data-aos-delay="300" data-channel="facebook">
+                    <div class="card-icon facebook">
+                        <i class="fab fa-facebook"></i>
+                    </div>
+                    <h3>Facebook Page</h3>
+                    <p class="channel-handle">TravelHubOfficial</p>
+                    <div class="card-meta">
+                        <span class="status-indicator online">
+                            <span class="dot"></span> Online
+                        </span>
+                        <span class="response-time">< 20 min</span>
+                    </div>
+                    <button class="card-action" onclick="openFacebook()">
+                        <i class="fas fa-external-link-alt"></i> Visit Page
+                    </button>
+                    <button class="copy-btn" onclick="copyToClipboard('TravelHubOfficial', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Availability Section -->
+    <section class="availability-section" data-aos="fade-up">
+        <div class="container">
+            <h2 class="section-title">Support Team Availability</h2>
+            <div class="availability-grid">
+                <div class="availability-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>Average Response Time</h3>
+                    <p class="stat">8 minutes</p>
+                </div>
+                <div class="availability-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Current Wait Time</h3>
+                    <p class="stat">2-5 min</p>
+                </div>
+                <div class="availability-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Active Agents</h3>
+                    <p class="stat">12 online</p>
+                </div>
+                <div class="availability-card">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Satisfaction Rate</h3>
+                    <p class="stat">98.5%</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section" id="contactForm" data-aos="fade-up">
+        <div class="container">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <h2>Send Us a Message</h2>
+                    <p>Fill out the form below and we'll get back to you as soon as possible</p>
+                </div>
+
+                <form id="mainContactForm" class="contact-form" onsubmit="handleFormSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                            <span class="error-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                            <span class="error-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <div class="phone-input">
+                                <select id="countryCode" name="countryCode">
+                                    <option value="+998">🇺🇿 +998</option>
+                                    <option value="+7">🇷🇺 +7</option>
+                                    <option value="+1">🇺🇸 +1</option>
+                                    <option value="+44">🇬🇧 +44</option>
+                                </select>
+                                <input type="tel" id="phone" name="phone" placeholder="90 123 45 67">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject Category *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a category</option>
+                                <option value="booking">Booking Inquiry</option>
+                                <option value="support">Technical Support</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="feedback">Feedback</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="priority">Priority Level *</label>
+                        <div class="priority-buttons">
+                            <button type="button" class="priority-btn" data-priority="low" onclick="setPriority('low')">
+                                <i class="fas fa-circle"></i> Low
+                            </button>
+                            <button type="button" class="priority-btn" data-priority="medium"
+                                    onclick="setPriority('medium')">
+                                <i class="fas fa-circle"></i> Medium
+                            </button>
+                            <button type="button" class="priority-btn active" data-priority="high"
+                                    onclick="setPriority('high')">
+                                <i class="fas fa-circle"></i> High
+                            </button>
+                            <button type="button" class="priority-btn" data-priority="urgent"
+                                    onclick="setPriority('urgent')">
+                                <i class="fas fa-circle"></i> Urgent
+                            </button>
+                        </div>
+                        <input type="hidden" id="priority" name="priority" value="high">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Your Message *</label>
+                        <textarea id="message" name="message" rows="6" required></textarea>
+                        <div class="char-counter">
+                            <span id="charCount">0</span> / 1000 characters
+                        </div>
+                        <span class="error-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fileUpload">Attach Files (Optional)</label>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="fileUpload" name="fileUpload" multiple accept="image/*,.pdf">
+                            <label for="fileUpload" class="file-upload-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Click to upload or drag and drop</span>
+                                <small>Images or PDFs (Max 5MB)</small>
+                            </label>
+                            <div id="filePreview" class="file-preview"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Preferred Contact Method</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="contactMethod" value="email" checked>
+                                <span>Email</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="contactMethod" value="phone">
+                                <span>Phone</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="contactMethod" value="telegram">
+                                <span>Telegram</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="contactMethod" value="whatsapp">
+                                <span>WhatsApp</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="clearForm()">
+                            <i class="fas fa-redo"></i> Clear Form
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                            <span class="loading-spinner"></span>
+                        </button>
+                    </div>
+
+                    <p class="form-note">
+                        <i class="fas fa-lock"></i> Your information is secure and will never be shared with third
+                        parties
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Map Section -->
+    <section class="map-section" data-aos="fade-up">
+        <div class="container">
+            <h2 class="section-title">Visit Our Office</h2>
+            <div class="map-wrapper">
+                <div id="officeMap" class="office-map"></div>
+                <div class="office-info">
+                    <h3><i class="fas fa-map-marker-alt"></i> TravelHub Headquarters</h3>
+                    <p><i class="fas fa-location-dot"></i> Tashkent, Uzbekistan</p>
+                    <p><i class="fas fa-clock"></i> Mon-Fri: 9:00 AM - 6:00 PM</p>
+                    <p><i class="fas fa-clock"></i> Sat: 10:00 AM - 4:00 PM</p>
+                    <p><i class="fas fa-times-circle"></i> Sunday: Closed</p>
+                    <button class="btn-directions" onclick="getDirections()">
+                        <i class="fas fa-directions"></i> Get Directions
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" data-aos="fade-up">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="faqSearch" placeholder="Search for answers..." onkeyup="searchFAQ()">
+            </div>
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How quickly can I expect a response?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Response times vary by channel: Telegram and WhatsApp typically under 10 minutes during
+                            business hours, email within 2 hours, and our chatbot provides instant responses 24/7.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What are your business hours?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Our support team is available Monday-Friday 9 AM - 6 PM, Saturday 10 AM - 4 PM (Tashkent
+                            time). However, our chatbot and automated systems work 24/7.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I schedule a video consultation?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! Contact us via any channel and request a video consultation. We'll send you a calendar
+                            link to book a time that works for you.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What languages do you support?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We provide support in English, Uzbek, and Russian. Our team can assist you in your preferred
+                            language across all communication channels.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I track my support ticket?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>After submitting a form, you'll receive a ticket number via email. Use this number to track
+                            your inquiry status through any of our support channels.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="faq-cta">
+                <p>Still have questions?</p>
+                <button class="btn-primary" onclick="scrollToForm()">Contact Support</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="social-proof-section" data-aos="fade-up">
+        <div class="container">
+            <h2 class="section-title">Why Customers Love Our Support</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="stat-number" data-target="95">0</h3>
+                    <p>Response Rate</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <h3 class="stat-number" data-target="98.5">0</h3>
+                    <p>Satisfaction Score</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <h3 class="stat-number" data-target="15420">0</h3>
+                    <p>Issues Resolved</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="stat-number" data-target="8">0</h3>
+                    <p>Avg Response (min)</p>
+                </div>
+            </div>
+
+            <div class="testimonials-slider">
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Quick response on Telegram! They helped me book my dream vacation in minutes."</p>
+                    <div class="testimonial-author">
+                        <strong>Sarah M.</strong>
+                        <span>via Telegram</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"The support team is incredibly helpful and responsive. Best travel agency experience!"</p>
+                    <div class="testimonial-author">
+                        <strong>Ahmad K.</strong>
+                        <span>via WhatsApp</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Professional and efficient. They answered all my questions promptly via email."</p>
+                    <div class="testimonial-author">
+                        <strong>Elena P.</strong>
+                        <span>via Email</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <button class="chat-toggle" onclick="toggleChat()">
+            <i class="fas fa-comments"></i>
+            <span class="chat-badge">1</span>
+        </button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="chat-info">
+                    <h4>TravelHub Assistant</h4>
+                    <span class="chat-status">Online</span>
+                </div>
+                <button class="chat-close" onclick="toggleChat()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message bot">
+                    <div class="message-content">
+                        <p>👋 Hello! I'm your TravelHub assistant. How can I help you today?</p>
+                    </div>
+                    <span class="message-time">Just now</span>
+                </div>
+            </div>
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..."
+                       onkeypress="handleChatEnter(event)">
+                <button class="chat-send" onclick="sendChatMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Message sent successfully!</span>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon success">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Message Sent Successfully!</h2>
+            <p>Thank you for contacting us. Your ticket number is:</p>
+            <div class="ticket-number" id="ticketNumber">#TH-2024-001</div>
+            <p>We'll get back to you within 2 hours via your preferred contact method.</p>
+            <button class="btn-primary" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block custom_js %}
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Contact Page JS -->
+    <script src="{% static 'apps/js/contact.js' %}"></script>
+
+    <script>
+        // Debug: Check if functions are loaded
+        console.log('Contact page loaded');
+        console.log('openTelegram:', typeof openTelegram);
+        console.log('switchLang:', typeof switchLang);
+        console.log('showToast:', typeof showToast);
+    </script>
+{% endblock %}

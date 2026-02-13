@@ -1,0 +1,284 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Help Center - TravelHub</title>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/help_center.css' %}">
+{% endblock %}
+
+{% block main_content %}
+    <!-- Hero Section -->
+    <section class="help-hero">
+        <div class="help-hero-content">
+            <h1 class="help-hero-title">How can we help you?</h1>
+            <p class="help-hero-subtitle">Search for answers or browse by category</p>
+            <div class="help-search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="helpSearchInput" placeholder="Search for help articles, FAQs, guides...">
+                <button class="search-btn">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            <div class="popular-searches">
+                <span>Popular:</span>
+                <a href="#" class="search-tag">Booking</a>
+                <a href="#" class="search-tag">Cancellation</a>
+                <a href="#" class="search-tag">Refund</a>
+                <a href="#" class="search-tag">Payment</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="help-categories">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Browse by Category</h2>
+                <p class="section-subtitle">Find answers organized by topic</p>
+            </div>
+
+            <div class="category-grid">
+                <!-- Category 1: Booking & Reservations -->
+                <div class="category-card">
+                    <div class="category-icon booking-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3 class="category-title">Booking & Reservations</h3>
+                    <p class="category-desc">Everything about making and managing your bookings</p>
+                    <ul class="article-list">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> How to make a booking</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Canceling or modifying bookings</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Payment methods accepted</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Booking confirmation emails</a></li>
+                    </ul>
+                    <a href="#" class="view-all-link">View all articles <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Category 2: Travel Information -->
+                <div class="category-card">
+                    <div class="category-icon travel-icon">
+                        <i class="fas fa-plane-departure"></i>
+                    </div>
+                    <h3 class="category-title">Travel Information</h3>
+                    <p class="category-desc">Important details for your journey</p>
+                    <ul class="article-list">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Visa requirements by country</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Baggage allowance and fees</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Travel insurance options</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Airport check-in procedures</a></li>
+                    </ul>
+                    <a href="#" class="view-all-link">View all articles <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Category 3: Payments & Refunds -->
+                <div class="category-card">
+                    <div class="category-icon payment-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3 class="category-title">Payments & Refunds</h3>
+                    <p class="category-desc">Financial transactions and refund policies</p>
+                    <ul class="article-list">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Understanding payment charges</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Refund processing time</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Currency conversion rates</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Payment security and safety</a></li>
+                    </ul>
+                    <a href="#" class="view-all-link">View all articles <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Category 4: Account Management -->
+                <div class="category-card">
+                    <div class="category-icon account-icon">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <h3 class="category-title">Account Management</h3>
+                    <p class="category-desc">Manage your TravelHub account settings</p>
+                    <ul class="article-list">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Creating an account</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Resetting your password</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Updating profile information</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Account security tips</a></li>
+                    </ul>
+                    <a href="#" class="view-all-link">View all articles <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Category 5: Hotels & Accommodations -->
+                <div class="category-card">
+                    <div class="category-icon hotel-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <h3 class="category-title">Hotels & Accommodations</h3>
+                    <p class="category-desc">All about your stay and lodging</p>
+                    <ul class="article-list">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Hotel booking policies</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Room types and amenities</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Check-in and check-out times</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Special requests and services</a></li>
+                    </ul>
+                    <a href="#" class="view-all-link">View all articles <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Category 6: Tickets & Activities -->
+                <div class="category-card">
+                    <div class="category-icon ticket-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h3 class="category-title">Tickets & Activities</h3>
+                    <p class="category-desc">Tours, attractions, and experiences</p>
+                    <ul class="article-list">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Booking tours and activities</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> E-ticket delivery</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Age restrictions and requirements</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Group bookings and discounts</a></li>
+                    </ul>
+                    <a href="#" class="view-all-link">View all articles <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Articles -->
+    <section class="popular-articles">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Popular Articles</h2>
+                <p class="section-subtitle">Most viewed help articles this week</p>
+            </div>
+            <div class="articles-grid">
+                <div class="article-card trending">
+                    <div class="article-badge trending-badge">
+                        <i class="fas fa-fire"></i> Trending
+                    </div>
+                    <h4 class="article-title">COVID-19 Travel Updates and Policies</h4>
+                    <p class="article-excerpt">Latest information on travel restrictions, testing requirements, and
+                        safety guidelines for international travel.</p>
+                    <div class="article-meta">
+                        <span><i class="far fa-clock"></i> 5 min read</span>
+                        <span><i class="far fa-eye"></i> 12.5K views</span>
+                    </div>
+                    <a href="#" class="article-link">Read article <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="article-card new">
+                    <div class="article-badge new-badge">
+                        <i class="fas fa-star"></i> New
+                    </div>
+                    <h4 class="article-title">Understanding Cancellation Deadlines</h4>
+                    <p class="article-excerpt">Learn about free cancellation periods and refund policies for different
+                        booking types and destinations.</p>
+                    <div class="article-meta">
+                        <span><i class="far fa-clock"></i> 7 min read</span>
+                        <span><i class="far fa-eye"></i> 8.3K views</span>
+                    </div>
+                    <a href="#" class="article-link">Read article <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="article-card popular">
+                    <div class="article-badge popular-badge">
+                        <i class="fas fa-heart"></i> Popular
+                    </div>
+                    <h4 class="article-title">Best Price Guarantee Explained</h4>
+                    <p class="article-excerpt">How our price match guarantee works and how to claim price differences if
+                        you find a better deal.</p>
+                    <div class="article-meta">
+                        <span><i class="far fa-clock"></i> 4 min read</span>
+                        <span><i class="far fa-eye"></i> 15.2K views</span>
+                    </div>
+                    <a href="#" class="article-link">Read article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Support Section -->
+    <section class="contact-support">
+        <div class="container">
+            <div class="contact-support-box">
+                <div class="support-header">
+                    <i class="fas fa-headset support-icon"></i>
+                    <h2>Still need help?</h2>
+                    <p>Our support team is available 24/7 to assist you with any questions</p>
+                </div>
+                <div class="contact-options">
+                    <div class="contact-option primary-option">
+                        <div class="option-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="option-content">
+                            <h4>Live Chat</h4>
+                            <p>Instant response from our team</p>
+                            <span class="response-time">Avg. response: 2 min</span>
+                        </div>
+                        <button class="option-btn primary-btn">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="contact-option">
+                        <div class="option-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="option-content">
+                            <h4>Email Support</h4>
+                            <p>support@travelhub.com</p>
+                            <span class="response-time">Response within 24 hours</span>
+                        </div>
+                        <button class="option-btn">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="contact-option">
+                        <div class="option-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="option-content">
+                            <h4>Call Us</h4>
+                            <p>+1 (800) 123-4567</p>
+                            <span class="response-time">Mon-Fri, 9AM - 6PM EST</span>
+                        </div>
+                        <button class="option-btn">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Quick Links -->
+    <section class="faq-quick">
+        <div class="container">
+            <h3 class="faq-title">Quick FAQ</h3>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <i class="fas fa-question-circle"></i>
+                    <h4>How do I cancel my booking?</h4>
+                    <p>Go to "My Bookings" and select the booking you want to cancel.</p>
+                </div>
+                <div class="faq-item">
+                    <i class="fas fa-question-circle"></i>
+                    <h4>When will I receive my refund?</h4>
+                    <p>Refunds are processed within 5-7 business days after cancellation.</p>
+                </div>
+                <div class="faq-item">
+                    <i class="fas fa-question-circle"></i>
+                    <h4>Can I change my travel dates?</h4>
+                    <p>Yes, date changes are available for most bookings with conditions.</p>
+                </div>
+                <div class="faq-item">
+                    <i class="fas fa-question-circle"></i>
+                    <h4>Do you offer travel insurance?</h4>
+                    <p>Yes, we partner with leading providers to offer comprehensive coverage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{% static 'apps/js/help_center.js' %}"></script>
+{% endblock %}

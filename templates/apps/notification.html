@@ -1,0 +1,587 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>TravelHub - Notifications</title>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/notification.css' %}">
+{% endblock %}
+
+{% block main_content %}
+
+<!-- Notifications Page -->
+<div class="notifications-page">
+    <div class="notifications-container">
+        
+        <!-- Page Header -->
+        <div class="notifications-header">
+            <div class="header-top">
+                <div class="header-title">
+                    <i class="fas fa-bell"></i>
+                    <div>
+                        <h1>Notifications</h1>
+                        <p>Stay updated with your travel activities</p>
+                    </div>
+                </div>
+                <button class="btn-clear-all" onclick="clearAllNotifications()">
+                    <i class="fas fa-check-double"></i>
+                    <span>Clear All</span>
+                </button>
+            </div>
+
+            <div class="header-tabs">
+                <button class="tab-btn active" data-tab="all" onclick="switchTab('all')">
+                    All
+                    <span class="tab-count">24</span>
+                </button>
+                <button class="tab-btn" data-tab="unread" onclick="switchTab('unread')">
+                    Unread
+                    <span class="tab-count badge-unread">5</span>
+                </button>
+                <button class="tab-btn" data-tab="read" onclick="switchTab('read')">
+                    Read
+                    <span class="tab-count">19</span>
+                </button>
+            </div>
+
+            <div class="header-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search notifications..." id="notification-search">
+            </div>
+        </div>
+
+        <div class="notifications-content">
+            
+            <!-- Sidebar Filters -->
+            <aside class="notifications-sidebar">
+                
+                <!-- Categories Filter -->
+                <div class="filter-section">
+                    <h3 class="filter-title">
+                        <i class="fas fa-folder"></i>
+                        Categories
+                    </h3>
+                    <ul class="filter-list">
+                        <li class="filter-item active" data-category="all">
+                            <i class="fas fa-bell"></i>
+                            <span>All Notifications</span>
+                            <span class="filter-count">24</span>
+                        </li>
+                        <li class="filter-item" data-category="bookings">
+                            <i class="fas fa-plane"></i>
+                            <span>Bookings</span>
+                            <span class="filter-count">8</span>
+                        </li>
+                        <li class="filter-item" data-category="promotions">
+                            <i class="fas fa-gift"></i>
+                            <span>Promotions</span>
+                            <span class="filter-count">5</span>
+                        </li>
+                        <li class="filter-item" data-category="security">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Security</span>
+                            <span class="filter-count">2</span>
+                        </li>
+                        <li class="filter-item" data-category="messages">
+                            <i class="fas fa-comments"></i>
+                            <span>Messages</span>
+                            <span class="filter-count">6</span>
+                        </li>
+                        <li class="filter-item" data-category="updates">
+                            <i class="fas fa-sync"></i>
+                            <span>Updates</span>
+                            <span class="filter-count">3</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Time Filter -->
+                <div class="filter-section">
+                    <h3 class="filter-title">
+                        <i class="fas fa-clock"></i>
+                        Time Period
+                    </h3>
+                    <ul class="filter-list">
+                        <li class="filter-item" data-time="today">
+                            <span>Today</span>
+                        </li>
+                        <li class="filter-item" data-time="yesterday">
+                            <span>Yesterday</span>
+                        </li>
+                        <li class="filter-item" data-time="week">
+                            <span>Last 7 days</span>
+                        </li>
+                        <li class="filter-item" data-time="month">
+                            <span>Last 30 days</span>
+                        </li>
+                        <li class="filter-item" data-time="older">
+                            <span>Older</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Priority Filter -->
+                <div class="filter-section">
+                    <h3 class="filter-title">
+                        <i class="fas fa-flag"></i>
+                        Priority
+                    </h3>
+                    <ul class="filter-list">
+                        <li class="filter-item" data-priority="high">
+                            <span class="priority-badge high">●</span>
+                            <span>High Priority</span>
+                        </li>
+                        <li class="filter-item" data-priority="medium">
+                            <span class="priority-badge medium">●</span>
+                            <span>Medium Priority</span>
+                        </li>
+                        <li class="filter-item" data-priority="low">
+                            <span class="priority-badge low">●</span>
+                            <span>Low Priority</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Settings Button -->
+                <button class="btn-settings" onclick="openNotificationSettings()">
+                    <i class="fas fa-cog"></i>
+                    <span>Notification Settings</span>
+                </button>
+
+            </aside>
+
+            <!-- Notifications List -->
+            <main class="notifications-main">
+                
+                <!-- Today Group -->
+                <div class="notification-group">
+                    <h3 class="group-title">Today (5)</h3>
+                    
+                    <!-- Booking Confirmation -->
+                    <div class="notification-card unread high-priority" data-id="1">
+                        <div class="card-indicator"></div>
+                        <div class="card-icon booking">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="card-badges">
+                                    <span class="category-badge booking">Booking</span>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <div class="card-actions">
+                                    <span class="card-time">2 hours ago</span>
+                                    <button class="btn-action" onclick="toggleCardMenu(1)">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div class="action-menu" id="menu-1">
+                                        <button onclick="markAsRead(1)">
+                                            <i class="fas fa-check"></i>
+                                            Mark as read
+                                        </button>
+                                        <button onclick="archiveNotification(1)">
+                                            <i class="fas fa-archive"></i>
+                                            Archive
+                                        </button>
+                                        <button onclick="deleteNotification(1)">
+                                            <i class="fas fa-trash"></i>
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="card-title">Booking Confirmed</h4>
+                            <p class="card-description">Your booking for Dubai has been confirmed</p>
+                            <div class="card-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-hashtag"></i>
+                                    <span>Booking ID: #TH-2024-001234</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Destination: Dubai, UAE</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Dates: Jan 15 - Jan 22, 2025</span>
+                                </div>
+                            </div>
+                            <div class="card-buttons">
+                                <button class="btn-primary">
+                                    <i class="fas fa-eye"></i>
+                                    View Details
+                                </button>
+                                <button class="btn-secondary">
+                                    <i class="fas fa-download"></i>
+                                    Download Receipt
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Success -->
+                    <div class="notification-card unread" data-id="2">
+                        <div class="card-indicator"></div>
+                        <div class="card-icon payment">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="card-badges">
+                                    <span class="category-badge booking">Payment</span>
+                                </div>
+                                <div class="card-actions">
+                                    <span class="card-time">5 hours ago</span>
+                                    <button class="btn-action" onclick="toggleCardMenu(2)">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h4 class="card-title">Payment Successful</h4>
+                            <p class="card-description">Your payment of $1,299 has been processed</p>
+                            <div class="card-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-receipt"></i>
+                                    <span>Transaction ID: TXN-9876543210</span>
+                                </div>
+                            </div>
+                            <div class="card-buttons">
+                                <button class="btn-primary">
+                                    <i class="fas fa-file-invoice"></i>
+                                    View Receipt
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flash Sale -->
+                    <div class="notification-card unread" data-id="3">
+                        <div class="card-indicator"></div>
+                        <div class="card-icon promotion">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="card-badges">
+                                    <span class="category-badge promotion">Flash Sale</span>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <div class="card-actions">
+                                    <span class="card-time">8 hours ago</span>
+                                    <button class="btn-action" onclick="toggleCardMenu(3)">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h4 class="card-title">🔥 Flash Sale Alert!</h4>
+                            <p class="card-description">Dubai packages starting at $699 - Only 5 hours left!</p>
+                            <div class="card-timer">
+                                <i class="fas fa-clock"></i>
+                                <span>Ends: Today at midnight</span>
+                            </div>
+                            <div class="card-buttons">
+                                <button class="btn-primary">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Shop Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Yesterday Group -->
+                <div class="notification-group">
+                    <h3 class="group-title">Yesterday (8)</h3>
+
+                    <!-- Security Alert -->
+                    <div class="notification-card read" data-id="4">
+                        <div class="card-icon security">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="card-badges">
+                                    <span class="category-badge security">Security</span>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <div class="card-actions">
+                                    <span class="card-time">Yesterday</span>
+                                    <button class="btn-action" onclick="toggleCardMenu(4)">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h4 class="card-title">New Login Detected</h4>
+                            <p class="card-description">Login from Windows PC in Tashkent, Uzbekistan</p>
+                            <div class="card-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Time: Dec 5, 2024 at 10:30 AM</span>
+                                </div>
+                            </div>
+                            <div class="card-buttons">
+                                <button class="btn-success">
+                                    <i class="fas fa-check"></i>
+                                    Yes, it was me
+                                </button>
+                                <button class="btn-danger">
+                                    <i class="fas fa-lock"></i>
+                                    Secure my account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review Request -->
+                    <div class="notification-card read" data-id="5">
+                        <div class="card-icon message">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="card-badges">
+                                    <span class="category-badge message">Review</span>
+                                </div>
+                                <div class="card-actions">
+                                    <span class="card-time">Yesterday</span>
+                                    <button class="btn-action" onclick="toggleCardMenu(5)">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h4 class="card-title">Share Your Experience</h4>
+                            <p class="card-description">How was your trip to Dubai? Help others by leaving a review</p>
+                            <div class="card-buttons">
+                                <button class="btn-primary">
+                                    <i class="fas fa-edit"></i>
+                                    Write Review
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price Drop -->
+                    <div class="notification-card read" data-id="6">
+                        <div class="card-icon promotion">
+                            <i class="fas fa-tag"></i>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="card-badges">
+                                    <span class="category-badge promotion">Price Drop</span>
+                                </div>
+                                <div class="card-actions">
+                                    <span class="card-time">Yesterday</span>
+                                    <button class="btn-action" onclick="toggleCardMenu(6)">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h4 class="card-title">💰 Price Drop Alert!</h4>
+                            <p class="card-description">Tokyo trip price dropped by $250</p>
+                            <div class="price-compare">
+                                <span class="old-price">Was: $1,499</span>
+                                <i class="fas fa-arrow-right"></i>
+                                <span class="new-price">Now: $1,249</span>
+                            </div>
+                            <div class="card-buttons">
+                                <button class="btn-primary">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Book at New Price
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- This Week Group -->
+                <div class="notification-group">
+                    <h3 class="group-title">This Week (11)</h3>
+
+                    <!-- System Update -->
+                    <div class="notification-card read" data-id="7">
+                        <div class="card-icon update">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="card-badges">
+                                    <span class="category-badge update">New Feature</span>
+                                </div>
+                                <div class="card-actions">
+                                    <span class="card-time">3 days ago</span>
+                                    <button class="btn-action" onclick="toggleCardMenu(7)">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h4 class="card-title">🎉 New Feature Available!</h4>
+                            <p class="card-description">We've added AI-powered itinerary planner. Try it now to create your perfect trip</p>
+                            <div class="card-buttons">
+                                <button class="btn-primary">
+                                    <i class="fas fa-magic"></i>
+                                    Try Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loyalty Reward -->
+                    <div class="notification-card read" data-id="8">
+                        <div class="card-icon promotion">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="card-badges">
+                                    <span class="category-badge promotion">Rewards</span>
+                                </div>
+                                <div class="card-actions">
+                                    <span class="card-time">5 days ago</span>
+                                    <button class="btn-action" onclick="toggleCardMenu(8)">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h4 class="card-title">🎖️ You've Earned Rewards!</h4>
+                            <p class="card-description">Congratulations! You've reached Gold Status</p>
+                            <ul class="benefits-list">
+                                <li><i class="fas fa-check"></i> 15% off all bookings</li>
+                                <li><i class="fas fa-check"></i> Free airport lounge access</li>
+                                <li><i class="fas fa-check"></i> Priority customer support</li>
+                            </ul>
+                            <div class="card-buttons">
+                                <button class="btn-primary">
+                                    <i class="fas fa-trophy"></i>
+                                    View Rewards Dashboard
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Empty State (Hidden by default) -->
+                <div class="empty-state" style="display: none;">
+                    <i class="fas fa-bell-slash"></i>
+                    <h3>No notifications yet</h3>
+                    <p>You're all caught up!</p>
+                    <button class="btn-primary" onclick="window.location.href='{% url 'destinations_page' %}'">
+                        <i class="fas fa-compass"></i>
+                        Explore Destinations
+                    </button>
+                </div>
+
+            </main>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Notification Settings Modal -->
+<div id="notification-settings-modal" class="settings-modal">
+    <div class="settings-content">
+        <div class="settings-header">
+            <h2>
+                <i class="fas fa-cog"></i>
+                Notification Preferences
+            </h2>
+            <button class="modal-close" onclick="closeNotificationSettings()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="settings-body">
+            
+            <div class="settings-section">
+                <h3>Email Notifications</h3>
+                <div class="setting-item">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <div class="setting-info">
+                        <h4>Booking confirmations</h4>
+                        <p>Receive emails for booking confirmations</p>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <div class="setting-info">
+                        <h4>Payment receipts</h4>
+                        <p>Receive payment confirmation emails</p>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                    <div class="setting-info">
+                        <h4>Promotional offers</h4>
+                        <p>Receive promotional emails and deals</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Push Notifications</h3>
+                <div class="setting-item">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <div class="setting-info">
+                        <h4>Booking reminders</h4>
+                        <p>Get reminded about upcoming trips</p>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                    <div class="setting-info">
+                        <h4>Price drops</h4>
+                        <p>Get notified when prices drop</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>SMS Notifications</h3>
+                <div class="setting-item">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <div class="setting-info">
+                        <h4>Booking confirmations only</h4>
+                        <p>Receive SMS for important bookings</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="settings-footer">
+            <button class="btn-secondary" onclick="closeNotificationSettings()">Cancel</button>
+            <button class="btn-primary" onclick="saveNotificationSettings()">
+                <i class="fas fa-save"></i>
+                Save Changes
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{% static 'apps/js/notification.js' %}"></script>
+{% endblock %}

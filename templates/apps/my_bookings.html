@@ -1,0 +1,465 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>My Bookings - TravelHub</title>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/my_bookings.css' %}">
+{% endblock %}
+
+{% block main_content %}
+    <!-- My Bookings Page -->
+    <div class="bookings-page">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-content">
+
+
+                <div class="header-title">
+                    <h1><i class="fas fa-calendar-check"></i> My Bookings</h1>
+                    <p>Manage all your travel bookings in one place</p>
+                </div>
+
+                <a href="{% url 'dashboard_page' %}" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Dashboard</span>
+                </a>
+
+
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon total">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-count">12</h3>
+                            <p>Total Bookings</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon upcoming">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="upcoming-count">2</h3>
+                            <p>Upcoming</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon completed">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="completed-count">8</h3>
+                            <p>Completed</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon cancelled">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="cancelled-count">2</h3>
+                            <p>Cancelled</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter & Search Section -->
+        <div class="filter-section">
+            <div class="filter-content">
+                <!-- Search Bar -->
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input"
+                           placeholder="Search by destination, hotel name, or booking ID...">
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-status="all" onclick="filterBookings('all')">
+                        <i class="fas fa-list"></i>
+                        <span>All Bookings</span>
+                        <span class="tab-count">12</span>
+                    </button>
+                    <button class="filter-tab" data-status="upcoming" onclick="filterBookings('upcoming')">
+                        <i class="fas fa-clock"></i>
+                        <span>Upcoming</span>
+                        <span class="tab-count">2</span>
+                    </button>
+                    <button class="filter-tab" data-status="completed" onclick="filterBookings('completed')">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Completed</span>
+                        <span class="tab-count">8</span>
+                    </button>
+                    <button class="filter-tab" data-status="cancelled" onclick="filterBookings('cancelled')">
+                        <i class="fas fa-times-circle"></i>
+                        <span>Cancelled</span>
+                        <span class="tab-count">2</span>
+                    </button>
+                </div>
+
+                <!-- Sort & View Options -->
+                <div class="options-bar">
+                    <div class="sort-options">
+                        <label><i class="fas fa-sort"></i> Sort by:</label>
+                        <select id="sort-select" onchange="sortBookings()">
+                            <option value="date-desc">Date (Newest First)</option>
+                            <option value="date-asc">Date (Oldest First)</option>
+                            <option value="price-high">Price (High to Low)</option>
+                            <option value="price-low">Price (Low to High)</option>
+                            <option value="destination">Destination (A-Z)</option>
+                        </select>
+                    </div>
+
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid" onclick="toggleView('grid')">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="view-btn" data-view="list" onclick="toggleView('list')">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bookings List -->
+        <div class="bookings-container">
+            <!-- Upcoming Bookings Section -->
+            <div class="bookings-section" id="upcoming-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-plane-departure"></i> Upcoming Trips (2)</h2>
+                </div>
+
+                <div class="bookings-grid" id="bookings-grid">
+                    <!-- Booking Card 1 - Confirmed -->
+                    <div class="booking-card" data-status="upcoming">
+                        <div class="booking-image">
+                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" alt="Dubai">
+                            <span class="status-badge confirmed">
+                            <i class="fas fa-check-circle"></i> CONFIRMED
+                        </span>
+                        </div>
+
+                        <div class="booking-content">
+                            <div class="booking-header">
+                                <h3>🇦🇪 Dubai, UAE</h3>
+                                <p class="booking-id">#TH-2024-001234</p>
+                            </div>
+
+                            <div class="booking-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Jan 15 - Jan 22, 2025 (7 days)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-hotel"></i>
+                                    <span>Burj Al Arab Hotel</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>2 Adults</span>
+                                </div>
+                                <div class="detail-item price">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    <span>$1,299</span>
+                                </div>
+                            </div>
+
+                            <div class="countdown-timer">
+                                <i class="fas fa-clock"></i>
+                                <span>Trip starts in <strong>38 days</strong></span>
+                            </div>
+
+                            <div class="booking-actions">
+                                <button class="action-btn primary" onclick="viewBookingDetails('TH-2024-001234')">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                                <button class="action-btn secondary" onclick="checkInOnline('TH-2024-001234')">
+                                    <i class="fas fa-plane"></i> Check-in
+                                </button>
+                                <button class="action-btn secondary" onclick="downloadVoucher('TH-2024-001234')">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                                <button class="action-btn danger" onclick="cancelBooking('TH-2024-001234')">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Booking Card 2 - Pending Payment -->
+                    <div class="booking-card" data-status="upcoming">
+                        <div class="booking-image">
+                            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800" alt="Paris">
+                            <span class="status-badge pending">
+                            <i class="fas fa-exclamation-circle"></i> PENDING PAYMENT
+                        </span>
+                        </div>
+
+                        <div class="booking-content">
+                            <div class="booking-header">
+                                <h3>🇫🇷 Paris, France</h3>
+                                <p class="booking-id">#TH-2024-001567</p>
+                            </div>
+
+                            <div class="booking-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Mar 10 - Mar 17, 2025 (7 days)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-hotel"></i>
+                                    <span>Le Meurice</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>2 Adults, 1 Child</span>
+                                </div>
+                                <div class="detail-item price">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    <span>$2,499</span>
+                                </div>
+                            </div>
+
+                            <div class="payment-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Complete payment within <strong>24 hours</strong></span>
+                            </div>
+
+                            <div class="booking-actions">
+                                <button class="action-btn primary pulse" onclick="completePayment('TH-2024-001567')">
+                                    <i class="fas fa-credit-card"></i> Complete Payment
+                                </button>
+                                <button class="action-btn secondary" onclick="viewBookingDetails('TH-2024-001567')">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="action-btn danger" onclick="cancelBooking('TH-2024-001567')">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Bookings Section -->
+            <div class="bookings-section" id="completed-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-check-double"></i> Completed Trips (8)</h2>
+                </div>
+
+                <div class="bookings-grid">
+                    <!-- Completed Booking Card -->
+                    <div class="booking-card" data-status="completed">
+                        <div class="booking-image">
+                            <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800"
+                                 alt="Istanbul">
+                            <span class="status-badge completed">
+                            <i class="fas fa-check"></i> COMPLETED
+                        </span>
+                        </div>
+
+                        <div class="booking-content">
+                            <div class="booking-header">
+                                <h3>🇹🇷 Istanbul, Turkey</h3>
+                                <p class="booking-id">#TH-2024-000987</p>
+                            </div>
+
+                            <div class="booking-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Nov 15 - Nov 22, 2024</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-hotel"></i>
+                                    <span>Four Seasons Sultanahmet</span>
+                                </div>
+                                <div class="detail-item price">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    <span>$1,899</span>
+                                </div>
+                            </div>
+
+                            <div class="rating-display">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>"Amazing trip!"</span>
+                            </div>
+
+                            <div class="booking-actions">
+                                <button class="action-btn primary" onclick="viewBookingDetails('TH-2024-000987')">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                                <button class="action-btn secondary" onclick="viewPhotos('TH-2024-000987')">
+                                    <i class="fas fa-images"></i> Photos
+                                </button>
+                                <button class="action-btn secondary" onclick="bookAgain('TH-2024-000987')">
+                                    <i class="fas fa-redo"></i> Book Again
+                                </button>
+                                <button class="action-btn secondary" onclick="writeReview('TH-2024-000987')">
+                                    <i class="fas fa-star"></i> Review
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- More Completed Bookings -->
+                    <div class="booking-card" data-status="completed">
+                        <div class="booking-image">
+                            <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800" alt="Rome">
+                            <span class="status-badge completed">
+                            <i class="fas fa-check"></i> COMPLETED
+                        </span>
+                        </div>
+
+                        <div class="booking-content">
+                            <div class="booking-header">
+                                <h3>🇮🇹 Rome, Italy</h3>
+                                <p class="booking-id">#TH-2024-000876</p>
+                            </div>
+
+                            <div class="booking-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Oct 10 - Oct 17, 2024</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-hotel"></i>
+                                    <span>Hotel de Russie</span>
+                                </div>
+                                <div class="detail-item price">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    <span>$2,299</span>
+                                </div>
+                            </div>
+
+                            <div class="rating-display">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span>"Wonderful experience!"</span>
+                            </div>
+
+                            <div class="booking-actions">
+                                <button class="action-btn primary" onclick="viewBookingDetails('TH-2024-000876')">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                                <button class="action-btn secondary" onclick="bookAgain('TH-2024-000876')">
+                                    <i class="fas fa-redo"></i> Book Again
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cancelled Bookings Section -->
+            <div class="bookings-section" id="cancelled-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-ban"></i> Cancelled Bookings (2)</h2>
+                </div>
+
+                <div class="bookings-grid">
+                    <!-- Cancelled Booking Card -->
+                    <div class="booking-card" data-status="cancelled">
+                        <div class="booking-image">
+                            <img src="https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=800"
+                                 alt="Santorini">
+                            <span class="status-badge cancelled">
+                            <i class="fas fa-times"></i> CANCELLED
+                        </span>
+                        </div>
+
+                        <div class="booking-content">
+                            <div class="booking-header">
+                                <h3>🇬🇷 Santorini, Greece</h3>
+                                <p class="booking-id">#TH-2024-000765</p>
+                            </div>
+
+                            <div class="booking-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Dec 20 - Dec 27, 2024</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-hotel"></i>
+                                    <span>Canaves Oia Hotel</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    <span>$2,199</span>
+                                </div>
+                                <div class="detail-item refund">
+                                    <i class="fas fa-undo"></i>
+                                    <span>Refunded: $1,979 (90%)</span>
+                                </div>
+                            </div>
+
+                            <div class="cancellation-info">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Cancelled on Nov 25, 2024</span>
+                            </div>
+
+                            <div class="booking-actions">
+                                <button class="action-btn primary" onclick="viewBookingDetails('TH-2024-000765')">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                                <button class="action-btn secondary" onclick="bookSimilar('TH-2024-000765')">
+                                    <i class="fas fa-search"></i> Book Similar Trip
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State (hidden by default) -->
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <i class="fas fa-suitcase"></i>
+                <h3>No bookings found</h3>
+                <p>Start planning your next adventure!</p>
+                <a href="{% url 'destinations_page' %}" class="btn-primary">
+                    <i class="fas fa-compass"></i> Browse Destinations
+                </a>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <button class="page-btn" onclick="changePage('prev')">
+                <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            <button class="page-btn active" onclick="changePage(1)">1</button>
+            <button class="page-btn" onclick="changePage(2)">2</button>
+            <button class="page-btn" onclick="changePage(3)">3</button>
+            <span class="page-dots">...</span>
+            <button class="page-btn" onclick="changePage(10)">10</button>
+            <button class="page-btn" onclick="changePage('next')">
+                Next <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{% static 'apps/js/my_bookings.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,1025 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}
+<title>My Wishlist - TravelHub</title>
+{% endblock %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'apps/css/wishlist.css' %}">
+{% endblock %}
+
+{% block main_content %}
+<!-- Wishlist Page -->
+<div class="wishlist-page">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <a href="{% url 'dashboard_page' %}" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Dashboard</span>
+            </a>
+            
+            <div class="header-title">
+                <h1><i class="fas fa-heart"></i> My Wishlist</h1>
+                <p>Your dream destinations await - start planning your next adventure</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <div class="stat-icon total">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-items">24</h3>
+                        <p>Saved Places</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon cost">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-cost">$48,750</h3>
+                        <p>Total Value</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon countries">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="countries-count">15</h3>
+                        <p>Countries</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon average">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="average-price">$2,031</h3>
+                        <p>Avg. Price</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="wishlist-container">
+        <!-- Left Section - Wishlist Items -->
+        <div class="wishlist-main">
+            <!-- Filter & Search Section -->
+            <div class="filter-section">
+                <div class="filter-content">
+                    <!-- Search Bar -->
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" placeholder="Search destinations, countries, or activities...">
+                        <button class="clear-search" id="clear-search" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <!-- Filter Tabs -->
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-category="all" onclick="filterByCategory('all')">
+                            <i class="fas fa-globe"></i>
+                            <span>All Destinations</span>
+                            <span class="tab-count">24</span>
+                        </button>
+                        <button class="filter-tab" data-category="beach" onclick="filterByCategory('beach')">
+                            <i class="fas fa-umbrella-beach"></i>
+                            <span>Beach</span>
+                            <span class="tab-count">8</span>
+                        </button>
+                        <button class="filter-tab" data-category="city" onclick="filterByCategory('city')">
+                            <i class="fas fa-city"></i>
+                            <span>City</span>
+                            <span class="tab-count">6</span>
+                        </button>
+                        <button class="filter-tab" data-category="adventure" onclick="filterByCategory('adventure')">
+                            <i class="fas fa-mountain"></i>
+                            <span>Adventure</span>
+                            <span class="tab-count">5</span>
+                        </button>
+                        <button class="filter-tab" data-category="luxury" onclick="filterByCategory('luxury')">
+                            <i class="fas fa-gem"></i>
+                            <span>Luxury</span>
+                            <span class="tab-count">5</span>
+                        </button>
+                    </div>
+
+                    <!-- Options Bar -->
+                    <div class="options-bar">
+                        <div class="bulk-actions">
+                            <button class="bulk-btn" onclick="toggleSelectMode()">
+                                <i class="fas fa-check-square"></i>
+                                <span>Select Multiple</span>
+                            </button>
+                            <div class="bulk-action-buttons" id="bulk-actions" style="display: none;">
+                                <button class="bulk-action-btn remove" onclick="removeSelected()">
+                                    <i class="fas fa-trash"></i> Remove Selected
+                                </button>
+                                <button class="bulk-action-btn compare" onclick="compareSelected()">
+                                    <i class="fas fa-exchange-alt"></i> Compare
+                                </button>
+                                <button class="bulk-action-btn cancel" onclick="cancelSelectMode()">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="sort-options">
+                            <label><i class="fas fa-sort"></i> Sort:</label>
+                            <select id="sort-select" onchange="sortWishlist()">
+                                <option value="date-desc">Recently Added</option>
+                                <option value="date-asc">Oldest First</option>
+                                <option value="price-high">Price (High to Low)</option>
+                                <option value="price-low">Price (Low to High)</option>
+                                <option value="name-asc">Name (A-Z)</option>
+                                <option value="name-desc">Name (Z-A)</option>
+                                <option value="rating">Highest Rated</option>
+                                <option value="popularity">Most Popular</option>
+                            </select>
+                        </div>
+
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="grid" onclick="toggleView('grid')">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button class="view-btn" data-view="list" onclick="toggleView('list')">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wishlist Items Grid -->
+            <div class="wishlist-items-section">
+                <div class="section-header">
+                    <h2>
+                        <i class="fas fa-star"></i> 
+                        <span id="section-title">All Destinations</span>
+                        <span class="section-count">(24)</span>
+                    </h2>
+                    <button class="share-wishlist-btn" onclick="shareWishlist()">
+                        <i class="fas fa-share-alt"></i> Share Wishlist
+                    </button>
+                </div>
+
+                <div class="wishlist-grid" id="wishlist-grid">
+                    <!-- Wishlist Card 1 -->
+                    <div class="wishlist-card" data-category="beach" data-price="3299" data-rating="5" data-id="1">
+                        <div class="card-checkbox">
+                            <input type="checkbox" class="item-checkbox" data-id="1">
+                        </div>
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800" alt="Maldives">
+                            <div class="image-overlay">
+                                <button class="quick-view-btn" onclick="quickView(1)">
+                                    <i class="fas fa-eye"></i> Quick View
+                                </button>
+                            </div>
+                            <span class="deal-badge hot">
+                                <i class="fas fa-fire"></i> Hot Deal
+                            </span>
+                            <button class="wishlist-heart active" onclick="toggleWishlist(1)">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="destination-info">
+                                    <span class="flag">🇲🇻</span>
+                                    <h3>Maldives</h3>
+                                </div>
+                                <div class="price-badge">
+                                    <span class="save-badge">Save 20%</span>
+                                </div>
+                            </div>
+
+                            <p class="country-name">
+                                <i class="fas fa-map-marker-alt"></i> Indian Ocean
+                            </p>
+
+                            <div class="rating-row">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">5.0 (487 reviews)</span>
+                            </div>
+
+                            <p class="card-description">
+                                Paradise on Earth with crystal-clear waters, white sandy beaches, and luxury overwater villas.
+                            </p>
+
+                            <div class="card-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>7-10 Days</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-sun"></i>
+                                    <span>Dec-Apr</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-swimmer"></i>
+                                    <span>Diving</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-hotel"></i>
+                                    <span>5-Star Resort</span>
+                                </div>
+                            </div>
+
+                            <div class="card-price">
+                                <div class="price-info">
+                                    <span class="price-label">Starting from</span>
+                                    <div class="price-display">
+                                        <span class="old-price">$4,099</span>
+                                        <span class="current-price">$3,299</span>
+                                    </div>
+                                    <span class="price-note">per person</span>
+                                </div>
+                            </div>
+
+                            <div class="card-actions">
+                                <button class="action-btn primary" onclick="bookNow(1)">
+                                    <i class="fas fa-plane"></i> Book Now
+                                </button>
+                                <button class="action-btn secondary" onclick="viewDetails(1)">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                                <button class="action-btn icon-btn" onclick="shareDestination(1)">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                                <button class="action-btn icon-btn" onclick="setPriceAlert(1)">
+                                    <i class="fas fa-bell"></i>
+                                </button>
+                            </div>
+
+                            <div class="card-footer">
+                                <span class="added-date">
+                                    <i class="far fa-clock"></i>
+                                    Added 2 days ago
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wishlist Card 2 -->
+                    <div class="wishlist-card" data-category="city" data-price="2499" data-rating="5" data-id="2">
+                        <div class="card-checkbox">
+                            <input type="checkbox" class="item-checkbox" data-id="2">
+                        </div>
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800" alt="Paris">
+                            <div class="image-overlay">
+                                <button class="quick-view-btn" onclick="quickView(2)">
+                                    <i class="fas fa-eye"></i> Quick View
+                                </button>
+                            </div>
+                            <span class="deal-badge limited">
+                                <i class="fas fa-clock"></i>
+                                Limited Offer
+                            </span>
+                            <button class="wishlist-heart active" onclick="toggleWishlist(2)">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="destination-info">
+                                    <span class="flag">🇫🇷</span>
+                                    <h3>Paris</h3>
+                                </div>
+                                <div class="price-badge">
+                                    <span class="save-badge">Save 15%</span>
+                                </div>
+                            </div>
+
+                            <p class="country-name">
+                                <i class="fas fa-map-marker-alt"></i> France
+                            </p>
+
+                            <div class="rating-row">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.9 (1,234 reviews)</span>
+                            </div>
+
+                            <p class="card-description">
+                                The City of Light - iconic Eiffel Tower, world-class museums, charming cafés and romance.
+                            </p>
+
+                            <div class="card-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>5-7 Days</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-cloud-sun"></i>
+                                    <span>Apr-Oct</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Sightseeing</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-hotel"></i>
+                                    <span>Luxury Hotel</span>
+                                </div>
+                            </div>
+
+                            <div class="card-price">
+                                <div class="price-info">
+                                    <span class="price-label">Starting from</span>
+                                    <div class="price-display">
+                                        <span class="old-price">$2,940</span>
+                                        <span class="current-price">$2,499</span>
+                                    </div>
+                                    <span class="price-note">per person</span>
+                                </div>
+                            </div>
+
+                            <div class="card-actions">
+                                <button class="action-btn primary" onclick="bookNow(2)">
+                                    <i class="fas fa-plane"></i> Book Now
+                                </button>
+                                <button class="action-btn secondary" onclick="viewDetails(2)">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                                <button class="action-btn icon-btn" onclick="shareDestination(2)">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                                <button class="action-btn icon-btn" onclick="setPriceAlert(2)">
+                                    <i class="fas fa-bell"></i>
+                                </button>
+                            </div>
+
+                            <div class="card-footer">
+                                <span class="added-date">
+                                    <i class="far fa-clock"></i> Added 1 week ago
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wishlist Card 3 -->
+                    <div class="wishlist-card" data-category="adventure" data-price="2899" data-rating="5" data-id="3">
+                        <div class="card-checkbox">
+                            <input type="checkbox" class="item-checkbox" data-id="3">
+                        </div>
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800" alt="Swiss Alps">
+                            <div class="image-overlay">
+                                <button class="quick-view-btn" onclick="quickView(3)">
+                                    <i class="fas fa-eye"></i> Quick View
+                                </button>
+                            </div>
+                            <span class="deal-badge new">
+                                <i class="fas fa-star"></i> New
+                            </span>
+                            <button class="wishlist-heart active" onclick="toggleWishlist(3)">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="destination-info">
+                                    <span class="flag">🇨🇭</span>
+                                    <h3>Swiss Alps</h3>
+                                </div>
+                            </div>
+
+                            <p class="country-name">
+                                <i class="fas fa-map-marker-alt"></i> Switzerland
+                            </p>
+
+                            <div class="rating-row">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">5.0 (856 reviews)</span>
+                            </div>
+
+                            <p class="card-description">
+                                Breathtaking mountain scenery, world-class skiing, hiking trails, and charming alpine villages.
+                            </p>
+
+                            <div class="card-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>6-8 Days</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-snowflake"></i>
+                                    <span>Dec-Mar</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-skiing"></i>
+                                    <span>Skiing</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-hotel"></i>
+                                    <span>Mountain Resort</span>
+                                </div>
+                            </div>
+
+                            <div class="card-price">
+                                <div class="price-info">
+                                    <span class="price-label">Starting from</span>
+                                    <div class="price-display">
+                                        <span class="current-price">$2,899</span>
+                                    </div>
+                                    <span class="price-note">per person</span>
+                                </div>
+                            </div>
+
+                            <div class="card-actions">
+                                <button class="action-btn primary" onclick="bookNow(3)">
+                                    <i class="fas fa-plane"></i> Book Now
+                                </button>
+                                <button class="action-btn secondary" onclick="viewDetails(3)">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                                <button class="action-btn icon-btn" onclick="shareDestination(3)">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                                <button class="action-btn icon-btn" onclick="setPriceAlert(3)">
+                                    <i class="fas fa-bell"></i>
+                                </button>
+                            </div>
+
+                            <div class="card-footer">
+                                <span class="added-date">
+                                    <i class="far fa-clock"></i> Added 3 days ago
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wishlist Card 4 -->
+                    <div class="wishlist-card" data-category="city" data-price="1899" data-rating="5" data-id="4">
+                        <div class="card-checkbox">
+                            <input type="checkbox" class="item-checkbox" data-id="4">
+                        </div>
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1513581166391-887a96ddeafd?w=800" alt="Santorini">
+                            <div class="image-overlay">
+                                <button class="quick-view-btn" onclick="quickView(4)">
+                                    <i class="fas fa-eye"></i> Quick View
+                                </button>
+                            </div>
+                            <span class="deal-badge trending">
+                                <i class="fas fa-chart-line"></i> Trending
+                            </span>
+                            <button class="wishlist-heart active" onclick="toggleWishlist(4)">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="destination-info">
+                                    <span class="flag">🇬🇷</span>
+                                    <h3>Santorini</h3>
+                                </div>
+                                <div class="price-badge">
+                                    <span class="save-badge">Save 10%</span>
+                                </div>
+                            </div>
+
+                            <p class="country-name">
+                                <i class="fas fa-map-marker-alt"></i> Greece
+                            </p>
+
+                            <div class="rating-row">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-text">4.8 (2,103 reviews)</span>
+                            </div>
+
+                            <p class="card-description">
+                                Stunning sunsets, white-washed buildings with blue domes, volcanic beaches and Greek culture.
+                            </p>
+
+                            <div class="card-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>5-7 Days</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-sun"></i>
+                                    <span>Apr-Oct</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Photography</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-hotel"></i>
+                                    <span>Boutique Hotel</span>
+                                </div>
+                            </div>
+
+                            <div class="card-price">
+                                <div class="price-info">
+                                    <span class="price-label">Starting from</span>
+                                    <div class="price-display">
+                                        <span class="old-price">$2,110</span>
+                                        <span class="current-price">$1,899</span>
+                                    </div>
+                                    <span class="price-note">per person</span>
+                                </div>
+                            </div>
+
+                            <div class="card-actions">
+                                <button class="action-btn primary" onclick="bookNow(4)">
+                                    <i class="fas fa-plane"></i> Book Now
+                                </button>
+                                <button class="action-btn secondary" onclick="viewDetails(4)">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                                <button class="action-btn icon-btn" onclick="shareDestination(4)">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                                <button class="action-btn icon-btn" onclick="setPriceAlert(4)">
+                                    <i class="fas fa-bell"></i>
+                                </button>
+                            </div>
+
+                            <div class="card-footer">
+                                <span class="added-date">
+                                    <i class="far fa-clock"></i> Added 5 days ago
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wishlist Card 5 -->
+                    <div class="wishlist-card" data-category="luxury" data-price="4599" data-rating="5" data-id="5">
+                        <div class="card-checkbox">
+                            <input type="checkbox" class="item-checkbox" data-id="5">
+                        </div>
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" alt="Dubai">
+                            <div class="image-overlay">
+                                <button class="quick-view-btn" onclick="quickView(5)">
+                                    <i class="fas fa-eye"></i> Quick View
+                                </button>
+                            </div>
+                            <span class="deal-badge luxury">
+                                <i class="fas fa-gem"></i> Luxury
+                            </span>
+                            <button class="wishlist-heart active" onclick="toggleWishlist(5)">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="destination-info">
+                                    <span class="flag">🇦🇪</span>
+                                    <h3>Dubai</h3>
+                                </div>
+                                <div class="price-badge">
+                                    <span class="save-badge">Save 25%</span>
+                                </div>
+                            </div>
+
+                            <p class="country-name">
+                                <i class="fas fa-map-marker-alt"></i> United Arab Emirates
+                            </p>
+
+                            <div class="rating-row">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.9 (3,456 reviews)</span>
+                            </div>
+
+                            <p class="card-description">
+                                Ultra-modern city with iconic skyscrapers, luxury shopping, world-class dining and entertainment.
+                            </p>
+
+                            <div class="card-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>4-6 Days</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-sun"></i>
+                                    <span>Nov-Mar</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    <span>Shopping</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-hotel"></i>
+                                    <span>7-Star Hotel</span>
+                                </div>
+                            </div>
+
+                            <div class="card-price">
+                                <div class="price-info">
+                                    <span class="price-label">Starting from</span>
+                                    <div class="price-display">
+                                        <span class="old-price">$6,132</span>
+                                        <span class="current-price">$4,599</span>
+                                    </div>
+                                    <span class="price-note">per person</span>
+                                </div>
+                            </div>
+
+                            <div class="card-actions">
+                                <button class="action-btn primary" onclick="bookNow(5)">
+                                    <i class="fas fa-plane"></i> Book Now
+                                </button>
+                                <button class="action-btn secondary" onclick="viewDetails(5)">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                                <button class="action-btn icon-btn" onclick="shareDestination(5)">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                                <button class="action-btn icon-btn" onclick="setPriceAlert(5)">
+                                    <i class="fas fa-bell"></i>
+                                </button>
+                            </div>
+
+                            <div class="card-footer">
+                                <span class="added-date">
+                                    <i class="far fa-clock"></i> Added 1 week ago
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wishlist Card 6 -->
+                    <div class="wishlist-card" data-category="beach" data-price="2199" data-rating="5" data-id="6">
+                        <div class="card-checkbox">
+                            <input type="checkbox" class="item-checkbox" data-id="6">
+                        </div>
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800" alt="Bali">
+                            <div class="image-overlay">
+                                <button class="quick-view-btn" onclick="quickView(6)">
+                                    <i class="fas fa-eye"></i> Quick View
+                                </button>
+                            </div>
+                            <span class="deal-badge popular">
+                                <i class="fas fa-fire"></i> Popular
+                            </span>
+                            <button class="wishlist-heart active" onclick="toggleWishlist(6)">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="destination-info">
+                                    <span class="flag">🇮🇩</span>
+                                    <h3>Bali</h3>
+                                </div>
+                                <div class="price-badge">
+                                    <span class="save-badge">Save 18%</span>
+                                </div>
+                            </div>
+
+                            <p class="country-name">
+                                <i class="fas fa-map-marker-alt"></i> Indonesia
+                            </p>
+
+                            <div class="rating-row">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-text">4.7 (1,876 reviews)</span>
+                            </div>
+
+                            <p class="card-description">
+                                Tropical paradise with stunning beaches, ancient temples, lush rice terraces and vibrant culture.
+                            </p>
+
+                            <div class="card-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>7-10 Days</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-sun"></i>
+                                    <span>Apr-Oct</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-spa"></i>
+                                    <span>Wellness</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-hotel"></i>
+                                    <span>Beach Resort</span>
+                                </div>
+                            </div>
+
+                            <div class="card-price">
+                                <div class="price-info">
+                                    <span class="price-label">Starting from</span>
+                                    <div class="price-display">
+                                        <span class="old-price">$2,682</span>
+                                        <span class="current-price">$2,199</span>
+                                    </div>
+                                    <span class="price-note">per person</span>
+                                </div>
+                            </div>
+
+                            <div class="card-actions">
+                                <button class="action-btn primary" onclick="bookNow(6)">
+                                    <i class="fas fa-plane"></i> Book Now
+                                </button>
+                                <button class="action-btn secondary" onclick="viewDetails(6)">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                                <button class="action-btn icon-btn" onclick="shareDestination(6)">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                                <button class="action-btn icon-btn" onclick="setPriceAlert(6)">
+                                    <i class="fas fa-bell"></i>
+                                </button>
+                            </div>
+
+                            <div class="card-footer">
+                                <span class="added-date">
+                                    <i class="far fa-clock"></i> Added 2 weeks ago
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Load More Button -->
+                <div class="load-more-section">
+                    <button class="load-more-btn" onclick="loadMore()">
+                        <i class="fas fa-plus-circle"></i> Load More Destinations
+                    </button>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <i class="fas fa-heart-broken"></i>
+                <h3>Your wishlist is empty</h3>
+                <p>Start adding your dream destinations and plan your perfect getaway!</p>
+                <a href="{% url 'destinations_page' %}" class="btn-explore">
+                    <i class="fas fa-compass"></i> Explore Destinations
+                </a>
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="wishlist-sidebar">
+            <!-- Budget Calculator -->
+            <section class="sidebar-section budget-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-calculator"></i> Budget Calculator</h3>
+                </div>
+                <div class="budget-content">
+                    <div class="budget-item">
+                        <span>Selected Items (0):</span>
+                        <span class="budget-value" id="selected-count">$0</span>
+                    </div>
+                    <div class="budget-item">
+                        <span>Total Wishlist:</span>
+                        <span class="budget-value total">$48,750</span>
+                    </div>
+                    <div class="budget-item">
+                        <span>Average per Trip:</span>
+                        <span class="budget-value">$2,031</span>
+                    </div>
+                    <div class="budget-savings">
+                        <i class="fas fa-piggy-bank"></i>
+                        <span>Potential Savings: <strong>$8,450</strong></span>
+                    </div>
+                    <button class="create-trip-btn" onclick="createTripPlan()">
+                        <i class="fas fa-route"></i> Create Trip Plan
+                    </button>
+                </div>
+            </section>
+
+            <!-- Travel Timeline -->
+            <section class="sidebar-section timeline-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-calendar-alt"></i> Best Time to Visit</h3>
+                </div>
+                <div class="timeline-content">
+                    <div class="season-item">
+                        <div class="season-icon spring">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="season-info">
+                            <h4>Spring (Mar-May)</h4>
+                            <p>8 destinations</p>
+                        </div>
+                    </div>
+                    <div class="season-item">
+                        <div class="season-icon summer">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <div class="season-info">
+                            <h4>Summer (Jun-Aug)</h4>
+                            <p>6 destinations</p>
+                        </div>
+                    </div>
+                    <div class="season-item">
+                        <div class="season-icon autumn">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <div class="season-info">
+                            <h4>Autumn (Sep-Nov)</h4>
+                            <p>4 destinations</p>
+                        </div>
+                    </div>
+                    <div class="season-item">
+                        <div class="season-icon winter">
+                            <i class="fas fa-snowflake"></i>
+                        </div>
+                        <div class="season-info">
+                            <h4>Winter (Dec-Feb)</h4>
+                            <p>6 destinations</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Price Alerts -->
+            <section class="sidebar-section alerts-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-bell"></i> Price Alerts</h3>
+                </div>
+                <div class="alerts-content">
+                    <div class="alert-item active">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="alert-info">
+                            <h4>Maldives</h4>
+                            <p>Alert set for $2,999</p>
+                        </div>
+                    </div>
+                    <div class="alert-item">
+                        <i class="fas fa-bell"></i>
+                        <div class="alert-info">
+                            <h4>Paris</h4>
+                            <p>Alert set for $2,199</p>
+                        </div>
+                    </div>
+                    <button class="set-alerts-btn" onclick="openPriceAlerts()">
+                        <i class="fas fa-plus"></i> Set New Alert
+                    </button>
+                </div>
+            </section>
+
+            <!-- Travel Inspiration -->
+            <section class="sidebar-section inspiration-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-lightbulb"></i> Travel Inspiration</h3>
+                </div>
+                <div class="inspiration-content">
+                    <div class="quote-card">
+                        <i class="fas fa-quote-left"></i>
+                        <p>"Travel is the only thing you buy that makes you richer."</p>
+                        <span class="quote-author">- Anonymous</span>
+                    </div>
+                    <div class="tip-card">
+                        <i class="fas fa-info-circle"></i>
+                        <h4>Travel Tip</h4>
+                        <p>Book 2-3 months in advance for the best flight and hotel deals!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Similar Destinations -->
+            <section class="sidebar-section similar-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-compass"></i> You May Also Like</h3>
+                </div>
+                <div class="similar-content">
+                    <div class="similar-card">
+                        <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=300" alt="Seychelles">
+                        <div class="similar-info">
+                            <h4>🇸🇨 Seychelles</h4>
+                            <p class="similar-price">From $3,799</p>
+                            <button class="add-wishlist-btn" onclick="addToWishlist('seychelles')">
+                                <i class="far fa-heart"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                    <div class="similar-card">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300" alt="Iceland">
+                        <div class="similar-info">
+                            <h4>🇮🇸 Iceland</h4>
+                            <p class="similar-price">From $2,999</p>
+                            <button class="add-wishlist-btn" onclick="addToWishlist('iceland')">
+                                <i class="far fa-heart"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!-- Quick View Modal -->
+<div class="modal" id="quick-view-modal" style="display: none;">
+    <div class="modal-overlay" onclick="closeQuickView()"></div>
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeQuickView()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-body" id="quick-view-content">
+            <!-- Content will be loaded dynamically -->
+        </div>
+    </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal" id="share-modal" style="display: none;">
+    <div class="modal-overlay" onclick="closeShareModal()"></div>
+    <div class="modal-content share-modal-content">
+        <button class="modal-close" onclick="closeShareModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-header">
+            <h3><i class="fas fa-share-alt"></i> Share Your Wishlist</h3>
+        </div>
+        <div class="modal-body">
+            <div class="share-link-section">
+                <label>Shareable Link:</label>
+                <div class="link-input-group">
+                    <input type="text" id="share-link" value="https://travelhub.com/wishlist/johndoe" readonly>
+                    <button class="copy-btn" onclick="copyShareLink()">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+            </div>
+            <div class="social-share-section">
+                <p>Share on social media:</p>
+                <div class="social-buttons">
+                    <button class="social-btn facebook" onclick="shareOnFacebook()">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </button>
+                    <button class="social-btn twitter" onclick="shareOnTwitter()">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </button>
+                    <button class="social-btn whatsapp" onclick="shareOnWhatsapp()">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </button>
+                    <button class="social-btn email" onclick="shareViaEmail()">
+                        <i class="fas fa-envelope"></i> Email
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block custom_js %}
+<script src="{% static 'apps/js/wishlist.js' %}"></script>
+{% endblock %}
