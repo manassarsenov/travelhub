@@ -4,14 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {#    <title>TravelHub - Discover Your Dream Destination</title>#}
     {% block title %}
     {% endblock %}
 
-
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
@@ -19,8 +16,6 @@
 
     <link rel="stylesheet" href="{% static 'apps/css/main_base.css' %}">
     {% block custom_css %}{% endblock %}
-
-
 </head>
 <body>
 <!-- Loading Screen -->
@@ -35,8 +30,8 @@
 
 <!-- Navigation -->
 <nav id="navbar">
-    <div class="navbar">
-
+    <!-- TOP NAVBAR -->
+    <div class="navbar-top">
         <div class="logo">
             <i class="fas fa-compass"></i>
             <span>TravelHub</span>
@@ -73,14 +68,13 @@
                 <span class="tooltip-text">Wishlist</span>
             </button>
 
-            <button class="icon-btn tooltip" onclick=" window.location.href ={% url 'notification_page' %}">
+            <button class="icon-btn tooltip" onclick="window.location.href='{% url 'notification_page' %}'">
                 <i class="far fa-bell"></i>
                 <span id="notification-count" class="badge">0</span>
                 <span class="tooltip-text">Notification</span>
             </button>
 
             {% if user.is_authenticated %}
-
                 <!-- User Menu -->
                 <div class="user-menu">
                     <button class="user-btn" onclick="toggleUserMenu()">
@@ -95,13 +89,6 @@
                             <p>john@example.com</p>
                         </div>
 
-
-                        {#                    <a href="#" class="dropdown-item">#}
-                        {#                        <i class="fas fa-user"></i>#}
-                        {#                        <span>Login </span>#}
-                        {#                    </a>#}
-
-
                         <a href="{% url 'dashboard_page' %}" class="dropdown-item">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>Dashboard</span>
@@ -114,7 +101,6 @@
                             <i class="fas fa-heart"></i>
                             <span>Wishlist</span>
                         </a>
-
                         <a href="{% url 'profile_settings_page' %}" class="dropdown-item">
                             <i class="fas fa-user-cog"></i>
                             <span>Profile Settings</span>
@@ -123,15 +109,13 @@
                             <i class="fas fa-shield-alt"></i>
                             <span>Admin Panel</span>
                         </a>
-
                         <a href="#" class="dropdown-item">
                             <i class="fas fa-gear"></i>
                             <span>Settings</span>
                         </a>
-
                         <a href="{% url 'telegram_channel_page' %}" class="dropdown-item">
                             <i class="fab fa-telegram"></i>
-                            <span>Telegram channel </span>
+                            <span>Telegram channel</span>
                         </a>
                         <a href="{% url 'instagram_page' %}" class="dropdown-item">
                             <i class="fab fa-instagram" style="color: #E4405F;"></i>
@@ -156,51 +140,78 @@
                     <i class="fas fa-user" style="font-size: 12px;"></i>
                 </button>
 
-
                 <button class="user-btn" onclick="window.location.href='{% url 'register_page' %}'">
                     <span>Register</span>
                     <i class="fas fa-user-plus" style="font-size: 12px;"></i>
                 </button>
-
-
-
-
             {% endif %}
+        </div>
+    </div>
+
+    <!-- SEARCH BAR - NAVBAR PASTIDA -->
+    <div class="navbar-search-bottom">
+        <div class="search-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text"
+                   id="global-search-input"
+                   class="search-input"
+                   placeholder="Search destinations, hotels, activities..."
+                   autocomplete="off"
+                   onkeypress="handleSearchKeypress(event)">
+            <button class="search-button" onclick="performGlobalSearch()">
+                <i class="fas fa-search"></i>
+                <span>Search</span>
+            </button>
         </div>
     </div>
 </nav>
 
+<!-- SEARCH RESULTS OVERLAY -->
+<div id="search-results-overlay" class="search-overlay">
+    <div class="search-results-container">
+        <div class="search-results-header">
+            <h2>Search Results</h2>
+            <button class="close-results" onclick="closeSearchResults()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div id="search-results-content" class="search-results-content">
+            <!-- Results will be loaded here -->
+        </div>
+    </div>
+</div>
 
 <!-- Full Screen Mobile Menu -->
 <div id="mobile-menu" class="mobile-menu-overlay">
     <div class="mobile-menu-content">
         <ul class="mobile-menu-links">
             <li>
-                <a href="#" class="mobile-menu-link">
+                <a href="{% url 'home_page' %}" class="mobile-menu-link">
                     <i class="fas fa-home"></i>
                     <span>Home</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="mobile-menu-link">
+                <a href="{% url 'destinations_page' %}" class="mobile-menu-link">
                     <i class="fas fa-map-marked-alt"></i>
                     <span>Destinations</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="mobile-menu-link">
+                <a href="{% url 'recommendation_page' %}" class="mobile-menu-link">
                     <i class="fas fa-star"></i>
                     <span>Recommendations</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="mobile-menu-link">
+                <a href="{% url 'about_page' %}" class="mobile-menu-link">
                     <i class="fas fa-info-circle"></i>
                     <span>About</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="mobile-menu-link">
+                <a href="{% url 'contact_page' %}" class="mobile-menu-link">
                     <i class="fas fa-envelope"></i>
                     <span>Contact</span>
                 </a>
@@ -225,13 +236,8 @@
     </div>
 </div>
 
-
-
 {% block main_content %}
-
 {% endblock %}
-
-
 
 <!-- Footer -->
 <footer>
@@ -245,12 +251,10 @@
                     </div>
                 </div>
                 <p>Your trusted partner in discovering amazing destinations worldwide. AI-powered recommendations
-                    for
-                    unforgettable travel experiences.</p>
+                    for unforgettable travel experiences.</p>
                 <div class="social-links">
                     <a href="https://www.facebook.com/ManasSarsenov/" class="social-link" target="_blank"
-                       rel="noopener noreferrer">
-                        <i class="fab fa-facebook-f"></i></a>
+                       rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://t.me/travelhub_official" class="social-link" target="_blank"
                        rel="noopener noreferrer"><i class="fab fa-telegram"></i></a>
                     <a href="https://www.instagram.com/travelhub.officiall/" class="social-link" target="_blank"
@@ -306,12 +310,10 @@
     </div>
 </footer>
 
-
 <!-- Scroll to Top -->
 <div id="scroll-top" class="scroll-top" onclick="scrollToTop()">
     <i class="fas fa-arrow-up" style="font-size: 26px;"></i>
 </div>
-
 
 <!-- Toast Notification -->
 <div id="toast" class="toast">
@@ -339,16 +341,9 @@
     </div>
 </div>
 
-
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <script src="{% static 'apps/js/main_base.js' %}"></script>
 
 {% block custom_js %}
 {% endblock %}
-
 </body>
-
 </html>
-

@@ -2,553 +2,582 @@
 {% load static %}
 
 {% block title %}
-<title>TravelHub - about page   </title>
+    <title>TravelHub - about page </title>
 {% endblock %}
 
 {% block custom_css %}
-<link rel="stylesheet" href="{% static 'apps/css/about.css' %}">
+    <link rel="stylesheet" href="{% static 'apps/css/about.css' %}">
+    <link rel="stylesheet" href="{% static 'apps/css/responsive.css' %}">
+
 {% endblock %}
 
 {% block main_content %}
 
-<!-- Hero Section with Video Background -->
-<section class="destinations-hero">
-    <video class="hero-video" autoplay muted loop playsinline>
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-people-walking-in-a-busy-street-4566-large.mp4" type="video/mp4">
-    </video>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <div class="hero-logo" data-aos="fade-up">🌍 TravelHub</div>
-        <h1 class="hero-tagline" data-aos="fade-up" data-aos-delay="200">
-            Transforming Travel Dreams Into Reality
-        </h1>
-        <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
-            <span>Since 2020</span>
-            <span class="separator">•</span>
-            <span>2.5M+ Travelers</span>
-            <span class="separator">•</span>
-            <span>120 Countries</span>
+    <!-- Hero Section with Video Background -->
+    <section class="destinations-hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-people-walking-in-a-busy-street-4566-large.mp4"
+                    type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-logo" data-aos="fade-up">🌍 TravelHub</div>
+            <h1 class="hero-tagline" data-aos="fade-up" data-aos-delay="200">
+                Transforming Travel Dreams Into Reality
+            </h1>
+            <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
+                <span>Since 2020</span>
+                <span class="separator">•</span>
+                <span>2.5M+ Travelers</span>
+                <span class="separator">•</span>
+                <span>120 Countries</span>
+            </div>
+            <button class="hero-cta" data-aos="fade-up" data-aos-delay="600" onclick="scrollToSection('.who-we-are')">
+                <span>Discover Our Story</span>
+                <i class="fas fa-arrow-down"></i>
+            </button>
         </div>
-        <button class="hero-cta" data-aos="fade-up" data-aos-delay="600" onclick="scrollToSection('.who-we-are')">
-            <span>Discover Our Story</span>
-            <i class="fas fa-arrow-down"></i>
-        </button>
-    </div>
-    <div class="scroll-indicator">
-        <div class="scroll-arrow"></div>
-    </div>
-
-    <!-- Video Controls -->
-    <div class="video-controls">
-        <button class="video-control-btn" id="play-pause-btn" onclick="toggleVideo()">
-            <i class="fas fa-pause"></i>
-        </button>
-        <button class="video-control-btn" id="mute-btn" onclick="toggleMute()">
-            <i class="fas fa-volume-mute"></i>
-        </button>
-    </div>
-</section>
-
-<!-- Who We Are Section -->
-<section class="who-we-are">
-    <div class="container">
-        <div class="two-column">
-            <div class="image-collage" data-aos="fade-right">
-                <div class="collage-item">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop" alt="Office" class="collage-img">
-                    <div class="collage-overlay">
-                        <i class="fas fa-building"></i>
-                        <span>Our Office</span>
-                    </div>
-                </div>
-                <div class="collage-item">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop" alt="Team" class="collage-img">
-                    <div class="collage-overlay">
-                        <i class="fas fa-users"></i>
-                        <span>Our Team</span>
-                    </div>
-                </div>
-                <div class="collage-item">
-                    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=600&h=400&fit=crop" alt="Customer Service" class="collage-img">
-                    <div class="collage-overlay">
-                        <i class="fas fa-headset"></i>
-                        <span>Customer Care</span>
-                    </div>
-                </div>
-                <div class="collage-item">
-                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=400&fit=crop" alt="Travel" class="collage-img">
-                    <div class="collage-overlay">
-                        <i class="fas fa-plane"></i>
-                        <span>Travel Dreams</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content" data-aos="fade-left">
-                <span class="badge">Est. 2020</span>
-                <h2 class="section-title">Who We Are</h2>
-
-                <div class="content-block">
-                    <div class="content-icon">🚀</div>
-                    <p>We started with a simple mission: make travel accessible and unforgettable for everyone. What began as a small startup in Tashkent has grown into a global movement.</p>
-                </div>
-
-                <div class="content-block">
-                    <div class="content-icon">🌍</div>
-                    <p>Today, we're the world's leading AI-powered travel platform, connecting millions of travelers with their dream destinations across 120 countries.</p>
-                </div>
-
-                <div class="content-block">
-                    <div class="content-icon">💡</div>
-                    <p>Our innovative technology combines machine learning with human expertise to create personalized travel experiences that exceed expectations.</p>
-                </div>
-
-                <div class="metrics">
-                    <div class="metric" data-aos="zoom-in" data-aos-delay="100">
-                        <div class="metric-number" data-count="2500000">0</div>
-                        <div class="metric-label">Users</div>
-                    </div>
-                    <div class="metric" data-aos="zoom-in" data-aos-delay="200">
-                        <div class="metric-number" data-count="450">0</div>
-                        <div class="metric-label">Destinations</div>
-                    </div>
-                    <div class="metric" data-aos="zoom-in" data-aos-delay="300">
-                        <div class="metric-number" data-count="98">0</div>
-                        <div class="metric-label">Satisfaction</div>
-                    </div>
-                </div>
-
-                <button class="cta-button">
-                    <span>Meet Our Team</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
         </div>
-    </div>
-</section>
 
-<!-- Interactive Timeline Section -->
-<section class="timeline-section">
-    <div class="container">
-        <h2 class="section-title text-center" data-aos="fade-up">Our Journey Through Time</h2>
-        <p class="section-subtitle text-center" data-aos="fade-up" data-aos-delay="100">
-            From a small startup to a global leader in travel innovation
-        </p>
+        <!-- Video Controls -->
+        <div class="video-controls">
+            <button class="video-control-btn" id="play-pause-btn" onclick="toggleVideo()">
+                <i class="fas fa-pause"></i>
+            </button>
+            <button class="video-control-btn" id="mute-btn" onclick="toggleMute()">
+                <i class="fas fa-volume-mute"></i>
+            </button>
+        </div>
+    </section>
 
-        <div class="timeline" data-aos="fade-up" data-aos-delay="200">
-            <div class="timeline-bar">
-                <div class="timeline-line"></div>
-                <div class="timeline-progress" id="timeline-progress"></div>
-
-                <div class="timeline-year active" data-year="2020" onclick="showTimelineCard('2020')">
-                    <div class="year-dot"></div>
-                    <div class="year-label">2020</div>
-                </div>
-
-                <div class="timeline-year" data-year="2021" onclick="showTimelineCard('2021')">
-                    <div class="year-dot"></div>
-                    <div class="year-label">2021</div>
-                </div>
-
-                <div class="timeline-year" data-year="2022" onclick="showTimelineCard('2022')">
-                    <div class="year-dot"></div>
-                    <div class="year-label">2022</div>
-                </div>
-
-                <div class="timeline-year" data-year="2023" onclick="showTimelineCard('2023')">
-                    <div class="year-dot"></div>
-                    <div class="year-label">2023</div>
-                </div>
-
-                <div class="timeline-year" data-year="2024" onclick="showTimelineCard('2024')">
-                    <div class="year-dot"></div>
-                    <div class="year-label">2024</div>
-                </div>
-
-                <div class="timeline-year" data-year="2025" onclick="showTimelineCard('2025')">
-                    <div class="year-dot"></div>
-                    <div class="year-label">2025</div>
-                </div>
-            </div>
-
-            <div class="timeline-cards">
-                <div class="timeline-card active" id="card-2020">
-                    <div class="card-icon">🚀</div>
-                    <h3>The Beginning</h3>
-                    <p class="card-year">2020</p>
-                    <p class="card-description">Founded in Tashkent by two friends with a vision to revolutionize travel. We launched with 50 destinations and quickly gained traction among adventure seekers.</p>
-                    <div class="card-stats">
-                        <div class="card-stat">
-                            <i class="fas fa-users"></i>
-                            <span>First 1,000 users</span>
-                        </div>
-                        <div class="card-stat">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>50 destinations</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-card" id="card-2021">
-                    <div class="card-icon">📈</div>
-                    <h3>Rapid Growth</h3>
-                    <p class="card-year">2021</p>
-                    <p class="card-description">Reached our first million users! Expanded to 100 destinations and opened our first regional office. Our AI recommendation engine went live.</p>
-                    <div class="card-stats">
-                        <div class="card-stat">
-                            <i class="fas fa-users"></i>
-                            <span>1M users</span>
-                        </div>
-                        <div class="card-stat">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>100 destinations</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-card" id="card-2022">
-                    <div class="card-icon">🌍</div>
-                    <h3>Global Expansion</h3>
-                    <p class="card-year">2022</p>
-                    <p class="card-description">Opened offices in 5 countries and expanded to 200 destinations. Launched mobile app with 500K downloads in the first month.</p>
-                    <div class="card-stats">
-                        <div class="card-stat">
+    <!-- Who We Are Section -->
+    <section class="who-we-are">
+        <div class="container">
+            <div class="two-column">
+                <div class="image-collage" data-aos="fade-right">
+                    <div class="collage-item">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop"
+                             alt="Office" class="collage-img">
+                        <div class="collage-overlay">
                             <i class="fas fa-building"></i>
-                            <span>5 countries</span>
-                        </div>
-                        <div class="card-stat">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>200 destinations</span>
+                            <span>Our Office</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="timeline-card" id="card-2023">
-                    <div class="card-icon">🤖</div>
-                    <h3>AI Innovation</h3>
-                    <p class="card-year">2023</p>
-                    <p class="card-description">Launched smart travel AI with personalized recommendations. Reached 2M users and 350 destinations. Won 'Best Travel Platform' award.</p>
-                    <div class="card-stats">
-                        <div class="card-stat">
+                    <div class="collage-item">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop"
+                             alt="Team" class="collage-img">
+                        <div class="collage-overlay">
                             <i class="fas fa-users"></i>
-                            <span>2M users</span>
-                        </div>
-                        <div class="card-stat">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>350 destinations</span>
+                            <span>Our Team</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="timeline-card" id="card-2024">
-                    <div class="card-icon">🏆</div>
-                    <h3>Award Winner</h3>
-                    <p class="card-year">2024</p>
-                    <p class="card-description">Recognized as 'Industry Leader' with multiple awards. Reached 2.5M users and 450 destinations across 120 countries worldwide.</p>
-                    <div class="card-stats">
-                        <div class="card-stat">
-                            <i class="fas fa-users"></i>
-                            <span>2.5M users</span>
+                    <div class="collage-item">
+                        <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=600&h=400&fit=crop"
+                             alt="Customer Service" class="collage-img">
+                        <div class="collage-overlay">
+                            <i class="fas fa-headset"></i>
+                            <span>Customer Care</span>
                         </div>
-                        <div class="card-stat">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>450 destinations</span>
+                    </div>
+                    <div class="collage-item">
+                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=400&fit=crop"
+                             alt="Travel" class="collage-img">
+                        <div class="collage-overlay">
+                            <i class="fas fa-plane"></i>
+                            <span>Travel Dreams</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="timeline-card" id="card-2025">
-                    <div class="card-icon">✨</div>
-                    <h3>Future Vision</h3>
-                    <p class="card-year">2025</p>
-                    <p class="card-description">Launching VR travel previews, AR city guides, and AI travel companions. Target: 5M users and expansion to 600+ destinations.</p>
-                    <div class="card-stats">
-                        <div class="card-stat">
-                            <i class="fas fa-bullseye"></i>
-                            <span>Target: 5M users</span>
+                <div class="content" data-aos="fade-left">
+                    <span class="badge">Est. 2020</span>
+                    <h2 class="section-title">Who We Are</h2>
+
+                    <div class="content-block">
+                        <div class="content-icon">🚀</div>
+                        <p>We started with a simple mission: make travel accessible and unforgettable for everyone. What
+                            began as a small startup in Tashkent has grown into a global movement.</p>
+                    </div>
+
+                    <div class="content-block">
+                        <div class="content-icon">🌍</div>
+                        <p>Today, we're the world's leading AI-powered travel platform, connecting millions of travelers
+                            with their dream destinations across 120 countries.</p>
+                    </div>
+
+                    <div class="content-block">
+                        <div class="content-icon">💡</div>
+                        <p>Our innovative technology combines machine learning with human expertise to create
+                            personalized travel experiences that exceed expectations.</p>
+                    </div>
+
+                    <div class="metrics">
+                        <div class="metric" data-aos="zoom-in" data-aos-delay="100">
+                            <div class="metric-number" data-count="2500000">0</div>
+                            <div class="metric-label">Users</div>
                         </div>
-                        <div class="card-stat">
-                            <i class="fas fa-rocket"></i>
-                            <span>VR & AR Features</span>
+                        <div class="metric" data-aos="zoom-in" data-aos-delay="200">
+                            <div class="metric-number" data-count="450">0</div>
+                            <div class="metric-label">Destinations</div>
+                        </div>
+                        <div class="metric" data-aos="zoom-in" data-aos-delay="300">
+                            <div class="metric-number" data-count="98">0</div>
+                            <div class="metric-label">Satisfaction</div>
+                        </div>
+                    </div>
+
+                    <button class="cta-button">
+                        <span>Meet Our Team</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Timeline Section -->
+    <section class="timeline-section">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up">Our Journey Through Time</h2>
+            <p class="section-subtitle text-center" data-aos="fade-up" data-aos-delay="100">
+                From a small startup to a global leader in travel innovation
+            </p>
+
+            <div class="timeline" data-aos="fade-up" data-aos-delay="200">
+                <div class="timeline-bar">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-progress" id="timeline-progress"></div>
+
+                    <div class="timeline-year active" data-year="2020" onclick="showTimelineCard('2020')">
+                        <div class="year-dot"></div>
+                        <div class="year-label">2020</div>
+                    </div>
+
+                    <div class="timeline-year" data-year="2021" onclick="showTimelineCard('2021')">
+                        <div class="year-dot"></div>
+                        <div class="year-label">2021</div>
+                    </div>
+
+                    <div class="timeline-year" data-year="2022" onclick="showTimelineCard('2022')">
+                        <div class="year-dot"></div>
+                        <div class="year-label">2022</div>
+                    </div>
+
+                    <div class="timeline-year" data-year="2023" onclick="showTimelineCard('2023')">
+                        <div class="year-dot"></div>
+                        <div class="year-label">2023</div>
+                    </div>
+
+                    <div class="timeline-year" data-year="2024" onclick="showTimelineCard('2024')">
+                        <div class="year-dot"></div>
+                        <div class="year-label">2024</div>
+                    </div>
+
+                    <div class="timeline-year" data-year="2025" onclick="showTimelineCard('2025')">
+                        <div class="year-dot"></div>
+                        <div class="year-label">2025</div>
+                    </div>
+                </div>
+
+                <div class="timeline-cards">
+                    <div class="timeline-card active" id="card-2020">
+                        <div class="card-icon">🚀</div>
+                        <h3>The Beginning</h3>
+                        <p class="card-year">2020</p>
+                        <p class="card-description">Founded in Tashkent by two friends with a vision to revolutionize
+                            travel. We launched with 50 destinations and quickly gained traction among adventure
+                            seekers.</p>
+                        <div class="card-stats">
+                            <div class="card-stat">
+                                <i class="fas fa-users"></i>
+                                <span>First 1,000 users</span>
+                            </div>
+                            <div class="card-stat">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>50 destinations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-card" id="card-2021">
+                        <div class="card-icon">📈</div>
+                        <h3>Rapid Growth</h3>
+                        <p class="card-year">2021</p>
+                        <p class="card-description">Reached our first million users! Expanded to 100 destinations and
+                            opened our first regional office. Our AI recommendation engine went live.</p>
+                        <div class="card-stats">
+                            <div class="card-stat">
+                                <i class="fas fa-users"></i>
+                                <span>1M users</span>
+                            </div>
+                            <div class="card-stat">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>100 destinations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-card" id="card-2022">
+                        <div class="card-icon">🌍</div>
+                        <h3>Global Expansion</h3>
+                        <p class="card-year">2022</p>
+                        <p class="card-description">Opened offices in 5 countries and expanded to 200 destinations.
+                            Launched mobile app with 500K downloads in the first month.</p>
+                        <div class="card-stats">
+                            <div class="card-stat">
+                                <i class="fas fa-building"></i>
+                                <span>5 countries</span>
+                            </div>
+                            <div class="card-stat">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>200 destinations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-card" id="card-2023">
+                        <div class="card-icon">🤖</div>
+                        <h3>AI Innovation</h3>
+                        <p class="card-year">2023</p>
+                        <p class="card-description">Launched smart travel AI with personalized recommendations. Reached
+                            2M users and 350 destinations. Won 'Best Travel Platform' award.</p>
+                        <div class="card-stats">
+                            <div class="card-stat">
+                                <i class="fas fa-users"></i>
+                                <span>2M users</span>
+                            </div>
+                            <div class="card-stat">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>350 destinations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-card" id="card-2024">
+                        <div class="card-icon">🏆</div>
+                        <h3>Award Winner</h3>
+                        <p class="card-year">2024</p>
+                        <p class="card-description">Recognized as 'Industry Leader' with multiple awards. Reached 2.5M
+                            users and 450 destinations across 120 countries worldwide.</p>
+                        <div class="card-stats">
+                            <div class="card-stat">
+                                <i class="fas fa-users"></i>
+                                <span>2.5M users</span>
+                            </div>
+                            <div class="card-stat">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>450 destinations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-card" id="card-2025">
+                        <div class="card-icon">✨</div>
+                        <h3>Future Vision</h3>
+                        <p class="card-year">2025</p>
+                        <p class="card-description">Launching VR travel previews, AR city guides, and AI travel
+                            companions. Target: 5M users and expansion to 600+ destinations.</p>
+                        <div class="card-stats">
+                            <div class="card-stat">
+                                <i class="fas fa-bullseye"></i>
+                                <span>Target: 5M users</span>
+                            </div>
+                            <div class="card-stat">
+                                <i class="fas fa-rocket"></i>
+                                <span>VR & AR Features</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Live Stats Dashboard -->
-<section class="stats-dashboard">
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
-                <div class="stat-icon">👥</div>
-                <div class="stat-number" data-count="2500000">0</div>
-                <div class="stat-label">Travelers</div>
-            </div>
-
-            <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
-                <div class="stat-icon">📍</div>
-                <div class="stat-number" data-count="450">0</div>
-                <div class="stat-label">Destinations</div>
-            </div>
-
-            <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
-                <div class="stat-icon">🌎</div>
-                <div class="stat-number" data-count="120">0</div>
-                <div class="stat-label">Countries</div>
-            </div>
-
-            <div class="stat-card" data-aos="zoom-in" data-aos-delay="400">
-                <div class="stat-icon">⭐</div>
-                <div class="stat-number" data-count="98">0</div>
-                <div class="stat-label">Satisfaction</div>
-            </div>
-        </div>
-
-        <div class="additional-stats" data-aos="fade-up" data-aos-delay="500">
-            <div class="additional-stat">
-                <i class="fas fa-star"></i>
-                <span>50K+ Reviews</span>
-            </div>
-            <div class="additional-stat">
-                <i class="fas fa-headset"></i>
-                <span>24/7 Support</span>
-            </div>
-            <div class="additional-stat">
-                <i class="fas fa-language"></i>
-                <span>15 Languages</span>
-            </div>
-            <div class="additional-stat">
-                <i class="fas fa-camera"></i>
-                <span>1M+ Photos Shared</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Mission & Vision Section -->
-<section class="mission-vision">
-    <div class="mission" data-aos="fade-right">
-        <div class="section-content">
-            <div class="section-icon">🎯</div>
-            <h2 class="section-title">Our Mission</h2>
-            <p class="section-text">To make travel accessible, affordable, and unforgettable for everyone, everywhere. We believe every person deserves to explore the world.</p>
-        </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="vision" data-aos="fade-left">
-        <div class="section-content">
-            <div class="section-icon">🔮</div>
-            <h2 class="section-title">Our Vision</h2>
-            <p class="section-text">To become the world's most trusted travel companion, powered by AI innovation and driven by passion for extraordinary experiences.</p>
-        </div>
-    </div>
-</section>
-
-<!-- Core Values Section -->
-<section class="core-values">
-    <div class="container">
-        <h2 class="section-title text-center" data-aos="fade-up">Our Core Values</h2>
-        <p class="section-subtitle text-center" data-aos="fade-up" data-aos-delay="100">
-            The principles that guide everything we do
-        </p>
-
-        <div class="values-grid">
-            <div class="value-card" data-aos="flip-left" data-aos-delay="100" onclick="flipCard(this)">
-                <div class="card-front">
-                    <div class="value-icon">🚀</div>
-                    <h3 class="value-title">Innovation</h3>
-                    <p class="value-description">We constantly push boundaries to create better experiences</p>
-                    <span class="flip-hint">Click to flip →</span>
+    <!-- Live Stats Dashboard -->
+    <section class="stats-dashboard">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-number" data-count="2500000">0</div>
+                    <div class="stat-label">Travelers</div>
                 </div>
-                <div class="card-back">
-                    <h4>Innovation in Action</h4>
-                    <p>From AI-powered recommendations to VR previews, we're always exploring new technologies to enhance your travel experience.</p>
+
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="stat-icon">📍</div>
+                    <div class="stat-number" data-count="450">0</div>
+                    <div class="stat-label">Destinations</div>
+                </div>
+
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="stat-icon">🌎</div>
+                    <div class="stat-number" data-count="120">0</div>
+                    <div class="stat-label">Countries</div>
+                </div>
+
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-number" data-count="98">0</div>
+                    <div class="stat-label">Satisfaction</div>
                 </div>
             </div>
 
-            <div class="value-card" data-aos="flip-left" data-aos-delay="200" onclick="flipCard(this)">
-                <div class="card-front">
-                    <div class="value-icon">🤝</div>
-                    <h3 class="value-title">Trust</h3>
-                    <p class="value-description">Transparent and reliable in every interaction</p>
-                    <span class="flip-hint">Click to flip →</span>
+            <div class="additional-stats" data-aos="fade-up" data-aos-delay="500">
+                <div class="additional-stat">
+                    <i class="fas fa-star"></i>
+                    <span>50K+ Reviews</span>
                 </div>
-                <div class="card-back">
-                    <h4>Building Trust</h4>
-                    <p>With 98% customer satisfaction and millions of happy travelers, trust is at the heart of everything we do.</p>
+                <div class="additional-stat">
+                    <i class="fas fa-headset"></i>
+                    <span>24/7 Support</span>
                 </div>
-            </div>
-
-            <div class="value-card" data-aos="flip-left" data-aos-delay="300" onclick="flipCard(this)">
-                <div class="card-front">
-                    <div class="value-icon">🌍</div>
-                    <h3 class="value-title">Sustainability</h3>
-                    <p class="value-description">Committed to eco-friendly travel practices</p>
-                    <span class="flip-hint">Click to flip →</span>
+                <div class="additional-stat">
+                    <i class="fas fa-language"></i>
+                    <span>15 Languages</span>
                 </div>
-                <div class="card-back">
-                    <h4>Green Travel</h4>
-                    <p>We partner with eco-conscious hotels and promote sustainable tourism to protect our planet for future generations.</p>
-                </div>
-            </div>
-
-            <div class="value-card" data-aos="flip-left" data-aos-delay="100" onclick="flipCard(this)">
-                <div class="card-front">
-                    <div class="value-icon">💎</div>
-                    <h3 class="value-title">Quality</h3>
-                    <p class="value-description">Premium experiences at every touchpoint</p>
-                    <span class="flip-hint">Click to flip →</span>
-                </div>
-                <div class="card-back">
-                    <h4>Quality First</h4>
-                    <p>Every destination, hotel, and experience is carefully vetted to ensure you get the best value for your investment.</p>
-                </div>
-            </div>
-
-            <div class="value-card" data-aos="flip-left" data-aos-delay="200" onclick="flipCard(this)">
-                <div class="card-front">
-                    <div class="value-icon">❤️</div>
-                    <h3 class="value-title">Passion</h3>
-                    <p class="value-description">We love what we do, and it shows</p>
-                    <span class="flip-hint">Click to flip →</span>
-                </div>
-                <div class="card-back">
-                    <h4>Passionate Team</h4>
-                    <p>Our team of travel enthusiasts brings genuine excitement and expertise to help you discover your next adventure.</p>
-                </div>
-            </div>
-
-            <div class="value-card" data-aos="flip-left" data-aos-delay="300" onclick="flipCard(this)">
-                <div class="card-front">
-                    <div class="value-icon">🎯</div>
-                    <h3 class="value-title">Excellence</h3>
-                    <p class="value-description">Always improving, always evolving</p>
-                    <span class="flip-hint">Click to flip →</span>
-                </div>
-                <div class="card-back">
-                    <h4>Continuous Improvement</h4>
-                    <p>We listen to feedback and constantly refine our platform to deliver the best possible travel planning experience.</p>
+                <div class="additional-stat">
+                    <i class="fas fa-camera"></i>
+                    <span>1M+ Photos Shared</span>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Meet Our Team Section -->
-<section class="team-section">
-    <div class="container">
-        <h2 class="section-title text-center" data-aos="fade-up">Meet Our Team</h2>
-        <p class="section-subtitle text-center" data-aos="fade-up" data-aos-delay="100">
-            The passionate people behind TravelHub
-        </p>
-
-        <div class="team-grid">
-            <div class="team-card" data-aos="fade-up" data-aos-delay="100" onclick="flipTeamCard(this)">
-                <div class="team-front">
-                    <div class="team-photo">
-                        <img src="https://i.pravatar.cc/300?img=12" alt="CEO">
-                    </div>
-                    <h3 class="team-name">John Doe</h3>
-                    <p class="team-role">CEO & Founder</p>
-                    <div class="team-socials">
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    </div>
-                    <span class="flip-hint">Click to learn more</span>
-                </div>
-                <div class="team-back">
-                    <h4>"Building the future of travel"</h4>
-                    <p>I founded TravelHub to make travel accessible to everyone. My passion for exploration drives our innovation.</p>
-                    <div class="team-info">
-                        <p><strong>Fun fact:</strong> Coffee addict ☕</p>
-                        <p><strong>Favorite:</strong> Bali 🌴</p>
-                        <p><strong>Email:</strong> john@travelhub.com</p>
-                    </div>
-                </div>
+    <!-- Mission & Vision Section -->
+    <section class="mission-vision">
+        <div class="mission" data-aos="fade-right">
+            <div class="section-content">
+                <div class="section-icon">🎯</div>
+                <h2 class="section-title">Our Mission</h2>
+                <p class="section-text">To make travel accessible, affordable, and unforgettable for everyone,
+                    everywhere. We believe every person deserves to explore the world.</p>
             </div>
+        </div>
 
-            <div class="team-card" data-aos="fade-up" data-aos-delay="200" onclick="flipTeamCard(this)">
-                <div class="team-front">
-                    <div class="team-photo">
-                        <img src="https://i.pravatar.cc/300?img=20" alt="CTO">
-                    </div>
-                    <h3 class="team-name">Sarah Smith</h3>
-                    <p class="team-role">CTO</p>
-                    <div class="team-socials">
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                    </div>
-                    <span class="flip-hint">Click to learn more</span>
-                </div>
-                <div class="team-back">
-                    <h4>"Technology meets wanderlust"</h4>
-                    <p>Leading our tech team to build the most advanced travel platform using AI and machine learning.</p>
-                    <div class="team-info">
-                        <p><strong>Fun fact:</strong> Code ninja 💻</p>
-                        <p><strong>Favorite:</strong> Tokyo 🗼</p>
-                        <p><strong>Email:</strong> sarah@travelhub.com</p>
-                    </div>
-                </div>
+        <div class="divider"></div>
+
+        <div class="vision" data-aos="fade-left">
+            <div class="section-content">
+                <div class="section-icon">🔮</div>
+                <h2 class="section-title">Our Vision</h2>
+                <p class="section-text">To become the world's most trusted travel companion, powered by AI innovation
+                    and driven by passion for extraordinary experiences.</p>
             </div>
+        </div>
+    </section>
 
-            <div class="team-card" data-aos="fade-up" data-aos-delay="300" onclick="flipTeamCard(this)">
-                <div class="team-front">
-                    <div class="team-photo">
-                        <img src="https://i.pravatar.cc/300?img=33" alt="CMO">
-                    </div>
-                    <h3 class="team-name">Mike Johnson</h3>
-                    <p class="team-role">Head of Marketing</p>
-                    <div class="team-socials">
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    </div>
-                    <span class="flip-hint">Click to learn more</span>
-                </div>
-                <div class="team-back">
-                    <h4>"Telling travel stories"</h4>
-                    <p>Crafting campaigns that inspire millions to explore the world and discover new adventures.</p>
-                    <div class="team-info">
-                        <p><strong>Fun fact:</strong> Storyteller 📖</p>
-                        <p><strong>Favorite:</strong> Paris 🗼</p>
-                        <p><strong>Email:</strong> mike@travelhub.com</p>
-                    </div>
-                </div>
-            </div>
+    <!-- Core Values Section -->
+    <section class="core-values">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up">Our Core Values</h2>
+            <p class="section-subtitle text-center" data-aos="fade-up" data-aos-delay="100">
+                The principles that guide everything we do
+            </p>
 
-            <div class="team-card" data-aos="fade-up" data-aos-delay="400" onclick="flipTeamCard(this)">
-                <div class="team-front">
-                    <div class="team-photo">
-                        <img src="https://i.pravatar.cc/300?img=45" alt="COO">
+            <div class="values-grid">
+                <div class="value-card" data-aos="flip-left" data-aos-delay="100" onclick="flipCard(this)">
+                    <div class="card-front">
+                        <div class="value-icon">🚀</div>
+                        <h3 class="value-title">Innovation</h3>
+                        <p class="value-description">We constantly push boundaries to create better experiences</p>
+                        <span class="flip-hint">Click to flip →</span>
                     </div>
-                    <h3 class="team-name">Emma Wilson</h3>
-                    <p class="team-role">Head of Operations</p>
-                    <div class="team-socials">
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <div class="card-back">
+                        <h4>Innovation in Action</h4>
+                        <p>From AI-powered recommendations to VR previews, we're always exploring new technologies to
+                            enhance your travel experience.</p>
                     </div>
-                    <span class="flip-hint">Click to learn more</span>
                 </div>
-                <div class="team-back">
-                    <h4>"Excellence in execution"</h4>
-                    <p>Ensuring smooth operations across all our global offices and delivering exceptional service.</p>
-                    <div class="team-info">
-                        <p><strong>Fun fact:</strong> Efficiency expert ⚡</p>
-                        <p><strong>Favorite:</strong> Dubai 🏙️</p>
-                        <p><strong>Email:</strong> emma@travelhub.com</p>
+
+                <div class="value-card" data-aos="flip-left" data-aos-delay="200" onclick="flipCard(this)">
+                    <div class="card-front">
+                        <div class="value-icon">🤝</div>
+                        <h3 class="value-title">Trust</h3>
+                        <p class="value-description">Transparent and reliable in every interaction</p>
+                        <span class="flip-hint">Click to flip →</span>
+                    </div>
+                    <div class="card-back">
+                        <h4>Building Trust</h4>
+                        <p>With 98% customer satisfaction and millions of happy travelers, trust is at the heart of
+                            everything we do.</p>
+                    </div>
+                </div>
+
+                <div class="value-card" data-aos="flip-left" data-aos-delay="300" onclick="flipCard(this)">
+                    <div class="card-front">
+                        <div class="value-icon">🌍</div>
+                        <h3 class="value-title">Sustainability</h3>
+                        <p class="value-description">Committed to eco-friendly travel practices</p>
+                        <span class="flip-hint">Click to flip →</span>
+                    </div>
+                    <div class="card-back">
+                        <h4>Green Travel</h4>
+                        <p>We partner with eco-conscious hotels and promote sustainable tourism to protect our planet
+                            for future generations.</p>
+                    </div>
+                </div>
+
+                <div class="value-card" data-aos="flip-left" data-aos-delay="100" onclick="flipCard(this)">
+                    <div class="card-front">
+                        <div class="value-icon">💎</div>
+                        <h3 class="value-title">Quality</h3>
+                        <p class="value-description">Premium experiences at every touchpoint</p>
+                        <span class="flip-hint">Click to flip →</span>
+                    </div>
+                    <div class="card-back">
+                        <h4>Quality First</h4>
+                        <p>Every destination, hotel, and experience is carefully vetted to ensure you get the best value
+                            for your investment.</p>
+                    </div>
+                </div>
+
+                <div class="value-card" data-aos="flip-left" data-aos-delay="200" onclick="flipCard(this)">
+                    <div class="card-front">
+                        <div class="value-icon">❤️</div>
+                        <h3 class="value-title">Passion</h3>
+                        <p class="value-description">We love what we do, and it shows</p>
+                        <span class="flip-hint">Click to flip →</span>
+                    </div>
+                    <div class="card-back">
+                        <h4>Passionate Team</h4>
+                        <p>Our team of travel enthusiasts brings genuine excitement and expertise to help you discover
+                            your next adventure.</p>
+                    </div>
+                </div>
+
+                <div class="value-card" data-aos="flip-left" data-aos-delay="300" onclick="flipCard(this)">
+                    <div class="card-front">
+                        <div class="value-icon">🎯</div>
+                        <h3 class="value-title">Excellence</h3>
+                        <p class="value-description">Always improving, always evolving</p>
+                        <span class="flip-hint">Click to flip →</span>
+                    </div>
+                    <div class="card-back">
+                        <h4>Continuous Improvement</h4>
+                        <p>We listen to feedback and constantly refine our platform to deliver the best possible travel
+                            planning experience.</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <!-- Meet Our Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up">Meet Our Team</h2>
+            <p class="section-subtitle text-center" data-aos="fade-up" data-aos-delay="100">
+                The passionate people behind TravelHub
+            </p>
+
+            <div class="team-grid">
+                <div class="team-card" data-aos="fade-up" data-aos-delay="100" onclick="flipTeamCard(this)">
+                    <div class="team-front">
+                        <div class="team-photo">
+                            <img src="https://i.pravatar.cc/300?img=12" alt="CEO">
+                        </div>
+                        <h3 class="team-name">John Doe</h3>
+                        <p class="team-role">CEO & Founder</p>
+                        <div class="team-socials">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        </div>
+                        <span class="flip-hint">Click to learn more</span>
+                    </div>
+                    <div class="team-back">
+                        <h4>"Building the future of travel"</h4>
+                        <p>I founded TravelHub to make travel accessible to everyone. My passion for exploration drives
+                            our innovation.</p>
+                        <div class="team-info">
+                            <p><strong>Fun fact:</strong> Coffee addict ☕</p>
+                            <p><strong>Favorite:</strong> Bali 🌴</p>
+                            <p><strong>Email:</strong> john@travelhub.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-card" data-aos="fade-up" data-aos-delay="200" onclick="flipTeamCard(this)">
+                    <div class="team-front">
+                        <div class="team-photo">
+                            <img src="https://i.pravatar.cc/300?img=20" alt="CTO">
+                        </div>
+                        <h3 class="team-name">Sarah Smith</h3>
+                        <p class="team-role">CTO</p>
+                        <div class="team-socials">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        </div>
+                        <span class="flip-hint">Click to learn more</span>
+                    </div>
+                    <div class="team-back">
+                        <h4>"Technology meets wanderlust"</h4>
+                        <p>Leading our tech team to build the most advanced travel platform using AI and machine
+                            learning.</p>
+                        <div class="team-info">
+                            <p><strong>Fun fact:</strong> Code ninja 💻</p>
+                            <p><strong>Favorite:</strong> Tokyo 🗼</p>
+                            <p><strong>Email:</strong> sarah@travelhub.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-card" data-aos="fade-up" data-aos-delay="300" onclick="flipTeamCard(this)">
+                    <div class="team-front">
+                        <div class="team-photo">
+                            <img src="https://i.pravatar.cc/300?img=33" alt="CMO">
+                        </div>
+                        <h3 class="team-name">Mike Johnson</h3>
+                        <p class="team-role">Head of Marketing</p>
+                        <div class="team-socials">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <span class="flip-hint">Click to learn more</span>
+                    </div>
+                    <div class="team-back">
+                        <h4>"Telling travel stories"</h4>
+                        <p>Crafting campaigns that inspire millions to explore the world and discover new
+                            adventures.</p>
+                        <div class="team-info">
+                            <p><strong>Fun fact:</strong> Storyteller 📖</p>
+                            <p><strong>Favorite:</strong> Paris 🗼</p>
+                            <p><strong>Email:</strong> mike@travelhub.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-card" data-aos="fade-up" data-aos-delay="400" onclick="flipTeamCard(this)">
+                    <div class="team-front">
+                        <div class="team-photo">
+                            <img src="https://i.pravatar.cc/300?img=45" alt="COO">
+                        </div>
+                        <h3 class="team-name">Emma Wilson</h3>
+                        <p class="team-role">Head of Operations</p>
+                        <div class="team-socials">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        </div>
+                        <span class="flip-hint">Click to learn more</span>
+                    </div>
+                    <div class="team-back">
+                        <h4>"Excellence in execution"</h4>
+                        <p>Ensuring smooth operations across all our global offices and delivering exceptional
+                            service.</p>
+                        <div class="team-info">
+                            <p><strong>Fun fact:</strong> Efficiency expert ⚡</p>
+                            <p><strong>Favorite:</strong> Dubai 🏙️</p>
+                            <p><strong>Email:</strong> emma@travelhub.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 {% endblock %}
 
 {% block custom_js %}
-<script src="{% static 'apps/js/about.js' %}"></script>
+    <script src="{% static 'apps/js/about.js' %}"></script>
 {% endblock %}

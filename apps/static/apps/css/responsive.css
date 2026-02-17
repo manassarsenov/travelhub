@@ -1,0 +1,40 @@
+/* Telefonlar uchun (0px – 600px) */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+
+  header {
+    font-size: 18px;
+    padding: 15px;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* Planshetlar uchun (601px – 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+
+  header {
+    font-size: 22px;
+    padding: 18px;
+  }
+}
+
+/* Desktop / Noutbuk uchun (1025px va yuqori) */
+@media (min-width: 1025px) {
+  body {
+    font-size: 18px;
+  }
+
+  header {
+    font-size: 24px;
+    padding: 20px;
+  }
+}

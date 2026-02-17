@@ -7,332 +7,334 @@
 
 {% block custom_css %}
     <link rel="stylesheet" href="{% static 'apps/css/admin_panel.css' %}">
+    <link rel="stylesheet" href="{% static 'apps/css/responsive.css' %}">
+
 {% endblock %}
 
 {% block main_content %}
 
-<!-- Admin Panel Page -->
-<div class="admin-panel-page">
-    
-    <!-- Sidebar -->
-    <aside class="admin-sidebar" id="adminSidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <div class="logo-icon">
-                    <i class="fas fa-shield-halved"></i>
-                </div>
-                <div class="logo-content">
-                    <h2>Admin Panel</h2>
-                    <p>Control Center</p>
-                </div>
-            </div>
-            <button class="sidebar-close" onclick="toggleSidebar()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
+    <!-- Admin Panel Page -->
+    <div class="admin-panel-page">
 
-        <nav class="sidebar-menu">
-            <ul class="menu-list">
-{#                <li class="menu-item active">#}
-{#                    <a href="#" class="menu-link" onclick="switchSection('dashboard', event)">#}
-{#                        <i class="fas fa-tachometer-alt"></i>#}
-{#                        <span>Dashboard</span>#}
-{#                    </a>#}
-{#                </li>#}
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="switchSection('users', event)">
-                        <i class="fas fa-users"></i>
-                        <span>Users</span>
-                        <span class="menu-badge">2,543</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="switchSection('properties', event)">
-                        <i class="fas fa-home"></i>
-                        <span>Properties</span>
-                        <span class="menu-badge">1,289</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="switchSection('bookings', event)">
-                        <i class="fas fa-calendar-check"></i>
-                        <span>Bookings</span>
-                        <span class="menu-badge warning">456</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="switchSection('reviews', event)">
-                        <i class="fas fa-star"></i>
-                        <span>Reviews</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="switchSection('reports', event)">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Reports</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="switchSection('settings', event)">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="sidebar-footer">
-            <a href="{% url 'home_page' %}" class="back-link">
-                <i class="fas fa-arrow-left"></i>
-                <span>Back to Website</span>
-            </a>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <div class="admin-main-content">
-        
-        <!-- Top Header -->
-        <header class="admin-top-header">
-            <div class="header-left">
-                <button class="mobile-toggle" onclick="toggleSidebar()">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="search-wrapper">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search users, properties, bookings..." id="adminSearch">
-                </div>
-            </div>
-
-            <div class="header-right">
-                <button class="header-icon-btn" onclick="showNotifications()">
-                    <i class="fas fa-bell"></i>
-                    <span class="header-badge">5</span>
-                </button>
-                <button class="header-icon-btn" onclick="showMessages()">
-                    <i class="fas fa-envelope"></i>
-                    <span class="header-badge">3</span>
-                </button>
-                <div class="admin-user-menu">
-                    <img src="https://i.pravatar.cc/150?img=68" alt="Admin">
-                    <div class="admin-user-info">
-                        <h4>Admin User</h4>
-                        <p>Super Admin</p>
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-shield-halved"></i>
                     </div>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-            </div>
-        </header>
-
-        <!-- Content Sections -->
-        <div class="admin-content-wrapper">
-            
-            <!-- ============ DASHBOARD SECTION ============ -->
-            <section id="dashboard-section" class="content-section active">
-                
-                <!-- Welcome Banner -->
-                <div class="welcome-banner">
-                    <div class="welcome-content">
-                        <h1>👋 Welcome back, Admin!</h1>
-                        <p>Here's what's happening with TravelHub platform today</p>
-                    </div>
-                    <div class="welcome-actions">
-                        <button class="action-btn primary" onclick="addNewProperty()">
-                            <i class="fas fa-plus"></i>
-                            Add Property
-                        </button>
-                        <button class="action-btn secondary" onclick="exportData()">
-                            <i class="fas fa-download"></i>
-                            Export Data
-                        </button>
-                        <button class="action-btn outline" onclick="generateReport()">
-                            <i class="fas fa-file-alt"></i>
-                            Generate Report
-                        </button>
+                    <div class="logo-content">
+                        <h2>Admin Panel</h2>
+                        <p>Control Center</p>
                     </div>
                 </div>
+                <button class="sidebar-close" onclick="toggleSidebar()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
 
-                <!-- Statistics Cards -->
-                <div class="stats-cards-grid">
-                    <div class="stat-card purple">
-                        <div class="stat-icon-wrapper">
+            <nav class="sidebar-menu">
+                <ul class="menu-list">
+                    {#                <li class="menu-item active">#}
+                    {#                    <a href="#" class="menu-link" onclick="switchSection('dashboard', event)">#}
+                    {#                        <i class="fas fa-tachometer-alt"></i>#}
+                    {#                        <span>Dashboard</span>#}
+                    {#                    </a>#}
+                    {#                </li>#}
+                    <li class="menu-item">
+                        <a href="#" class="menu-link" onclick="switchSection('users', event)">
                             <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="stat-number">2,543</h3>
-                            <p class="stat-label">Total Users</p>
-                            <div class="stat-trend positive">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>+12.5% from last month</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card blue">
-                        <div class="stat-icon-wrapper">
+                            <span>Users</span>
+                            <span class="menu-badge">2,543</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link" onclick="switchSection('properties', event)">
                             <i class="fas fa-home"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="stat-number">1,289</h3>
-                            <p class="stat-label">Total Properties</p>
-                            <div class="stat-trend positive">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>+8.3% from last month</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card green">
-                        <div class="stat-icon-wrapper">
+                            <span>Properties</span>
+                            <span class="menu-badge">1,289</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link" onclick="switchSection('bookings', event)">
                             <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="stat-number">456</h3>
-                            <p class="stat-label">Active Bookings</p>
-                            <div class="stat-trend positive">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>+15.7% from last month</span>
-                            </div>
-                        </div>
-                    </div>
+                            <span>Bookings</span>
+                            <span class="menu-badge warning">456</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link" onclick="switchSection('reviews', event)">
+                            <i class="fas fa-star"></i>
+                            <span>Reviews</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link" onclick="switchSection('reports', event)">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link" onclick="switchSection('settings', event)">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
-                    <div class="stat-card orange">
-                        <div class="stat-icon-wrapper">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="stat-number">$127.5K</h3>
-                            <p class="stat-label">Total Revenue</p>
-                            <div class="stat-trend positive">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>+23.1% from last month</span>
-                            </div>
-                        </div>
+            <div class="sidebar-footer">
+                <a href="{% url 'home_page' %}" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Website</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="admin-main-content">
+
+            <!-- Top Header -->
+            <header class="admin-top-header">
+                <div class="header-left">
+                    <button class="mobile-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search users, properties, bookings..." id="adminSearch">
                     </div>
                 </div>
 
-                <!-- Charts Row -->
-                <div class="charts-container">
-                    <div class="chart-box large">
-                        <div class="chart-header">
-                            <h3><i class="fas fa-chart-line"></i> Revenue Overview</h3>
-                            <div class="chart-filters">
-                                <button class="filter-btn active">Week</button>
-                                <button class="filter-btn">Month</button>
-                                <button class="filter-btn">Year</button>
-                            </div>
+                <div class="header-right">
+                    <button class="header-icon-btn" onclick="showNotifications()">
+                        <i class="fas fa-bell"></i>
+                        <span class="header-badge">5</span>
+                    </button>
+                    <button class="header-icon-btn" onclick="showMessages()">
+                        <i class="fas fa-envelope"></i>
+                        <span class="header-badge">3</span>
+                    </button>
+                    <div class="admin-user-menu">
+                        <img src="https://i.pravatar.cc/150?img=68" alt="Admin">
+                        <div class="admin-user-info">
+                            <h4>Admin User</h4>
+                            <p>Super Admin</p>
                         </div>
-                        <canvas id="revenueChart"></canvas>
-                    </div>
-
-                    <div class="chart-box small">
-                        <div class="chart-header">
-                            <h3><i class="fas fa-chart-pie"></i> Property Categories</h3>
-                        </div>
-                        <canvas id="categoryChart"></canvas>
+                        <i class="fas fa-chevron-down"></i>
                     </div>
                 </div>
+            </header>
 
-                <!-- Recent Activities -->
-                <div class="recent-activities-section">
-                    <h3 class="section-title"><i class="fas fa-history"></i> Recent Activities</h3>
-                    <div class="activities-list">
-                        <div class="activity-card">
-                            <div class="activity-icon blue">
-                                <i class="fas fa-user-plus"></i>
+            <!-- Content Sections -->
+            <div class="admin-content-wrapper">
+
+                <!-- ============ DASHBOARD SECTION ============ -->
+                <section id="dashboard-section" class="content-section active">
+
+                    <!-- Welcome Banner -->
+                    <div class="welcome-banner">
+                        <div class="welcome-content">
+                            <h1>👋 Welcome back, Admin!</h1>
+                            <p>Here's what's happening with TravelHub platform today</p>
+                        </div>
+                        <div class="welcome-actions">
+                            <button class="action-btn primary" onclick="addNewProperty()">
+                                <i class="fas fa-plus"></i>
+                                Add Property
+                            </button>
+                            <button class="action-btn secondary" onclick="exportData()">
+                                <i class="fas fa-download"></i>
+                                Export Data
+                            </button>
+                            <button class="action-btn outline" onclick="generateReport()">
+                                <i class="fas fa-file-alt"></i>
+                                Generate Report
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Cards -->
+                    <div class="stats-cards-grid">
+                        <div class="stat-card purple">
+                            <div class="stat-icon-wrapper">
+                                <i class="fas fa-users"></i>
                             </div>
-                            <div class="activity-details">
-                                <h4>New User Registration</h4>
-                                <p>John Smith registered as a new user</p>
-                                <span class="activity-time">2 minutes ago</span>
+                            <div class="stat-info">
+                                <h3 class="stat-number">2,543</h3>
+                                <p class="stat-label">Total Users</p>
+                                <div class="stat-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+12.5% from last month</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="activity-card">
-                            <div class="activity-icon green">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="activity-details">
-                                <h4>Booking Confirmed</h4>
-                                <p>Booking #4567 has been confirmed</p>
-                                <span class="activity-time">15 minutes ago</span>
-                            </div>
-                        </div>
-
-                        <div class="activity-card">
-                            <div class="activity-icon purple">
+                        <div class="stat-card blue">
+                            <div class="stat-icon-wrapper">
                                 <i class="fas fa-home"></i>
                             </div>
-                            <div class="activity-details">
-                                <h4>New Property Added</h4>
-                                <p>Luxury Villa in Bali added to listings</p>
-                                <span class="activity-time">1 hour ago</span>
+                            <div class="stat-info">
+                                <h3 class="stat-number">1,289</h3>
+                                <p class="stat-label">Total Properties</p>
+                                <div class="stat-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+8.3% from last month</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="activity-card">
-                            <div class="activity-icon orange">
-                                <i class="fas fa-star"></i>
+                        <div class="stat-card green">
+                            <div class="stat-icon-wrapper">
+                                <i class="fas fa-calendar-check"></i>
                             </div>
-                            <div class="activity-details">
-                                <h4>New Review</h4>
-                                <p>5-star review received for Beach Resort</p>
-                                <span class="activity-time">2 hours ago</span>
-                            </div>
-                        </div>
-
-                        <div class="activity-card">
-                            <div class="activity-icon red">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                            <div class="activity-details">
-                                <h4>Payment Issue</h4>
-                                <p>Payment failed for booking #3456</p>
-                                <span class="activity-time">3 hours ago</span>
+                            <div class="stat-info">
+                                <h3 class="stat-number">456</h3>
+                                <p class="stat-label">Active Bookings</p>
+                                <div class="stat-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+15.7% from last month</span>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="stat-card orange">
+                            <div class="stat-icon-wrapper">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 class="stat-number">$127.5K</h3>
+                                <p class="stat-label">Total Revenue</p>
+                                <div class="stat-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+23.1% from last month</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-            </section>
+                    <!-- Charts Row -->
+                    <div class="charts-container">
+                        <div class="chart-box large">
+                            <div class="chart-header">
+                                <h3><i class="fas fa-chart-line"></i> Revenue Overview</h3>
+                                <div class="chart-filters">
+                                    <button class="filter-btn active">Week</button>
+                                    <button class="filter-btn">Month</button>
+                                    <button class="filter-btn">Year</button>
+                                </div>
+                            </div>
+                            <canvas id="revenueChart"></canvas>
+                        </div>
 
-            <!-- ============ USERS SECTION ============ -->
-            <section id="users-section" class="content-section">
-                
-                <div class="section-header-bar">
-                    <div>
-                        <h2><i class="fas fa-users"></i> Users Management</h2>
-                        <p>Manage all platform users (2,543 total)</p>
+                        <div class="chart-box small">
+                            <div class="chart-header">
+                                <h3><i class="fas fa-chart-pie"></i> Property Categories</h3>
+                            </div>
+                            <canvas id="categoryChart"></canvas>
+                        </div>
                     </div>
-                    <button class="action-btn primary" onclick="addNewUser()">
-                        <i class="fas fa-user-plus"></i>
-                        Add New User
-                    </button>
-                </div>
 
-                <!-- Filters -->
-                <div class="table-filters">
-                    <div class="filter-group">
-                        <input type="text" placeholder="Search users..." class="filter-input">
-                        <select class="filter-select">
-                            <option>All Roles</option>
-                            <option>Admin</option>
-                            <option>User</option>
-                        </select>
-                        <select class="filter-select">
-                            <option>All Status</option>
-                            <option>Active</option>
-                            <option>Blocked</option>
-                        </select>
-                        <button class="filter-btn"><i class="fas fa-filter"></i> Filter</button>
+                    <!-- Recent Activities -->
+                    <div class="recent-activities-section">
+                        <h3 class="section-title"><i class="fas fa-history"></i> Recent Activities</h3>
+                        <div class="activities-list">
+                            <div class="activity-card">
+                                <div class="activity-icon blue">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>New User Registration</h4>
+                                    <p>John Smith registered as a new user</p>
+                                    <span class="activity-time">2 minutes ago</span>
+                                </div>
+                            </div>
+
+                            <div class="activity-card">
+                                <div class="activity-icon green">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>Booking Confirmed</h4>
+                                    <p>Booking #4567 has been confirmed</p>
+                                    <span class="activity-time">15 minutes ago</span>
+                                </div>
+                            </div>
+
+                            <div class="activity-card">
+                                <div class="activity-icon purple">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>New Property Added</h4>
+                                    <p>Luxury Villa in Bali added to listings</p>
+                                    <span class="activity-time">1 hour ago</span>
+                                </div>
+                            </div>
+
+                            <div class="activity-card">
+                                <div class="activity-icon orange">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>New Review</h4>
+                                    <p>5-star review received for Beach Resort</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+
+                            <div class="activity-card">
+                                <div class="activity-icon red">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>Payment Issue</h4>
+                                    <p>Payment failed for booking #3456</p>
+                                    <span class="activity-time">3 hours ago</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button class="export-btn"><i class="fas fa-download"></i> Export</button>
-                </div>
 
-                <!-- Users Table -->
-                <div class="data-table-wrapper">
-                    <table class="data-table">
-                        <thead>
+                </section>
+
+                <!-- ============ USERS SECTION ============ -->
+                <section id="users-section" class="content-section">
+
+                    <div class="section-header-bar">
+                        <div>
+                            <h2><i class="fas fa-users"></i> Users Management</h2>
+                            <p>Manage all platform users (2,543 total)</p>
+                        </div>
+                        <button class="action-btn primary" onclick="addNewUser()">
+                            <i class="fas fa-user-plus"></i>
+                            Add New User
+                        </button>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="table-filters">
+                        <div class="filter-group">
+                            <input type="text" placeholder="Search users..." class="filter-input">
+                            <select class="filter-select">
+                                <option>All Roles</option>
+                                <option>Admin</option>
+                                <option>User</option>
+                            </select>
+                            <select class="filter-select">
+                                <option>All Status</option>
+                                <option>Active</option>
+                                <option>Blocked</option>
+                            </select>
+                            <button class="filter-btn"><i class="fas fa-filter"></i> Filter</button>
+                        </div>
+                        <button class="export-btn"><i class="fas fa-download"></i> Export</button>
+                    </div>
+
+                    <!-- Users Table -->
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
                             <tr>
                                 <th><input type="checkbox"></th>
                                 <th>User</th>
@@ -343,8 +345,8 @@
                                 <th>Bookings</th>
                                 <th>Actions</th>
                             </tr>
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
                             <tr>
                                 <td><input type="checkbox"></td>
                                 <td>
@@ -359,9 +361,12 @@
                                 <td>Dec 10, 2025</td>
                                 <td>12</td>
                                 <td>
-                                    <button class="table-action-btn" onclick="viewUser(1)"><i class="fas fa-eye"></i></button>
-                                    <button class="table-action-btn" onclick="editUser(1)"><i class="fas fa-edit"></i></button>
-                                    <button class="table-action-btn danger" onclick="deleteUser(1)"><i class="fas fa-trash"></i></button>
+                                    <button class="table-action-btn" onclick="viewUser(1)"><i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="table-action-btn" onclick="editUser(1)"><i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="table-action-btn danger" onclick="deleteUser(1)"><i
+                                            class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -378,9 +383,12 @@
                                 <td>Dec 9, 2025</td>
                                 <td>8</td>
                                 <td>
-                                    <button class="table-action-btn" onclick="viewUser(2)"><i class="fas fa-eye"></i></button>
-                                    <button class="table-action-btn" onclick="editUser(2)"><i class="fas fa-edit"></i></button>
-                                    <button class="table-action-btn danger" onclick="deleteUser(2)"><i class="fas fa-trash"></i></button>
+                                    <button class="table-action-btn" onclick="viewUser(2)"><i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="table-action-btn" onclick="editUser(2)"><i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="table-action-btn danger" onclick="deleteUser(2)"><i
+                                            class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -397,9 +405,12 @@
                                 <td>Dec 8, 2025</td>
                                 <td>3</td>
                                 <td>
-                                    <button class="table-action-btn" onclick="viewUser(3)"><i class="fas fa-eye"></i></button>
-                                    <button class="table-action-btn" onclick="editUser(3)"><i class="fas fa-edit"></i></button>
-                                    <button class="table-action-btn danger" onclick="deleteUser(3)"><i class="fas fa-trash"></i></button>
+                                    <button class="table-action-btn" onclick="viewUser(3)"><i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="table-action-btn" onclick="editUser(3)"><i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="table-action-btn danger" onclick="deleteUser(3)"><i
+                                            class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -416,9 +427,12 @@
                                 <td>Dec 7, 2025</td>
                                 <td>15</td>
                                 <td>
-                                    <button class="table-action-btn" onclick="viewUser(4)"><i class="fas fa-eye"></i></button>
-                                    <button class="table-action-btn" onclick="editUser(4)"><i class="fas fa-edit"></i></button>
-                                    <button class="table-action-btn danger" onclick="deleteUser(4)"><i class="fas fa-trash"></i></button>
+                                    <button class="table-action-btn" onclick="viewUser(4)"><i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="table-action-btn" onclick="editUser(4)"><i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="table-action-btn danger" onclick="deleteUser(4)"><i
+                                            class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -435,228 +449,241 @@
                                 <td>Dec 6, 2025</td>
                                 <td>6</td>
                                 <td>
-                                    <button class="table-action-btn" onclick="viewUser(5)"><i class="fas fa-eye"></i></button>
-                                    <button class="table-action-btn" onclick="editUser(5)"><i class="fas fa-edit"></i></button>
-                                    <button class="table-action-btn danger" onclick="deleteUser(5)"><i class="fas fa-trash"></i></button>
+                                    <button class="table-action-btn" onclick="viewUser(5)"><i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="table-action-btn" onclick="editUser(5)"><i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="table-action-btn danger" onclick="deleteUser(5)"><i
+                                            class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Pagination -->
-                <div class="pagination-wrapper">
-                    <p>Showing 1-5 of 2,543 users</p>
-                    <div class="pagination">
-                        <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
-                        <button class="page-btn active">1</button>
-                        <button class="page-btn">2</button>
-                        <button class="page-btn">3</button>
-                        <button class="page-btn">...</button>
-                        <button class="page-btn">509</button>
-                        <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
 
-            </section>
-
-            <!-- ============ PROPERTIES SECTION ============ -->
-            <section id="properties-section" class="content-section">
-                
-                <div class="section-header-bar">
-                    <div>
-                        <h2><i class="fas fa-home"></i> Properties Management</h2>
-                        <p>Manage all properties (1,289 total)</p>
-                    </div>
-                    <button class="action-btn primary" onclick="addNewProperty()">
-                        <i class="fas fa-plus"></i>
-                        Add New Property
-                    </button>
-                </div>
-
-                <!-- Filters -->
-                <div class="table-filters">
-                    <div class="filter-group">
-                        <input type="text" placeholder="Search properties..." class="filter-input">
-                        <select class="filter-select">
-                            <option>All Locations</option>
-                            <option>Dubai</option>
-                            <option>Paris</option>
-                            <option>Bali</option>
-                        </select>
-                        <select class="filter-select">
-                            <option>All Status</option>
-                            <option>Active</option>
-                            <option>Pending</option>
-                            <option>Rejected</option>
-                        </select>
-                        <button class="filter-btn"><i class="fas fa-filter"></i> Filter</button>
-                    </div>
-                    <button class="export-btn"><i class="fas fa-download"></i> Export</button>
-                </div>
-
-                <!-- Properties Grid -->
-                <div class="properties-grid">
-                    <div class="property-admin-card">
-                        <div class="property-image">
-                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400" alt="Property">
-                            <span class="property-status-badge active">Active</span>
+                    <!-- Pagination -->
+                    <div class="pagination-wrapper">
+                        <p>Showing 1-5 of 2,543 users</p>
+                        <div class="pagination">
+                            <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">...</button>
+                            <button class="page-btn">509</button>
+                            <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
                         </div>
-                        <div class="property-content">
-                            <h4>Luxury Villa in Bali</h4>
-                            <p class="property-location"><i class="fas fa-map-marker-alt"></i> Bali, Indonesia</p>
-                            <div class="property-stats">
-                                <span><i class="fas fa-bed"></i> 4 Beds</span>
-                                <span><i class="fas fa-bath"></i> 3 Baths</span>
-                                <span><i class="fas fa-ruler-combined"></i> 250m²</span>
+                    </div>
+
+                </section>
+
+                <!-- ============ PROPERTIES SECTION ============ -->
+                <section id="properties-section" class="content-section">
+
+                    <div class="section-header-bar">
+                        <div>
+                            <h2><i class="fas fa-home"></i> Properties Management</h2>
+                            <p>Manage all properties (1,289 total)</p>
+                        </div>
+                        <button class="action-btn primary" onclick="addNewProperty()">
+                            <i class="fas fa-plus"></i>
+                            Add New Property
+                        </button>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="table-filters">
+                        <div class="filter-group">
+                            <input type="text" placeholder="Search properties..." class="filter-input">
+                            <select class="filter-select">
+                                <option>All Locations</option>
+                                <option>Dubai</option>
+                                <option>Paris</option>
+                                <option>Bali</option>
+                            </select>
+                            <select class="filter-select">
+                                <option>All Status</option>
+                                <option>Active</option>
+                                <option>Pending</option>
+                                <option>Rejected</option>
+                            </select>
+                            <button class="filter-btn"><i class="fas fa-filter"></i> Filter</button>
+                        </div>
+                        <button class="export-btn"><i class="fas fa-download"></i> Export</button>
+                    </div>
+
+                    <!-- Properties Grid -->
+                    <div class="properties-grid">
+                        <div class="property-admin-card">
+                            <div class="property-image">
+                                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400"
+                                     alt="Property">
+                                <span class="property-status-badge active">Active</span>
                             </div>
-                            <div class="property-meta">
-                                <div class="property-price">$450/night</div>
-                                <div class="property-owner">
-                                    <img src="https://i.pravatar.cc/150?img=10" alt="Owner">
-                                    <span>John Doe</span>
+                            <div class="property-content">
+                                <h4>Luxury Villa in Bali</h4>
+                                <p class="property-location"><i class="fas fa-map-marker-alt"></i> Bali, Indonesia</p>
+                                <div class="property-stats">
+                                    <span><i class="fas fa-bed"></i> 4 Beds</span>
+                                    <span><i class="fas fa-bath"></i> 3 Baths</span>
+                                    <span><i class="fas fa-ruler-combined"></i> 250m²</span>
+                                </div>
+                                <div class="property-meta">
+                                    <div class="property-price">$450/night</div>
+                                    <div class="property-owner">
+                                        <img src="https://i.pravatar.cc/150?img=10" alt="Owner">
+                                        <span>John Doe</span>
+                                    </div>
+                                </div>
+                                <div class="property-actions">
+                                    <button class="property-action-btn view"><i class="fas fa-eye"></i> View</button>
+                                    <button class="property-action-btn edit"><i class="fas fa-edit"></i> Edit</button>
+                                    <button class="property-action-btn delete"><i class="fas fa-trash"></i> Delete
+                                    </button>
                                 </div>
                             </div>
-                            <div class="property-actions">
-                                <button class="property-action-btn view"><i class="fas fa-eye"></i> View</button>
-                                <button class="property-action-btn edit"><i class="fas fa-edit"></i> Edit</button>
-                                <button class="property-action-btn delete"><i class="fas fa-trash"></i> Delete</button>
-                            </div>
                         </div>
-                    </div>
 
-                    <div class="property-admin-card">
-                        <div class="property-image">
-                            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400" alt="Property">
-                            <span class="property-status-badge pending">Pending</span>
-                        </div>
-                        <div class="property-content">
-                            <h4>Apartment in Paris</h4>
-                            <p class="property-location"><i class="fas fa-map-marker-alt"></i> Paris, France</p>
-                            <div class="property-stats">
-                                <span><i class="fas fa-bed"></i> 2 Beds</span>
-                                <span><i class="fas fa-bath"></i> 1 Bath</span>
-                                <span><i class="fas fa-ruler-combined"></i> 85m²</span>
+                        <div class="property-admin-card">
+                            <div class="property-image">
+                                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400"
+                                     alt="Property">
+                                <span class="property-status-badge pending">Pending</span>
                             </div>
-                            <div class="property-meta">
-                                <div class="property-price">$320/night</div>
-                                <div class="property-owner">
-                                    <img src="https://i.pravatar.cc/150?img=11" alt="Owner">
-                                    <span>Jane Smith</span>
+                            <div class="property-content">
+                                <h4>Apartment in Paris</h4>
+                                <p class="property-location"><i class="fas fa-map-marker-alt"></i> Paris, France</p>
+                                <div class="property-stats">
+                                    <span><i class="fas fa-bed"></i> 2 Beds</span>
+                                    <span><i class="fas fa-bath"></i> 1 Bath</span>
+                                    <span><i class="fas fa-ruler-combined"></i> 85m²</span>
+                                </div>
+                                <div class="property-meta">
+                                    <div class="property-price">$320/night</div>
+                                    <div class="property-owner">
+                                        <img src="https://i.pravatar.cc/150?img=11" alt="Owner">
+                                        <span>Jane Smith</span>
+                                    </div>
+                                </div>
+                                <div class="property-actions">
+                                    <button class="property-action-btn approve"><i class="fas fa-check"></i> Approve
+                                    </button>
+                                    <button class="property-action-btn reject"><i class="fas fa-times"></i> Reject
+                                    </button>
+                                    <button class="property-action-btn view"><i class="fas fa-eye"></i> View</button>
                                 </div>
                             </div>
-                            <div class="property-actions">
-                                <button class="property-action-btn approve"><i class="fas fa-check"></i> Approve</button>
-                                <button class="property-action-btn reject"><i class="fas fa-times"></i> Reject</button>
-                                <button class="property-action-btn view"><i class="fas fa-eye"></i> View</button>
-                            </div>
                         </div>
-                    </div>
 
-                    <div class="property-admin-card">
-                        <div class="property-image">
-                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" alt="Property">
-                            <span class="property-status-badge active">Active</span>
-                        </div>
-                        <div class="property-content">
-                            <h4>Mountain Chalet</h4>
-                            <p class="property-location"><i class="fas fa-map-marker-alt"></i> Swiss Alps, Switzerland</p>
-                            <div class="property-stats">
-                                <span><i class="fas fa-bed"></i> 5 Beds</span>
-                                <span><i class="fas fa-bath"></i> 4 Baths</span>
-                                <span><i class="fas fa-ruler-combined"></i> 320m²</span>
+                        <div class="property-admin-card">
+                            <div class="property-image">
+                                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400"
+                                     alt="Property">
+                                <span class="property-status-badge active">Active</span>
                             </div>
-                            <div class="property-meta">
-                                <div class="property-price">$780/night</div>
-                                <div class="property-owner">
-                                    <img src="https://i.pravatar.cc/150?img=12" alt="Owner">
-                                    <span>Mike Wilson</span>
+                            <div class="property-content">
+                                <h4>Mountain Chalet</h4>
+                                <p class="property-location"><i class="fas fa-map-marker-alt"></i> Swiss Alps,
+                                    Switzerland</p>
+                                <div class="property-stats">
+                                    <span><i class="fas fa-bed"></i> 5 Beds</span>
+                                    <span><i class="fas fa-bath"></i> 4 Baths</span>
+                                    <span><i class="fas fa-ruler-combined"></i> 320m²</span>
+                                </div>
+                                <div class="property-meta">
+                                    <div class="property-price">$780/night</div>
+                                    <div class="property-owner">
+                                        <img src="https://i.pravatar.cc/150?img=12" alt="Owner">
+                                        <span>Mike Wilson</span>
+                                    </div>
+                                </div>
+                                <div class="property-actions">
+                                    <button class="property-action-btn view"><i class="fas fa-eye"></i> View</button>
+                                    <button class="property-action-btn edit"><i class="fas fa-edit"></i> Edit</button>
+                                    <button class="property-action-btn delete"><i class="fas fa-trash"></i> Delete
+                                    </button>
                                 </div>
                             </div>
-                            <div class="property-actions">
-                                <button class="property-action-btn view"><i class="fas fa-eye"></i> View</button>
-                                <button class="property-action-btn edit"><i class="fas fa-edit"></i> Edit</button>
-                                <button class="property-action-btn delete"><i class="fas fa-trash"></i> Delete</button>
-                            </div>
                         </div>
-                    </div>
 
-                    <div class="property-admin-card">
-                        <div class="property-image">
-                            <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=400" alt="Property">
-                            <span class="property-status-badge active">Active</span>
-                        </div>
-                        <div class="property-content">
-                            <h4>Beach Resort Villa</h4>
-                            <p class="property-location"><i class="fas fa-map-marker-alt"></i> Maldives</p>
-                            <div class="property-stats">
-                                <span><i class="fas fa-bed"></i> 3 Beds</span>
-                                <span><i class="fas fa-bath"></i> 2 Baths</span>
-                                <span><i class="fas fa-ruler-combined"></i> 180m²</span>
+                        <div class="property-admin-card">
+                            <div class="property-image">
+                                <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=400"
+                                     alt="Property">
+                                <span class="property-status-badge active">Active</span>
                             </div>
-                            <div class="property-meta">
-                                <div class="property-price">$950/night</div>
-                                <div class="property-owner">
-                                    <img src="https://i.pravatar.cc/150?img=13" alt="Owner">
-                                    <span>Sarah Lee</span>
+                            <div class="property-content">
+                                <h4>Beach Resort Villa</h4>
+                                <p class="property-location"><i class="fas fa-map-marker-alt"></i> Maldives</p>
+                                <div class="property-stats">
+                                    <span><i class="fas fa-bed"></i> 3 Beds</span>
+                                    <span><i class="fas fa-bath"></i> 2 Baths</span>
+                                    <span><i class="fas fa-ruler-combined"></i> 180m²</span>
+                                </div>
+                                <div class="property-meta">
+                                    <div class="property-price">$950/night</div>
+                                    <div class="property-owner">
+                                        <img src="https://i.pravatar.cc/150?img=13" alt="Owner">
+                                        <span>Sarah Lee</span>
+                                    </div>
+                                </div>
+                                <div class="property-actions">
+                                    <button class="property-action-btn view"><i class="fas fa-eye"></i> View</button>
+                                    <button class="property-action-btn edit"><i class="fas fa-edit"></i> Edit</button>
+                                    <button class="property-action-btn delete"><i class="fas fa-trash"></i> Delete
+                                    </button>
                                 </div>
                             </div>
-                            <div class="property-actions">
-                                <button class="property-action-btn view"><i class="fas fa-eye"></i> View</button>
-                                <button class="property-action-btn edit"><i class="fas fa-edit"></i> Edit</button>
-                                <button class="property-action-btn delete"><i class="fas fa-trash"></i> Delete</button>
-                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Pagination -->
-                <div class="pagination-wrapper">
-                    <p>Showing 1-4 of 1,289 properties</p>
-                    <div class="pagination">
-                        <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
-                        <button class="page-btn active">1</button>
-                        <button class="page-btn">2</button>
-                        <button class="page-btn">3</button>
-                        <button class="page-btn">...</button>
-                        <button class="page-btn">323</button>
-                        <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                    <!-- Pagination -->
+                    <div class="pagination-wrapper">
+                        <p>Showing 1-4 of 1,289 properties</p>
+                        <div class="pagination">
+                            <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">...</button>
+                            <button class="page-btn">323</button>
+                            <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
                     </div>
-                </div>
 
-            </section>
+                </section>
 
-            <!-- ============ BOOKINGS SECTION ============ -->
-            <section id="bookings-section" class="content-section">
-                
-                <div class="section-header-bar">
-                    <div>
-                        <h2><i class="fas fa-calendar-check"></i> Bookings Management</h2>
-                        <p>Manage all bookings (456 active)</p>
+                <!-- ============ BOOKINGS SECTION ============ -->
+                <section id="bookings-section" class="content-section">
+
+                    <div class="section-header-bar">
+                        <div>
+                            <h2><i class="fas fa-calendar-check"></i> Bookings Management</h2>
+                            <p>Manage all bookings (456 active)</p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Filters -->
-                <div class="table-filters">
-                    <div class="filter-group">
-                        <input type="text" placeholder="Search bookings..." class="filter-input">
-                        <select class="filter-select">
-                            <option>All Status</option>
-                            <option>Pending</option>
-                            <option>Confirmed</option>
-                            <option>Completed</option>
-                            <option>Cancelled</option>
-                        </select>
-                        <input type="date" class="filter-input">
-                        <button class="filter-btn"><i class="fas fa-filter"></i> Filter</button>
+                    <!-- Filters -->
+                    <div class="table-filters">
+                        <div class="filter-group">
+                            <input type="text" placeholder="Search bookings..." class="filter-input">
+                            <select class="filter-select">
+                                <option>All Status</option>
+                                <option>Pending</option>
+                                <option>Confirmed</option>
+                                <option>Completed</option>
+                                <option>Cancelled</option>
+                            </select>
+                            <input type="date" class="filter-input">
+                            <button class="filter-btn"><i class="fas fa-filter"></i> Filter</button>
+                        </div>
+                        <button class="export-btn"><i class="fas fa-download"></i> Export</button>
                     </div>
-                    <button class="export-btn"><i class="fas fa-download"></i> Export</button>
-                </div>
 
-                <!-- Bookings Table -->
-                <div class="data-table-wrapper">
-                    <table class="data-table">
-                        <thead>
+                    <!-- Bookings Table -->
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
                             <tr>
                                 <th>Booking ID</th>
                                 <th>Property</th>
@@ -667,13 +694,14 @@
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
                             <tr>
                                 <td>#BK-2025-001</td>
                                 <td>
                                     <div class="property-mini">
-                                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=100" alt="Property">
+                                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=100"
+                                             alt="Property">
                                         <span>Luxury Villa in Bali</span>
                                     </div>
                                 </td>
@@ -688,16 +716,20 @@
                                 <td>$3,150</td>
                                 <td><span class="status-badge confirmed">Confirmed</span></td>
                                 <td>
-                                    <button class="table-action-btn" onclick="viewBooking(1)"><i class="fas fa-eye"></i></button>
-                                    <button class="table-action-btn" onclick="editBooking(1)"><i class="fas fa-edit"></i></button>
-                                    <button class="table-action-btn danger" onclick="cancelBooking(1)"><i class="fas fa-times"></i></button>
+                                    <button class="table-action-btn" onclick="viewBooking(1)"><i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="table-action-btn" onclick="editBooking(1)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="table-action-btn danger" onclick="cancelBooking(1)"><i
+                                            class="fas fa-times"></i></button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>#BK-2025-002</td>
                                 <td>
                                     <div class="property-mini">
-                                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=100" alt="Property">
+                                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=100"
+                                             alt="Property">
                                         <span>Apartment in Paris</span>
                                     </div>
                                 </td>
@@ -712,16 +744,20 @@
                                 <td>$2,240</td>
                                 <td><span class="status-badge pending">Pending</span></td>
                                 <td>
-                                    <button class="table-action-btn" onclick="viewBooking(2)"><i class="fas fa-eye"></i></button>
-                                    <button class="table-action-btn success" onclick="confirmBooking(2)"><i class="fas fa-check"></i></button>
-                                    <button class="table-action-btn danger" onclick="cancelBooking(2)"><i class="fas fa-times"></i></button>
+                                    <button class="table-action-btn" onclick="viewBooking(2)"><i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="table-action-btn success" onclick="confirmBooking(2)"><i
+                                            class="fas fa-check"></i></button>
+                                    <button class="table-action-btn danger" onclick="cancelBooking(2)"><i
+                                            class="fas fa-times"></i></button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>#BK-2025-003</td>
                                 <td>
                                     <div class="property-mini">
-                                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=100" alt="Property">
+                                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=100"
+                                             alt="Property">
                                         <span>Mountain Chalet</span>
                                     </div>
                                 </td>
@@ -736,16 +772,20 @@
                                 <td>$5,460</td>
                                 <td><span class="status-badge confirmed">Confirmed</span></td>
                                 <td>
-                                    <button class="table-action-btn" onclick="viewBooking(3)"><i class="fas fa-eye"></i></button>
-                                    <button class="table-action-btn" onclick="editBooking(3)"><i class="fas fa-edit"></i></button>
-                                    <button class="table-action-btn danger" onclick="cancelBooking(3)"><i class="fas fa-times"></i></button>
+                                    <button class="table-action-btn" onclick="viewBooking(3)"><i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="table-action-btn" onclick="editBooking(3)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="table-action-btn danger" onclick="cancelBooking(3)"><i
+                                            class="fas fa-times"></i></button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>#BK-2024-458</td>
                                 <td>
                                     <div class="property-mini">
-                                        <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=100" alt="Property">
+                                        <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=100"
+                                             alt="Property">
                                         <span>Beach Resort Villa</span>
                                     </div>
                                 </td>
@@ -760,15 +800,18 @@
                                 <td>$6,650</td>
                                 <td><span class="status-badge completed">Completed</span></td>
                                 <td>
-                                    <button class="table-action-btn" onclick="viewBooking(4)"><i class="fas fa-eye"></i></button>
-                                    <button class="table-action-btn" onclick="downloadInvoice(4)"><i class="fas fa-download"></i></button>
+                                    <button class="table-action-btn" onclick="viewBooking(4)"><i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="table-action-btn" onclick="downloadInvoice(4)"><i
+                                            class="fas fa-download"></i></button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>#BK-2024-459</td>
                                 <td>
                                     <div class="property-mini">
-                                        <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=100" alt="Property">
+                                        <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=100"
+                                             alt="Property">
                                         <span>Istanbul Hotel</span>
                                     </div>
                                 </td>
@@ -783,378 +826,393 @@
                                 <td>$1,850</td>
                                 <td><span class="status-badge cancelled">Cancelled</span></td>
                                 <td>
-                                    <button class="table-action-btn" onclick="viewBooking(5)"><i class="fas fa-eye"></i></button>
-                                    <button class="table-action-btn" onclick="processRefund(5)"><i class="fas fa-money-bill"></i></button>
+                                    <button class="table-action-btn" onclick="viewBooking(5)"><i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="table-action-btn" onclick="processRefund(5)"><i
+                                            class="fas fa-money-bill"></i></button>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Pagination -->
-                <div class="pagination-wrapper">
-                    <p>Showing 1-5 of 456 bookings</p>
-                    <div class="pagination">
-                        <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
-                        <button class="page-btn active">1</button>
-                        <button class="page-btn">2</button>
-                        <button class="page-btn">3</button>
-                        <button class="page-btn">...</button>
-                        <button class="page-btn">92</button>
-                        <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
 
-            </section>
-
-            <!-- ============ REVIEWS SECTION ============ -->
-            <section id="reviews-section" class="content-section">
-                
-                <div class="section-header-bar">
-                    <div>
-                        <h2><i class="fas fa-star"></i> Reviews Management</h2>
-                        <p>Manage all property reviews</p>
+                    <!-- Pagination -->
+                    <div class="pagination-wrapper">
+                        <p>Showing 1-5 of 456 bookings</p>
+                        <div class="pagination">
+                            <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">...</button>
+                            <button class="page-btn">92</button>
+                            <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Filters -->
-                <div class="table-filters">
-                    <div class="filter-group">
-                        <input type="text" placeholder="Search reviews..." class="filter-input">
-                        <select class="filter-select">
-                            <option>All Ratings</option>
-                            <option>5 Stars</option>
-                            <option>4 Stars</option>
-                            <option>3 Stars</option>
-                            <option>2 Stars</option>
-                            <option>1 Star</option>
-                        </select>
-                        <button class="filter-btn"><i class="fas fa-filter"></i> Filter</button>
+                </section>
+
+                <!-- ============ REVIEWS SECTION ============ -->
+                <section id="reviews-section" class="content-section">
+
+                    <div class="section-header-bar">
+                        <div>
+                            <h2><i class="fas fa-star"></i> Reviews Management</h2>
+                            <p>Manage all property reviews</p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Reviews List -->
-                <div class="reviews-list">
-                    <div class="review-admin-card">
-                        <div class="review-header">
-                            <div class="review-user">
-                                <img src="https://i.pravatar.cc/150?img=20" alt="User">
-                                <div>
-                                    <h4>John Doe</h4>
-                                    <p>john@example.com</p>
+                    <!-- Filters -->
+                    <div class="table-filters">
+                        <div class="filter-group">
+                            <input type="text" placeholder="Search reviews..." class="filter-input">
+                            <select class="filter-select">
+                                <option>All Ratings</option>
+                                <option>5 Stars</option>
+                                <option>4 Stars</option>
+                                <option>3 Stars</option>
+                                <option>2 Stars</option>
+                                <option>1 Star</option>
+                            </select>
+                            <button class="filter-btn"><i class="fas fa-filter"></i> Filter</button>
+                        </div>
+                    </div>
+
+                    <!-- Reviews List -->
+                    <div class="reviews-list">
+                        <div class="review-admin-card">
+                            <div class="review-header">
+                                <div class="review-user">
+                                    <img src="https://i.pravatar.cc/150?img=20" alt="User">
+                                    <div>
+                                        <h4>John Doe</h4>
+                                        <p>john@example.com</p>
+                                    </div>
+                                </div>
+                                <div class="review-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
                                 </div>
                             </div>
-                            <div class="review-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
+                            <div class="review-property">
+                                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=100"
+                                     alt="Property">
+                                <span>Luxury Villa in Bali</span>
                             </div>
-                        </div>
-                        <div class="review-property">
-                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=100" alt="Property">
-                            <span>Luxury Villa in Bali</span>
-                        </div>
-                        <div class="review-content">
-                            <p>"Absolutely stunning villa! The views were breathtaking, the staff was incredibly friendly, and the amenities were top-notch. We had an unforgettable stay and can't wait to come back!"</p>
-                        </div>
-                        <div class="review-footer">
-                            <span class="review-date"><i class="fas fa-calendar"></i> Dec 10, 2025</span>
-                            <div class="review-actions">
-                                <button class="review-action-btn approve"><i class="fas fa-check"></i> Approve</button>
-                                <button class="review-action-btn reply"><i class="fas fa-reply"></i> Reply</button>
-                                <button class="review-action-btn delete"><i class="fas fa-trash"></i> Delete</button>
+                            <div class="review-content">
+                                <p>"Absolutely stunning villa! The views were breathtaking, the staff was incredibly
+                                    friendly, and the amenities were top-notch. We had an unforgettable stay and can't
+                                    wait to come back!"</p>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="review-admin-card">
-                        <div class="review-header">
-                            <div class="review-user">
-                                <img src="https://i.pravatar.cc/150?img=21" alt="User">
-                                <div>
-                                    <h4>Jane Smith</h4>
-                                    <p>jane@example.com</p>
+                            <div class="review-footer">
+                                <span class="review-date"><i class="fas fa-calendar"></i> Dec 10, 2025</span>
+                                <div class="review-actions">
+                                    <button class="review-action-btn approve"><i class="fas fa-check"></i> Approve
+                                    </button>
+                                    <button class="review-action-btn reply"><i class="fas fa-reply"></i> Reply</button>
+                                    <button class="review-action-btn delete"><i class="fas fa-trash"></i> Delete
+                                    </button>
                                 </div>
                             </div>
-                            <div class="review-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
                         </div>
-                        <div class="review-property">
-                            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=100" alt="Property">
-                            <span>Apartment in Paris</span>
-                        </div>
-                        <div class="review-content">
-                            <p>"Great location in the heart of Paris! Walking distance to all major attractions. The apartment was clean and comfortable. Only minor issue was the WiFi speed."</p>
-                        </div>
-                        <div class="review-footer">
-                            <span class="review-date"><i class="fas fa-calendar"></i> Dec 9, 2025</span>
-                            <div class="review-actions">
-                                <button class="review-action-btn approve"><i class="fas fa-check"></i> Approve</button>
-                                <button class="review-action-btn reply"><i class="fas fa-reply"></i> Reply</button>
-                                <button class="review-action-btn delete"><i class="fas fa-trash"></i> Delete</button>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="review-admin-card">
-                        <div class="review-header">
-                            <div class="review-user">
-                                <img src="https://i.pravatar.cc/150?img=22" alt="User">
-                                <div>
-                                    <h4>Mike Johnson</h4>
-                                    <p>mike@example.com</p>
+                        <div class="review-admin-card">
+                            <div class="review-header">
+                                <div class="review-user">
+                                    <img src="https://i.pravatar.cc/150?img=21" alt="User">
+                                    <div>
+                                        <h4>Jane Smith</h4>
+                                        <p>jane@example.com</p>
+                                    </div>
+                                </div>
+                                <div class="review-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
                                 </div>
                             </div>
-                            <div class="review-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
+                            <div class="review-property">
+                                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=100"
+                                     alt="Property">
+                                <span>Apartment in Paris</span>
                             </div>
-                        </div>
-                        <div class="review-property">
-                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=100" alt="Property">
-                            <span>Mountain Chalet</span>
-                        </div>
-                        <div class="review-content">
-                            <p>"Beautiful chalet with amazing mountain views. However, the heating system needs improvement as it got quite cold at night."</p>
-                        </div>
-                        <div class="review-footer">
-                            <span class="review-date"><i class="fas fa-calendar"></i> Dec 8, 2025</span>
-                            <div class="review-actions">
-                                <button class="review-action-btn approve"><i class="fas fa-check"></i> Approve</button>
-                                <button class="review-action-btn reply"><i class="fas fa-reply"></i> Reply</button>
-                                <button class="review-action-btn delete"><i class="fas fa-trash"></i> Delete</button>
+                            <div class="review-content">
+                                <p>"Great location in the heart of Paris! Walking distance to all major attractions. The
+                                    apartment was clean and comfortable. Only minor issue was the WiFi speed."</p>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-            </section>
-
-            <!-- ============ REPORTS SECTION ============ -->
-            <section id="reports-section" class="content-section">
-                
-                <div class="section-header-bar">
-                    <div>
-                        <h2><i class="fas fa-chart-line"></i> Reports & Analytics</h2>
-                        <p>View detailed reports and analytics</p>
-                    </div>
-                    <button class="action-btn primary" onclick="generateFullReport()">
-                        <i class="fas fa-file-pdf"></i>
-                        Generate Full Report
-                    </button>
-                </div>
-
-                <!-- Report Cards -->
-                <div class="reports-grid">
-                    <div class="report-card">
-                        <div class="report-icon purple">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                        <div class="report-content">
-                            <h3>Revenue Report</h3>
-                            <p>Monthly revenue breakdown and trends</p>
-                            <button class="report-btn" onclick="viewReport('revenue')">
-                                <i class="fas fa-eye"></i> View Report
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="report-card">
-                        <div class="report-icon blue">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="report-content">
-                            <h3>User Analytics</h3>
-                            <p>User growth and engagement metrics</p>
-                            <button class="report-btn" onclick="viewReport('users')">
-                                <i class="fas fa-eye"></i> View Report
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="report-card">
-                        <div class="report-icon green">
-                            <i class="fas fa-home"></i>
-                        </div>
-                        <div class="report-content">
-                            <h3>Property Performance</h3>
-                            <p>Top performing properties and occupancy rates</p>
-                            <button class="report-btn" onclick="viewReport('properties')">
-                                <i class="fas fa-eye"></i> View Report
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="report-card">
-                        <div class="report-icon orange">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="report-content">
-                            <h3>Booking Trends</h3>
-                            <p>Booking patterns and seasonal analysis</p>
-                            <button class="report-btn" onclick="viewReport('bookings')">
-                                <i class="fas fa-eye"></i> View Report
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Revenue Chart -->
-                <div class="report-chart-section">
-                    <h3>Monthly Revenue Trends</h3>
-                    <canvas id="revenueReportChart"></canvas>
-                </div>
-
-            </section>
-
-            <!-- ============ SETTINGS SECTION ============ -->
-            <section id="settings-section" class="content-section">
-                
-                <div class="section-header-bar">
-                    <div>
-                        <h2><i class="fas fa-cog"></i> Platform Settings</h2>
-                        <p>Configure platform settings and preferences</p>
-                    </div>
-                    <button class="action-btn primary" onclick="saveSettings()">
-                        <i class="fas fa-save"></i>
-                        Save Changes
-                    </button>
-                </div>
-
-                <!-- Settings Grid -->
-                <div class="settings-grid">
-                    
-                    <!-- General Settings -->
-                    <div class="settings-card">
-                        <h3><i class="fas fa-globe"></i> General Settings</h3>
-                        <div class="settings-form">
-                            <div class="form-group">
-                                <label>Site Name</label>
-                                <input type="text" value="TravelHub" class="form-input">
-                            </div>
-                            <div class="form-group">
-                                <label>Site Email</label>
-                                <input type="email" value="info@travelhub.com" class="form-input">
-                            </div>
-                            <div class="form-group">
-                                <label>Contact Phone</label>
-                                <input type="tel" value="+1 234 567 8900" class="form-input">
-                            </div>
-                            <div class="form-group">
-                                <label>Default Currency</label>
-                                <select class="form-select">
-                                    <option>USD ($)</option>
-                                    <option>EUR (€)</option>
-                                    <option>GBP (£)</option>
-                                    <option>UZS (so'm)</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Timezone</label>
-                                <select class="form-select">
-                                    <option>UTC</option>
-                                    <option>Asia/Tashkent</option>
-                                    <option>America/New_York</option>
-                                    <option>Europe/London</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Payment Settings -->
-                    <div class="settings-card">
-                        <h3><i class="fas fa-credit-card"></i> Payment Settings</h3>
-                        <div class="settings-form">
-                            <div class="form-group">
-                                <label>Commission Rate (%)</label>
-                                <input type="number" value="15" class="form-input">
-                            </div>
-                            <div class="form-group">
-                                <div class="form-switch">
-                                    <input type="checkbox" id="paypal" checked>
-                                    <label for="paypal">Enable PayPal</label>
+                            <div class="review-footer">
+                                <span class="review-date"><i class="fas fa-calendar"></i> Dec 9, 2025</span>
+                                <div class="review-actions">
+                                    <button class="review-action-btn approve"><i class="fas fa-check"></i> Approve
+                                    </button>
+                                    <button class="review-action-btn reply"><i class="fas fa-reply"></i> Reply</button>
+                                    <button class="review-action-btn delete"><i class="fas fa-trash"></i> Delete
+                                    </button>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="form-switch">
-                                    <input type="checkbox" id="stripe" checked>
-                                    <label for="stripe">Enable Stripe</label>
+                        </div>
+
+                        <div class="review-admin-card">
+                            <div class="review-header">
+                                <div class="review-user">
+                                    <img src="https://i.pravatar.cc/150?img=22" alt="User">
+                                    <div>
+                                        <h4>Mike Johnson</h4>
+                                        <p>mike@example.com</p>
+                                    </div>
+                                </div>
+                                <div class="review-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="form-switch">
-                                    <input type="checkbox" id="crypto">
-                                    <label for="crypto">Enable Crypto Payments</label>
+                            <div class="review-property">
+                                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=100"
+                                     alt="Property">
+                                <span>Mountain Chalet</span>
+                            </div>
+                            <div class="review-content">
+                                <p>"Beautiful chalet with amazing mountain views. However, the heating system needs
+                                    improvement as it got quite cold at night."</p>
+                            </div>
+                            <div class="review-footer">
+                                <span class="review-date"><i class="fas fa-calendar"></i> Dec 8, 2025</span>
+                                <div class="review-actions">
+                                    <button class="review-action-btn approve"><i class="fas fa-check"></i> Approve
+                                    </button>
+                                    <button class="review-action-btn reply"><i class="fas fa-reply"></i> Reply</button>
+                                    <button class="review-action-btn delete"><i class="fas fa-trash"></i> Delete
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Email Settings -->
-                    <div class="settings-card">
-                        <h3><i class="fas fa-envelope"></i> Email Settings</h3>
-                        <div class="settings-form">
-                            <div class="form-group">
-                                <label>SMTP Host</label>
-                                <input type="text" value="smtp.gmail.com" class="form-input">
+                </section>
+
+                <!-- ============ REPORTS SECTION ============ -->
+                <section id="reports-section" class="content-section">
+
+                    <div class="section-header-bar">
+                        <div>
+                            <h2><i class="fas fa-chart-line"></i> Reports & Analytics</h2>
+                            <p>View detailed reports and analytics</p>
+                        </div>
+                        <button class="action-btn primary" onclick="generateFullReport()">
+                            <i class="fas fa-file-pdf"></i>
+                            Generate Full Report
+                        </button>
+                    </div>
+
+                    <!-- Report Cards -->
+                    <div class="reports-grid">
+                        <div class="report-card">
+                            <div class="report-icon purple">
+                                <i class="fas fa-dollar-sign"></i>
                             </div>
-                            <div class="form-group">
-                                <label>SMTP Port</label>
-                                <input type="number" value="587" class="form-input">
+                            <div class="report-content">
+                                <h3>Revenue Report</h3>
+                                <p>Monthly revenue breakdown and trends</p>
+                                <button class="report-btn" onclick="viewReport('revenue')">
+                                    <i class="fas fa-eye"></i> View Report
+                                </button>
                             </div>
-                            <div class="form-group">
-                                <label>SMTP Username</label>
-                                <input type="text" value="noreply@travelhub.com" class="form-input">
+                        </div>
+
+                        <div class="report-card">
+                            <div class="report-icon blue">
+                                <i class="fas fa-users"></i>
                             </div>
-                            <div class="form-group">
-                                <label>SMTP Password</label>
-                                <input type="password" value="••••••••" class="form-input">
+                            <div class="report-content">
+                                <h3>User Analytics</h3>
+                                <p>User growth and engagement metrics</p>
+                                <button class="report-btn" onclick="viewReport('users')">
+                                    <i class="fas fa-eye"></i> View Report
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="report-card">
+                            <div class="report-icon green">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="report-content">
+                                <h3>Property Performance</h3>
+                                <p>Top performing properties and occupancy rates</p>
+                                <button class="report-btn" onclick="viewReport('properties')">
+                                    <i class="fas fa-eye"></i> View Report
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="report-card">
+                            <div class="report-icon orange">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="report-content">
+                                <h3>Booking Trends</h3>
+                                <p>Booking patterns and seasonal analysis</p>
+                                <button class="report-btn" onclick="viewReport('bookings')">
+                                    <i class="fas fa-eye"></i> View Report
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Social Media Settings -->
-                    <div class="settings-card">
-                        <h3><i class="fas fa-share-alt"></i> Social Media</h3>
-                        <div class="settings-form">
-                            <div class="form-group">
-                                <label><i class="fab fa-facebook"></i> Facebook</label>
-                                <input type="text" value="https://facebook.com/travelhub" class="form-input">
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fab fa-instagram"></i> Instagram</label>
-                                <input type="text" value="https://instagram.com/travelhub" class="form-input">
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fab fa-telegram"></i> Telegram</label>
-                                <input type="text" value="https://t.me/travelhub" class="form-input">
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fab fa-youtube"></i> YouTube</label>
-                                <input type="text" value="https://youtube.com/travelhub" class="form-input">
-                            </div>
-                        </div>
+                    <!-- Revenue Chart -->
+                    <div class="report-chart-section">
+                        <h3>Monthly Revenue Trends</h3>
+                        <canvas id="revenueReportChart"></canvas>
                     </div>
 
-                </div>
+                </section>
 
-            </section>
+                <!-- ============ SETTINGS SECTION ============ -->
+                <section id="settings-section" class="content-section">
+
+                    <div class="section-header-bar">
+                        <div>
+                            <h2><i class="fas fa-cog"></i> Platform Settings</h2>
+                            <p>Configure platform settings and preferences</p>
+                        </div>
+                        <button class="action-btn primary" onclick="saveSettings()">
+                            <i class="fas fa-save"></i>
+                            Save Changes
+                        </button>
+                    </div>
+
+                    <!-- Settings Grid -->
+                    <div class="settings-grid">
+
+                        <!-- General Settings -->
+                        <div class="settings-card">
+                            <h3><i class="fas fa-globe"></i> General Settings</h3>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>Site Name</label>
+                                    <input type="text" value="TravelHub" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>Site Email</label>
+                                    <input type="email" value="info@travelhub.com" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>Contact Phone</label>
+                                    <input type="tel" value="+1 234 567 8900" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>Default Currency</label>
+                                    <select class="form-select">
+                                        <option>USD ($)</option>
+                                        <option>EUR (€)</option>
+                                        <option>GBP (£)</option>
+                                        <option>UZS (so'm)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Timezone</label>
+                                    <select class="form-select">
+                                        <option>UTC</option>
+                                        <option>Asia/Tashkent</option>
+                                        <option>America/New_York</option>
+                                        <option>Europe/London</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Settings -->
+                        <div class="settings-card">
+                            <h3><i class="fas fa-credit-card"></i> Payment Settings</h3>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>Commission Rate (%)</label>
+                                    <input type="number" value="15" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-switch">
+                                        <input type="checkbox" id="paypal" checked>
+                                        <label for="paypal">Enable PayPal</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-switch">
+                                        <input type="checkbox" id="stripe" checked>
+                                        <label for="stripe">Enable Stripe</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-switch">
+                                        <input type="checkbox" id="crypto">
+                                        <label for="crypto">Enable Crypto Payments</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email Settings -->
+                        <div class="settings-card">
+                            <h3><i class="fas fa-envelope"></i> Email Settings</h3>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>SMTP Host</label>
+                                    <input type="text" value="smtp.gmail.com" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>SMTP Port</label>
+                                    <input type="number" value="587" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>SMTP Username</label>
+                                    <input type="text" value="noreply@travelhub.com" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>SMTP Password</label>
+                                    <input type="password" value="••••••••" class="form-input">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Media Settings -->
+                        <div class="settings-card">
+                            <h3><i class="fas fa-share-alt"></i> Social Media</h3>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label><i class="fab fa-facebook"></i> Facebook</label>
+                                    <input type="text" value="https://facebook.com/travelhub" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fab fa-instagram"></i> Instagram</label>
+                                    <input type="text" value="https://instagram.com/travelhub" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fab fa-telegram"></i> Telegram</label>
+                                    <input type="text" value="https://t.me/travelhub" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fab fa-youtube"></i> YouTube</label>
+                                    <input type="text" value="https://youtube.com/travelhub" class="form-input">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
 
         </div>
 
     </div>
-
-</div>
 
 {% endblock %}
 

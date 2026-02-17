@@ -294,7 +294,7 @@ class GoogleCallbackView(View):
             user.save()
 
         login(request, user)
-        return redirect("base_page")
+        return redirect("home_page")
 
 
 class HelpCenterTemplateView(TemplateView):

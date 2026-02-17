@@ -1,559 +1,583 @@
-        {% extends 'apps/main_base.html' %}
-        {% load static %}
+{% extends 'apps/main_base.html' %}
+{% load static %}
 
-        {% block title %}
-        <title>TravelHub - Travel Stories & Moments</title>
-        {% endblock %}
+{% block title %}
+    <title>TravelHub - Travel Stories & Moments</title>
+{% endblock %}
 
-        {% block custom_css %}
-        <link rel="stylesheet" href="{% static 'apps/css/blog.css' %}">
-        {% endblock %}
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'apps/css/responsive.css' %}">
 
-        {% block main_content %}
+{% endblock %}
 
-        <!-- Blog Main Container -->
-        <div class="blog-container">
+{% block main_content %}
 
-            <!-- Stories Section (Top Horizontal) -->
-            <div class="stories-wrapper">
-                <div class="stories-container">
-                    <!-- Add Your Story -->
-                    <div class="story-item add-story" onclick="openStoryUpload()">
-                        <div class="story-avatar-wrapper">
-                            <div class="story-avatar add-story-avatar">
-                                <i class="fas fa-plus"></i>
-                            </div>
+    <!-- Blog Main Container -->
+    <div class="blog-container">
+
+        <!-- Stories Section (Top Horizontal) -->
+        <div class="stories-wrapper">
+            <div class="stories-container">
+                <!-- Add Your Story -->
+                <div class="story-item add-story" onclick="openStoryUpload()">
+                    <div class="story-avatar-wrapper">
+                        <div class="story-avatar add-story-avatar">
+                            <i class="fas fa-plus"></i>
                         </div>
-                        <span class="story-username">Add Story</span>
                     </div>
+                    <span class="story-username">Add Story</span>
+                </div>
 
-                    <!-- Active Stories -->
-                    <div class="story-item" onclick="openStory('user1')">
-                        <div class="story-avatar-wrapper active">
-                            <div class="story-avatar" style="background-image: url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150')"></div>
-                        </div>
-                        <span class="story-username">john_doe</span>
+                <!-- Active Stories -->
+                <div class="story-item" onclick="openStory('user1')">
+                    <div class="story-avatar-wrapper active">
+                        <div class="story-avatar"
+                             style="background-image: url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150')"></div>
                     </div>
+                    <span class="story-username">john_doe</span>
+                </div>
 
-                    <div class="story-item" onclick="openStory('user2')">
-                        <div class="story-avatar-wrapper active">
-                            <div class="story-avatar" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150')"></div>
-                        </div>
-                        <span class="story-username">sarah_travels</span>
+                <div class="story-item" onclick="openStory('user2')">
+                    <div class="story-avatar-wrapper active">
+                        <div class="story-avatar"
+                             style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150')"></div>
                     </div>
+                    <span class="story-username">sarah_travels</span>
+                </div>
 
-                    <div class="story-item" onclick="openStory('user3')">
-                        <div class="story-avatar-wrapper active">
-                            <div class="story-avatar" style="background-image: url('https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150')"></div>
-                        </div>
-                        <span class="story-username">mike_adventure</span>
+                <div class="story-item" onclick="openStory('user3')">
+                    <div class="story-avatar-wrapper active">
+                        <div class="story-avatar"
+                             style="background-image: url('https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150')"></div>
                     </div>
+                    <span class="story-username">mike_adventure</span>
+                </div>
 
-                    <div class="story-item" onclick="openStory('user4')">
-                        <div class="story-avatar-wrapper">
-                            <div class="story-avatar" style="background-image: url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150')"></div>
-                        </div>
-                        <span class="story-username">emma_world</span>
+                <div class="story-item" onclick="openStory('user4')">
+                    <div class="story-avatar-wrapper">
+                        <div class="story-avatar"
+                             style="background-image: url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150')"></div>
                     </div>
+                    <span class="story-username">emma_world</span>
+                </div>
 
-                    <div class="story-item" onclick="openStory('user5')">
-                        <div class="story-avatar-wrapper active">
-                            <div class="story-avatar" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150')"></div>
-                        </div>
-                        <span class="story-username">alex_explorer</span>
+                <div class="story-item" onclick="openStory('user5')">
+                    <div class="story-avatar-wrapper active">
+                        <div class="story-avatar"
+                             style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150')"></div>
                     </div>
+                    <span class="story-username">alex_explorer</span>
+                </div>
 
-                    <div class="story-item" onclick="openStory('user6')">
-                        <div class="story-avatar-wrapper active">
-                            <div class="story-avatar" style="background-image: url('https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=150')"></div>
-                        </div>
-                        <span class="story-username">lisa_journey</span>
+                <div class="story-item" onclick="openStory('user6')">
+                    <div class="story-avatar-wrapper active">
+                        <div class="story-avatar"
+                             style="background-image: url('https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=150')"></div>
                     </div>
+                    <span class="story-username">lisa_journey</span>
+                </div>
 
-                    <div class="story-item" onclick="openStory('user7')">
-                        <div class="story-avatar-wrapper">
-                            <div class="story-avatar" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150')"></div>
-                        </div>
-                        <span class="story-username">david_roam</span>
+                <div class="story-item" onclick="openStory('user7')">
+                    <div class="story-avatar-wrapper">
+                        <div class="story-avatar"
+                             style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150')"></div>
                     </div>
+                    <span class="story-username">david_roam</span>
                 </div>
             </div>
+        </div>
 
-            <!-- Main Content Area -->
-            <div class="blog-main">
+        <!-- Main Content Area -->
+        <div class="blog-main">
 
-                <!-- Left Sidebar - Navigation & Filters -->
-                <aside class="blog-sidebar left">
-                    <div class="sidebar-section">
-                        <h3 class="sidebar-title">
-                            <i class="fas fa-filter"></i> Filters
-                        </h3>
-                        <div class="filter-buttons">
-                            <button class="filter-btn active" onclick="filterPosts('all')">
-                                <i class="fas fa-globe"></i> All Posts
-                            </button>
-                            <button class="filter-btn" onclick="filterPosts('following')">
-                                <i class="fas fa-user-friends"></i> Following
-                            </button>
-                            <button class="filter-btn" onclick="filterPosts('trending')">
-                                <i class="fas fa-fire"></i> Trending
-                            </button>
-                            <button class="filter-btn" onclick="filterPosts('saved')">
-                                <i class="fas fa-bookmark"></i> Saved
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="sidebar-section">
-                        <h3 class="sidebar-title">
-                            <i class="fas fa-compass"></i> Categories
-                        </h3>
-                        <div class="category-list">
-                            <button class="category-btn" onclick="filterCategory('beach')">
-                                <i class="fas fa-umbrella-beach"></i> Beaches
-                            </button>
-                            <button class="category-btn" onclick="filterCategory('mountain')">
-                                <i class="fas fa-mountain"></i> Mountains
-                            </button>
-                            <button class="category-btn" onclick="filterCategory('city')">
-                                <i class="fas fa-city"></i> Cities
-                            </button>
-                            <button class="category-btn" onclick="filterCategory('food')">
-                                <i class="fas fa-utensils"></i> Food
-                            </button>
-                            <button class="category-btn" onclick="filterCategory('culture')">
-                                <i class="fas fa-landmark"></i> Culture
-                            </button>
-                            <button class="category-btn" onclick="filterCategory('adventure')">
-                                <i class="fas fa-hiking"></i> Adventure
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="sidebar-section">
-                        <h3 class="sidebar-title">
-                            <i class="fas fa-chart-line"></i> Trending Hashtags
-                        </h3>
-                        <div class="trending-tags">
-                            <a href="#" class="tag">#TravelDiaries</a>
-                            <a href="#" class="tag">#Wanderlust</a>
-                            <a href="#" class="tag">#BeachVibes</a>
-                            <a href="#" class="tag">#MountainLife</a>
-                            <a href="#" class="tag">#FoodieTravel</a>
-                            <a href="#" class="tag">#HiddenGems</a>
-                        </div>
-                    </div>
-                </aside>
-
-                <!-- Center Feed - Posts -->
-                <main class="blog-feed">
-
-                    <!-- Create Post Card -->
-                    <div class="create-post-card" onclick="openCreatePost()">
-                        <div class="create-post-avatar">
-                            <div class="avatar">JD</div>
-                        </div>
-                        <div class="create-post-input">
-                            <input type="text" placeholder="Share your travel story..." readonly>
-                        </div>
-                        <button class="create-post-btn">
-                            <i class="fas fa-image"></i>
+            <!-- Left Sidebar - Navigation & Filters -->
+            <aside class="blog-sidebar left">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-filter"></i> Filters
+                    </h3>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" onclick="filterPosts('all')">
+                            <i class="fas fa-globe"></i> All Posts
+                        </button>
+                        <button class="filter-btn" onclick="filterPosts('following')">
+                            <i class="fas fa-user-friends"></i> Following
+                        </button>
+                        <button class="filter-btn" onclick="filterPosts('trending')">
+                            <i class="fas fa-fire"></i> Trending
+                        </button>
+                        <button class="filter-btn" onclick="filterPosts('saved')">
+                            <i class="fas fa-bookmark"></i> Saved
                         </button>
                     </div>
+                </div>
 
-                    <!-- Post 1 - Single Image -->
-                    <article class="post-card">
-                        <div class="post-header">
-                            <div class="post-user-info">
-                                <div class="post-avatar" style="background-image: url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100')"></div>
-                                <div class="post-user-details">
-                                    <h4 class="post-username">john_doe</h4>
-                                    <div class="post-meta">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-compass"></i> Categories
+                    </h3>
+                    <div class="category-list">
+                        <button class="category-btn" onclick="filterCategory('beach')">
+                            <i class="fas fa-umbrella-beach"></i> Beaches
+                        </button>
+                        <button class="category-btn" onclick="filterCategory('mountain')">
+                            <i class="fas fa-mountain"></i> Mountains
+                        </button>
+                        <button class="category-btn" onclick="filterCategory('city')">
+                            <i class="fas fa-city"></i> Cities
+                        </button>
+                        <button class="category-btn" onclick="filterCategory('food')">
+                            <i class="fas fa-utensils"></i> Food
+                        </button>
+                        <button class="category-btn" onclick="filterCategory('culture')">
+                            <i class="fas fa-landmark"></i> Culture
+                        </button>
+                        <button class="category-btn" onclick="filterCategory('adventure')">
+                            <i class="fas fa-hiking"></i> Adventure
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-chart-line"></i> Trending Hashtags
+                    </h3>
+                    <div class="trending-tags">
+                        <a href="#" class="tag">#TravelDiaries</a>
+                        <a href="#" class="tag">#Wanderlust</a>
+                        <a href="#" class="tag">#BeachVibes</a>
+                        <a href="#" class="tag">#MountainLife</a>
+                        <a href="#" class="tag">#FoodieTravel</a>
+                        <a href="#" class="tag">#HiddenGems</a>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Feed - Posts -->
+            <main class="blog-feed">
+
+                <!-- Create Post Card -->
+                <div class="create-post-card" onclick="openCreatePost()">
+                    <div class="create-post-avatar">
+                        <div class="avatar">JD</div>
+                    </div>
+                    <div class="create-post-input">
+                        <input type="text" placeholder="Share your travel story..." readonly>
+                    </div>
+                    <button class="create-post-btn">
+                        <i class="fas fa-image"></i>
+                    </button>
+                </div>
+
+                <!-- Post 1 - Single Image -->
+                <article class="post-card">
+                    <div class="post-header">
+                        <div class="post-user-info">
+                            <div class="post-avatar"
+                                 style="background-image: url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100')"></div>
+                            <div class="post-user-details">
+                                <h4 class="post-username">john_doe</h4>
+                                <div class="post-meta">
                                         <span class="post-location">
                                             <i class="fas fa-map-marker-alt"></i> Paris, France
                                         </span>
-                                        <span class="post-time">2 hours ago</span>
-                                    </div>
+                                    <span class="post-time">2 hours ago</span>
                                 </div>
                             </div>
-                            <button class="post-options-btn" onclick="togglePostOptions(event)">
-                                <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                        <button class="post-options-btn" onclick="togglePostOptions(event)">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                    </div>
+
+                    <div class="post-media">
+                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800" alt="Eiffel Tower"
+                             ondblclick="likePost(this)">
+                        <button class="post-bookmark-btn" onclick="bookmarkPost(this)">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
+
+                    <div class="post-actions">
+                        <div class="post-actions-left">
+                            <button class="action-btn like-btn" onclick="likePost(this)">
+                                <i class="far fa-heart"></i>
+                                <span class="like-count">1,234</span>
+                            </button>
+                            <button class="action-btn" onclick="focusComment(this)">
+                                <i class="far fa-comment"></i>
+                                <span>89</span>
+                            </button>
+                            <button class="action-btn" onclick="sharePost(this)">
+                                <i class="far fa-paper-plane"></i>
                             </button>
                         </div>
+                        <button class="action-btn save-btn" onclick="savePost(this)">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
 
-                        <div class="post-media">
-                            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800" alt="Eiffel Tower" ondblclick="likePost(this)">
-                            <button class="post-bookmark-btn" onclick="bookmarkPost(this)">
-                                <i class="far fa-bookmark"></i>
-                            </button>
+                    <div class="post-content">
+                        <div class="post-likes">
+                            <strong>1,234 likes</strong>
                         </div>
-
-                        <div class="post-actions">
-                            <div class="post-actions-left">
-                                <button class="action-btn like-btn" onclick="likePost(this)">
+                        <div class="post-caption">
+                            <strong>john_doe</strong> Amazing sunset at the Eiffel Tower! Paris never disappoints 🗼✨
+                            <span class="caption-more" onclick="toggleCaption(this)">...more</span>
+                            <div class="caption-full" style="display: none;">
+                                This was one of the most beautiful moments of my trip. The golden hour made everything
+                                magical!
+                            </div>
+                        </div>
+                        <div class="post-tags">
+                            <a href="#" class="tag">#Paris</a>
+                            <a href="#" class="tag">#EiffelTower</a>
+                            <a href="#" class="tag">#TravelDiaries</a>
+                        </div>
+                        <button class="view-comments-btn" onclick="toggleComments(this)">
+                            View all 89 comments
+                        </button>
+                        <div class="post-comments" style="display: none;">
+                            <div class="comment">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50"
+                                     alt="avatar" class="comment-avatar">
+                                <div class="comment-content">
+                                    <strong>sarah_travels</strong> Stunning shot! 😍
+                                </div>
+                                <button class="comment-like-btn">
                                     <i class="far fa-heart"></i>
-                                    <span class="like-count">1,234</span>
-                                </button>
-                                <button class="action-btn" onclick="focusComment(this)">
-                                    <i class="far fa-comment"></i>
-                                    <span>89</span>
-                                </button>
-                                <button class="action-btn" onclick="sharePost(this)">
-                                    <i class="far fa-paper-plane"></i>
                                 </button>
                             </div>
-                            <button class="action-btn save-btn" onclick="savePost(this)">
-                                <i class="far fa-bookmark"></i>
-                            </button>
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-likes">
-                                <strong>1,234 likes</strong>
-                            </div>
-                            <div class="post-caption">
-                                <strong>john_doe</strong> Amazing sunset at the Eiffel Tower! Paris never disappoints 🗼✨
-                                <span class="caption-more" onclick="toggleCaption(this)">...more</span>
-                                <div class="caption-full" style="display: none;">
-                                    This was one of the most beautiful moments of my trip. The golden hour made everything magical!
+                            <div class="comment">
+                                <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=50"
+                                     alt="avatar" class="comment-avatar">
+                                <div class="comment-content">
+                                    <strong>mike_adventure</strong> I was there last month! Such a beautiful place 🇫🇷
                                 </div>
-                            </div>
-                            <div class="post-tags">
-                                <a href="#" class="tag">#Paris</a>
-                                <a href="#" class="tag">#EiffelTower</a>
-                                <a href="#" class="tag">#TravelDiaries</a>
-                            </div>
-                            <button class="view-comments-btn" onclick="toggleComments(this)">
-                                View all 89 comments
-                            </button>
-                            <div class="post-comments" style="display: none;">
-                                <div class="comment">
-                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50" alt="avatar" class="comment-avatar">
-                                    <div class="comment-content">
-                                        <strong>sarah_travels</strong> Stunning shot! 😍
-                                    </div>
-                                    <button class="comment-like-btn">
-                                        <i class="far fa-heart"></i>
-                                    </button>
-                                </div>
-                                <div class="comment">
-                                    <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=50" alt="avatar" class="comment-avatar">
-                                    <div class="comment-content">
-                                        <strong>mike_adventure</strong> I was there last month! Such a beautiful place 🇫🇷
-                                    </div>
-                                    <button class="comment-like-btn">
-                                        <i class="far fa-heart"></i>
-                                    </button>
-                                </div>
+                                <button class="comment-like-btn">
+                                    <i class="far fa-heart"></i>
+                                </button>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="post-add-comment">
-                            <input type="text" placeholder="Add a comment..." class="comment-input">
-                            <button class="comment-post-btn">Post</button>
-                        </div>
-                    </article>
+                    <div class="post-add-comment">
+                        <input type="text" placeholder="Add a comment..." class="comment-input">
+                        <button class="comment-post-btn">Post</button>
+                    </div>
+                </article>
 
-                    <!-- Post 2 - Carousel/Multiple Images -->
-                    <article class="post-card">
-                        <div class="post-header">
-                            <div class="post-user-info">
-                                <div class="post-avatar" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100')"></div>
-                                <div class="post-user-details">
-                                    <h4 class="post-username">sarah_travels</h4>
-                                    <div class="post-meta">
+                <!-- Post 2 - Carousel/Multiple Images -->
+                <article class="post-card">
+                    <div class="post-header">
+                        <div class="post-user-info">
+                            <div class="post-avatar"
+                                 style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100')"></div>
+                            <div class="post-user-details">
+                                <h4 class="post-username">sarah_travels</h4>
+                                <div class="post-meta">
                                         <span class="post-location">
                                             <i class="fas fa-map-marker-alt"></i> Bali, Indonesia
                                         </span>
-                                        <span class="post-time">5 hours ago</span>
-                                    </div>
+                                    <span class="post-time">5 hours ago</span>
                                 </div>
                             </div>
-                            <button class="post-options-btn">
-                                <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                        <button class="post-options-btn">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                    </div>
+
+                    <div class="post-media carousel">
+                        <div class="carousel-container">
+                            <div class="carousel-track">
+                                <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800"
+                                     alt="Bali 1">
+                                <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800" alt="Bali 2">
+                                <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=800" alt="Bali 3">
+                            </div>
+                            <button class="carousel-btn prev" onclick="carouselPrev(this)">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="carousel-btn next" onclick="carouselNext(this)">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            <div class="carousel-indicators">
+                                <span class="indicator active"></span>
+                                <span class="indicator"></span>
+                                <span class="indicator"></span>
+                            </div>
+                        </div>
+                        <button class="post-bookmark-btn">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
+
+                    <div class="post-actions">
+                        <div class="post-actions-left">
+                            <button class="action-btn like-btn">
+                                <i class="far fa-heart"></i>
+                                <span class="like-count">2,567</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>145</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-paper-plane"></i>
                             </button>
                         </div>
+                        <button class="action-btn save-btn">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
 
-                        <div class="post-media carousel">
-                            <div class="carousel-container">
-                                <div class="carousel-track">
-                                    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800" alt="Bali 1">
-                                    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800" alt="Bali 2">
-                                    <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=800" alt="Bali 3">
-                                </div>
-                                <button class="carousel-btn prev" onclick="carouselPrev(this)">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <button class="carousel-btn next" onclick="carouselNext(this)">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                                <div class="carousel-indicators">
-                                    <span class="indicator active"></span>
-                                    <span class="indicator"></span>
-                                    <span class="indicator"></span>
-                                </div>
-                            </div>
-                            <button class="post-bookmark-btn">
-                                <i class="far fa-bookmark"></i>
-                            </button>
+                    <div class="post-content">
+                        <div class="post-likes">
+                            <strong>2,567 likes</strong>
                         </div>
-
-                        <div class="post-actions">
-                            <div class="post-actions-left">
-                                <button class="action-btn like-btn">
-                                    <i class="far fa-heart"></i>
-                                    <span class="like-count">2,567</span>
-                                </button>
-                                <button class="action-btn">
-                                    <i class="far fa-comment"></i>
-                                    <span>145</span>
-                                </button>
-                                <button class="action-btn">
-                                    <i class="far fa-paper-plane"></i>
-                                </button>
-                            </div>
-                            <button class="action-btn save-btn">
-                                <i class="far fa-bookmark"></i>
-                            </button>
+                        <div class="post-caption">
+                            <strong>sarah_travels</strong> Paradise found! 🌴☀️ Bali has stolen my heart
                         </div>
-
-                        <div class="post-content">
-                            <div class="post-likes">
-                                <strong>2,567 likes</strong>
-                            </div>
-                            <div class="post-caption">
-                                <strong>sarah_travels</strong> Paradise found! 🌴☀️ Bali has stolen my heart
-                            </div>
-                            <div class="post-tags">
-                                <a href="#" class="tag">#Bali</a>
-                                <a href="#" class="tag">#Paradise</a>
-                                <a href="#" class="tag">#BeachLife</a>
-                            </div>
+                        <div class="post-tags">
+                            <a href="#" class="tag">#Bali</a>
+                            <a href="#" class="tag">#Paradise</a>
+                            <a href="#" class="tag">#BeachLife</a>
                         </div>
+                    </div>
 
-                        <div class="post-add-comment">
-                            <input type="text" placeholder="Add a comment..." class="comment-input">
-                            <button class="comment-post-btn">Post</button>
-                        </div>
-                    </article>
+                    <div class="post-add-comment">
+                        <input type="text" placeholder="Add a comment..." class="comment-input">
+                        <button class="comment-post-btn">Post</button>
+                    </div>
+                </article>
 
-                    <!-- Post 3 - Video Post -->
-                    <article class="post-card">
-                        <div class="post-header">
-                            <div class="post-user-info">
-                                <div class="post-avatar" style="background-image: url('https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100')"></div>
-                                <div class="post-user-details">
-                                    <h4 class="post-username">mike_adventure</h4>
-                                    <div class="post-meta">
+                <!-- Post 3 - Video Post -->
+                <article class="post-card">
+                    <div class="post-header">
+                        <div class="post-user-info">
+                            <div class="post-avatar"
+                                 style="background-image: url('https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100')"></div>
+                            <div class="post-user-details">
+                                <h4 class="post-username">mike_adventure</h4>
+                                <div class="post-meta">
                                         <span class="post-location">
                                             <i class="fas fa-map-marker-alt"></i> Swiss Alps
                                         </span>
-                                        <span class="post-time">1 day ago</span>
-                                    </div>
+                                    <span class="post-time">1 day ago</span>
                                 </div>
                             </div>
-                            <button class="post-options-btn">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
                         </div>
-
-                        <div class="post-media video-container">
-                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800" alt="Mountains">
-                            <div class="video-overlay">
-                                <button class="video-play-btn">
-                                    <i class="fas fa-play"></i>
-                                </button>
-                            </div>
-                            <span class="video-duration">0:45</span>
-                            <button class="post-bookmark-btn">
-                                <i class="far fa-bookmark"></i>
-                            </button>
-                        </div>
-
-                        <div class="post-actions">
-                            <div class="post-actions-left">
-                                <button class="action-btn like-btn">
-                                    <i class="far fa-heart"></i>
-                                    <span class="like-count">3,890</span>
-                                </button>
-                                <button class="action-btn">
-                                    <i class="far fa-comment"></i>
-                                    <span>234</span>
-                                </button>
-                                <button class="action-btn">
-                                    <i class="far fa-paper-plane"></i>
-                                </button>
-                            </div>
-                            <button class="action-btn save-btn">
-                                <i class="far fa-bookmark"></i>
-                            </button>
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-likes">
-                                <strong>3,890 likes</strong>
-                            </div>
-                            <div class="post-caption">
-                                <strong>mike_adventure</strong> Breathtaking views from the top! 🏔️ Worth every step of the climb
-                            </div>
-                            <div class="post-tags">
-                                <a href="#" class="tag">#SwissAlps</a>
-                                <a href="#" class="tag">#MountainLife</a>
-                                <a href="#" class="tag">#Hiking</a>
-                            </div>
-                        </div>
-
-                        <div class="post-add-comment">
-                            <input type="text" placeholder="Add a comment..." class="comment-input">
-                            <button class="comment-post-btn">Post</button>
-                        </div>
-                    </article>
-
-                    <!-- Load More Button -->
-                    <div class="load-more-container">
-                        <button class="load-more-btn" onclick="loadMorePosts()">
-                            <i class="fas fa-spinner fa-spin" style="display: none;"></i>
-                            <span>Load More Posts</span>
+                        <button class="post-options-btn">
+                            <i class="fas fa-ellipsis-h"></i>
                         </button>
                     </div>
-                </main>
 
-                <!-- Right Sidebar - Suggestions & Trending -->
-                <aside class="blog-sidebar right">
-                    <div class="sidebar-section">
-                        <div class="user-profile-mini">
-                            <div class="user-profile-avatar" style="background-image: url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100')"></div>
-                            <div class="user-profile-info">
-                                <h4>john_doe</h4>
-                                <p>John Doe</p>
-                            </div>
-                            <button class="switch-account-btn">Switch</button>
+                    <div class="post-media video-container">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800" alt="Mountains">
+                        <div class="video-overlay">
+                            <button class="video-play-btn">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                        <span class="video-duration">0:45</span>
+                        <button class="post-bookmark-btn">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
+
+                    <div class="post-actions">
+                        <div class="post-actions-left">
+                            <button class="action-btn like-btn">
+                                <i class="far fa-heart"></i>
+                                <span class="like-count">3,890</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>234</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <button class="action-btn save-btn">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
+
+                    <div class="post-content">
+                        <div class="post-likes">
+                            <strong>3,890 likes</strong>
+                        </div>
+                        <div class="post-caption">
+                            <strong>mike_adventure</strong> Breathtaking views from the top! 🏔️ Worth every step of the
+                            climb
+                        </div>
+                        <div class="post-tags">
+                            <a href="#" class="tag">#SwissAlps</a>
+                            <a href="#" class="tag">#MountainLife</a>
+                            <a href="#" class="tag">#Hiking</a>
                         </div>
                     </div>
 
-                    <div class="sidebar-section">
-                        <div class="section-header">
-                            <h3 class="sidebar-title">Suggestions For You</h3>
-                            <button class="see-all-btn">See All</button>
-                        </div>
-                        <div class="suggestions-list">
-                            <div class="suggestion-item">
-                                <div class="suggestion-avatar" style="background-image: url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100')"></div>
-                                <div class="suggestion-info">
-                                    <h5>emma_world</h5>
-                                    <p>Followed by sarah + 2 more</p>
-                                </div>
-                                <button class="follow-btn">Follow</button>
-                            </div>
-                            <div class="suggestion-item">
-                                <div class="suggestion-avatar" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100')"></div>
-                                <div class="suggestion-info">
-                                    <h5>alex_explorer</h5>
-                                    <p>Followed by mike + 3 more</p>
-                                </div>
-                                <button class="follow-btn">Follow</button>
-                            </div>
-                            <div class="suggestion-item">
-                                <div class="suggestion-avatar" style="background-image: url('https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=100')"></div>
-                                <div class="suggestion-info">
-                                    <h5>lisa_journey</h5>
-                                    <p>New to TravelHub</p>
-                                </div>
-                                <button class="follow-btn">Follow</button>
-                            </div>
-                        </div>
+                    <div class="post-add-comment">
+                        <input type="text" placeholder="Add a comment..." class="comment-input">
+                        <button class="comment-post-btn">Post</button>
                     </div>
+                </article>
 
-                    <div class="sidebar-section">
-                        <h3 class="sidebar-title">
-                            <i class="fas fa-fire"></i> Trending Now
-                        </h3>
-                        <div class="trending-list">
-                            <div class="trending-item">
-                                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=100" alt="trending">
-                                <div class="trending-info">
-                                    <h5>Swiss Alps Adventure</h5>
-                                    <p>12.5K posts</p>
-                                </div>
-                            </div>
-                            <div class="trending-item">
-                                <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=100" alt="trending">
-                                <div class="trending-info">
-                                    <h5>Bali Paradise</h5>
-                                    <p>8.3K posts</p>
-                                </div>
-                            </div>
-                            <div class="trending-item">
-                                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=100" alt="trending">
-                                <div class="trending-info">
-                                    <h5>Paris Nights</h5>
-                                    <p>15.7K posts</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="sidebar-footer">
-                        <div class="footer-links-small">
-                            <a href="#">About</a> •
-                            <a href="#">Help</a> •
-                            <a href="#">Press</a> •
-                            <a href="#">API</a> •
-                            <a href="#">Jobs</a> •
-                            <a href="#">Privacy</a> •
-                            <a href="#">Terms</a>
-                        </div>
-                        <p>© 2025 TravelHub</p>
-                    </div>
-                </aside>
-            </div>
-        </div>
-
-        <!-- Floating Create Post Button (Mobile) -->
-        <button class="fab-create-post" onclick="openCreatePost()">
-            <i class="fas fa-plus"></i>
-        </button>
-
-        <!-- Story Viewer Modal -->
-        <div id="story-viewer" class="story-viewer-modal">
-            <button class="story-close-btn" onclick="closeStory()">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="story-viewer-content">
-                <div class="story-progress-bars">
-                    <div class="story-progress-bar">
-                        <div class="story-progress-fill"></div>
-                    </div>
-                </div>
-                <div class="story-header">
-                    <div class="story-user-info">
-                        <div class="story-user-avatar"></div>
-                        <span class="story-user-name">john_doe</span>
-                        <span class="story-time">2h ago</span>
-                    </div>
-                    <button class="story-options-btn">
-                        <i class="fas fa-ellipsis-h"></i>
+                <!-- Load More Button -->
+                <div class="load-more-container">
+                    <button class="load-more-btn" onclick="loadMorePosts()">
+                        <i class="fas fa-spinner fa-spin" style="display: none;"></i>
+                        <span>Load More Posts</span>
                     </button>
                 </div>
-                <div class="story-media">
-                    <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800" alt="story">
+            </main>
+
+            <!-- Right Sidebar - Suggestions & Trending -->
+            <aside class="blog-sidebar right">
+                <div class="sidebar-section">
+                    <div class="user-profile-mini">
+                        <div class="user-profile-avatar"
+                             style="background-image: url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100')"></div>
+                        <div class="user-profile-info">
+                            <h4>john_doe</h4>
+                            <p>John Doe</p>
+                        </div>
+                        <button class="switch-account-btn">Switch</button>
+                    </div>
                 </div>
-                <div class="story-reply">
-                    <input type="text" placeholder="Reply to story...">
-                    <button><i class="far fa-heart"></i></button>
-                    <button><i class="far fa-paper-plane"></i></button>
+
+                <div class="sidebar-section">
+                    <div class="section-header">
+                        <h3 class="sidebar-title">Suggestions For You</h3>
+                        <button class="see-all-btn">See All</button>
+                    </div>
+                    <div class="suggestions-list">
+                        <div class="suggestion-item">
+                            <div class="suggestion-avatar"
+                                 style="background-image: url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100')"></div>
+                            <div class="suggestion-info">
+                                <h5>emma_world</h5>
+                                <p>Followed by sarah + 2 more</p>
+                            </div>
+                            <button class="follow-btn">Follow</button>
+                        </div>
+                        <div class="suggestion-item">
+                            <div class="suggestion-avatar"
+                                 style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100')"></div>
+                            <div class="suggestion-info">
+                                <h5>alex_explorer</h5>
+                                <p>Followed by mike + 3 more</p>
+                            </div>
+                            <button class="follow-btn">Follow</button>
+                        </div>
+                        <div class="suggestion-item">
+                            <div class="suggestion-avatar"
+                                 style="background-image: url('https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=100')"></div>
+                            <div class="suggestion-info">
+                                <h5>lisa_journey</h5>
+                                <p>New to TravelHub</p>
+                            </div>
+                            <button class="follow-btn">Follow</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-fire"></i> Trending Now
+                    </h3>
+                    <div class="trending-list">
+                        <div class="trending-item">
+                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=100"
+                                 alt="trending">
+                            <div class="trending-info">
+                                <h5>Swiss Alps Adventure</h5>
+                                <p>12.5K posts</p>
+                            </div>
+                        </div>
+                        <div class="trending-item">
+                            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=100" alt="trending">
+                            <div class="trending-info">
+                                <h5>Bali Paradise</h5>
+                                <p>8.3K posts</p>
+                            </div>
+                        </div>
+                        <div class="trending-item">
+                            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=100"
+                                 alt="trending">
+                            <div class="trending-info">
+                                <h5>Paris Nights</h5>
+                                <p>15.7K posts</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-footer">
+                    <div class="footer-links-small">
+                        <a href="#">About</a> •
+                        <a href="#">Help</a> •
+                        <a href="#">Press</a> •
+                        <a href="#">API</a> •
+                        <a href="#">Jobs</a> •
+                        <a href="#">Privacy</a> •
+                        <a href="#">Terms</a>
+                    </div>
+                    <p>© 2025 TravelHub</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Floating Create Post Button (Mobile) -->
+    <button class="fab-create-post" onclick="openCreatePost()">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- Story Viewer Modal -->
+    <div id="story-viewer" class="story-viewer-modal">
+        <button class="story-close-btn" onclick="closeStory()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="story-viewer-content">
+            <div class="story-progress-bars">
+                <div class="story-progress-bar">
+                    <div class="story-progress-fill"></div>
                 </div>
             </div>
-            <button class="story-nav-btn prev" onclick="prevStory()">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="story-nav-btn next" onclick="nextStory()">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+            <div class="story-header">
+                <div class="story-user-info">
+                    <div class="story-user-avatar"></div>
+                    <span class="story-user-name">john_doe</span>
+                    <span class="story-time">2h ago</span>
+                </div>
+                <button class="story-options-btn">
+                    <i class="fas fa-ellipsis-h"></i>
+                </button>
+            </div>
+            <div class="story-media">
+                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800" alt="story">
+            </div>
+            <div class="story-reply">
+                <input type="text" placeholder="Reply to story...">
+                <button><i class="far fa-heart"></i></button>
+                <button><i class="far fa-paper-plane"></i></button>
+            </div>
         </div>
+        <button class="story-nav-btn prev" onclick="prevStory()">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="story-nav-btn next" onclick="nextStory()">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
 
-        {% endblock %}
+{% endblock %}
 
-        {% block custom_js %}
-        <script src="{% static 'apps/js/blog.js' %}"></script>
-        {% endblock %}
+{% block custom_js %}
+    <script src="{% static 'apps/js/blog.js' %}"></script>
+{% endblock %}

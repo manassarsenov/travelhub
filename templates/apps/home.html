@@ -7,60 +7,10 @@
 
 {% block custom_css %}
     <link rel="stylesheet" href="{% static 'apps/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'apps/css/responsive.css' %}">
 {% endblock %}
 
 {% block main_content %}
-
-    <!-- VIDEO HERO SECTION -->
-    {#    <section class="video-hero">#}
-    {#        <div class="video-background">#}
-    {#            <video id="hero-video" autoplay muted loop playsinline>#}
-    {#                <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-beautiful-resort-2069-large.mp4"#}
-    {#                        type="video/mp4">#}
-    {#            </video>#}
-    {#            <div class="video-overlay"></div>#}
-    {#        </div>#}
-    {##}
-    {#        <button class="video-control" id="video-control">#}
-    {#            <i class="fas fa-pause"></i>#}
-    {#        </button>#}
-    {##}
-    {#        <div class="hero-content-wrapper">#}
-    {#            <div class="hero-badge">#}
-    {#                <i class="fas fa-star"></i>#}
-    {#                <span>Rated #1 Travel Platform 2025</span>#}
-    {#            </div>#}
-    {##}
-    {#            <h1 class="hero-title">#}
-    {#                Discover Your#}
-    {#                <span class="gradient-text-animate">Dream Destination</span>#}
-    {#            </h1>#}
-    {##}
-    {#            <p class="hero-description">#}
-    {#                AI-powered recommendations • 450+ destinations • Instant booking#}
-    {#            </p>#}
-    {##}
-    {#        <!-- Enhanced Search with Quick Filters -->#}
-    {#        <div class="search-wrapper">#}
-    {#            <div class="quick-filters">#}
-    {#                <button class="filter-chip active" data-budget="all">#}
-    {#                    <i class="fas fa-globe"></i> All#}
-    {#                </button>#}
-    {#                <button class="filter-chip" data-budget="budget">#}
-    {#                    <i class="fas fa-dollar-sign"></i> Budget#}
-    {#                </button>#}
-    {#                <button class="filter-chip" data-budget="mid">#}
-    {#                    <i class="fas fa-star"></i> Premium#}
-    {#                </button>#}
-    {#                <button class="filter-chip" data-budget="luxury">#}
-    {#                    <i class="fas fa-gem"></i> Luxury#}
-    {#                </button>#}
-    {#            </div>#}
-    {##}
-    {#        </div>#}
-    {##}
-    {#        </div>#}
-    {#    </section>#}
 
     <section class="hero">
         <div class="hero-shapes">
@@ -72,55 +22,6 @@
             <h1>Discover Your Dream Destination</h1>
             <p>AI-powered recommendations for unforgettable travel experiences worldwide</p>
 
-            <!-- Enhanced Search with Quick Filters -->
-            <div class="search-wrapper">
-                <div class="quick-filters">
-                    <button class="filter-chip active" data-budget="all">
-                        <i class="fas fa-globe"></i> All
-                    </button>
-                    <button class="filter-chip" data-budget="budget">
-                        <i class="fas fa-dollar-sign"></i> Budget
-                    </button>
-                    <button class="filter-chip" data-budget="mid">
-                        <i class="fas fa-star"></i> Premium
-                    </button>
-                    <button class="filter-chip" data-budget="luxury">
-                        <i class="fas fa-gem"></i> Luxury
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="search-container">
-                <div class="search-bar">
-                    <div class="search-field">
-                        <label><i class="fas fa-map-marker-alt"></i> Where to?</label>
-                        <input type="text" placeholder="Search destinations..." id="search-location"
-                               oninput="showAutocomplete(this.value)">
-                        <div id="autocomplete-results" class="autocomplete-results"></div>
-                    </div>
-                    <div class="search-field">
-                        <label><i class="fas fa-calendar"></i> Check In</label>
-                        <input type="date" id="check-in">
-                    </div>
-                    <div class="search-field">
-                        <label><i class="fas fa-calendar"></i> Check Out</label>
-                        <input type="date" id="check-out">
-                    </div>
-                    <div class="search-field">
-                        <label><i class="fas fa-users"></i> Guests</label>
-                        <select id="guests">
-                            <option>1 Guest</option>
-                            <option>2 Guests</option>
-                            <option>3 Guests</option>
-                            <option>4+ Guests</option>
-                        </select>
-                    </div>
-                    <button class="search-btn" onclick="searchDestinations()">
-                        <i class="fas fa-search"></i> Search
-                    </button>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -136,6 +37,114 @@
                 <h2>Today's Best Deals</h2>
                 <p>Limited time offers - Book now and save up to 60%</p>
             </div>
+            <div id="destinations-grid" class="destinations-grid">
+
+                    <!-- Destination Card 1 -->
+                    <article class="destination-card">
+                        <div class="card-image-wrapper">
+                            <div class="image-slider">
+                                <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523" alt="Samarkand">
+                                <img src="https://images.unsplash.com/photo-1588431945498-87016d6e2c79" alt="Samarkand">
+                                <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19" alt="Samarkand">
+                            </div>
+                            <button class="slider-btn prev" onclick="slideImage(this, -1)">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="slider-btn next" onclick="slideImage(this, 1)">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            <div class="image-dots">
+                                <span class="dot active"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </div>
+                            <div class="card-badges">
+                                <span class="badge popular">Popular</span>
+                                <span class="badge deal">-20%</span>
+                            </div>
+                            <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <label class="compare-checkbox">
+                                <input type="checkbox" onchange="addToCompare(this)">
+                                <span>Compare</span>
+                            </label>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="destination-info">
+                                    <h3>Samarkand</h3>
+                                    <p class="location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        Uzbekistan, Central Asia
+                                    </p>
+                                </div>
+                                <div class="rating-box">
+                                    <div class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <span>4.8</span>
+                                    </div>
+                                    <p class="reviews">(2,341 reviews)</p>
+                                </div>
+                            </div>
+
+                            <p class="card-description">
+                                Discover the ancient Silk Road with stunning Islamic architecture and vibrant bazaars
+                            </p>
+
+                            <div class="card-tags">
+                                <span class="tag"><i class="fas fa-landmark"></i> Cultural</span>
+                                <span class="tag"><i class="fas fa-history"></i> Historical</span>
+                                <span class="tag"><i class="fas fa-dollar-sign"></i> Budget</span>
+                            </div>
+
+                            <div class="card-stats">
+                                <div class="stat-item">
+                                    <i class="fas fa-hotel"></i>
+                                    <span>120+ Hotels</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-plane"></i>
+                                    <span>Direct Flights</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thermometer-half"></i>
+                                    <span>25°C Avg</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>5-7 Days</span>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="price-box">
+                                    <div class="price-original">$749</div>
+                                    <div class="price-current">
+                                        <span class="from">From</span>
+                                        <span class="amount">$599</span>
+                                        <span class="per">/ person</span>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="btn-outline" onclick="viewDetails(4)">
+                                        Details
+                                    </button>
+                                    <button class="btn-primary" onclick="quickBook(4)">
+                                        Book Now
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- More destination cards would be generated dynamically -->
+                    <!-- This is just a template structure -->
+
+                </div>
+
 
             <div class="deals-grid">
                 <!-- Deal Card 1 -->
