@@ -6,7 +6,7 @@ from apps.views import HomeTemplateView, DestinationsTemplateView, Recommendatio
     TelegramChannelTemplateView, InstagramTemplateView, RegisterCreateView, LoginFormView, CustomLogoutView, \
     ActivateAccountView, ForgotPasswordView, PasswordResetConfirmView, GoogleLoginView, GoogleCallbackView, \
     HelpCenterTemplateView, TermsOfServiceTemplateView, PrivacyPolicyTemplateView, CancellationTemplateView, \
-    FAQTemplateView
+    FAQTemplateView, DestinationDetailView
 
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home_page'),
@@ -32,6 +32,7 @@ urlpatterns = [
     path('privacy-policy/', PrivacyPolicyTemplateView.as_view(), name='privacy_policy_page'),
     path('cancellation/', CancellationTemplateView.as_view(), name='cancellation_page'),
     path('faq/', FAQTemplateView.as_view(), name='faq_page'),
+    path('destination-detail/', DestinationDetailView.as_view(), name='destination_detail_page'),
 
     re_path(r'^auth/user/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,40})/$',
             ActivateAccountView.as_view(), name='confirm_email_page'),

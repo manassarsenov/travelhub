@@ -14,17 +14,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls.i18n import set_language
+from django.conf.urls.i18n import set_language, i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
 from root.settings import MEDIA_URL, MEDIA_ROOT, STATIC_URL, STATIC_ROOT
 
-urlpatterns = [
-                  path('admin/', admin.site.urls),
-                  path('set_language/', set_language, name='set_language'),
-                  path('', include('apps.urls')),
+urlpatterns = i18n_patterns(
+    path('admin/', admin.site.urls),
+    path('set_language/', set_language, name='set_language'),
+    path('', include('apps.urls')),
+    path("i18n/", include("django.conf.urls.i18n")),
+    path('rosetta/', include('rosetta.urls'))
 
-              ] + static(MEDIA_URL, document_root=MEDIA_ROOT) + static(STATIC_URL,
-                                                                       document_root=STATIC_ROOT)
+) + static(MEDIA_URL, document_root=MEDIA_ROOT) + static(STATIC_URL,
+                                                         document_root=STATIC_ROOT)

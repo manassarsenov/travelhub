@@ -8,6 +8,7 @@
 {% block custom_css %}
     <link rel="stylesheet" href="{% static 'apps/css/home.css' %}">
     <link rel="stylesheet" href="{% static 'apps/css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'apps/css/load_more_css.css' %}">
 {% endblock %}
 
 {% block main_content %}
@@ -17,242 +18,330 @@
             <div class="shape shape-1"></div>
             <div class="shape shape-2"></div>
         </div>
-
         <div class="hero-content">
             <h1>Discover Your Dream Destination</h1>
             <p>AI-powered recommendations for unforgettable travel experiences worldwide</p>
-
         </div>
     </section>
 
 
-    <!-- FLASH SALES / LIMITED OFFERS -->
+    <!-- FLASH SALES -->
     <section class="flash-deals">
         <div class="container-custom">
             <div class="section-header-custom">
-                <div class="flash-badge">
-                    <i class="fas fa-bolt"></i>
-                    <span>Flash Sale</span>
-                </div>
+                <div class="flash-badge"><i class="fas fa-bolt"></i><span>Flash Sale</span></div>
                 <h2>Today's Best Deals</h2>
                 <p>Limited time offers - Book now and save up to 60%</p>
             </div>
+
             <div id="destinations-grid" class="destinations-grid">
 
-                    <!-- Destination Card 1 -->
-                    <article class="destination-card">
-                        <div class="card-image-wrapper">
-                            <div class="image-slider">
-                                <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523" alt="Samarkand">
-                                <img src="https://images.unsplash.com/photo-1588431945498-87016d6e2c79" alt="Samarkand">
-                                <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19" alt="Samarkand">
-                            </div>
-                            <button class="slider-btn prev" onclick="slideImage(this, -1)">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <button class="slider-btn next" onclick="slideImage(this, 1)">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
-                            <div class="image-dots">
-                                <span class="dot active"></span>
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                            </div>
-                            <div class="card-badges">
-                                <span class="badge popular">Popular</span>
-                                <span class="badge deal">-20%</span>
-                            </div>
-                            <button class="wishlist-btn" onclick="toggleWishlist(this)">
-                                <i class="far fa-heart"></i>
-                            </button>
-                            <label class="compare-checkbox">
-                                <input type="checkbox" onchange="addToCompare(this)">
-                                <span>Compare</span>
-                            </label>
-                        </div>
+                <!-- Card 1 - Samarkand -->
+                <article class="destination-card"
+                         data-city="Samarkand" data-country="Samarkand, O'zbekiston"
+                         data-lat="39.6542" data-lon="66.9597"
+                         data-hotels-url="/hotels/?city=samarkand"
+                         data-flights-url="/flights/?to=samarkand">
 
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="destination-info">
-                                    <h3>Samarkand</h3>
-                                    <p class="location">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        Uzbekistan, Central Asia
-                                    </p>
-                                </div>
-                                <div class="rating-box">
-                                    <div class="rating-stars">
-                                        <i class="fas fa-star"></i>
-                                        <span>4.8</span>
-                                    </div>
-                                    <p class="reviews">(2,341 reviews)</p>
-                                </div>
-                            </div>
-
-                            <p class="card-description">
-                                Discover the ancient Silk Road with stunning Islamic architecture and vibrant bazaars
-                            </p>
-
-                            <div class="card-tags">
-                                <span class="tag"><i class="fas fa-landmark"></i> Cultural</span>
-                                <span class="tag"><i class="fas fa-history"></i> Historical</span>
-                                <span class="tag"><i class="fas fa-dollar-sign"></i> Budget</span>
-                            </div>
-
-                            <div class="card-stats">
-                                <div class="stat-item">
-                                    <i class="fas fa-hotel"></i>
-                                    <span>120+ Hotels</span>
-                                </div>
-                                <div class="stat-item">
-                                    <i class="fas fa-plane"></i>
-                                    <span>Direct Flights</span>
-                                </div>
-                                <div class="stat-item">
-                                    <i class="fas fa-thermometer-half"></i>
-                                    <span>25°C Avg</span>
-                                </div>
-                                <div class="stat-item">
-                                    <i class="fas fa-clock"></i>
-                                    <span>5-7 Days</span>
-                                </div>
-                            </div>
-
-                            <div class="card-footer">
-                                <div class="price-box">
-                                    <div class="price-original">$749</div>
-                                    <div class="price-current">
-                                        <span class="from">From</span>
-                                        <span class="amount">$599</span>
-                                        <span class="per">/ person</span>
-                                    </div>
-                                </div>
-                                <div class="card-actions">
-                                    <button class="btn-outline" onclick="viewDetails(4)">
-                                        Details
-                                    </button>
-                                    <button class="btn-primary" onclick="quickBook(4)">
-                                        Book Now
-                                        <i class="fas fa-arrow-right"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- More destination cards would be generated dynamically -->
-                    <!-- This is just a template structure -->
-
-                </div>
-
-
-            <div class="deals-grid">
-                <!-- Deal Card 1 -->
-                <div class="deal-card">
-                    <div class="deal-ribbon">
-                        <span>HOT DEAL</span>
-                    </div>
                     <div class="deal-timer" data-end="2024-12-31T23:59:59">
-                        <div class="timer-item">
-                            <span class="hours">12</span>
-                            <small>Hours</small>
+                        <div class="timer-item"><span class="hours">12</span><small>Hours</small></div>
+                        <div class="timer-item"><span class="minutes">34</span><small>Mins</small></div>
+                        <div class="timer-item"><span class="seconds">56</span><small>Secs</small></div>
+                    </div>
+
+                    <div class="card-image-wrapper">
+                        <div class="image-slider">
+                            <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523" alt="Samarkand">
+                            <img src="https://images.unsplash.com/photo-1588431945498-87016d6e2c79" alt="Samarkand">
+                            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19" alt="Samarkand">
+                            <div class="discount-badge">-50%</div>
                         </div>
-                        <div class="timer-item">
-                            <span class="minutes">34</span>
-                            <small>Mins</small>
+                        <button class="slider-btn prev" onclick="slideImage(this, -1)"><i
+                                class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" onclick="slideImage(this, 1)"><i
+                                class="fas fa-chevron-right"></i></button>
+                        <div class="image-dots"><span class="dot active"></span><span class="dot"></span><span
+                                class="dot"></span></div>
+                        <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                        </button>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="destination-info">
+                                <h3>Samarkand</h3>
+                                <p class="location"><i class="fas fa-map-marker-alt"></i> Uzbekistan, Central Asia</p>
+                            </div>
+                            <div class="rating-box">
+                                <div class="rating-stars"><i class="fas fa-star"></i><span>4.8</span></div>
+                                <p class="reviews">(2,341 reviews)</p>
+                            </div>
                         </div>
-                        <div class="timer-item">
-                            <span class="seconds">56</span>
-                            <small>Secs</small>
+                        <p class="card-description">Discover the ancient Silk Road with stunning Islamic architecture
+                            and vibrant bazaars</p>
+                        <div class="card-tags">
+                            <span class="tag"><i class="fas fa-landmark"></i> Cultural</span>
+                            <span class="tag"><i class="fas fa-history"></i> Historical</span>
+                            <span class="tag"><i class="fas fa-dollar-sign"></i> Budget</span>
+                        </div>
+                        <div class="card-stats">
+                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                    class="fas fa-hotel"></i><span>Hotels & Resorts</span></button>
+                            <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                    class="fas fa-plane"></i><span>Direct Flights</span></button>
+                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"><i
+                                    class="fas fa-sun weather-icon"></i><span class="weather-temp">yuklanyapti...</span>
+                            </button>
+                            <div class="stat-item"><i class="fas fa-clock"></i><span>5-7 Days</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-box">
+                                <div class="price-original">$749</div>
+                                <div class="price-current"><span class="from">From</span><span
+                                        class="amount">$599</span><span class="per">/ person</span></div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-outline" onclick="viewDetails(4)">SeeDetails
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+
+                            </div>
                         </div>
                     </div>
-                    <div class="deal-image">
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600" alt="Maldives">
-                        <div class="discount-badge">-50%</div>
+                </article>
+
+                <!-- Card 2 - Samarkand 2nd -->
+                <article class="destination-card"
+                         data-city="Samarkand" data-country="Samarkand, O'zbekiston"
+                         data-lat="39.6542" data-lon="66.9597"
+                         data-hotels-url="/hotels/?city=samarkand"
+                         data-flights-url="/flights/?to=samarkand">
+
+                    <div class="deal-timer" data-end="2024-12-31T23:59:59">
+                        <div class="timer-item"><span class="hours">12</span><small>Hours</small></div>
+                        <div class="timer-item"><span class="minutes">34</span><small>Mins</small></div>
+                        <div class="timer-item"><span class="seconds">56</span><small>Secs</small></div>
                     </div>
-                    <div class="deal-content">
-                        <h3>Maldives Paradise</h3>
-                        <p>7 Days • All Inclusive</p>
-                        <div class="deal-price">
-                            <span class="old-price">$5,000</span>
-                            <span class="new-price">$2,500</span>
+
+                    <div class="card-image-wrapper">
+                        <div class="image-slider">
+                            <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523" alt="Samarkand">
+                            <img src="https://images.unsplash.com/photo-1588431945498-87016d6e2c79" alt="Samarkand">
+                            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19" alt="Samarkand">
+                            <div class="discount-badge">-50%</div>
                         </div>
-                        <button class="deal-btn">Book Now</button>
+                        <button class="slider-btn prev" onclick="slideImage(this, -1)"><i
+                                class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" onclick="slideImage(this, 1)"><i
+                                class="fas fa-chevron-right"></i></button>
+                        <div class="image-dots"><span class="dot active"></span><span class="dot"></span><span
+                                class="dot"></span></div>
+                        <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                        </button>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="destination-info">
+                                <h3>Samarkand</h3>
+                                <p class="location"><i class="fas fa-map-marker-alt"></i> Uzbekistan, Central Asia</p>
+                            </div>
+                            <div class="rating-box">
+                                <div class="rating-stars"><i class="fas fa-star"></i><span>4.8</span></div>
+                                <p class="reviews">(2,341 reviews)</p>
+                            </div>
+                        </div>
+                        <p class="card-description">Discover the ancient Silk Road with stunning Islamic architecture
+                            and vibrant bazaars</p>
+                        <div class="card-tags">
+                            <span class="tag"><i class="fas fa-landmark"></i> Cultural</span>
+                            <span class="tag"><i class="fas fa-history"></i> Historical</span>
+                            <span class="tag"><i class="fas fa-dollar-sign"></i> Budget</span>
+                        </div>
+                        <div class="card-stats">
+                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                    class="fas fa-hotel"></i><span>Hotels & Resorts</span></button>
+                            <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                    class="fas fa-plane"></i><span>Direct Flights</span></button>
+                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"><i
+                                    class="fas fa-sun weather-icon"></i><span class="weather-temp">yuklanyapti...</span>
+                            </button>
+                            <div class="stat-item"><i class="fas fa-clock"></i><span>5-7 Days</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-box">
+                                <div class="price-original">$749</div>
+                                <div class="price-current"><span class="from">From</span><span
+                                        class="amount">$599</span><span class="per">/ person</span></div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-outline"  onclick="window.location.href='{% url 'destination_detail_page' %}'">
+                                    See Details
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 3 - Buxoro -->
+
+                <article class="destination-card"
+                         data-city="Bukhara" data-country="Buxoro, O'zbekiston"
+                         data-lat="39.7747" data-lon="64.4286"
+                         data-hotels-url="/hotels/?city=bukhara"
+                         data-flights-url="/flights/?to=bukhara">
+
+                    <div class="card-image-wrapper">
+                        <div class="image-slider">
+                            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19" alt="Bukhara">
+                            <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523" alt="Bukhara">
+                        </div>
+                        <button class="slider-btn prev" onclick="slideImage(this, -1)"><i
+                                class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" onclick="slideImage(this, 1)"><i
+                                class="fas fa-chevron-right"></i></button>
+                        <div class="image-dots"><span class="dot active"></span><span class="dot"></span></div>
+                        <div class="card-badges">
+                            <span class="badge popular">Popular</span>
+                            <span class="badge deal">-15%</span>
+                        </div>
+                        <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                        </button>
+                        <label class="compare-checkbox"><input type="checkbox" onchange="addToCompare(this)"><span>Compare</span></label>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="destination-info">
+                                <h3>Buxoro</h3>
+                                <p class="location"><i class="fas fa-map-marker-alt"></i> Uzbekistan, Central Asia</p>
+                            </div>
+                            <div class="rating-box">
+                                <div class="rating-stars"><i class="fas fa-star"></i><span>4.7</span></div>
+                                <p class="reviews">(1,856 reviews)</p>
+                            </div>
+                        </div>
+                        <p class="card-description">UNESCO World Heritage City — ming yillik tarixi va ajoyib
+                            me'morchilik</p>
+                        <div class="card-tags">
+                            <span class="tag"><i class="fas fa-landmark"></i> Cultural</span>
+                            <span class="tag"><i class="fas fa-history"></i> Historical</span>
+                            <span class="tag"><i class="fas fa-camera"></i> Photography</span>
+                        </div>
+                        <div class="card-stats">
+                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                    class="fas fa-hotel"></i><span>Hotels & Resorts</span></button>
+                            <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                    class="fas fa-plane"></i><span>Direct Flights</span></button>
+                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                                    title="Bugungi ob-havo"><i class="fas fa-sun weather-icon"></i><span
+                                    class="weather-temp">yuklanyapti...</span></button>
+                            <div class="stat-item"><i class="fas fa-clock"></i><span>3-5 Days</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-box">
+                                <div class="price-original">$549</div>
+                                <div class="price-current"><span class="from">From</span><span
+                                        class="amount">$469</span><span class="per">/ person</span></div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-outline" onclick="viewDetails(5)">See Details
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+        <div class="load-more-container">
+            <button class="btn-load-more" onclick="loadMoreDestinations()">
+                <i class="fas fa-spinner"></i>
+                Load More Destinations
+            </button>
+            <p class="showing-text">Showing 12 of 156 destinations</p>
+        </div>
+
+    </section>
+
+
+
+
+    <!-- OB-HAVO MODAL -->
+    <div class="weather-modal-overlay" id="weatherModal" style="display:none;"
+         onclick="closeWeatherModal(event)">
+        <div class="weather-modal" onclick="event.stopPropagation()">
+
+            <div class="weather-modal-loading" id="weatherLoading">
+                <div class="weather-spin"></div>
+                <p>Ob-havo ma'lumotlari yuklanmoqda...</p>
+            </div>
+
+            <div id="weatherContent" style="display:none;">
+                <div class="weather-modal-header">
+                    <button class="weather-modal-close" onclick="closeWeatherModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="weather-modal-city" id="wCityLabel">BUGUNGI OB-HAVO</div>
+                    <div class="weather-modal-location" id="wLocation">—</div>
+                    <div class="weather-modal-main">
+                        <div class="weather-modal-icon" id="wIcon">🌤️</div>
+                        <div class="weather-modal-temp-block">
+                            <div class="weather-modal-temp" id="wTemp">—</div>
+                            <div class="weather-modal-desc" id="wDesc">—</div>
+                            <div class="weather-modal-feels" id="wFeels">Sezilishi: —</div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Deal Card 2 -->
-                <div class="deal-card">
-                    <div class="deal-ribbon">
-                        <span>LIMITED</span>
-                    </div>
-                    <div class="deal-timer">
-                        <div class="timer-item">
-                            <span class="hours">08</span>
-                            <small>Hours</small>
+                <div class="weather-modal-body">
+                    <div class="weather-modal-stats">
+                        <div class="weather-stat-item">
+                            <i class="fas fa-tint" style="color:#3b82f6;"></i>
+                            <div class="ws-label">Namlik</div>
+                            <div class="ws-value" id="wHumidity">—</div>
                         </div>
-                        <div class="timer-item">
-                            <span class="minutes">15</span>
-                            <small>Mins</small>
+                        <div class="weather-stat-item">
+                            <i class="fas fa-wind" style="color:#64748b;"></i>
+                            <div class="ws-label">Shamol</div>
+                            <div class="ws-value" id="wWind">—</div>
                         </div>
-                        <div class="timer-item">
-                            <span class="seconds">42</span>
-                            <small>Secs</small>
+                        <div class="weather-stat-item">
+                            <i class="fas fa-eye" style="color:#8b5cf6;"></i>
+                            <div class="ws-label">Ko'rinish</div>
+                            <div class="ws-value" id="wVisibility">—</div>
                         </div>
                     </div>
-                    <div class="deal-image">
-                        <img src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?w=600" alt="Dubai">
-                        <div class="discount-badge">-40%</div>
-                    </div>
-                    <div class="deal-content">
-                        <h3>Dubai Luxury</h3>
-                        <p>5 Days • Premium Hotels</p>
-                        <div class="deal-price">
-                            <span class="old-price">$3,500</span>
-                            <span class="new-price">$2,100</span>
-                        </div>
-                        <button class="deal-btn">Book Now</button>
-                    </div>
-                </div>
 
-                <!-- Deal Card 3 -->
-                <div class="deal-card">
-                    <div class="deal-ribbon">
-                        <span>NEW</span>
-                    </div>
-                    <div class="deal-timer">
-                        <div class="timer-item">
-                            <span class="hours">18</span>
-                            <small>Hours</small>
-                        </div>
-                        <div class="timer-item">
-                            <span class="minutes">20</span>
-                            <small>Mins</small>
-                        </div>
-                        <div class="timer-item">
-                            <span class="seconds">30</span>
-                            <small>Secs</small>
-                        </div>
-                    </div>
-                    <div class="deal-image">
-                        <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=600" alt="Bali">
-                        <div class="discount-badge">-35%</div>
-                    </div>
-                    <div class="deal-content">
-                        <h3>Bali Adventure</h3>
-                        <p>10 Days • Cultural Tour</p>
-                        <div class="deal-price">
-                            <span class="old-price">$2,000</span>
-                            <span class="new-price">$1,300</span>
-                        </div>
-                        <button class="deal-btn">Book Now</button>
+                    <div class="weather-forecast-title">5 KUNLIK PROGNOZ</div>
+                    <div class="weather-forecast" id="wForecast"></div>
+
+                    <div class="weather-modal-footer">
+                        <a href="#" id="wWeatherLink" target="_blank">
+                            Batafsil ob-havo ma'lumotlari
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- PACKAGE DEALS -->
+            <div class="weather-modal-error" id="weatherError" style="display:none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Ob-havo ma'lumotlari yuklanmadi. Internet aloqasini tekshiring.</p>
+                <button class="weather-retry-btn" onclick="retryWeather()">
+                    <i class="fas fa-redo"></i> Qayta urinish
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ALL-INCLUSIVE PACKAGES -->
     <section class="package-deals">
         <div class="container-custom">
             <div class="section-header-custom">
@@ -261,125 +350,571 @@
             </div>
 
             <div class="packages-grid">
-                <!-- Package 1 -->
-                <div class="package-card">
+
+                <!-- ===== Package 1 - Maldives ===== -->
+                <div class="package-card"
+                     data-city="Male"
+                     data-country="Maldives"
+                     data-lat="4.1755"
+                     data-lon="73.5093"
+                     data-hotels-url="/hotels/?city=maldives"
+                     data-flights-url="/flights/?to=maldives">
+
                     <div class="package-header">
                         <span class="package-type">HONEYMOON SPECIAL</span>
                     </div>
-                    <div class="package-image">
-                        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600" alt="Package">
+
+                    <div class="card-image-wrapper">
+                        <div class="image-slider">
+                            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600" alt="Maldives">
+                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600"
+                                 alt="Maldives 2">
+                            <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600"
+                                 alt="Maldives 3">
+                        </div>
+                        <button class="slider-btn prev" onclick="slideImage(this, -1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="slider-btn next" onclick="slideImage(this, 1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <div class="image-dots">
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                            <i class="far fa-heart"></i>
+                        </button>
                     </div>
-                    <div class="package-content">
-                        <h3>Romantic Maldives Escape</h3>
-                        <div class="package-includes">
-                            <div class="include-item">
-                                <i class="fas fa-plane"></i>
-                                <span>Round-trip Flights</span>
+
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="destination-info">
+                                <h3>Romantic Maldives</h3>
+                                <p class="location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Maldives, Indian Ocean
+                                </p>
                             </div>
-                            <div class="include-item">
-                                <i class="fas fa-hotel"></i>
-                                <span>5-Star Resort</span>
-                            </div>
-                            <div class="include-item">
-                                <i class="fas fa-utensils"></i>
-                                <span>All Meals</span>
-                            </div>
-                            <div class="include-item">
-                                <i class="fas fa-swimming-pool"></i>
-                                <span>Pool & Spa Access</span>
+                            <div class="rating-box">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <span>4.9</span>
+                                </div>
+                                <p class="reviews">(3,241 reviews)</p>
                             </div>
                         </div>
-                        <div class="package-footer">
-                            <div class="package-price">
-                                <span class="from">From</span>
-                                <span class="price">$3,999</span>
-                                <span class="per">per couple</span>
+
+                        <p class="card-description">
+                            Overwater bungalows, crystal-clear lagoons and world-class diving — perfect for couples
+                        </p>
+
+                        <div class="card-tags">
+                            <span class="tag"><i class="fas fa-heart"></i> Romantic</span>
+                            <span class="tag"><i class="fas fa-water"></i> Beach</span>
+                            <span class="tag"><i class="fas fa-star"></i> Luxury</span>
+                        </div>
+
+                        <!-- 6 ta stat: 2 qator × 3 ustun -->
+                        <div class="card-stats">
+                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"
+                                    title="Hotels & Resorts">
+                                <i class="fas fa-hotel"></i>
+                                <span>Hotels & Resorts</span>
+                            </button>
+                            <button class="stat-item stat-restaurants" onclick="goToRestaurants(this)"
+                                    title="Restaurants">
+                                <i class="fas fa-utensils"></i>
+                                <span>500+ Restaurants</span>
+                            </button>
+                            <button class="stat-item stat-flights" onclick="goToFlights(this)"
+                                    title="Direct Flights">
+                                <i class="fas fa-plane"></i>
+                                <span>Direct Flights</span>
+                            </button>
+                            <button class="stat-item stat-activities" onclick="goToActivities(this)"
+                                    title="Activities">
+                                <i class="fas fa-hiking"></i>
+                                <span>Activities</span>
+                            </button>
+                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                                    data-city="Male"
+                                    data-lat="4.1755"
+                                    data-lon="73.5093"
+                                    title="Ob-havo">
+                                <i class="fas fa-sun weather-icon"></i>
+                                <span class="weather-temp">yuklanyapti...</span>
+                            </button>
+                            <div class="stat-item">
+                                <i class="fas fa-clock"></i>
+                                <span>7-10 Days</span>
                             </div>
-                            <button class="package-btn">View Details</button>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="price-box">
+                                <div class="price-current">
+                                    <span class="from">From</span>
+                                    <span class="amount">$3,999</span>
+                                    <span class="per">/ couple</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-outline" onclick="viewPackageDetails(1)">See Details
+                                    <i class="fas fa-arrow-right"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Package 2 -->
-                <div class="package-card">
+                <!-- ===== Package 2 - Dubai ===== -->
+                <div class="package-card"
+                     data-city="Dubai"
+                     data-country="Dubai, UAE"
+                     data-lat="25.2048"
+                     data-lon="55.2708"
+                     data-hotels-url="/hotels/?city=dubai"
+                     data-flights-url="/flights/?to=dubai">
+
                     <div class="package-header">
                         <span class="package-type">FAMILY FUN</span>
                     </div>
-                    <div class="package-image">
-                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600" alt="Dubai">
+
+                    <div class="card-image-wrapper">
+                        <div class="image-slider">
+                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600" alt="Dubai">
+                            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600" alt="Dubai 2">
+                        </div>
+                        <button class="slider-btn prev" onclick="slideImage(this, -1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="slider-btn next" onclick="slideImage(this, 1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <div class="image-dots">
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                        </div>
+                        <div class="card-badges">
+                            <span class="badge popular">Popular</span>
+                            <span class="badge deal">-20%</span>
+                        </div>
+                        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                            <i class="far fa-heart"></i>
+                        </button>
                     </div>
-                    <div class="package-content">
-                        <h3>Dubai Family Adventure</h3>
-                        <div class="package-includes">
-                            <div class="include-item">
-                                <i class="fas fa-plane"></i>
-                                <span>Flights (4 pax)</span>
+
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="destination-info">
+                                <h3>Dubai Family Fun</h3>
+                                <p class="location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Dubai, UAE
+                                </p>
                             </div>
-                            <div class="include-item">
-                                <i class="fas fa-hotel"></i>
-                                <span>Family Suite</span>
-                            </div>
-                            <div class="include-item">
-                                <i class="fas fa-ticket-alt"></i>
-                                <span>Theme Park Tickets</span>
-                            </div>
-                            <div class="include-item">
-                                <i class="fas fa-car"></i>
-                                <span>Airport Transfers</span>
+                            <div class="rating-box">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <span>4.8</span>
+                                </div>
+                                <p class="reviews">(5,120 reviews)</p>
                             </div>
                         </div>
-                        <div class="package-footer">
-                            <div class="package-price">
-                                <span class="from">From</span>
-                                <span class="price">$5,499</span>
-                                <span class="per">per family</span>
+
+                        <p class="card-description">
+                            World's tallest buildings, theme parks and desert safaris — unforgettable family memories
+                        </p>
+
+                        <div class="card-tags">
+                            <span class="tag"><i class="fas fa-users"></i> Family</span>
+                            <span class="tag"><i class="fas fa-city"></i> Modern</span>
+                            <span class="tag"><i class="fas fa-ticket-alt"></i> Activities</span>
+                        </div>
+
+                        <!-- 6 ta stat: 2 qator × 3 ustun -->
+                        <div class="card-stats">
+                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"
+                                    title="Hotels & Resorts">
+                                <i class="fas fa-hotel"></i>
+                                <span>Hotels & Resorts</span>
+                            </button>
+                            <button class="stat-item stat-restaurants" onclick="goToRestaurants(this)"
+                                    title="Restaurants">
+                                <i class="fas fa-utensils"></i>
+                                <span>200+ Restaurants</span>
+                            </button>
+                            <button class="stat-item stat-flights" onclick="goToFlights(this)"
+                                    title="Direct Flights">
+                                <i class="fas fa-plane"></i>
+                                <span>Direct Flights</span>
+                            </button>
+                            <button class="stat-item stat-activities" onclick="goToActivities(this)"
+                                    title="Activities">
+                                <i class="fas fa-hiking"></i>
+                                <span>Activities</span>
+                            </button>
+                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                                    data-city="Dubai"
+                                    data-lat="25.2048"
+                                    data-lon="55.2708"
+                                    title="Ob-havo">
+                                <i class="fas fa-sun weather-icon"></i>
+                                <span class="weather-temp">yuklanyapti...</span>
+                            </button>
+                            <div class="stat-item">
+                                <i class="fas fa-clock"></i>
+                                <span>5-7 Days</span>
                             </div>
-                            <button class="package-btn">View Details</button>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="price-box">
+                                <div class="price-current">
+                                    <span class="from">From</span>
+                                    <span class="amount">$5,499</span>
+                                    <span class="per">/ family</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-outline" onclick="viewPackageDetails(2)">See Details
+                                <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Package 3 -->
-                <div class="package-card">
+                <!-- ===== Package 3 - Swiss Alps ===== -->
+                <div class="package-card"
+                     data-city="Zurich"
+                     data-country="Switzerland"
+                     data-lat="47.3769"
+                     data-lon="8.5417"
+                     data-hotels-url="/hotels/?city=zurich"
+                     data-flights-url="/flights/?to=zurich">
+
                     <div class="package-header">
                         <span class="package-type">ADVENTURE</span>
                     </div>
-                    <div class="package-image">
-                        <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600" alt="Swiss">
+
+                    <div class="card-image-wrapper">
+                        <div class="image-slider">
+                            <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600" alt="Swiss">
+                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600" alt="Swiss 2">
+                        </div>
+                        <button class="slider-btn prev" onclick="slideImage(this, -1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="slider-btn next" onclick="slideImage(this, 1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <div class="image-dots">
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                        </div>
+                        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                            <i class="far fa-heart"></i>
+                        </button>
                     </div>
-                    <div class="package-content">
-                        <h3>Swiss Alps Expedition</h3>
-                        <div class="package-includes">
-                            <div class="include-item">
-                                <i class="fas fa-plane"></i>
-                                <span>Flights</span>
+
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="destination-info">
+                                <h3>Swiss Alps Expedition</h3>
+                                <p class="location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Switzerland, Europe
+                                </p>
                             </div>
-                            <div class="include-item">
-                                <i class="fas fa-hotel"></i>
-                                <span>Mountain Lodge</span>
-                            </div>
-                            <div class="include-item">
-                                <i class="fas fa-skiing"></i>
-                                <span>Ski Pass</span>
-                            </div>
-                            <div class="include-item">
-                                <i class="fas fa-binoculars"></i>
-                                <span>Guided Tours</span>
+                            <div class="rating-box">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <span>4.7</span>
+                                </div>
+                                <p class="reviews">(1,890 reviews)</p>
                             </div>
                         </div>
-                        <div class="package-footer">
-                            <div class="package-price">
-                                <span class="from">From</span>
-                                <span class="price">$2,799</span>
-                                <span class="per">per person</span>
+
+                        <p class="card-description">
+                            Snow-capped peaks, pristine ski slopes and charming mountain villages await adventurers
+                        </p>
+
+                        <div class="card-tags">
+                            <span class="tag"><i class="fas fa-mountain"></i> Adventure</span>
+                            <span class="tag"><i class="fas fa-skiing"></i> Ski</span>
+                            <span class="tag"><i class="fas fa-camera"></i> Scenic</span>
+                        </div>
+
+                        <!-- 6 ta stat: 2 qator × 3 ustun -->
+                        <div class="card-stats">
+                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"
+                                    title="Hotels & Lodges">
+                                <i class="fas fa-hotel"></i>
+                                <span>Hotels & Resorts</span>
+                            </button>
+                            <button class="stat-item stat-restaurants" onclick="goToRestaurants(this)"
+                                    title="Restaurants">
+                                <i class="fas fa-utensils"></i>
+                                <span>150+ Restaurants</span>
+                            </button>
+                            <button class="stat-item stat-flights" onclick="goToFlights(this)"
+                                    title="Direct Flights">
+                                <i class="fas fa-plane"></i>
+                                <span>Direct Flights</span>
+                            </button>
+                            <button class="stat-item stat-activities" onclick="goToActivities(this)"
+                                    title="Activities">
+                                <i class="fas fa-hiking"></i>
+                                <span>Activities</span>
+                            </button>
+                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                                    data-city="Zurich"
+                                    data-lat="47.3769"
+                                    data-lon="8.5417"
+                                    title="Ob-havo">
+                                <i class="fas fa-snowflake weather-icon"></i>
+                                <span class="weather-temp">yuklanyapti...</span>
+                            </button>
+                            <div class="stat-item">
+                                <i class="fas fa-clock"></i>
+                                <span>6-8 Days</span>
                             </div>
-                            <button class="package-btn">View Details</button>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="price-box">
+                                <div class="price-current">
+                                    <span class="from">From</span>
+                                    <span class="amount">$2,799</span>
+                                    <span class="per">/ person</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-outline" onclick="viewPackageDetails(3)">See Details
+                                 <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+            </div><!-- /.packages-grid -->
+        </div>
+        <div class="load-more-container">
+            <button class="btn-load-more" onclick="loadMoreDestinations()">
+                <i class="fas fa-spinner"></i>
+                Load More Destinations
+            </button>
+            <p class="showing-text">Showing 12 of 156 destinations</p>
+        </div>
+
+    </section><!-- /.package-deals -->
+
+    <!-- TRENDING DESTINATIONS -->
+    <section class="trending-deals">
+        <div class="container-custom">
+            <div class="section-header-custom">
+                <h2>Trending <span
+                        style="background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Destinations</span>
+                </h2>
+                <p>Handpicked by our travel experts</p>
+            </div>
+
+            <div id="trending-grid" class="destinations-grid">
+
+                <!-- Trending 1 - Dubai -->
+                <article class="destination-card" data-city="Dubai" data-country="Dubai, UAE" data-lat="25.2048"
+                         data-lon="55.2708" data-hotels-url="/hotels/?city=dubai" data-flights-url="/flights/?to=dubai">
+                    <div class="card-image-wrapper">
+                        <div class="image-slider">
+                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&q=80"
+                                 alt="Dubai">
+                            <img src="https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?w=600&q=80"
+                                 alt="Dubai 2">
+                            <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600&q=80"
+                                 alt="Dubai 3">
+                        </div>
+                        <button class="slider-btn prev" onclick="slideImage(this, -1)"><i
+                                class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" onclick="slideImage(this, 1)"><i
+                                class="fas fa-chevron-right"></i></button>
+                        <div class="image-dots"><span class="dot active"></span><span class="dot"></span><span
+                                class="dot"></span></div>
+                        <div class="card-badges"><span class="badge popular">Hot Deal</span></div>
+                        <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="destination-info"><h3>Dubai</h3>
+                                <p class="location"><i class="fas fa-map-marker-alt"></i> United Arab Emirates</p></div>
+                            <div class="rating-box">
+                                <div class="rating-stars"><i class="fas fa-star"></i><span>4.9</span></div>
+                                <p class="reviews">(5,210 reviews)</p></div>
+                        </div>
+                        <p class="card-description">Experience luxury and adventure in the city of gold</p>
+                        <div class="card-tags">
+                            <span class="tag"><i class="fas fa-city"></i> Modern</span>
+                            <span class="tag"><i class="fas fa-star"></i> Luxury</span>
+                            <span class="tag"><i class="fas fa-users"></i> Family</span>
+                        </div>
+                        <div class="card-stats">
+                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                    class="fas fa-hotel"></i><span>Hotels & Resorts</span></button>
+                            <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                    class="fas fa-plane"></i><span>Direct Flights</span></button>
+                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)" data-city="Dubai"
+                                    data-lat="25.2048" data-lon="55.2708"><i class="fas fa-sun weather-icon"></i><span
+                                    class="weather-temp">yuklanyapti...</span></button>
+                            <div class="stat-item"><i class="fas fa-clock"></i><span>5-7 Days</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-box">
+                                <div class="price-current"><span class="from">From</span><span
+                                        class="amount">$899</span><span class="per">/ person</span></div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-outline" onclick="viewDetails(4)">See Details
+                                   <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Trending 2 - Rome -->
+                <article class="destination-card" data-city="Rome" data-country="Rome, Italy" data-lat="41.9028"
+                         data-lon="12.4964" data-hotels-url="/hotels/?city=rome" data-flights-url="/flights/?to=rome">
+                    <div class="card-image-wrapper">
+                        <div class="image-slider">
+                            <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=600&q=80" alt="Rome">
+                            <img src="https://images.unsplash.com/photo-1529260830199-42c24126f198?w=600&q=80"
+                                 alt="Rome 2">
+                        </div>
+                        <button class="slider-btn prev" onclick="slideImage(this, -1)"><i
+                                class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" onclick="slideImage(this, 1)"><i
+                                class="fas fa-chevron-right"></i></button>
+                        <div class="image-dots"><span class="dot active"></span><span class="dot"></span></div>
+                        <div class="card-badges"><span class="badge popular">Popular</span></div>
+                        <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="destination-info"><h3>Rome</h3>
+                                <p class="location"><i class="fas fa-map-marker-alt"></i> Italy, Europe</p></div>
+                            <div class="rating-box">
+                                <div class="rating-stars"><i class="fas fa-star"></i><span>4.8</span></div>
+                                <p class="reviews">(4,130 reviews)</p></div>
+                        </div>
+                        <p class="card-description">Step back in time in the Eternal City with history on every
+                            corner</p>
+                        <div class="card-tags">
+                            <span class="tag"><i class="fas fa-landmark"></i> Historical</span>
+                            <span class="tag"><i class="fas fa-utensils"></i> Food</span>
+                            <span class="tag"><i class="fas fa-camera"></i> Scenic</span>
+                        </div>
+                        <div class="card-stats">
+                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                    class="fas fa-hotel"></i><span>Hotels & Resorts</span></button>
+                            <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                    class="fas fa-plane"></i><span>Direct Flights</span></button>
+                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)" data-city="Rome"
+                                    data-lat="41.9028" data-lon="12.4964"><i class="fas fa-sun weather-icon"></i><span
+                                    class="weather-temp">yuklanyapti...</span></button>
+                            <div class="stat-item"><i class="fas fa-clock"></i><span>4-6 Days</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-box">
+                                <div class="price-current"><span class="from">From</span><span
+                                        class="amount">$1,299</span><span class="per">/ person</span></div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-outline" onclick="viewDetails(4)">See Details
+                                   <i class="fas fa-arrow-right"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Trending 3 - Bali -->
+                <article class="destination-card" data-city="Bali" data-country="Bali, Indonesia" data-lat="-8.3405"
+                         data-lon="115.0920" data-hotels-url="/hotels/?city=bali" data-flights-url="/flights/?to=bali">
+                    <div class="card-image-wrapper">
+                        <div class="image-slider">
+                            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80"
+                                 alt="Bali">
+                            <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=600&q=80"
+                                 alt="Bali 2">
+                        </div>
+                        <button class="slider-btn prev" onclick="slideImage(this, -1)"><i
+                                class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" onclick="slideImage(this, 1)"><i
+                                class="fas fa-chevron-right"></i></button>
+                        <div class="image-dots"><span class="dot active"></span><span class="dot"></span></div>
+                        <div class="card-badges"><span class="badge deal">New</span></div>
+                        <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="destination-info"><h3>Bali</h3>
+                                <p class="location"><i class="fas fa-map-marker-alt"></i> Indonesia, Southeast Asia</p>
+                            </div>
+                            <div class="rating-box">
+                                <div class="rating-stars"><i class="fas fa-star"></i><span>4.9</span></div>
+                                <p class="reviews">(7,850 reviews)</p></div>
+                        </div>
+                        <p class="card-description">Paradise island with stunning beaches, temples and vibrant
+                            culture</p>
+                        <div class="card-tags">
+                            <span class="tag"><i class="fas fa-water"></i> Beach</span>
+                            <span class="tag"><i class="fas fa-leaf"></i> Nature</span>
+                            <span class="tag"><i class="fas fa-spa"></i> Wellness</span>
+                        </div>
+                        <div class="card-stats">
+                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                    class="fas fa-hotel"></i><span>Hotels & Resorts</span></button>
+                            <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                    class="fas fa-plane"></i><span>Direct Flights</span></button>
+                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)" data-city="Bali"
+                                    data-lat="-8.3405" data-lon="115.0920"><i class="fas fa-sun weather-icon"></i><span
+                                    class="weather-temp">yuklanyapti...</span></button>
+                            <div class="stat-item"><i class="fas fa-clock"></i><span>7-10 Days</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-box">
+                                <div class="price-current"><span class="from">From</span><span
+                                        class="amount">$799</span><span class="per">/ person</span></div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-outline" onclick="viewDetails(4)">See Details
+                                   <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
             </div>
         </div>
+
+        <div class="load-more-container">
+            <button class="btn-load-more" onclick="loadMoreDestinations()">
+                <i class="fas fa-spinner"></i>
+                Load More Destinations
+            </button>
+            <p class="showing-text">Showing 12 of 156 destinations</p>
+        </div>
+
     </section>
+
+
 
     <!-- LIVE ACTIVITY FEED -->
     <section class="live-feed">
@@ -391,10 +926,7 @@
                 </div>
                 <h3>Recent Bookings</h3>
             </div>
-
-            <div class="feed-container" id="live-feed">
-                <!-- Feed items will be dynamically added here -->
-            </div>
+            <div class="feed-container" id="live-feed"></div>
         </div>
     </section>
 
@@ -409,48 +941,28 @@
             <div class="steps-container">
                 <div class="step-card">
                     <div class="step-number">01</div>
-                    <div class="step-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
+                    <div class="step-icon"><i class="fas fa-search"></i></div>
                     <h3>Search & Explore</h3>
                     <p>Browse 450+ destinations or let our AI recommend perfect spots for you</p>
                 </div>
-
-                <div class="step-arrow">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-
+                <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
                 <div class="step-card">
                     <div class="step-number">02</div>
-                    <div class="step-icon">
-                        <i class="fas fa-balance-scale"></i>
-                    </div>
+                    <div class="step-icon"><i class="fas fa-balance-scale"></i></div>
                     <h3>Compare & Choose</h3>
                     <p>Compare prices, amenities, and reviews to find the best deal</p>
                 </div>
-
-                <div class="step-arrow">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-
+                <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
                 <div class="step-card">
                     <div class="step-number">03</div>
-                    <div class="step-icon">
-                        <i class="fas fa-credit-card"></i>
-                    </div>
+                    <div class="step-icon"><i class="fas fa-credit-card"></i></div>
                     <h3>Secure Booking</h3>
                     <p>Book instantly with secure payment and instant confirmation</p>
                 </div>
-
-                <div class="step-arrow">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-
+                <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
                 <div class="step-card">
                     <div class="step-number">04</div>
-                    <div class="step-icon">
-                        <i class="fas fa-plane-departure"></i>
-                    </div>
+                    <div class="step-icon"><i class="fas fa-plane-departure"></i></div>
                     <h3>Travel & Enjoy</h3>
                     <p>Pack your bags and enjoy your perfect vacation with 24/7 support</p>
                 </div>
@@ -483,6 +995,7 @@
                     <p>Cancel up to 24hrs before</p>
                 </div>
             </div>
+
             <!-- Testimonials -->
             <section class="section" style="background: var(--light);">
                 <h2 class="section-title">What Our Travelers Say</h2>
@@ -497,8 +1010,9 @@
                                 <i class="fas fa-star stars"></i>
                             </div>
                             <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">
-                                "Absolutely
-                                amazing! The AI recommendations were spot-on. Found my dream vacation in minutes!"</p>
+                                "Absolutely amazing! The AI recommendations were spot-on. Found my dream vacation in
+                                minutes!"
+                            </p>
                             <div style="display: flex; align-items: center; gap: 18px;">
                                 <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=70"
                                      style="border-radius: 50%;">
@@ -519,9 +1033,9 @@
                                 <i class="fas fa-star stars"></i>
                                 <i class="fas fa-star stars"></i>
                             </div>
-                            <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">"Best
-                                booking
-                                experience ever! Smooth, fast, and incredibly helpful customer service."</p>
+                            <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">
+                                "Best booking experience ever! Smooth, fast, and incredibly helpful customer service."
+                            </p>
                             <div style="display: flex; align-items: center; gap: 18px;">
                                 <img src="https://ui-avatars.com/api/?name=Michael+Chen&background=764ba2&color=fff&size=70"
                                      style="border-radius: 50%;">
@@ -541,9 +1055,9 @@
                                 <i class="fas fa-star stars"></i>
                                 <i class="fas fa-star stars"></i>
                             </div>
-                            <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">"The
-                                personalized
-                                recommendations saved us hours of research. Highly recommend!"</p>
+                            <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">
+                                "The personalized recommendations saved us hours of research. Highly recommend!"
+                            </p>
                             <div style="display: flex; align-items: center; gap: 18px;">
                                 <img src="https://ui-avatars.com/api/?name=Emma+Wilson&background=a855f7&color=fff&size=70"
                                      style="border-radius: 50%;">
@@ -652,5 +1166,6 @@
 {% endblock %}
 
 {% block custom_js %}
-    <script src="{% static 'apps/js/home.js' %}"></script>
+    <script src="{% static 'apps/js/main_base.js' %}"></script>
 {% endblock %}
+

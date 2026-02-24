@@ -140,6 +140,20 @@ wheels = [
 ]
 
 [[package]]
+name = "django-rosetta"
+version = "0.10.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "polib" },
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e5/97/294c5752e80643c7146cb86907f6a4fcb8dd16a3d11b1a2d869964853fa2/django_rosetta-0.10.3.tar.gz", hash = "sha256:a443708c251eebeb8e5dbd206cdf66531559fb76c0fe27e136985f7c893a9a60", size = 259113, upload-time = "2025-12-07T18:04:19.03Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/97/26/6abd2d4c65f97e45d8aac3b3a017d24ff81a707172999f6b77291caf4e62/django_rosetta-0.10.3-py3-none-any.whl", hash = "sha256:9f367fa51b221a1fba1bbb87f58c0a4455feac2f71303a5ff8a7e0536c13e116", size = 122632, upload-time = "2025-12-07T18:04:16.968Z" },
+]
+
+[[package]]
 name = "flake8"
 version = "7.3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -266,6 +280,15 @@ wheels = [
 ]
 
 [[package]]
+name = "polib"
+version = "1.2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/10/9a/79b1067d27e38ddf84fe7da6ec516f1743f31f752c6122193e7bce38bdbf/polib-1.2.0.tar.gz", hash = "sha256:f3ef94aefed6e183e342a8a269ae1fc4742ba193186ad76f175938621dbfc26b", size = 161658, upload-time = "2023-02-23T17:53:56.873Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6b/99/45bb1f9926efe370c6dbe324741c749658e44cb060124f28dad201202274/polib-1.2.0-py2.py3-none-any.whl", hash = "sha256:1c77ee1b81feb31df9bca258cbc58db1bbb32d10214b173882452c73af06d62d", size = 20634, upload-time = "2023-02-23T17:53:59.919Z" },
+]
+
+[[package]]
 name = "psycopg2-binary"
 version = "2.9.11"
 source = { registry = "https://pypi.org/simple" }
@@ -387,6 +410,7 @@ dependencies = [
     { name = "django" },
     { name = "django-jazzmin" },
     { name = "django-mptt" },
+    { name = "django-rosetta" },
     { name = "net-tools" },
     { name = "pillow" },
     { name = "psycopg2-binary" },
@@ -407,6 +431,7 @@ requires-dist = [
     { name = "django", specifier = ">=5.2.8" },
     { name = "django-jazzmin", specifier = ">=3.0.1" },
     { name = "django-mptt", specifier = ">=0.18.0" },
+    { name = "django-rosetta", specifier = ">=0.10.3" },
     { name = "net-tools", specifier = ">=0.1.2" },
     { name = "pillow", specifier = ">=12.0.0" },
     { name = "psycopg2-binary", specifier = ">=2.9.11" },

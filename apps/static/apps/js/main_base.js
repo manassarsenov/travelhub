@@ -1,4 +1,3 @@
-
 // Sample Data
 const destinations = [
     {
@@ -174,14 +173,6 @@ function switchLang(lang, index) {
     showToast('Language Changed', `Switched to ${lang.toUpperCase()}`, 'success');
 }
 
-// Mobile Language
-function switchMobileLang(lang) {
-    document.querySelectorAll('.mobile-lang-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    event.target.classList.add('active');
-    showToast('Language', `Changed to ${lang.toUpperCase()}`, 'success');
-}
 
 // Dark Mode
 let darkMode = false;
@@ -231,23 +222,28 @@ document.addEventListener('click', function (e) {
 // Wishlist
 let wishlist = [];
 
-function toggleWishlist(id) {
-    if (wishlist.includes(id)) {
-        wishlist = wishlist.filter(item => item !== id);
+function toggleWishlist(btn) {
+    const icon = btn.querySelector('i');
+    const isWishlisted = btn.classList.contains('wishlisted');
+
+    if (isWishlisted) {
+        btn.classList.remove('wishlisted');
+        icon.className = 'far fa-heart';
+        icon.style.color = '';
         showToast('Removed', 'Removed from wishlist', 'error');
     } else {
-        wishlist.push(id);
+        btn.classList.add('wishlisted');
+        icon.className = 'fas fa-heart';
+        icon.style.color = '#ef4444';
+        icon.style.transition = 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        icon.style.transform = 'scale(1.2)';
+        setTimeout(() => icon.style.transform = 'scale(1)', 250);
         showToast('Added', 'Added to wishlist', 'success');
     }
-    document.getElementById('wishlist-count').textContent = wishlist.length;
-}
 
-function openWishlist() {
-    showToast('Wishlist', `You have ${wishlist.length} items`, 'success');
+    const countEl = document.getElementById('wishlist-count');
+    if (countEl) countEl.textContent = document.querySelectorAll('.wishlist-btn.wishlisted').length;
 }
-
-// function goToNotifications() {
-//     window.location.href = "{% url 'notification_page' %}";}
 
 // Autocomplete
 function showAutocomplete(value) {
@@ -375,3 +371,151 @@ function subscribeNewsletter() {
     document.getElementById('newsletter-email').value = '';
 }
 
+<!-- ===== LANGUAGE SLIDER FIX — JS ===== -->
+
+/*
+ * MUAMMO: Eski kodda lang-slider faqat left: 3px dan boshlanar edi
+ * va width: 35px qattiq belgilangan edi.
+ * Bu "RU" button boshqa tugmalardan kengroq bo'lganda noto'g'ri
+ * ko'rinishiga sabab bo'lardi.
+ *
+ * YECHIM: Har bir bosish vaqtida aktiv buttonning
+ * haqiqiy offsetLeft va offsetWidth dan foydalanamiz.
+ */
+function switchLang(lang, idx) {
+    // Barcha buttonlarni nofaol qilish
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+
+    // Bosilgan buttonga aktiv class
+    const activeBtn = document.querySelector(`.lang-btn[data-lang="${lang}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+
+    // Sliderni to'g'ri joyga ko'chirish
+    updateLangSlider();
+
+    // Mobil ham yangilash
+    document.querySelectorAll('.mobile-lang-btn').forEach(b => b.classList.remove('active'));
+    const mobileIdx = ['en', 'uz', 'ru'].indexOf(lang);
+    const mobileBtns = document.querySelectorAll('.mobile-lang-btn');
+    if (mobileBtns[mobileIdx]) mobileBtns[mobileIdx].classList.add('active');
+    showToast('Language', `Changed to ${lang.toUpperCase()}`, 'success');
+
+
+    // Sahifani qayta yuklash (ixtiyoriy, Django i18n uchun)
+    // window.location.href = `/${lang}/`;
+}
+
+function updateLangSlider() {
+    const slider = document.getElementById('lang-slider');
+    const activeBtn = document.querySelector('.lang-btn.active');
+    if (!slider || !activeBtn) return;
+
+    const switcher = document.getElementById('lang-switcher');
+    const switcherRect = switcher.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+
+    // Sliderni button ustiga qo'yamiz
+    slider.style.left = (activeBtn.offsetLeft) + 'px';
+    slider.style.width = activeBtn.offsetWidth + 'px';
+}
+
+/* Sahifa yuklanganda sliderni to'g'ri joyga qo'yish */
+document.addEventListener('DOMContentLoaded', function () {
+    updateLangSlider();
+});
+
+function switchMobileLang(lang) {
+    document.querySelectorAll('.mobile-lang-btn').forEach(b => b.classList.remove('active'));
+    const idx = ['en', 'uz', 'ru'].indexOf(lang);
+    const btns = document.querySelectorAll('.mobile-lang-btn');
+    if (btns[idx]) btns[idx].classList.add('active');
+    switchLang(lang, idx);
+}
+
+<!-- ===== RECENT SEARCHES LOGIC ===== -->
+const STORAGE_KEY = 'travelhub_recent_searches';
+const MAX_RECENT = 8;
+
+function getRecentSearches() {
+    try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch {
+        return [];
+    }
+}
+
+function saveRecentSearches(arr) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+}
+
+function addRecentSearch(query) {
+    if (!query.trim()) return;
+    let arr = getRecentSearches().filter(q => q !== query);
+    arr.unshift(query);
+    if (arr.length > MAX_RECENT) arr = arr.slice(0, MAX_RECENT);
+    saveRecentSearches(arr);
+}
+
+function removeRecentItem(query) {
+    saveRecentSearches(getRecentSearches().filter(q => q !== query));
+    renderRecentList();
+}
+
+function clearAllRecent() {
+    saveRecentSearches([]);
+    renderRecentList();
+}
+
+function renderRecentList() {
+    const list = document.getElementById('recent-list');
+    const arr = getRecentSearches();
+    if (!arr.length) {
+        list.innerHTML = `
+                <div class="recent-empty">
+                    <i class="fas fa-clock-rotate-left"></i>
+                    <p>No recent searches yet</p>
+                </div>`;
+        return;
+    }
+    list.innerHTML = arr.map(q => `
+            <button class="recent-item" onclick="pickRecent('${q.replace(/'/g, "\\'")}')">
+                <span class="recent-item-icon"><i class="fas fa-clock-rotate-left"></i></span>
+                <span class="recent-item-text">${q}</span>
+                <span class="recent-item-del" onclick="event.stopPropagation(); removeRecentItem('${q.replace(/'/g, "\\'")}')">
+                    <i class="fas fa-times"></i>
+                </span>
+            </button>`).join('');
+}
+
+function pickRecent(query) {
+    document.getElementById('global-search-input').value = query;
+    hideRecentSearches();
+    doSearch();
+}
+
+function showRecentSearches() {
+    renderRecentList();
+    document.getElementById('recent-searches-dropdown').classList.add('show');
+}
+
+function hideRecentSearches() {
+    document.getElementById('recent-searches-dropdown').classList.remove('show');
+}
+
+function doSearch() {
+    const q = document.getElementById('global-search-input').value.trim();
+    if (!q) return;
+    addRecentSearch(q);
+    hideRecentSearches();
+    if (typeof performGlobalSearch === 'function') performGlobalSearch();
+}
+
+function handleSearchKey(e) {
+    if (e.key === 'Enter') doSearch();
+    if (e.key === 'Escape') hideRecentSearches();
+}
+
+document.addEventListener('click', function (e) {
+    const wrap = document.getElementById('navbar-search-wrap');
+    if (wrap && !wrap.contains(e.target)) hideRecentSearches();
+});

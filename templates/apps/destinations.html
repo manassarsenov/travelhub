@@ -2,769 +2,849 @@
 {% load static %}
 
 {% block title %}
-<title>Discover Amazing Destinations | TravelHub</title>
+    <title>Discover Amazing Destinations | TravelHub</title>
 {% endblock %}
 
 {% block custom_css %}
-<link rel="stylesheet" href="{% static 'apps/css/destinations.css' %}">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="{% static 'apps/css/destinations.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="{% static 'apps/css/load_more_css.css' %}">
 {% endblock %}
 
 {% block main_content %}
 
-<!-- Hero Section with Parallax -->
-<section class="destinations-hero">
-    <div class="hero-parallax-bg"></div>
-    <div class="hero-overlay"></div>
-
-    <div class="hero-content">
-        <div class="hero-badge animate-float">
-            <i class="fas fa-globe-americas"></i>
-            <span>200+ Destinations Worldwide</span>
-        </div>
-
-        <h1 class="hero-title">
-            Explore <span class="gradient-text">Amazing</span> Destinations
-        </h1>
-
-        <p class="hero-subtitle">
-            From ancient wonders to modern marvels, discover your next unforgettable journey
-        </p>
-
-        <!-- Advanced Search Bar -->
-        <div class="hero-search-container">
-            <div class="search-wrapper">
-                <div class="search-input-group">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <input type="text"
-                           id="destination-search"
-                           placeholder="Where do you want to go?"
-                           autocomplete="off">
-                    <div id="search-suggestions" class="search-suggestions"></div>
-                </div>
-
-                <div class="search-divider"></div>
-
-                <div class="search-input-group">
-                    <i class="fas fa-calendar-alt"></i>
-                    <input type="text"
-                           id="date-range"
-                           placeholder="Select dates"
-                           readonly>
-                </div>
-
-                <div class="search-divider"></div>
-
-                <div class="search-input-group">
-                    <i class="fas fa-user-friends"></i>
-                    <input type="text"
-                           id="travelers"
-                           placeholder="Travelers"
-                           readonly
-                           onclick="toggleTravelersDropdown()">
-                    <div id="travelers-dropdown" class="travelers-dropdown">
-                        <div class="traveler-option">
-                            <div>
-                                <h4>Adults</h4>
-                                <p>Ages 18+</p>
-                            </div>
-                            <div class="counter">
-                                <button onclick="updateCount('adults', -1)">-</button>
-                                <span id="adults-count">2</span>
-                                <button onclick="updateCount('adults', 1)">+</button>
-                            </div>
-                        </div>
-                        <div class="traveler-option">
-                            <div>
-                                <h4>Children</h4>
-                                <p>Ages 2-17</p>
-                            </div>
-                            <div class="counter">
-                                <button onclick="updateCount('children', -1)">-</button>
-                                <span id="children-count">0</span>
-                                <button onclick="updateCount('children', 1)">+</button>
-                            </div>
-                        </div>
-                        <div class="traveler-option">
-                            <div>
-                                <h4>Infants</h4>
-                                <p>Under 2</p>
-                            </div>
-                            <div class="counter">
-                                <button onclick="updateCount('infants', -1)">-</button>
-                                <span id="infants-count">0</span>
-                                <button onclick="updateCount('infants', 1)">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="search-btn" onclick="searchDestinations()">
-                    <i class="fas fa-search"></i>
-                    <span>Search</span>
-                </button>
+    <!-- ============================================================
+         HERO SECTION
+    ============================================================ -->
+    <section class="destinations-hero">
+        <div class="hero-parallax-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge animate-float">
+                <i class="fas fa-globe-americas"></i>
+                <span>200+ Destinations Worldwide</span>
             </div>
-
-            <!-- Quick Filters -->
-            <div class="quick-filters">
-                <button class="quick-filter active" data-filter="all">
-                    <i class="fas fa-globe"></i>
-                    All Destinations
-                </button>
-                <button class="quick-filter" data-filter="popular">
-                    <i class="fas fa-fire"></i>
-                    Popular
-                </button>
-                <button class="quick-filter" data-filter="beach">
-                    <i class="fas fa-umbrella-beach"></i>
-                    Beach
-                </button>
-                <button class="quick-filter" data-filter="mountain">
-                    <i class="fas fa-mountain"></i>
-                    Mountain
-                </button>
-                <button class="quick-filter" data-filter="city">
-                    <i class="fas fa-city"></i>
-                    City
-                </button>
-                <button class="quick-filter" data-filter="adventure">
-                    <i class="fas fa-hiking"></i>
-                    Adventure
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scroll Indicator -->
-    <div class="scroll-indicator">
-        <div class="mouse">
-            <div class="wheel"></div>
-        </div>
-        <p>Scroll to explore</p>
-    </div>
-</section>
-
-<!-- Featured Destinations Carousel -->
-<section class="featured-section">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-badge">
-                <i class="fas fa-star"></i>
-                <span>Featured</span>
-            </div>
-            <h2>Trending <span class="gradient-text">Destinations</span></h2>
-            <p>Handpicked by our travel experts</p>
-        </div>
-
-        <div class="featured-carousel">
-            <button class="carousel-btn prev" onclick="moveFeatured(-1)">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-
-            <div class="featured-track">
-                <!-- Featured Card 1 -->
-                <div class="featured-card">
-                    <div class="featured-image">
-                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c" alt="Dubai">
-                        <div class="featured-badge">Hot Deal</div>
-                        <button class="wishlist-btn" onclick="toggleWishlist(this)">
-                            <i class="far fa-heart"></i>
-                        </button>
+            <h1 class="hero-title">
+                Explore <span class="gradient-text">Amazing</span> Destinations
+            </h1>
+            <p class="hero-subtitle">
+                From ancient wonders to modern marvels, discover your next unforgettable journey
+            </p>
+            <div class="hero-search-container">
+                <div class="search-wrapper">
+                    <div class="search-input-group">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" id="destination-search"
+                               placeholder="Where do you want to go?" autocomplete="off">
+                        <div id="search-suggestions" class="search-suggestions"></div>
                     </div>
-                    <div class="featured-content">
-                        <div class="destination-header">
-                            <div>
-                                <h3>Dubai</h3>
-                                <p><i class="fas fa-map-marker-alt"></i> United Arab Emirates</p>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.9</span>
-                            </div>
-                        </div>
-                        <p class="description">Experience luxury and adventure in the city of gold</p>
-                        <div class="destination-stats">
-                            <div class="stat">
-                                <i class="fas fa-hotel"></i>
-                                <span>850+ Hotels</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-sun"></i>
-                                <span>32°C Avg</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-plane"></i>
-                                <span>Direct Flights</span>
-                            </div>
-                        </div>
-                        <div class="destination-footer">
-                            <div class="price">
-                                <span class="from">From</span>
-                                <span class="amount">$899</span>
-                                <span class="per">/ person</span>
-                            </div>
-                            <button class="btn-primary" onclick="viewDetails(1)">
-                                View Details
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Featured Card 2 -->
-                <div class="featured-card">
-                    <div class="featured-image">
-                        <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5" alt="Rome">
-                        <div class="featured-badge popular">Popular</div>
-                        <button class="wishlist-btn" onclick="toggleWishlist(this)">
-                            <i class="far fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="featured-content">
-                        <div class="destination-header">
-                            <div>
-                                <h3>Rome</h3>
-                                <p><i class="fas fa-map-marker-alt"></i> Italy</p>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.8</span>
-                            </div>
-                        </div>
-                        <p class="description">Step back in time in the Eternal City</p>
-                        <div class="destination-stats">
-                            <div class="stat">
-                                <i class="fas fa-hotel"></i>
-                                <span>920+ Hotels</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-sun"></i>
-                                <span>22°C Avg</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-landmark"></i>
-                                <span>Historical</span>
-                            </div>
-                        </div>
-                        <div class="destination-footer">
-                            <div class="price">
-                                <span class="from">From</span>
-                                <span class="amount">$1,299</span>
-                                <span class="per">/ person</span>
-                            </div>
-                            <button class="btn-primary" onclick="viewDetails(2)">
-                                View Details
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Featured Card 3 -->
-                <div class="featured-card">
-                    <div class="featured-image">
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4" alt="Bali">
-                        <div class="featured-badge new">New</div>
-                        <button class="wishlist-btn" onclick="toggleWishlist(this)">
-                            <i class="far fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="featured-content">
-                        <div class="destination-header">
-                            <div>
-                                <h3>Bali</h3>
-                                <p><i class="fas fa-map-marker-alt"></i> Indonesia</p>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.9</span>
-                            </div>
-                        </div>
-                        <p class="description">Paradise island with stunning beaches and culture</p>
-                        <div class="destination-stats">
-                            <div class="stat">
-                                <i class="fas fa-hotel"></i>
-                                <span>670+ Hotels</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-sun"></i>
-                                <span>28°C Avg</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-umbrella-beach"></i>
-                                <span>Beach</span>
-                            </div>
-                        </div>
-                        <div class="destination-footer">
-                            <div class="price">
-                                <span class="from">From</span>
-                                <span class="amount">$799</span>
-                                <span class="per">/ person</span>
-                            </div>
-                            <button class="btn-primary" onclick="viewDetails(3)">
-                                View Details
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <button class="carousel-btn next" onclick="moveFeatured(1)">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-    </div>
-</section>
-
-<!-- Main Content Area -->
-<section class="main-destinations">
-    <div class="container-fluid">
-        <div class="destinations-layout">
-
-            <!-- Sidebar Filters -->
-            <aside class="filters-sidebar">
-                <div class="filters-header">
-                    <h3>Filters</h3>
-                    <button class="clear-filters" onclick="clearAllFilters()">
-                        <i class="fas fa-redo"></i>
-                        Clear All
-                    </button>
-                </div>
-
-                <!-- View Toggle -->
-                <div class="view-toggle">
-                    <button class="view-btn active" onclick="switchView('grid')">
-                        <i class="fas fa-th"></i>
-                    </button>
-                    <button class="view-btn" onclick="switchView('list')">
-                        <i class="fas fa-list"></i>
-                    </button>
-                    <button class="view-btn" onclick="switchView('map')">
-                        <i class="fas fa-map"></i>
-                    </button>
-                </div>
-
-                <!-- Price Range Filter -->
-                <div class="filter-group">
-                    <h4>
-                        <i class="fas fa-dollar-sign"></i>
-                        Price Range
-                    </h4>
-                    <div class="price-range-slider">
-                        <input type="range" id="min-price" min="0" max="5000" value="0">
-                        <input type="range" id="max-price" min="0" max="5000" value="5000">
-                    </div>
-                    <div class="price-values">
-                        <span>$<span id="min-price-value">0</span></span>
-                        <span>$<span id="max-price-value">5000</span></span>
-                    </div>
-                </div>
-
-                <!-- Region Filter -->
-                <div class="filter-group">
-                    <h4>
-                        <i class="fas fa-globe-asia"></i>
-                        Region
-                    </h4>
-                    <div class="filter-options">
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="region" value="asia">
-                            <span>Asia</span>
-                            <span class="count">(45)</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="region" value="europe">
-                            <span>Europe</span>
-                            <span class="count">(67)</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="region" value="africa">
-                            <span>Africa</span>
-                            <span class="count">(23)</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="region" value="americas">
-                            <span>Americas</span>
-                            <span class="count">(38)</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="region" value="oceania">
-                            <span>Oceania</span>
-                            <span class="count">(12)</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Trip Type Filter -->
-                <div class="filter-group">
-                    <h4>
-                        <i class="fas fa-suitcase"></i>
-                        Trip Type
-                    </h4>
-                    <div class="filter-options">
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="type" value="adventure">
-                            <span>Adventure</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="type" value="beach">
-                            <span>Beach & Relaxation</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="type" value="cultural">
-                            <span>Cultural</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="type" value="nature">
-                            <span>Nature & Wildlife</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="type" value="city">
-                            <span>City Tours</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="type" value="romantic">
-                            <span>Romantic</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Duration Filter -->
-                <div class="filter-group">
-                    <h4>
-                        <i class="fas fa-clock"></i>
-                        Duration
-                    </h4>
-                    <div class="filter-options">
-                        <label class="filter-radio">
-                            <input type="radio" name="duration" value="weekend">
-                            <span>Weekend (1-3 days)</span>
-                        </label>
-                        <label class="filter-radio">
-                            <input type="radio" name="duration" value="short">
-                            <span>Short Trip (4-7 days)</span>
-                        </label>
-                        <label class="filter-radio">
-                            <input type="radio" name="duration" value="long">
-                            <span>Long Vacation (8-14 days)</span>
-                        </label>
-                        <label class="filter-radio">
-                            <input type="radio" name="duration" value="extended">
-                            <span>Extended (15+ days)</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Rating Filter -->
-                <div class="filter-group">
-                    <h4>
-                        <i class="fas fa-star"></i>
-                        Rating
-                    </h4>
-                    <div class="filter-options">
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="rating" value="5">
-                            <span>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="rating" value="4">
-                            <span>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                                & up
-                            </span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="rating" value="3">
-                            <span>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
-                                & up
-                            </span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Activities Filter -->
-                <div class="filter-group">
-                    <h4>
-                        <i class="fas fa-hiking"></i>
-                        Activities
-                    </h4>
-                    <div class="filter-options">
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="activity" value="hiking">
-                            <span>Hiking & Trekking</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="activity" value="watersports">
-                            <span>Water Sports</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="activity" value="shopping">
-                            <span>Shopping</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="activity" value="nightlife">
-                            <span>Nightlife</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="activity" value="food">
-                            <span>Food & Cuisine</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Best Season Filter -->
-                <div class="filter-group">
-                    <h4>
+                    <div class="search-divider"></div>
+                    <div class="search-input-group">
                         <i class="fas fa-calendar-alt"></i>
-                        Best Season
-                    </h4>
-                    <div class="filter-options">
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="season" value="spring">
-                            <span>🌸 Spring</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="season" value="summer">
-                            <span>☀️ Summer</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="season" value="autumn">
-                            <span>🍂 Autumn</span>
-                        </label>
-                        <label class="filter-checkbox">
-                            <input type="checkbox" name="season" value="winter">
-                            <span>❄️ Winter</span>
-                        </label>
+                        <input type="text" id="date-range" placeholder="Select dates" readonly>
                     </div>
-                </div>
-            </aside>
-
-            <!-- Main Content -->
-            <main class="destinations-main">
-
-                <!-- Results Header -->
-                <div class="results-header">
-                    <div class="results-info">
-                        <h3>Found <span class="highlight">156</span> destinations</h3>
-                        <p>Based on your preferences</p>
-                    </div>
-
-                    <div class="results-controls">
-                        <div class="sort-dropdown">
-                            <button class="sort-btn" onclick="toggleSortDropdown()">
-                                <i class="fas fa-sort-amount-down"></i>
-                                <span>Sort by</span>
-                                <i class="fas fa-chevron-down"></i>
-                            </button>
-                            <div id="sort-dropdown" class="dropdown-menu">
-                                <button onclick="sortDestinations('popular')">Most Popular</button>
-                                <button onclick="sortDestinations('price-low')">Price: Low to High</button>
-                                <button onclick="sortDestinations('price-high')">Price: High to Low</button>
-                                <button onclick="sortDestinations('rating')">Highest Rated</button>
-                                <button onclick="sortDestinations('name')">Name A-Z</button>
+                    <div class="search-divider"></div>
+                    <div class="search-input-group" style="position:relative;">
+                        <i class="fas fa-user-friends"></i>
+                        <input type="text" id="travelers" placeholder="Travelers" readonly
+                               onclick="toggleTravelersDropdown()">
+                        <div id="travelers-dropdown" class="travelers-dropdown">
+                            <div class="traveler-option">
+                                <div><h4>Adults</h4>
+                                    <p>Ages 18+</p></div>
+                                <div class="counter">
+                                    <button onclick="updateCount('adults',-1)">-</button>
+                                    <span id="adults-count">2</span>
+                                    <button onclick="updateCount('adults',1)">+</button>
+                                </div>
+                            </div>
+                            <div class="traveler-option">
+                                <div><h4>Children</h4>
+                                    <p>Ages 2-17</p></div>
+                                <div class="counter">
+                                    <button onclick="updateCount('children',-1)">-</button>
+                                    <span id="children-count">0</span>
+                                    <button onclick="updateCount('children',1)">+</button>
+                                </div>
+                            </div>
+                            <div class="traveler-option">
+                                <div><h4>Infants</h4>
+                                    <p>Under 2</p></div>
+                                <div class="counter">
+                                    <button onclick="updateCount('infants',-1)">-</button>
+                                    <span id="infants-count">0</span>
+                                    <button onclick="updateCount('infants',1)">+</button>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <button class="search-btn" onclick="searchDestinations()">
+                        <i class="fas fa-search"></i><span>Search</span>
+                    </button>
+                </div>
+                <div class="quick-filters">
+                    <button class="quick-filter active" data-filter="all">
+                        <i class="fas fa-globe"></i> All Destinations
+                    </button>
+                    <button class="quick-filter" data-filter="popular">
+                        <i class="fas fa-fire"></i> Popular
+                    </button>
+                    <button class="quick-filter" data-filter="beach">
+                        <i class="fas fa-umbrella-beach"></i> Beach
+                    </button>
+                    <button class="quick-filter" data-filter="mountain">
+                        <i class="fas fa-mountain"></i> Mountain
+                    </button>
+                    <button class="quick-filter" data-filter="city">
+                        <i class="fas fa-city"></i> City
+                    </button>
+                    <button class="quick-filter" data-filter="adventure">
+                        <i class="fas fa-hiking"></i> Adventure
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <p>Scroll to explore</p>
+        </div>
+    </section>
 
-                        <button class="compare-btn" onclick="openComparison()">
-                            <i class="fas fa-balance-scale"></i>
-                            Compare (<span id="compare-count">0</span>)
+    <!-- ============================================================
+         MAIN CONTENT
+    ============================================================ -->
+    <section class="main-destinations">
+        <div class="container-fluid">
+            <div class="destinations-layout">
+
+                <!-- SIDEBAR -->
+                <aside class="filters-sidebar">
+                    <div class="filters-header">
+                        <h3>Filters</h3>
+                        <button class="clear-filters" onclick="clearAllFilters()">
+                            <i class="fas fa-redo"></i> Clear All
                         </button>
                     </div>
-                </div>
-
-                <!-- Destinations Grid -->
-                <div id="destinations-grid" class="destinations-grid">
-
-                    <!-- Destination Card 1 -->
-                    <article class="destination-card">
-                        <div class="card-image-wrapper">
-                            <div class="image-slider">
-                                <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523" alt="Samarkand">
-                                <img src="https://images.unsplash.com/photo-1588431945498-87016d6e2c79" alt="Samarkand">
-                                <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19" alt="Samarkand">
-                            </div>
-                            <button class="slider-btn prev" onclick="slideImage(this, -1)">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <button class="slider-btn next" onclick="slideImage(this, 1)">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
-                            <div class="image-dots">
-                                <span class="dot active"></span>
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                            </div>
-                            <div class="card-badges">
-                                <span class="badge popular">Popular</span>
-                                <span class="badge deal">-20%</span>
-                            </div>
-                            <button class="wishlist-btn" onclick="toggleWishlist(this)">
-                                <i class="far fa-heart"></i>
-                            </button>
-                            <label class="compare-checkbox">
-                                <input type="checkbox" onchange="addToCompare(this)">
-                                <span>Compare</span>
-                            </label>
+                    <div class="view-toggle">
+                        <button class="view-btn active" onclick="switchView('grid')">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="view-btn" onclick="switchView('list')">
+                            <i class="fas fa-list"></i>
+                        </button>
+                        <button class="view-btn" onclick="switchView('map')">
+                            <i class="fas fa-map"></i>
+                        </button>
+                    </div>
+                    <div class="filter-group">
+                        <h4><i class="fas fa-dollar-sign"></i> Price Range</h4>
+                        <div class="price-range-slider">
+                            <input type="range" id="min-price" min="0" max="5000" value="0">
+                            <input type="range" id="max-price" min="0" max="5000" value="5000">
                         </div>
+                        <div class="price-values">
+                            <span>$<span id="min-price-value">0</span></span>
+                            <span>$<span id="max-price-value">5000</span></span>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <h4><i class="fas fa-globe-asia"></i> Region</h4>
+                        <div class="filter-options">
+                            <label class="filter-checkbox"><input type="checkbox" name="region"
+                                                                  value="asia"><span>Asia</span><span
+                                    class="count">(45)</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="region" value="europe"><span>Europe</span><span
+                                    class="count">(67)</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="region" value="africa"><span>Africa</span><span
+                                    class="count">(23)</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="region" value="americas"><span>Americas</span><span
+                                    class="count">(38)</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="region" value="oceania"><span>Oceania</span><span
+                                    class="count">(12)</span></label>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <h4><i class="fas fa-suitcase"></i> Trip Type</h4>
+                        <div class="filter-options">
+                            <label class="filter-checkbox"><input type="checkbox" name="type" value="adventure"><span>Adventure</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="type" value="beach"><span>Beach & Relaxation</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="type" value="cultural"><span>Cultural</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="type" value="nature"><span>Nature & Wildlife</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="type" value="city"><span>City Tours</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="type" value="romantic"><span>Romantic</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="type" value="family"><span>Family</span></label>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <h4><i class="fas fa-clock"></i> Duration</h4>
+                        <div class="filter-options">
+                            <label class="filter-radio"><input type="radio" name="duration" value="weekend"><span>Weekend (1-3 days)</span></label>
+                            <label class="filter-radio"><input type="radio" name="duration" value="short"><span>Short Trip (4-7 days)</span></label>
+                            <label class="filter-radio"><input type="radio" name="duration" value="long"><span>Long Vacation (8-14 days)</span></label>
+                            <label class="filter-radio"><input type="radio" name="duration" value="extended"><span>Extended (15+ days)</span></label>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <h4><i class="fas fa-star"></i> Rating</h4>
+                        <div class="filter-options">
+                            <label class="filter-checkbox"><input type="checkbox" name="rating" value="5"><span>★★★★★ Only</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="rating" value="4"><span>★★★★☆ & up</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="rating" value="3"><span>★★★☆☆ & up</span></label>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <h4><i class="fas fa-hiking"></i> Activities</h4>
+                        <div class="filter-options">
+                            <label class="filter-checkbox"><input type="checkbox" name="activity" value="hiking"><span>Hiking & Trekking</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="activity"
+                                                                  value="watersports"><span>Water Sports</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="activity"
+                                                                  value="shopping"><span>Shopping</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="activity"
+                                                                  value="nightlife"><span>Nightlife</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="activity" value="food"><span>Food & Cuisine</span></label>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <h4><i class="fas fa-calendar-alt"></i> Best Season</h4>
+                        <div class="filter-options">
+                            <label class="filter-checkbox"><input type="checkbox" name="season" value="spring"><span>🌸 Spring</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="season" value="summer"><span>☀️ Summer</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="season" value="autumn"><span>🍂 Autumn</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="season" value="winter"><span>❄️ Winter</span></label>
+                        </div>
+                    </div>
+                </aside>
 
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="destination-info">
-                                    <h3>Samarkand</h3>
-                                    <p class="location">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        Uzbekistan, Central Asia
-                                    </p>
+                <!-- MAIN CONTENT -->
+                <main class="destinations-main">
+
+                    <div class="results-header">
+                        <div class="results-info">
+                            <h3>Found <span class="highlight">156</span> destinations</h3>
+                            <p>Based on your preferences</p>
+                        </div>
+                        <div class="results-controls">
+                            <div class="sort-dropdown">
+                                <button class="sort-btn" onclick="toggleSortDropdown()">
+                                    <i class="fas fa-sort-amount-down"></i>
+                                    <span>Sort by</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <div id="sort-dropdown" class="dropdown-menu">
+                                    <button onclick="sortDestinations('popular')">Most Popular</button>
+                                    <button onclick="sortDestinations('price-low')">Price: Low to High</button>
+                                    <button onclick="sortDestinations('price-high')">Price: High to Low</button>
+                                    <button onclick="sortDestinations('rating')">Highest Rated</button>
+                                    <button onclick="sortDestinations('name')">Name A-Z</button>
                                 </div>
-                                <div class="rating-box">
-                                    <div class="rating-stars">
-                                        <i class="fas fa-star"></i>
-                                        <span>4.8</span>
+                            </div>
+                            <button class="compare-btn" onclick="openComparison()">
+                                <i class="fas fa-balance-scale"></i>
+                                Compare (<span id="compare-count">0</span>)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- DESTINATIONS GRID -->
+                    <div id="destinations-grid" class="destinations-grid">
+
+                        <!-- ★ CARD TUZILISHI:
+                             card-header: faqat h3 (city nomi) + rating-box
+                             card-location: h3 TAGIDA, card-header dan TASHQARIDA
+                             price-current: FROM + AMOUNT
+                             price-per: AMOUNT tagida alohida element
+                        -->
+
+                        <!-- CARD 1 — Samarkand -->
+                        <article class="destination-card"
+                                 data-city="Samarkand" data-lat="39.6542" data-lon="66.9597"
+                                 data-hotels-url="/hotels/?city=samarkand"
+                                 data-flights-url="/flights/?to=samarkand">
+                            <div class="card-image-wrapper">
+                                <div class="image-slider">
+                                    <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=900"
+                                         alt="Samarkand">
+                                    <img src="https://images.unsplash.com/photo-1588431945498-87016d6e2c79?w=900"
+                                         alt="Samarkand">
+                                    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=900"
+                                         alt="Samarkand">
+                                </div>
+                                <button class="slider-btn prev" onclick="slideImage(this,-1)"><i
+                                        class="fas fa-chevron-left"></i></button>
+                                <button class="slider-btn next" onclick="slideImage(this,1)"><i
+                                        class="fas fa-chevron-right"></i></button>
+                                <div class="image-dots">
+                                    <span class="dot active"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                                </button>
+                                <label class="compare-checkbox">
+                                    <input type="checkbox" onchange="addToCompare(this)">
+                                    <span>Compare</span>
+                                </label>
+                            </div>
+                            <div class="card-content">
+                                <!-- card-header: faqat city nomi + rating -->
+                                <div class="card-header">
+                                    <div class="destination-info">
+                                        <h3>Samarkand</h3>
+                                        <p class="card-location">
+                                            <i class="fas fa-map-marker-alt"></i> Uzbekistan, Central Asia
+                                        </p>
                                     </div>
-                                    <p class="reviews">(2,341 reviews)</p>
-                                </div>
-                            </div>
-
-                            <p class="card-description">
-                                Discover the ancient Silk Road with stunning Islamic architecture and vibrant bazaars
-                            </p>
-
-                            <div class="card-tags">
-                                <span class="tag"><i class="fas fa-landmark"></i> Cultural</span>
-                                <span class="tag"><i class="fas fa-history"></i> Historical</span>
-                                <span class="tag"><i class="fas fa-dollar-sign"></i> Budget</span>
-                            </div>
-
-                            <div class="card-stats">
-                                <div class="stat-item">
-                                    <i class="fas fa-hotel"></i>
-                                    <span>120+ Hotels</span>
-                                </div>
-                                <div class="stat-item">
-                                    <i class="fas fa-plane"></i>
-                                    <span>Direct Flights</span>
-                                </div>
-                                <div class="stat-item">
-                                    <i class="fas fa-thermometer-half"></i>
-                                    <span>25°C Avg</span>
-                                </div>
-                                <div class="stat-item">
-                                    <i class="fas fa-clock"></i>
-                                    <span>5-7 Days</span>
-                                </div>
-                            </div>
-
-                            <div class="card-footer">
-                                <div class="price-box">
-                                    <div class="price-original">$749</div>
-                                    <div class="price-current">
-                                        <span class="from">From</span>
-                                        <span class="amount">$599</span>
-                                        <span class="per">/ person</span>
+                                    <div class="rating-box">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><span>4.8</span></div>
+                                        <p class="reviews">(2,341 reviews)</p>
                                     </div>
                                 </div>
-                                <div class="card-actions">
-                                    <button class="btn-outline" onclick="viewDetails(4)">
-                                        Details
-                                    </button>
-                                    <button class="btn-primary" onclick="quickBook(4)">
-                                        Book Now
+                                <!-- ★ location — h3 tagida, card-header tashqarida -->
+
+                                <p class="card-description">Discover the ancient Silk Road with stunning Islamic
+                                    architecture and vibrant bazaars of Central Asia</p>
+                                <div class="card-tags">
+                                    <span class="tag"><i class="fas fa-landmark"></i> Cultural</span>
+                                    <span class="tag"><i class="fas fa-history"></i> Historical</span>
+                                    <span class="tag"><i class="fas fa-dollar-sign"></i> Budget</span>
+                                </div>
+                                <div class="card-stats">
+                                    <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                            class="fas fa-hotel"></i><span>120+ Hotels</span></button>
+                                    <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                            class="fas fa-plane"></i><span>Direct Flights</span></button>
+                                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                                            data-city="Samarkand"><i class="fas fa-sun weather-icon"></i><span
+                                            class="weather-temp">25°C</span></button>
+                                    <div class="stat-item"><i class="fas fa-clock"></i><span>5-7 Days</span></div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="price-box">
+                                        <!-- FROM + AMOUNT bir qatorda -->
+                                        <div class="price-current">
+                                            <span class="from">From</span>
+                                            <span class="amount">$599</span>
+                                        </div>
+                                        <!-- ★ / person — alohida qatorda, hech qachon siljimaydi -->
+                                        <span class="price-per">/ person</span>
+                                    </div>
+                                    <div class="card-actions">
+                                        <button class="btn-outline" onclick="viewDetails(1)">See Details
                                         <i class="fas fa-arrow-right"></i>
-                                    </button>
+                                        </button>
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </article>
+                        </article>
 
-                    <!-- More destination cards would be generated dynamically -->
-                    <!-- This is just a template structure -->
+                        <!-- CARD 2 — Bukhara -->
+                        <article class="destination-card"
+                                 data-city="Bukhara" data-lat="39.7747" data-lon="64.4286"
+                                 data-hotels-url="/hotels/?city=bukhara"
+                                 data-flights-url="/flights/?to=bukhara">
+                            <div class="card-image-wrapper">
+                                <div class="image-slider">
+                                    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=900"
+                                         alt="Bukhara">
+                                    <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=900"
+                                         alt="Bukhara">
+                                </div>
+                                <button class="slider-btn prev" onclick="slideImage(this,-1)"><i
+                                        class="fas fa-chevron-left"></i></button>
+                                <button class="slider-btn next" onclick="slideImage(this,1)"><i
+                                        class="fas fa-chevron-right"></i></button>
+                                <div class="image-dots"><span class="dot active"></span><span class="dot"></span></div>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                                </button>
+                                <label class="compare-checkbox"><input type="checkbox"
+                                                                       onchange="addToCompare(this)"><span>Compare</span></label>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="destination-info">
+                                        <h3>Bukhara</h3>
+                                        <p class="card-location"><i class="fas fa-map-marker-alt"></i> Uzbekistan,
+                                            Central Asia</p>
+                                    </div>
+                                    <div class="rating-box">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><span>4.7</span></div>
+                                        <p class="reviews">(1,856 reviews)</p>
+                                    </div>
+                                </div>
 
-                </div>
+                                <p class="card-description">UNESCO World Heritage City with thousand-year history and
+                                    magnificent ancient architecture</p>
+                                <div class="card-tags">
+                                    <span class="tag"><i class="fas fa-landmark"></i> Cultural</span>
+                                    <span class="tag"><i class="fas fa-history"></i> Historical</span>
+                                    <span class="tag"><i class="fas fa-camera"></i> Photography</span>
+                                </div>
+                                <div class="card-stats">
+                                    <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                            class="fas fa-hotel"></i><span>80+ Hotels</span></button>
+                                    <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                            class="fas fa-plane"></i><span>Direct Flights</span></button>
+                                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                                            data-city="Bukhara"><i class="fas fa-sun weather-icon"></i><span
+                                            class="weather-temp">28°C</span></button>
+                                    <div class="stat-item"><i class="fas fa-clock"></i><span>3-5 Days</span></div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="price-box">
+                                        <div class="price-current">
+                                            <span class="from">From</span>
+                                            <span class="amount">$469</span>
+                                        </div>
+                                        <span class="price-per">/ person</span>
+                                    </div>
+                                    <div class="card-actions">
+                                        <button class="btn-outline" onclick="viewDetails(2)">See Details
+                                        <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
 
-                <!-- Load More -->
-                <div class="load-more-container">
-                    <button class="btn-load-more" onclick="loadMoreDestinations()">
-                        <i class="fas fa-spinner"></i>
-                        Load More Destinations
-                    </button>
-                    <p class="showing-text">Showing 12 of 156 destinations</p>
-                </div>
+                        <!-- CARD 3 — Tashkent -->
+                        <article class="destination-card"
+                                 data-city="Tashkent" data-lat="41.2995" data-lon="69.2401"
+                                 data-hotels-url="/hotels/?city=tashkent"
+                                 data-flights-url="/flights/?to=tashkent">
+                            <div class="card-image-wrapper">
+                                <div class="image-slider">
+                                    <img src="https://images.unsplash.com/photo-1535082623926-b39352a03fb7?w=900"
+                                         alt="Tashkent">
+                                    <img src="https://images.unsplash.com/photo-1583422409516-2895a77efded?w=900"
+                                         alt="Tashkent">
+                                </div>
+                                <button class="slider-btn prev" onclick="slideImage(this,-1)"><i
+                                        class="fas fa-chevron-left"></i></button>
+                                <button class="slider-btn next" onclick="slideImage(this,1)"><i
+                                        class="fas fa-chevron-right"></i></button>
+                                <div class="image-dots"><span class="dot active"></span><span class="dot"></span></div>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                                </button>
+                                <label class="compare-checkbox"><input type="checkbox"
+                                                                       onchange="addToCompare(this)"><span>Compare</span></label>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="destination-info">
+                                        <h3>Tashkent</h3>
+                                        <p class="card-location"><i class="fas fa-map-marker-alt"></i> Uzbekistan,
+                                            Central Asia</p>
 
-            </main>
+                                    </div>
+                                    <div class="rating-box">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><span>4.6</span></div>
+                                        <p class="reviews">(3,102 reviews)</p>
+                                    </div>
+                                </div>
+                                <p class="card-description">Modern capital of Uzbekistan — metro, vibrant bazaars and
+                                    world-famous national cuisine</p>
+                                <div class="card-tags">
+                                    <span class="tag"><i class="fas fa-city"></i> City</span>
+                                    <span class="tag"><i class="fas fa-utensils"></i> Food</span>
+                                    <span class="tag"><i class="fas fa-shopping-bag"></i> Shopping</span>
+                                </div>
+                                <div class="card-stats">
+                                    <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                            class="fas fa-hotel"></i><span>200+ Hotels</span></button>
+                                    <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                            class="fas fa-plane"></i><span>Direct Flights</span></button>
+                                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                                            data-city="Tashkent"><i class="fas fa-cloud-sun weather-icon"></i><span
+                                            class="weather-temp">22°C</span></button>
+                                    <div class="stat-item"><i class="fas fa-clock"></i><span>3-4 Days</span></div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="price-box">
+                                        <div class="price-current">
+                                            <span class="from">From</span>
+                                            <span class="amount">$299</span>
+                                        </div>
+                                        <span class="price-per">/ person</span>
+                                    </div>
+                                    <div class="card-actions">
+                                        <button class="btn-outline" onclick="viewDetails(3)">See Details
+                                        <i class="fas fa-arrow-right"></i>
+                                        </button>
 
-        </div>
-    </div>
-</section>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
 
-<!-- Interactive Map Section -->
-<section id="map-view" class="map-section" style="display: none;">
-    <div class="map-container">
-        <div id="destinations-map"></div>
-        <div class="map-overlay-card">
-            <h3>Explore on Map</h3>
-            <p>Click on markers to view destination details</p>
-            <button class="btn-outline" onclick="closeMapView()">
-                <i class="fas fa-times"></i>
-                Close Map
-            </button>
-        </div>
-    </div>
-</section>
+                        <!-- CARD 4 — Istanbul -->
+                        <article class="destination-card"
+                                 data-city="Istanbul" data-lat="41.0082" data-lon="28.9784"
+                                 data-hotels-url="/hotels/?city=istanbul"
+                                 data-flights-url="/flights/?to=istanbul">
+                            <div class="card-image-wrapper">
+                                <div class="image-slider">
+                                    <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=900"
+                                         alt="Istanbul">
+                                    <img src="https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=900"
+                                         alt="Istanbul">
+                                </div>
+                                <button class="slider-btn prev" onclick="slideImage(this,-1)"><i
+                                        class="fas fa-chevron-left"></i></button>
+                                <button class="slider-btn next" onclick="slideImage(this,1)"><i
+                                        class="fas fa-chevron-right"></i></button>
+                                <div class="image-dots"><span class="dot active"></span><span class="dot"></span></div>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                                </button>
+                                <label class="compare-checkbox"><input type="checkbox"
+                                                                       onchange="addToCompare(this)"><span>Compare</span></label>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="destination-info">
+                                        <h3>Istanbul</h3>
+                                        <p class="card-location"><i class="fas fa-map-marker-alt"></i> Turkey, Europe &
+                                            Asia</p>
 
-<!-- AI Recommendation Section -->
-<section class="ai-recommendation">
-    <div class="container">
-        <div class="ai-box">
-            <div class="ai-icon">
-                <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="rating-box">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><span>4.9</span></div>
+                                        <p class="reviews">(8,754 reviews)</p>
+                                    </div>
+                                </div>
+                                <p class="card-description">Where two continents meet — Hagia Sophia, Grand Bazaar and
+                                    iconic Bosphorus strait</p>
+                                <div class="card-tags">
+                                    <span class="tag"><i class="fas fa-landmark"></i> Cultural</span>
+                                    <span class="tag"><i class="fas fa-ship"></i> Cruise</span>
+                                    <span class="tag"><i class="fas fa-shopping-bag"></i> Shopping</span>
+                                </div>
+                                <div class="card-stats">
+                                    <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                            class="fas fa-hotel"></i><span>500+ Hotels</span></button>
+                                    <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                            class="fas fa-plane"></i><span>Direct Flights</span></button>
+                                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                                            data-city="Istanbul"><i class="fas fa-sun weather-icon"></i><span
+                                            class="weather-temp">20°C</span></button>
+                                    <div class="stat-item"><i class="fas fa-clock"></i><span>5-7 Days</span></div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="price-box">
+                                        <div class="price-current">
+                                            <span class="from">From</span>
+                                            <span class="amount">$1,169</span>
+                                        </div>
+                                        <span class="price-per">/ person</span>
+                                    </div>
+                                    <div class="card-actions">
+                                        <button class="btn-outline" onclick="viewDetails(4)">See Details
+                                        <i class="fas fa-arrow-right"></i>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- CARD 5 — Dubai -->
+                        <article class="destination-card"
+                                 data-city="Dubai" data-lat="25.2048" data-lon="55.2708"
+                                 data-hotels-url="/hotels/?city=dubai"
+                                 data-flights-url="/flights/?to=dubai">
+                            <div class="card-image-wrapper">
+                                <div class="image-slider">
+                                    <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=900"
+                                         alt="Dubai">
+                                    <img src="https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?w=900"
+                                         alt="Dubai">
+                                </div>
+                                <button class="slider-btn prev" onclick="slideImage(this,-1)"><i
+                                        class="fas fa-chevron-left"></i></button>
+                                <button class="slider-btn next" onclick="slideImage(this,1)"><i
+                                        class="fas fa-chevron-right"></i></button>
+                                <div class="image-dots"><span class="dot active"></span><span class="dot"></span></div>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                                </button>
+                                <label class="compare-checkbox"><input type="checkbox"
+                                                                       onchange="addToCompare(this)"><span>Compare</span></label>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="destination-info">
+                                        <h3>Dubai</h3>
+                                        <p class="card-location"><i class="fas fa-map-marker-alt"></i> UAE, Middle East
+                                        </p>
+
+                                    </div>
+                                    <div class="rating-box">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><span>4.8</span></div>
+                                        <p class="reviews">(12,430 reviews)</p>
+                                    </div>
+                                </div>
+                                <p class="card-description">Burj Khalifa, desert safari and the world's most spectacular
+                                    luxury shopping experience</p>
+                                <div class="card-tags">
+                                    <span class="tag"><i class="fas fa-crown"></i> Luxury</span>
+                                    <span class="tag"><i class="fas fa-shopping-bag"></i> Shopping</span>
+                                    <span class="tag"><i class="fas fa-sun"></i> Beach</span>
+                                </div>
+                                <div class="card-stats">
+                                    <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                            class="fas fa-hotel"></i><span>1000+ Hotels</span></button>
+                                    <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                            class="fas fa-plane"></i><span>Direct Flights</span></button>
+                                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                                            data-city="Dubai"><i class="fas fa-sun weather-icon"></i><span
+                                            class="weather-temp">35°C</span></button>
+                                    <div class="stat-item"><i class="fas fa-clock"></i><span>4-6 Days</span></div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="price-box">
+                                        <div class="price-current">
+                                            <span class="from">From</span>
+                                            <span class="amount">$1,899</span>
+                                        </div>
+                                        <span class="price-per">/ person</span>
+                                    </div>
+                                    <div class="card-actions">
+                                        <button class="btn-outline" onclick="viewDetails(5)">See Details
+                                        <i class="fas fa-arrow-right"></i>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- CARD 6 — Paris -->
+                        <article class="destination-card"
+                                 data-city="Paris" data-lat="48.8566" data-lon="2.3522"
+                                 data-hotels-url="/hotels/?city=paris"
+                                 data-flights-url="/flights/?to=paris">
+                            <div class="card-image-wrapper">
+                                <div class="image-slider">
+                                    <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=900"
+                                         alt="Paris">
+                                    <img src="https://images.unsplash.com/photo-1549144511-f099e773c147?w=900"
+                                         alt="Paris">
+                                </div>
+                                <button class="slider-btn prev" onclick="slideImage(this,-1)"><i
+                                        class="fas fa-chevron-left"></i></button>
+                                <button class="slider-btn next" onclick="slideImage(this,1)"><i
+                                        class="fas fa-chevron-right"></i></button>
+                                <div class="image-dots"><span class="dot active"></span><span class="dot"></span></div>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                                </button>
+                                <label class="compare-checkbox"><input type="checkbox"
+                                                                       onchange="addToCompare(this)"><span>Compare</span></label>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="destination-info">
+                                        <h3>Paris</h3>
+                                        <p class="card-location"><i class="fas fa-map-marker-alt"></i> France, Europe
+                                        </p>
+
+                                    </div>
+                                    <div class="rating-box">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><span>4.9</span></div>
+                                        <p class="reviews">(15,892 reviews)</p>
+                                    </div>
+                                </div>
+                                <p class="card-description">City of Love — Eiffel Tower, Louvre museum and
+                                    world-renowned French cuisine</p>
+                                <div class="card-tags">
+                                    <span class="tag"><i class="fas fa-heart"></i> Romantic</span>
+                                    <span class="tag"><i class="fas fa-palette"></i> Art</span>
+                                    <span class="tag"><i class="fas fa-utensils"></i> Food</span>
+                                </div>
+                                <div class="card-stats">
+                                    <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                            class="fas fa-hotel"></i><span>800+ Hotels</span></button>
+                                    <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                            class="fas fa-plane"></i><span>Direct Flights</span></button>
+                                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                                            data-city="Paris"><i class="fas fa-cloud weather-icon"></i><span
+                                            class="weather-temp">18°C</span></button>
+                                    <div class="stat-item"><i class="fas fa-clock"></i><span>5-8 Days</span></div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="price-box">
+                                        <div class="price-current">
+                                            <span class="from">From</span>
+                                            <span class="amount">$1,584</span>
+                                        </div>
+                                        <span class="price-per">/ person</span>
+                                    </div>
+                                    <div class="card-actions">
+                                        <button class="btn-outline" onclick="viewDetails(6)">See Details
+                                        <i class="fas fa-arrow-right"></i>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- HIDDEN CARDS -->
+
+                        <!-- CARD 7 — Bali -->
+                        <article class="destination-card hidden-card" style="display:none;"
+                                 data-city="Bali" data-lat="-8.3405" data-lon="115.0920">
+                            <div class="card-image-wrapper">
+                                <div class="image-slider">
+                                    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=900"
+                                         alt="Bali">
+                                </div>
+                                <button class="slider-btn prev" onclick="slideImage(this,-1)"><i
+                                        class="fas fa-chevron-left"></i></button>
+                                <button class="slider-btn next" onclick="slideImage(this,1)"><i
+                                        class="fas fa-chevron-right"></i></button>
+                                <div class="image-dots"><span class="dot active"></span></div>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
+                                </button>
+                                <label class="compare-checkbox"><input type="checkbox"
+                                                                       onchange="addToCompare(this)"><span>Compare</span></label>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="destination-info">
+                                        <h3>Bali</h3>
+                                    </div>
+                                    <div class="rating-box">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><span>4.7</span></div>
+                                        <p class="reviews">(9,231 reviews)</p>
+                                    </div>
+                                </div>
+                                <p class="card-location"><i class="fas fa-map-marker-alt"></i> Indonesia, Asia</p>
+                                <p class="card-description">Tropical paradise — rice terraces, ancient temples and
+                                    world-class surf beaches</p>
+                                <div class="card-tags">
+                                    <span class="tag"><i class="fas fa-umbrella-beach"></i> Beach</span>
+                                    <span class="tag"><i class="fas fa-spa"></i> Wellness</span>
+                                    <span class="tag"><i class="fas fa-mountain"></i> Nature</span>
+                                </div>
+                                <div class="card-stats">
+                                    <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                            class="fas fa-hotel"></i><span>300+ Hotels</span></button>
+                                    <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                            class="fas fa-plane"></i><span>Direct Flights</span></button>
+                                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                                            data-city="Bali"><i class="fas fa-sun weather-icon"></i><span
+                                            class="weather-temp">29°C</span></button>
+                                    <div class="stat-item"><i class="fas fa-clock"></i><span>7-10 Days</span></div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="price-box">
+                                        <div class="price-current">
+                                            <span class="from">From</span>
+                                            <span class="amount">$1,199</span>
+                                        </div>
+                                        <span class="price-per">/ person</span>
+                                    </div>
+                                    <div class="card-actions">
+                                        <button class="btn-outline" onclick="viewDetails(7)"> See Details
+                                        <i class="fas fa-arrow-right"></i>
+                                        </button>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+
+                    </div>
+                    <!-- END destinations-grid -->
+
+                    <div class="load-more-container">
+                        <button class="btn-load-more" id="load-more-btn" onclick="loadMoreDestinations()">
+                            <i class="fas fa-plus-circle"></i>
+                            Load More Destinations
+                        </button>
+                        <p class="showing-text" id="showing-text">Showing 6 of 156 destinations</p>
+                    </div>
+
+                </main>
             </div>
-            <div class="ai-content">
-                <h3>Get AI-Powered Recommendations</h3>
-                <p>Tell us your preferences and let our AI suggest perfect destinations for you</p>
-            </div>
-            <button class="btn-ai" onclick="openAIRecommendation()">
-                <i class="fas fa-magic"></i>
-                Get Personalized Suggestions
-            </button>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Comparison Modal -->
-<div id="comparison-modal" class="modal-overlay">
-    <div class="modal-container comparison-modal">
-        <div class="modal-header">
-            <h2>Compare Destinations</h2>
-            <button class="modal-close" onclick="closeComparison()">
-                <i class="fas fa-times"></i>
-            </button>
+    <!-- MAP VIEW -->
+    <section id="map-view" class="map-section" style="display:none;">
+        <div class="map-container">
+            <div id="destinations-map"></div>
+            <div class="map-overlay-card">
+                <h3>Explore on Map</h3>
+                <p>Click on markers to view destination details</p>
+                <button class="btn-outline" onclick="closeMapView()">
+                    <i class="fas fa-times"></i> Close Map
+                </button>
+            </div>
         </div>
-        <div class="modal-body">
-            <div id="comparison-grid" class="comparison-grid">
-                <!-- Comparison cards will be inserted here -->
+    </section>
+
+    <!-- COMPARISON MODAL -->
+    <div id="comparison-modal" class="modal-overlay">
+        <div class="modal-container comparison-modal">
+            <div class="modal-header">
+                <h2>Compare Destinations</h2>
+                <button class="modal-close" onclick="closeComparison()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="comparison-grid" class="comparison-grid"></div>
             </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
 
 {% block custom_js %}
-<script src="{% static 'apps/js/destinations.js' %}"></script>
+    <script src="{% static 'apps/js/destinations.js' %}"></script>
+    {#<script>#}
+    {#    let currentShowing = 6;#}
+    {#    const totalDestinations = 156;#}
+    {#    const cardsPerLoad = 6;#}
+    {##}
+    {#    function loadMoreDestinations() {#}
+    {#        const btn = document.getElementById('load-more-btn');#}
+    {#        const hiddenCards = document.querySelectorAll('.hidden-card');#}
+    {##}
+    {#        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';#}
+    {#        btn.disabled = true;#}
+    {##}
+    {#        setTimeout(() => {#}
+    {#            let shown = 0;#}
+    {#            hiddenCards.forEach(card => {#}
+    {#                if (card.style.display === 'none' && shown < cardsPerLoad) {#}
+    {#                    card.style.display = '';#}
+    {#                    card.style.animation = 'fadeInUp 0.5s ease forwards';#}
+    {#                    shown++;#}
+    {#                }#}
+    {#            });#}
+    {##}
+    {#            currentShowing = Math.min(currentShowing + shown, totalDestinations);#}
+    {#            document.getElementById('showing-text').textContent =#}
+    {#                `Showing ${currentShowing} of ${totalDestinations} destinations`;#}
+    {##}
+    {#            const remaining = document.querySelectorAll('.hidden-card[style*="display: none"]').length;#}
+    {#            if (remaining === 0) {#}
+    {#                btn.style.display = 'none';#}
+    {#            } else {#}
+    {#                btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';#}
+    {#                btn.disabled = false;#}
+    {#            }#}
+    {#        }, 800);#}
+    {#    }#}
+    {##}
+    {#    const style = document.createElement('style');#}
+    {#    style.textContent = `@keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }`;#}
+    {#    document.head.appendChild(style);#}
+    {#</script>#}
 {% endblock %}

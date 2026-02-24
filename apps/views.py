@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
-from django.views.generic import TemplateView, CreateView, FormView
+from django.views.generic import TemplateView, CreateView, FormView, DetailView
 
 from apps.forms import RegisterModelForm, LoginForm, ForgotPasswordForm, PasswordResetConfirmForm
 from apps.mixins import LoginNotRequiredMixin
@@ -315,3 +315,6 @@ class CancellationTemplateView(TemplateView):
 
 class FAQTemplateView(TemplateView):
     template_name = 'apps/faq.html'
+
+class DestinationDetailView(TemplateView):
+    template_name = 'apps/destination_detail.html'

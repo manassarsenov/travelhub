@@ -9,6 +9,8 @@ pyvenv.cfg
 .venv
 .idea
 migrations
+!*/migrations/__init__.py
+.mo
 .env.prod
 .env.local
 pip-selfcheck.json
