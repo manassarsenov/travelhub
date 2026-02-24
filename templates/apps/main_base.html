@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,12 +29,7 @@
 <nav id="navbar">
     <div class="navbar-top">
 
-        <!-- LOGO
-             FIX: .logo i gradient o'rniga .logo-icon-wrap ishlatiladi.
-             Font Awesome iconlari pseudo-element orqali ishlaydi, shuning uchun
-             -webkit-text-fill-color: transparent ularga to'g'ri ishlamaydi.
-             Yechim: Gradient background bo'lgan div ichiga oq icon joylashtirish.
-        -->
+
         <a href="{% url 'home_page' %}" class="logo">
             <div class="logo-icon-wrap">
                 <i class="fas fa-compass"></i>
@@ -85,13 +81,36 @@
                  FIX: lang-slider pozitsiyasi JS da dinamik hisoblanadi.
                  Har bir button o'lchamiga qarab to'g'ri left qiymat beriladi.
             -->
-            <div class="lang-switcher" id="lang-switcher">
-                <div class="lang-slider" id="lang-slider"></div>
-                <button class="lang-btn active" data-lang="en" onclick="switchLang('en', 0)">EN</button>
-                <button class="lang-btn" data-lang="uz" onclick="switchLang('uz', 1)">UZ</button>
-                <button class="lang-btn" data-lang="ru" onclick="switchLang('ru', 2)">RU</button>
-            </div>
+{#            <div class="lang-switcher" id="lang-switcher">#}
+{#                <div class="lang-slider" id="lang-slider"></div>#}
+{#                <button class="lang-btn active" data-lang="en" onclick="switchLang('en', 0)">EN</button>#}
+{#                <button class="lang-btn" data-lang="uz" onclick="switchLang('uz', 1)">UZ</button>#}
+{#                <button class="lang-btn" data-lang="ru" onclick="switchLang('ru', 2)">RU</button>#}
+{#            </div>#}
 
+<div class="lang-switcher" id="lang-switcher">
+    <div class="lang-slider" id="lang-slider"></div>
+
+    <form action="{% url 'set_language' %}" method="post" class="d-inline">
+        {% csrf_token %}
+        {% get_current_language as LANGUAGE_CODE %}
+
+        <button type="submit" name="language" value="en"
+                class="lang-btn {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
+            EN
+        </button>
+
+        <button type="submit" name="language" value="uz"
+                class="lang-btn {% if LANGUAGE_CODE == 'uz' %}active{% endif %}">
+            UZ
+        </button>
+
+        <button type="submit" name="language" value="ru"
+                class="lang-btn {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">
+            RU
+        </button>
+    </form>
+</div>
             <!-- Dark Mode
                  FIX: color: var(--dark) .icon-btn da belgilangan,
                  icon rang meros oladi. -webkit-text-fill-color muammosi yo'q.
