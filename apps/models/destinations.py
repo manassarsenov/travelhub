@@ -9,11 +9,11 @@ from django.db.models import CharField, ForeignKey, CASCADE, TextField, Positive
 from apps.models.base import SlugBaseModel, CreatedBaseModel, ImageBaseModel
 
 
-class Destination(SlugBaseModel, CreatedBaseModel, ImageBaseModel):
+class Destination(SlugBaseModel, CreatedBaseModel):
     name = CharField(max_length=250)
-    city = TreeForeignKey('apps.Category',CASCADE,related_name='destinations',
-        limit_choices_to={'level': 1}
-    )
+    city = TreeForeignKey('apps.Category', CASCADE, related_name='destinations',
+                          # limit_choices_to={'level': 1}
+                          )
     country = CharField(max_length=100)
     short_description = TextField(blank=True)
     description = TextField(blank=True)
@@ -37,7 +37,9 @@ class Destination(SlugBaseModel, CreatedBaseModel, ImageBaseModel):
         discounted_price = self.price - (self.price * self.discount_percentage / 100)
         return int(discounted_price)
 
-
-
     def __str__(self):
         return self.name
+
+
+class DestinationImage(ImageBaseModel):
+    destination = ForeignKey('apps.Destination', CASCADE, related_name='images')

@@ -17,11 +17,16 @@ class Category(SlugBaseModel, CreatedBaseModel, MPTTModel):
         order_insertion_by = ['name']
 
 
-class City(CreatedBaseModel, SlugBaseModel, ImageBaseModel):
+class City(CreatedBaseModel, SlugBaseModel):
     name = CharField(max_length=255)
     things_to_do = PositiveIntegerField(default=0)
-    category = TreeForeignKey('apps.Category', CASCADE, related_name='cities',
-                              limit_choices_to={'level': 0})
+    category = TreeForeignKey('apps.Category', CASCADE, related_name='cities')
+
+    # limit_choices_to={'level': 0})
 
     def __str__(self):
         return self.name
+
+
+class CityImage(ImageBaseModel):
+    city = ForeignKey('apps.City', CASCADE, related_name='images')
