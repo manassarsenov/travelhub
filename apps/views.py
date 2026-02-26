@@ -15,7 +15,7 @@ from apps.forms import RegisterModelForm, LoginForm, ForgotPasswordForm, Passwor
 from apps.mixins import LoginNotRequiredMixin
 from apps.models import User
 from apps.tokens import account_activation_token
-from apps.utils import send_user_email
+from apps.utils.send_email import send_user_email
 from root import settings
 
 

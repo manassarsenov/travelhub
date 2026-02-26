@@ -4,5 +4,5 @@ from django.contrib import admin
 
 @admin.register(Category)
 class CategoryModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name','destinations_count']
+    list_display = ['id', 'name']
 

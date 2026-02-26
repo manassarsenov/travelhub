@@ -242,3 +242,104 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+/* ---- Region tab almashtirish ---- */
+function switchRegion(region, btn) {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.cities-panel').forEach(p => p.classList.remove('active'));
+    const panel = document.getElementById('panel-' + region);
+    if (panel) panel.classList.add('active');
+}
+
+/* ---- City card bosilganda ---- */
+function filterByCity(cityName) {
+    const exploreSection = document.getElementById('explore-section');
+    const mainDestinations = document.getElementById('main-destinations');
+    const grid = document.getElementById('destinations-grid');
+    const allCards = grid.querySelectorAll('.destination-card');
+
+    // explore section yashiriladi
+    exploreSection.style.display = 'none';
+
+    // main destinations ko'rsatiladi
+    mainDestinations.classList.add('visible');
+
+    // Badge yangilanadi
+    document.getElementById('active-city-name').textContent = cityName;
+
+    let found = false;
+
+    allCards.forEach(card => {
+        const cardCity = card.getAttribute('data-city');
+        if (cardCity && cardCity.toLowerCase() === cityName.toLowerCase()) {
+            card.style.display = '';
+            found = true;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    if (found) {
+        document.getElementById('results-count').textContent = '1';
+        document.getElementById('results-subtitle').textContent = 'Showing results for: ' + cityName;
+        document.getElementById('load-more-btn').style.display = 'none';
+        document.getElementById('showing-text').textContent = 'Showing 1 destination for ' + cityName;
+    } else {
+        // Bu city bizning cardlarda yo'q — barcha cardlarni ko'rsat
+        let shown = 0;
+        allCards.forEach(card => {
+            if (shown < 6) {
+                card.style.display = '';
+                shown++;
+            } else {
+                card.style.display = 'none';
+                card.classList.add('hidden-card');
+            }
+        });
+        document.getElementById('results-count').textContent = '156';
+        document.getElementById('results-subtitle').textContent = 'No exact match for "' + cityName + '" — showing all';
+        document.getElementById('load-more-btn').style.display = '';
+        document.getElementById('showing-text').textContent = 'Showing 6 of 156 destinations';
+    }
+
+    // Smooth scroll — destinations qismiga
+    mainDestinations.scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+
+/* ---- "Back to Explore" tugmasi ---- */
+function backToExplore() {
+    const exploreSection = document.getElementById('explore-section');
+    const mainDestinations = document.getElementById('main-destinations');
+    const grid = document.getElementById('destinations-grid');
+    const allCards = grid.querySelectorAll('.destination-card');
+
+    // main destinations yashiriladi
+    mainDestinations.classList.remove('visible');
+
+    // explore section qaytadi
+    exploreSection.style.display = '';
+
+    // Barcha cardlarni qaytarish
+    let shown = 0;
+    allCards.forEach(card => {
+        if (shown < 6) {
+            card.style.display = '';
+            card.classList.remove('hidden-card');
+            shown++;
+        } else {
+            card.style.display = 'none';
+            card.classList.add('hidden-card');
+        }
+    });
+
+    document.getElementById('results-count').textContent = '156';
+    document.getElementById('results-subtitle').textContent = 'Based on your preferences';
+    document.getElementById('load-more-btn').style.display = '';
+    document.getElementById('showing-text').textContent = 'Showing 6 of 156 destinations';
+
+    // Explore section ga scroll
+    exploreSection.scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+

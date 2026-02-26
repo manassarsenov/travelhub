@@ -1,3 +1,5 @@
+from enum import unique
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
@@ -22,8 +24,6 @@ class RegisterModelForm(ModelForm):
         ('IN', 'India'),
     ]
 
-
-
     first_name = CharField(max_length=255, required=True)
     last_name = CharField(max_length=255, required=True)
     username = CharField(max_length=255, required=True)
@@ -44,12 +44,16 @@ class RegisterModelForm(ModelForm):
         cleaned_data = super().clean()
         email = cleaned_data.get('email')
         username = cleaned_data.get('username')
+        phone_number = cleaned_data.get('phone_number')
 
         if User.objects.filter(username=username).exists():
             raise ValidationError("Username already exists")
 
         if User.objects.filter(email=email).exists():
             raise ValidationError("Email already exists")
+
+        if User.objects.filter(phone_number=phone_number).exists():
+            raise ValidationError("This phone number is already registereddoc")
 
         if cleaned_data['password'] != cleaned_data.pop('confirm_password'):
             raise ValidationError("Passwords don't match")
