@@ -8,6 +8,7 @@
 pyvenv.cfg
 .venv
 .idea
+media
 migrations
 !*/migrations/__init__.py
 .mo

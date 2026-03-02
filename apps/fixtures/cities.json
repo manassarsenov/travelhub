@@ -1,0 +1,6385 @@
+[
+  {
+    "model": "apps.city",
+    "pk": 1,
+    "fields": {
+      "slug": "london",
+      "updated_at": "2026-02-28T07:11:12.238Z",
+      "created_at": "2026-02-28T07:11:12.238Z",
+      "image": "city/2026/02/28/London.webp",
+      "name": "London",
+      "things_to_do": 3999,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 2,
+    "fields": {
+      "slug": "istanbul",
+      "updated_at": "2026-02-28T12:24:33.105Z",
+      "created_at": "2026-02-28T12:24:33.105Z",
+      "image": "city/2026/02/28/Istanbul.webp",
+      "name": "Istanbul",
+      "things_to_do": 2000,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 3,
+    "fields": {
+      "slug": "paris",
+      "updated_at": "2026-02-28T12:25:01.779Z",
+      "created_at": "2026-02-28T12:25:01.779Z",
+      "image": "city/2026/02/28/Paris.webp",
+      "name": "Paris",
+      "things_to_do": 3000,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 4,
+    "fields": {
+      "slug": "hamburg",
+      "updated_at": "2026-02-28T12:25:47.778Z",
+      "created_at": "2026-02-28T12:25:47.778Z",
+      "image": "city/2026/02/28/Hamburg.webp",
+      "name": "Hamburg",
+      "things_to_do": 371,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 5,
+    "fields": {
+      "slug": "amsterdam",
+      "updated_at": "2026-02-28T12:26:58.874Z",
+      "created_at": "2026-02-28T12:27:27.014Z",
+      "image": "city/2026/02/28/Amsterdam.webp",
+      "name": "Amsterdam",
+      "things_to_do": 2112,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 6,
+    "fields": {
+      "slug": "lisbon",
+      "updated_at": "2026-02-28T12:28:26.827Z",
+      "created_at": "2026-02-28T12:28:26.827Z",
+      "image": "city/2026/02/28/Lisbon.webp",
+      "name": "Lisbon",
+      "things_to_do": 3853,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 7,
+    "fields": {
+      "slug": "rome",
+      "updated_at": "2026-02-28T12:29:11.460Z",
+      "created_at": "2026-02-28T12:29:11.461Z",
+      "image": "city/2026/02/28/Rome.webp",
+      "name": "Rome",
+      "things_to_do": 100,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 8,
+    "fields": {
+      "slug": "athens",
+      "updated_at": "2026-02-28T12:30:06.140Z",
+      "created_at": "2026-02-28T12:30:06.140Z",
+      "image": "city/2026/02/28/Athens.webp",
+      "name": "Athens",
+      "things_to_do": 300,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 9,
+    "fields": {
+      "slug": "berlin",
+      "updated_at": "2026-02-28T12:31:45.521Z",
+      "created_at": "2026-02-28T12:31:45.521Z",
+      "image": "city/2026/02/28/Berlin.webp",
+      "name": "Berlin",
+      "things_to_do": 100,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 10,
+    "fields": {
+      "slug": "barcelona",
+      "updated_at": "2026-02-28T12:32:19.934Z",
+      "created_at": "2026-02-28T12:32:19.934Z",
+      "image": "city/2026/02/28/Barcelona.webp",
+      "name": "Barcelona",
+      "things_to_do": 200,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 11,
+    "fields": {
+      "slug": "venice",
+      "updated_at": "2026-02-28T12:33:26.744Z",
+      "created_at": "2026-02-28T12:33:26.744Z",
+      "image": "city/2026/02/28/Venice.webp",
+      "name": "Venice",
+      "things_to_do": 180,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 12,
+    "fields": {
+      "slug": "malaga",
+      "updated_at": "2026-02-28T12:35:33.821Z",
+      "created_at": "2026-02-28T12:35:33.821Z",
+      "image": "city/2026/02/28/Malaga.webp",
+      "name": "Ma'laga",
+      "things_to_do": 80,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 13,
+    "fields": {
+      "slug": "vienna",
+      "updated_at": "2026-02-28T12:36:01.430Z",
+      "created_at": "2026-02-28T12:36:01.430Z",
+      "image": "city/2026/02/28/Vienna.webp",
+      "name": "Vienna",
+      "things_to_do": 100,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 14,
+    "fields": {
+      "slug": "porto",
+      "updated_at": "2026-02-28T12:36:21.669Z",
+      "created_at": "2026-02-28T12:36:21.669Z",
+      "image": "city/2026/02/28/Porto.webp",
+      "name": "Porto",
+      "things_to_do": 100,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 15,
+    "fields": {
+      "slug": "stockholm",
+      "updated_at": "2026-02-28T12:37:00.814Z",
+      "created_at": "2026-02-28T12:37:00.814Z",
+      "image": "city/2026/02/28/Stockholm.webp",
+      "name": "Stockholm",
+      "things_to_do": 40,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 16,
+    "fields": {
+      "slug": "monto-carlo",
+      "updated_at": "2026-02-28T12:37:38.232Z",
+      "created_at": "2026-02-28T12:37:52.500Z",
+      "image": "city/2026/02/28/Monto_Carlo_.webp",
+      "name": "Monte Carlo",
+      "things_to_do": 120,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 17,
+    "fields": {
+      "slug": "madrid",
+      "updated_at": "2026-02-28T12:38:28.817Z",
+      "created_at": "2026-02-28T12:38:28.817Z",
+      "image": "city/2026/02/28/Madrid.webp",
+      "name": "Madrid",
+      "things_to_do": 150,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 18,
+    "fields": {
+      "slug": "armacoa-de-pera",
+      "updated_at": "2026-02-28T12:39:49.799Z",
+      "created_at": "2026-02-28T12:39:49.799Z",
+      "image": "city/2026/02/28/Armacoa_de_pera.webp",
+      "name": "Armacoa De Pera",
+      "things_to_do": 120,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 19,
+    "fields": {
+      "slug": "seville",
+      "updated_at": "2026-02-28T12:40:30.374Z",
+      "created_at": "2026-02-28T12:40:30.374Z",
+      "image": "city/2026/02/28/Seville.webp",
+      "name": "Seville",
+      "things_to_do": 85,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 20,
+    "fields": {
+      "slug": "krakow",
+      "updated_at": "2026-02-28T12:41:00.551Z",
+      "created_at": "2026-02-28T12:41:00.551Z",
+      "image": "city/2026/02/28/Krakow.webp",
+      "name": "Krako'w",
+      "things_to_do": 106,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 21,
+    "fields": {
+      "slug": "naples",
+      "updated_at": "2026-02-28T12:41:42.200Z",
+      "created_at": "2026-02-28T12:41:42.200Z",
+      "image": "city/2026/02/28/Naples.webp",
+      "name": "Naples",
+      "things_to_do": 45,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 22,
+    "fields": {
+      "slug": "cordoba",
+      "updated_at": "2026-02-28T12:42:24.299Z",
+      "created_at": "2026-02-28T12:42:24.299Z",
+      "image": "city/2026/02/28/Cordoba.webp",
+      "name": "Cordoba",
+      "things_to_do": 314,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 23,
+    "fields": {
+      "slug": "milan",
+      "updated_at": "2026-02-28T12:42:53.548Z",
+      "created_at": "2026-02-28T12:42:53.548Z",
+      "image": "city/2026/02/28/Milan.webp",
+      "name": "Milan",
+      "things_to_do": 155,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 24,
+    "fields": {
+      "slug": "faro",
+      "updated_at": "2026-02-28T12:43:24.808Z",
+      "created_at": "2026-02-28T12:43:24.808Z",
+      "image": "city/2026/02/28/Faro.webp",
+      "name": "Faro",
+      "things_to_do": 78,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 25,
+    "fields": {
+      "slug": "liverpool",
+      "updated_at": "2026-02-28T12:43:50.960Z",
+      "created_at": "2026-02-28T12:43:50.960Z",
+      "image": "city/2026/02/28/Liverpool.webp",
+      "name": "Liverpool",
+      "things_to_do": 282,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 26,
+    "fields": {
+      "slug": "turin",
+      "updated_at": "2026-02-28T12:44:32.212Z",
+      "created_at": "2026-02-28T12:44:32.212Z",
+      "image": "city/2026/02/28/Turin.webp",
+      "name": "Turin",
+      "things_to_do": 279,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 27,
+    "fields": {
+      "slug": "munich",
+      "updated_at": "2026-02-28T12:44:58.611Z",
+      "created_at": "2026-02-28T12:44:58.611Z",
+      "image": "city/2026/02/28/Munich.webp",
+      "name": "Munich",
+      "things_to_do": 59,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 28,
+    "fields": {
+      "slug": "florenca",
+      "updated_at": "2026-02-28T12:45:26.879Z",
+      "created_at": "2026-02-28T12:45:26.879Z",
+      "image": "city/2026/02/28/Florenca.webp",
+      "name": "Florenca",
+      "things_to_do": 262,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 29,
+    "fields": {
+      "slug": "bologna",
+      "updated_at": "2026-02-28T12:45:57.359Z",
+      "created_at": "2026-02-28T12:45:57.359Z",
+      "image": "city/2026/02/28/Bologna.webp",
+      "name": "Bologna",
+      "things_to_do": 57,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 30,
+    "fields": {
+      "slug": "gothenburg",
+      "updated_at": "2026-02-28T12:46:26.666Z",
+      "created_at": "2026-02-28T12:46:26.666Z",
+      "image": "city/2026/02/28/Gothenburg.webp",
+      "name": "Gothenburg",
+      "things_to_do": 78,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 31,
+    "fields": {
+      "slug": "budapest",
+      "updated_at": "2026-02-28T12:46:55.954Z",
+      "created_at": "2026-02-28T12:46:55.954Z",
+      "image": "city/2026/02/28/Budapest.webp",
+      "name": "Budapest",
+      "things_to_do": 102,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 32,
+    "fields": {
+      "slug": "granada",
+      "updated_at": "2026-02-28T12:47:21.084Z",
+      "created_at": "2026-02-28T12:47:21.084Z",
+      "image": "city/2026/02/28/Granada.webp",
+      "name": "Granada",
+      "things_to_do": 45,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 33,
+    "fields": {
+      "slug": "marseillo",
+      "updated_at": "2026-02-28T12:47:50.677Z",
+      "created_at": "2026-02-28T12:47:50.677Z",
+      "image": "city/2026/02/28/Marseillo.webp",
+      "name": "Marseillo",
+      "things_to_do": 53,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 34,
+    "fields": {
+      "slug": "prague",
+      "updated_at": "2026-02-28T12:48:20.130Z",
+      "created_at": "2026-02-28T12:48:20.130Z",
+      "image": "city/2026/02/28/Prague.webp",
+      "name": "Prague",
+      "things_to_do": 162,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 35,
+    "fields": {
+      "slug": "verona",
+      "updated_at": "2026-02-28T12:49:48.401Z",
+      "created_at": "2026-02-28T12:49:48.401Z",
+      "image": "city/2026/02/28/Verona.webp",
+      "name": "Verona",
+      "things_to_do": 41,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 36,
+    "fields": {
+      "slug": "ljubljana",
+      "updated_at": "2026-02-28T12:50:18.110Z",
+      "created_at": "2026-02-28T12:50:18.110Z",
+      "image": "city/2026/02/28/Ljubljana.webp",
+      "name": "Ljubljana",
+      "things_to_do": 32,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 37,
+    "fields": {
+      "slug": "innsbruck",
+      "updated_at": "2026-02-28T12:50:56.150Z",
+      "created_at": "2026-02-28T12:51:27.808Z",
+      "image": "city/2026/02/28/Innsbruck.webp",
+      "name": "Innsbruck",
+      "things_to_do": 126,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 38,
+    "fields": {
+      "slug": "tromso",
+      "updated_at": "2026-02-28T12:51:55.718Z",
+      "created_at": "2026-02-28T12:55:46.039Z",
+      "image": "city/2026/02/28/Tromso.webp",
+      "name": "Tromso",
+      "things_to_do": 27,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 39,
+    "fields": {
+      "slug": "valencia",
+      "updated_at": "2026-02-28T12:52:24.494Z",
+      "created_at": "2026-02-28T12:52:24.494Z",
+      "image": "city/2026/02/28/Valencia.webp",
+      "name": "Valencia",
+      "things_to_do": 43,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 40,
+    "fields": {
+      "slug": "the-hague",
+      "updated_at": "2026-02-28T12:52:54.747Z",
+      "created_at": "2026-02-28T12:52:54.747Z",
+      "image": "city/2026/02/28/The_hague.webp",
+      "name": "The hague",
+      "things_to_do": 40,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 41,
+    "fields": {
+      "slug": "zurich",
+      "updated_at": "2026-02-28T12:57:21.082Z",
+      "created_at": "2026-02-28T12:57:21.082Z",
+      "image": "city/2026/02/28/Zurich.webp",
+      "name": "Zurich",
+      "things_to_do": 84,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 42,
+    "fields": {
+      "slug": "pompei",
+      "updated_at": "2026-02-28T12:58:04.639Z",
+      "created_at": "2026-02-28T12:58:04.640Z",
+      "image": "city/2026/02/28/Pompei.webp",
+      "name": "Pompei",
+      "things_to_do": 51,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 43,
+    "fields": {
+      "slug": "pisa",
+      "updated_at": "2026-02-28T12:58:35.042Z",
+      "created_at": "2026-02-28T12:58:35.042Z",
+      "image": "city/2026/02/28/Pisa.webp",
+      "name": "Pisa",
+      "things_to_do": 64,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 44,
+    "fields": {
+      "slug": "lyon",
+      "updated_at": "2026-02-28T12:59:10.240Z",
+      "created_at": "2026-02-28T12:59:10.240Z",
+      "image": "city/2026/02/28/Lyon.webp",
+      "name": "Lyon",
+      "things_to_do": 27,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 45,
+    "fields": {
+      "slug": "sorrento",
+      "updated_at": "2026-02-28T12:59:57.580Z",
+      "created_at": "2026-02-28T12:59:57.580Z",
+      "image": "city/2026/02/28/Sorrento.webp",
+      "name": "Sorrento",
+      "things_to_do": 51,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 46,
+    "fields": {
+      "slug": "copenhagen",
+      "updated_at": "2026-02-28T13:00:30.477Z",
+      "created_at": "2026-02-28T13:00:30.477Z",
+      "image": "city/2026/02/28/Copenhagen.webp",
+      "name": "Copenhagen",
+      "things_to_do": 41,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 47,
+    "fields": {
+      "slug": "palermo",
+      "updated_at": "2026-02-28T13:00:59.014Z",
+      "created_at": "2026-02-28T13:00:59.014Z",
+      "image": "city/2026/02/28/Palermo.webp",
+      "name": "Palermo",
+      "things_to_do": 25,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 48,
+    "fields": {
+      "slug": "warsaw",
+      "updated_at": "2026-02-28T13:02:18.051Z",
+      "created_at": "2026-02-28T13:02:18.051Z",
+      "image": "city/2026/02/28/Warsaw.webp",
+      "name": "Warsaw",
+      "things_to_do": 39,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 49,
+    "fields": {
+      "slug": "oslo",
+      "updated_at": "2026-02-28T13:02:44.179Z",
+      "created_at": "2026-02-28T13:02:44.179Z",
+      "image": "city/2026/02/28/Oslo.webp",
+      "name": "Oslo",
+      "things_to_do": 24,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 50,
+    "fields": {
+      "slug": "zadar",
+      "updated_at": "2026-02-28T13:03:48.339Z",
+      "created_at": "2026-02-28T13:03:48.339Z",
+      "image": "city/2026/02/28/Zadar.webp",
+      "name": "Zadar",
+      "things_to_do": 25,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 51,
+    "fields": {
+      "slug": "bratislava",
+      "updated_at": "2026-02-28T13:04:25.573Z",
+      "created_at": "2026-02-28T13:04:25.573Z",
+      "image": "city/2026/02/28/Bratislava.webp",
+      "name": "Bratislava",
+      "things_to_do": 21,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 52,
+    "fields": {
+      "slug": "new-york",
+      "updated_at": "2026-02-28T13:05:39.007Z",
+      "created_at": "2026-02-28T13:05:39.007Z",
+      "image": "city/2026/02/28/New_YOrk.webp",
+      "name": "New York",
+      "things_to_do": 219,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 53,
+    "fields": {
+      "slug": "zagreb",
+      "updated_at": "2026-03-01T15:58:46.230Z",
+      "created_at": "2026-03-01T15:58:46.230Z",
+      "image": "city/2026/03/01/Zagreb.webp",
+      "name": "Zagreb",
+      "things_to_do": 44,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 54,
+    "fields": {
+      "slug": "split",
+      "updated_at": "2026-03-01T15:59:25.928Z",
+      "created_at": "2026-03-01T15:59:25.928Z",
+      "image": "city/2026/03/01/Split.webp",
+      "name": "Split",
+      "things_to_do": 104,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 55,
+    "fields": {
+      "slug": "tallinn",
+      "updated_at": "2026-03-01T16:00:24.988Z",
+      "created_at": "2026-03-01T16:00:24.988Z",
+      "image": "city/2026/03/01/Tallinn.webp",
+      "name": "Tallinn",
+      "things_to_do": 17,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 56,
+    "fields": {
+      "slug": "modena",
+      "updated_at": "2026-03-01T16:01:36.122Z",
+      "created_at": "2026-03-01T16:01:36.122Z",
+      "image": "city/2026/03/01/Modena.webp",
+      "name": "Modena",
+      "things_to_do": 56,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 57,
+    "fields": {
+      "slug": "stavanger",
+      "updated_at": "2026-03-01T16:02:09.585Z",
+      "created_at": "2026-03-01T16:02:09.585Z",
+      "image": "city/2026/03/01/Stavanger.webp",
+      "name": "Stavanger",
+      "things_to_do": 56,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 58,
+    "fields": {
+      "slug": "nice",
+      "updated_at": "2026-03-01T16:02:43.200Z",
+      "created_at": "2026-03-01T16:02:43.200Z",
+      "image": "city/2026/03/01/NIce.webp",
+      "name": "Nice",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 59,
+    "fields": {
+      "slug": "helsinki",
+      "updated_at": "2026-03-01T16:03:15.795Z",
+      "created_at": "2026-03-01T16:03:15.795Z",
+      "image": "city/2026/03/01/Helsinki.webp",
+      "name": "Helsinki",
+      "things_to_do": 34,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 60,
+    "fields": {
+      "slug": "edinburgh",
+      "updated_at": "2026-03-01T16:04:05.303Z",
+      "created_at": "2026-03-01T16:04:05.303Z",
+      "image": "city/2026/03/01/Edinburgh.webp",
+      "name": "Edinburgh",
+      "things_to_do": 103,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 61,
+    "fields": {
+      "slug": "genova",
+      "updated_at": "2026-03-01T16:04:39.557Z",
+      "created_at": "2026-03-01T16:04:39.558Z",
+      "image": "city/2026/03/01/Genova.webp",
+      "name": "Genova",
+      "things_to_do": 37,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 62,
+    "fields": {
+      "slug": "koper",
+      "updated_at": "2026-03-01T16:05:17.138Z",
+      "created_at": "2026-03-01T16:05:17.138Z",
+      "image": "city/2026/03/01/Koper.webp",
+      "name": "Koper",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 63,
+    "fields": {
+      "slug": "lagos",
+      "updated_at": "2026-03-01T16:06:30.291Z",
+      "created_at": "2026-03-01T16:06:30.291Z",
+      "image": "city/2026/03/01/Lagos.webp",
+      "name": "Lagos",
+      "things_to_do": 7,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 64,
+    "fields": {
+      "slug": "donostia-san-sebastian",
+      "updated_at": "2026-03-01T16:07:47.023Z",
+      "created_at": "2026-03-01T16:07:47.023Z",
+      "image": "city/2026/03/01/Donostia-San_Sebastian.webp",
+      "name": "Donostia-San Sebastia'n",
+      "things_to_do": 25,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 65,
+    "fields": {
+      "slug": "cannes",
+      "updated_at": "2026-03-01T16:08:29.225Z",
+      "created_at": "2026-03-01T16:08:29.225Z",
+      "image": "city/2026/03/01/Cannes.webp",
+      "name": "Cannes",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 66,
+    "fields": {
+      "slug": "dubrovnik",
+      "updated_at": "2026-03-01T16:09:38.439Z",
+      "created_at": "2026-03-01T16:09:38.439Z",
+      "image": "city/2026/03/01/Dubrovnik.webp",
+      "name": "Dubrovnik",
+      "things_to_do": 11,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 67,
+    "fields": {
+      "slug": "cluj-napoca",
+      "updated_at": "2026-03-01T16:10:20.936Z",
+      "created_at": "2026-03-01T16:10:20.936Z",
+      "image": "city/2026/03/01/Cluj_NaPOCA.webp",
+      "name": "Cluj Napoca",
+      "things_to_do": 60,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 68,
+    "fields": {
+      "slug": "sibiu",
+      "updated_at": "2026-03-01T16:10:52.635Z",
+      "created_at": "2026-03-01T16:10:52.635Z",
+      "image": "city/2026/03/01/Sibiu.webp",
+      "name": "Sibiu",
+      "things_to_do": 30,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 69,
+    "fields": {
+      "slug": "brasov",
+      "updated_at": "2026-03-01T16:11:17.153Z",
+      "created_at": "2026-03-01T16:11:17.153Z",
+      "image": "city/2026/03/01/Brasov.webp",
+      "name": "Brasov",
+      "things_to_do": 21,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 70,
+    "fields": {
+      "slug": "bonn",
+      "updated_at": "2026-03-01T16:11:48.286Z",
+      "created_at": "2026-03-01T16:11:48.286Z",
+      "image": "city/2026/03/01/Bonn.webp",
+      "name": "Bonn",
+      "things_to_do": 19,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 71,
+    "fields": {
+      "slug": "sintra",
+      "updated_at": "2026-03-01T16:12:36.154Z",
+      "created_at": "2026-03-01T16:12:36.154Z",
+      "image": "city/2026/03/01/Sintra.webp",
+      "name": "Sintra",
+      "things_to_do": 36,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 72,
+    "fields": {
+      "slug": "tarragona",
+      "updated_at": "2026-03-01T16:13:08.596Z",
+      "created_at": "2026-03-01T16:13:08.596Z",
+      "image": "city/2026/03/01/Tarragona.webp",
+      "name": "Tarragona",
+      "things_to_do": 9,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 73,
+    "fields": {
+      "slug": "sofia",
+      "updated_at": "2026-03-01T16:13:45.400Z",
+      "created_at": "2026-03-01T16:13:45.400Z",
+      "image": "city/2026/03/01/Sofia.webp",
+      "name": "Sofia",
+      "things_to_do": 41,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 74,
+    "fields": {
+      "slug": "malmo",
+      "updated_at": "2026-03-01T16:14:14.232Z",
+      "created_at": "2026-03-01T16:14:14.232Z",
+      "image": "city/2026/03/01/Malmo.webp",
+      "name": "Malmo",
+      "things_to_do": 43,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 75,
+    "fields": {
+      "slug": "southampton",
+      "updated_at": "2026-03-01T16:14:46.770Z",
+      "created_at": "2026-03-01T16:14:46.770Z",
+      "image": "city/2026/03/01/Southampton.webp",
+      "name": "Southampton",
+      "things_to_do": 30,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 76,
+    "fields": {
+      "slug": "cardiff",
+      "updated_at": "2026-03-01T16:15:28.952Z",
+      "created_at": "2026-03-01T16:15:28.952Z",
+      "image": "city/2026/03/01/Cardiff.webp",
+      "name": "Cardiff",
+      "things_to_do": 23,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 77,
+    "fields": {
+      "slug": "rovaniemi",
+      "updated_at": "2026-03-01T16:16:03.149Z",
+      "created_at": "2026-03-01T16:16:03.149Z",
+      "image": "city/2026/03/01/Rovaniemi.webp",
+      "name": "Rovaniemi",
+      "things_to_do": 55,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 78,
+    "fields": {
+      "slug": "kos-town",
+      "updated_at": "2026-03-01T16:16:48.920Z",
+      "created_at": "2026-03-01T16:16:48.920Z",
+      "image": "city/2026/03/01/Kos_town.webp",
+      "name": "Kos Town",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 79,
+    "fields": {
+      "slug": "arezzo",
+      "updated_at": "2026-03-01T16:18:19.498Z",
+      "created_at": "2026-03-01T16:18:19.498Z",
+      "image": "city/2026/03/01/Arezzo.webp",
+      "name": "Arezzo",
+      "things_to_do": 9,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 80,
+    "fields": {
+      "slug": "pamplona",
+      "updated_at": "2026-03-01T16:19:16.190Z",
+      "created_at": "2026-03-01T16:19:16.190Z",
+      "image": "city/2026/03/01/Pamplona.webp",
+      "name": "Pamplona",
+      "things_to_do": 7,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 81,
+    "fields": {
+      "slug": "hannover",
+      "updated_at": "2026-03-01T16:20:01.093Z",
+      "created_at": "2026-03-01T16:20:01.093Z",
+      "image": "city/2026/03/01/Hannover.webp",
+      "name": "Hannover",
+      "things_to_do": 37,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 82,
+    "fields": {
+      "slug": "goreme",
+      "updated_at": "2026-03-01T16:20:53.462Z",
+      "created_at": "2026-03-01T16:20:53.462Z",
+      "image": "city/2026/03/01/Goreme.webp",
+      "name": "Goreme",
+      "things_to_do": 14,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 83,
+    "fields": {
+      "slug": "sao-roque",
+      "updated_at": "2026-03-01T16:21:39.169Z",
+      "created_at": "2026-03-01T16:21:39.169Z",
+      "image": "city/2026/03/01/Sao_Roque.webp",
+      "name": "Sao Roque",
+      "things_to_do": 33,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 84,
+    "fields": {
+      "slug": "rethymno-town",
+      "updated_at": "2026-03-01T16:22:42.055Z",
+      "created_at": "2026-03-01T16:22:42.055Z",
+      "image": "city/2026/03/01/Rethymno_Town.webp",
+      "name": "Rethymno Town",
+      "things_to_do": 11,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 85,
+    "fields": {
+      "slug": "dusseldrof",
+      "updated_at": "2026-03-01T16:23:42.905Z",
+      "created_at": "2026-03-01T16:23:42.905Z",
+      "image": "city/2026/03/01/Dusseldorf.webp",
+      "name": "Dusseldrof",
+      "things_to_do": 28,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 86,
+    "fields": {
+      "slug": "york",
+      "updated_at": "2026-03-01T16:25:25.677Z",
+      "created_at": "2026-03-01T16:25:25.677Z",
+      "image": "city/2026/03/01/York.webp",
+      "name": "York",
+      "things_to_do": 17,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 87,
+    "fields": {
+      "slug": "aberdeen",
+      "updated_at": "2026-03-01T16:26:27.225Z",
+      "created_at": "2026-03-01T16:26:27.225Z",
+      "image": "city/2026/03/01/Aberdeen.webp",
+      "name": "Aberdeen",
+      "things_to_do": 7,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 88,
+    "fields": {
+      "slug": "reims",
+      "updated_at": "2026-03-01T16:27:18.932Z",
+      "created_at": "2026-03-01T16:27:18.932Z",
+      "image": "city/2026/03/01/Reims.webp",
+      "name": "Reims",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 89,
+    "fields": {
+      "slug": "leipzig",
+      "updated_at": "2026-03-01T16:28:06.698Z",
+      "created_at": "2026-03-01T16:28:06.698Z",
+      "image": "city/2026/03/01/Leipzig.webp",
+      "name": "Leipzig",
+      "things_to_do": 58,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 90,
+    "fields": {
+      "slug": "protaras",
+      "updated_at": "2026-03-01T16:29:10.287Z",
+      "created_at": "2026-03-01T16:29:10.287Z",
+      "image": "city/2026/03/01/Protaras.webp",
+      "name": "Protaras",
+      "things_to_do": 25,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 91,
+    "fields": {
+      "slug": "parma",
+      "updated_at": "2026-03-01T16:29:54.247Z",
+      "created_at": "2026-03-01T16:29:54.247Z",
+      "image": "city/2026/03/01/Parma.webp",
+      "name": "Parma",
+      "things_to_do": 9,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 92,
+    "fields": {
+      "slug": "catania",
+      "updated_at": "2026-03-01T16:30:43.249Z",
+      "created_at": "2026-03-01T16:30:43.249Z",
+      "image": "city/2026/03/01/Catania.webp",
+      "name": "Catania",
+      "things_to_do": 16,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 93,
+    "fields": {
+      "slug": "cadiz",
+      "updated_at": "2026-03-01T16:32:37.635Z",
+      "created_at": "2026-03-01T16:32:37.635Z",
+      "image": "city/2026/03/01/Cadiz.webp",
+      "name": "Cadiz",
+      "things_to_do": 15,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 94,
+    "fields": {
+      "slug": "tirana",
+      "updated_at": "2026-03-01T16:33:24.824Z",
+      "created_at": "2026-03-01T16:33:24.824Z",
+      "image": "city/2026/03/01/Tirana.webp",
+      "name": "Tirana",
+      "things_to_do": 7,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 95,
+    "fields": {
+      "slug": "lecco",
+      "updated_at": "2026-03-01T16:34:26.599Z",
+      "created_at": "2026-03-01T16:34:26.599Z",
+      "image": "city/2026/03/01/Lecco.webp",
+      "name": "Lecco",
+      "things_to_do": 15,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 96,
+    "fields": {
+      "slug": "antalya",
+      "updated_at": "2026-03-01T16:36:54.612Z",
+      "created_at": "2026-03-01T16:36:54.612Z",
+      "image": "city/2026/03/01/Antalya.webp",
+      "name": "Antalya",
+      "things_to_do": 12,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 97,
+    "fields": {
+      "slug": "bovec",
+      "updated_at": "2026-03-01T16:37:27.818Z",
+      "created_at": "2026-03-01T16:37:27.818Z",
+      "image": "city/2026/03/01/Bovec.webp",
+      "name": "Bovec",
+      "things_to_do": 12,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 98,
+    "fields": {
+      "slug": "schwetzingen",
+      "updated_at": "2026-03-01T16:38:30.812Z",
+      "created_at": "2026-03-01T16:38:30.812Z",
+      "image": "city/2026/03/01/Schwetzingen.webp",
+      "name": "Schwetzingen",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 99,
+    "fields": {
+      "slug": "brighton-hove",
+      "updated_at": "2026-03-01T16:39:24.535Z",
+      "created_at": "2026-03-01T16:39:24.535Z",
+      "image": "city/2026/03/01/Brighton__HOve.webp",
+      "name": "Brighton & Hove",
+      "things_to_do": 83,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 100,
+    "fields": {
+      "slug": "luzern",
+      "updated_at": "2026-03-01T16:39:58.017Z",
+      "created_at": "2026-03-01T16:39:58.017Z",
+      "image": "city/2026/03/01/Luzern.webp",
+      "name": "Luzern",
+      "things_to_do": 25,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 101,
+    "fields": {
+      "slug": "glasgow",
+      "updated_at": "2026-03-01T16:40:24.847Z",
+      "created_at": "2026-03-01T16:40:24.847Z",
+      "image": "city/2026/03/01/Glasgow.webp",
+      "name": "Glasgow",
+      "things_to_do": 32,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 102,
+    "fields": {
+      "slug": "bolzano",
+      "updated_at": "2026-03-01T16:40:59.752Z",
+      "created_at": "2026-03-01T16:40:59.752Z",
+      "image": "city/2026/03/01/Bolzano.webp",
+      "name": "Bolzano",
+      "things_to_do": 82,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 103,
+    "fields": {
+      "slug": "podgorica",
+      "updated_at": "2026-03-01T16:42:11.173Z",
+      "created_at": "2026-03-01T16:42:11.173Z",
+      "image": "city/2026/03/01/Podgorica.webp",
+      "name": "Podgorica",
+      "things_to_do": 65,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 104,
+    "fields": {
+      "slug": "salerno",
+      "updated_at": "2026-03-01T16:42:48.126Z",
+      "created_at": "2026-03-01T16:42:48.126Z",
+      "image": "city/2026/03/01/Salerno.webp",
+      "name": "Salerno",
+      "things_to_do": 27,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 105,
+    "fields": {
+      "slug": "korcula",
+      "updated_at": "2026-03-01T16:43:40.972Z",
+      "created_at": "2026-03-01T16:43:40.972Z",
+      "image": "city/2026/03/01/Korcula.webp",
+      "name": "Korcula",
+      "things_to_do": 9,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 106,
+    "fields": {
+      "slug": "cologne",
+      "updated_at": "2026-03-01T16:44:24.615Z",
+      "created_at": "2026-03-01T16:44:24.615Z",
+      "image": "city/2026/03/01/Cologne.webp",
+      "name": "Cologne",
+      "things_to_do": 31,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 107,
+    "fields": {
+      "slug": "ballinaboy",
+      "updated_at": "2026-03-01T16:44:58.123Z",
+      "created_at": "2026-03-01T16:44:58.123Z",
+      "image": "city/2026/03/01/Ballinaboy.webp",
+      "name": "Ballinaboy",
+      "things_to_do": 30,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 108,
+    "fields": {
+      "slug": "kalamata",
+      "updated_at": "2026-03-01T16:45:32.402Z",
+      "created_at": "2026-03-01T16:45:32.402Z",
+      "image": "city/2026/03/01/Kalamata.webp",
+      "name": "Kalamata",
+      "things_to_do": 99,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 109,
+    "fields": {
+      "slug": "novigrad-istria",
+      "updated_at": "2026-03-01T16:46:16.305Z",
+      "created_at": "2026-03-01T16:46:16.305Z",
+      "image": "city/2026/03/01/Novigrad_istria.webp",
+      "name": "Novigrad Istria",
+      "things_to_do": 16,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 110,
+    "fields": {
+      "slug": "lugano",
+      "updated_at": "2026-03-01T16:46:49.532Z",
+      "created_at": "2026-03-01T16:46:49.532Z",
+      "image": "city/2026/03/01/Lugano.webp",
+      "name": "Lugano",
+      "things_to_do": 58,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 111,
+    "fields": {
+      "slug": "graz",
+      "updated_at": "2026-03-01T17:47:08.104Z",
+      "created_at": "2026-03-01T17:47:08.104Z",
+      "image": "city/2026/03/01/Graz.webp",
+      "name": "Graz",
+      "things_to_do": 38,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 112,
+    "fields": {
+      "slug": "portimao",
+      "updated_at": "2026-03-01T17:47:51.153Z",
+      "created_at": "2026-03-01T17:47:51.153Z",
+      "image": "city/2026/03/01/Portimao.webp",
+      "name": "Portimao",
+      "things_to_do": 12,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 113,
+    "fields": {
+      "slug": "cesky-krumlov",
+      "updated_at": "2026-03-01T17:49:10.896Z",
+      "created_at": "2026-03-01T17:49:10.896Z",
+      "image": "city/2026/03/01/Cesky_Krumlov.webp",
+      "name": "Cesky Krumlov",
+      "things_to_do": 24,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 114,
+    "fields": {
+      "slug": "ravenna",
+      "updated_at": "2026-03-01T17:50:07.392Z",
+      "created_at": "2026-03-01T17:50:07.392Z",
+      "image": "city/2026/03/01/Ravenna.webp",
+      "name": "Ravenna",
+      "things_to_do": 12,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 115,
+    "fields": {
+      "slug": "strasbourg",
+      "updated_at": "2026-03-01T17:51:01.633Z",
+      "created_at": "2026-03-01T17:51:01.633Z",
+      "image": "city/2026/03/01/Strasbourg.webp",
+      "name": "Strasbourg",
+      "things_to_do": 15,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 116,
+    "fields": {
+      "slug": "vilnius",
+      "updated_at": "2026-03-01T17:52:15.348Z",
+      "created_at": "2026-03-02T09:04:40.714Z",
+      "image": "city/2026/03/02/Vilnius.webp",
+      "name": "Vilnius",
+      "things_to_do": 13,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 117,
+    "fields": {
+      "slug": "montpellier",
+      "updated_at": "2026-03-01T17:53:13.175Z",
+      "created_at": "2026-03-01T17:53:13.175Z",
+      "image": "city/2026/03/01/Montpellier.webp",
+      "name": "Montpellier",
+      "things_to_do": 97,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 118,
+    "fields": {
+      "slug": "bristol",
+      "updated_at": "2026-03-01T17:53:43.122Z",
+      "created_at": "2026-03-01T17:53:43.122Z",
+      "image": "city/2026/03/01/Bristol.webp",
+      "name": "Bristol",
+      "things_to_do": 35,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 119,
+    "fields": {
+      "slug": "assisi",
+      "updated_at": "2026-03-01T17:54:15.543Z",
+      "created_at": "2026-03-01T17:54:15.543Z",
+      "image": "city/2026/03/01/Assisi.webp",
+      "name": "Assisi",
+      "things_to_do": 22,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 120,
+    "fields": {
+      "slug": "stresa",
+      "updated_at": "2026-03-01T17:54:45.197Z",
+      "created_at": "2026-03-01T17:54:45.197Z",
+      "image": "city/2026/03/01/Stresa.webp",
+      "name": "Stresa",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 121,
+    "fields": {
+      "slug": "aarhus",
+      "updated_at": "2026-03-01T17:55:17.625Z",
+      "created_at": "2026-03-01T17:55:17.625Z",
+      "image": "city/2026/03/01/Aarhus.webp",
+      "name": "Aarhus",
+      "things_to_do": 32,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 122,
+    "fields": {
+      "slug": "potsdam",
+      "updated_at": "2026-03-01T17:57:00.125Z",
+      "created_at": "2026-03-01T17:57:00.125Z",
+      "image": "city/2026/03/01/Potsdam.webp",
+      "name": "Potsdam",
+      "things_to_do": 86,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 123,
+    "fields": {
+      "slug": "nurnberg",
+      "updated_at": "2026-03-01T17:57:35.323Z",
+      "created_at": "2026-03-01T17:57:35.323Z",
+      "image": "city/2026/03/01/Nurnberg.webp",
+      "name": "Nu'rnberg",
+      "things_to_do": 11,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 124,
+    "fields": {
+      "slug": "santa-cruz-de-la-palma",
+      "updated_at": "2026-03-01T17:58:42.032Z",
+      "created_at": "2026-03-01T17:58:42.032Z",
+      "image": "city/2026/03/01/Santa_Gruz_dela_Palma.webp",
+      "name": "Santa Cruz de la Palma",
+      "things_to_do": 31,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 125,
+    "fields": {
+      "slug": "birmingham",
+      "updated_at": "2026-03-01T17:59:18.800Z",
+      "created_at": "2026-03-01T17:59:18.800Z",
+      "image": "city/2026/03/01/Birmingham.webp",
+      "name": "Birmingham",
+      "things_to_do": 12,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 126,
+    "fields": {
+      "slug": "santa-cruz-de-tenerife",
+      "updated_at": "2026-03-01T18:00:11.792Z",
+      "created_at": "2026-03-01T18:00:11.792Z",
+      "image": "city/2026/03/01/Santa_Gruz_de_Tenerifa.webp",
+      "name": "Santa Cruz de Tenerife",
+      "things_to_do": 11,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 127,
+    "fields": {
+      "slug": "trieste",
+      "updated_at": "2026-03-01T18:01:35.709Z",
+      "created_at": "2026-03-01T18:01:35.709Z",
+      "image": "city/2026/03/01/Trieste.webp",
+      "name": "Trieste",
+      "things_to_do": 14,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 128,
+    "fields": {
+      "slug": "pula",
+      "updated_at": "2026-03-01T18:02:04.628Z",
+      "created_at": "2026-03-01T18:02:04.628Z",
+      "image": "city/2026/03/01/Pula.webp",
+      "name": "Pula",
+      "things_to_do": 22,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 129,
+    "fields": {
+      "slug": "limassol",
+      "updated_at": "2026-03-01T18:02:35.114Z",
+      "created_at": "2026-03-01T18:02:35.114Z",
+      "image": "city/2026/03/01/Limassol.webp",
+      "name": "Limassol",
+      "things_to_do": 51,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 130,
+    "fields": {
+      "slug": "dresdon",
+      "updated_at": "2026-03-01T18:03:00.452Z",
+      "created_at": "2026-03-01T18:03:00.452Z",
+      "image": "city/2026/03/01/Dresden.webp",
+      "name": "Dresdon",
+      "things_to_do": 14,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 131,
+    "fields": {
+      "slug": "dublin",
+      "updated_at": "2026-03-01T18:03:31.321Z",
+      "created_at": "2026-03-01T18:03:31.321Z",
+      "image": "city/2026/03/01/Dublin.webp",
+      "name": "Dublin",
+      "things_to_do": 11,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 132,
+    "fields": {
+      "slug": "como",
+      "updated_at": "2026-03-01T18:03:58.602Z",
+      "created_at": "2026-03-01T18:03:58.602Z",
+      "image": "city/2026/03/01/Como.webp",
+      "name": "Como",
+      "things_to_do": 15,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 133,
+    "fields": {
+      "slug": "emporio-santorini",
+      "updated_at": "2026-03-01T18:04:58.320Z",
+      "created_at": "2026-03-01T18:04:58.320Z",
+      "image": "city/2026/03/01/Emporio_Santorini.webp",
+      "name": "Emporio Santorini",
+      "things_to_do": 13,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 134,
+    "fields": {
+      "slug": "akureyri",
+      "updated_at": "2026-03-01T18:05:25.759Z",
+      "created_at": "2026-03-01T18:05:25.759Z",
+      "image": "city/2026/03/01/Akureyri.webp",
+      "name": "Akureyri",
+      "things_to_do": 12,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 135,
+    "fields": {
+      "slug": "nantes",
+      "updated_at": "2026-03-01T18:05:58.491Z",
+      "created_at": "2026-03-01T18:05:58.492Z",
+      "image": "city/2026/03/01/Nantes.webp",
+      "name": "Nantes",
+      "things_to_do": 44,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 136,
+    "fields": {
+      "slug": "klaipeda",
+      "updated_at": "2026-03-01T18:07:39.264Z",
+      "created_at": "2026-03-01T18:07:39.264Z",
+      "image": "city/2026/03/01/Klaipeda.webp",
+      "name": "Klaipeda",
+      "things_to_do": 24,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 137,
+    "fields": {
+      "slug": "salzburg",
+      "updated_at": "2026-03-01T18:08:14.790Z",
+      "created_at": "2026-03-01T18:08:14.790Z",
+      "image": "city/2026/03/01/Salzburg.webp",
+      "name": "Salzburg",
+      "things_to_do": 33,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 138,
+    "fields": {
+      "slug": "poznan",
+      "updated_at": "2026-03-01T18:09:03.090Z",
+      "created_at": "2026-03-01T18:09:03.090Z",
+      "image": "city/2026/03/01/Poznan.webp",
+      "name": "Poznan",
+      "things_to_do": 29,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 139,
+    "fields": {
+      "slug": "chania-international-airport",
+      "updated_at": "2026-03-01T18:09:48.107Z",
+      "created_at": "2026-03-01T18:09:48.107Z",
+      "image": "city/2026/03/01/Chania_International_Airport.webp",
+      "name": "Chania International Airport",
+      "things_to_do": 27,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 140,
+    "fields": {
+      "slug": "constanta",
+      "updated_at": "2026-03-01T18:10:38.017Z",
+      "created_at": "2026-03-01T18:10:38.017Z",
+      "image": "city/2026/03/01/Constanta.webp",
+      "name": "Constanta",
+      "things_to_do": 17,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 141,
+    "fields": {
+      "slug": "rovinj",
+      "updated_at": "2026-03-01T18:11:10.202Z",
+      "created_at": "2026-03-01T18:11:10.202Z",
+      "image": "city/2026/03/01/Rovinj.webp",
+      "name": "Rovinj",
+      "things_to_do": 29,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 142,
+    "fields": {
+      "slug": "funchal",
+      "updated_at": "2026-03-01T18:12:02.455Z",
+      "created_at": "2026-03-01T18:12:02.455Z",
+      "image": "city/2026/03/01/Funchal.webp",
+      "name": "Funchal",
+      "things_to_do": 76,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 143,
+    "fields": {
+      "slug": "perugia",
+      "updated_at": "2026-03-01T18:12:38.256Z",
+      "created_at": "2026-03-01T18:12:38.256Z",
+      "image": "city/2026/03/01/Perugia.webp",
+      "name": "Perugia",
+      "things_to_do": 22,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 144,
+    "fields": {
+      "slug": "taormina",
+      "updated_at": "2026-03-01T18:13:21.431Z",
+      "created_at": "2026-03-01T18:13:21.431Z",
+      "image": "city/2026/03/01/Taormina.webp",
+      "name": "Taormina",
+      "things_to_do": 12,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 145,
+    "fields": {
+      "slug": "kotor",
+      "updated_at": "2026-03-01T18:13:55.672Z",
+      "created_at": "2026-03-01T18:13:55.672Z",
+      "image": "city/2026/03/01/Kotor.webp",
+      "name": "Kotor",
+      "things_to_do": 65,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 146,
+    "fields": {
+      "slug": "basel",
+      "updated_at": "2026-03-01T18:14:35.603Z",
+      "created_at": "2026-03-01T18:14:35.603Z",
+      "image": "city/2026/03/01/Basel.webp",
+      "name": "Basel",
+      "things_to_do": 17,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 147,
+    "fields": {
+      "slug": "las-palmas-de-gran-canaria",
+      "updated_at": "2026-03-01T18:15:34.059Z",
+      "created_at": "2026-03-01T18:15:34.059Z",
+      "image": "city/2026/03/01/Las_Palmas__de_Gran_Canaria.webp",
+      "name": "Las Palmas de Gran Canaria",
+      "things_to_do": 33,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 148,
+    "fields": {
+      "slug": "mellieha",
+      "updated_at": "2026-03-01T18:16:15.729Z",
+      "created_at": "2026-03-01T18:16:15.729Z",
+      "image": "city/2026/03/01/Mellieha.webp",
+      "name": "Mellieha",
+      "things_to_do": 55,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 149,
+    "fields": {
+      "slug": "agrigento",
+      "updated_at": "2026-03-01T18:17:00.413Z",
+      "created_at": "2026-03-01T18:17:00.413Z",
+      "image": "city/2026/03/01/Agrigento.webp",
+      "name": "Agrigento",
+      "things_to_do": 41,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 150,
+    "fields": {
+      "slug": "tbilisi-city",
+      "updated_at": "2026-03-02T09:09:19.462Z",
+      "created_at": "2026-03-02T09:09:19.462Z",
+      "image": "city/2026/03/02/Tbilisi_City.webp",
+      "name": "Tbilisi City",
+      "things_to_do": 11,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 151,
+    "fields": {
+      "slug": "paphos",
+      "updated_at": "2026-03-02T09:10:44.041Z",
+      "created_at": "2026-03-02T09:11:49.603Z",
+      "image": "city/2026/03/02/Paphos.webp",
+      "name": "Paphos City",
+      "things_to_do": 22,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 152,
+    "fields": {
+      "slug": "logrono",
+      "updated_at": "2026-03-02T09:12:25.417Z",
+      "created_at": "2026-03-02T09:12:25.417Z",
+      "image": "city/2026/03/02/Logrono.webp",
+      "name": "Logrono",
+      "things_to_do": 13,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 153,
+    "fields": {
+      "slug": "bern",
+      "updated_at": "2026-03-02T09:13:12.175Z",
+      "created_at": "2026-03-02T09:13:12.175Z",
+      "image": "city/2026/03/02/Bern.webp",
+      "name": "Bern",
+      "things_to_do": 95,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 154,
+    "fields": {
+      "slug": "luxembourg",
+      "updated_at": "2026-03-02T09:13:45.807Z",
+      "created_at": "2026-03-02T09:13:45.807Z",
+      "image": "city/2026/03/02/Luxembourg.webp",
+      "name": "Luxembourg",
+      "things_to_do": 92,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 155,
+    "fields": {
+      "slug": "mostar",
+      "updated_at": "2026-03-02T09:14:20.003Z",
+      "created_at": "2026-03-02T09:14:20.003Z",
+      "image": "city/2026/03/02/Mostar.webp",
+      "name": "Mostar",
+      "things_to_do": 88,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 156,
+    "fields": {
+      "slug": "benidorm",
+      "updated_at": "2026-03-02T09:14:47.654Z",
+      "created_at": "2026-03-02T09:14:47.654Z",
+      "image": "city/2026/03/02/Benidorm.webp",
+      "name": "Benidorm",
+      "things_to_do": 48,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 157,
+    "fields": {
+      "slug": "vossestrand",
+      "updated_at": "2026-03-02T09:15:27.214Z",
+      "created_at": "2026-03-02T09:15:27.214Z",
+      "image": "city/2026/03/02/Vossedtrand.webp",
+      "name": "Vossestrand",
+      "things_to_do": 18,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 158,
+    "fields": {
+      "slug": "ohrid",
+      "updated_at": "2026-03-02T09:15:59.786Z",
+      "created_at": "2026-03-02T09:15:59.786Z",
+      "image": "city/2026/03/02/Ohrid.webp",
+      "name": "Ohrid",
+      "things_to_do": 40,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 159,
+    "fields": {
+      "slug": "brno",
+      "updated_at": "2026-03-02T09:16:24.642Z",
+      "created_at": "2026-03-02T09:16:24.642Z",
+      "image": "city/2026/03/02/Brno.webp",
+      "name": "Brno",
+      "things_to_do": 14,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 160,
+    "fields": {
+      "slug": "antrwerp",
+      "updated_at": "2026-03-02T09:16:56.563Z",
+      "created_at": "2026-03-02T09:16:56.563Z",
+      "image": "city/2026/03/02/Antwerp.webp",
+      "name": "Antrwerp",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 161,
+    "fields": {
+      "slug": "fethiye",
+      "updated_at": "2026-03-02T09:17:30.687Z",
+      "created_at": "2026-03-02T09:17:30.687Z",
+      "image": "city/2026/03/02/Fethiye.webp",
+      "name": "Fethiye",
+      "things_to_do": 19,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 162,
+    "fields": {
+      "slug": "wrocklaw",
+      "updated_at": "2026-03-02T09:18:02.881Z",
+      "created_at": "2026-03-02T09:18:02.881Z",
+      "image": "city/2026/03/02/Wrovlaw.webp",
+      "name": "Wrocklaw",
+      "things_to_do": 17,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 163,
+    "fields": {
+      "slug": "liandudno",
+      "updated_at": "2026-03-02T09:18:59.711Z",
+      "created_at": "2026-03-02T09:18:59.711Z",
+      "image": "city/2026/03/02/Liandudno.webp",
+      "name": "Liandudno",
+      "things_to_do": 35,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 164,
+    "fields": {
+      "slug": "killarney",
+      "updated_at": "2026-03-02T09:20:31.521Z",
+      "created_at": "2026-03-02T09:20:31.521Z",
+      "image": "city/2026/03/02/Killarney.webp",
+      "name": "KIllarney",
+      "things_to_do": 18,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 165,
+    "fields": {
+      "slug": "garda",
+      "updated_at": "2026-03-02T09:26:58.486Z",
+      "created_at": "2026-03-02T09:26:58.486Z",
+      "image": "city/2026/03/02/Garda.webp",
+      "name": "Garda",
+      "things_to_do": 43,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 166,
+    "fields": {
+      "slug": "alanya",
+      "updated_at": "2026-03-02T09:27:23.970Z",
+      "created_at": "2026-03-02T09:27:23.970Z",
+      "image": "city/2026/03/02/Alanya.webp",
+      "name": "Alanya",
+      "things_to_do": 36,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 167,
+    "fields": {
+      "slug": "santander",
+      "updated_at": "2026-03-02T09:27:50.041Z",
+      "created_at": "2026-03-02T09:27:50.041Z",
+      "image": "city/2026/03/02/Santander.webp",
+      "name": "Santander",
+      "things_to_do": 86,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 168,
+    "fields": {
+      "slug": "alicante",
+      "updated_at": "2026-03-02T09:28:20.985Z",
+      "created_at": "2026-03-02T09:28:20.985Z",
+      "image": "city/2026/03/02/Alicante.webp",
+      "name": "Alicante",
+      "things_to_do": 48,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 169,
+    "fields": {
+      "slug": "matera",
+      "updated_at": "2026-03-02T09:29:59.798Z",
+      "created_at": "2026-03-02T09:29:59.798Z",
+      "image": "city/2026/03/02/Matera.webp",
+      "name": "Matera",
+      "things_to_do": 11,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 170,
+    "fields": {
+      "slug": "manchester",
+      "updated_at": "2026-03-02T09:30:27.284Z",
+      "created_at": "2026-03-02T09:30:27.284Z",
+      "image": "city/2026/03/02/Manchester.webp",
+      "name": "Manchester",
+      "things_to_do": 31,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 171,
+    "fields": {
+      "slug": "lubeck",
+      "updated_at": "2026-03-02T09:31:08.283Z",
+      "created_at": "2026-03-02T09:31:08.283Z",
+      "image": "city/2026/03/02/Lubeck.webp",
+      "name": "Lubeck",
+      "things_to_do": 7,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 172,
+    "fields": {
+      "slug": "zaragoza",
+      "updated_at": "2026-03-02T09:31:38.290Z",
+      "created_at": "2026-03-02T09:31:38.290Z",
+      "image": "city/2026/03/02/Zaragoza.webp",
+      "name": "Zaragoza",
+      "things_to_do": 48,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 173,
+    "fields": {
+      "slug": "capri",
+      "updated_at": "2026-03-02T09:32:02.565Z",
+      "created_at": "2026-03-02T09:32:02.565Z",
+      "image": "city/2026/03/02/Capri.webp",
+      "name": "Capri",
+      "things_to_do": 51,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 174,
+    "fields": {
+      "slug": "svolvaer",
+      "updated_at": "2026-03-02T09:32:35.945Z",
+      "created_at": "2026-03-02T09:32:35.945Z",
+      "image": "city/2026/03/02/Svolvaer.webp",
+      "name": "Svolvaer",
+      "things_to_do": 28,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 175,
+    "fields": {
+      "slug": "san-gimignano",
+      "updated_at": "2026-03-02T09:33:19.553Z",
+      "created_at": "2026-03-02T09:33:19.553Z",
+      "image": "city/2026/03/02/San_Gimignano.webp",
+      "name": "San Gimignano",
+      "things_to_do": 47,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 176,
+    "fields": {
+      "slug": "avignon",
+      "updated_at": "2026-03-02T09:33:50.164Z",
+      "created_at": "2026-03-02T09:33:50.164Z",
+      "image": "city/2026/03/02/Avignon.webp",
+      "name": "Avignon",
+      "things_to_do": 12,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 177,
+    "fields": {
+      "slug": "windermere",
+      "updated_at": "2026-03-02T09:34:23.534Z",
+      "created_at": "2026-03-02T09:34:23.534Z",
+      "image": "city/2026/03/02/Windermere.webp",
+      "name": "Windermere",
+      "things_to_do": 51,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 178,
+    "fields": {
+      "slug": "torun",
+      "updated_at": "2026-03-02T09:34:49.701Z",
+      "created_at": "2026-03-02T09:34:49.701Z",
+      "image": "city/2026/03/02/Torun.webp",
+      "name": "Torun",
+      "things_to_do": 13,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 179,
+    "fields": {
+      "slug": "lucca",
+      "updated_at": "2026-03-02T09:35:18.071Z",
+      "created_at": "2026-03-02T09:35:18.071Z",
+      "image": "city/2026/03/02/Lucca.webp",
+      "name": "Lucca",
+      "things_to_do": 44,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 180,
+    "fields": {
+      "slug": "inverness",
+      "updated_at": "2026-03-02T09:35:45.520Z",
+      "created_at": "2026-03-02T09:35:45.520Z",
+      "image": "city/2026/03/02/Inverness.webp",
+      "name": "Inverness",
+      "things_to_do": 34,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 181,
+    "fields": {
+      "slug": "montepulciano",
+      "updated_at": "2026-03-02T09:36:26.062Z",
+      "created_at": "2026-03-02T09:36:26.062Z",
+      "image": "city/2026/03/02/Montepulciano.webp",
+      "name": "Montepulciano",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 182,
+    "fields": {
+      "slug": "porec",
+      "updated_at": "2026-03-02T09:36:55.371Z",
+      "created_at": "2026-03-02T09:36:55.371Z",
+      "image": "city/2026/03/02/Porec.webp",
+      "name": "Porec",
+      "things_to_do": 16,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 183,
+    "fields": {
+      "slug": "skopje",
+      "updated_at": "2026-03-02T09:37:20.312Z",
+      "created_at": "2026-03-02T09:37:20.312Z",
+      "image": "city/2026/03/02/Skopje.webp",
+      "name": "Skopje",
+      "things_to_do": 13,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 184,
+    "fields": {
+      "slug": "borderaux",
+      "updated_at": "2026-03-02T09:37:49.465Z",
+      "created_at": "2026-03-02T09:37:49.465Z",
+      "image": "city/2026/03/02/Bordeaux.webp",
+      "name": "Borderaux",
+      "things_to_do": 34,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 185,
+    "fields": {
+      "slug": "coimbra",
+      "updated_at": "2026-03-02T09:38:18.893Z",
+      "created_at": "2026-03-02T09:38:18.893Z",
+      "image": "city/2026/03/02/Coimbra.webp",
+      "name": "Coimbra",
+      "things_to_do": 11,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 186,
+    "fields": {
+      "slug": "orvieto",
+      "updated_at": "2026-03-02T09:38:49.043Z",
+      "created_at": "2026-03-02T09:38:49.043Z",
+      "image": "city/2026/03/02/Orvieto.webp",
+      "name": "Orvieto",
+      "things_to_do": 80,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 187,
+    "fields": {
+      "slug": "braga",
+      "updated_at": "2026-03-02T09:39:15.124Z",
+      "created_at": "2026-03-02T09:39:15.124Z",
+      "image": "city/2026/03/02/Braga.webp",
+      "name": "Braga",
+      "things_to_do": 85,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 188,
+    "fields": {
+      "slug": "feteire",
+      "updated_at": "2026-03-02T09:39:41.803Z",
+      "created_at": "2026-03-02T09:39:41.803Z",
+      "image": "city/2026/03/02/Feteire.webp",
+      "name": "Feteire",
+      "things_to_do": 14,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 189,
+    "fields": {
+      "slug": "monterossa-al-mare",
+      "updated_at": "2026-03-02T09:40:44.705Z",
+      "created_at": "2026-03-02T09:40:44.705Z",
+      "image": "city/2026/03/02/Monterossa_Al_Mare.webp",
+      "name": "Monterossa Al Mare",
+      "things_to_do": 28,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 190,
+    "fields": {
+      "slug": "portoroz",
+      "updated_at": "2026-03-02T09:41:16.025Z",
+      "created_at": "2026-03-02T09:41:16.025Z",
+      "image": "city/2026/03/02/Portoroz.webp",
+      "name": "Portoroz",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 191,
+    "fields": {
+      "slug": "dijon",
+      "updated_at": "2026-03-02T09:41:46.984Z",
+      "created_at": "2026-03-02T09:41:46.984Z",
+      "image": "city/2026/03/02/Dijon.webp",
+      "name": "Dijon",
+      "things_to_do": 44,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 193,
+    "fields": {
+      "slug": "santiago-de-compostela",
+      "updated_at": "2026-03-02T09:43:18.021Z",
+      "created_at": "2026-03-02T09:43:18.021Z",
+      "image": "city/2026/03/02/Santiago_de_Compostela.webp",
+      "name": "Santiago  de Compostela",
+      "things_to_do": 9,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 194,
+    "fields": {
+      "slug": "bruges",
+      "updated_at": "2026-03-02T09:43:45.336Z",
+      "created_at": "2026-03-02T09:43:45.336Z",
+      "image": "city/2026/03/02/Bruges.webp",
+      "name": "Bruges",
+      "things_to_do": 24,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 195,
+    "fields": {
+      "slug": "gdansk",
+      "updated_at": "2026-03-02T09:44:42.379Z",
+      "created_at": "2026-03-02T09:44:42.379Z",
+      "image": "city/2026/03/02/Gdansk.webp",
+      "name": "Gdansk",
+      "things_to_do": 31,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 196,
+    "fields": {
+      "slug": "frankfurtmain",
+      "updated_at": "2026-03-02T09:45:23.062Z",
+      "created_at": "2026-03-02T09:45:23.062Z",
+      "image": "city/2026/03/02/Frankfurt-Main.webp",
+      "name": "Frankfurt/Main",
+      "things_to_do": 28,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 197,
+    "fields": {
+      "slug": "bled",
+      "updated_at": "2026-03-02T09:45:48.011Z",
+      "created_at": "2026-03-02T09:45:48.011Z",
+      "image": "city/2026/03/02/Bled.webp",
+      "name": "Bled",
+      "things_to_do": 12,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 198,
+    "fields": {
+      "slug": "bari",
+      "updated_at": "2026-03-02T09:46:10.230Z",
+      "created_at": "2026-03-02T09:46:10.230Z",
+      "image": "city/2026/03/02/Bari.webp",
+      "name": "Bari",
+      "things_to_do": 55,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 199,
+    "fields": {
+      "slug": "cascais",
+      "updated_at": "2026-03-02T09:46:39.315Z",
+      "created_at": "2026-03-02T09:46:39.315Z",
+      "image": "city/2026/03/02/Cascais.webp",
+      "name": "Cascais",
+      "things_to_do": 37,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 200,
+    "fields": {
+      "slug": "mykonos-city",
+      "updated_at": "2026-03-02T09:47:15.383Z",
+      "created_at": "2026-03-02T09:47:15.383Z",
+      "image": "city/2026/03/02/Mykonos_City.webp",
+      "name": "Mykonos City",
+      "things_to_do": 7,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 201,
+    "fields": {
+      "slug": "toulouse",
+      "updated_at": "2026-03-02T09:47:57.560Z",
+      "created_at": "2026-03-02T09:47:57.560Z",
+      "image": "city/2026/03/02/Toulouse.webp",
+      "name": "Toulouse",
+      "things_to_do": 8,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 202,
+    "fields": {
+      "slug": "nazaret",
+      "updated_at": "2026-03-02T09:49:34.284Z",
+      "created_at": "2026-03-02T09:49:34.284Z",
+      "image": "city/2026/03/02/Nazaret.webp",
+      "name": "Nazaret",
+      "things_to_do": 18,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 203,
+    "fields": {
+      "slug": "siena",
+      "updated_at": "2026-03-02T09:50:14.788Z",
+      "created_at": "2026-03-02T09:50:14.788Z",
+      "image": "city/2026/03/02/Siena.webp",
+      "name": "Siena",
+      "things_to_do": 39,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 204,
+    "fields": {
+      "slug": "konstanz",
+      "updated_at": "2026-03-02T09:51:55.522Z",
+      "created_at": "2026-03-02T09:51:55.522Z",
+      "image": "city/2026/03/02/KOnstanz.webp",
+      "name": "Konstanz",
+      "things_to_do": 22,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 205,
+    "fields": {
+      "slug": "reykjavik",
+      "updated_at": "2026-03-02T09:52:50.417Z",
+      "created_at": "2026-03-02T09:52:50.417Z",
+      "image": "city/2026/03/02/Reykjavek.webp",
+      "name": "Reykjavik",
+      "things_to_do": 13,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 206,
+    "fields": {
+      "slug": "vik",
+      "updated_at": "2026-03-02T09:53:20.575Z",
+      "created_at": "2026-03-02T09:53:20.576Z",
+      "image": "city/2026/03/02/Vik.webp",
+      "name": "Vik",
+      "things_to_do": 83,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 207,
+    "fields": {
+      "slug": "ibiza-town",
+      "updated_at": "2026-03-02T09:53:46.922Z",
+      "created_at": "2026-03-02T09:53:46.922Z",
+      "image": "city/2026/03/02/Ibiza_Town.webp",
+      "name": "Ibiza Town",
+      "things_to_do": 28,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 208,
+    "fields": {
+      "slug": "plovdiv",
+      "updated_at": "2026-03-02T09:54:10.221Z",
+      "created_at": "2026-03-02T09:54:10.221Z",
+      "image": "city/2026/03/02/Plovdiv.webp",
+      "name": "Plovdiv",
+      "things_to_do": 76,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 209,
+    "fields": {
+      "slug": "interlaken",
+      "updated_at": "2026-03-02T09:54:43.988Z",
+      "created_at": "2026-03-02T09:54:43.988Z",
+      "image": "city/2026/03/02/Interlaken.webp",
+      "name": "Interlaken",
+      "things_to_do": 22,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 210,
+    "fields": {
+      "slug": "ostuni",
+      "updated_at": "2026-03-02T09:57:28.867Z",
+      "created_at": "2026-03-02T09:57:28.867Z",
+      "image": "city/2026/03/02/Ostuni.webp",
+      "name": "Ostuni",
+      "things_to_do": 29,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 211,
+    "fields": {
+      "slug": "brussels",
+      "updated_at": "2026-03-02T09:58:17.514Z",
+      "created_at": "2026-03-02T09:58:17.514Z",
+      "image": "city/2026/03/02/Brussels.webp",
+      "name": "Brussels",
+      "things_to_do": 67,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 212,
+    "fields": {
+      "slug": "bath",
+      "updated_at": "2026-03-02T09:58:40.205Z",
+      "created_at": "2026-03-02T09:58:40.205Z",
+      "image": "city/2026/03/02/Bath.webp",
+      "name": "Bath",
+      "things_to_do": 21,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 213,
+    "fields": {
+      "slug": "a-coruna",
+      "updated_at": "2026-03-02T09:59:11.319Z",
+      "created_at": "2026-03-02T09:59:11.319Z",
+      "image": "city/2026/03/02/A_coruna.webp",
+      "name": "A coruna",
+      "things_to_do": 38,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 214,
+    "fields": {
+      "slug": "es-mercadal",
+      "updated_at": "2026-03-02T10:00:18.521Z",
+      "created_at": "2026-03-02T10:00:18.521Z",
+      "image": "city/2026/03/02/Es_Mercadal.webp",
+      "name": "Es Mercadal",
+      "things_to_do": 60,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 215,
+    "fields": {
+      "slug": "colmar",
+      "updated_at": "2026-03-02T10:00:43.789Z",
+      "created_at": "2026-03-02T10:00:43.789Z",
+      "image": "city/2026/03/02/Colmar.webp",
+      "name": "Colmar",
+      "things_to_do": 8,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 216,
+    "fields": {
+      "slug": "galway",
+      "updated_at": "2026-03-02T10:01:16.449Z",
+      "created_at": "2026-03-02T10:01:16.449Z",
+      "image": "city/2026/03/02/Galway.webp",
+      "name": "Galway",
+      "things_to_do": 27,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 217,
+    "fields": {
+      "slug": "siracusa",
+      "updated_at": "2026-03-02T10:01:40.046Z",
+      "created_at": "2026-03-02T10:01:40.046Z",
+      "image": "city/2026/03/02/Siracusa.webp",
+      "name": "Siracusa",
+      "things_to_do": 7,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 218,
+    "fields": {
+      "slug": "stratford-upon-avon",
+      "updated_at": "2026-03-02T10:06:46.329Z",
+      "created_at": "2026-03-02T10:06:46.329Z",
+      "image": "city/2026/03/02/Stratford_upon_Avon.webp",
+      "name": "Stratford upon Avon",
+      "things_to_do": 7,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 219,
+    "fields": {
+      "slug": "messina",
+      "updated_at": "2026-03-02T10:09:28.179Z",
+      "created_at": "2026-03-02T10:09:28.179Z",
+      "image": "city/2026/03/02/Messina.webp",
+      "name": "Messina",
+      "things_to_do": 8,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 220,
+    "fields": {
+      "slug": "sarajevo",
+      "updated_at": "2026-03-02T10:10:01.099Z",
+      "created_at": "2026-03-02T10:10:01.099Z",
+      "image": "city/2026/03/02/Sarajevo.webp",
+      "name": "Sarajevo",
+      "things_to_do": 26,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 221,
+    "fields": {
+      "slug": "andorra-la-vella",
+      "updated_at": "2026-03-02T10:10:40.664Z",
+      "created_at": "2026-03-02T10:10:40.664Z",
+      "image": "city/2026/03/02/Andorra_la_Vella.webp",
+      "name": "Andorra La Vella",
+      "things_to_do": 25,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 222,
+    "fields": {
+      "slug": "marmaris",
+      "updated_at": "2026-03-02T10:11:08.148Z",
+      "created_at": "2026-03-02T10:11:08.148Z",
+      "image": "city/2026/03/02/Marmaris.webp",
+      "name": "Marmaris",
+      "things_to_do": 22,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 223,
+    "fields": {
+      "slug": "tours",
+      "updated_at": "2026-03-02T10:11:39.648Z",
+      "created_at": "2026-03-02T10:11:39.648Z",
+      "image": "city/2026/03/02/Tours.webp",
+      "name": "Tours",
+      "things_to_do": 7,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 224,
+    "fields": {
+      "slug": "varna-city",
+      "updated_at": "2026-03-02T10:12:10.623Z",
+      "created_at": "2026-03-02T10:12:10.623Z",
+      "image": "city/2026/03/02/Varna_City.webp",
+      "name": "Varna City",
+      "things_to_do": 8,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 225,
+    "fields": {
+      "slug": "zakynthos-town",
+      "updated_at": "2026-03-02T10:12:55.454Z",
+      "created_at": "2026-03-02T10:12:55.454Z",
+      "image": "city/2026/03/02/Zakynthos.webp",
+      "name": "Zakynthos Town",
+      "things_to_do": 21,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 226,
+    "fields": {
+      "slug": "betancuria",
+      "updated_at": "2026-03-02T10:13:50.612Z",
+      "created_at": "2026-03-02T10:13:50.612Z",
+      "image": "city/2026/03/02/Betancuria.webp",
+      "name": "Betancuria",
+      "things_to_do": 12,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 227,
+    "fields": {
+      "slug": "cork",
+      "updated_at": "2026-03-02T10:14:24.893Z",
+      "created_at": "2026-03-02T10:14:24.893Z",
+      "image": "city/2026/03/02/Cork.webp",
+      "name": "Cork",
+      "things_to_do": 15,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 228,
+    "fields": {
+      "slug": "side",
+      "updated_at": "2026-03-02T10:15:52.559Z",
+      "created_at": "2026-03-02T10:15:52.559Z",
+      "image": "city/2026/03/02/Side.webp",
+      "name": "Side",
+      "things_to_do": 46,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 229,
+    "fields": {
+      "slug": "rhodes-town",
+      "updated_at": "2026-03-02T10:16:21.326Z",
+      "created_at": "2026-03-02T10:16:21.326Z",
+      "image": "city/2026/03/02/Rhodes_Town.webp",
+      "name": "Rhodes Town",
+      "things_to_do": 35,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 230,
+    "fields": {
+      "slug": "oxford",
+      "updated_at": "2026-03-02T10:16:48.801Z",
+      "created_at": "2026-03-02T10:16:48.801Z",
+      "image": "city/2026/03/02/Oxford.webp",
+      "name": "Oxford",
+      "things_to_do": 26,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 231,
+    "fields": {
+      "slug": "albufeira",
+      "updated_at": "2026-03-02T10:17:19.569Z",
+      "created_at": "2026-03-02T10:17:19.569Z",
+      "image": "city/2026/03/02/Albufeira.webp",
+      "name": "Albufeira",
+      "things_to_do": 12,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 232,
+    "fields": {
+      "slug": "thessaloniki",
+      "updated_at": "2026-03-02T10:17:59.100Z",
+      "created_at": "2026-03-02T10:17:59.100Z",
+      "image": "city/2026/03/02/Thessaloniki.webp",
+      "name": "Thessaloniki",
+      "things_to_do": 35,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 233,
+    "fields": {
+      "slug": "cagliari",
+      "updated_at": "2026-03-02T10:18:26.424Z",
+      "created_at": "2026-03-02T10:18:26.424Z",
+      "image": "city/2026/03/02/Cagliari.webp",
+      "name": "Cagliari",
+      "things_to_do": 48,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 234,
+    "fields": {
+      "slug": "chisinau",
+      "updated_at": "2026-03-02T10:19:55.121Z",
+      "created_at": "2026-03-02T10:19:55.121Z",
+      "image": "city/2026/03/02/Chisinau.webp",
+      "name": "Chisinau",
+      "things_to_do": 9,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 235,
+    "fields": {
+      "slug": "bilbao",
+      "updated_at": "2026-03-02T10:20:18.310Z",
+      "created_at": "2026-03-02T10:20:18.310Z",
+      "image": "city/2026/03/02/Bilbao.webp",
+      "name": "Bilbao",
+      "things_to_do": 30,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 236,
+    "fields": {
+      "slug": "poris-de-abona",
+      "updated_at": "2026-03-02T10:20:56.539Z",
+      "created_at": "2026-03-02T10:20:56.539Z",
+      "image": "city/2026/03/02/Poris_de_Abona.webp",
+      "name": "Poris de Abona",
+      "things_to_do": 51,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 237,
+    "fields": {
+      "slug": "corfu-town",
+      "updated_at": "2026-03-02T10:21:21.849Z",
+      "created_at": "2026-03-02T10:21:21.850Z",
+      "image": "city/2026/03/02/Corfu_Town.webp",
+      "name": "Corfu Town",
+      "things_to_do": 41,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 238,
+    "fields": {
+      "slug": "bergamo",
+      "updated_at": "2026-03-02T10:22:00.116Z",
+      "created_at": "2026-03-02T10:22:00.116Z",
+      "image": "city/2026/03/02/Bergamo.webp",
+      "name": "Bergamo",
+      "things_to_do": 15,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 239,
+    "fields": {
+      "slug": "stuttgart",
+      "updated_at": "2026-03-02T10:22:39.368Z",
+      "created_at": "2026-03-02T10:22:39.368Z",
+      "image": "city/2026/03/02/Stuttgart.webp",
+      "name": "Stuttgart",
+      "things_to_do": 8,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 240,
+    "fields": {
+      "slug": "ghent",
+      "updated_at": "2026-03-02T10:23:05.437Z",
+      "created_at": "2026-03-02T10:23:05.437Z",
+      "image": "city/2026/03/02/Ghent.webp",
+      "name": "Ghent",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 241,
+    "fields": {
+      "slug": "episkopi-heraklion",
+      "updated_at": "2026-03-02T10:23:54.704Z",
+      "created_at": "2026-03-02T10:23:54.704Z",
+      "image": "city/2026/03/02/Episkopi_Heraklion.webp",
+      "name": "Episkopi (Heraklion)",
+      "things_to_do": 40,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 242,
+    "fields": {
+      "slug": "derry-londonderry",
+      "updated_at": "2026-03-02T10:24:53.331Z",
+      "created_at": "2026-03-02T10:24:53.331Z",
+      "image": "city/2026/03/02/Derry_Londonderry.webp",
+      "name": "Derry Londonderry",
+      "things_to_do": 37,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 243,
+    "fields": {
+      "slug": "belfast",
+      "updated_at": "2026-03-02T10:25:20.608Z",
+      "created_at": "2026-03-02T10:25:20.608Z",
+      "image": "city/2026/03/02/Belfast.webp",
+      "name": "Belfast",
+      "things_to_do": 49,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 244,
+    "fields": {
+      "slug": "toledo",
+      "updated_at": "2026-03-02T10:25:49.386Z",
+      "created_at": "2026-03-02T10:25:49.386Z",
+      "image": "city/2026/03/02/Toledo.webp",
+      "name": "Toledo",
+      "things_to_do": 8,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 245,
+    "fields": {
+      "slug": "heildelberg",
+      "updated_at": "2026-03-02T10:26:25.995Z",
+      "created_at": "2026-03-02T10:26:25.995Z",
+      "image": "city/2026/03/02/Heidelberg.webp",
+      "name": "Heildelberg",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 246,
+    "fields": {
+      "slug": "ponta-delgada",
+      "updated_at": "2026-03-02T10:26:56.911Z",
+      "created_at": "2026-03-02T10:26:56.911Z",
+      "image": "city/2026/03/02/Ponta_Delgada.webp",
+      "name": "Ponta Delgada",
+      "things_to_do": 33,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 247,
+    "fields": {
+      "slug": "riga",
+      "updated_at": "2026-03-02T10:27:47.047Z",
+      "created_at": "2026-03-02T10:27:47.047Z",
+      "image": "city/2026/03/02/RIga.webp",
+      "name": "Riga",
+      "things_to_do": 33,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 248,
+    "fields": {
+      "slug": "kusadasi",
+      "updated_at": "2026-03-02T10:28:38.715Z",
+      "created_at": "2026-03-02T10:28:38.715Z",
+      "image": "city/2026/03/02/Kusadas.webp",
+      "name": "Kusadasi",
+      "things_to_do": 11,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 249,
+    "fields": {
+      "slug": "cambridge",
+      "updated_at": "2026-03-02T10:30:54.739Z",
+      "created_at": "2026-03-02T10:30:54.739Z",
+      "image": "city/2026/03/02/Camdridge.webp",
+      "name": "Cambridge",
+      "things_to_do": 8,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 250,
+    "fields": {
+      "slug": "bucharest",
+      "updated_at": "2026-03-02T10:31:42.385Z",
+      "created_at": "2026-03-02T10:31:42.385Z",
+      "image": "city/2026/03/02/Bucharest.webp",
+      "name": "Bucharest",
+      "things_to_do": 9,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 251,
+    "fields": {
+      "slug": "newcastle-upon-tyne",
+      "updated_at": "2026-03-02T10:33:32.740Z",
+      "created_at": "2026-03-02T10:33:32.740Z",
+      "image": "city/2026/03/02/Newcastle_upon_tyne.webp",
+      "name": "Newcastle Upon Tyne",
+      "things_to_do": 60,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 252,
+    "fields": {
+      "slug": "la-rochelle",
+      "updated_at": "2026-03-02T10:34:16.963Z",
+      "created_at": "2026-03-02T10:34:16.963Z",
+      "image": "city/2026/03/02/La_Rochelle.webp",
+      "name": "La Rochelle",
+      "things_to_do": 25,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 253,
+    "fields": {
+      "slug": "marbella",
+      "updated_at": "2026-03-02T10:34:46.637Z",
+      "created_at": "2026-03-02T10:34:46.637Z",
+      "image": "city/2026/03/02/Marbella.webp",
+      "name": "Marbella",
+      "things_to_do": 21,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 254,
+    "fields": {
+      "slug": "hvar",
+      "updated_at": "2026-03-02T10:35:08.853Z",
+      "created_at": "2026-03-02T10:35:08.853Z",
+      "image": "city/2026/03/02/Hvar.webp",
+      "name": "Hvar",
+      "things_to_do": 10,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 255,
+    "fields": {
+      "slug": "timisoara",
+      "updated_at": "2026-03-02T10:35:36.869Z",
+      "created_at": "2026-03-02T10:35:36.869Z",
+      "image": "city/2026/03/02/Timisoara.webp",
+      "name": "Timisoara",
+      "things_to_do": 18,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 256,
+    "fields": {
+      "slug": "utrecht",
+      "updated_at": "2026-03-02T10:36:04.351Z",
+      "created_at": "2026-03-02T10:36:04.351Z",
+      "image": "city/2026/03/02/Utrecht.webp",
+      "name": "Utrecht",
+      "things_to_do": 23,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 257,
+    "fields": {
+      "slug": "denia",
+      "updated_at": "2026-03-02T10:36:25.559Z",
+      "created_at": "2026-03-02T10:36:25.559Z",
+      "image": "city/2026/03/02/Denia.webp",
+      "name": "Denia",
+      "things_to_do": 19,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 258,
+    "fields": {
+      "slug": "leeds",
+      "updated_at": "2026-03-02T10:36:56.678Z",
+      "created_at": "2026-03-02T10:36:56.678Z",
+      "image": "city/2026/03/02/Leeds.webp",
+      "name": "Leeds",
+      "things_to_do": 17,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 259,
+    "fields": {
+      "slug": "rostock",
+      "updated_at": "2026-03-02T10:37:23.172Z",
+      "created_at": "2026-03-02T10:37:23.172Z",
+      "image": "city/2026/03/02/Rostock.webp",
+      "name": "Rostock",
+      "things_to_do": 40,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 260,
+    "fields": {
+      "slug": "lausanne",
+      "updated_at": "2026-03-02T10:37:47.185Z",
+      "created_at": "2026-03-02T10:37:47.185Z",
+      "image": "city/2026/03/02/Lausanne.webp",
+      "name": "Lausanne",
+      "things_to_do": 11,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 261,
+    "fields": {
+      "slug": "aix-en-provence",
+      "updated_at": "2026-03-02T10:38:30.547Z",
+      "created_at": "2026-03-02T10:38:30.547Z",
+      "image": "city/2026/03/02/Aix_en_Provence.webp",
+      "name": "Aix en Provence",
+      "things_to_do": 53,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 262,
+    "fields": {
+      "slug": "girona",
+      "updated_at": "2026-03-02T10:38:57.742Z",
+      "created_at": "2026-03-02T10:38:57.742Z",
+      "image": "city/2026/03/02/Girona.webp",
+      "name": "Girona",
+      "things_to_do": 13,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 263,
+    "fields": {
+      "slug": "la-spezia",
+      "updated_at": "2026-03-02T10:40:06.235Z",
+      "created_at": "2026-03-02T10:40:06.235Z",
+      "image": "city/2026/03/02/La_spezia.webp",
+      "name": "La Spezia",
+      "things_to_do": 28,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 264,
+    "fields": {
+      "slug": "freiburg-im-breisgau",
+      "updated_at": "2026-03-02T10:40:56.086Z",
+      "created_at": "2026-03-02T10:40:56.086Z",
+      "image": "city/2026/03/02/Freiburg_im_Breigan.webp",
+      "name": "Freiburg im Breisgau",
+      "things_to_do": 43,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 265,
+    "fields": {
+      "slug": "ayia-napa",
+      "updated_at": "2026-03-02T10:41:28.449Z",
+      "created_at": "2026-03-02T10:41:28.449Z",
+      "image": "city/2026/03/02/Ayia_Napa.webp",
+      "name": "Ayia Napa",
+      "things_to_do": 25,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 266,
+    "fields": {
+      "slug": "rotterdam",
+      "updated_at": "2026-03-02T10:42:08.569Z",
+      "created_at": "2026-03-02T10:42:08.569Z",
+      "image": "city/2026/03/02/Rotterdam.webp",
+      "name": "Rotterdam",
+      "things_to_do": 41,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 267,
+    "fields": {
+      "slug": "tampere",
+      "updated_at": "2026-03-02T10:42:41.793Z",
+      "created_at": "2026-03-02T10:42:41.793Z",
+      "image": "city/2026/03/02/Tampere.webp",
+      "name": "Tampere",
+      "things_to_do": 6,
+      "region": 1
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 268,
+    "fields": {
+      "slug": "las-vegas",
+      "updated_at": "2026-03-02T10:46:59.104Z",
+      "created_at": "2026-03-02T10:46:59.104Z",
+      "image": "city/2026/03/02/Las_Vegas.webp",
+      "name": "Las Vegas",
+      "things_to_do": 109,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 269,
+    "fields": {
+      "slug": "key-west",
+      "updated_at": "2026-03-02T10:47:32.006Z",
+      "created_at": "2026-03-02T10:47:32.006Z",
+      "image": "city/2026/03/02/Key_West.webp",
+      "name": "Key West",
+      "things_to_do": 28,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 270,
+    "fields": {
+      "slug": "san-diego",
+      "updated_at": "2026-03-02T10:48:16.804Z",
+      "created_at": "2026-03-02T10:48:16.804Z",
+      "image": "city/2026/03/02/San_Diego.webp",
+      "name": "San Diego",
+      "things_to_do": 47,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 271,
+    "fields": {
+      "slug": "miami",
+      "updated_at": "2026-03-02T10:48:41.213Z",
+      "created_at": "2026-03-02T10:48:57.466Z",
+      "image": "city/2026/03/02/Miami.webp",
+      "name": "Miami",
+      "things_to_do": 95,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 272,
+    "fields": {
+      "slug": "mexico-city",
+      "updated_at": "2026-03-02T10:49:28.433Z",
+      "created_at": "2026-03-02T10:49:28.433Z",
+      "image": "city/2026/03/02/Mexico_City.webp",
+      "name": "Mexico City",
+      "things_to_do": 15,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 273,
+    "fields": {
+      "slug": "new-orleans",
+      "updated_at": "2026-03-02T10:50:31.605Z",
+      "created_at": "2026-03-02T10:50:31.605Z",
+      "image": "city/2026/03/02/New_orleans.webp",
+      "name": "New orleans",
+      "things_to_do": 61,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 274,
+    "fields": {
+      "slug": "orlando",
+      "updated_at": "2026-03-02T10:53:35.739Z",
+      "created_at": "2026-03-02T10:53:35.739Z",
+      "image": "city/2026/03/02/Orlando.webp",
+      "name": "Orlando",
+      "things_to_do": 7,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 275,
+    "fields": {
+      "slug": "boston",
+      "updated_at": "2026-03-02T10:54:10.043Z",
+      "created_at": "2026-03-02T10:54:10.043Z",
+      "image": "city/2026/03/02/Boston.webp",
+      "name": "Boston",
+      "things_to_do": 51,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 276,
+    "fields": {
+      "slug": "san-francisco",
+      "updated_at": "2026-03-02T10:56:03.211Z",
+      "created_at": "2026-03-02T10:56:03.211Z",
+      "image": "city/2026/03/02/San_Francisco.webp",
+      "name": "San Francisco",
+      "things_to_do": 79,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 277,
+    "fields": {
+      "slug": "vancouver",
+      "updated_at": "2026-03-02T10:56:39.385Z",
+      "created_at": "2026-03-02T10:56:39.385Z",
+      "image": "city/2026/03/02/Vancouver.webp",
+      "name": "Vancouver",
+      "things_to_do": 64,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 278,
+    "fields": {
+      "slug": "guadalajara",
+      "updated_at": "2026-03-02T10:57:37.574Z",
+      "created_at": "2026-03-02T10:57:37.574Z",
+      "image": "city/2026/03/02/Guadalajar.webp",
+      "name": "Guadalajara",
+      "things_to_do": 26,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 279,
+    "fields": {
+      "slug": "niagara-falls",
+      "updated_at": "2026-03-02T10:58:15.894Z",
+      "created_at": "2026-03-02T10:58:15.894Z",
+      "image": "city/2026/03/02/Niagara_Falls.webp",
+      "name": "Niagara Falls",
+      "things_to_do": 17,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 280,
+    "fields": {
+      "slug": "phoenix",
+      "updated_at": "2026-03-02T10:58:54.487Z",
+      "created_at": "2026-03-02T10:58:54.487Z",
+      "image": "city/2026/03/02/Phoenix.webp",
+      "name": "Phoenix",
+      "things_to_do": 30,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 281,
+    "fields": {
+      "slug": "victoria",
+      "updated_at": "2026-03-02T10:59:28.700Z",
+      "created_at": "2026-03-02T10:59:28.700Z",
+      "image": "city/2026/03/02/Victoria.webp",
+      "name": "Victoria",
+      "things_to_do": 9,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 282,
+    "fields": {
+      "slug": "fort-lauderdale",
+      "updated_at": "2026-03-02T11:00:00.547Z",
+      "created_at": "2026-03-02T11:00:00.547Z",
+      "image": "city/2026/03/02/Fort_Lauderdale.webp",
+      "name": "Fort Lauderdale",
+      "things_to_do": 35,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 283,
+    "fields": {
+      "slug": "los-angeles",
+      "updated_at": "2026-03-02T11:00:37.222Z",
+      "created_at": "2026-03-02T11:00:37.222Z",
+      "image": "city/2026/03/02/Los_Angeles.webp",
+      "name": "Los Angeles",
+      "things_to_do": 151,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 284,
+    "fields": {
+      "slug": "santa-cruz-huatilco",
+      "updated_at": "2026-03-02T11:03:11.466Z",
+      "created_at": "2026-03-02T11:03:11.466Z",
+      "image": "city/2026/03/02/Santa_Cruz_Huafulco.webp",
+      "name": "Santa Cruz Huatilco",
+      "things_to_do": 13,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 285,
+    "fields": {
+      "slug": "denali",
+      "updated_at": "2026-03-02T11:03:59.381Z",
+      "created_at": "2026-03-02T11:03:59.381Z",
+      "image": "city/2026/03/02/Denali.webp",
+      "name": "Denali",
+      "things_to_do": 30,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 286,
+    "fields": {
+      "slug": "fairbanks",
+      "updated_at": "2026-03-02T11:04:31.320Z",
+      "created_at": "2026-03-02T11:04:31.320Z",
+      "image": "city/2026/03/02/Fairbanks.webp",
+      "name": "Fairbanks",
+      "things_to_do": 11,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 287,
+    "fields": {
+      "slug": "tulum",
+      "updated_at": "2026-03-02T11:04:58.348Z",
+      "created_at": "2026-03-02T11:04:58.348Z",
+      "image": "city/2026/03/02/Tulum.webp",
+      "name": "Tulum",
+      "things_to_do": 56,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 288,
+    "fields": {
+      "slug": "louisville",
+      "updated_at": "2026-03-02T11:05:36.675Z",
+      "created_at": "2026-03-02T11:05:36.675Z",
+      "image": "city/2026/03/02/Louisville.webp",
+      "name": "Louisville",
+      "things_to_do": 7,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 289,
+    "fields": {
+      "slug": "nashville",
+      "updated_at": "2026-03-02T11:06:08.874Z",
+      "created_at": "2026-03-02T11:06:08.874Z",
+      "image": "city/2026/03/02/Nashville.webp",
+      "name": "Nashville",
+      "things_to_do": 35,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 290,
+    "fields": {
+      "slug": "san-antonio",
+      "updated_at": "2026-03-02T11:06:48.625Z",
+      "created_at": "2026-03-02T11:06:48.625Z",
+      "image": "city/2026/03/02/San_Antonio.webp",
+      "name": "San Antonio",
+      "things_to_do": 15,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 291,
+    "fields": {
+      "slug": "flagstaff",
+      "updated_at": "2026-03-02T11:07:22.302Z",
+      "created_at": "2026-03-02T11:07:22.302Z",
+      "image": "city/2026/03/02/Flagstaff.webp",
+      "name": "Flagstaff",
+      "things_to_do": 26,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 292,
+    "fields": {
+      "slug": "oaxaca-city",
+      "updated_at": "2026-03-02T11:07:58.854Z",
+      "created_at": "2026-03-02T11:07:58.854Z",
+      "image": "city/2026/03/02/Oaxaca_City.webp",
+      "name": "Oaxaca City",
+      "things_to_do": 31,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 293,
+    "fields": {
+      "slug": "whistler",
+      "updated_at": "2026-03-02T11:08:39.075Z",
+      "created_at": "2026-03-02T11:08:39.075Z",
+      "image": "city/2026/03/02/Whistler.webp",
+      "name": "Whistler",
+      "things_to_do": 8,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 294,
+    "fields": {
+      "slug": "montreal",
+      "updated_at": "2026-03-02T11:13:23.039Z",
+      "created_at": "2026-03-02T18:08:17.043Z",
+      "image": "city/2026/03/02/Montreal.webp",
+      "name": "Montreal",
+      "things_to_do": 23,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 295,
+    "fields": {
+      "slug": "kahuku",
+      "updated_at": "2026-03-02T11:14:50.124Z",
+      "created_at": "2026-03-02T11:14:50.124Z",
+      "image": "city/2026/03/02/Kahuku.webp",
+      "name": "Kahuku",
+      "things_to_do": 7,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 296,
+    "fields": {
+      "slug": "atlanta",
+      "updated_at": "2026-03-02T11:16:34.692Z",
+      "created_at": "2026-03-02T11:16:34.692Z",
+      "image": "city/2026/03/02/Atlanta.webp",
+      "name": "Atlanta",
+      "things_to_do": 22,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 297,
+    "fields": {
+      "slug": "zihuatanejo",
+      "updated_at": "2026-03-02T11:17:06.251Z",
+      "created_at": "2026-03-02T11:17:06.251Z",
+      "image": "city/2026/03/02/Zihuatanejo.webp",
+      "name": "Zihuatanejo",
+      "things_to_do": 46,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 298,
+    "fields": {
+      "slug": "honolulu",
+      "updated_at": "2026-03-02T11:17:36.927Z",
+      "created_at": "2026-03-02T11:17:36.927Z",
+      "image": "city/2026/03/02/Honolulu.webp",
+      "name": "Honolulu",
+      "things_to_do": 46,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 299,
+    "fields": {
+      "slug": "cancun",
+      "updated_at": "2026-03-02T11:18:09.824Z",
+      "created_at": "2026-03-02T11:18:09.824Z",
+      "image": "city/2026/03/02/Cancun.webp",
+      "name": "Cancu'n",
+      "things_to_do": 29,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 300,
+    "fields": {
+      "slug": "washington",
+      "updated_at": "2026-03-02T11:18:42.178Z",
+      "created_at": "2026-03-02T11:18:42.178Z",
+      "image": "city/2026/03/02/Washington.webp",
+      "name": "Washington",
+      "things_to_do": 7,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 301,
+    "fields": {
+      "slug": "savannah",
+      "updated_at": "2026-03-02T11:19:14.836Z",
+      "created_at": "2026-03-02T11:19:14.836Z",
+      "image": "city/2026/03/02/Savannah.webp",
+      "name": "Savannah",
+      "things_to_do": 30,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 302,
+    "fields": {
+      "slug": "anchorage",
+      "updated_at": "2026-03-02T11:19:50.471Z",
+      "created_at": "2026-03-02T11:19:50.471Z",
+      "image": "city/2026/03/02/Anchorage.webp",
+      "name": "Anchorage",
+      "things_to_do": 14,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 303,
+    "fields": {
+      "slug": "san-miguel-de-allende",
+      "updated_at": "2026-03-02T11:21:06.021Z",
+      "created_at": "2026-03-02T11:21:06.021Z",
+      "image": "city/2026/03/02/San_Miguel_de_Allende.webp",
+      "name": "San Miguel de Allende",
+      "things_to_do": 15,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 304,
+    "fields": {
+      "slug": "ottawa",
+      "updated_at": "2026-03-02T11:21:33.277Z",
+      "created_at": "2026-03-02T11:21:33.277Z",
+      "image": "city/2026/03/02/Ottawa.webp",
+      "name": "Ottawa",
+      "things_to_do": 7,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 305,
+    "fields": {
+      "slug": "acapulco",
+      "updated_at": "2026-03-02T11:22:08.631Z",
+      "created_at": "2026-03-02T11:22:08.631Z",
+      "image": "city/2026/03/02/Acapulco.webp",
+      "name": "Acapulco",
+      "things_to_do": 10,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 306,
+    "fields": {
+      "slug": "hartsville",
+      "updated_at": "2026-03-02T11:22:42.208Z",
+      "created_at": "2026-03-02T11:22:42.208Z",
+      "image": "city/2026/03/02/Hartsville.webp",
+      "name": "Hartsville",
+      "things_to_do": 42,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 307,
+    "fields": {
+      "slug": "toronto",
+      "updated_at": "2026-03-02T11:23:10.111Z",
+      "created_at": "2026-03-02T11:23:10.111Z",
+      "image": "city/2026/03/02/Toronto.webp",
+      "name": "Toronto",
+      "things_to_do": 9,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 308,
+    "fields": {
+      "slug": "quebec-city",
+      "updated_at": "2026-03-02T11:23:37.153Z",
+      "created_at": "2026-03-02T11:23:37.153Z",
+      "image": "city/2026/03/02/Quebec_City.webp",
+      "name": "Quebec City",
+      "things_to_do": 14,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 309,
+    "fields": {
+      "slug": "sedona",
+      "updated_at": "2026-03-02T11:24:05.867Z",
+      "created_at": "2026-03-02T11:24:05.867Z",
+      "image": "city/2026/03/02/Sedona.webp",
+      "name": "Sedona",
+      "things_to_do": 26,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 310,
+    "fields": {
+      "slug": "mazatlan",
+      "updated_at": "2026-03-02T11:24:39.921Z",
+      "created_at": "2026-03-02T11:24:39.921Z",
+      "image": "city/2026/03/02/Mazatlan.webp",
+      "name": "Mazatla'n",
+      "things_to_do": 7,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 311,
+    "fields": {
+      "slug": "scottsdale",
+      "updated_at": "2026-03-02T11:25:15.136Z",
+      "created_at": "2026-03-02T11:25:15.137Z",
+      "image": "city/2026/03/02/Scottsdale.webp",
+      "name": "Scottsdale",
+      "things_to_do": 15,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 312,
+    "fields": {
+      "slug": "playa-del-carmen",
+      "updated_at": "2026-03-02T11:25:50.198Z",
+      "created_at": "2026-03-02T11:25:50.198Z",
+      "image": "city/2026/03/02/Playa_del_CArmen.webp",
+      "name": "Playa del Carmen",
+      "things_to_do": 15,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 313,
+    "fields": {
+      "slug": "denver",
+      "updated_at": "2026-03-02T11:26:23.664Z",
+      "created_at": "2026-03-02T11:26:23.664Z",
+      "image": "city/2026/03/02/Denver.webp",
+      "name": "Denver",
+      "things_to_do": 8,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 314,
+    "fields": {
+      "slug": "kapalua-west-maui-airport",
+      "updated_at": "2026-03-02T11:27:15.698Z",
+      "created_at": "2026-03-02T11:27:15.698Z",
+      "image": "city/2026/03/02/Kapalua_West_Mauio.webp",
+      "name": "Kapalua West Maui Airport",
+      "things_to_do": 5,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 315,
+    "fields": {
+      "slug": "baltimore",
+      "updated_at": "2026-03-02T11:27:46.511Z",
+      "created_at": "2026-03-02T11:27:46.511Z",
+      "image": "city/2026/03/02/Baltimore.webp",
+      "name": "Baltimore",
+      "things_to_do": 13,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 316,
+    "fields": {
+      "slug": "dallas",
+      "updated_at": "2026-03-02T11:28:10.408Z",
+      "created_at": "2026-03-02T11:28:10.408Z",
+      "image": "city/2026/03/02/Dallas.webp",
+      "name": "Dallas",
+      "things_to_do": 6,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 317,
+    "fields": {
+      "slug": "merida",
+      "updated_at": "2026-03-02T11:28:36.087Z",
+      "created_at": "2026-03-02T11:28:36.087Z",
+      "image": "city/2026/03/02/Merida.webp",
+      "name": "Merida",
+      "things_to_do": 4,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 318,
+    "fields": {
+      "slug": "tampa",
+      "updated_at": "2026-03-02T11:29:47.069Z",
+      "created_at": "2026-03-02T11:29:47.069Z",
+      "image": "city/2026/03/02/Tampa.webp",
+      "name": "Tampa",
+      "things_to_do": 3,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 319,
+    "fields": {
+      "slug": "sonoma",
+      "updated_at": "2026-03-02T11:30:17.364Z",
+      "created_at": "2026-03-02T11:30:17.364Z",
+      "image": "city/2026/03/02/Sonoma.webp",
+      "name": "Sonoma",
+      "things_to_do": 5,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 321,
+    "fields": {
+      "slug": "naples-2",
+      "updated_at": "2026-03-02T11:31:04.781Z",
+      "created_at": "2026-03-02T11:31:04.781Z",
+      "image": "city/2026/03/02/Naples_2_e5UIkT6.webp",
+      "name": "Naples 2",
+      "things_to_do": 17,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 322,
+    "fields": {
+      "slug": "richmond",
+      "updated_at": "2026-03-02T11:31:28.756Z",
+      "created_at": "2026-03-02T11:31:28.756Z",
+      "image": "city/2026/03/02/Richmond.webp",
+      "name": "Richmond",
+      "things_to_do": 4,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 323,
+    "fields": {
+      "slug": "puerto-escondido",
+      "updated_at": "2026-03-02T11:32:10.773Z",
+      "created_at": "2026-03-02T11:32:10.773Z",
+      "image": "city/2026/03/02/Puerto_Escondido.webp",
+      "name": "Puerto Escondido",
+      "things_to_do": 6,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 324,
+    "fields": {
+      "slug": "cincinnati",
+      "updated_at": "2026-03-02T11:32:53.582Z",
+      "created_at": "2026-03-02T11:32:53.582Z",
+      "image": "city/2026/03/02/Cincinnate.webp",
+      "name": "Cincinnati",
+      "things_to_do": 5,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 325,
+    "fields": {
+      "slug": "jackson",
+      "updated_at": "2026-03-02T11:33:21.848Z",
+      "created_at": "2026-03-02T11:33:21.848Z",
+      "image": "city/2026/03/02/Jackson.webp",
+      "name": "Jackson",
+      "things_to_do": 12,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 326,
+    "fields": {
+      "slug": "cabo-san-lucas",
+      "updated_at": "2026-03-02T11:33:58.477Z",
+      "created_at": "2026-03-02T11:33:58.477Z",
+      "image": "city/2026/03/02/Cabo_SanLukas.webp",
+      "name": "Cabo San Lucas",
+      "things_to_do": 11,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 327,
+    "fields": {
+      "slug": "branson",
+      "updated_at": "2026-03-02T11:34:22.506Z",
+      "created_at": "2026-03-02T11:34:22.506Z",
+      "image": "city/2026/03/02/Branson.webp",
+      "name": "Branson",
+      "things_to_do": 5,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 328,
+    "fields": {
+      "slug": "tusayan",
+      "updated_at": "2026-03-02T11:34:49.402Z",
+      "created_at": "2026-03-02T11:34:49.402Z",
+      "image": "city/2026/03/02/Tusayan.webp",
+      "name": "Tusayan",
+      "things_to_do": 10,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 329,
+    "fields": {
+      "slug": "veracruz",
+      "updated_at": "2026-03-02T11:35:17.419Z",
+      "created_at": "2026-03-02T11:35:17.419Z",
+      "image": "city/2026/03/02/Veracruz.webp",
+      "name": "Veracruz",
+      "things_to_do": 4,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 330,
+    "fields": {
+      "slug": "philadelphia",
+      "updated_at": "2026-03-02T11:36:05.984Z",
+      "created_at": "2026-03-02T11:36:05.984Z",
+      "image": "city/2026/03/02/Philadelphia.webp",
+      "name": "Philadelphia",
+      "things_to_do": 12,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 331,
+    "fields": {
+      "slug": "st-augustine",
+      "updated_at": "2026-03-02T11:37:15.765Z",
+      "created_at": "2026-03-02T11:37:15.765Z",
+      "image": "city/2026/03/02/St_Augustine.webp",
+      "name": "St. Augustine",
+      "things_to_do": 16,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 332,
+    "fields": {
+      "slug": "puerto-vallarta",
+      "updated_at": "2026-03-02T11:37:46.035Z",
+      "created_at": "2026-03-02T11:37:46.035Z",
+      "image": "city/2026/03/02/Puerto_Vallarta.webp",
+      "name": "Puerto Vallarta",
+      "things_to_do": 6,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 333,
+    "fields": {
+      "slug": "cozumel",
+      "updated_at": "2026-03-02T11:38:21.436Z",
+      "created_at": "2026-03-02T11:38:21.436Z",
+      "image": "city/2026/03/02/Cozumel.webp",
+      "name": "Cozumel",
+      "things_to_do": 15,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 334,
+    "fields": {
+      "slug": "cleveland",
+      "updated_at": "2026-03-02T11:38:52.710Z",
+      "created_at": "2026-03-02T11:38:52.710Z",
+      "image": "city/2026/03/02/Cleveland.webp",
+      "name": "Cleveland",
+      "things_to_do": 4,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 335,
+    "fields": {
+      "slug": "kissimmee",
+      "updated_at": "2026-03-02T11:39:20.093Z",
+      "created_at": "2026-03-02T11:39:20.093Z",
+      "image": "city/2026/03/02/Kissimmee.webp",
+      "name": "Kissimmee",
+      "things_to_do": 7,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 336,
+    "fields": {
+      "slug": "santa-barbara",
+      "updated_at": "2026-03-02T11:39:53.035Z",
+      "created_at": "2026-03-02T11:39:53.035Z",
+      "image": "city/2026/03/02/Santa_barbara.webp",
+      "name": "Santa Barbara",
+      "things_to_do": 12,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 337,
+    "fields": {
+      "slug": "sarasota",
+      "updated_at": "2026-03-02T11:40:23.930Z",
+      "created_at": "2026-03-02T11:40:23.930Z",
+      "image": "city/2026/03/02/Sarasota.webp",
+      "name": "Sarasota",
+      "things_to_do": 11,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 338,
+    "fields": {
+      "slug": "chicago",
+      "updated_at": "2026-03-02T11:40:51.176Z",
+      "created_at": "2026-03-02T11:40:51.176Z",
+      "image": "city/2026/03/02/Chicago.webp",
+      "name": "Chicago",
+      "things_to_do": 42,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 339,
+    "fields": {
+      "slug": "seward",
+      "updated_at": "2026-03-02T11:41:16.188Z",
+      "created_at": "2026-03-02T11:41:16.188Z",
+      "image": "city/2026/03/02/Seward.webp",
+      "name": "Seward",
+      "things_to_do": 5,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 340,
+    "fields": {
+      "slug": "seattle",
+      "updated_at": "2026-03-02T11:41:43.928Z",
+      "created_at": "2026-03-02T11:41:43.928Z",
+      "image": "city/2026/03/02/Seattle.webp",
+      "name": "Seattle",
+      "things_to_do": 3,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 341,
+    "fields": {
+      "slug": "charlotte",
+      "updated_at": "2026-03-02T11:42:10.986Z",
+      "created_at": "2026-03-02T11:42:10.986Z",
+      "image": "city/2026/03/02/Charlotte.webp",
+      "name": "Charlotte",
+      "things_to_do": 10,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 342,
+    "fields": {
+      "slug": "san-jose-del-cabo",
+      "updated_at": "2026-03-02T11:42:47.164Z",
+      "created_at": "2026-03-02T11:42:47.164Z",
+      "image": "city/2026/03/02/San_Jose_del.webp",
+      "name": "San Jose Del Cabo",
+      "things_to_do": 11,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 343,
+    "fields": {
+      "slug": "portland",
+      "updated_at": "2026-03-02T11:43:18.998Z",
+      "created_at": "2026-03-02T11:43:18.998Z",
+      "image": "city/2026/03/02/Portland.webp",
+      "name": "Portland",
+      "things_to_do": 13,
+      "region": 2
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 344,
+    "fields": {
+      "slug": "panama-city",
+      "updated_at": "2026-03-02T11:45:24.833Z",
+      "created_at": "2026-03-02T11:45:24.833Z",
+      "image": "city/2026/03/02/panama_city.webp",
+      "name": "Panama City",
+      "things_to_do": 6,
+      "region": 9
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 345,
+    "fields": {
+      "slug": "sao-paulo",
+      "updated_at": "2026-03-02T11:52:02.655Z",
+      "created_at": "2026-03-02T11:52:02.655Z",
+      "image": "city/2026/03/02/Sao_paulo.webp",
+      "name": "Sao Paulo",
+      "things_to_do": 34,
+      "region": 8
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 346,
+    "fields": {
+      "slug": "santiago",
+      "updated_at": "2026-03-02T11:54:44.484Z",
+      "created_at": "2026-03-02T11:54:44.484Z",
+      "image": "city/2026/03/02/santiago.webp",
+      "name": "Santiago",
+      "things_to_do": 75,
+      "region": 8
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 347,
+    "fields": {
+      "slug": "cusco",
+      "updated_at": "2026-03-02T11:55:11.736Z",
+      "created_at": "2026-03-02T11:55:11.736Z",
+      "image": "city/2026/03/02/cusco.webp",
+      "name": "Cusco",
+      "things_to_do": 33,
+      "region": 8
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 348,
+    "fields": {
+      "slug": "lima",
+      "updated_at": "2026-03-02T11:55:40.767Z",
+      "created_at": "2026-03-02T11:55:40.767Z",
+      "image": "city/2026/03/02/lima.webp",
+      "name": "Lima",
+      "things_to_do": 11,
+      "region": 8
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 349,
+    "fields": {
+      "slug": "montevideo",
+      "updated_at": "2026-03-02T11:56:28.009Z",
+      "created_at": "2026-03-02T11:56:28.010Z",
+      "image": "city/2026/03/02/montevideo.webp",
+      "name": "Montevideo",
+      "things_to_do": 13,
+      "region": 8
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 350,
+    "fields": {
+      "slug": "rio-de-janeiro",
+      "updated_at": "2026-03-02T11:57:22.772Z",
+      "created_at": "2026-03-02T11:57:22.772Z",
+      "image": "city/2026/03/02/rio_de_janeiro.webp",
+      "name": "Rio De Janeiro",
+      "things_to_do": 12,
+      "region": 8
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 351,
+    "fields": {
+      "slug": "punta-cana",
+      "updated_at": "2026-03-02T11:58:09.973Z",
+      "created_at": "2026-03-02T11:58:09.973Z",
+      "image": "city/2026/03/02/punta_cana.webp",
+      "name": "Punta Cana",
+      "things_to_do": 22,
+      "region": 7
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 352,
+    "fields": {
+      "slug": "negril",
+      "updated_at": "2026-03-02T11:58:35.860Z",
+      "created_at": "2026-03-02T11:58:35.860Z",
+      "image": "city/2026/03/02/negril.webp",
+      "name": "Negril",
+      "things_to_do": 36,
+      "region": 7
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 353,
+    "fields": {
+      "slug": "ocho-rios",
+      "updated_at": "2026-03-02T11:59:18.774Z",
+      "created_at": "2026-03-02T11:59:18.774Z",
+      "image": "city/2026/03/02/ocho_reis.webp",
+      "name": "Ocho Rios",
+      "things_to_do": 10,
+      "region": 7
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 354,
+    "fields": {
+      "slug": "boca-pen",
+      "updated_at": "2026-03-02T11:59:47.792Z",
+      "created_at": "2026-03-02T11:59:47.792Z",
+      "image": "city/2026/03/02/boca_pen.webp",
+      "name": "Boca Pen",
+      "things_to_do": 17,
+      "region": 7
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 355,
+    "fields": {
+      "slug": "kingston",
+      "updated_at": "2026-03-02T12:01:21.564Z",
+      "created_at": "2026-03-02T12:01:21.564Z",
+      "image": "city/2026/03/02/Kingston.webp",
+      "name": "KIngston",
+      "things_to_do": 17,
+      "region": 7
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 356,
+    "fields": {
+      "slug": "runaway-bay",
+      "updated_at": "2026-03-02T12:01:56.114Z",
+      "created_at": "2026-03-02T12:01:56.114Z",
+      "image": "city/2026/03/02/runaway_bay.webp",
+      "name": "Runaway Bay",
+      "things_to_do": 10,
+      "region": 8
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 357,
+    "fields": {
+      "slug": "nassau",
+      "updated_at": "2026-03-02T12:02:33.727Z",
+      "created_at": "2026-03-02T12:02:33.727Z",
+      "image": "city/2026/03/02/nassau.webp",
+      "name": "Nassau",
+      "things_to_do": 40,
+      "region": 7
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 358,
+    "fields": {
+      "slug": "montego-bay",
+      "updated_at": "2026-03-02T12:04:24.308Z",
+      "created_at": "2026-03-02T12:04:24.308Z",
+      "image": "city/2026/03/02/Montego_Bay.webp",
+      "name": "Montego Bay",
+      "things_to_do": 30,
+      "region": 7
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 359,
+    "fields": {
+      "slug": "stepney",
+      "updated_at": "2026-03-02T12:04:53.847Z",
+      "created_at": "2026-03-02T12:04:53.847Z",
+      "image": "city/2026/03/02/stepney.webp",
+      "name": "Stepney",
+      "things_to_do": 12,
+      "region": 7
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 360,
+    "fields": {
+      "slug": "dubai",
+      "updated_at": "2026-03-02T12:05:43.215Z",
+      "created_at": "2026-03-02T12:05:43.215Z",
+      "image": "city/2026/03/02/dubai.webp",
+      "name": "Dubai",
+      "things_to_do": 81,
+      "region": 6
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 361,
+    "fields": {
+      "slug": "abu-dhabi",
+      "updated_at": "2026-03-02T12:06:25.599Z",
+      "created_at": "2026-03-02T12:06:25.599Z",
+      "image": "city/2026/03/02/abu_dhabi.webp",
+      "name": "Abu Dhabi",
+      "things_to_do": 80,
+      "region": 6
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 362,
+    "fields": {
+      "slug": "amman",
+      "updated_at": "2026-03-02T12:07:10.784Z",
+      "created_at": "2026-03-02T12:07:10.784Z",
+      "image": "city/2026/03/02/amman.webp",
+      "name": "Amman",
+      "things_to_do": 11,
+      "region": 6
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 363,
+    "fields": {
+      "slug": "muscat",
+      "updated_at": "2026-03-02T12:07:40.110Z",
+      "created_at": "2026-03-02T12:07:40.110Z",
+      "image": "city/2026/03/02/Muscat.webp",
+      "name": "Muscat",
+      "things_to_do": 7,
+      "region": 6
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 364,
+    "fields": {
+      "slug": "doha",
+      "updated_at": "2026-03-02T12:08:06.277Z",
+      "created_at": "2026-03-02T12:08:06.277Z",
+      "image": "city/2026/03/02/doha.webp",
+      "name": "Doha",
+      "things_to_do": 6,
+      "region": 6
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 365,
+    "fields": {
+      "slug": "salalah",
+      "updated_at": "2026-03-02T12:08:37.266Z",
+      "created_at": "2026-03-02T12:08:37.266Z",
+      "image": "city/2026/03/02/salalah.webp",
+      "name": "Salalah",
+      "things_to_do": 17,
+      "region": 6
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 366,
+    "fields": {
+      "slug": "aqaba",
+      "updated_at": "2026-03-02T12:09:01.003Z",
+      "created_at": "2026-03-02T12:09:01.003Z",
+      "image": "city/2026/03/02/aqaba.webp",
+      "name": "Aqaba",
+      "things_to_do": 3,
+      "region": 6
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 367,
+    "fields": {
+      "slug": "jeddah",
+      "updated_at": "2026-03-02T12:09:25.633Z",
+      "created_at": "2026-03-02T12:09:25.633Z",
+      "image": "city/2026/03/02/jeddah.webp",
+      "name": "Jeddah",
+      "things_to_do": 11,
+      "region": 6
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 368,
+    "fields": {
+      "slug": "ras-al-khaimah",
+      "updated_at": "2026-03-02T12:10:07.275Z",
+      "created_at": "2026-03-02T12:10:07.275Z",
+      "image": "city/2026/03/02/ras_al_khaimah.webp",
+      "name": "Ras Al khaimah",
+      "things_to_do": 8,
+      "region": 6
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 369,
+    "fields": {
+      "slug": "al-madinah",
+      "updated_at": "2026-03-02T12:10:38.336Z",
+      "created_at": "2026-03-02T12:10:38.336Z",
+      "image": "city/2026/03/02/al_madinah.webp",
+      "name": "Al Madinah",
+      "things_to_do": 6,
+      "region": 6
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 370,
+    "fields": {
+      "slug": "riyadh",
+      "updated_at": "2026-03-02T12:11:09.356Z",
+      "created_at": "2026-03-02T12:11:09.356Z",
+      "image": "city/2026/03/02/riyadh.webp",
+      "name": "Riyadh",
+      "things_to_do": 10,
+      "region": 6
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 371,
+    "fields": {
+      "slug": "gold-coast",
+      "updated_at": "2026-03-02T12:13:19.783Z",
+      "created_at": "2026-03-02T12:13:19.783Z",
+      "image": "city/2026/03/02/gold_coast.webp",
+      "name": "Gold Coast",
+      "things_to_do": 20,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 372,
+    "fields": {
+      "slug": "cairns",
+      "updated_at": "2026-03-02T12:13:54.568Z",
+      "created_at": "2026-03-02T12:13:54.568Z",
+      "image": "city/2026/03/02/cairns.webp",
+      "name": "Cairns",
+      "things_to_do": 24,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 373,
+    "fields": {
+      "slug": "sydney",
+      "updated_at": "2026-03-02T12:14:22.905Z",
+      "created_at": "2026-03-02T12:14:22.905Z",
+      "image": "city/2026/03/02/sydney.webp",
+      "name": "Sydney",
+      "things_to_do": 7,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 374,
+    "fields": {
+      "slug": "melbourne",
+      "updated_at": "2026-03-02T12:14:51.116Z",
+      "created_at": "2026-03-02T12:14:51.116Z",
+      "image": "city/2026/03/02/melbourne.webp",
+      "name": "Melbourne",
+      "things_to_do": 6,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 375,
+    "fields": {
+      "slug": "brisbane",
+      "updated_at": "2026-03-02T12:15:49.914Z",
+      "created_at": "2026-03-02T12:15:49.914Z",
+      "image": "city/2026/03/02/brisbane.webp",
+      "name": "Brisbane",
+      "things_to_do": 25,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 376,
+    "fields": {
+      "slug": "queenstown",
+      "updated_at": "2026-03-02T12:17:09.539Z",
+      "created_at": "2026-03-02T12:17:09.539Z",
+      "image": "city/2026/03/02/queenstown.webp",
+      "name": "Queenstown",
+      "things_to_do": 25,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 377,
+    "fields": {
+      "slug": "adelaide",
+      "updated_at": "2026-03-02T12:17:43.965Z",
+      "created_at": "2026-03-02T12:17:43.965Z",
+      "image": "city/2026/03/02/adelaide.webp",
+      "name": "Adelaide",
+      "things_to_do": 34,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 378,
+    "fields": {
+      "slug": "airlie-beach",
+      "updated_at": "2026-03-02T12:18:25.259Z",
+      "created_at": "2026-03-02T12:18:25.259Z",
+      "image": "city/2026/03/02/airlie_beach.webp",
+      "name": "Airlie Beach",
+      "things_to_do": 8,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 379,
+    "fields": {
+      "slug": "newcastle",
+      "updated_at": "2026-03-02T12:19:01.626Z",
+      "created_at": "2026-03-02T12:19:01.626Z",
+      "image": "city/2026/03/02/newcastle.webp",
+      "name": "Newcastle",
+      "things_to_do": 10,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 380,
+    "fields": {
+      "slug": "launceston",
+      "updated_at": "2026-03-02T12:19:39.381Z",
+      "created_at": "2026-03-02T12:19:39.381Z",
+      "image": "city/2026/03/02/launceston.webp",
+      "name": "Launceston",
+      "things_to_do": 34,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 381,
+    "fields": {
+      "slug": "longreach",
+      "updated_at": "2026-03-02T12:22:50.403Z",
+      "created_at": "2026-03-02T12:22:50.403Z",
+      "image": "city/2026/03/02/longreach.webp",
+      "name": "Longreach",
+      "things_to_do": 11,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 382,
+    "fields": {
+      "slug": "perth",
+      "updated_at": "2026-03-02T12:24:20.111Z",
+      "created_at": "2026-03-02T12:24:20.111Z",
+      "image": "city/2026/03/02/perth.webp",
+      "name": "Perth",
+      "things_to_do": 22,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 383,
+    "fields": {
+      "slug": "darwin",
+      "updated_at": "2026-03-02T12:24:52.059Z",
+      "created_at": "2026-03-02T12:24:52.059Z",
+      "image": "city/2026/03/02/darwin.webp",
+      "name": "Darwin",
+      "things_to_do": 9,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 384,
+    "fields": {
+      "slug": "broome",
+      "updated_at": "2026-03-02T12:25:27.592Z",
+      "created_at": "2026-03-02T12:25:27.592Z",
+      "image": "city/2026/03/02/broome.webp",
+      "name": "Broome",
+      "things_to_do": 10,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 385,
+    "fields": {
+      "slug": "fremantle",
+      "updated_at": "2026-03-02T12:26:32.011Z",
+      "created_at": "2026-03-02T12:26:32.011Z",
+      "image": "city/2026/03/02/fremantle.webp",
+      "name": "Fremantle",
+      "things_to_do": 22,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 386,
+    "fields": {
+      "slug": "emu-plains",
+      "updated_at": "2026-03-02T12:27:14.137Z",
+      "created_at": "2026-03-02T12:27:14.137Z",
+      "image": "city/2026/03/02/emu_plains.webp",
+      "name": "Emu Plains",
+      "things_to_do": 3,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 387,
+    "fields": {
+      "slug": "port-dougles",
+      "updated_at": "2026-03-02T12:28:00.116Z",
+      "created_at": "2026-03-02T12:28:00.116Z",
+      "image": "city/2026/03/02/port_dougles.webp",
+      "name": "Port Dougles",
+      "things_to_do": 8,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 388,
+    "fields": {
+      "slug": "ayers-rock",
+      "updated_at": "2026-03-02T12:28:28.407Z",
+      "created_at": "2026-03-02T12:28:28.407Z",
+      "image": "city/2026/03/02/ayers_rock.webp",
+      "name": "Ayers Rock",
+      "things_to_do": 4,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 389,
+    "fields": {
+      "slug": "akaroa",
+      "updated_at": "2026-03-02T12:29:18.256Z",
+      "created_at": "2026-03-02T12:29:18.256Z",
+      "image": "city/2026/03/02/akaroa.webp",
+      "name": "Akaroa",
+      "things_to_do": 6,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 390,
+    "fields": {
+      "slug": "hobart",
+      "updated_at": "2026-03-02T12:29:44.607Z",
+      "created_at": "2026-03-02T12:29:44.607Z",
+      "image": "city/2026/03/02/hobart.webp",
+      "name": "Hobart",
+      "things_to_do": 18,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 391,
+    "fields": {
+      "slug": "noosa-heads",
+      "updated_at": "2026-03-02T12:30:13.106Z",
+      "created_at": "2026-03-02T12:30:13.106Z",
+      "image": "city/2026/03/02/noosa_heads.webp",
+      "name": "Noosa Heads",
+      "things_to_do": 14,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 392,
+    "fields": {
+      "slug": "auckland",
+      "updated_at": "2026-03-02T12:30:42.477Z",
+      "created_at": "2026-03-02T12:30:42.477Z",
+      "image": "city/2026/03/02/auckland.webp",
+      "name": "Auckland",
+      "things_to_do": 7,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 393,
+    "fields": {
+      "slug": "busselton",
+      "updated_at": "2026-03-02T12:31:36.254Z",
+      "created_at": "2026-03-02T12:31:36.254Z",
+      "image": "city/2026/03/02/busselton.webp",
+      "name": "Busselton",
+      "things_to_do": 17,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 394,
+    "fields": {
+      "slug": "margaret-river-town",
+      "updated_at": "2026-03-02T12:32:25.447Z",
+      "created_at": "2026-03-02T12:32:25.447Z",
+      "image": "city/2026/03/02/margaret_river_town.webp",
+      "name": "Margaret River Town",
+      "things_to_do": 16,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 395,
+    "fields": {
+      "slug": "wellington",
+      "updated_at": "2026-03-02T12:32:51.119Z",
+      "created_at": "2026-03-02T12:32:51.119Z",
+      "image": "city/2026/03/02/wellington.webp",
+      "name": "Wellington",
+      "things_to_do": 12,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 396,
+    "fields": {
+      "slug": "hope-valley",
+      "updated_at": "2026-03-02T12:33:20.520Z",
+      "created_at": "2026-03-02T12:33:20.520Z",
+      "image": "city/2026/03/02/hope_valley.webp",
+      "name": "Hope Valley",
+      "things_to_do": 13,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 397,
+    "fields": {
+      "slug": "byron-bay",
+      "updated_at": "2026-03-02T12:33:56.061Z",
+      "created_at": "2026-03-02T12:33:56.061Z",
+      "image": "city/2026/03/02/byron_bay.webp",
+      "name": "Byron Bay",
+      "things_to_do": 10,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 398,
+    "fields": {
+      "slug": "weeaproinah",
+      "updated_at": "2026-03-02T12:34:36.773Z",
+      "created_at": "2026-03-02T12:34:36.773Z",
+      "image": "city/2026/03/02/weeaproinah.webp",
+      "name": "Weeaproinah",
+      "things_to_do": 11,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 399,
+    "fields": {
+      "slug": "christchurch",
+      "updated_at": "2026-03-02T12:35:07.002Z",
+      "created_at": "2026-03-02T12:35:07.002Z",
+      "image": "city/2026/03/02/christchurch.webp",
+      "name": "Christchurch",
+      "things_to_do": 12,
+      "region": 5
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 400,
+    "fields": {
+      "slug": "cape-town",
+      "updated_at": "2026-03-02T16:15:47.443Z",
+      "created_at": "2026-03-02T16:15:47.443Z",
+      "image": "city/2026/03/02/Cape_Town.webp",
+      "name": "Cape Town",
+      "things_to_do": 23,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 401,
+    "fields": {
+      "slug": "marrakech",
+      "updated_at": "2026-03-02T16:16:23.526Z",
+      "created_at": "2026-03-02T16:16:23.526Z",
+      "image": "city/2026/03/02/Marrakech.webp",
+      "name": "Marrakech",
+      "things_to_do": 60,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 402,
+    "fields": {
+      "slug": "durban",
+      "updated_at": "2026-03-02T16:16:50.553Z",
+      "created_at": "2026-03-02T16:16:50.553Z",
+      "image": "city/2026/03/02/Durban.webp",
+      "name": "Durban",
+      "things_to_do": 33,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 403,
+    "fields": {
+      "slug": "johannesburg",
+      "updated_at": "2026-03-02T16:17:19.060Z",
+      "created_at": "2026-03-02T16:17:19.060Z",
+      "image": "city/2026/03/02/Johannesburg.webp",
+      "name": "Johannesburg",
+      "things_to_do": 53,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 404,
+    "fields": {
+      "slug": "casablanca",
+      "updated_at": "2026-03-02T16:17:44.683Z",
+      "created_at": "2026-03-02T16:17:44.683Z",
+      "image": "city/2026/03/02/Casablanca.webp",
+      "name": "Casablanca",
+      "things_to_do": 10,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 405,
+    "fields": {
+      "slug": "agadir",
+      "updated_at": "2026-03-02T16:18:09.313Z",
+      "created_at": "2026-03-02T16:18:09.313Z",
+      "image": "city/2026/03/02/Agadir.webp",
+      "name": "Agadir",
+      "things_to_do": 13,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 406,
+    "fields": {
+      "slug": "luxor",
+      "updated_at": "2026-03-02T16:19:40.903Z",
+      "created_at": "2026-03-02T16:19:40.903Z",
+      "image": "city/2026/03/02/Luxor.webp",
+      "name": "Luxor",
+      "things_to_do": 39,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 407,
+    "fields": {
+      "slug": "arusha",
+      "updated_at": "2026-03-02T16:20:23.154Z",
+      "created_at": "2026-03-02T16:20:23.154Z",
+      "image": "city/2026/03/02/Arusha.webp",
+      "name": "Arusha",
+      "things_to_do": 18,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 408,
+    "fields": {
+      "slug": "dar-es-salaam",
+      "updated_at": "2026-03-02T16:20:58.334Z",
+      "created_at": "2026-03-02T16:20:58.334Z",
+      "image": "city/2026/03/02/Dar_es_Salaam.webp",
+      "name": "Dar es Salaam",
+      "things_to_do": 28,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 409,
+    "fields": {
+      "slug": "fes",
+      "updated_at": "2026-03-02T16:21:19.697Z",
+      "created_at": "2026-03-02T16:21:19.697Z",
+      "image": "city/2026/03/02/Fes.webp",
+      "name": "Fes",
+      "things_to_do": 13,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 410,
+    "fields": {
+      "slug": "marsa-alam",
+      "updated_at": "2026-03-02T16:22:07.189Z",
+      "created_at": "2026-03-02T16:22:07.189Z",
+      "image": "city/2026/03/02/Marsa_Salam.webp",
+      "name": "Marsa Alam",
+      "things_to_do": 46,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 411,
+    "fields": {
+      "slug": "nairobi",
+      "updated_at": "2026-03-02T16:22:35.738Z",
+      "created_at": "2026-03-02T16:22:35.738Z",
+      "image": "city/2026/03/02/Nairobi.webp",
+      "name": "Nairobi",
+      "things_to_do": 33,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 412,
+    "fields": {
+      "slug": "bird-island",
+      "updated_at": "2026-03-02T16:23:01.690Z",
+      "created_at": "2026-03-02T16:23:01.690Z",
+      "image": "city/2026/03/02/Bird_island.webp",
+      "name": "Bird Island",
+      "things_to_do": 5,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 413,
+    "fields": {
+      "slug": "dahab",
+      "updated_at": "2026-03-02T16:23:58.565Z",
+      "created_at": "2026-03-02T16:23:58.565Z",
+      "image": "city/2026/03/02/Dahab.webp",
+      "name": "Dahab",
+      "things_to_do": 9,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 414,
+    "fields": {
+      "slug": "nurghada",
+      "updated_at": "2026-03-02T16:28:26.935Z",
+      "created_at": "2026-03-02T16:28:26.935Z",
+      "image": "city/2026/03/02/Nurhada.webp",
+      "name": "NUrghada",
+      "things_to_do": 26,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 415,
+    "fields": {
+      "slug": "tangier",
+      "updated_at": "2026-03-02T16:29:03.024Z",
+      "created_at": "2026-03-02T16:29:03.024Z",
+      "image": "city/2026/03/02/Tangier.webp",
+      "name": "Tangier",
+      "things_to_do": 6,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 416,
+    "fields": {
+      "slug": "rabat",
+      "updated_at": "2026-03-02T16:29:35.062Z",
+      "created_at": "2026-03-02T16:29:35.062Z",
+      "image": "city/2026/03/02/rabat.webp",
+      "name": "Rabat",
+      "things_to_do": 18,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 417,
+    "fields": {
+      "slug": "accra",
+      "updated_at": "2026-03-02T16:30:00.663Z",
+      "created_at": "2026-03-02T16:30:00.663Z",
+      "image": "city/2026/03/02/Accra.webp",
+      "name": "Accra",
+      "things_to_do": 50,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 418,
+    "fields": {
+      "slug": "zanzibar-city",
+      "updated_at": "2026-03-02T16:30:40.427Z",
+      "created_at": "2026-03-02T16:30:40.427Z",
+      "image": "city/2026/03/02/Zanzibar_City.webp",
+      "name": "Zanzibar City",
+      "things_to_do": 9,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 419,
+    "fields": {
+      "slug": "alexandria",
+      "updated_at": "2026-03-02T16:31:13.005Z",
+      "created_at": "2026-03-02T16:31:13.005Z",
+      "image": "city/2026/03/02/Alexandria.webp",
+      "name": "Alexandria",
+      "things_to_do": 30,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 420,
+    "fields": {
+      "slug": "merzouga",
+      "updated_at": "2026-03-02T16:31:39.702Z",
+      "created_at": "2026-03-02T16:31:39.702Z",
+      "image": "city/2026/03/02/Merzouga.webp",
+      "name": "Merzouga",
+      "things_to_do": 17,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 421,
+    "fields": {
+      "slug": "midlands",
+      "updated_at": "2026-03-02T16:32:06.173Z",
+      "created_at": "2026-03-02T16:32:06.173Z",
+      "image": "city/2026/03/02/Midlands.webp",
+      "name": "Midlands",
+      "things_to_do": 56,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 422,
+    "fields": {
+      "slug": "moshi",
+      "updated_at": "2026-03-02T16:32:46.620Z",
+      "created_at": "2026-03-02T16:32:46.620Z",
+      "image": "city/2026/03/02/Moshi.webp",
+      "name": "Moshi",
+      "things_to_do": 10,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 423,
+    "fields": {
+      "slug": "chefchaouene",
+      "updated_at": "2026-03-02T16:33:26.080Z",
+      "created_at": "2026-03-02T16:33:26.080Z",
+      "image": "city/2026/03/02/Chefchaouene.webp",
+      "name": "Chefchaouene",
+      "things_to_do": 14,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 424,
+    "fields": {
+      "slug": "mombasa",
+      "updated_at": "2026-03-02T16:33:56.577Z",
+      "created_at": "2026-03-02T16:33:56.577Z",
+      "image": "city/2026/03/02/mombasa.webp",
+      "name": "Mombasa",
+      "things_to_do": 24,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 425,
+    "fields": {
+      "slug": "aswan",
+      "updated_at": "2026-03-02T16:34:30.525Z",
+      "created_at": "2026-03-02T16:34:30.525Z",
+      "image": "city/2026/03/02/aswan.webp",
+      "name": "Aswan",
+      "things_to_do": 15,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 426,
+    "fields": {
+      "slug": "essaouira",
+      "updated_at": "2026-03-02T16:34:59.363Z",
+      "created_at": "2026-03-02T16:34:59.363Z",
+      "image": "city/2026/03/02/essaouira.webp",
+      "name": "Essaouira",
+      "things_to_do": 18,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 427,
+    "fields": {
+      "slug": "trou-d-eau-douce",
+      "updated_at": "2026-03-02T16:36:04.214Z",
+      "created_at": "2026-03-02T16:36:04.214Z",
+      "image": "city/2026/03/02/trou_d_eau_dowe.webp",
+      "name": "Trou d' Eau Douce",
+      "things_to_do": 53,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 428,
+    "fields": {
+      "slug": "cairo",
+      "updated_at": "2026-03-02T16:36:29.430Z",
+      "created_at": "2026-03-02T16:36:29.430Z",
+      "image": "city/2026/03/02/cairo.webp",
+      "name": "Cairo",
+      "things_to_do": 8,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 429,
+    "fields": {
+      "slug": "diani-beach",
+      "updated_at": "2026-03-02T16:36:57.003Z",
+      "created_at": "2026-03-02T16:36:57.003Z",
+      "image": "city/2026/03/02/diani_beach.webp",
+      "name": "Diani Beach",
+      "things_to_do": 12,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 430,
+    "fields": {
+      "slug": "sharm-el-sheikh",
+      "updated_at": "2026-03-02T16:39:36.549Z",
+      "created_at": "2026-03-02T16:39:36.549Z",
+      "image": "city/2026/03/02/Sharm_el_Sheikh.webp",
+      "name": "Sharm El Sheikh",
+      "things_to_do": 10,
+      "region": 4
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 431,
+    "fields": {
+      "slug": "kuala-lumpur",
+      "updated_at": "2026-03-02T16:44:45.333Z",
+      "created_at": "2026-03-02T16:44:45.333Z",
+      "image": "city/2026/03/02/Kuala_Lumpur.webp",
+      "name": "Kuala Lumpur",
+      "things_to_do": 23,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 432,
+    "fields": {
+      "slug": "jakarta",
+      "updated_at": "2026-03-02T16:45:17.595Z",
+      "created_at": "2026-03-02T16:45:24.320Z",
+      "image": "city/2026/03/02/Jakarta.webp",
+      "name": "Jakarta",
+      "things_to_do": 49,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 433,
+    "fields": {
+      "slug": "balian",
+      "updated_at": "2026-03-02T17:17:58.647Z",
+      "created_at": "2026-03-02T17:17:58.647Z",
+      "image": "city/2026/03/02/Balian.webp",
+      "name": "Balian",
+      "things_to_do": 50,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 434,
+    "fields": {
+      "slug": "bentota",
+      "updated_at": "2026-03-02T17:18:22.657Z",
+      "created_at": "2026-03-02T17:18:22.657Z",
+      "image": "city/2026/03/02/Bentota.webp",
+      "name": "Bentota",
+      "things_to_do": 30,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 435,
+    "fields": {
+      "slug": "beijing",
+      "updated_at": "2026-03-02T17:19:00.386Z",
+      "created_at": "2026-03-02T17:19:00.386Z",
+      "image": "city/2026/03/02/Beijing.webp",
+      "name": "Beijing",
+      "things_to_do": 28,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 436,
+    "fields": {
+      "slug": "chiang-mai",
+      "updated_at": "2026-03-02T17:19:41.823Z",
+      "created_at": "2026-03-02T17:19:41.823Z",
+      "image": "city/2026/03/02/Chiang_Mal.webp",
+      "name": "Chiang Mai",
+      "things_to_do": 8,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 437,
+    "fields": {
+      "slug": "da-nang",
+      "updated_at": "2026-03-02T17:21:25.456Z",
+      "created_at": "2026-03-02T17:21:25.456Z",
+      "image": "city/2026/03/02/Da_Nang.webp",
+      "name": "Da nang",
+      "things_to_do": 35,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 438,
+    "fields": {
+      "slug": "cebu-city",
+      "updated_at": "2026-03-02T17:22:21.617Z",
+      "created_at": "2026-03-02T17:22:21.617Z",
+      "image": "city/2026/03/02/Cebu_City.webp",
+      "name": "Cebu City",
+      "things_to_do": 26,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 439,
+    "fields": {
+      "slug": "seminyak",
+      "updated_at": "2026-03-02T17:23:26.783Z",
+      "created_at": "2026-03-02T17:23:26.783Z",
+      "image": "city/2026/03/02/Seminyak.webp",
+      "name": "Seminyak",
+      "things_to_do": 53,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 440,
+    "fields": {
+      "slug": "johor-bahra",
+      "updated_at": "2026-03-02T17:28:31.214Z",
+      "created_at": "2026-03-02T17:28:31.214Z",
+      "image": "city/2026/03/02/Johor_Bahru.webp",
+      "name": "Johor Bahra",
+      "things_to_do": 87,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 441,
+    "fields": {
+      "slug": "phuket-town",
+      "updated_at": "2026-03-02T17:31:06.568Z",
+      "created_at": "2026-03-02T17:31:06.568Z",
+      "image": "city/2026/03/02/Phuket_town.webp",
+      "name": "Phuket Town",
+      "things_to_do": 15,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 442,
+    "fields": {
+      "slug": "melaka",
+      "updated_at": "2026-03-02T17:31:32.583Z",
+      "created_at": "2026-03-02T17:31:32.583Z",
+      "image": "city/2026/03/02/Melaka.webp",
+      "name": "Melaka",
+      "things_to_do": 9,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 443,
+    "fields": {
+      "slug": "battambang",
+      "updated_at": "2026-03-02T17:32:00.970Z",
+      "created_at": "2026-03-02T17:32:00.970Z",
+      "image": "city/2026/03/02/Battambang.webp",
+      "name": "Battambang",
+      "things_to_do": 41,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 444,
+    "fields": {
+      "slug": "kandy",
+      "updated_at": "2026-03-02T17:32:29.385Z",
+      "created_at": "2026-03-02T17:32:29.385Z",
+      "image": "city/2026/03/02/Kandy.webp",
+      "name": "Kandy",
+      "things_to_do": 7,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 445,
+    "fields": {
+      "slug": "yogyakarta",
+      "updated_at": "2026-03-02T17:33:09.864Z",
+      "created_at": "2026-03-02T17:33:09.864Z",
+      "image": "city/2026/03/02/Yogyakarta.webp",
+      "name": "Yogyakarta",
+      "things_to_do": 47,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 446,
+    "fields": {
+      "slug": "busan",
+      "updated_at": "2026-03-02T17:33:40.341Z",
+      "created_at": "2026-03-02T17:33:40.341Z",
+      "image": "city/2026/03/02/Busan.webp",
+      "name": "Busan",
+      "things_to_do": 21,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 447,
+    "fields": {
+      "slug": "nusa-dua",
+      "updated_at": "2026-03-02T17:34:18.067Z",
+      "created_at": "2026-03-02T17:34:18.067Z",
+      "image": "city/2026/03/02/Nusa_dua.webp",
+      "name": "Nusa Dua",
+      "things_to_do": 52,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 448,
+    "fields": {
+      "slug": "negombo",
+      "updated_at": "2026-03-02T17:35:34.480Z",
+      "created_at": "2026-03-02T17:35:34.480Z",
+      "image": "city/2026/03/02/Negombo.webp",
+      "name": "Negombo",
+      "things_to_do": 10,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 449,
+    "fields": {
+      "slug": "ko-yao-yai",
+      "updated_at": "2026-03-02T17:36:12.864Z",
+      "created_at": "2026-03-02T17:36:12.864Z",
+      "image": "city/2026/03/02/Ko_yao_yau.webp",
+      "name": "Ko Yao Yai",
+      "things_to_do": 15,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 450,
+    "fields": {
+      "slug": "old-goa",
+      "updated_at": "2026-03-02T17:36:43.816Z",
+      "created_at": "2026-03-02T17:36:43.816Z",
+      "image": "city/2026/03/02/Old_goa.webp",
+      "name": "Old Goa",
+      "things_to_do": 19,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 451,
+    "fields": {
+      "slug": "osaka",
+      "updated_at": "2026-03-02T17:37:11.788Z",
+      "created_at": "2026-03-02T17:37:11.788Z",
+      "image": "city/2026/03/02/Osaka.webp",
+      "name": "Osaka",
+      "things_to_do": 11,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 452,
+    "fields": {
+      "slug": "agra",
+      "updated_at": "2026-03-02T17:37:44.853Z",
+      "created_at": "2026-03-02T17:37:44.853Z",
+      "image": "city/2026/03/02/Agra.webp",
+      "name": "Agra",
+      "things_to_do": 7,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 453,
+    "fields": {
+      "slug": "nagoya",
+      "updated_at": "2026-03-02T17:38:09.538Z",
+      "created_at": "2026-03-02T17:38:09.538Z",
+      "image": "city/2026/03/02/Nagoya.webp",
+      "name": "Nagoya",
+      "things_to_do": 17,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 454,
+    "fields": {
+      "slug": "almaty",
+      "updated_at": "2026-03-02T17:38:34.505Z",
+      "created_at": "2026-03-02T17:38:34.505Z",
+      "image": "city/2026/03/02/Almaty.webp",
+      "name": "Almaty",
+      "things_to_do": 21,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 455,
+    "fields": {
+      "slug": "kuching",
+      "updated_at": "2026-03-02T17:39:37.801Z",
+      "created_at": "2026-03-02T17:39:37.801Z",
+      "image": "city/2026/03/02/Kuching.webp",
+      "name": "Kuching",
+      "things_to_do": 46,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 456,
+    "fields": {
+      "slug": "jimbaran",
+      "updated_at": "2026-03-02T17:40:02.735Z",
+      "created_at": "2026-03-02T17:40:02.735Z",
+      "image": "city/2026/03/02/Jimbaran.webp",
+      "name": "Jimbaran",
+      "things_to_do": 52,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 457,
+    "fields": {
+      "slug": "pattaya-central",
+      "updated_at": "2026-03-02T17:40:59.832Z",
+      "created_at": "2026-03-02T17:40:59.832Z",
+      "image": "city/2026/03/02/Pattaya_Central.webp",
+      "name": "Pattaya Central",
+      "things_to_do": 41,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 458,
+    "fields": {
+      "slug": "banghok",
+      "updated_at": "2026-03-02T17:41:25.888Z",
+      "created_at": "2026-03-02T17:41:25.888Z",
+      "image": "city/2026/03/02/Banghok.webp",
+      "name": "Banghok",
+      "things_to_do": 22,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 459,
+    "fields": {
+      "slug": "ubud",
+      "updated_at": "2026-03-02T17:41:52.439Z",
+      "created_at": "2026-03-02T17:41:52.439Z",
+      "image": "city/2026/03/02/Ubud.webp",
+      "name": "Ubud",
+      "things_to_do": 53,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 460,
+    "fields": {
+      "slug": "yala",
+      "updated_at": "2026-03-02T17:42:22.040Z",
+      "created_at": "2026-03-02T17:42:22.040Z",
+      "image": "city/2026/03/02/Yala.webp",
+      "name": "Yala",
+      "things_to_do": 14,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 461,
+    "fields": {
+      "slug": "sigiriya",
+      "updated_at": "2026-03-02T17:42:52.741Z",
+      "created_at": "2026-03-02T17:42:52.741Z",
+      "image": "city/2026/03/02/Sigiriya.webp",
+      "name": "Sigiriya",
+      "things_to_do": 35,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 462,
+    "fields": {
+      "slug": "koh-samui",
+      "updated_at": "2026-03-02T17:43:25.946Z",
+      "created_at": "2026-03-02T17:43:25.946Z",
+      "image": "city/2026/03/02/Koh_Samui.webp",
+      "name": "Koh Samui",
+      "things_to_do": 43,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 463,
+    "fields": {
+      "slug": "hong-kong",
+      "updated_at": "2026-03-02T17:44:48.593Z",
+      "created_at": "2026-03-02T17:44:48.593Z",
+      "image": "city/2026/03/02/Hong_kong.webp",
+      "name": "Hong Kong",
+      "things_to_do": 41,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 464,
+    "fields": {
+      "slug": "kota-kinabalu",
+      "updated_at": "2026-03-02T17:45:23.785Z",
+      "created_at": "2026-03-02T17:45:23.785Z",
+      "image": "city/2026/03/02/Kota_Kinabalu.webp",
+      "name": "Kota Kinabalu",
+      "things_to_do": 11,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 465,
+    "fields": {
+      "slug": "kolkata",
+      "updated_at": "2026-03-02T17:45:53.489Z",
+      "created_at": "2026-03-02T17:45:53.489Z",
+      "image": "city/2026/03/02/Kolkata.webp",
+      "name": "Kolkata",
+      "things_to_do": 14,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 466,
+    "fields": {
+      "slug": "penaga",
+      "updated_at": "2026-03-02T17:46:24.354Z",
+      "created_at": "2026-03-02T17:46:24.354Z",
+      "image": "city/2026/03/02/Penaga.webp",
+      "name": "Penaga",
+      "things_to_do": 26,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 467,
+    "fields": {
+      "slug": "hoi-an",
+      "updated_at": "2026-03-02T17:46:51.675Z",
+      "created_at": "2026-03-02T17:46:51.675Z",
+      "image": "city/2026/03/02/Hoi_an.webp",
+      "name": "Hoi an",
+      "things_to_do": 35,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 468,
+    "fields": {
+      "slug": "luang-prabang",
+      "updated_at": "2026-03-02T17:48:15.682Z",
+      "created_at": "2026-03-02T17:48:15.682Z",
+      "image": "city/2026/03/02/Luang_Braban.webp",
+      "name": "Luang Prabang",
+      "things_to_do": 17,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 469,
+    "fields": {
+      "slug": "tokyo",
+      "updated_at": "2026-03-02T17:48:38.866Z",
+      "created_at": "2026-03-02T17:48:38.866Z",
+      "image": "city/2026/03/02/Tokyo.webp",
+      "name": "Tokyo",
+      "things_to_do": 24,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 470,
+    "fields": {
+      "slug": "thanjavur",
+      "updated_at": "2026-03-02T17:49:11.066Z",
+      "created_at": "2026-03-02T17:49:11.066Z",
+      "image": "city/2026/03/02/Thanjaver.webp",
+      "name": "Thanjavur",
+      "things_to_do": 28,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 471,
+    "fields": {
+      "slug": "phnom-penh",
+      "updated_at": "2026-03-02T17:49:53.537Z",
+      "created_at": "2026-03-02T17:49:53.537Z",
+      "image": "city/2026/03/02/Phnom_Penh.webp",
+      "name": "Phnom Penh",
+      "things_to_do": 44,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 472,
+    "fields": {
+      "slug": "siem-reap",
+      "updated_at": "2026-03-02T17:50:24.388Z",
+      "created_at": "2026-03-02T17:50:24.388Z",
+      "image": "city/2026/03/02/Siem_Reap.webp",
+      "name": "Siem Reap",
+      "things_to_do": 21,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 473,
+    "fields": {
+      "slug": "puerto-princesa-city",
+      "updated_at": "2026-03-02T17:51:03.222Z",
+      "created_at": "2026-03-02T17:51:03.222Z",
+      "image": "city/2026/03/02/Puerto_Princesa_City.webp",
+      "name": "Puerto Princesa City",
+      "things_to_do": 22,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 474,
+    "fields": {
+      "slug": "galle",
+      "updated_at": "2026-03-02T17:51:25.626Z",
+      "created_at": "2026-03-02T17:51:25.626Z",
+      "image": "city/2026/03/02/Galle.webp",
+      "name": "Galle",
+      "things_to_do": 52,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 475,
+    "fields": {
+      "slug": "pulau-langkawi",
+      "updated_at": "2026-03-02T17:52:07.944Z",
+      "created_at": "2026-03-02T17:52:07.944Z",
+      "image": "city/2026/03/02/Pulau_Langkawi.webp",
+      "name": "Pulau Langkawi",
+      "things_to_do": 27,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 476,
+    "fields": {
+      "slug": "varanasi",
+      "updated_at": "2026-03-02T17:52:32.345Z",
+      "created_at": "2026-03-02T17:52:32.345Z",
+      "image": "city/2026/03/02/Varanasi.webp",
+      "name": "Varanasi",
+      "things_to_do": 43,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 477,
+    "fields": {
+      "slug": "lombok",
+      "updated_at": "2026-03-02T17:54:38.808Z",
+      "created_at": "2026-03-02T17:54:38.808Z",
+      "image": "city/2026/03/02/Lombok.webp",
+      "name": "Lombok",
+      "things_to_do": 36,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 478,
+    "fields": {
+      "slug": "krabi-town",
+      "updated_at": "2026-03-02T17:55:12.364Z",
+      "created_at": "2026-03-02T17:55:12.364Z",
+      "image": "city/2026/03/02/Krabi_Town.webp",
+      "name": "KrabI Town",
+      "things_to_do": 63,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 479,
+    "fields": {
+      "slug": "nha-trang",
+      "updated_at": "2026-03-02T17:55:39.931Z",
+      "created_at": "2026-03-02T17:55:39.931Z",
+      "image": "city/2026/03/02/Nha_Trang.webp",
+      "name": "Nha Trang",
+      "things_to_do": 46,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 480,
+    "fields": {
+      "slug": "coron",
+      "updated_at": "2026-03-02T17:56:00.918Z",
+      "created_at": "2026-03-02T17:56:00.918Z",
+      "image": "city/2026/03/02/Coron.webp",
+      "name": "Coron",
+      "things_to_do": 42,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 481,
+    "fields": {
+      "slug": "hue",
+      "updated_at": "2026-03-02T17:56:23.822Z",
+      "created_at": "2026-03-02T17:56:23.822Z",
+      "image": "city/2026/03/02/HUe.webp",
+      "name": "Hue",
+      "things_to_do": 7,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 482,
+    "fields": {
+      "slug": "nuwara-eliya",
+      "updated_at": "2026-03-02T17:57:04.651Z",
+      "created_at": "2026-03-02T17:57:04.651Z",
+      "image": "city/2026/03/02/Nuwara.webp",
+      "name": "Nuwara Eliya",
+      "things_to_do": 7,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 483,
+    "fields": {
+      "slug": "manila",
+      "updated_at": "2026-03-02T17:57:30.635Z",
+      "created_at": "2026-03-02T17:57:30.635Z",
+      "image": "city/2026/03/02/Manila.webp",
+      "name": "Manila",
+      "things_to_do": 14,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 484,
+    "fields": {
+      "slug": "seoul",
+      "updated_at": "2026-03-02T17:58:00.144Z",
+      "created_at": "2026-03-02T17:58:00.144Z",
+      "image": "city/2026/03/02/Seoul.webp",
+      "name": "Seoul",
+      "things_to_do": 84,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 485,
+    "fields": {
+      "slug": "cala-an",
+      "updated_at": "2026-03-02T17:58:27.824Z",
+      "created_at": "2026-03-02T17:58:27.824Z",
+      "image": "city/2026/03/02/Cala_an.webp",
+      "name": "Cala An",
+      "things_to_do": 7,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 486,
+    "fields": {
+      "slug": "hanoi",
+      "updated_at": "2026-03-02T17:58:51.721Z",
+      "created_at": "2026-03-02T17:58:51.721Z",
+      "image": "city/2026/03/02/HAnoi.webp",
+      "name": "Hanoi",
+      "things_to_do": 6,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 487,
+    "fields": {
+      "slug": "kyoto",
+      "updated_at": "2026-03-02T17:59:27.378Z",
+      "created_at": "2026-03-02T17:59:27.378Z",
+      "image": "city/2026/03/02/Kyoto.webp",
+      "name": "Kyoto",
+      "things_to_do": 11,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 488,
+    "fields": {
+      "slug": "tashkent",
+      "updated_at": "2026-03-02T17:59:49.665Z",
+      "created_at": "2026-03-02T17:59:49.665Z",
+      "image": "city/2026/03/02/Tashkent.webp",
+      "name": "Tashkent",
+      "things_to_do": 12,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 489,
+    "fields": {
+      "slug": "anuradhapura",
+      "updated_at": "2026-03-02T18:00:19.303Z",
+      "created_at": "2026-03-02T18:00:19.303Z",
+      "image": "city/2026/03/02/Anuradhapura.webp",
+      "name": "Anuradhapura",
+      "things_to_do": 23,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 490,
+    "fields": {
+      "slug": "kuta",
+      "updated_at": "2026-03-02T18:00:44.495Z",
+      "created_at": "2026-03-02T18:00:44.495Z",
+      "image": "city/2026/03/02/Kuta.webp",
+      "name": "Kuta",
+      "things_to_do": 53,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 491,
+    "fields": {
+      "slug": "singapore",
+      "updated_at": "2026-03-02T18:01:11.407Z",
+      "created_at": "2026-03-02T18:01:11.407Z",
+      "image": "city/2026/03/02/Singapore.webp",
+      "name": "Singapore",
+      "things_to_do": 80,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 492,
+    "fields": {
+      "slug": "colombo",
+      "updated_at": "2026-03-02T18:01:38.761Z",
+      "created_at": "2026-03-02T18:01:38.761Z",
+      "image": "city/2026/03/02/Colombo.webp",
+      "name": "Colombo",
+      "things_to_do": 24,
+      "region": 3
+    }
+  },
+  {
+    "model": "apps.city",
+    "pk": 493,
+    "fields": {
+      "slug": "bandung",
+      "updated_at": "2026-03-02T18:03:05.653Z",
+      "created_at": "2026-03-02T18:03:05.653Z",
+      "image": "city/2026/03/02/Bandung.webp",
+      "name": "Bandung",
+      "things_to_do": 25,
+      "region": 3
+    }
+  }
+]

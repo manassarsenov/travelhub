@@ -1,19 +1,13 @@
 from django.db.models import CharField, ForeignKey, CASCADE, TextField, PositiveIntegerField, FloatField, \
     PositiveSmallIntegerField, BooleanField
-from mptt.fields import TreeForeignKey
-
-from apps.models.base import SlugBaseModel, CreatedBaseModel, ImageBaseModel
-from django.db.models import CharField, ForeignKey, CASCADE, TextField, PositiveIntegerField, FloatField, \
-    PositiveSmallIntegerField, BooleanField
 
 from apps.models.base import SlugBaseModel, CreatedBaseModel, ImageBaseModel
 
 
 class Destination(SlugBaseModel, CreatedBaseModel):
     name = CharField(max_length=250)
-    city = TreeForeignKey('apps.Category', CASCADE, related_name='destinations',
-                          # limit_choices_to={'level': 1}
-                          )
+    city = ForeignKey('apps.City', CASCADE, related_name='destinations',
+                      limit_choices_to={'level': 1})
     country = CharField(max_length=100)
     short_description = TextField(blank=True)
     description = TextField(blank=True)

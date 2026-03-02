@@ -1,0 +1,146 @@
+[
+  {
+    "model": "apps.region",
+    "pk": 1,
+    "fields": {
+      "slug": "europe",
+      "updated_at": "2026-02-26T12:43:29.745Z",
+      "created_at": "2026-02-26T12:43:29.746Z",
+      "name": "Europe",
+      "imoji": "🏰",
+      "parent": null,
+      "lft": 1,
+      "rght": 2,
+      "tree_id": 5,
+      "level": 0
+    }
+  },
+  {
+    "model": "apps.region",
+    "pk": 2,
+    "fields": {
+      "slug": "north-america",
+      "updated_at": "2026-02-26T12:44:13.847Z",
+      "created_at": "2026-02-26T12:44:13.847Z",
+      "name": "North America",
+      "imoji": "🦅",
+      "parent": null,
+      "lft": 1,
+      "rght": 2,
+      "tree_id": 7,
+      "level": 0
+    }
+  },
+  {
+    "model": "apps.region",
+    "pk": 3,
+    "fields": {
+      "slug": "asia",
+      "updated_at": "2026-02-26T12:44:40.639Z",
+      "created_at": "2026-02-26T12:44:40.639Z",
+      "name": "Asia",
+      "imoji": "🏯",
+      "parent": null,
+      "lft": 1,
+      "rght": 2,
+      "tree_id": 2,
+      "level": 0
+    }
+  },
+  {
+    "model": "apps.region",
+    "pk": 4,
+    "fields": {
+      "slug": "africa",
+      "updated_at": "2026-02-26T12:44:58.310Z",
+      "created_at": "2026-02-26T12:44:58.310Z",
+      "name": "Africa",
+      "imoji": "🦁",
+      "parent": null,
+      "lft": 1,
+      "rght": 2,
+      "tree_id": 1,
+      "level": 0
+    }
+  },
+  {
+    "model": "apps.region",
+    "pk": 5,
+    "fields": {
+      "slug": "oceania",
+      "updated_at": "2026-02-26T12:45:12.153Z",
+      "created_at": "2026-02-26T12:45:12.153Z",
+      "name": "Oceania",
+      "imoji": "🦘",
+      "parent": null,
+      "lft": 1,
+      "rght": 2,
+      "tree_id": 8,
+      "level": 0
+    }
+  },
+  {
+    "model": "apps.region",
+    "pk": 6,
+    "fields": {
+      "slug": "middle-east",
+      "updated_at": "2026-02-26T12:45:38.333Z",
+      "created_at": "2026-02-26T12:45:38.333Z",
+      "name": "Middle East",
+      "imoji": "🕌",
+      "parent": null,
+      "lft": 1,
+      "rght": 2,
+      "tree_id": 6,
+      "level": 0
+    }
+  },
+  {
+    "model": "apps.region",
+    "pk": 7,
+    "fields": {
+      "slug": "caribbean",
+      "updated_at": "2026-02-26T12:46:18.398Z",
+      "created_at": "2026-02-26T12:46:18.398Z",
+      "name": "Caribbean",
+      "imoji": "🌴",
+      "parent": null,
+      "lft": 1,
+      "rght": 2,
+      "tree_id": 3,
+      "level": 0
+    }
+  },
+  {
+    "model": "apps.region",
+    "pk": 8,
+    "fields": {
+      "slug": "south-america",
+      "updated_at": "2026-02-26T12:46:41.334Z",
+      "created_at": "2026-02-26T12:46:41.334Z",
+      "name": "South America",
+      "imoji": "🦜",
+      "parent": null,
+      "lft": 1,
+      "rght": 2,
+      "tree_id": 9,
+      "level": 0
+    }
+  },
+  {
+    "model": "apps.region",
+    "pk": 9,
+    "fields": {
+      "slug": "central-america",
+      "updated_at": "2026-02-26T12:47:12.273Z",
+      "created_at": "2026-02-26T12:47:12.273Z",
+      "name": "Central America",
+      "imoji": "🌋",
+      "parent": null,
+      "lft": 1,
+      "rght": 2,
+      "tree_id": 4,
+      "level": 0
+    }
+  }
+]

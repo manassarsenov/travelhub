@@ -3,3 +3,7 @@ google intigrativity
 
 
 
+metabase dashboard uchun
+
+python3 manage.py dumpdata apps.Category > categories.json
+python3 manage.py loaddata categories

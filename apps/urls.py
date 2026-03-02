@@ -1,16 +1,16 @@
 from django.urls import path, re_path
 
-from apps.views import HomeTemplateView, DestinationsTemplateView, RecommendationTemplateView, \
+from apps.views import HomeTemplateView, RecommendationTemplateView, \
     AboutTemplateView, ContactTemplateView, BlogTemplateView, NotificationTemplateView, DashboardTemplateView, \
     MyBookingsTemplateView, WishlistTemplateView, ProfileSettingsTemplateView, AdminPanelTemplateView, \
     TelegramChannelTemplateView, InstagramTemplateView, RegisterCreateView, LoginFormView, CustomLogoutView, \
     ActivateAccountView, ForgotPasswordView, PasswordResetConfirmView, GoogleLoginView, GoogleCallbackView, \
     HelpCenterTemplateView, TermsOfServiceTemplateView, PrivacyPolicyTemplateView, CancellationTemplateView, \
-    FAQTemplateView, DestinationDetailView
+    FAQTemplateView, DestinationDetailView, DestinationsListView
 
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home_page'),
-    path('destinations/', DestinationsTemplateView.as_view(), name='destinations_page'),
+    path('destinations/', DestinationsListView.as_view(), name='destinations_page'),
     path('recommendation/', RecommendationTemplateView.as_view(), name='recommendation_page'),
     path('about/', AboutTemplateView.as_view(), name='about_page'),
     path('contact/', ContactTemplateView.as_view(), name='contact_page'),

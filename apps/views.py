@@ -9,12 +9,13 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
-from django.views.generic import TemplateView, CreateView, FormView, DetailView
+from django.views.generic import TemplateView, CreateView, FormView, ListView
 
 from apps.forms import RegisterModelForm, LoginForm, ForgotPasswordForm, PasswordResetConfirmForm
 from apps.mixins import LoginNotRequiredMixin
-from apps.models import User
-from apps.tokens import account_activation_token
+from apps.models import User, Destination
+from apps.models.categories import Region
+from apps.utils.tokens import account_activation_token
 from apps.utils.send_email import send_user_email
 from root import settings
 
@@ -23,8 +24,15 @@ class HomeTemplateView(TemplateView):
     template_name = 'apps/home.html'
 
 
-class DestinationsTemplateView(TemplateView):
+class DestinationsListView(ListView):
+    queryset = Destination.objects.all()
     template_name = 'apps/destinations.html'
+    context_object_name = 'destinations'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['regions'] = Region.objects.filter(level=0).order_by('id').prefetch_related('cities')
+        return context
 
 
 class RecommendationTemplateView(TemplateView):
@@ -315,6 +323,7 @@ class CancellationTemplateView(TemplateView):
 
 class FAQTemplateView(TemplateView):
     template_name = 'apps/faq.html'
+
 
 class DestinationDetailView(TemplateView):
     template_name = 'apps/destination_detail.html'

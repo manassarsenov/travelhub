@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
-from apps.tokens import account_activation_token
+from apps.utils.tokens import account_activation_token
 
 
 def send_user_email(user, host: str, email_type: str):
