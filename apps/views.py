@@ -4,7 +4,7 @@ import requests
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.tokens import default_token_generator
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode
@@ -14,7 +14,7 @@ from django.views.generic import TemplateView, CreateView, FormView, ListView
 from apps.forms import RegisterModelForm, LoginForm, ForgotPasswordForm, PasswordResetConfirmForm
 from apps.mixins import LoginNotRequiredMixin
 from apps.models import User, Destination
-from apps.models.categories import Region
+from apps.models.categories import Region, City
 from apps.utils.tokens import account_activation_token
 from apps.utils.send_email import send_user_email
 from root import settings
@@ -29,58 +29,30 @@ class DestinationsListView(ListView):
     template_name = 'apps/destinations.html'
     context_object_name = 'destinations'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        region_slug = self.kwargs.get('region_slug')
+        city_slug = self.kwargs.get('city_slug')
+
+        if region_slug:
+            region = get_object_or_404(Region, slug=region_slug)
+            queryset = queryset.filter(city__region=region)
+
+        if city_slug:
+            city = get_object_or_404(City, slug=city_slug)
+            queryset = queryset.filter(city=city)
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['regions'] = Region.objects.filter(level=0).order_by('id').prefetch_related('cities')
+
+        context['active_region'] = self.kwargs.get('region_slug')
+        context['active_city'] = self.kwargs.get('city_slug')
+
         return context
-
-
-class RecommendationTemplateView(TemplateView):
-    template_name = 'apps/recommendation.html'
-
-
-class AboutTemplateView(TemplateView):
-    template_name = 'apps/about.html'
-
-
-class ContactTemplateView(TemplateView):
-    template_name = 'apps/contact.html'
-
-
-class BlogTemplateView(TemplateView):
-    template_name = 'apps/blog.html'
-
-
-class NotificationTemplateView(TemplateView):
-    template_name = 'apps/notification.html'
-
-
-class DashboardTemplateView(TemplateView):
-    template_name = 'apps/dashboard.html'
-
-
-class MyBookingsTemplateView(TemplateView):
-    template_name = 'apps/my_bookings.html'
-
-
-class WishlistTemplateView(TemplateView):
-    template_name = 'apps/wishlist.html'
-
-
-class ProfileSettingsTemplateView(TemplateView):
-    template_name = 'apps/profile_settings.html'
-
-
-class AdminPanelTemplateView(TemplateView):
-    template_name = 'apps/admin_panel.html'
-
-
-class TelegramChannelTemplateView(TemplateView):
-    template_name = 'apps/telegram_channel.html'
-
-
-class InstagramTemplateView(TemplateView):
-    template_name = 'apps/instagram.html'
 
 
 class ActivateAccountView(View):
@@ -327,3 +299,51 @@ class FAQTemplateView(TemplateView):
 
 class DestinationDetailView(TemplateView):
     template_name = 'apps/destination_detail.html'
+
+
+class RecommendationTemplateView(TemplateView):
+    template_name = 'apps/recommendation.html'
+
+
+class AboutTemplateView(TemplateView):
+    template_name = 'apps/about.html'
+
+
+class ContactTemplateView(TemplateView):
+    template_name = 'apps/contact.html'
+
+
+class BlogTemplateView(TemplateView):
+    template_name = 'apps/blog.html'
+
+
+class NotificationTemplateView(TemplateView):
+    template_name = 'apps/notification.html'
+
+
+class DashboardTemplateView(TemplateView):
+    template_name = 'apps/dashboard.html'
+
+
+class MyBookingsTemplateView(TemplateView):
+    template_name = 'apps/my_bookings.html'
+
+
+class WishlistTemplateView(TemplateView):
+    template_name = 'apps/wishlist.html'
+
+
+class ProfileSettingsTemplateView(TemplateView):
+    template_name = 'apps/profile_settings.html'
+
+
+class AdminPanelTemplateView(TemplateView):
+    template_name = 'apps/admin_panel.html'
+
+
+class TelegramChannelTemplateView(TemplateView):
+    template_name = 'apps/telegram_channel.html'
+
+
+class InstagramTemplateView(TemplateView):
+    template_name = 'apps/instagram.html'

@@ -116,7 +116,8 @@
 
             <div class="category-tabs" id="category-tabs">
                 {% for region in regions %}
-                    <button class="cat-tab {% if forloop.first %}active{% endif %}" data-region="{{ region.slug }}"
+                    <button class="cat-tab {% if forloop.first %}active{% endif %}"
+                            data-region="{{ region.slug }}"
                             onclick="switchRegion('{{ region.slug }}', this)">
                         <span class="tab-icon">{{ region.imoji }}</span> {{ region.name }}
                     </button>
@@ -124,6 +125,7 @@
 
             </div>
         </div>
+
 
         <!-- EUROPE -->
         {% for region in regions %}
@@ -147,6 +149,8 @@
                 </div>
             </div>
         {% endfor %}
+
+
     </section>
     <!-- END explore-section -->
 

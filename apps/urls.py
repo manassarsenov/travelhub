@@ -11,6 +11,8 @@ from apps.views import HomeTemplateView, RecommendationTemplateView, \
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home_page'),
     path('destinations/', DestinationsListView.as_view(), name='destinations_page'),
+    path('destinations/<slug:region_slug>', DestinationsListView.as_view(), name='destinations_region'),
+    path('destinations/<slug:region_slug>/<slug:city_slug>/', DestinationsListView.as_view(), name='destinations_city'),
     path('recommendation/', RecommendationTemplateView.as_view(), name='recommendation_page'),
     path('about/', AboutTemplateView.as_view(), name='about_page'),
     path('contact/', ContactTemplateView.as_view(), name='contact_page'),
