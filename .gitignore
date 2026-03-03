@@ -9,7 +9,7 @@ pyvenv.cfg
 .venv
 .idea
 media
-migrations
+**/migrations/
 !*/migrations/__init__.py
 .mo
 .env.prod
