@@ -1,13 +1,16 @@
-from PIL import Image
 from io import BytesIO
-from django.core.files.base import ContentFile
-from django.core.files.uploadedfile import InMemoryUploadedFile, TemporaryUploadedFile
-from django.core.validators import FileExtensionValidator
-from django.db.models import Model, ImageField
-from django.db.models.fields import SlugField, DateTimeField
-from django.utils.text import slugify
 
-from apps.utils.uplode_image import upload_to_image, upload_image_size_5mb_validator
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import (InMemoryUploadedFile,
+                                            TemporaryUploadedFile)
+from django.core.validators import FileExtensionValidator
+from django.db.models import ImageField, Model
+from django.db.models.fields import DateTimeField, SlugField
+from django.utils.text import slugify
+from PIL import Image
+
+from apps.utils.uplode_image import (upload_image_size_5mb_validator,
+                                     upload_to_image)
 
 
 class SlugBaseModel(Model):

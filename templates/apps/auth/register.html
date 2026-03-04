@@ -311,48 +311,51 @@
 
         </div>
     </div>
+{% load static %}
 
-    <!-- Right Side - Branding -->
-    <div class="register-right">
-        <div class="branding-content">
-            <div class="brand-overlay"></div>
+<!-- Right Side - Branding -->
+<div class="register-right"
+     style="background-image: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(124,58,237,0.9)),
+            url('{% static 'apps/img/registr_travelhub.jpeg' %}')">
+    <div class="branding-content">
+        <div class="brand-overlay"></div>
 
-            <div class="brand-text">
-                <h2>Welcome to TravelHub</h2>
-                <p>Join thousands of travelers discovering amazing destinations worldwide</p>
+        <div class="brand-text">
+            <h2>Welcome to TravelHub</h2>
+            <p>Join thousands of travelers discovering amazing destinations worldwide</p>
 
-                <div class="benefits">
-                    <div class="benefit-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>AI-Powered Recommendations</span>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Exclusive Travel Deals</span>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Save Your Favorites</span>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Travel Community</span>
-                    </div>
+            <div class="benefits">
+                <div class="benefit-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>AI-Powered Recommendations</span>
                 </div>
+                <div class="benefit-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Exclusive Travel Deals</span>
+                </div>
+                <div class="benefit-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Save Your Favorites</span>
+                </div>
+                <div class="benefit-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Travel Community</span>
+                </div>
+            </div>
 
-                <div class="testimonial">
-                    <div class="testimonial-avatar">
-                        <img src="https://i.pravatar.cc/80?img=1" alt="User">
-                    </div>
-                    <div class="testimonial-content">
-                        <p>"TravelHub helped me discover hidden gems I never knew existed!"</p>
-                        <h4>Sarah Johnson</h4>
-                        <span>Travel Enthusiast</span>
-                    </div>
+            <div class="testimonial">
+                <div class="testimonial-avatar">
+                    <img src="{% static 'apps/img/avatar.jpg' %}" alt="User">
+                </div>
+                <div class="testimonial-content">
+                    <p>"TravelHub helped me discover hidden gems I never knew existed!"</p>
+                    <h4>Sarah Johnson</h4>
+                    <span>Travel Enthusiast</span>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 </div>
 

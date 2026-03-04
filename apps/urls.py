@@ -1,18 +1,26 @@
 from django.urls import path, re_path
 
-from apps.views import HomeTemplateView, RecommendationTemplateView, \
-    AboutTemplateView, ContactTemplateView, BlogTemplateView, NotificationTemplateView, DashboardTemplateView, \
-    MyBookingsTemplateView, WishlistTemplateView, ProfileSettingsTemplateView, AdminPanelTemplateView, \
-    TelegramChannelTemplateView, InstagramTemplateView, RegisterCreateView, LoginFormView, CustomLogoutView, \
-    ActivateAccountView, ForgotPasswordView, PasswordResetConfirmView, GoogleLoginView, GoogleCallbackView, \
-    HelpCenterTemplateView, TermsOfServiceTemplateView, PrivacyPolicyTemplateView, CancellationTemplateView, \
-    FAQTemplateView, DestinationDetailView, DestinationsListView
+from apps.views import (AboutTemplateView, ActivateAccountView,
+                        AdminPanelTemplateView, BlogTemplateView,
+                        CancellationTemplateView, ContactTemplateView,
+                        CustomLogoutView, DashboardTemplateView,
+                        DestinationDetailView, DestinationsListView,
+                        FAQTemplateView, ForgotPasswordView,
+                        GoogleCallbackView, GoogleLoginView,
+                        HelpCenterTemplateView, HomeTemplateView,
+                        InstagramTemplateView, LoginFormView,
+                        MyBookingsTemplateView, NotificationTemplateView,
+                        PasswordResetConfirmView, PrivacyPolicyTemplateView,
+                        ProfileSettingsTemplateView,
+                        RecommendationTemplateView, RegisterCreateView,
+                        TelegramChannelTemplateView,
+                        TermsOfServiceTemplateView, WishlistTemplateView, CitiesAjaxView)
 
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home_page'),
     path('destinations/', DestinationsListView.as_view(), name='destinations_page'),
-    path('destinations/<slug:region_slug>', DestinationsListView.as_view(), name='destinations_region'),
-    path('destinations/<slug:region_slug>/<slug:city_slug>/', DestinationsListView.as_view(), name='destinations_city'),
+    path('destinations/cities/<slug:region_slug>/', CitiesAjaxView.as_view(), name='cities-ajax'),
+
     path('recommendation/', RecommendationTemplateView.as_view(), name='recommendation_page'),
     path('about/', AboutTemplateView.as_view(), name='about_page'),
     path('contact/', ContactTemplateView.as_view(), name='contact_page'),

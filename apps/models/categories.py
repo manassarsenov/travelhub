@@ -1,8 +1,8 @@
-from django.db.models import PositiveIntegerField, CharField, CASCADE, ForeignKey
+from django.db.models import CASCADE, CharField, PositiveIntegerField
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
-from apps.models.base import SlugBaseModel, CreatedBaseModel, ImageBaseModel
+from apps.models.base import CreatedBaseModel, ImageBaseModel, SlugBaseModel
 
 
 class Region(SlugBaseModel, CreatedBaseModel, MPTTModel):

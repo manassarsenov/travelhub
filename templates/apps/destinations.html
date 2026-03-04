@@ -128,28 +128,64 @@
 
 
         <!-- EUROPE -->
+        {#        {% for region in regions %}#}
+        {##}
+        {#            <div class="cities-panel {% if forloop.first %}active{% endif %}" id="panel-{{ region.slug }}">#}
+        {#                <div class="cities-grid">#}
+        {##}
+        {#                    {% for city in region.cities.all %}#}
+        {#                        <div class="city-card" onclick="filterByCity('{{ city.slug }}')">#}
+        {#                            <img src="{{ city.image.url }}" alt="{{ city.name }}"#}
+        {#                                 loading="lazy">#}
+        {#                            <div class="city-card-overlay"></div>#}
+        {#                            <div class="city-card-info">#}
+        {#                                <div class="city-card-name">{{ city.name }}</div>#}
+        {#                                <div class="city-card-things">{{ city.things_to_do }} things to do</div>#}
+        {#                            </div>#}
+        {#                        </div>#}
+        {#                    {% empty %}#}
+        {#                        <p>Shaharlar topilmadi</p>#}
+        {#                    {% endfor %}#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        {% endfor %}#}
+
         {% for region in regions %}
-
-            <div class="cities-panel {% if forloop.first %}active{% endif %}" id="panel-{{ region.slug }}">
+            <div class="cities-panel {% if forloop.first %}active{% endif %}"
+                 id="panel-{{ region.slug }}"
+                 data-loaded="{% if forloop.first %}true{% else %}false{% endif %}"
+                 data-total="{{ region.cities.count }}">
                 <div class="cities-grid">
-
-                    {% for city in region.cities.all %}
-                        <div class="city-card" onclick="filterByCity('{{ city.slug }}')">
-                            <img src="{{ city.image.url }}" alt="{{ city.name }}"
-                                 loading="lazy">
-                            <div class="city-card-overlay"></div>
-                            <div class="city-card-info">
-                                <div class="city-card-name">{{ city.name }}</div>
-                                <div class="city-card-things">{{ city.things_to_do }} things to do</div>
+                    {% if forloop.first %}
+                        {% for city in region.cities.all|slice:":8" %}
+                            <div class="city-card" onclick="filterByCity('{{ city.name }}')">
+                                <img src="{{ city.image.url }}" alt="{{ city.name }}" loading="lazy">
+                                <div class="city-card-overlay"></div>
+                                <div class="city-card-info">
+                                    <div class="city-card-name">{{ city.name }}</div>
+                                    <div class="city-card-things">{{ city.things_to_do }} things to do</div>
+                                </div>
                             </div>
-                        </div>
-                    {% empty %}
-                        <p>Shaharlar topilmadi</p>
-                    {% endfor %}
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
+        {#        <div class="load-more-container">#}
+        {#            <button class="btn-load-more" id="load-more-btn" onclick="loadMoreCities()">#}
+        {#                <i class="fas fa-plus-circle"></i>#}
+        {#                Load More Destinations#}
+        {#            </button>#}
+        {#            <p class="showing-text" id="showing-text">Showing 6 of 156 destinations</p>#}
+        {#        </div>#}
 
+
+        <div class="load-more-container">
+            <button class="btn-load-more" id="cities-load-more-btn" onclick="loadMoreCities()" style="display:none;">
+                <i class="fas fa-plus-circle"></i> Load More Cities
+            </button>
+            <p class="showing-text" id="cities-showing-text"></p>
+        </div>
 
     </section>
     <!-- END explore-section -->

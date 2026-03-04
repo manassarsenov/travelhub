@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from apps.models import Destination
-from apps.models.categories import Region, City
+from apps.models.categories import City, Region
 from apps.models.destinations import DestinationImage
 
 

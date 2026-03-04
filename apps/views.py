@@ -1,22 +1,26 @@
 import urllib.parse
 import uuid
+
 import requests
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.tokens import default_token_generator
-from django.shortcuts import redirect, get_object_or_404
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
-from django.views.generic import TemplateView, CreateView, FormView, ListView
+from django.views.generic import CreateView, FormView, ListView, TemplateView
+from sqlparse.utils import offset
 
-from apps.forms import RegisterModelForm, LoginForm, ForgotPasswordForm, PasswordResetConfirmForm
+from apps.forms import (ForgotPasswordForm, LoginForm,
+                        PasswordResetConfirmForm, RegisterModelForm)
 from apps.mixins import LoginNotRequiredMixin
-from apps.models import User, Destination
-from apps.models.categories import Region, City
-from apps.utils.tokens import account_activation_token
+from apps.models import Destination, User
+from apps.models.categories import City, Region
 from apps.utils.send_email import send_user_email
+from apps.utils.tokens import account_activation_token
 from root import settings
 
 
@@ -29,30 +33,35 @@ class DestinationsListView(ListView):
     template_name = 'apps/destinations.html'
     context_object_name = 'destinations'
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-
-        region_slug = self.kwargs.get('region_slug')
-        city_slug = self.kwargs.get('city_slug')
-
-        if region_slug:
-            region = get_object_or_404(Region, slug=region_slug)
-            queryset = queryset.filter(city__region=region)
-
-        if city_slug:
-            city = get_object_or_404(City, slug=city_slug)
-            queryset = queryset.filter(city=city)
-
-        return queryset
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['regions'] = Region.objects.filter(level=0).order_by('id').prefetch_related('cities')
-
-        context['active_region'] = self.kwargs.get('region_slug')
-        context['active_city'] = self.kwargs.get('city_slug')
-
         return context
+
+
+class CitiesAjaxView(View):
+
+    def get(self, request, region_slug):
+        region = get_object_or_404(Region, slug=region_slug, level=0)
+        all_cities = list(City.objects.filter(region=region))
+        offset = int(request.GET.get('offset', 0))
+        cities_slice = all_cities[offset:offset + 8]
+        cities_data = []
+        for city in cities_slice:
+            cities_data.append(
+                {
+                    'name': city.name,
+                    'slug': city.slug,
+                    'things_to_do': city.things_to_do,
+                    'image_url': request.build_absolute_uri(city.image.url),
+                }
+            )
+        return JsonResponse({
+            'cities': cities_data,
+            'total': len(all_cities),
+            'has_more': (offset + 8) < len(all_cities)
+
+        })
 
 
 class ActivateAccountView(View):

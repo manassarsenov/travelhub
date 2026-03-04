@@ -251,7 +251,129 @@ function switchRegion(region, btn) {
     document.querySelectorAll('.cities-panel').forEach(p => p.classList.remove('active'));
     const panel = document.getElementById('panel-' + region);
     if (panel) panel.classList.add('active');
+
+    const loadMoreBtn = document.getElementById('cities-load-more-btn');
+    const showingText = document.getElementById('cities-showing-text');
+
+    // Allaqachon yuklangan bo'lsa — faqat showing text va load more yangilansin
+    if (panel.dataset.loaded === 'true') {
+        const total = parseInt(panel.dataset.total || 0);
+        const shown = panel.querySelectorAll('.city-card').length;
+
+        showingText.textContent = `Showing ${shown} of ${total} cities`;
+
+        if (shown < total) {
+            loadMoreBtn.style.display = '';
+            loadMoreBtn.dataset.region = region;
+            loadMoreBtn.dataset.offset = shown;
+        } else {
+            loadMoreBtn.style.display = 'none';
+        }
+        return;
+    }
+
+    // Yangi region — AJAX bilan yuklash
+    const grid = panel.querySelector('.cities-grid');
+    grid.innerHTML = '<div style="text-align:center;padding:40px"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
+    const lang = document.documentElement.lang || 'en';
+
+    fetch(`/${lang}/destinations/cities/${region}/`)
+        .then(res => res.json())
+        .then(data => {
+            grid.innerHTML = '';
+            data.cities.forEach(city => {
+                grid.innerHTML += `
+                    <div class="city-card" onclick="filterByCity('${city.name}')">
+                        <img src="${city.image_url}" alt="${city.name}" loading="lazy">
+                        <div class="city-card-overlay"></div>
+                        <div class="city-card-info">
+                            <div class="city-card-name">${city.name}</div>
+                            <div class="city-card-things">${city.things_to_do} things to do</div>
+                        </div>
+                    </div>`;
+            });
+
+            if (data.has_more) {
+                loadMoreBtn.style.display = '';
+                loadMoreBtn.dataset.region = region;
+                loadMoreBtn.dataset.offset = 8;
+                showingText.textContent = `Showing 8 of ${data.total} cities`;
+            } else {
+                loadMoreBtn.style.display = 'none';
+                showingText.textContent = `Showing ${data.cities.length} of ${data.total} cities`;
+            }
+
+            panel.dataset.loaded = 'true';
+        })
+        .catch(() => {
+            grid.innerHTML = '<p>Xatolik yuz berdi</p>';
+        });
 }
+
+function loadMoreCities() {
+    const btn = document.getElementById('cities-load-more-btn');
+    const showingText = document.getElementById('cities-showing-text');
+    const region = btn.dataset.region;
+    const offset = parseInt(btn.dataset.offset);
+    const lang = document.documentElement.lang || 'en';
+
+    const panel = document.getElementById('panel-' + region);
+    const grid = panel.querySelector('.cities-grid');
+    const total = parseInt(panel.dataset.total || 0);
+
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.disabled = true;
+
+    fetch(`/${lang}/destinations/cities/${region}/?offset=${offset}`)
+        .then(res => res.json())
+        .then(data => {
+            data.cities.forEach(city => {
+                grid.innerHTML += `
+                    <div class="city-card" onclick="filterByCity('${city.name}')">
+                        <img src="${city.image_url}" alt="${city.name}" loading="lazy">
+                        <div class="city-card-overlay"></div>
+                        <div class="city-card-info">
+                            <div class="city-card-name">${city.name}</div>
+                            <div class="city-card-things">${city.things_to_do} things to do</div>
+                        </div>
+                    </div>`;
+            });
+
+            const newOffset = offset + data.cities.length;
+            btn.dataset.offset = newOffset;
+            showingText.textContent = `Showing ${newOffset} of ${total} cities`;
+
+            if (!data.has_more) {
+                btn.style.display = 'none';
+            } else {
+                btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Cities';
+                btn.disabled = false;
+            }
+        })
+        .catch(() => {
+            btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Cities';
+            btn.disabled = false;
+        });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const firstPanel = document.querySelector('.cities-panel.active');
+    if (firstPanel) {
+        const total = parseInt(firstPanel.dataset.total || 0);
+        const shown = firstPanel.querySelectorAll('.city-card').length;
+        const loadMoreBtn = document.getElementById('cities-load-more-btn');
+        const showingText = document.getElementById('cities-showing-text');
+        const regionSlug = firstPanel.id.replace('panel-', '');
+
+        showingText.textContent = `Showing ${shown} of ${total} cities`;
+
+        if (total > 8) {
+            loadMoreBtn.style.display = '';
+            loadMoreBtn.dataset.region = regionSlug;
+            loadMoreBtn.dataset.offset = 8;
+        }
+    }
+});
 
 /* ---- City card bosilganda ---- */
 function filterByCity(cityName) {

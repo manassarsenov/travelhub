@@ -1,10 +1,8 @@
-from enum import unique
-
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
-from django.forms import Form
-from django.forms import ModelForm, CharField, DateField, ChoiceField, BooleanField, EmailField
+from django.forms import (BooleanField, CharField, ChoiceField, DateField,
+                          EmailField, Form, ModelForm)
 from django.forms.widgets import PasswordInput
 
 from apps.models import User

@@ -1,7 +1,8 @@
-from django.db.models import CharField, ForeignKey, CASCADE, TextField, PositiveIntegerField, FloatField, \
-    PositiveSmallIntegerField, BooleanField
+from django.db.models import (CASCADE, BooleanField, CharField, FloatField,
+                              ForeignKey, PositiveIntegerField,
+                              PositiveSmallIntegerField, TextField)
 
-from apps.models.base import SlugBaseModel, CreatedBaseModel, ImageBaseModel
+from apps.models.base import CreatedBaseModel, ImageBaseModel, SlugBaseModel
 
 
 class Destination(SlugBaseModel, CreatedBaseModel):
