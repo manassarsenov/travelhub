@@ -12,7 +12,6 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
 from django.views.generic import CreateView, FormView, ListView, TemplateView
-from sqlparse.utils import offset
 
 from apps.forms import (ForgotPasswordForm, LoginForm,
                         PasswordResetConfirmForm, RegisterModelForm)

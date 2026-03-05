@@ -2,19 +2,19 @@ from django.urls import path, re_path
 
 from apps.views import (AboutTemplateView, ActivateAccountView,
                         AdminPanelTemplateView, BlogTemplateView,
-                        CancellationTemplateView, ContactTemplateView,
-                        CustomLogoutView, DashboardTemplateView,
-                        DestinationDetailView, DestinationsListView,
-                        FAQTemplateView, ForgotPasswordView,
-                        GoogleCallbackView, GoogleLoginView,
-                        HelpCenterTemplateView, HomeTemplateView,
-                        InstagramTemplateView, LoginFormView,
+                        CancellationTemplateView, CitiesAjaxView,
+                        ContactTemplateView, CustomLogoutView,
+                        DashboardTemplateView, DestinationDetailView,
+                        DestinationsListView, FAQTemplateView,
+                        ForgotPasswordView, GoogleCallbackView,
+                        GoogleLoginView, HelpCenterTemplateView,
+                        HomeTemplateView, InstagramTemplateView, LoginFormView,
                         MyBookingsTemplateView, NotificationTemplateView,
                         PasswordResetConfirmView, PrivacyPolicyTemplateView,
                         ProfileSettingsTemplateView,
                         RecommendationTemplateView, RegisterCreateView,
                         TelegramChannelTemplateView,
-                        TermsOfServiceTemplateView, WishlistTemplateView, CitiesAjaxView)
+                        TermsOfServiceTemplateView, WishlistTemplateView)
 
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home_page'),
