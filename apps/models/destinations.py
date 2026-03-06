@@ -39,7 +39,7 @@ class Destination(SlugBaseModel, CreatedBaseModel):
         BUSINESS = 'business', 'Business'
 
     city = ForeignKey('apps.City', CASCADE, related_name='destinations',
-                      limit_choices_to={'level': 1})
+                      limit_choices_to={'region__level': 0})
     tags = ManyToManyField('apps.Tag', blank=True, related_name='destinations')
     activities = ManyToManyField('apps.Activity', blank=True, related_name='destinations')
     country = ForeignKey('apps.Country', SET_NULL, null=True, blank=True, related_name='destinations')
@@ -58,8 +58,6 @@ class Destination(SlugBaseModel, CreatedBaseModel):
     discount_percentage = PositiveSmallIntegerField('Discount percentage', default=0, db_default=0,
                                                     validators=[MinValueValidator(0), MaxValueValidator(100)],
                                                     help_text="Discount percentage must be between 0 and 100")
-    rating = FloatField(default=0)
-    reviews_count = PositiveIntegerField(default=0)
 
     hotels_count = PositiveIntegerField(default=0, help_text="120 → '120+ Hotels'")
     has_flights = BooleanField(default=True, help_text="Direct FLights ko'rsatilsinmi")
@@ -86,6 +84,16 @@ class Destination(SlugBaseModel, CreatedBaseModel):
 
         discounted_price = self.price - (self.price * self.discount_percentage / 100)
         return int(discounted_price)
+
+    @property
+    def rating(self):
+        from django.db.models import Avg
+        result = self.reviews.aggregate(Avg('rating'))
+        return round(result['rating__avg'] or 0, 1)
+
+    @property
+    def reviews_count(self):
+        return self.reviews.count()
 
     def __str__(self):
         return self.name

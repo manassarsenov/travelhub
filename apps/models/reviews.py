@@ -1,6 +1,7 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.db.models import TextChoices, ForeignKey, CASCADE, SET_NULL, CharField, PositiveIntegerField, \
-    PositiveSmallIntegerField, TextField, DateTimeField, BooleanField
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import (CASCADE, SET_NULL, BooleanField, CharField,
+                              DateTimeField, ForeignKey, PositiveSmallIntegerField, TextChoices,
+                              TextField)
 
 from apps.models.base import CreatedBaseModel
 

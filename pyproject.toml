@@ -19,6 +19,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "django-debug-toolbar>=6.2.0",
     "flake8>=7.3.0",
     "git-filter-repo>=2.47.0",
     "isort>=7.0.0",

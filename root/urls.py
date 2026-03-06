@@ -19,14 +19,20 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from root.settings import MEDIA_ROOT, MEDIA_URL, STATIC_ROOT, STATIC_URL
+from root.settings import MEDIA_ROOT, MEDIA_URL, STATIC_ROOT, STATIC_URL, DEBUG
 
-urlpatterns = i18n_patterns(
+urlpatterns = []
+if DEBUG:
+    import debug_toolbar
+
+    urlpatterns += [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ]
+
+urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('set_language/', set_language, name='set_language'),
     path('', include('apps.urls')),
     path("i18n/", include("django.conf.urls.i18n")),
-    path('rosetta/', include('rosetta.urls'))
-
-) + static(MEDIA_URL, document_root=MEDIA_ROOT) + static(STATIC_URL,
-                                                         document_root=STATIC_ROOT)
+    path('rosetta/', include('rosetta.urls')),
+) + static(MEDIA_URL, document_root=MEDIA_ROOT) + static(STATIC_URL, document_root=STATIC_ROOT)

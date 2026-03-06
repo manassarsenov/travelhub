@@ -1,5 +1,7 @@
-from django.db.models import ForeignKey, CASCADE
-from django.db.models.fields import CharField, PositiveIntegerField, BooleanField, PositiveSmallIntegerField
+from django.db.models import CASCADE, ForeignKey
+from django.db.models.fields import (BooleanField, CharField,
+                                     PositiveIntegerField,
+                                     PositiveSmallIntegerField)
 
 from apps.models.base import CreatedBaseModel
 
