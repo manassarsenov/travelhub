@@ -5,6 +5,7 @@ from django.db.models import (CASCADE, SET_NULL, BooleanField, CharField,
                               TextField)
 from django.db.models.enums import TextChoices
 from django.db.models.fields import DateTimeField, DecimalField
+from django_ckeditor_5.fields import CKEditor5Field
 
 from apps.models.base import CreatedBaseModel, ImageBaseModel, SlugBaseModel
 
@@ -45,8 +46,8 @@ class Destination(SlugBaseModel, CreatedBaseModel):
     country = ForeignKey('apps.Country', SET_NULL, null=True, blank=True, related_name='destinations')
 
     name = CharField(max_length=250)
-    short_description = TextField(blank=True)
-    description = TextField(blank=True)
+    short_description = CKEditor5Field(blank=True)
+    description = CKEditor5Field(blank=True)
     location = CharField(max_length=250, blank=True)
 
     latitude = DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)

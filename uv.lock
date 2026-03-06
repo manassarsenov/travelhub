@@ -104,6 +104,19 @@ wheels = [
 ]
 
 [[package]]
+name = "django-ckeditor-5"
+version = "0.2.20"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "pillow" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4b/e0/2dbbf2eb59411bf063646ac541753d1cdeacdcd2bb3defb03a456369a2de/django_ckeditor_5-0.2.20.tar.gz", hash = "sha256:7c3d67cc8bbce3564108578b8fafe8e752c6ad4fbf45b1ffee821045ba2c0e96", size = 3049978, upload-time = "2026-02-21T20:40:38.923Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b0/52/e9ed3f359d06cf7c7476e274059f5318ac81e82e20de9f4fcf714a576dea/django_ckeditor_5-0.2.20-py3-none-any.whl", hash = "sha256:dfff659822fb8d42f55b43265cb51bf8b1e0797dc850e0bf5547644daeaa3fff", size = 3143416, upload-time = "2026-02-21T20:40:37.135Z" },
+]
+
+[[package]]
 name = "django-debug-toolbar"
 version = "6.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -439,6 +452,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "django" },
+    { name = "django-ckeditor-5" },
     { name = "django-jazzmin" },
     { name = "django-mptt" },
     { name = "django-rosetta" },
@@ -463,6 +477,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "django", specifier = ">=5.2.8" },
+    { name = "django-ckeditor-5", specifier = ">=0.2.20" },
     { name = "django-jazzmin", specifier = ">=3.0.1" },
     { name = "django-mptt", specifier = ">=0.18.0" },
     { name = "django-rosetta", specifier = ">=0.10.3" },

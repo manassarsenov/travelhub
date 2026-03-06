@@ -65,7 +65,6 @@
 .hero-parallax-bg {
     position: absolute;
     inset: 0;
-    background-image: url('https://images.unsplash.com/photo-1488646953014-85cb44e25828');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

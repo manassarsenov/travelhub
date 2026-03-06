@@ -17,7 +17,8 @@
          HERO SECTION
     ============================================================ -->
     <section class="destinations-hero">
-        <div class="hero-parallax-bg"></div>
+        <div class="hero-parallax-bg"
+             style="background-image: url('{% static "apps/img/registr_travelhub.jpeg" %}')"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1 class="hero-title">
@@ -126,30 +127,6 @@
             </div>
         </div>
 
-
-        <!-- EUROPE -->
-        {#        {% for region in regions %}#}
-        {##}
-        {#            <div class="cities-panel {% if forloop.first %}active{% endif %}" id="panel-{{ region.slug }}">#}
-        {#                <div class="cities-grid">#}
-        {##}
-        {#                    {% for city in region.cities.all %}#}
-        {#                        <div class="city-card" onclick="filterByCity('{{ city.slug }}')">#}
-        {#                            <img src="{{ city.image.url }}" alt="{{ city.name }}"#}
-        {#                                 loading="lazy">#}
-        {#                            <div class="city-card-overlay"></div>#}
-        {#                            <div class="city-card-info">#}
-        {#                                <div class="city-card-name">{{ city.name }}</div>#}
-        {#                                <div class="city-card-things">{{ city.things_to_do }} things to do</div>#}
-        {#                            </div>#}
-        {#                        </div>#}
-        {#                    {% empty %}#}
-        {#                        <p>Shaharlar topilmadi</p>#}
-        {#                    {% endfor %}#}
-        {#                </div>#}
-        {#            </div>#}
-        {#        {% endfor %}#}
-
         {% for region in regions %}
             <div class="cities-panel {% if forloop.first %}active{% endif %}"
                  id="panel-{{ region.slug }}"
@@ -171,14 +148,6 @@
                 </div>
             </div>
         {% endfor %}
-        {#        <div class="load-more-container">#}
-        {#            <button class="btn-load-more" id="load-more-btn" onclick="loadMoreCities()">#}
-        {#                <i class="fas fa-plus-circle"></i>#}
-        {#                Load More Destinations#}
-        {#            </button>#}
-        {#            <p class="showing-text" id="showing-text">Showing 6 of 156 destinations</p>#}
-        {#        </div>#}
-
 
         <div class="load-more-container">
             <button class="btn-load-more" id="cities-load-more-btn" onclick="loadMoreCities()" style="display:none;">

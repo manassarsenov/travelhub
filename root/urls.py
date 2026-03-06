@@ -34,5 +34,6 @@ urlpatterns += i18n_patterns(
     path('set_language/', set_language, name='set_language'),
     path('', include('apps.urls')),
     path("i18n/", include("django.conf.urls.i18n")),
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
     path('rosetta/', include('rosetta.urls')),
 ) + static(MEDIA_URL, document_root=MEDIA_ROOT) + static(STATIC_URL, document_root=STATIC_ROOT)
