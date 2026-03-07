@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.tokens import default_token_generator
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode
@@ -61,6 +61,13 @@ class CitiesAjaxView(View):
             'has_more': (offset + 8) < len(all_cities)
 
         })
+
+
+class DestinationByCityView(View):
+    def get(self, request):
+        city_slug = request.GET.get('city')
+        destinations = Destination.objects.filter(city__slug=city_slug)
+        return render(request, 'apps/destination_cards.html', {'destinations': destinations})
 
 
 class ActivateAccountView(View):

@@ -14,12 +14,13 @@ from apps.views import (AboutTemplateView, ActivateAccountView,
                         ProfileSettingsTemplateView,
                         RecommendationTemplateView, RegisterCreateView,
                         TelegramChannelTemplateView,
-                        TermsOfServiceTemplateView, WishlistTemplateView)
+                        TermsOfServiceTemplateView, WishlistTemplateView, DestinationByCityView)
 
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home_page'),
     path('destinations/', DestinationsListView.as_view(), name='destinations_page'),
     path('destinations/cities/<slug:region_slug>/', CitiesAjaxView.as_view(), name='cities-ajax'),
+    path('destinations/by-city/', DestinationByCityView.as_view(), name='destinations_by_city'),
 
     path('recommendation/', RecommendationTemplateView.as_view(), name='recommendation_page'),
     path('about/', AboutTemplateView.as_view(), name='about_page'),

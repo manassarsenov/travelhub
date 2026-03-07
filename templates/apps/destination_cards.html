@@ -39,13 +39,14 @@
                 </div>
             </div>
             <p class="card-description">{{ destination.short_description }}</p>
-            {% for tag in tags %}
-                <div class="card-tags">
+            <div class="card-tags">
+                {% for tag in destination.tags.all %}
+
                     <span class="tag"><i class="{{ tag.icon }}"></i> {{ tag.name }}</span>
+                {% endfor %}
 
-                </div>
+            </div>
 
-            {% endfor %}
 
             <div class="card-stats">
                 <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
