@@ -63,11 +63,30 @@ class CitiesAjaxView(View):
         })
 
 
+# class DestinationByCityView(View):
+#     def get(self, request):
+#         city_slug = request.GET.get('city')
+#         destinations = Destination.objects.filter(city__slug=city_slug)
+#         return render(request, 'apps/destination_cards.html', {'destinations': destinations})
+
 class DestinationByCityView(View):
     def get(self, request):
         city_slug = request.GET.get('city')
-        destinations = Destination.objects.filter(city__slug=city_slug)
-        return render(request, 'apps/destination_cards.html', {'destinations': destinations})
+        offset = int(request.GET.get('offset', 0))
+        limit = 6
+
+        all_destinations = Destination.objects.filter(city__slug=city_slug)
+        total = all_destinations.count()
+        destinations = all_destinations[offset:offset + limit]
+        has_more = (offset + limit) < total
+        shown = offset + destinations.count()
+
+        return render(request, 'apps/destination_cards.html', {
+            'destinations': destinations,
+            'total': total,
+            'has_more': has_more,
+            'shown': shown,
+        })
 
 
 class ActivateAccountView(View):

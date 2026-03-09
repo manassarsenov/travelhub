@@ -1,248 +1,36 @@
-// ===================================
-// DESTINATIONS PAGE - JAVASCRIPT
-// ===================================
-
-// Smooth scroll to section
-function scrollToSection(selector) {
-    const section = document.querySelector(selector);
-    if (section) {
-        section.scrollIntoView({behavior: 'smooth'});
-    }
-}
-
-// Video controls
-const heroVideo = document.querySelector('.hero-video');
-const playPauseBtn = document.getElementById('play-pause-btn');
-const muteBtn = document.getElementById('mute-btn');
-
-function toggleVideo() {
-    if (heroVideo.paused) {
-        heroVideo.play();
-        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-    } else {
-        heroVideo.pause();
-        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-    }
-}
-
-function toggleMute() {
-    heroVideo.muted = !heroVideo.muted;
-    muteBtn.innerHTML = heroVideo.muted
-        ? '<i class="fas fa-volume-mute"></i>'
-        : '<i class="fas fa-volume-up"></i>';
-}
-
-// Counter animation for numbers
-function animateCounter(element) {
-    const target = parseInt(element.getAttribute('data-count'));
-    const duration = 2000;
-    const increment = target / (duration / 16);
-    let current = 0;
-
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-            element.textContent = target.toLocaleString();
-            clearInterval(timer);
-        } else {
-            element.textContent = Math.floor(current).toLocaleString();
-        }
-    }, 16);
-}
-
-// Intersection Observer for counter animations
-const observerOptions = {
-    threshold: 0.5,
-    rootMargin: '0px'
-};
-
-const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const counters = entry.target.querySelectorAll('.metric-number, .stat-number');
-            counters.forEach(counter => {
-                if (!counter.classList.contains('animated')) {
-                    counter.classList.add('animated');
-                    animateCounter(counter);
-                }
-            });
-        }
-    });
-}, observerOptions);
-
-// Observe sections with counters
 document.addEventListener('DOMContentLoaded', () => {
-    const metricsSection = document.querySelector('.metrics');
-    const statsSection = document.querySelector('.stats-dashboard');
-
-    if (metricsSection) counterObserver.observe(metricsSection);
-    if (statsSection) counterObserver.observe(statsSection);
-});
-
-// Timeline functionality
-let currentYear = '2020';
-
-function showTimelineCard(year) {
-    // Update active year
-    document.querySelectorAll('.timeline-year').forEach(y => {
-        y.classList.remove('active');
-    });
-    document.querySelector(`[data-year="${year}"]`).classList.add('active');
-
-    // Update active card
-    document.querySelectorAll('.timeline-card').forEach(card => {
-        card.classList.remove('active');
-    });
-    document.getElementById(`card-${year}`).classList.add('active');
-
-    // Update progress line
-    const yearIndex = ['2020', '2021', '2022', '2023', '2024', '2025'].indexOf(year);
-    const progressPercentage = (yearIndex / 5) * 100;
-    document.getElementById('timeline-progress').style.width = progressPercentage + '%';
-
-    currentYear = year;
-}
-
-// Flip card functionality for values
-function flipCard(card) {
-    card.classList.toggle('flipped');
-}
-
-// Flip team card functionality
-function flipTeamCard(card) {
-    card.classList.toggle('flipped');
-}
-
-// Auto-play timeline animation
-let timelineAutoPlay = true;
-let timelineInterval;
-
-function startTimelineAutoPlay() {
-    const years = ['2020', '2021', '2022', '2023', '2024', '2025'];
-    let currentIndex = 0;
-
-    timelineInterval = setInterval(() => {
-        if (timelineAutoPlay) {
-            currentIndex = (currentIndex + 1) % years.length;
-            showTimelineCard(years[currentIndex]);
-        }
-    }, 4000);
-}
-
-// Stop autoplay when user interacts
-document.querySelectorAll('.timeline-year').forEach(year => {
-    year.addEventListener('click', () => {
-        timelineAutoPlay = false;
-        clearInterval(timelineInterval);
-    });
-});
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    // Start timeline autoplay
-    startTimelineAutoPlay();
-
-    // AOS (Animate On Scroll) initialization - if using AOS library
-    if (typeof AOS !== 'undefined') {
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
-        });
-    }
-
-    // Parallax effect for hero
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const heroContent = document.querySelector('.hero-content');
-        const heroVideo = document.querySelector('.hero-video');
-
-        if (heroContent && scrolled < window.innerHeight) {
-            heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
-            heroContent.style.opacity = 1 - (scrolled / window.innerHeight);
-        }
-
-        if (heroVideo && scrolled < window.innerHeight) {
-            heroVideo.style.transform = `translateY(${scrolled * 0.3}px)`;
-        }
-    });
-
-    // Add click listeners to all value cards
-    document.querySelectorAll('.value-card').forEach(card => {
-        card.addEventListener('click', () => {
-            flipCard(card);
-        });
-    });
-
-    // Add click listeners to all team cards
-    document.querySelectorAll('.team-card').forEach(card => {
-        card.addEventListener('click', () => {
-            flipTeamCard(card);
-        });
-    });
-});
-
-// Prevent card flip when clicking on social links
-document.querySelectorAll('.team-socials a').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
-});
-
-// Smooth reveal animations on scroll
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-        }
-    });
-}, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-});
-
-// Observe all sections for reveal animation
-document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-        revealObserver.observe(section);
-    });
-});
-
-// Mission & Vision hover effect enhancement
-document.addEventListener('DOMContentLoaded', () => {
-    const mission = document.querySelector('.mission');
-    const vision = document.querySelector('.vision');
-
-    if (mission && vision) {
-        mission.addEventListener('mouseenter', () => {
-            vision.style.flex = '0.8';
-        });
-
-        mission.addEventListener('mouseleave', () => {
-            vision.style.flex = '1';
-        });
-
-        vision.addEventListener('mouseenter', () => {
-            mission.style.flex = '0.8';
-        });
-
-        vision.addEventListener('mouseleave', () => {
-            mission.style.flex = '1';
-        });
-    }
-});
-
-// Loading animation for images
-document.addEventListener('DOMContentLoaded', () => {
+    // Images load animation
     const images = document.querySelectorAll('img');
     images.forEach(img => {
-        img.addEventListener('load', () => {
-            img.classList.add('loaded');
-        });
+        img.addEventListener('load', () => img.classList.add('loaded'));
     });
-});
 
+    // Cities panel — load more button
+    const firstPanel = document.querySelector('.cities-panel.active');
+    if (firstPanel) {
+        const total = parseInt(firstPanel.dataset.total || 0);
+        const shown = firstPanel.querySelectorAll('.city-card').length;
+        const loadMoreBtn = document.getElementById('cities-load-more-btn');
+        const showingText = document.getElementById('cities-showing-text');
+        const regionSlug = firstPanel.id.replace('panel-', '');
+
+        showingText.textContent = `Showing ${shown} of ${total} cities`;
+
+        if (total > 8) {
+            loadMoreBtn.style.display = '';
+            loadMoreBtn.dataset.region = regionSlug;
+            loadMoreBtn.dataset.offset = 8;
+        }
+    }
+
+    // Refresh da city state tiklash
+    const params = new URLSearchParams(window.location.search);
+    const citySlug = params.get('city');
+    const cityName = params.get('city_name');
+    if (citySlug && cityName) {
+        filterByCity(citySlug, cityName);
+    }
+});
 
 /* ---- Region tab almashtirish ---- */
 function switchRegion(region, btn) {
@@ -398,24 +186,6 @@ function loadMoreDestinations() {
         });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const firstPanel = document.querySelector('.cities-panel.active');
-    if (firstPanel) {
-        const total = parseInt(firstPanel.dataset.total || 0);
-        const shown = firstPanel.querySelectorAll('.city-card').length;
-        const loadMoreBtn = document.getElementById('cities-load-more-btn');
-        const showingText = document.getElementById('cities-showing-text');
-        const regionSlug = firstPanel.id.replace('panel-', '');
-
-        showingText.textContent = `Showing ${shown} of ${total} cities`;
-
-        if (total > 8) {
-            loadMoreBtn.style.display = '';
-            loadMoreBtn.dataset.region = regionSlug;
-            loadMoreBtn.dataset.offset = 8;
-        }
-    }
-});
 
 /* ---- City card bosilganda ---- */
 // function filterByCity(cityName) {
@@ -476,29 +246,91 @@ function filterByCity(citySlug, cityName) {
     const exploreSection = document.getElementById('explore-section');
     const mainDestinations = document.getElementById('main-destinations');
     const grid = document.getElementById('destinations-grid');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const showingText = document.getElementById('showing-text');
 
-    // explore section yashiriladi
     exploreSection.style.display = 'none';
-
-    // main destinations ko'rsatiladi
     mainDestinations.classList.add('visible');
-
-    // Badge yangilanadi
     document.getElementById('active-city-name').textContent = cityName;
 
-    // Fetch — partial HTML qaytaradi
-    fetch(`/destinations/by-city/?city=${citySlug}`)
+    // URL ga saqlash — refresh uchun
+    const url = new URL(window.location);
+    url.searchParams.set('city', citySlug);
+    url.searchParams.set('city_name', cityName);
+    window.history.pushState({}, '', url);
+
+    fetch(`/destinations/by-city/?city=${citySlug}&offset=0`)
         .then(res => res.text())
         .then(html => {
-            grid.innerHTML = html;
-            document.getElementById('results-count').textContent = grid.querySelectorAll('.destination-card').length;
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            const meta = doc.getElementById('cards-meta');
+            const total = parseInt(meta?.dataset.total || 0);
+            const shown = parseInt(meta?.dataset.shown || 0);
+            const hasMore = meta?.dataset.hasMore === 'true';
+
+            // Faqat cardlarni olish — meta div siz
+            grid.innerHTML = '';
+            doc.querySelectorAll('.destination-card').forEach(card => {
+                grid.appendChild(document.importNode(card, true));
+            });
+
+            document.getElementById('results-count').textContent = total;
             document.getElementById('results-subtitle').textContent = 'Showing results for: ' + cityName;
+            showingText.textContent = `Showing ${shown} of ${total} destinations`;
+
+            // Load more button
+            loadMoreBtn.dataset.offset = shown;
+            loadMoreBtn.dataset.total = total;
+
+            if (hasMore) {
+                loadMoreBtn.style.display = '';
+                loadMoreBtn.onclick = () => loadMoreByCity(citySlug);
+            } else {
+                loadMoreBtn.style.display = 'none';
+            }
         });
 
-    // Smooth scroll
     mainDestinations.scrollIntoView({behavior: 'smooth', block: 'start'});
 }
 
+function loadMoreByCity(citySlug) {
+    const btn = document.getElementById('load-more-btn');
+    const showingText = document.getElementById('showing-text');
+    const grid = document.getElementById('destinations-grid');
+    const offset = parseInt(btn.dataset.offset);
+    const total = parseInt(btn.dataset.total);
+
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.disabled = true;
+
+    fetch(`/destinations/by-city/?city=${citySlug}&offset=${offset}`)
+        .then(res => res.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            const meta = doc.getElementById('cards-meta');
+            const shown = parseInt(meta?.dataset.shown || 0);
+            const hasMore = meta?.dataset.hasMore === 'true';
+
+            // Yangi cardlarni qo'shish
+            doc.querySelectorAll('.destination-card').forEach(card => {
+                grid.appendChild(document.importNode(card, true));
+            });
+
+            btn.dataset.offset = shown;
+            showingText.textContent = `Showing ${shown} of ${total} destinations`;
+
+            if (hasMore) {
+                btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';
+                btn.disabled = false;
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+}
 
 /* ---- "Back to Explore" tugmasi ---- */
 function backToExplore() {
@@ -506,6 +338,10 @@ function backToExplore() {
     const mainDestinations = document.getElementById('main-destinations');
     const grid = document.getElementById('destinations-grid');
     const allCards = grid.querySelectorAll('.destination-card');
+    const url = new URL(window.location);
+    url.searchParams.delete('city');
+    url.searchParams.delete('city_name');
+    window.history.pushState({}, '', url);
 
     // main destinations yashiriladi
     mainDestinations.classList.remove('visible');
@@ -526,10 +362,10 @@ function backToExplore() {
         }
     });
 
-    document.getElementById('results-count').textContent = '156';
-    document.getElementById('results-subtitle').textContent = 'Based on your preferences';
-    document.getElementById('load-more-btn').style.display = '';
-    document.getElementById('showing-text').textContent = 'Showing 6 of 156 destinations';
+    // document.getElementById('results-count').textContent = '156';
+    // document.getElementById('results-subtitle').textContent = 'Based on your preferences';
+    // document.getElementById('load-more-btn').style.display = '';
+    // document.getElementById('showing-text').textContent = 'Showing 6 of 156 destinations';
 
     // Explore section ga scroll
     exploreSection.scrollIntoView({behavior: 'smooth', block: 'start'});
