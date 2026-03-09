@@ -1,3 +1,4 @@
+{% load static %}
 <div id="cards-meta"
      data-total="{{ total }}"
      data-shown="{{ shown }}"
@@ -11,12 +12,26 @@
         {#         data-hotels-url="/hotels/?city=samarkand"#}
         {#         data-flights-url="/flights/?to=samarkand">#}
         <div class="card-image-wrapper">
+            {#            <div class="image-slider">#}
+            {#                {% for img in destination.images.all %}#}
+            {#                    <img src="{{ img.image.url }}"#}
+            {#                         alt="{{ destination.name }}">#}
+            {#                {% endfor %}#}
+            {##}
+            {#            </div>#}
+
             <div class="image-slider">
                 {% for img in destination.images.all %}
-                    <img src="{{ img.image.url }}"
-                         alt="{{ destination.name }}">
+                    {% if img.image %}
+                        <img src="{{ img.image.url }}" alt="{{ destination.name }}">
+                    {% else %}
+                        <!-- Default rasm yoki bo'sh placeholder -->
+                        <img src="{% static 'apps/img/default.jpg' %}" alt="No image">
+                    {% endif %}
+                {% empty %}
+                    <!-- Agar umuman rasm bo'lmasa -->
+                    <img src="{% static 'apps/img/default.jpg' %}" alt="No image">
                 {% endfor %}
-
             </div>
             <button class="slider-btn prev" onclick="slideImage(this,-1)"><i
                     class="fas fa-chevron-left"></i></button>

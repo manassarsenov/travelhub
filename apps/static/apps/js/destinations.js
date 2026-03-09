@@ -71,7 +71,7 @@ function switchRegion(region, btn) {
             grid.innerHTML = '';
             data.cities.forEach(city => {
                 grid.innerHTML += `
-                    <div class="city-card" onclick="filterByCity('${city.name}')">
+                    <div class="city-card" onclick="filterByCity('${city.slug}','${city.name}')">
                         <img src="${city.image_url}" alt="${city.name}" loading="lazy">
                         <div class="city-card-overlay"></div>
                         <div class="city-card-info">
@@ -333,41 +333,62 @@ function loadMoreByCity(citySlug) {
 }
 
 /* ---- "Back to Explore" tugmasi ---- */
+// function backToExplore() {
+//     const exploreSection = document.getElementById('explore-section');
+//     const mainDestinations = document.getElementById('main-destinations');
+//     const grid = document.getElementById('destinations-grid');
+//     const allCards = grid.querySelectorAll('.destination-card');
+//     const url = new URL(window.location);
+//     url.searchParams.delete('city');
+//     url.searchParams.delete('city_name');
+//     window.history.pushState({}, '', url);
+//
+//     // main destinations yashiriladi
+//     mainDestinations.classList.remove('visible');
+//
+//     // explore section qaytadi
+//     exploreSection.style.display = '';
+//
+//     // Barcha cardlarni qaytarish
+//     let shown = 0;
+//     allCards.forEach(card => {
+//         if (shown < 6) {
+//             card.style.display = '';
+//             card.classList.remove('hidden-card');
+//             shown++;
+//         } else {
+//             card.style.display = 'none';
+//             card.classList.add('hidden-card');
+//         }
+//     });
+//
+//
+//     // Explore section ga scroll
+//     exploreSection.scrollIntoView({behavior: 'smooth', block: 'start'});
+// }
+
 function backToExplore() {
     const exploreSection = document.getElementById('explore-section');
     const mainDestinations = document.getElementById('main-destinations');
     const grid = document.getElementById('destinations-grid');
-    const allCards = grid.querySelectorAll('.destination-card');
+
+    // URL tozalash
     const url = new URL(window.location);
     url.searchParams.delete('city');
     url.searchParams.delete('city_name');
     window.history.pushState({}, '', url);
 
+    // Badge qaytarish
+    document.getElementById('active-city-name').textContent = 'All'; // ← qo'shing
+
     // main destinations yashiriladi
     mainDestinations.classList.remove('visible');
+
+    // grid tozalanadi
+    grid.innerHTML = '';
 
     // explore section qaytadi
     exploreSection.style.display = '';
 
-    // Barcha cardlarni qaytarish
-    let shown = 0;
-    allCards.forEach(card => {
-        if (shown < 6) {
-            card.style.display = '';
-            card.classList.remove('hidden-card');
-            shown++;
-        } else {
-            card.style.display = 'none';
-            card.classList.add('hidden-card');
-        }
-    });
-
-    // document.getElementById('results-count').textContent = '156';
-    // document.getElementById('results-subtitle').textContent = 'Based on your preferences';
-    // document.getElementById('load-more-btn').style.display = '';
-    // document.getElementById('showing-text').textContent = 'Showing 6 of 156 destinations';
-
-    // Explore section ga scroll
     exploreSection.scrollIntoView({behavior: 'smooth', block: 'start'});
 }
-
