@@ -587,6 +587,7 @@
     max-width: 1500px;
     margin: 0 auto;
     padding: 0 24px;
+    overflow: visible;
 }
 
 /* ============================================
@@ -784,6 +785,7 @@
 ============================================ */
 .destinations-main {
     min-width: 0;
+    overflow: visible;
 }
 
 .results-header {
@@ -909,6 +911,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
+    overflow: visible;
 }
 
 /* ============================================
@@ -923,6 +926,7 @@
     cursor: pointer;
     border: 2px solid transparent;
     position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
 }
@@ -931,19 +935,27 @@
     box-shadow: var(--shadow-xl);
     transform: translateY(-10px);
     border-color: rgba(102, 126, 234, 0.18);
+    z-index: 10;
 }
 
 .card-image-wrapper {
     position: relative;
-    height: 290px;
+    height: 280px;
     overflow: hidden;
-    flex-shrink: 0;
+    /*flex-shrink: 0;*/
+    contain: paint;
+    isolation: isolate;
+    clip-path: inset(0);
+    transition: height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+
 }
 
 .image-slider {
     display: flex;
     height: 100%;
+    width: 100%;
     transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(0);
 }
 
 .image-slider img {
@@ -953,12 +965,17 @@
     flex-shrink: 0;
     transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     display: block;
+    min-width: 100%;
+    max-width: 100%;
 }
+
 
 .destination-card:hover .image-slider img {
-    transform: scale(1.06);
+    transform: scaleY(1.06);
 }
-
+.destination-card:hover .card-image-wrapper {
+    height: 310px;   /* ← hover da kattalashadi */
+}
 .card-image-wrapper::after {
     content: '';
     position: absolute;
@@ -1759,8 +1776,6 @@
 }
 
 
-
-
 /* ============================================================
    DESTINATIONS SECTION — yashirin holda boshlanadi
 ============================================================ */
@@ -1864,6 +1879,7 @@
 @media (max-width: 1280px) {
     .destinations-layout {
         grid-template-columns: 250px 1fr;
+
     }
 
     .destinations-grid {

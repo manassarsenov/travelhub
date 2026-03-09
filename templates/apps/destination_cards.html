@@ -15,11 +15,20 @@
                     class="fas fa-chevron-left"></i></button>
             <button class="slider-btn next" onclick="slideImage(this,1)"><i
                     class="fas fa-chevron-right"></i></button>
+            {#            <div class="image-dots">#}
+            {#                <span class="dot active"></span>#}
+            {#                <span class="dot"></span>#}
+            {#                <span class="dot"></span>#}
+            {#            </div>#}
+
             <div class="image-dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+                {% for img in destination.images.all %}
+                    <span class="dot {% if forloop.first %}active{% endif %}"
+                          onclick="goToSlide(this, {{ forloop.counter0 }})">
+        </span>
+                {% endfor %}
             </div>
+
             <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
             </button>
             <label class="compare-checkbox">
@@ -38,7 +47,7 @@
                     <p class="reviews">({{ destination.reviews_count }} reviews)</p>
                 </div>
             </div>
-            <p class="card-description">{{ destination.short_description }}</p>
+            <p class="card-description">{{ destination.short_description|safe }}</p>
             <div class="card-tags">
                 {% for tag in destination.tags.all %}
 

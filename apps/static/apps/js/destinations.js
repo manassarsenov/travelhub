@@ -356,6 +356,48 @@ function loadMoreCities() {
         });
 }
 
+function loadMoreDestinations() {
+    const btn = document.getElementById('load-more-btn');
+    const showingText = document.getElementById('showing-text');
+    const offset = parseInt(btn.dataset.offset);
+    const total = parseInt(btn.dataset.total);
+    const lang = document.documentElement.lang || 'en';
+
+    const grid = document.getElementById('destinations-grid');
+
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.disabled = true;
+
+    fetch(`/${lang}/destinations/?offset=${offset}`)
+        .then(res => res.json())
+        .then(data => {
+            data.destinations.forEach(dest => {
+                grid.innerHTML += `
+                    <div class="destination-card">
+                        <img src="${dest.image_url}" alt="${dest.name}" loading="lazy">
+                        <div class="destination-card-info">
+                            <div class="destination-card-name">${dest.name}</div>
+                        </div>
+                    </div>`;
+            });
+
+            const newOffset = offset + data.destinations.length;
+            btn.dataset.offset = newOffset;
+            showingText.textContent = `Showing ${newOffset} of ${total} destinations`;
+
+            if (!data.has_more) {
+                btn.style.display = 'none';
+            } else {
+                btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';
+                btn.disabled = false;
+            }
+        })
+        .catch(() => {
+            btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';
+            btn.disabled = false;
+        });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const firstPanel = document.querySelector('.cities-panel.active');
     if (firstPanel) {

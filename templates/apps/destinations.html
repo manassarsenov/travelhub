@@ -312,12 +312,24 @@
                     </div>
                     <!-- END destinations-grid -->
 
+                    {#                    <div class="load-more-container">#}
+                    {#                        <button class="btn-load-more" id="load-more-btn" onclick="loadMoreDestinations()">#}
+                    {#                            <i class="fas fa-plus-circle"></i>#}
+                    {#                            Load More Destinations#}
+                    {#                        </button>#}
+                    {#                        <p class="showing-text" id="showing-text">Showing 6 of 156 destinations</p>#}
+                    {#                    </div>#}
+
                     <div class="load-more-container">
-                        <button class="btn-load-more" id="load-more-btn" onclick="loadMoreDestinations()">
+                        <button class="btn-load-more" id="load-more-btn" onclick="loadMoreDestinations()"
+                                data-offset="{{ initial_count }}"
+                                data-total="{{ total_count }}">
                             <i class="fas fa-plus-circle"></i>
                             Load More Destinations
                         </button>
-                        <p class="showing-text" id="showing-text">Showing 6 of 156 destinations</p>
+                        <p class="showing-text" id="showing-text">
+                            Showing {{ initial_count }} of {{ total_count }} destinations
+                        </p>
                     </div>
 
                 </main>
@@ -358,4 +370,5 @@
 
 {% block custom_js %}
     <script src="{% static 'apps/js/destinations.js' %}"></script>
+    <script src="{% static 'apps/js/slider.js' %}"></script>
 {% endblock %}
