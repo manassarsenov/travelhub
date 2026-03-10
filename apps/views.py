@@ -124,17 +124,17 @@ class ActivateAccountView(View):
 
 class RegisterCreateView(CreateView):
     template_name = 'apps/auth/register.html'
-    redirect_authenticated_user = True
+    # redirect_authenticated_user = True
     success_url = reverse_lazy('login_page')
     form_class = RegisterModelForm
 
     def form_valid(self, form):
         user = form.save(False)
 
-        user.first_name = form.cleaned_data['first_name']
-        user.last_name = form.cleaned_data['last_name']
-        user.phone_number = form.cleaned_data['phone_number']
-        user.date_of_birth = form.cleaned_data['date_of_birth']
+        # user.first_name = form.cleaned_data['first_name']
+        # user.last_name = form.cleaned_data['last_name']
+        # user.phone_number = form.cleaned_data['phone_number']
+        # user.date_of_birth = form.cleaned_data['date_of_birth']
 
         user.is_active = False
         user.save()
@@ -151,7 +151,7 @@ class RegisterCreateView(CreateView):
 class LoginFormView(LoginNotRequiredMixin, FormView):
     template_name = 'apps/auth/login.html'
     form_class = LoginForm
-    redirect_authenticated_user = True
+    # redirect_authenticated_user = True
     success_url = reverse_lazy('home_page')
 
     def form_valid(self, form):
