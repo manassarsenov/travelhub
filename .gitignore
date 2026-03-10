@@ -12,6 +12,7 @@ media
 **/migrations/
 !city/2026/03
 !city/2026/02
+!destinationimage/2026/03
 !*/migrations/__init__.py
 .mo
 .env.prod
