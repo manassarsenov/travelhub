@@ -35,226 +35,107 @@
             </div>
 
             <div id="destinations-grid" class="destinations-grid">
+                {% for destination in flash_destinations %}
+                    {% if destination.discount_percentage > 0 %}
+                        <article class="destination-card">
+                            {#                             data-city="Samarkand" data-country="Samarkand, O'zbekiston"#}
+                            {#                             data-lat="39.6542" data-lon="66.9597"#}
+                            {#                             data-hotels-url="/hotels/?city=samarkand"#}
+                            {#                             data-flights-url="/flights/?to=samarkand">#}
 
-                <!-- Card 1 - Samarkand -->
-                <article class="destination-card"
-                         data-city="Samarkand" data-country="Samarkand, O'zbekiston"
-                         data-lat="39.6542" data-lon="66.9597"
-                         data-hotels-url="/hotels/?city=samarkand"
-                         data-flights-url="/flights/?to=samarkand">
-
-                    <div class="deal-timer" data-end="2024-12-31T23:59:59">
-                        <div class="timer-item"><span class="hours">12</span><small>Hours</small></div>
-                        <div class="timer-item"><span class="minutes">34</span><small>Mins</small></div>
-                        <div class="timer-item"><span class="seconds">56</span><small>Secs</small></div>
-                    </div>
-
-                    <div class="card-image-wrapper">
-                        <div class="image-slider">
-                            <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523" alt="Samarkand">
-                            <img src="https://images.unsplash.com/photo-1588431945498-87016d6e2c79" alt="Samarkand">
-                            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19" alt="Samarkand">
-                            <div class="discount-badge">-50%</div>
-                        </div>
-                        <button class="slider-btn prev" onclick="slideImage(this, -1)"><i
-                                class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn next" onclick="slideImage(this, 1)"><i
-                                class="fas fa-chevron-right"></i></button>
-                        <div class="image-dots"><span class="dot active"></span><span class="dot"></span><span
-                                class="dot"></span></div>
-                        <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
-                        </button>
-                    </div>
-
-                    <div class="card-content">
-                        <div class="card-header">
-                            <div class="destination-info">
-                                <h3>Samarkand</h3>
-                                <p class="location"><i class="fas fa-map-marker-alt"></i> Uzbekistan, Central Asia</p>
+                            <div class="deal-timer" data-end="{{ destination.flash_sale_end|date:'c' }}">
+                                <div class="timer-item"><span class="hours">00</span><small>Hours</small></div>
+                                <div class="timer-item"><span class="minutes">00</span><small>Mins</small></div>
+                                <div class="timer-item"><span class="seconds">00</span><small>Secs</small></div>
                             </div>
-                            <div class="rating-box">
-                                <div class="rating-stars"><i class="fas fa-star"></i><span>4.8</span></div>
-                                <p class="reviews">(2,341 reviews)</p>
-                            </div>
-                        </div>
-                        <p class="card-description">Discover the ancient Silk Road with stunning Islamic architecture
-                            and vibrant bazaars</p>
-                        <div class="card-tags">
-                            <span class="tag"><i class="fas fa-landmark"></i> Cultural</span>
-                            <span class="tag"><i class="fas fa-history"></i> Historical</span>
-                            <span class="tag"><i class="fas fa-dollar-sign"></i> Budget</span>
-                        </div>
-                        <div class="card-stats">
-                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
-                                    class="fas fa-hotel"></i><span>Hotels & Resorts</span></button>
-                            <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
-                                    class="fas fa-plane"></i><span>Direct Flights</span></button>
-                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"><i
-                                    class="fas fa-sun weather-icon"></i><span class="weather-temp">yuklanyapti...</span>
-                            </button>
-                            <div class="stat-item"><i class="fas fa-clock"></i><span>5-7 Days</span></div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="price-box">
-                                <div class="price-original">$749</div>
-                                <div class="price-current"><span class="from">From</span><span
-                                        class="amount">$599</span><span class="per">/ person</span></div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn-outline" onclick="viewDetails(4)">SeeDetails
-                                    <i class="fas fa-arrow-right"></i>
+
+                            <div class="card-image-wrapper">
+                                <div class="image-slider">
+                                    {% for img in destination.images.all %}
+                                        <img src="{{ img.image.url }}"
+                                             alt="{{ destination.name }}">
+                                    {% empty %}
+                                        <img src="{% static 'apps/img/default.jpg' %}" alt="No image">
+
+                                    {% endfor %}
+
+                                    <div class="discount-badge">-{{ destination.discount_percentage }}%</div>
+                                </div>
+                                {% if destination.images.count > 1 %}
+                                    <button class="slider-btn prev" onclick="slideImage(this,-1)">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button class="slider-btn next" onclick="slideImage(this,1)">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                    <div class="image-dots">
+                                        {% for img in destination.images.all %}
+                                            <span class="dot {% if forloop.first %}active{% endif %}"
+                                                  onclick="goToSlide(this, {{ forloop.counter0 }})"></span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
                                 </button>
-
                             </div>
-                        </div>
-                    </div>
-                </article>
 
-                <!-- Card 2 - Samarkand 2nd -->
-                <article class="destination-card"
-                         data-city="Samarkand" data-country="Samarkand, O'zbekiston"
-                         data-lat="39.6542" data-lon="66.9597"
-                         data-hotels-url="/hotels/?city=samarkand"
-                         data-flights-url="/flights/?to=samarkand">
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="destination-info">
+                                        <h3>{{ destination.name }}</h3>
+                                        <p class="location"><i
+                                                class="fas fa-map-marker-alt"></i> {{ destination.location }}
+                                        </p>
+                                    </div>
+                                    <div class="rating-box">
+                                        <div class="rating-stars"><i
+                                                class="fas fa-star"></i><span>{{ destination.rating }}</span></div>
+                                        <p class="reviews">({{ destination.reviews_count }} reviews)</p>
+                                    </div>
+                                </div>
+                                <p class="card-description">{{ destination.short_description|safe }}</p>
+                                <div class="card-tags">
+                                    {% for tag in destination.tags.all %}
+                                        <span class="tag"><i class="fas {{ tag.name }}"></i> {{ tag.name }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="card-stats">
+                                    <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
+                                            class="fas fa-hotel"></i><span>{{ destination.hotels_count }}+Hotels & Resorts</span>
+                                    </button>
+                                    <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                                            class="fas fa-plane"></i><span>Direct Flights</span></button>
+                                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)"><i
+                                            class="fas fa-sun weather-icon"></i><span
+                                            class="weather-temp">yuklanyapti...</span>
+                                    </button>
+                                    <div class="stat-item"><i
+                                            class="fas fa-clock"></i><span>{{ destination.duration }}</span></div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="price-box">
+                                        <div class="price-original">${{ destination.price }}</div>
+                                        <div class="price-current"><span class="from">From</span><span
+                                                class="amount">${{ destination.discounted_price }}</span><span
+                                                class="per">/ {{ destination.price_label }}</span></div>
+                                    </div>
+                                    <div class="card-actions">
+                                        <button class="btn-outline" onclick="window.location.href='{% url 'destination_detail_page' %}'">SeeDetails
+                                            <i class="fas fa-arrow-right"></i>
+                                        </button>
 
-                    <div class="deal-timer" data-end="2024-12-31T23:59:59">
-                        <div class="timer-item"><span class="hours">12</span><small>Hours</small></div>
-                        <div class="timer-item"><span class="minutes">34</span><small>Mins</small></div>
-                        <div class="timer-item"><span class="seconds">56</span><small>Secs</small></div>
-                    </div>
-
-                    <div class="card-image-wrapper">
-                        <div class="image-slider">
-                            <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523" alt="Samarkand">
-                            <img src="https://images.unsplash.com/photo-1588431945498-87016d6e2c79" alt="Samarkand">
-                            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19" alt="Samarkand">
-                            <div class="discount-badge">-50%</div>
-                        </div>
-                        <button class="slider-btn prev" onclick="slideImage(this, -1)"><i
-                                class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn next" onclick="slideImage(this, 1)"><i
-                                class="fas fa-chevron-right"></i></button>
-                        <div class="image-dots"><span class="dot active"></span><span class="dot"></span><span
-                                class="dot"></span></div>
-                        <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
-                        </button>
-                    </div>
-
-                    <div class="card-content">
-                        <div class="card-header">
-                            <div class="destination-info">
-                                <h3>Samarkand</h3>
-                                <p class="location"><i class="fas fa-map-marker-alt"></i> Uzbekistan, Central Asia</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="rating-box">
-                                <div class="rating-stars"><i class="fas fa-star"></i><span>4.8</span></div>
-                                <p class="reviews">(2,341 reviews)</p>
-                            </div>
-                        </div>
-                        <p class="card-description">Discover the ancient Silk Road with stunning Islamic architecture
-                            and vibrant bazaars</p>
-                        <div class="card-tags">
-                            <span class="tag"><i class="fas fa-landmark"></i> Cultural</span>
-                            <span class="tag"><i class="fas fa-history"></i> Historical</span>
-                            <span class="tag"><i class="fas fa-dollar-sign"></i> Budget</span>
-                        </div>
-                        <div class="card-stats">
-                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
-                                    class="fas fa-hotel"></i><span>Hotels & Resorts</span></button>
-                            <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
-                                    class="fas fa-plane"></i><span>Direct Flights</span></button>
-                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"><i
-                                    class="fas fa-sun weather-icon"></i><span class="weather-temp">yuklanyapti...</span>
-                            </button>
-                            <div class="stat-item"><i class="fas fa-clock"></i><span>5-7 Days</span></div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="price-box">
-                                <div class="price-original">$749</div>
-                                <div class="price-current"><span class="from">From</span><span
-                                        class="amount">$599</span><span class="per">/ person</span></div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn-outline"  onclick="window.location.href='{% url 'destination_detail_page' %}'">
-                                    See Details
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
+                        </article>
+                    {% endif %}
+                {% endfor %}
 
-                            </div>
-                        </div>
-                    </div>
-                </article>
+                {% if not flash_destinations %}
+                    <p>Hozirda flash sale yo'q</p>
+                {% endif %}
 
-                <!-- Card 3 - Buxoro -->
-
-                <article class="destination-card"
-                         data-city="Bukhara" data-country="Buxoro, O'zbekiston"
-                         data-lat="39.7747" data-lon="64.4286"
-                         data-hotels-url="/hotels/?city=bukhara"
-                         data-flights-url="/flights/?to=bukhara">
-
-                    <div class="card-image-wrapper">
-                        <div class="image-slider">
-                            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19" alt="Bukhara">
-                            <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523" alt="Bukhara">
-                        </div>
-                        <button class="slider-btn prev" onclick="slideImage(this, -1)"><i
-                                class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn next" onclick="slideImage(this, 1)"><i
-                                class="fas fa-chevron-right"></i></button>
-                        <div class="image-dots"><span class="dot active"></span><span class="dot"></span></div>
-                        <div class="card-badges">
-                            <span class="badge popular">Popular</span>
-                            <span class="badge deal">-15%</span>
-                        </div>
-                        <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
-                        </button>
-                        <label class="compare-checkbox"><input type="checkbox" onchange="addToCompare(this)"><span>Compare</span></label>
-                    </div>
-
-                    <div class="card-content">
-                        <div class="card-header">
-                            <div class="destination-info">
-                                <h3>Buxoro</h3>
-                                <p class="location"><i class="fas fa-map-marker-alt"></i> Uzbekistan, Central Asia</p>
-                            </div>
-                            <div class="rating-box">
-                                <div class="rating-stars"><i class="fas fa-star"></i><span>4.7</span></div>
-                                <p class="reviews">(1,856 reviews)</p>
-                            </div>
-                        </div>
-                        <p class="card-description">UNESCO World Heritage City — ming yillik tarixi va ajoyib
-                            me'morchilik</p>
-                        <div class="card-tags">
-                            <span class="tag"><i class="fas fa-landmark"></i> Cultural</span>
-                            <span class="tag"><i class="fas fa-history"></i> Historical</span>
-                            <span class="tag"><i class="fas fa-camera"></i> Photography</span>
-                        </div>
-                        <div class="card-stats">
-                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
-                                    class="fas fa-hotel"></i><span>Hotels & Resorts</span></button>
-                            <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
-                                    class="fas fa-plane"></i><span>Direct Flights</span></button>
-                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
-                                    title="Bugungi ob-havo"><i class="fas fa-sun weather-icon"></i><span
-                                    class="weather-temp">yuklanyapti...</span></button>
-                            <div class="stat-item"><i class="fas fa-clock"></i><span>3-5 Days</span></div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="price-box">
-                                <div class="price-original">$549</div>
-                                <div class="price-current"><span class="from">From</span><span
-                                        class="amount">$469</span><span class="per">/ person</span></div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn-outline" onclick="viewDetails(5)">See Details
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-
-                            </div>
-                        </div>
-                    </div>
-                </article>
 
             </div>
         </div>
@@ -579,7 +460,7 @@
                             </div>
                             <div class="card-actions">
                                 <button class="btn-outline" onclick="viewPackageDetails(2)">See Details
-                                <i class="fas fa-arrow-right"></i>
+                                    <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
                         </div>
@@ -693,7 +574,7 @@
                             </div>
                             <div class="card-actions">
                                 <button class="btn-outline" onclick="viewPackageDetails(3)">See Details
-                                 <i class="fas fa-arrow-right"></i>
+                                    <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
                         </div>
@@ -777,7 +658,7 @@
                             </div>
                             <div class="card-actions">
                                 <button class="btn-outline" onclick="viewDetails(4)">See Details
-                                   <i class="fas fa-arrow-right"></i>
+                                    <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
                         </div>
@@ -834,7 +715,7 @@
                             </div>
                             <div class="card-actions">
                                 <button class="btn-outline" onclick="viewDetails(4)">See Details
-                                   <i class="fas fa-arrow-right"></i>
+                                    <i class="fas fa-arrow-right"></i>
                                 </button>
 
                             </div>
@@ -894,7 +775,7 @@
                             </div>
                             <div class="card-actions">
                                 <button class="btn-outline" onclick="viewDetails(4)">See Details
-                                   <i class="fas fa-arrow-right"></i>
+                                    <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
                         </div>
@@ -1167,5 +1048,6 @@
 
 {% block custom_js %}
     <script src="{% static 'apps/js/main_base.js' %}"></script>
+    <script src="{% static 'apps/js/home.js' %}"></script>
 {% endblock %}
 

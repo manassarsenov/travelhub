@@ -21,10 +21,30 @@ from apps.models.categories import City, Region
 from apps.utils.send_email import send_user_email
 from apps.utils.tokens import account_activation_token
 from root import settings
+from django.utils import timezone
 
 
 class HomeTemplateView(TemplateView):
     template_name = 'apps/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        now = timezone.now()
+
+        context['flash_destinations'] = Destination.objects.filter(
+            is_flash_sale=True,
+            flash_sale_end__gt=now
+        ).select_related('city').prefetch_related('tags', 'images')
+
+        context['trending_destinations'] = Destination.objects.filter(
+            is_trending=True
+        ).select_related('city').prefetch_related('tags', 'images')
+
+        context['featured_destinations'] = Destination.objects.filter(
+            is_featured=True
+        ).select_related('city').prefetch_related('tags', 'images')
+
+        return context
 
 
 class DestinationsListView(ListView):
@@ -62,12 +82,6 @@ class CitiesAjaxView(View):
 
         })
 
-
-# class DestinationByCityView(View):
-#     def get(self, request):
-#         city_slug = request.GET.get('city')
-#         destinations = Destination.objects.filter(city__slug=city_slug)
-#         return render(request, 'apps/destination_cards.html', {'destinations': destinations})
 
 class DestinationByCityView(View):
     def get(self, request):
