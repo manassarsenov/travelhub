@@ -33,23 +33,21 @@
                     <img src="{% static 'apps/img/default.jpg' %}" alt="No image">
                 {% endfor %}
             </div>
-            <button class="slider-btn prev" onclick="slideImage(this,-1)"><i
-                    class="fas fa-chevron-left"></i></button>
-            <button class="slider-btn next" onclick="slideImage(this,1)"><i
-                    class="fas fa-chevron-right"></i></button>
-            {#            <div class="image-dots">#}
-            {#                <span class="dot active"></span>#}
-            {#                <span class="dot"></span>#}
-            {#                <span class="dot"></span>#}
-            {#            </div>#}
+            {% if destination.images.count > 1 %}
+                <button class="slider-btn prev" onclick="slideImage(this,-1)"><i
+                        class="fas fa-chevron-left"></i></button>
+                <button class="slider-btn next" onclick="slideImage(this,1)"><i
+                        class="fas fa-chevron-right"></i></button>
 
-            <div class="image-dots">
-                {% for img in destination.images.all %}
-                    <span class="dot {% if forloop.first %}active{% endif %}"
-                          onclick="goToSlide(this, {{ forloop.counter0 }})">
+                <div class="image-dots">
+                    {% for img in destination.images.all %}
+                        <span class="dot {% if forloop.first %}active{% endif %}"
+                              onclick="goToSlide(this, {{ forloop.counter0 }})">
         </span>
-                {% endfor %}
-            </div>
+                    {% endfor %}
+                </div>
+
+            {% endif %}
 
             <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
             </button>
@@ -73,7 +71,7 @@
             <div class="card-tags">
                 {% for tag in destination.tags.all %}
 
-                    <span class="tag"><i class="{{ tag.icon }}"></i> {{ tag.name }}</span>
+                    <span class="tag"><i class="fas {{ tag.icon }}"></i> {{ tag.name }}</span>
                 {% endfor %}
 
             </div>
