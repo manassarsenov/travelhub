@@ -30,3 +30,7 @@ django htmx = html + ajax
 
 Django static cache tozalang:
 python manage.py collectstatic --clear --noinput
+
+sentry
+
+cron

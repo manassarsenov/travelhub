@@ -1,13 +1,12 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import (CASCADE, SET_NULL, BooleanField, CharField,
-                              FloatField, ForeignKey, ManyToManyField,
-                              PositiveIntegerField, PositiveSmallIntegerField,
-                              TextField)
+                              ForeignKey, ManyToManyField,
+                              PositiveIntegerField, PositiveSmallIntegerField, ImageField)
 from django.db.models.enums import TextChoices
-from django.db.models.fields import DateTimeField, DecimalField
+from django.db.models.fields import DecimalField, DateTimeField, TextField
 from django_ckeditor_5.fields import CKEditor5Field
 
-from apps.models.base import CreatedBaseModel, ImageBaseModel, SlugBaseModel
+from apps.models.base import SlugBaseModel, CreatedBaseModel, ImageBaseModel
 
 
 class Destination(SlugBaseModel, CreatedBaseModel):
@@ -50,8 +49,8 @@ class Destination(SlugBaseModel, CreatedBaseModel):
     description = CKEditor5Field(blank=True)
     location = CharField(max_length=250, blank=True)
 
-    latitude = DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    longitude = DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    latitude = DecimalField(max_digits=20, decimal_places=17, null=True, blank=True)
+    longitude = DecimalField(max_digits=20, decimal_places=17, null=True, blank=True)
 
     price = PositiveIntegerField(default=0)
     price_label = CharField(max_length=20, default='person',
@@ -76,6 +75,11 @@ class Destination(SlugBaseModel, CreatedBaseModel):
     is_trending = BooleanField(default=False)
     is_featured = BooleanField(default=False)
     featured_badge = CharField(max_length=50, blank=True, help_text="#1 Best seller in London")
+
+    why_visit = CKEditor5Field(blank=True, help_text="Nima uchun tashrif buyurish kerak")
+    whats_included = CKEditor5Field(blank=True, help_text="Nimalar kiradi")
+    restrictions = CKEditor5Field(blank=True, help_text="Cheklovlar")
+    additional_info = CKEditor5Field(blank=True, help_text="Qo'shimcha ma'lumot")
 
     package_type = CharField(max_length=20, choices=PackageType.choices, blank=True, default=PackageType.HONEYMOON)
 
@@ -112,3 +116,91 @@ class DestinationImage(ImageBaseModel):
 
     class Meta:
         ordering = ['order']
+
+
+class Hotel(CreatedBaseModel):
+    destination = ForeignKey('apps.Destination', on_delete=CASCADE, related_name='hotels')
+    name = CharField(max_length=255)
+    stars = PositiveSmallIntegerField(default=3)
+    price_per_night = DecimalField(max_digits=10, decimal_places=2)
+    address = CharField(max_length=500)
+    main_image = ImageField(upload_to='hotels/')
+    description = TextField(blank=True)
+
+    has_wifi = BooleanField(default=True)
+    has_pool = BooleanField(default=False)
+
+    has_parking = BooleanField(default=False)
+    has_restaurant = BooleanField(default=False)
+    has_gym = BooleanField(default=False)
+    has_spa = BooleanField(default=False)
+    has_air_conditioning = BooleanField(default=True)
+
+    latitude = DecimalField(max_digits=18, decimal_places=15, null=True, blank=True)
+    longitude = DecimalField(max_digits=18, decimal_places=15, null=True, blank=True)
+    location = CharField(max_length=250, blank=True)
+
+    is_featured = BooleanField(default=False)
+    is_available = BooleanField(default=True)
+
+    @property
+    def rating(self):
+        from django.db.models import Avg
+        result = self.reviews.aggregate(Avg('rating'))
+        return round(result['rating__avg'] or 0, 1)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Hotel'
+        verbose_name_plural = 'Hotels'
+        ordering = ['-created_at']
+
+
+class HotelImage(ImageBaseModel):
+    hotel = ForeignKey('apps.Hotel', CASCADE, related_name='images')
+    order = PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+
+from django.db.models import (CASCADE, SET_NULL, BooleanField, CharField,
+                              DecimalField, ForeignKey, PositiveSmallIntegerField,
+                              TimeField)
+from django.db.models.enums import TextChoices
+
+from apps.models.base import CreatedBaseModel
+
+
+class Flight(CreatedBaseModel):
+    class CabinClass(TextChoices):
+        ECONOMY = 'economy', 'Economy'
+        BUSINESS = 'business', 'Business'
+        FIRST = 'first', 'First Class'
+
+    destination = ForeignKey('apps.Destination', CASCADE, related_name='flights')
+    airline_name = CharField(max_length=100)
+    airline_logo = ImageField(upload_to='airlines/', null=True, blank=True)
+    departure_city = CharField(max_length=100, default='Tashkent')
+    departure_time = TimeField(null=True, blank=True)
+    arrival_time = TimeField(null=True, blank=True)
+    flight_duration = CharField(max_length=50)  # masalan: "3h 45m"
+    flight_number = CharField(max_length=20, blank=True)  # masalan: HY-123
+
+    price_economy = DecimalField(max_digits=10, decimal_places=2)
+    price_business = DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    price_first = DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    is_direct = BooleanField(default=True)
+    is_available = BooleanField(default=True)
+    seats_left = PositiveSmallIntegerField(default=50)
+
+    def __str__(self):
+        return f"{self.airline_name} — {self.departure_city} → {self.destination.name}"
+
+    class Meta:
+        verbose_name = 'Flight'
+        verbose_name_plural = 'Flights'
+        ordering = ['price_economy']

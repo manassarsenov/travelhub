@@ -14,13 +14,15 @@ from apps.views import (AboutTemplateView, ActivateAccountView,
                         ProfileSettingsTemplateView,
                         RecommendationTemplateView, RegisterCreateView,
                         TelegramChannelTemplateView,
-                        TermsOfServiceTemplateView, WishlistTemplateView, DestinationByCityView)
+                        TermsOfServiceTemplateView, WishlistTemplateView, DestinationByCityView,
+                        LoadMoreDestinationsView)
 
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home_page'),
     path('destinations/', DestinationsListView.as_view(), name='destinations_page'),
     path('destinations/cities/<slug:region_slug>/', CitiesAjaxView.as_view(), name='cities-ajax'),
     path('destinations/by-city/', DestinationByCityView.as_view(), name='destinations_by_city'),
+    path('destinations/load-more/', LoadMoreDestinationsView.as_view(), name='load_more_destinations'),
 
     path('recommendation/', RecommendationTemplateView.as_view(), name='recommendation_page'),
     path('about/', AboutTemplateView.as_view(), name='about_page'),
@@ -43,7 +45,7 @@ urlpatterns = [
     path('privacy-policy/', PrivacyPolicyTemplateView.as_view(), name='privacy_policy_page'),
     path('cancellation/', CancellationTemplateView.as_view(), name='cancellation_page'),
     path('faq/', FAQTemplateView.as_view(), name='faq_page'),
-    path('destination-detail/', DestinationDetailView.as_view(), name='destination_detail_page'),
+    path('destination-detail/<slug:slug>/', DestinationDetailView.as_view(), name='destination_detail_page'),
 
     re_path(r'^auth/user/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,40})/$',
             ActivateAccountView.as_view(), name='confirm_email_page'),

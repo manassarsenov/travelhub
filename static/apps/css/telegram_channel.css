@@ -1,0 +1,1748 @@
+/* ===================================
+   TELEGRAM CHANNEL PAGE STYLES
+   =================================== */
+
+:root {
+    --telegram-blue: #0088cc;
+    --telegram-light: #64b5f6;
+    --telegram-dark: #006699;
+    --gold: #FFD700;
+    --green-success: #4caf50;
+    --red-danger: #f44336;
+}
+
+/* ===================================
+   1. HERO SECTION
+   =================================== */
+
+#telegram-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--telegram-blue) 0%, #667eea 50%, #764ba2 100%);
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.floating-icons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.float-icon {
+    position: absolute;
+    font-size: 40px;
+    color: rgba(255, 255, 255, 0.1);
+    animation: float 20s infinite;
+}
+
+.float-icon:nth-child(1) {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.float-icon:nth-child(2) {
+    top: 60%;
+    left: 80%;
+    animation-delay: 2s;
+}
+
+.float-icon:nth-child(3) {
+    top: 40%;
+    right: 15%;
+    animation-delay: 4s;
+}
+
+.float-icon:nth-child(4) {
+    bottom: 20%;
+    left: 70%;
+    animation-delay: 6s;
+}
+
+.float-icon:nth-child(5) {
+    top: 70%;
+    left: 30%;
+    animation-delay: 8s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-30px) rotate(5deg);
+    }
+    50% {
+        transform: translateY(-60px) rotate(-5deg);
+    }
+    75% {
+        transform: translateY(-30px) rotate(5deg);
+    }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    max-width: 800px;
+    padding: 40px 20px;
+}
+
+.telegram-logo-wrapper {
+    margin-bottom: 30px;
+    animation: bounceIn 1s ease;
+}
+
+.telegram-logo {
+    font-size: 120px;
+    color: white;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(-100px);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.typing-text {
+    display: inline-block;
+    border-right: 3px solid white;
+    animation: typing 4s steps(40) infinite, blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    0%, 100% { width: 0; }
+    50% { width: 100%; }
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+.hero-subtitle {
+    font-size: 22px;
+    margin-bottom: 40px;
+    opacity: 0.95;
+    font-weight: 400;
+}
+
+.live-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 18px 35px;
+    border-radius: 50px;
+    margin-bottom: 40px;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.live-stats i {
+    font-size: 24px;
+}
+
+.counter {
+    font-weight: 900;
+    font-size: 24px;
+}
+
+.stats-label {
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 18px 40px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-primary {
+    background: var(--telegram-blue);
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 136, 204, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(0, 136, 204, 0.6);
+}
+
+.pulse-btn {
+    animation: pulseButton 2s infinite;
+}
+
+@keyframes pulseButton {
+    0%, 100% {
+        box-shadow: 0 10px 30px rgba(0, 136, 204, 0.4);
+    }
+    50% {
+        box-shadow: 0 10px 50px rgba(0, 136, 204, 0.8);
+    }
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+}
+
+/* ===================================
+   2. CONTENT SHOWCASE
+   =================================== */
+
+#content-showcase {
+    padding: 100px 20px;
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/*.section-header {*/
+
+/*    text-align: center;*/
+/*    margin-bottom: 60px;*/
+/*}*/
+
+.section-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+
+.section-title {
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, var(--telegram-blue), #667eea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-subtitle {
+    font-size: 18px;
+    color: #666;
+}
+
+.showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.showcase-card {
+    position: relative;
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s ease;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.showcase-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--telegram-blue), #667eea);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.showcase-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.showcase-card:hover::before {
+    transform: scaleX(1);
+}
+
+.card-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--telegram-blue), #667eea);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    animation: iconPulse 2s infinite;
+}
+
+.card-icon i {
+    font-size: 36px;
+    color: white;
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.card-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--gold);
+    color: #333;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.card-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.card-shine {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* ===================================
+   3. LIVE CONTENT PREVIEW
+   =================================== */
+
+#live-preview {
+    padding: 100px 20px;
+    background: #f8f9fa;
+}
+
+.telegram-feed {
+    max-width: 700px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    background: var(--telegram-blue);
+    color: white;
+}
+
+.channel-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.channel-avatar {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--telegram-blue);
+    font-size: 24px;
+}
+
+.channel-details h4 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.channel-details p {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.join-btn-small {
+    background: white;
+    color: var(--telegram-blue);
+    padding: 10px 25px;
+    border-radius: 20px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.join-btn-small:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+}
+
+.messages-container {
+    padding: 25px;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.telegram-message {
+    background: #f0f2f5;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    animation: messageSlideIn 0.4s ease;
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-content {
+    margin-bottom: 10px;
+}
+
+.message-header {
+    margin-bottom: 10px;
+}
+
+.message-time {
+    font-size: 12px;
+    color: #888;
+}
+
+.message-content h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.message-content p {
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.deal-message {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.deal-message h4,
+.deal-message p,
+.deal-message .message-time {
+    color: white;
+}
+
+.deal-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: #333;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 800;
+    margin-top: 8px;
+}
+
+.message-image {
+    width: 100%;
+    height: 250px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.message-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.message-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #888;
+}
+
+.view-count {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.check-marks {
+    color: var(--telegram-blue);
+    font-weight: 700;
+}
+
+.poll-options {
+    margin-top: 15px;
+}
+
+.poll-option {
+    position: relative;
+    padding: 12px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+}
+
+.poll-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: var(--telegram-light);
+    opacity: 0.3;
+    transition: width 0.5s ease;
+}
+
+.poll-option span {
+    position: relative;
+    z-index: 1;
+}
+
+.poll-percentage {
+    font-weight: 700;
+    color: var(--telegram-blue);
+}
+
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 25px;
+    background: #f0f2f5;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: #888;
+    border-radius: 50%;
+    animation: typingDot 1.4s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingDot {
+    0%, 60%, 100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-10px);
+    }
+}
+
+.typing-indicator p {
+    color: #888;
+    font-size: 14px;
+}
+
+.load-more-btn {
+    width: 100%;
+    padding: 18px;
+    background: var(--telegram-blue);
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.load-more-btn:hover {
+    background: var(--telegram-dark);
+}
+
+/* ===================================
+   4. BENEFITS COMPARISON
+   =================================== */
+
+#benefits-comparison {
+    padding: 100px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.comparison-wrapper {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.comparison-side {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.side-icon {
+    font-size: 80px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.comparison-side h3 {
+    font-size: 28px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.comparison-list {
+    list-style: none;
+    padding: 0;
+}
+
+.comparison-list li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.comparison-list li:last-child {
+    border-bottom: none;
+}
+
+.comparison-list i {
+    font-size: 24px;
+}
+
+.without-channel .comparison-list i {
+    color: var(--red-danger);
+}
+
+.with-channel .comparison-list i {
+    color: var(--green-success);
+}
+
+.comparison-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.arrow-container i {
+    font-size: 48px;
+    animation: arrowPulse 2s infinite;
+}
+
+@keyframes arrowPulse {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(10px);
+    }
+}
+
+.join-btn-center {
+    background: var(--gold);
+    color: #333;
+    padding: 18px 35px;
+    border-radius: 50px;
+    border: none;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.join-btn-center:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+}
+
+/* ===================================
+   5. TESTIMONIALS
+   =================================== */
+
+#testimonials {
+    padding: 100px 20px;
+    background: white;
+}
+
+.testimonials-carousel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.testimonial-card {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+}
+
+.testimonial-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.user-avatar {
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, var(--telegram-blue), #667eea);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.user-info h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.verified {
+    color: var(--telegram-blue);
+    font-size: 16px;
+}
+
+.user-info p {
+    font-size: 14px;
+    color: #888;
+}
+
+.stars {
+    color: var(--gold);
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.testimonial-content p {
+    color: #555;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+/* ===================================
+   6. CHANNEL STATS
+   =================================== */
+
+#channel-stats {
+    padding: 100px 20px;
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.stat-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, var(--telegram-blue), #667eea);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-icon i {
+    font-size: 36px;
+    color: white;
+}
+
+.stat-number {
+    font-size: 42px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--telegram-blue), #667eea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 16px;
+    color: #666;
+    font-weight: 600;
+}
+
+/* ===================================
+   7. FEATURES TIMELINE
+   =================================== */
+
+#features-timeline {
+    padding: 100px 20px;
+    background: white;
+}
+
+.timeline {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--telegram-blue), #667eea);
+    transform: translateX(-50%);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.timeline-item:nth-child(odd) {
+    flex-direction: row;
+}
+
+.timeline-item:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.timeline-dot {
+    width: 24px;
+    height: 24px;
+    background: var(--telegram-blue);
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    box-shadow: 0 0 0 8px white, 0 0 0 12px var(--telegram-light);
+}
+
+.timeline-content {
+    flex: 1;
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    max-width: 400px;
+}
+
+.timeline-item:nth-child(odd) .timeline-content {
+    margin-right: auto;
+    margin-left: 60px;
+}
+
+.timeline-item:nth-child(even) .timeline-content {
+    margin-left: auto;
+    margin-right: 60px;
+}
+
+.timeline-badge {
+    display: inline-block;
+    background: var(--telegram-blue);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.timeline-content h3 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.timeline-content p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* ===================================
+   8. HOW TO JOIN
+   =================================== */
+
+#how-to-join {
+    padding: 100px 20px;
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    align-items: center;
+}
+
+.step-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.step-number {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--telegram-blue), #667eea);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 900;
+    box-shadow: 0 5px 20px rgba(0, 136, 204, 0.4);
+}
+
+.step-icon {
+    font-size: 60px;
+    color: var(--telegram-blue);
+    margin: 20px 0;
+    animation: iconBounce 2s infinite;
+}
+
+@keyframes iconBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.step-card h3 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.step-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.step-arrow {
+    text-align: center;
+    color: var(--telegram-blue);
+    font-size: 32px;
+}
+
+.welcome-preview {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.welcome-preview h4 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.welcome-message {
+    background: linear-gradient(135deg, var(--telegram-blue), #667eea);
+    color: white;
+    padding: 25px 30px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+        gap: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    margin-bottom: 25px;
+    animation: fadeIn 0.7s ease-in-out;
+}
+
+/* ===================================
+   TELEGRAM CHANNEL CSS - PART 2
+   =================================== */
+
+/* Welcome Message (continued) */
+.welcome-message {
+    gap: 15px;
+    font-size: 18px;
+    box-shadow: 0 10px 40px rgba(0, 136, 204, 0.3);
+}
+
+.welcome-message i {
+    font-size: 36px;
+}
+
+/* ===================================
+   9. FINAL CTA SECTION
+   =================================== */
+
+#final-cta {
+    position: relative;
+    padding: 120px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    overflow: hidden;
+}
+
+.cta-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* Particle animation */
+.particles::before,
+.particles::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: floatParticle 20s infinite;
+}
+
+.particles::before {
+    top: 20%;
+    left: 30%;
+    animation-delay: 0s;
+}
+
+.particles::after {
+    top: 60%;
+    left: 70%;
+    animation-delay: 5s;
+}
+
+@keyframes floatParticle {
+    0%, 100% {
+        transform: translate(0, 0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(100px, -100px);
+        opacity: 0;
+    }
+}
+
+.cta-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-title {
+    font-size: 48px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.cta-subtitle {
+    font-size: 22px;
+    margin-bottom: 50px;
+    opacity: 0.95;
+}
+
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.timer-box {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 20px 30px;
+    border-radius: 15px;
+    min-width: 100px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.timer-number {
+    display: block;
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+
+.timer-label {
+    display: block;
+    font-size: 14px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.timer-separator {
+    font-size: 42px;
+    font-weight: 900;
+    align-self: center;
+    padding: 0 5px;
+}
+
+.timer-text {
+    font-size: 16px;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.btn-cta-giant {
+    position: relative;
+    background: var(--gold);
+    color: #333;
+    padding: 25px 60px;
+    font-size: 24px;
+    font-weight: 900;
+    border: none;
+    border-radius: 60px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 15px 50px rgba(255, 215, 0, 0.5);
+    transition: all 0.4s ease;
+    overflow: hidden;
+}
+
+.btn-cta-giant:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 70px rgba(255, 215, 0, 0.7);
+}
+
+.btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.6),
+        transparent
+    );
+    animation: btnShine 3s infinite;
+}
+
+@keyframes btnShine {
+    0% { left: -100%; }
+    50%, 100% { left: 100%; }
+}
+
+.members-count {
+    margin-top: 30px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    opacity: 0.95;
+}
+
+.trust-badges {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.badge-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.social-proof {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.avatars {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--telegram-blue), #667eea);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+    border: 3px solid white;
+    margin-left: -15px;
+    transition: all 0.3s ease;
+}
+
+.avatar:first-child {
+    margin-left: 0;
+}
+
+.avatar:hover {
+    transform: translateY(-5px) scale(1.1);
+    z-index: 10;
+}
+
+.social-proof p {
+    font-size: 16px;
+    opacity: 0.95;
+}
+
+/* ===================================
+   10. STICKY BOTTOM BAR (Mobile)
+   =================================== */
+
+.sticky-bottom-bar {
+    position: fixed;
+    bottom: -100px;
+    left: 0;
+    right: 0;
+    background: white;
+    box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    transition: bottom 0.4s ease;
+}
+
+.sticky-bottom-bar.visible {
+    bottom: 0;
+}
+
+.sticky-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.sticky-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sticky-info i {
+    font-size: 32px;
+    color: var(--telegram-blue);
+}
+
+.sticky-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.sticky-members {
+    font-size: 13px;
+    color: #666;
+}
+
+.sticky-btn {
+    background: var(--telegram-blue);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sticky-btn:hover {
+    background: var(--telegram-dark);
+    transform: scale(1.05);
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+
+/* Tablet */
+@media (max-width: 968px) {
+    .hero-title {
+        font-size: 36px;
+    }
+
+    .hero-subtitle {
+        font-size: 18px;
+    }
+
+    .section-title {
+        font-size: 32px;
+    }
+
+    .showcase-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .comparison-wrapper {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .comparison-divider {
+        transform: rotate(90deg);
+    }
+
+    .arrow-container i {
+        transform: rotate(90deg);
+    }
+
+    .timeline::before {
+        left: 20px;
+    }
+
+    .timeline-item {
+        flex-direction: row !important;
+        padding-left: 60px;
+    }
+
+    .timeline-dot {
+        left: 20px;
+    }
+
+    .timeline-content {
+        margin: 0 !important;
+        max-width: 100%;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .step-arrow {
+        transform: rotate(90deg);
+        margin: 20px 0;
+    }
+
+    .cta-title {
+        font-size: 36px;
+    }
+
+    .countdown-timer {
+        flex-wrap: wrap;
+    }
+
+    .timer-box {
+        min-width: 80px;
+        padding: 15px 20px;
+    }
+
+    .timer-number {
+        font-size: 32px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 28px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+    }
+
+    .telegram-logo {
+        font-size: 80px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .section-subtitle {
+        font-size: 16px;
+    }
+
+    .showcase-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonials-carousel {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat-number {
+        font-size: 32px;
+    }
+
+    .cta-title {
+        font-size: 26px;
+    }
+
+    .cta-subtitle {
+        font-size: 16px;
+    }
+
+    .btn-cta-giant {
+        padding: 20px 40px;
+        font-size: 18px;
+    }
+
+    .timer-box {
+        min-width: 70px;
+        padding: 12px 15px;
+    }
+
+    .timer-number {
+        font-size: 24px;
+    }
+
+    .timer-label {
+        font-size: 11px;
+    }
+
+    .trust-badges {
+        gap: 15px;
+    }
+
+    .badge-item {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    .sticky-bottom-bar.visible {
+        display: block;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    #content-showcase,
+    #live-preview,
+    #testimonials,
+    #features-timeline,
+    #how-to-join {
+        background: #1a1a1a;
+    }
+
+    .section-title {
+        color: white;
+    }
+
+    .section-subtitle {
+        color: #aaa;
+    }
+
+    .showcase-card,
+    .telegram-feed,
+    .testimonial-card,
+    .stat-card,
+    .step-card {
+        background: #2a2a2a;
+        color: white;
+    }
+
+    .card-title,
+    .card-description,
+    .message-content h4,
+    .message-content p,
+    .user-info h4,
+    .testimonial-content p,
+    .step-card h3,
+    .step-card p {
+        color: white;
+    }
+
+    .telegram-message {
+        background: #333;
+    }
+
+    .timeline-content {
+        background: #2a2a2a;
+        color: white;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .sticky-bottom-bar,
+    .floating-icons,
+    .particles {
+        display: none !important;
+    }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: more) {
+    .showcase-card,
+    .telegram-feed,
+    .testimonial-card,
+    .stat-card,
+    .step-card {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Focus States for Accessibility */
+button:focus,
+a:focus {
+    outline: 3px solid var(--telegram-blue);
+    outline-offset: 3px;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Animation Delays for Staggered Effects */
+.showcase-card:nth-child(1) { animation-delay: 0.1s; }
+.showcase-card:nth-child(2) { animation-delay: 0.2s; }
+.showcase-card:nth-child(3) { animation-delay: 0.3s; }
+.showcase-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Utility Classes */
+.text-center { text-align: center; }
+.mb-0 { margin-bottom: 0; }
+.mt-0 { margin-top: 0; }
+.hidden { display: none; }
+.visible { display: block; }

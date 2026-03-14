@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="{% static 'apps/css/main_base.css' %}">
+    <link rel="stylesheet" href="{% static 'apps/css/flights_modal.css' %}">
+    <link rel="stylesheet" href="{% static 'apps/css/weather.css' %}">
     {% block custom_css %}{% endblock %}
 </head>
 <body>
@@ -81,36 +83,36 @@
                  FIX: lang-slider pozitsiyasi JS da dinamik hisoblanadi.
                  Har bir button o'lchamiga qarab to'g'ri left qiymat beriladi.
             -->
-{#            <div class="lang-switcher" id="lang-switcher">#}
-{#                <div class="lang-slider" id="lang-slider"></div>#}
-{#                <button class="lang-btn active" data-lang="en" onclick="switchLang('en', 0)">EN</button>#}
-{#                <button class="lang-btn" data-lang="uz" onclick="switchLang('uz', 1)">UZ</button>#}
-{#                <button class="lang-btn" data-lang="ru" onclick="switchLang('ru', 2)">RU</button>#}
-{#            </div>#}
+            {#            <div class="lang-switcher" id="lang-switcher">#}
+            {#                <div class="lang-slider" id="lang-slider"></div>#}
+            {#                <button class="lang-btn active" data-lang="en" onclick="switchLang('en', 0)">EN</button>#}
+            {#                <button class="lang-btn" data-lang="uz" onclick="switchLang('uz', 1)">UZ</button>#}
+            {#                <button class="lang-btn" data-lang="ru" onclick="switchLang('ru', 2)">RU</button>#}
+            {#            </div>#}
 
-<div class="lang-switcher" id="lang-switcher">
-    <div class="lang-slider" id="lang-slider"></div>
+            <div class="lang-switcher" id="lang-switcher">
+                <div class="lang-slider" id="lang-slider"></div>
 
-    <form action="{% url 'set_language' %}" method="post" class="d-inline">
-        {% csrf_token %}
-        {% get_current_language as LANGUAGE_CODE %}
+                <form action="{% url 'set_language' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    {% get_current_language as LANGUAGE_CODE %}
 
-        <button type="submit" name="language" value="en"
-                class="lang-btn {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
-            EN
-        </button>
+                    <button type="submit" name="language" value="en"
+                            class="lang-btn {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
+                        EN
+                    </button>
 
-        <button type="submit" name="language" value="uz"
-                class="lang-btn {% if LANGUAGE_CODE == 'uz' %}active{% endif %}">
-            UZ
-        </button>
+                    <button type="submit" name="language" value="uz"
+                            class="lang-btn {% if LANGUAGE_CODE == 'uz' %}active{% endif %}">
+                        UZ
+                    </button>
 
-        <button type="submit" name="language" value="ru"
-                class="lang-btn {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">
-            RU
-        </button>
-    </form>
-</div>
+                    <button type="submit" name="language" value="ru"
+                            class="lang-btn {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">
+                        RU
+                    </button>
+                </form>
+            </div>
             <!-- Dark Mode
                  FIX: color: var(--dark) .icon-btn da belgilangan,
                  icon rang meros oladi. -webkit-text-fill-color muammosi yo'q.
@@ -316,7 +318,179 @@
     </div>
 </div>
 
+<!-- ===== FLIGHTS MODAL =====
+     Bu snippetni main_base.html ichiga </body> oldiga qo'y
+     ============================================================ -->
+<div class="flights-modal-overlay" id="flightsModal" onclick="closeFlightsModal(event)">
+    <div class="flights-modal" onclick="event.stopPropagation()">
+
+        <!-- Header -->
+        <div class="fm-header">
+            <div class="fm-header-left">
+                <div class="fm-icon"><i class="fas fa-plane"></i></div>
+                <div>
+                    <h3>Available Flights</h3>
+                    <p id="fm-dest-name">Loading...</p>
+                </div>
+            </div>
+            <button class="fm-close" onclick="closeFlightsModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Cabin class tabs -->
+        <div class="fm-tabs">
+            <button class="fm-tab active" onclick="switchCabin('economy', this)">
+                <i class="fas fa-chair"></i> Economy
+            </button>
+            <button class="fm-tab" onclick="switchCabin('business', this)">
+                <i class="fas fa-briefcase"></i> Business
+            </button>
+            <button class="fm-tab" onclick="switchCabin('first', this)">
+                <i class="fas fa-crown"></i> First Class
+            </button>
+        </div>
+
+        <!-- Passengers -->
+        <div class="fm-passengers">
+            <div class="fm-pass-item">
+                <span>Adults</span>
+                <div class="fm-counter">
+                    <button onclick="updateFlightCount('adults', -1)">-</button>
+                    <span id="fm-adults">1</span>
+                    <button onclick="updateFlightCount('adults', 1)">+</button>
+                </div>
+            </div>
+            <div class="fm-pass-item">
+                <span>Children</span>
+                <div class="fm-counter">
+                    <button onclick="updateFlightCount('children', -1)">-</button>
+                    <span id="fm-children">0</span>
+                    <button onclick="updateFlightCount('children', 1)">+</button>
+                </div>
+            </div>
+            <div class="fm-pass-item">
+                <span>Infants</span>
+                <div class="fm-counter">
+                    <button onclick="updateFlightCount('infants', -1)">-</button>
+                    <span id="fm-infants">0</span>
+                    <button onclick="updateFlightCount('infants', 1)">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="fm-loading" id="fm-loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Searching flights...</p>
+        </div>
+
+        <!-- No flights -->
+        <div class="fm-empty" id="fm-empty" style="display:none;">
+            <i class="fas fa-plane-slash"></i>
+            <p>No flights available for this destination</p>
+        </div>
+
+        <!-- Flights list -->
+        <div class="fm-flights-list" id="fm-flights-list" style="display:none;"></div>
+
+        <!-- Book button -->
+        <div class="fm-footer" id="fm-footer" style="display:none;">
+            <div class="fm-total">
+                <span>Total</span>
+                <span class="fm-total-price">$<span id="fm-total-amount">0</span></span>
+            </div>
+            <button class="fm-book-btn" id="fm-book-btn" onclick="bookFlight()">
+                <i class="fas fa-ticket-alt"></i> Book Flight
+            </button>
+        </div>
+
+        <!-- Success -->
+        <div class="fm-success" id="fm-success" style="display:none;">
+            <div class="fm-success-icon"><i class="fas fa-check-circle"></i></div>
+            <h3>Flight Booked!</h3>
+            <p id="fm-success-booking-number"></p>
+            <button class="fm-success-btn" onclick="closeFlightsModal()">
+                Close <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<!-- OB-HAVO MODAL -->
+<div class="weather-modal-overlay" id="weatherModal" style="display:none;"
+     onclick="closeWeatherModal(event)">
+    <div class="weather-modal" onclick="event.stopPropagation()">
+
+        <div class="weather-modal-loading" id="weatherLoading">
+            <div class="weather-spin"></div>
+            <p>Ob-havo ma'lumotlari yuklanmoqda...</p>
+        </div>
+
+        <div id="weatherContent" style="display:none;">
+            <div class="weather-modal-header">
+                <button class="weather-modal-close" onclick="closeWeatherModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="weather-modal-city" id="wCityLabel">BUGUNGI OB-HAVO</div>
+                <div class="weather-modal-location" id="wLocation">—</div>
+                <div class="weather-modal-main">
+                    <div class="weather-modal-icon" id="wIcon">🌤️</div>
+                    <div class="weather-modal-temp-block">
+                        <div class="weather-modal-temp" id="wTemp">—</div>
+                        <div class="weather-modal-desc" id="wDesc">—</div>
+                        <div class="weather-modal-feels" id="wFeels">Sezilishi: —</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weather-modal-body">
+                <div class="weather-modal-stats">
+                    <div class="weather-stat-item">
+                        <i class="fas fa-tint" style="color:#3b82f6;"></i>
+                        <div class="ws-label">Namlik</div>
+                        <div class="ws-value" id="wHumidity">—</div>
+                    </div>
+                    <div class="weather-stat-item">
+                        <i class="fas fa-wind" style="color:#64748b;"></i>
+                        <div class="ws-label">Shamol</div>
+                        <div class="ws-value" id="wWind">—</div>
+                    </div>
+                    <div class="weather-stat-item">
+                        <i class="fas fa-eye" style="color:#8b5cf6;"></i>
+                        <div class="ws-label">Ko'rinish</div>
+                        <div class="ws-value" id="wVisibility">—</div>
+                    </div>
+                </div>
+
+                <div class="weather-forecast-title">5 KUNLIK PROGNOZ</div>
+                <div class="weather-forecast" id="wForecast"></div>
+
+                <div class="weather-modal-footer">
+                    <a href="#" id="wWeatherLink" target="_blank">
+                        Batafsil ob-havo ma'lumotlari
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="weather-modal-error" id="weatherError" style="display:none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Ob-havo ma'lumotlari yuklanmadi. Internet aloqasini tekshiring.</p>
+            <button class="weather-retry-btn" onclick="retryWeather()">
+                <i class="fas fa-redo"></i> Qayta urinish
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
 <script src="{% static 'apps/js/main_base.js' %}"></script>
+<script src="{% static 'apps/js/flights_modal.js' %}"></script>
+<script src="{% static 'apps/js/weather.js' %}"></script>
 
 {% block custom_js %}{% endblock %}
 </body>

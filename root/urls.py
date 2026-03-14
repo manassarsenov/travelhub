@@ -19,6 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from apps.views import WeatherView
 from root.settings import MEDIA_ROOT, MEDIA_URL, STATIC_ROOT, STATIC_URL, DEBUG
 
 urlpatterns = []
@@ -29,6 +30,9 @@ if DEBUG:
         path("__debug__/", include(debug_toolbar.urls)),
     ]
 
+urlpatterns += [
+    path('weather/', WeatherView.as_view(), name='weather'),
+]
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('set_language/', set_language, name='set_language'),

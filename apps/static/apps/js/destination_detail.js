@@ -6,28 +6,36 @@
 'use strict';
 
 // ===== STATIC DATA (hardcoded) =====
-const PRICES = { adult: 33, child: 30, caregiver: 0, infant: 0 };
+const PRICES = {adult: 33, child: 30, caregiver: 0, infant: 0};
 const CURRENCY = '$';
 
 const TIMES_LIST = [
-    '12:00','12:30','13:00',
-    '13:30','14:00','14:30',
-    '15:00','15:30','16:00',
-    '16:30','17:00','17:30',
-    '18:00','18:30','19:00'
+    '12:00', '12:30', '13:00',
+    '13:30', '14:00', '14:30',
+    '15:00', '15:30', '16:00',
+    '16:30', '17:00', '17:30',
+    '18:00', '18:30', '19:00'
 ];
 
 const MONTHS_FULL = [
-    'January','February','March','April','May','June',
-    'July','August','September','October','November','December'
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
 // Rating overlay reviews (hardcoded)
 const OVERLAY_REVIEWS = [
-    { avatar: 'L', name: 'Louise', text: 'Well organised. Woman in ticket office has great customer service skills. Amazing views.' },
-    { avatar: 'W', name: 'Wayne', text: 'Great attraction. A must see when travelling in London. The view from the eye is amazing.' },
-    { avatar: 'T', name: 'Ted', text: 'Many thanks to Lucy and James — excellent service at the Fast Track queue!' },
-    { avatar: 'P', name: 'Peter', text: 'Unique calming ride and stunning views of Big Ben and Buckingham Palace.' }
+    {
+        avatar: 'L',
+        name: 'Louise',
+        text: 'Well organised. Woman in ticket office has great customer service skills. Amazing views.'
+    },
+    {
+        avatar: 'W',
+        name: 'Wayne',
+        text: 'Great attraction. A must see when travelling in London. The view from the eye is amazing.'
+    },
+    {avatar: 'T', name: 'Ted', text: 'Many thanks to Lucy and James — excellent service at the Fast Track queue!'},
+    {avatar: 'P', name: 'Peter', text: 'Unique calming ride and stunning views of Big Ben and Buckingham Palace.'}
 ];
 
 // ===== STATE =====
@@ -39,7 +47,7 @@ const S = {
     calendarOpen: false,
     moreTimesOpen: false,
     isWishlisted: false,
-    tickets: { adult: 0, child: 0, caregiver: 1, infant: 0 },
+    tickets: {adult: 0, child: 0, caregiver: 1, infant: 0},
     reviewIdx: 0,
     similarIdx: 0,
     photoIdx: 0,
@@ -70,14 +78,14 @@ function buildDateChips() {
     for (let i = 0; i < 4; i++) {
         const d = new Date(today);
         d.setDate(today.getDate() + i);
-        const dayNames = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+        const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
         const btn = document.createElement('button');
         btn.className = 'dcd-date-chip' + (i === 0 ? ' active' : '');
         btn.dataset.dateStr = d.toISOString().split('T')[0];
         btn.innerHTML = `
             <span class="chip-day">${dayNames[d.getDay()]}</span>
             <span class="chip-date">${d.getDate()}</span>
-            <span class="chip-month">${MONTHS_FULL[d.getMonth()].slice(0,3)}</span>
+            <span class="chip-month">${MONTHS_FULL[d.getMonth()].slice(0, 3)}</span>
             ${i === 0 ? '<span class="chip-today">Today</span>' : ''}
             ${i === 1 ? '<span class="chip-tomorrow">Tomorrow</span>' : ''}
         `;
@@ -101,8 +109,14 @@ function buildDateChips() {
    ===================================================== */
 function changeMonth(dir) {
     S.currentMonth += dir;
-    if (S.currentMonth > 11) { S.currentMonth = 0; S.currentYear++; }
-    if (S.currentMonth < 0)  { S.currentMonth = 11; S.currentYear--; }
+    if (S.currentMonth > 11) {
+        S.currentMonth = 0;
+        S.currentYear++;
+    }
+    if (S.currentMonth < 0) {
+        S.currentMonth = 11;
+        S.currentYear--;
+    }
     updateMonthLabel();
     if (S.calendarOpen) renderCalendar();
 }
@@ -150,8 +164,8 @@ function renderCalendar() {
 
         const btn = document.createElement('button');
         btn.className = 'dcd-cal-day' + (isPast ? ' past' : '') +
-                        (dateStr === S.selectedDate ? ' active' : '') +
-                        (dateStr === todayStr ? ' today' : '');
+            (dateStr === S.selectedDate ? ' active' : '') +
+            (dateStr === todayStr ? ' today' : '');
         btn.textContent = d;
         btn.disabled = isPast;
 
@@ -228,7 +242,9 @@ function changeTicket(type, delta) {
         el.textContent = S.tickets[type];
         // Bounce animation
         el.style.transform = delta > 0 ? 'scale(1.4)' : 'scale(0.7)';
-        setTimeout(() => { el.style.transform = 'scale(1)'; }, 200);
+        setTimeout(() => {
+            el.style.transform = 'scale(1)';
+        }, 200);
     }
     updateTotal();
 }
@@ -244,13 +260,16 @@ function updateTotal() {
    ===================================================== */
 function proceedBooking() {
     if (!S.selectedDate) {
-        toast('Please select a date first', 'error'); return;
+        toast('Please select a date first', 'error');
+        return;
     }
     if (!S.selectedTime) {
-        toast('Please select a time slot', 'error'); return;
+        toast('Please select a time slot', 'error');
+        return;
     }
     if (S.tickets.adult + S.tickets.child === 0) {
-        toast('Please select at least 1 ticket', 'error'); return;
+        toast('Please select at least 1 ticket', 'error');
+        return;
     }
     const total = (S.tickets.adult * PRICES.adult) + (S.tickets.child * PRICES.child);
     toast(`Booking: ${S.selectedDate} at ${S.selectedTime} — Total: ${CURRENCY}${total}`, 'success');
@@ -273,59 +292,60 @@ function proceedBooking() {
 /* =====================================================
    WISHLIST — frontend only (localStorage)
    ===================================================== */
-function toggleWishlist() {
-    S.isWishlisted = !S.isWishlisted;
-    const btn = document.getElementById('wishlist-btn');
-    if (!btn) return;
-    if (S.isWishlisted) {
-        btn.innerHTML = '<i class="fas fa-heart"></i> Saved';
-        btn.classList.add('active');
-        toast('Added to wishlist!', 'success');
-    } else {
-        btn.innerHTML = '<i class="far fa-heart"></i> Save';
-        btn.classList.remove('active');
-        toast('Removed from wishlist', 'success');
-    }
-    // Save in localStorage
-    const saved = JSON.parse(localStorage.getItem('th_wishlist') || '[]');
-    const id = 'london-eye';
-    if (S.isWishlisted) {
-        if (!saved.includes(id)) saved.push(id);
-    } else {
-        const idx = saved.indexOf(id);
-        if (idx > -1) saved.splice(idx, 1);
-    }
-    localStorage.setItem('th_wishlist', JSON.stringify(saved));
-
-    // Update navbar wishlist count
-    const badge = document.getElementById('wishlist-count');
-    if (badge) badge.textContent = saved.length;
-}
+// function toggleWishlist() {
+//     S.isWishlisted = !S.isWishlisted;
+//     const btn = document.getElementById('wishlist-btn');
+//     if (!btn) return;
+//     if (S.isWishlisted) {
+//         btn.innerHTML = '<i class="fas fa-heart"></i> Saved';
+//         btn.classList.add('active');
+//         toast('Added to wishlist!', 'success');
+//     } else {
+//         btn.innerHTML = '<i class="far fa-heart"></i> Save';
+//         btn.classList.remove('active');
+//         toast('Removed from wishlist', 'success');
+//     }
+//     // Save in localStorage
+//     const saved = JSON.parse(localStorage.getItem('th_wishlist') || '[]');
+//     const id = 'london-eye';
+//     if (S.isWishlisted) {
+//         if (!saved.includes(id)) saved.push(id);
+//     } else {
+//         const idx = saved.indexOf(id);
+//         if (idx > -1) saved.splice(idx, 1);
+//     }
+//     localStorage.setItem('th_wishlist', JSON.stringify(saved));
+//
+//     // Update navbar wishlist count
+//     const badge = document.getElementById('wishlist-count');
+//     if (badge) badge.textContent = saved.length;
+// }
 
 // Check localStorage on load
-document.addEventListener('DOMContentLoaded', () => {
-    const saved = JSON.parse(localStorage.getItem('th_wishlist') || '[]');
-    if (saved.includes('london-eye')) {
-        S.isWishlisted = true;
-        const btn = document.getElementById('wishlist-btn');
-        if (btn) {
-            btn.innerHTML = '<i class="fas fa-heart"></i> Saved';
-            btn.classList.add('active');
-        }
-    }
-});
+// document.addEventListener('DOMContentLoaded', () => {
+//     const saved = JSON.parse(localStorage.getItem('th_wishlist') || '[]');
+//     if (saved.includes('london-eye')) {
+//         S.isWishlisted = true;
+//         const btn = document.getElementById('wishlist-btn');
+//         if (btn) {
+//             btn.innerHTML = '<i class="fas fa-heart"></i> Saved';
+//             btn.classList.add('active');
+//         }
+//     }
+// });
 
 /* =====================================================
    SHARE
    ===================================================== */
 function shareDestination() {
     if (navigator.share) {
-        navigator.share({ title: 'Admission to the London Eye — TravelHub', url: window.location.href })
+        navigator.share({title: 'Admission to the London Eye — TravelHub', url: window.location.href})
             .catch(() => copyLink());
     } else {
         copyLink();
     }
 }
+
 function copyLink() {
     navigator.clipboard.writeText(window.location.href)
         .then(() => toast('Link copied to clipboard!', 'success'))
@@ -431,6 +451,16 @@ function slideSimilar() {
     track.style.transform = `translateX(-${S.similarIdx * cardW}px)`;
 }
 
+function slideSimilarBack() {
+    const track = document.getElementById('dcd-similar-track');
+    if (!track) return;
+    const cards = track.querySelectorAll('.dcd-sim-card');
+    const cardW = 236;
+    const max = Math.max(0, cards.length - 3);
+    S.similarIdx = S.similarIdx <= 0 ? max : S.similarIdx - 1;
+    track.style.transform = `translateX(-${S.similarIdx * cardW}px)`;
+}
+
 /* =====================================================
    TRAVELLER PHOTOS SLIDER
    ===================================================== */
@@ -444,12 +474,26 @@ function slidePhotos() {
     track.style.transform = `translateX(-${S.photoIdx * itemW}px)`;
 }
 
+function slidePhotosBack() {
+    const track = document.getElementById('dcd-tp-track');
+    if (!track) return;
+
+    const items = track.querySelectorAll('.dcd-tp-item');
+    const itemW = 252;
+    const max = Math.max(0, items.length - 2);
+
+    // 🔁 ORQAGA LOGIKA
+    S.photoIdx = S.photoIdx <= 0 ? max : S.photoIdx - 1;
+
+    track.style.transform = `translateX(-${S.photoIdx * itemW}px)`;
+}
+
 /* =====================================================
    SCROLL TO BOOKING PANEL
    ===================================================== */
 function scrollToPanel() {
     const panel = document.getElementById('dcd-booking-panel');
-    if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (panel) panel.scrollIntoView({behavior: 'smooth', block: 'start'});
 }
 
 /* =====================================================
@@ -462,7 +506,7 @@ function initMobileBar() {
 
     const observer = new IntersectionObserver(([entry]) => {
         bar.style.display = entry.isIntersecting ? 'none' : 'flex';
-    }, { threshold: 0.1 });
+    }, {threshold: 0.1});
     observer.observe(panel);
 }
 
@@ -480,7 +524,7 @@ function initScoreBars() {
                 observer.unobserve(bar);
             }
         });
-    }, { threshold: 0.5 });
+    }, {threshold: 0.5});
     bars.forEach(b => observer.observe(b));
 }
 
@@ -501,16 +545,16 @@ function changeDot(index) {
 
     const r = OVERLAY_REVIEWS[index];
     const avatarEl = document.querySelector('.dcd-top-rev-avatar');
-    const nameEl   = document.querySelector('.dcd-top-reviewer strong');
-    const textEl   = document.querySelector('.dcd-top-rev-text');
+    const nameEl = document.querySelector('.dcd-top-reviewer strong');
+    const textEl = document.querySelector('.dcd-top-rev-text');
 
     if (avatarEl && nameEl && textEl) {
         // Fade transition
         [avatarEl, nameEl, textEl].forEach(el => el.style.opacity = '0');
         setTimeout(() => {
             avatarEl.textContent = r.avatar;
-            nameEl.textContent   = r.name;
-            textEl.textContent   = r.text;
+            nameEl.textContent = r.name;
+            textEl.textContent = r.text;
             [avatarEl, nameEl, textEl].forEach(el => el.style.opacity = '1');
         }, 200);
     }
@@ -526,7 +570,7 @@ function toast(message, type = 'success') {
         return;
     }
     // Fallback
-    const t  = document.getElementById('toast');
+    const t = document.getElementById('toast');
     const ti = document.getElementById('toast-title');
     const tm = document.getElementById('toast-message');
     const ic = document.getElementById('toast-icon');
@@ -538,4 +582,192 @@ function toast(message, type = 'success') {
     if (ic) ic.className = `fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'} toast-icon ${type}`;
     clearTimeout(t._timer);
     t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ================================================================
+   REVIEW MODAL JS — destination_detail.js ga qo'sh
+   ================================================================ */
+
+let currentRating = 0;
+let currentDestSlug = '';
+
+// destination slug ni page dan olish
+// destination_detail.html da <div data-slug="{{ destination.slug }}"> bo'lishi kerak
+document.addEventListener('DOMContentLoaded', () => {
+    const slugEl = document.getElementById('dest-slug-data');
+    if (slugEl) {
+        currentDestSlug = slugEl.dataset.slug || '';
+        const slugInput = document.getElementById('rm-dest-slug');
+        const destName = document.getElementById('dcd-rm-dest-name');
+        if (slugInput) slugInput.value = currentDestSlug;
+        if (destName) destName.textContent = document.getElementById('dest-name')?.textContent || '';
+    }
+});
+
+// Modal ochish
+function openReviewModal() {
+    const modal = document.getElementById('reviewModal');
+    if (!modal) return;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+// Modal yopish
+function closeReviewModal(e) {
+    if (e && e.target !== document.getElementById('reviewModal')) return;
+    const modal = document.getElementById('reviewModal');
+    if (!modal) return;
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+// ESC tugmasi bilan yopish
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeReviewModal();
+});
+
+// Yulduz reyting
+const ratingLabels = {
+    1: '😞 Terrible',
+    2: '😕 Poor',
+    3: '😊 Average',
+    4: '😄 Good',
+    5: '🤩 Excellent!'
+};
+
+function setRating(val) {
+    currentRating = val;
+    const stars = document.querySelectorAll('.dcd-rm-star');
+    const label = document.getElementById('rm-rating-label');
+    const input = document.getElementById('rm-rating-val');
+
+    stars.forEach((star, i) => {
+        star.classList.toggle('active', i < val);
+    });
+
+    if (label) {
+        label.textContent = ratingLabels[val];
+        label.classList.add('rated');
+    }
+    if (input) input.value = val;
+}
+
+// Yulduz hover effekti
+document.querySelectorAll('.dcd-rm-star').forEach((star, idx) => {
+    star.addEventListener('mouseenter', () => {
+        document.querySelectorAll('.dcd-rm-star').forEach((s, i) => {
+            s.classList.toggle('hovered', i <= idx);
+        });
+    });
+    star.addEventListener('mouseleave', () => {
+        document.querySelectorAll('.dcd-rm-star').forEach(s => s.classList.remove('hovered'));
+    });
+});
+
+// Tashrif turi
+function setVisitType(btn) {
+    document.querySelectorAll('.dcd-rm-vtype').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const input = document.getElementById('rm-visit-type-val');
+    if (input) input.value = btn.dataset.val;
+}
+
+// Textarea harf hisobi
+function updateCharCount(textarea) {
+    const count = document.getElementById('rm-char-num');
+    if (count) count.textContent = textarea.value.length;
+}
+
+// Review yuborish
+function submitReview(e) {
+    e.preventDefault();
+
+    const ratingVal = document.getElementById('rm-rating-val')?.value;
+    const textVal = document.getElementById('rm-text')?.value.trim();
+    const errorDiv = document.getElementById('rm-error');
+    const errorText = document.getElementById('rm-error-text');
+    const submitBtn = document.getElementById('rm-submit-btn');
+    const submitTxt = document.getElementById('rm-submit-text');
+    const submitLoad = document.getElementById('rm-submit-loading');
+
+    // Validatsiya
+    if (!ratingVal) {
+        showError('Please select a rating (1-5 stars).');
+        return;
+    }
+    if (!textVal || textVal.length < 10) {
+        showError('Please write at least 10 characters in your review.');
+        return;
+    }
+
+    hideError();
+
+    // Loading holati
+    submitBtn.disabled = true;
+    submitTxt.style.display = 'none';
+    submitLoad.style.display = 'flex';
+
+    // Form data
+    const form = document.getElementById('reviewForm');
+    const formData = new FormData(form);
+
+    // // visited_at ni to'g'ri format qilish
+    // const visitedAt = formData.get('visited_at');
+    // if (visitedAt) {
+    //     formData.set('visited_at', visitedAt + '-01'); // YYYY-MM → YYYY-MM-DD
+    // }
+
+    fetch('/reviews/submit/', {
+        method: 'POST',
+        headers: {'X-CSRFToken': getCsrfToken()},
+        body: formData,
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showSuccess();
+            } else {
+                showError(data.error || 'Something went wrong. Please try again.');
+                resetSubmitBtn();
+            }
+        })
+        .catch(() => {
+            showError('Network error. Please check your connection and try again.');
+            resetSubmitBtn();
+        });
+}
+
+function showSuccess() {
+    const form = document.getElementById('reviewForm');
+    const success = document.getElementById('rm-success');
+    if (form) form.style.display = 'none';
+    if (success) success.style.display = 'block';
+}
+
+function showError(msg) {
+    const errorDiv = document.getElementById('rm-error');
+    const errorText = document.getElementById('rm-error-text');
+    if (errorDiv) errorDiv.style.display = 'flex';
+    if (errorText) errorText.textContent = msg;
+}
+
+function hideError() {
+    const errorDiv = document.getElementById('rm-error');
+    if (errorDiv) errorDiv.style.display = 'none';
+}
+
+function resetSubmitBtn() {
+    const submitBtn = document.getElementById('rm-submit-btn');
+    const submitTxt = document.getElementById('rm-submit-text');
+    const submitLoad = document.getElementById('rm-submit-loading');
+    if (submitBtn) submitBtn.disabled = false;
+    if (submitTxt) submitTxt.style.display = 'flex';
+    if (submitLoad) submitLoad.style.display = 'none';
+}
+
+function getCsrfToken() {
+    const cookie = document.cookie
+        .split(';')
+        .find(c => c.trim().startsWith('csrftoken='));
+    return cookie ? decodeURIComponent(cookie.trim().split('=')[1]) : '';
 }

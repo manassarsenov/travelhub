@@ -26,7 +26,7 @@
 
     {% if flash_destinations %}
         <!-- FLASH SALES -->
-        <section class="flash-deals">
+        <section class="flash-deals" data-section="flash" data-total="{{ flash_total }}">
             <div class="container-custom">
                 <div class="section-header-custom">
                     <div class="flash-badge"><i class="fas fa-bolt"></i><span>Flash Sale</span></div>
@@ -36,186 +36,25 @@
 
                 <div id="destinations-grid" class="destinations-grid">
                     {% for destination in flash_destinations %}
-                        <article class="destination-card">
-
-                            <div class="deal-timer" data-end="{{ destination.flash_sale_end|date:'c' }}">
-                                <div class="timer-item"><span class="hours">00</span><small>Hours</small></div>
-                                <div class="timer-item"><span class="minutes">00</span><small>Mins</small></div>
-                                <div class="timer-item"><span class="seconds">00</span><small>Secs</small></div>
-                            </div>
-
-                            <div class="card-image-wrapper">
-                                <div class="image-slider">
-                                    {% for img in destination.images.all %}
-                                        <img src="{{ img.image.url }}"
-                                             alt="{{ destination.name }}">
-                                    {% empty %}
-                                        <img src="{% static 'apps/img/default.jpg' %}" alt="No image">
-
-                                    {% endfor %}
-
-                                    <div class="discount-badge">-{{ destination.discount_percentage }}%</div>
-                                </div>
-                                {% if destination.images.count > 1 %}
-                                    <button class="slider-btn prev" onclick="slideImage(this,-1)">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </button>
-                                    <button class="slider-btn next" onclick="slideImage(this,1)">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </button>
-                                    <div class="image-dots">
-                                        {% for img in destination.images.all %}
-                                            <span class="dot {% if forloop.first %}active{% endif %}"
-                                                  onclick="goToSlide(this, {{ forloop.counter0 }})"></span>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-
-                                <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
-                                </button>
-                            </div>
-
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <div class="destination-info">
-                                        <h3>{{ destination.name }}</h3>
-                                        <p class="location"><i
-                                                class="fas fa-map-marker-alt"></i> {{ destination.location }}
-                                        </p>
-                                    </div>
-                                    <div class="rating-box">
-                                        <div class="rating-stars"><i
-                                                class="fas fa-star"></i><span>{{ destination.rating }}</span></div>
-                                        <p class="reviews">({{ destination.reviews_count }} reviews)</p>
-                                    </div>
-                                </div>
-                                <p class="card-description">{{ destination.short_description|safe }}</p>
-                                <div class="card-tags">
-                                    {% for tag in destination.tags.all %}
-                                        <span class="tag"><i class="fas {{ tag.name }}"></i> {{ tag.name }}</span>
-                                    {% endfor %}
-                                </div>
-                                <div class="card-stats">
-                                    <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
-                                            class="fas fa-hotel"></i><span>{{ destination.hotels_count }}+Hotels & Resorts</span>
-                                    </button>
-                                    <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
-                                            class="fas fa-plane"></i><span>Direct Flights</span></button>
-                                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)"><i
-                                            class="fas fa-sun weather-icon"></i><span
-                                            class="weather-temp">yuklanyapti...</span>
-                                    </button>
-                                    <div class="stat-item"><i
-                                            class="fas fa-clock"></i><span>{{ destination.duration }}</span></div>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="price-box">
-                                        <div class="price-original">${{ destination.price }}</div>
-                                        <div class="price-current"><span class="from">From</span><span
-                                                class="amount">${{ destination.discounted_price }}</span><span
-                                                class="per">/ {{ destination.price_label }}</span></div>
-                                    </div>
-                                    <div class="card-actions">
-                                        <button class="btn-outline"
-                                                onclick="window.location.href='{% url 'destination_detail_page' %}'">
-                                            See Details
-                                            <i class="fas fa-arrow-right"></i>
-                                        </button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
+                        {% include 'apps/partials/_flash_card.html' %}
                     {% endfor %}
-
-
                 </div>
             </div>
             <div class="load-more-container">
-                <button class="btn-load-more" onclick="loadMoreDestinations()">
+                <button class="btn-load-more" onclick="loadMore('flash')">
                     <i class="fas fa-spinner"></i>
                     Load More Destinations
                 </button>
-                <p class="showing-text">Showing 12 of 156 destinations</p>
+                <p class="showing-text"></p>
             </div>
 
         </section>
     {% endif %}
 
 
-    <!-- OB-HAVO MODAL -->
-    <div class="weather-modal-overlay" id="weatherModal" style="display:none;"
-         onclick="closeWeatherModal(event)">
-        <div class="weather-modal" onclick="event.stopPropagation()">
-
-            <div class="weather-modal-loading" id="weatherLoading">
-                <div class="weather-spin"></div>
-                <p>Ob-havo ma'lumotlari yuklanmoqda...</p>
-            </div>
-
-            <div id="weatherContent" style="display:none;">
-                <div class="weather-modal-header">
-                    <button class="weather-modal-close" onclick="closeWeatherModal()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div class="weather-modal-city" id="wCityLabel">BUGUNGI OB-HAVO</div>
-                    <div class="weather-modal-location" id="wLocation">—</div>
-                    <div class="weather-modal-main">
-                        <div class="weather-modal-icon" id="wIcon">🌤️</div>
-                        <div class="weather-modal-temp-block">
-                            <div class="weather-modal-temp" id="wTemp">—</div>
-                            <div class="weather-modal-desc" id="wDesc">—</div>
-                            <div class="weather-modal-feels" id="wFeels">Sezilishi: —</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="weather-modal-body">
-                    <div class="weather-modal-stats">
-                        <div class="weather-stat-item">
-                            <i class="fas fa-tint" style="color:#3b82f6;"></i>
-                            <div class="ws-label">Namlik</div>
-                            <div class="ws-value" id="wHumidity">—</div>
-                        </div>
-                        <div class="weather-stat-item">
-                            <i class="fas fa-wind" style="color:#64748b;"></i>
-                            <div class="ws-label">Shamol</div>
-                            <div class="ws-value" id="wWind">—</div>
-                        </div>
-                        <div class="weather-stat-item">
-                            <i class="fas fa-eye" style="color:#8b5cf6;"></i>
-                            <div class="ws-label">Ko'rinish</div>
-                            <div class="ws-value" id="wVisibility">—</div>
-                        </div>
-                    </div>
-
-                    <div class="weather-forecast-title">5 KUNLIK PROGNOZ</div>
-                    <div class="weather-forecast" id="wForecast"></div>
-
-                    <div class="weather-modal-footer">
-                        <a href="#" id="wWeatherLink" target="_blank">
-                            Batafsil ob-havo ma'lumotlari
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="weather-modal-error" id="weatherError" style="display:none;">
-                <i class="fas fa-exclamation-triangle"></i>
-                <p>Ob-havo ma'lumotlari yuklanmadi. Internet aloqasini tekshiring.</p>
-                <button class="weather-retry-btn" onclick="retryWeather()">
-                    <i class="fas fa-redo"></i> Qayta urinish
-                </button>
-            </div>
-
-        </div>
-    </div>
-
-
     {% if featured_destinations %}
         <!-- ALL-INCLUSIVE PACKAGES -->
-        <section class="package-deals">
+        <section class="package-deals" data-section="featured" data-total="{{ featured_total }}">
             <div class="container-custom">
                 <div class="section-header-custom">
                     <h2>All-Inclusive Packages</h2>
@@ -224,146 +63,16 @@
 
                 <div class="packages-grid">
                     {% for destination in featured_destinations %}
-                        <div class="package-card">
-                            {#                             data-city="Male"#}
-                            {#                             data-country="Maldives"#}
-                            {#                             data-lat="4.1755"#}
-                            {#                             data-lon="73.5093"#}
-                            {#                             data-hotels-url="/hotels/?city=maldives"#}
-                            {#                             data-flights-url="/flights/?to=maldives">#}
-
-                            <div class="package-header">
-                                <span class="package-type">{{ destination.package_type }}</span>
-                            </div>
-
-                            <div class="card-image-wrapper">
-                                <div class="image-slider">
-                                    {% for img in destination.images.all %}
-                                        <img src="{{ img.image.url }}"
-                                             alt="{{ destination.name }}">
-                                    {% empty %}
-                                        <img src="{% static 'apps/img/default.jpg' %}" alt="No image">
-                                    {% endfor %}
-                                </div>
-                                {% if destination.images.count > 1 %}
-                                    <button class="slider-btn prev" onclick="slideImage(this, -1)">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </button>
-                                    <button class="slider-btn next" onclick="slideImage(this, 1)">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </button>
-                                    <div class="image-dots">
-                                        {% for img in destination.images.all %}
-                                            <span class="dot{% if forloop.first %} active{% endif %}"></span>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-
-                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <div class="destination-info">
-                                        <h3>{{ destination.name }}</h3>
-                                        <p class="location">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                            {{ destination.location }}
-                                        </p>
-                                    </div>
-                                    <div class="rating-box">
-                                        <div class="rating-stars">
-                                            <i class="fas fa-star"></i>
-                                            <span>{{ destination.rating }}</span>
-                                        </div>
-                                        <p class="reviews">({{ destination.reviews_count }} reviews)</p>
-                                    </div>
-                                </div>
-
-                                <p class="card-description">
-                                    {{ destination.short_description|safe }}
-                                </p>
-
-                                <div class="card-tags">
-                                    {% for tag in destination.tags.all %}
-                                        <span class="tag">
-                                            <i class="fas {{ tag.icon }}"></i> {{ tag.name }}
-                                        </span>
-                                    {% endfor %}
-                                </div>
-
-                                <!-- 6 ta stat: 2 qator × 3 ustun -->
-                                <div class="card-stats">
-                                    <button class="stat-item stat-hotels" onclick="goToHotels(this)"
-                                            title="Hotels & Resorts">
-                                        <i class="fas fa-hotel"></i>
-                                        <span>{{ destination.hotels_count }} Hotels & Resorts</span>
-                                    </button>
-                                    <button class="stat-item stat-restaurants" onclick="goToRestaurants(this)"
-                                            title="Restaurants">
-                                        <i class="fas fa-utensils"></i>
-                                        <span>{{ destination.restaurants_count }}+ Restaurants</span>
-                                    </button>
-                                    {% if destination.has_flights %}
-                                        <button class="stat-item stat-flights" onclick="goToFlights(this)"
-                                                title="Direct Flights">
-                                            <i class="fas fa-plane"></i>
-                                            <span>Direct Flights</span>
-                                        </button>
-                                    {% endif %}
-
-                                    {% for activity in destination.activities.all %}
-                                        <button class="stat-item stat-activities" onclick="goToActivities(this)"
-                                                title="Activities">
-                                            <i class="fas {{ activity.icon }}"></i>
-                                            <span>{{ activity.name }}</span>
-                                        </button>
-                                    {% endfor %}
-
-                                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
-                                            data-city="Male"
-                                            data-lat="4.1755"
-                                            data-lon="73.5093"
-                                            title="Ob-havo">
-                                        <i class="fas fa-sun weather-icon"></i>
-                                        <span class="weather-temp">yuklanyapti...</span>
-                                    </button>
-                                    <div class="stat-item">
-                                        <i class="fas fa-clock"></i>
-                                        <span>{{ destination.duration }}</span>
-                                    </div>
-                                </div>
-
-                                <div class="card-footer">
-                                    <div class="price-box">
-                                        <div class="price-current">
-                                            <span class="from">From</span>
-                                            <span class="amount">${{ destination.price }}</span>
-                                            <span class="per">/ {{ destination.price_label }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-actions">
-                                        <button class="btn-outline"
-                                                onclick="window.location.href='{% url 'destination_detail_page' %}'">See
-                                            Details
-                                            <i class="fas fa-arrow-right"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        {% include 'apps/partials/_featured_card.html' %}
                     {% endfor %}
-
-                </div><!-- /.packages-grid -->
+                </div>
             </div>
             <div class="load-more-container">
-                <button class="btn-load-more" onclick="loadMoreDestinations()">
+                <button class="btn-load-more" onclick="loadMore('featured')">
                     <i class="fas fa-spinner"></i>
                     Load More Destinations
                 </button>
-                <p class="showing-text">Showing 12 of 156 destinations</p>
+                <p class="showing-text"></p>
             </div>
 
         </section><!-- /.package-deals -->
@@ -371,86 +80,33 @@
 
 
     {% if trending_destinations %}
-    	<!-- TRENDING DESTINATIONS -->
-    <section class="trending-deals">
-        <div class="container-custom">
-            <div class="section-header-custom">
-                <h2>Trending <span
-                        style="background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Destinations</span>
-                </h2>
-                <p>Handpicked by our travel experts</p>
-            </div>
+        <!-- TRENDING DESTINATIONS -->
+        <section class="trending-deals" data-section="trending" data-total="{{ trending_total }}">
+            <div class="container-custom">
+                <div class="section-header-custom">
+                    <h2>Trending <span
+                            style="background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Destinations</span>
+                    </h2>
+                    <p>Handpicked by our travel experts</p>
+                </div>
 
-            <div id="trending-grid" class="destinations-grid">
-
-                <!-- Trending 1 - Dubai -->
-                <article class="destination-card" data-city="Dubai" data-country="Dubai, UAE" data-lat="25.2048"
-                         data-lon="55.2708" data-hotels-url="/hotels/?city=dubai" data-flights-url="/flights/?to=dubai">
-                    <div class="card-image-wrapper">
-                        <div class="image-slider">
-                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&q=80"
-                                 alt="Dubai">
-                        </div>
-                        <button class="slider-btn prev" onclick="slideImage(this, -1)"><i
-                                class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn next" onclick="slideImage(this, 1)"><i
-                                class="fas fa-chevron-right"></i></button>
-                        <div class="image-dots"><span class="dot active"></span><span class="dot"></span><span
-                                class="dot"></span></div>
-                        <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-header">
-                            <div class="destination-info"><h3>Dubai</h3>
-                                <p class="location"><i class="fas fa-map-marker-alt"></i> United Arab Emirates</p></div>
-                            <div class="rating-box">
-                                <div class="rating-stars"><i class="fas fa-star"></i><span>4.9</span></div>
-                                <p class="reviews">(5,210 reviews)</p></div>
-                        </div>
-                        <p class="card-description">Experience luxury and adventure in the city of gold</p>
-                        <div class="card-tags">
-                            <span class="tag"><i class="fas fa-city"></i> Modern</span>
-                            <span class="tag"><i class="fas fa-star"></i> Luxury</span>
-                            <span class="tag"><i class="fas fa-users"></i> Family</span>
-                        </div>
-                        <div class="card-stats">
-                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
-                                    class="fas fa-hotel"></i><span>Hotels & Resorts</span></button>
-                            <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
-                                    class="fas fa-plane"></i><span>Direct Flights</span></button>
-                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)" data-city="Dubai"
-                                    data-lat="25.2048" data-lon="55.2708"><i class="fas fa-sun weather-icon"></i><span
-                                    class="weather-temp">yuklanyapti...</span></button>
-                            <div class="stat-item"><i class="fas fa-clock"></i><span>5-7 Days</span></div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="price-box">
-                                <div class="price-current"><span class="from">From</span><span
-                                        class="amount">$899</span><span class="per">/ person</span></div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn-outline" onclick="viewDetails(4)">See Details
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
+                <div id="trending-grid" class="destinations-grid">
+                    {% for destination in trending_destinations %}
+                        {% include 'apps/partials/_trending_card.html' %}
+                    {% endfor %}
+                </div>
 
             </div>
-        </div>
 
-        <div class="load-more-container">
-            <button class="btn-load-more" onclick="loadMoreDestinations()">
-                <i class="fas fa-spinner"></i>
-                Load More Destinations
-            </button>
-            <p class="showing-text">Showing 12 of 156 destinations</p>
-        </div>
+            <div class="load-more-container">
+                <button class="btn-load-more" onclick="loadMore('trending')">
+                    <i class="fas fa-spinner"></i>
+                    Load More Destinations
+                </button>
+                <p class="showing-text"></p>
+            </div>
 
-    </section>
+        </section>
     {% endif %}
 
 
@@ -706,6 +362,8 @@
 
 {% block custom_js %}
     <script src="{% static 'apps/js/home.js' %}"></script>
+    <script src="{% static 'apps/js/live_feed.js' %}"></script>
     <script src="{% static 'apps/js/slider.js' %}"></script>
+    <script src="{% static 'apps/js/load_more.js' %}"></script>
 {% endblock %}
 

@@ -1,0 +1,899 @@
+Sayohat bo‘yicha tavsiyalar va bron qilish platformasini ishlab chiqish
+
+KIRISH
+
+Mavzuning dolzarbligi
+Tadqiqotning maqsadi va vazifalari
+Tadqiqot obyekti va predmeti
+Ishning tuzilishi
+
+
+I-BOB. TURIZM SOHASIDA AXBOROT TIZIMLARINING TAHLILI VA LOYIHANING KONSEPSIYASI
+1.1. Global turizm bozorida onlayn platformalarning o'rni va rivojlanish tendensiyalari
+1.2. O'zbekistonda turizm sohasini raqamlashtirishning bugungi holati va mavjud muammolar
+1.3. Mavjud sayyohlik platformalarining qiyosiy tahlili va "TravelHub" platformasining afzalliklari
+
+Booking.com, Airbnb, TripAdvisor tahlili
+TravelHub ning raqobatbardoshligi va innovatsion jihatlari
+
+1.4. Tizimga qo'yiladigan funksional va texnik talablarning shakllantirilishi
+
+II-BOB. "TRAVELHUB" PLATFORMASINING ARXITEKTURASI VA MA'LUMOTLAR BAZASINI LOYIHALASH
+2.1. Tizimning umumiy arxitekturasi va MVT dizayn naqshini qo'llash
+2.2. Ma'lumotlar bazasini obyektga yo'naltirilgan loyihalash (ORM) va ER-diagramma
+2.3. Murakkab ierarxik ma'lumotlarni boshqarish (MPTT algoritmi)
+2.4. Tizim modullarining o'zaro ishlash arxitekturasi va UML diagrammalar
+
+III-BOB. PLATFORMANING DASTURIY TA'MINOTINI ISHLAB CHIQISH
+3.1. Qo'llanilgan texnologiyalar va dasturiy vositalar
+
+Python 3.x va Django 4.x — backend asosi
+PostgreSQL — ma'lumotlar bazasi
+Celery, Celery Beat, Celery Flower — fon vazifalari
+Docker, Docker Compose — konteynerizatsiya
+Nginx — web server
+Django MPTT, CKEditor5, Pillow — qo'shimcha kutubxonalar
+HTML5, CSS3, JavaScript — frontend
+
+3.2. Backend tizimini ishlab chiqish va ma'lumotlar bilan ishlash
+
+Maxsus foydalanuvchi modeli va autentifikatsiya tizimi
+Django modellari va Class-Based Views
+Google OAuth2 integratsiyasi
+Maxsus foydalanuvchi modeli (Custom User)
+Ko'p bosqichli autentifikatsiya:
+
+Email confirmation (token asosida)
+Google OAuth2 integratsiyasi
+Session management
+
+
+Class-Based Views (CBV):
+
+HomeTemplateView (Flash Sale, Trending, Featured)
+DestinationsListView (City filter, Pagination)
+CitiesAjaxView (AJAX endpoint)
+DestinationByCityView (offset/limit pagination)
+FlashSaleAjaxView (Load More)
+
+
+Database query optimizatsiya:
+
+select_related (ForeignKey)
+prefetch_related (ManyToMany)
+N+1 muammosini hal qilish
+
+3.3. Sayohat manzillarini boshqarish va bron qilish tizimini ishlab chiqish
+
+Flash Sale tizimi va discount algoritmi
+City/Region filtrlash va pagination
+Fon vazifalarini avtomatlashtirish (Celery, Celery Beat)
+
+Destination CRUD operatsiyalari
+Flash Sale tizimi:
+
+Countdown timer (JavaScript)
+Auto-expire (Celery Beat)
+
+
+Discount logikasi (discounted_price property)
+City/Region bo'yicha filtrlash va pagination
+WebP formatga avtomatik konvertatsiya (Pillow)
+Ko'p tilli interfeys (i18n)
+
+3.4. Foydalanuvchi interfeysini (UI/UX) loyihalash va frontend qismini ishlab chiqish
+
+Home page, Destinations page, Destination card
+Responsive dizayn va Dark mode
+Ko'p tilli interfeys (i18n)
+
+3.5. Tizimni testlash, optimallashtirish va serverga joylashtirish
+
+Unit va integration testlar
+Axborot xavfsizligi (CSRF, XSS, SQL injection)
+Docker, Docker Compose, Nginx — production muhiti
+
+
+IV-BOB. HAYOT FAOLIYATI XAVFSIZLIGI
+4.1. Ish joyini ergonomik tashkil etish
+4.2. Kompyuter bilan ishlashda sanitariya va texnika xavfsizligi
+4.3. Elektr va yong'in xavfsizligi
+4.4. Axborot xavfsizligi va ma'lumotlarni himoyalash
+
+XULOSA VA TAKLIFLAR
+
+Olingan natijalar
+Ilmiy yangilik
+Amaliy ahamiyat
+
+
+FOYDALANILGAN ADABIYOTLAR RO'YXATI
+(20-30 ta manba)
+
+Django rasmiy dokumentatsiyasi
+PostgreSQL dokumentatsiyasi
+Docker rasmiy dokumentatsiyasi
+Celery dokumentatsiyasi
+Zamonaviy web arxitektura bo'yicha ilmiy maqolalar
+O'zbekiston IT sohasiga oid manbalar
+
+
+ILOVALAR
+
+A ilova: Dasturiy kod fragmentlari (models.py, views.py, urls.py)
+B ilova: Foydalanuvchi interfeysi rasmlari (screenshots)
+C ilova: ER diagramma va UML diagrammalar
+D ilova: Docker Compose va Nginx konfiguratsiyasi
+E ilova: Test natijalari
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MUNDARIJA
+
+KIRISH .................................................................................................. 3
+
+Mavzuning dolzarbligi
+Tadqiqotning maqsadi va vazifalari
+Tadqiqot obyekti va predmeti
+Ishning tuzilishi
+
+
+1-BOB. TURISTIK WEB TIZIMLARNI ISHLAB CHIQISH MUAMMOLARI
+1.1. Mavjud turistik web tizimlarining tahlili ...................................... 7
+
+Booking.com, Airbnb, TripAdvisor tahlili
+Mavjud tizimlarning kamchiliklari
+O'zbekiston bozorida turistik platformalar holati
+
+1.2. Turistik web platformalarni ishlab chiqish usullari va texnologiyalarining tahlili .................. 12
+
+Backend texnologiyalar: Python/Django, Node.js, PHP taqqoslash
+Frontend texnologiyalar: HTML5, CSS3, JavaScript
+Ma'lumotlar bazasi: PostgreSQL, MySQL taqqoslash
+MVT arxitektura modeli
+
+1.3. Tanlab olingan texnologiyalar asosida turistik web tizimini ishlab chiqish ......................... 17
+
+Django framework tanlash asoslari
+PostgreSQL tanlash asoslari
+Frontend stack tanlash asoslari
+MPTT (Modified Preorder Tree Traversal) — region/city ierarxiyasi
+
+1.4. Masalaning qo'yilishi ...................................................................... 22
+
+Muammoning turi va tavsifi
+Asosiy parametrlar
+Kutilayotgan natijalar
+Cheklovlar va talablar
+
+
+2-BOB. TRAVELHUB TIZIMINI LOYIHALASH
+2.1. TravelHub tizimining foydalanuvchi, funksional va tizim talablarini shakllantirish .............. 27
+
+Foydalanuvchi talablari (turist, admin)
+Funksional talablar:
+
+Destination qidirish va filtrlash
+Flash Sale tizimi
+Booking va to'lov
+Review va rating
+Ko'p tilli interfeys (i18n)
+
+
+Tizim talablari (performance, xavfsizlik, scalability)
+
+2.2. TravelHub tizimining modeli va algoritmini ishlab chiqish .......... 33
+
+Ma'lumotlar bazasi modeli (ER diagramma)
+Modellar: User, Destination, City, Region, Tag, Activity, Review, TicketType, Country
+Flash Sale algoritmi (timer, auto-expire)
+City filter va pagination algoritmi
+Autentifikatsiya modeli (Email, Google OAuth2)
+
+2.3. TravelHub tizimi dasturiy ilovasini ishlab chiqish algoritmlari ... 40
+
+Blok-sxemalar:
+
+Foydalanuvchi ro'yxatdan o'tish jarayoni
+Destination qidirish jarayoni
+Flash Sale ishlash jarayoni
+
+
+UML diagrammalar:
+
+Use Case diagramma
+Class diagramma
+Sequence diagramma
+
+
+Tizim arxitekturasi sxemasi
+
+2.4. Ishlab chiqilgan tizimning foydalanish yo'riqnomasi va amaliy tadbiqlari .......................... 48
+
+Foydalanuvchi interfeysi tavsifi
+Admin panel yo'riqnomasi
+Texnik talablar (server, brauzer)
+Deploy qilish ko'rsatmalari
+
+
+3-BOB. TRAVELHUB WEB PLATFORMASINI DASTURIY ISHLAB CHIQISH
+3.1. TravelHub platformasini yaratishda qo'llanilgan dasturiy vositalar va texnologiyalar ........... 55
+
+Python 3.x va Django 4.x
+PostgreSQL
+Django MPTT
+CKEditor5
+FontAwesome, Google Fonts
+Leaflet.js (xarita)
+PIL/Pillow (WebP konvertatsiya)
+
+3.2. Tizimning backend qismini ishlab chiqish ...................................... 61
+
+Django modellari ishlab chiqish
+
+SlugBaseModel, CreatedBaseModel, ImageBaseModel (abstract modellar)
+Destination modeli (Flash Sale, discount, rating, reviews)
+Region/City (MPTT tree structure)
+TicketType (Adult, Child, Infant)
+
+
+Views ishlab chiqish (CBV)
+
+HomeTemplateView (Flash Sale, Trending, Featured)
+DestinationsListView (City filter, Pagination)
+CitiesAjaxView (AJAX endpoint)
+DestinationByCityView (offset/limit pagination)
+FlashSaleAjaxView (Load More)
+
+
+Autentifikatsiya tizimi
+
+Email confirmation (token asosida)
+Google OAuth2 integratsiyasi
+Session management
+
+
+URL routing tizimi
+Database query optimizatsiya (select_related, prefetch_related)
+
+3.3. Foydalanuvchi interfeysi va frontend qismini ishlab chiqish ........ 72
+
+Home page
+
+Flash Sale section (countdown timer, discount badge)
+Trending Destinations
+Featured Destinations
+Live Activity Feed
+How It Works
+
+
+Destinations page
+
+Booking.com uslubidagi region/city tablar
+City grid (4 ustun, lazy loading)
+Destination cards (image slider, tags, stats, price)
+Filters sidebar (price, region, trip type, rating)
+Pagination (Load More)
+
+
+Destination card komponenti
+
+Image slider (prev/next, dots)
+WebP formatdagi rasmlar
+Tags va Activities
+Stats (Hotels, Flights, Weather, Duration)
+Price (original, discounted)
+
+
+Responsive dizayn (1500px, 1280px, 1024px, 768px, 480px)
+Dark mode
+
+3.4. Tizimni test qilish va amaliy natijalar .......................................... 82
+
+Unit testlar (Django TestCase)
+Integration testlar
+UI/UX testlar
+Performance tahlil
+
+Database query soni optimallashtirish
+Page load tezligi
+
+
+Xavfsizlik testlari (CSRF, XSS, SQL injection)
+Natijalar tahlili va screenshots
+
+
+4-BOB. HAYOT FAOLIYATI XAVFSIZLIGI
+4.1. Kompyuter bilan ishlashda mehnat xavfsizligi .............................. 90
+
+Ish vaqti me'yorlari
+Ko'z xavfsizligi
+Ergonomika talablari
+
+4.2. Elektr xavfsizligi va texnika xavfsizligi qoidalari ......................... 94
+
+Elektr jihozlar bilan ishlash qoidalari
+Yong'in xavfsizligi
+Favqulodda vaziyatlar
+
+4.3. Ish joyini tashkil etish va sanitariya talablari .............................. 97
+
+Ish joyi ergonomikasi
+Yoritish talablari
+Havo harorati va namligi
+
+4.4. Axborot xavfsizligi va ma'lumotlarni himoyalash ......................... 100
+
+CSRF himoya (Django middleware)
+SQL injection himoya (ORM)
+XSS himoya
+HTTPS va SSL
+Foydalanuvchi ma'lumotlarini shifrlash
+Google OAuth2 xavfsizligi
+
+
+XULOSA ................................................................................................ 105
+
+Olingan natijalar
+Ilmiy yangilik
+Amaliy ahamiyat
+Keyingi tadqiqot yo'nalishlari
+
+
+FOYDALANILGAN ADABIYOTLAR .................................................... 108
+(20-30 ta manba)
+
+Django dokumentatsiyasi
+Python rasmiy dokumentatsiyasi
+PostgreSQL dokumentatsiyasi
+Zamonaviy web arxitektura bo'yicha ilmiy maqolalar
+O'zbekiston IT sohasiga oid manbalar
+
+
+ILOVALAR ............................................................................................ 115
+
+A ilova: Dasturiy kod fragmentlari (models.py, views.py, urls.py)
+B ilova: Foydalanuvchi interfeysi rasmlari (screenshots)
+C ilova: ER diagramma va UML diagrammalar
+D ilova: Tizim arxitekturasi sxemasi
+E ilova: Test natijalari
+
+
+ MUKAMMAL VA ILG'OR MUNDARIJA (FINAL VERSION)
+
+  KIRISH
+
+
+  I-BOB. TURIZM SOHASINI RAQAMLASHTIRISH VA MAVJUD TIZIMLAR TAHLILI
+  1.1. Global turizm bozorida onlayn platformalarning o'rni va rivojlanish tendensiyalari.
+  1.2. O'zbekistonda turizm sohasini raqamlashtirishning bugungi holati va muammolari.
+  1.3. Mavjud sayyohlik platformalarining qiyosiy tahlili (Booking, TripAdvisor).
+  1.4. "TravelHub" platformasining konsepsiyasi, innovatsion jihatlari va raqobatbardoshligi.
+
+
+  II-BOB. "TRAVELHUB" PLATFORMASINI LOYIHALASH VA MA'LUMOTLAR ARXITEKTURASI
+  2.1. Tizimning umumiy arxitekturasi va MVT (Model-View-Template) naqshini qo'llash.
+  2.2. Ma'lumotlar bazasini obyektga yo'naltirilgan loyihalash (ORM) va ER-diagrammasi.
+  2.3. Murakkab ierarxik ma'lumotlarni boshqarishda MPTT (Modified Preorder Tree Traversal) algoritmi.
+  2.4. Loyihani modullashtirish va qayta ishlatiluvchi (Reusable) bazaviy modellarni yaratish (BaseModels).
+
+
+  III-BOB. PLATFORMANING BACKEND FUNKSIONALINI ISHLAB CHIQISH VA AVTOMATLASHTIRISH
+  3.1. Maxsus foydalanuvchi modeli (Custom User) va ko'p bosqichli autentifikatsiya.
+  3.2. Sayohat manzillarini boshqarish va dinamik narxlash algoritmlari (Discount logic).
+  3.3. Bron qilish (Orders) va to'lov holatlarini boshqarish tizimini ishlab chiqish.
+  3.4. Foydalanuvchi faolligini oshirish: Xabarnomalar (Notifications) va Sharhlar (Reviews) tizimi.
+  3.5. Ma'lumotlarni avtomatlashtirilgan holda shakllantirish (Data Seeding & Management Commands).
+  3.6. Ko'p tilli interfeysni (i18n) tizim darajasida tatbiq etish.
+
+
+  IV-BOB. FRONTEND DIZAYNI, XAVFSIZLIK VA OPTIMALLASHTIRISH
+  4.1. Foydalanuvchi interfeysi (UI/UX) dizayni va zamonaviy veb-texnologiyalar integratsiyasi.
+  4.2. Tizim unumdorligini oshirish: N+1 muammosini hal qilish va keshlashtirish imkoniyatlari.
+  4.3. Axborot xavfsizligini ta'minlash (CSRF, XSS va ma'lumotlarni validatsiyalash).
+  4.4. Loyihani testlash (Unit-test) va server muhitiga (Production) tayyorlash.
+
+  XULOSA VA TAKLIFLAR
+  FOYDALANILGAN ADABIYOTLAR RO'YXATI
+  ILOVALAR
+
+
+    KIRISH
+
+
+  I-BOB. TURIZM SOHASINI RAQAMLASHTIRISH VA MAVJUD TIZIMLAR TAHLILI
+  1.1. Global turizm bozorida onlayn platformalarning o'rni va rivojlanish tendensiyalari.
+  1.2. O'zbekistonda turizm sohasini raqamlashtirishning bugungi holati va muammolari.
+  1.3. Mavjud sayyohlik platformalarining qiyosiy tahlili (Booking, TripAdvisor).
+  1.4. "TravelHub" platformasining konsepsiyasi, innovatsion jihatlari va raqobatbardoshligi.
+
+
+  II-BOB. "TRAVELHUB" PLATFORMASINI LOYIHALASH VA MA'LUMOTLAR ARXITEKTURASI
+  2.1. Tizimning umumiy arxitekturasi va MVT (Model-View-Template) naqshini qo'llash.
+  2.2. Ma'lumotlar bazasini obyektga yo'naltirilgan loyihalash (ORM) va ER-diagrammasi.
+  2.3. Murakkab ierarxik ma'lumotlarni boshqarishda MPTT (Modified Preorder Tree Traversal) algoritmi.
+  2.4. Loyihani modullashtirish va qayta ishlatiluvchi bazaviy modellarni yaratish (BaseModels).
+
+
+  III-BOB. PLATFORMANING BACKEND FUNKSIONALINI ISHLAB CHIQISH VA AVTOMATLASHTIRISH
+  3.1. Maxsus foydalanuvchi modeli (Custom User) va ko'p bosqichli autentifikatsiya.
+  3.2. Sayohat manzillarini boshqarish va dinamik narxlash algoritmlari (Discount logic).
+  3.3. Bron qilish (Orders) va to'lov holatlarini boshqarish tizimini ishlab chiqish.
+  3.4. Foydalanuvchi faolligini oshirish: Xabarnomalar (Notifications) va Sharhlar (Reviews) tizimi.
+  3.5. Ma'lumotlarni avtomatlashtirilgan holda shakllantirish (Management Commands & Fixtures).
+  3.6. Ko'p tilli interfeysni (i18n) tizim darajasida tatbiq etish.
+
+
+  IV-BOB. FRONTEND DIZAYNI, XAVFSIZLIK VA OPTIMALLASHTIRISH
+  4.1. Foydalanuvchi interfeysi (UI/UX) dizayni va zamonaviy veb-texnologiyalar integratsiyasi.
+  4.2. Tizim unumdorligini oshirish: N+1 muammosini hal qilish va keshlashtirish imkoniyatlari.
+  4.3. Axborot xavfsizligini ta'minlash (CSRF, XSS va ma'lumotlarni validatsiyalash).
+  4.4. Loyihani testlash (Unit-test) va server muhitiga (Production) tayyorlash.
+
+
+  V-BOB. HAYOT FAOLIYATI XAVFSIZLIGI (HFx)
+  5.1. Axborot tizimlarini ishlab chiquvchi dasturchining ish joyini ergonomik tashkil etish.
+  5.2. Kompyuter texnikasi bilan ishlashda sanitariya-gigiyena me'yorlari va xavfsizlik texnikasi.
+  5.3. Server xonalari va ofis binolarida yong'in hamda elektr xavfsizligini ta'minlanish choralari.
+  5.4. Kompyuter texnologiyalarining atrof-muhitga ta'siri va "yashil" IT (Green Computing) tamoyillari.
+
+
+  XULOSA VA TAKLIFLAR
+  FOYDALANILGAN ADABIYOTLAR RO'YXATI
+  ILOVALAR
+
+
+  (travelhub) manas@hp:~/PycharmProjects/travelhub$ gemini
+
+  ▝▜▄     Gemini CLI v0.33.1
+    ▝▜▄
+   ▗▟▀    Logged in with Google /auth
+  ▝▀      Gemini Code Assist for individuals /upgrade
+
+
+ℹ Update successful! The new version will be used on your next run.
+ > Role: Siz professional AI developer
+   Context: Menda python backend dasturshisiman va loyihamga AI agent qoshmoqshiman ,qaysi texnologiya o'rganishga tavsiya mening
+   proyektimga endi sen toliq mening proyektimni analiz qil va recommendation page bor shunda hali toliq yozilmagan lekin men
+   bu yerda bosh vaqtlari va narxlarga nisbatan asosan  undayn keyin qaysi davlarga borgisi keraldi shunga nisbatan,yanada boshqada narsalar
+   bor , endi nimalarni o'rganib chiqishim kerak va proyektga ishlashi uchun nimalarni qoshishim kerak va bu yerda menga
+   nima toliq qoshish detailniy structurasi bilan yozib ber menga qanday tushuntira oldim senga buni
+   Audience: travel uchun budjet va dam olish vaqtiga qarab ishlashi kerak bu
+   Tone: userlar uchun eng yaxshi yoqimli natija qaytarish kerak
+   Format: Travelhub site uchun recommendation pagega
+✦ Assalomu alaykum! Loyihangizni tahlil qildim. Sizda juda yaxshi strukturaga ega Django loyihasi bor (apps/models/ ichida deyarli barcha
+  kerakli modullar mavjud: destinations, activities, orders, reviews).
+
+
+  Siz xohlayotgan AI Agent (Smart Recommendation System) loyihangizni oddiy saytdan haqiqiy "aqlli sayohat maslahatchisi"ga aylantiradi.
+  Quyida sizga buni amalga oshirish uchun texnologik va strukturaviy reja taqdim etaman.
+
+  ---
+
+  1. Tavsiya etiladigan Texnologiyalar (Stack)
+
+
+  Hozirgi loyihangiz Python/Django bo'lgani uchun quyidagilarni o'rganish va qo'shishni tavsiya qilaman:
+
+
+   * LLM (Large Language Model): OpenAI (GPT-4o-mini) yoki Anthropic (Claude). Narx/sifat jihatidan GPT-4o-mini tavsiya etiladi.
+   * Orchestration Framework: LangChain yoki LlamaIndex. Bular AI va ma'lumotlar bazangizni bog'lashda "ko'prik" bo'ladi.
+   * Vector Database (Vektorli MB): pgvector (PostgreSQL ishlatsangiz) yoki Pinecone. Bu sayohatchining xohishini (masalan: "tinch va tabiat
+     qo'ynidagi joy") bazadagi manzillar bilan "ma'no jihatidan" solishtirish uchun kerak.
+   * Embedding Model: text-embedding-3-small (matnlarni raqamlarga/vektorlarga o'tkazish uchun).
+
+  ---
+
+  2. Ma'lumotlar Strukturasi (Nimalarni qo'shish kerak?)
+
+  Loyihangizdagi apps/models/ papkasiga quyidagi o'zgarishlarni kiritish kerak:
+   1. Destination Model (Destinations.py):
+       * embedding: Vector maydoni (pgvector). Manzilning tavsifi AI tomonidan tushuniladigan formatda saqlanadi.
+       * average_cost_per_day: Kunlik o'rtacha xarajat (budjetni hisoblash uchun).
+       * best_season: Qaysi oylarda borish eng yaxshi (vaqtga qarab tavsiya berish uchun).
+
+
+   2. User Preferences (Users.py yoki alohida model):
+       * Foydalanuvchining qiziqishlari (Nature, History, Nightlife, Luxury, Budget).
+       * Oxirgi ko'rgan yoki yoqtirgan (wishlist) joylari.
+
+  ---
+
+  3. AI Agent Ishlash Algoritmi (Detailed Structure)
+
+  Recommendation page qanday ishlashi bo'yicha bosqichma-bosqich reja:
+
+
+  A. Ma'lumotlarni yig'ish (Input Phase)
+  Foydalanuvchidan quyidagi 4 ta asosiy savolni so'raymiz:
+   1. Budjet: "Umumiy qancha xarajat rejalashtiryapsiz?" (Masalan: $1000-$2000).
+   2. Vaqt: "Qachon va qancha muddatga?" (Masalan: Avgust oyida, 10 kunga).
+   3. Vibe (Kayfiyat): "Qanday dam olishni xohlaysiz?" (Masalan: "Men tarixiy obidalarni ko'rishni va dengiz bo'yida dam olishni xohlayman").
+   4. Davlarlar: "Qaysi regionlar qiziq?" (Yevropa, Osiyo va h.k.).
+
+
+  B. AI "Mantiq" (Processing Phase - RAG usuli)
+  Siz RAG (Retrieval-Augmented Generation) texnologiyasidan foydalanasiz:
+   1. Filter: Avval bazadan budjet va vaqtga to'g'ri keladigan barcha joylarni filtrlaymiz (Oddiy Django QuerySet).
+   2. Vector Search: Foydalanuvchining "Vibe" matnini embedding qilib, bazadagi manzillar bilan solishtiramiz.
+   3. AI Reasoning: Eng yaqin 5 ta manzilni tanlab, OpenAI'ga yuboramiz. Prompt quyidagicha bo'ladi:
+      > "Userda $1500 budjet bor va u avgustda dengiz xohlayapti. Mana unga mos kelishi mumkin bo'lgan 3 ta joy: [Joylar ro'yxati]. Nima
+  uchun bu joylar unga mosligini tushuntirib ber va taxminiy xarajatlar rejasini tuz."
+
+
+  C. Natija (Output Phase)
+  Userga nafaqat rasmlar, balki "Nima uchun aynan sizga?" degan qisqa, yoqimli izoh ko'rsatiladi.
+
+  ---
+
+  4. Implementation (Amaliy qadamlar)
+
+
+   1. apps/utils/ai_engine.py nomli fayl oching. Bu yerda LangChain orqali OpenAI bilan bog'lanish funksiyasini yozing.
+   2. apps/views.py'da RecommendationView yarating:
+       * Post request orqali formani qabul qiladi.
+       * AI Engine'ga yuboradi.
+       * Natijani recommendation.htmlga chiqaradi.
+   3. Prompt Engineering: Userga javob qaytarishda "Senior Travel Agent" rolida javob yozishni AI'ga tayinlang. Bu natijani juda yoqimli
+      (professional) qiladi.
+
+
+  5. O'rganish tartibi (Roadmap)
+
+
+   1. OpenAI API bilan ishlash: Avval oddiygina Python scriptda savol-javob qilishni ko'ring.
+   2. LangChain (Chains & PromptTemplates): Django bilan qanday bog'lanishni tushunish uchun.
+   3. Embeddings: Matnlarni qanday qilib raqamlarga o'girish va bazada qidirishni o'rganing.
+
+
+  Xulosa: Sizning loyihangiz uchun eng katta yutuq — foydalanuvchining aniq (quruq) filtrlari emas, balki uning tabiiy tildagi xohishini
+  (masalan: "Men xotinim bilan romantik, lekin uncha qimmat bo'lmagan joyga bormoqchiman") tushunadigan AI Agent bo'ladi.
+
+
+  Agar kerak bo'lsa, ma'lum bir qism (masalan, views.py kodi yoki models.py o'zgarishi) bo'yicha batafsil kod yozib berishim mumkin. Qaysi
+  qismidan boshlaymiz?
+
+ > Bu proyektda yanada AI agent nimalarni qoshsak bo'ladi
+   qaysi qismini AI agent ishlashisin deb qaysi qismlarni tavsiya berasan
+✦ Loyihangizning strukturasini (modellar va papkalar) hisobga olgan holda, AI agentni nafaqat "Tavsiya" (Recommendation) sahifasida, balki
+  butun platforma bo'ylab qayerlarda ishlatish mumkinligini tahlil qildim.
+
+
+  Mana loyihangizni "Level UP" qiladigan AI agent yo'nalishlari:
+
+
+  1. Dynamic Itinerary Planner (Kunlik Reja Generatori)
+  Hozirda sizda destinations va activities modellari bor. AI agent foydalanuvchi tanlagan manzil va muddatga qarab kunlik reja tuzib berishi
+  mumkin.
+   * Qayerda ishlaydi: destination_detail.html sahifasida.
+   * Vazifasi: "Men bu yerda 3 kun bo'laman, budjetim $300, menga qiziqarli reja tuzib ber" desa, AI bazadagi activitieslarni va tashqi
+     ma'lumotlarni birlashtirib, soatbay reja (Ertalab: Muzey, tushdan keyin: Tog' sayri...) yaratadi.
+
+
+  2. Review Sentiment Analysis & Summary (Sharhlar tahlili)
+  Sizda apps/models/reviews.py bor. Agar biror joyda 500 ta sharh bo'lsa, foydalanuvchi ularning hammasini o'qib chiqmaydi.
+   * Vazifasi: AI agent barcha sharhlarni o'qib chiqib, qisqa "Xulosa" beradi.
+       * AI xulosasi: "Foydalanuvchilarning 90%i taomlarni maqtagan, lekin servis biroz sekinligini aytishgan."
+   * Foydasi: Foydalanuvchiga qaror qabul qilishda juda katta yordam beradi.
+
+
+  3. AI Support Concierge (Aqlli Chatbot)
+  Saytning burchagida turadigan oddiy chatbot emas, balki foydalanuvchining profiliga qarab gapiradigan agent.
+   * Vazifasi: Foydalanuvchi "Mening buyurtmalarim qachon?" yoki "Menga o'tgan safar yoqqan mehmonxonaga o'xshashini top" deb so'rasa, AI
+     apps/models/orders.py va users.py ma'lumotlariga kirib, shaxsiy javob beradi.
+   * Texnologiya: Function Calling (OpenAI). AI bazadan ma'lumot olish funksiyasini o'zi chaqiradi.
+
+
+  4. Smart Image Captioning & Tagging (Avtomatik Teglash)
+  Admin panelda yangi manzil yoki rasm yuklaganda (apps/utils/uplode_image.py orqali), AI rasmni ko'rib, avtomatik tavsif va teglarni yozadi.
+   * Vazifasi: Rasmda tog' bo'lsa, AI avtomatik #mountain, #nature, #hiking teglarini qo'shadi va qidiruvni osonlashtiradi.
+   * Qayerda ishlaydi: apps/admin.py yoki kontent yuklash qismida.
+
+
+  5. Multi-lingual Content Translator (Avtomatik Tarjimon)
+  Loyihangizda locale/ papkasi bor (uz, ru, en). Kontentni qo'lda tarjima qilish qiyin.
+   * Vazifasi: Admin bir marta O'zbekcha tavsif yozsa, AI agent uni rus va ingliz tillariga sayohat sohasidagi terminlarni qo'llab,
+     professional tarjima qilib beradi.
+   * Natija: Saytni tezda xalqaro bozorga olib chiqish imkonini beradi.
+
+  ---
+
+  AI Agentni qaysi qismlarda ishlashini tavsiya beraman? (Priority List)
+
+
+  Sizga ishlarni quyidagi tartibda amalga oshirishni maslahat beraman:
+
+
+   1. AI Recommendation Engine (Hozirgi boshlagan ishingiz): Budjet va vaqtga qarab joy topish.
+   2. AI Itinerary Generator: Joyni topgandan keyin uning ichidagi mashg'ulotlarni (activities) rejalashtirish.
+   3. AI Review Summarizer: Foydalanuvchi tanlagan joyi haqida real fikrlarni tezda bilishi uchun.
+   4. AI Personal Assistant (Chatbot): Foydalanuvchi savollariga javob berish va bron qilishda yordam berish.
+
+  Strukturaviy tavsiya:
+
+  Loyihangizda AI qismini alohida ushlash uchun quyidagi strukturani taklif qilaman:
+
+
+   1 apps/
+   2 └── ai_engine/           <-- Yangi app (AI mantiqi shu yerda)
+   3     ├── agents/
+   4     │   ├── recommender.py  <-- Tavsiya beruvchi agent
+   5     │   ├── planner.py      <-- Reja tuzuvchi agent
+   6     │   └── analyzer.py     <-- Sharhlarni tahlil qiluvchi
+   7     ├── prompts.py       <-- AI uchun barcha "yo'riqnomalar" (Prompts)
+   8     ├── utils.py         <-- OpenAI/LangChain bilan ulanish qismi
+   9     └── views.py
+
+
+  Mening maslahatim: Hozircha faqat bitta yo'nalishni — AI Recommendation + Itinerary (Tavsiya va Reja) qismini mukammal qiling. Bu
+  foydalanuvchi uchun eng katta "WOW" effektini beradi.
+
+
+  Keyingi qadam sifatida qaysi funksiyaning kod strukturasini (masalan, Itinerary Planner qanday yoziladi?) ko'rib chiqishimizni xohlaysiz?
+
+ > apps/
+      2 └── ai_engine/           <-- Yangi app (AI mantiqi shu yerda)
+      3     ├── agents/
+      4     │   ├── recommender.py  <-- Tavsiya beruvchi agent
+      5     │   ├── planner.py      <-- Reja tuzuvchi agent
+      6     │   └── analyzer.py     <-- Sharhlarni tahlil qiluvchi
+      7     ├── prompts.py       <-- AI uchun barcha "yo'riqnomalar" (Prompts)
+      8     ├── utils.py         <-- OpenAI/LangChain bilan ulanish qismi
+      9     └── views.py
+   huddi shunday toiq ber menda barcha papkalari ber huddi shunday qilib
+✦ Sizning loyihangiz uchun ai_engine ilovasining to'liq va professional strukturasini hamda har bir faylning mazmunini tayyorladim. Bu
+  strukturada LangChain va OpenAI (yoki boshqa LLM) dan foydalanish ko'zda tutilgan.
+
+  1. Papkalar Strukturasi
+
+
+  Avval apps/ papkasi ichida quyidagi katalog va fayllarni yarating:
+
+
+    1 apps/ai_engine/
+    2 ├── agents/
+    3 │   ├── __init__.py
+    4 │   ├── recommender.py    # Tavsiya beruvchi mantiq
+    5 │   ├── planner.py        # Sayohat rejasini tuzuvchi
+    6 │   └── analyzer.py       # Sharhlarni tahlil qiluvchi
+    7 ├── __init__.py
+    8 ├── apps.py
+    9 ├── prompts.py           # Barcha AI promptlari shu yerda
+   10 ├── utils.py             # OpenAI/LangChain sozlamalari
+   11 ├── urls.py
+   12 └── views.py
+
+  ---
+
+  2. Fayllar Mazmuni (Kodlar)
+
+  utils.py - LLMni sozlash
+  Bu yerda biz AI modelini va unga ulanishni markazlashtiramiz.
+
+
+    1 import os
+    2 from langchain_openai import ChatOpenAI
+    3 from django.conf import settings
+    4
+    5 def get_llm():
+    6     """AI modelini ishga tushirish (API kalitni .env dan oladi)"""
+    7     return ChatOpenAI(
+    8         model="gpt-4o-mini",
+    9         temperature=0.7, # Ijodkorlik darajasi
+   10         openai_api_key=os.getenv("OPENAI_API_KEY")
+   11     )
+
+
+  prompts.py - AI uchun yo'riqnomalar
+  AIning o'zini qanday tutishi va qanday javob berishini shu yerda boshqaramiz.
+
+
+    1 RECOMMENDER_SYSTEM_PROMPT = """
+    2 Siz professional sayohat maslahatchisisiz.
+    3 Foydalanuvchi bergan budjet, vaqt va qiziqishlariga qarab, unga eng mos davlat va shaharlarni tavsiya qiling.
+    4 Javobingizni har doim juda yoqimli, samimiy va foydalanuvchini ruhlantiradigan tarzda yozing.
+    5 Har bir tavsiya uchun: Nima uchun aynan bu joy mosligini qisqacha tushuntiring.
+    6 """
+    7
+    8 PLANNER_SYSTEM_PROMPT = """
+    9 Siz sayohat marshrutini tuzuvchi mutaxassissiz.
+   10 Berilgan manzil va kunlar soniga qarab, har bir kun uchun soatbay reja tuzing.
+   11 Rejada bazadagi mavjud mashg'ulotlarni (activities) hisobga oling.
+   12 Ovqatlanish va dam olish vaqtlarini ham unutmang.
+   13 """
+   14
+   15 ANALYZER_SYSTEM_PROMPT = """
+   16 Siz mijozlar fikrini tahlil qiluvchi mutaxassissiz.
+   17 Berilgan barcha sharhlarni o'qib chiqing va ularning umumiy kayfiyatini (ijobiy/salbiy) aniqlang.
+   18 Eng ko'p tilga olingan yaxshi va yomon jihatlarni qisqa tezislar ko'rinishida bering.
+   19 """
+
+  agents/recommender.py - Tavsiya beruvchi agent
+  Bu agent bazadagi Destination modelidan ma'lumot oladi.
+
+
+    1 from apps.models.destinations import Destination
+    2 from ..utils import get_llm
+    3 from ..prompts import RECOMMENDER_SYSTEM_PROMPT
+    4 from langchain.schema import SystemMessage, HumanMessage
+    5
+    6 class TravelRecommender:
+    7     def __init__(self):
+    8         self.llm = get_llm()
+    9
+   10     def get_recommendations(self, budget, duration, interests, preferred_countries=None):
+   11         # 1. Bazadan budjet bo'yicha birlamchi filtr qilish (ixtiyoriy)
+   12         # destinations = Destination.objects.filter(price__lte=budget)
+   13
+   14         # 2. AI uchun so'rov tayyorlash
+   15         user_query = f"Budjetim: ${budget}, Muddat: {duration} kun. Qiziqishlarim: {interests}. "
+   16         if preferred_countries:
+   17             user_query += f"Menga mana bu davlatlar yoqadi: {preferred_countries}"
+   18
+   19         messages = [
+   20             SystemMessage(content=RECOMMENDER_SYSTEM_PROMPT),
+   21             HumanMessage(content=user_query)
+   22         ]
+   23
+   24         response = self.llm.invoke(messages)
+   25         return response.content
+
+  agents/planner.py - Reja tuzuvchi agent
+  Bu agent activities modeliga bog'lanadi.
+
+
+    1 from ..utils import get_llm
+    2 from ..prompts import PLANNER_SYSTEM_PROMPT
+    3 from langchain.schema import SystemMessage, HumanMessage
+    4
+    5 class ItineraryPlanner:
+    6     def __init__(self):
+    7         self.llm = get_llm()
+    8
+    9     def create_plan(self, destination_name, days):
+   10         prompt = f"{destination_name} shahri uchun {days} kunlik batafsil reja tuzib ber."
+   11
+   12         messages = [
+   13             SystemMessage(content=PLANNER_SYSTEM_PROMPT),
+   14             HumanMessage(content=prompt)
+   15         ]
+   16
+   17         response = self.llm.invoke(messages)
+   18         return response.content
+
+  views.py - Frontend bilan bog'lanish
+  Foydalanuvchi tugmani bosganda ishlaydigan qism.
+
+
+    1 from django.shortcuts import render
+    2 from django.http import JsonResponse
+    3 from .agents.recommender import TravelRecommender
+    4 from .agents.planner import ItineraryPlanner
+    5
+    6 def recommendation_view(self, request):
+    7     if request.method == "POST":
+    8         budget = request.POST.get('budget')
+    9         duration = request.POST.get('duration')
+   10         interests = request.POST.get('interests')
+   11
+   12         agent = TravelRecommender()
+   13         result = agent.get_recommendations(budget, duration, interests)
+   14
+   15         return render(request, 'apps/recommendation.html', {'ai_result': result})
+   16
+   17     return render(request, 'apps/recommendation.html')
+   18
+   19 def api_generate_plan(request):
+   20     """AJAX orqali reja tuzish uchun API"""
+   21     dest = request.GET.get('destination')
+   22     days = request.GET.get('days', 3)
+   23
+   24     planner = ItineraryPlanner()
+   25     plan = planner.create_plan(dest, days)
+   26
+   27     return JsonResponse({'plan': plan})
+
+  ---
+
+  3. Nimalarni o'rganish kerak (Navbatdagi qadamlar):
+
+
+  Ushbu strukturani ishga tushirish uchun sizga quyidagilar kerak:
+
+
+   1. LangChain Library: pip install langchain-openai langchain-community
+   2. API Key: OpenAI'dan API key olib, .env faylingizga qo'shishingiz kerak.
+   3. Frontend Integration: recommendation.html sahifasida Loading (yuklanish) animatsiyasini qo'shing, chunki AI javob qaytarishi 2-5 soniya
+      vaqt olishi mumkin.
+
+
+  4. Nima uchun bu struktura yaxshi?
+   * Modullik: Agar ertaga reja tuzuvchi mantiqni o'zgartirmoqchi bo'lsangiz, faqat planner.pyni o'zgartirasiz, qolgan joylarga tegshingiz
+     shart emas.
+   * Prompt Management: Barcha "aqlli gaplar" prompts.pyda turadi. AIni aqlliroq qilish uchun faqat shu faylni tahrirlaysiz.
+   * Scalability: Kelajakda yangi agentlar (masalan, BudgetCalculatorAgent) qo'shish juda oson bo'ladi.
+
+
+  Bu struktura bo'yicha birinchi bo'lib Recommender (Tavsiya beruvchi) qismini kodlashni boshlaymizmi?
+
+ > hozirda bu pullikmi yoki tekinmi ?
+✦ Bu juda muhim savol. Javob shuki: Siz tanlagan yo'nalishga qarab ham pullik, ham tekin variantlar bor.
+
+  Keling, barchasini ochiq tushuntiraman:
+
+
+  1. Frameworklar (Mutlaqo TEKIN)
+   * LangChain, LlamaIndex, Python, Django: Bularning hammasi ochiq kodli (Open Source) va ulardan foydalanish uchun hech qanday to'lov talab
+     qilinmaydi.
+
+
+  2. AI Modellar (Asosiy xarajat shu yerda)
+
+
+  A. Pullik variant (Professional va Sifatli): OpenAI (GPT-4o-mini)
+   * Narxi: Foydalanganingizga qarab (Pay-as-you-go).
+   * GPT-4o-mini hozirda juda arzon. Masalan, 1 dollar evaziga siz taxminan 2,500 tadan ortiq o'rtacha uzunlikdagi tavsiyalarni olishingiz
+     mumkin.
+   * Nega tavsiya qilaman? Sayohat agenti uchun juda aqlli javob beradi va tez ishlaydi.
+
+
+  B. Tekin variant (Local/O'z kompyuteringizda): Ollama (Llama 3 yoki Mistral)
+   * Narxi: 0 dollar.
+   * Qanday ishlaydi: Siz o'z kompyuteringizga (yoki serveringizga) Ollama dasturini o'rnatasiz va modelni yuklab olasiz. AI so'rovlari
+     o'zingizning videokartangiz (GPU) yoki protsessoringizda ishlaydi.
+   * Kamchiligi: Kompyuteringiz kuchli bo'lishi kerak (kamida 16GB RAM) va serverga yuklaganda qimmatroq (GPU'li serverlar qimmat) tushadi.
+
+
+  C. Tekin variant (API orqali): Groq Cloud API
+   * Narxi: Hozircha ma'lum bir limitgacha (juda katta limit) TEKIN.
+   * Model: Llama 3 (Meta) yoki Mixtral modellari.
+   * Nega tavsiya qilaman? Dunyodagi eng tezkor AI chipida ishlaydi. Sizga tekinga API kalit beradi. Sayohat loyihangizni boshlash va test
+     qilish uchun eng zo'r variant - shu!
+
+
+  3. Ma'lumotlar bazasi (Vektorli MB)
+   * PostgreSQL (pgvector): O'zingizda o'rnatilgan bo'lsa - TEKIN.
+   * Pinecone: Ma'lum bir hajmgacha - TEKIN.
+
+  ---
+
+
+  Mening tavsiyam (Siz uchun eng yaxshi yo'l):
+
+  Hozir loyihani ishlab chiqish (Development) bosqichida quyidagilarni ishlating:
+
+
+   1. Groq Cloud API (Llama 3 modeli bilan) — Bu mutlaqo tekin va juda tez. Sizga OpenAI kabi API kalit beradi, lekin pul so'ramaydi.
+   2. LangChain — Tekin.
+   3. PostgreSQL — Tekin.
+
+
+  Xulosa: Siz loyihangizga AI qo'shish uchun 1 so'm ham sarflamasdan boshlasangiz bo'ladi. Keyinchalik, foydalanuvchilaringiz ko'payib,
+  loyihangizdan pul ishlay boshlaganingizda, yanada aqlliroq bo'lgan pullik OpenAI modellariga o'tishingiz mumkin (kodni o'zgartirish deyarli
+  shart bo'lmaydi).
+
+
+  Xohlaysizmi, men sizga aynan Groq (Tekin API) orqali qanday ulanishni ko'rsatib beraman? Buning uchun kodda faqat bitta qatorni
+  o'zgartiramiz xolos.

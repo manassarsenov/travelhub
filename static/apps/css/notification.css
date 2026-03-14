@@ -1,0 +1,1085 @@
+/* ==========================================
+   NOTIFICATION PAGE STYLES
+   ========================================== */
+
+/* Main Container */
+.notifications-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+    padding: 140px 0 80px;
+}
+
+.notifications-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+/* ==========================================
+   PAGE HEADER
+   ========================================== */
+.notifications-header {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-title > i {
+    font-size: 48px;
+    color: var(--primary);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+:root {
+    --text-dark: #1e293b;   /* yoki qora rang (#000) */
+}
+
+
+.header-title h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0 0 5px 0;
+    color: var(--text-dark);
+}
+
+.header-title p {
+    font-size: 16px;
+    color: var(--gray);
+    margin: 0;
+}
+
+.btn-clear-all {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: var(--light);
+    color: var(--text-dark);
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-clear-all:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Header Tabs */
+.header-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--light);
+    padding-bottom: 15px;
+}
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gray);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+}
+
+.tab-btn:not(.active):hover {
+    background: var(--light);
+    color: var(--primary);
+}
+
+.tab-count {
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.tab-btn:not(.active) .tab-count {
+    background: var(--light);
+    color: var(--text-dark);
+}
+
+.badge-unread {
+    background: var(--danger) !important;
+    color: white !important;
+}
+
+/* Search Bar */
+.header-search {
+    position: relative;
+}
+
+.header-search i {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray);
+    font-size: 18px;
+}
+
+.header-search input {
+    width: 100%;
+    padding: 16px 20px 16px 55px;
+    border: 2px solid var(--light);
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.header-search input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+/* ==========================================
+   CONTENT LAYOUT
+   ========================================== */
+.notifications-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+}
+
+/* ==========================================
+   SIDEBAR FILTERS
+   ========================================== */
+.notifications-sidebar {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    height: fit-content;
+    position: sticky;
+    top: 120px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.filter-section {
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid var(--light);
+}
+
+.filter-section:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.filter-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+}
+
+.filter-title i {
+    color: var(--primary);
+}
+
+.filter-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 5px;
+}
+
+.filter-item:hover {
+    background: var(--light);
+}
+
+.filter-item.active {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+}
+
+.filter-item i {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.filter-item span:first-of-type {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.filter-count {
+    padding: 4px 10px;
+    background: var(--light);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.filter-item.active .filter-count {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+/* Priority Badges in Filter */
+.priority-badge {
+    font-size: 20px;
+    width: 20px;
+    text-align: center;
+}
+
+.priority-badge.high {
+    color: var(--danger);
+}
+
+.priority-badge.medium {
+    color: var(--warning);
+}
+
+.priority-badge.low {
+    color: var(--success);
+}
+
+/* Settings Button */
+.btn-settings {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.btn-settings:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+}
+
+/* ==========================================
+   NOTIFICATIONS MAIN
+   ========================================== */
+.notifications-main {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Notification Group */
+.notification-group {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.group-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0 0 20px 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--light);
+}
+
+/* ==========================================
+   NOTIFICATION CARD
+   ========================================== */
+.notification-card {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    background: var(--light);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.notification-card:last-child {
+    margin-bottom: 0;
+}
+
+.notification-card:hover {
+    background: white;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transform: translateX(5px);
+}
+
+/* Unread Indicator */
+.notification-card.unread {
+    background: white;
+    border-color: var(--primary);
+}
+
+.card-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+    border-radius: 15px 0 0 15px;
+}
+
+.notification-card.read .card-indicator {
+    display: none;
+}
+
+/* Card Icon */
+.card-icon {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+.card-icon.booking {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+}
+
+.card-icon.payment {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.card-icon.promotion {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: white;
+}
+
+.card-icon.security {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.card-icon.message {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+}
+
+.card-icon.update {
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    color: white;
+}
+
+/* Card Content */
+.card-content {
+    flex: 1;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.card-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.category-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.category-badge.booking {
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
+}
+
+.category-badge.promotion {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.category-badge.security {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.category-badge.message {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.category-badge.update {
+    background: rgba(139, 92, 246, 0.1);
+    color: #8b5cf6;
+}
+
+.priority-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.priority-badge.high {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.priority-badge.medium {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.priority-badge.low {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+/* Card Actions */
+.card-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.card-time {
+    font-size: 13px;
+    color: var(--gray);
+    font-weight: 500;
+}
+
+.btn-action {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: var(--light);
+    color: var(--gray);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-action:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* Action Menu */
+.action-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    padding: 8px;
+    min-width: 180px;
+    z-index: 10;
+    display: none;
+}
+
+.action-menu.active {
+    display: block;
+}
+
+.action-menu button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 15px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.action-menu button:hover {
+    background: var(--light);
+}
+
+.action-menu button i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Card Title & Description */
+.card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 8px 0;
+}
+
+.card-description {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0 0 15px 0;
+}
+
+/* Card Details */
+.card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.detail-item i {
+    width: 20px;
+    color: var(--primary);
+    text-align: center;
+}
+
+/* Card Timer */
+.card-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* Price Compare */
+.price-compare {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.old-price {
+    font-size: 15px;
+    color: var(--gray);
+    text-decoration: line-through;
+}
+
+.new-price {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--success);
+}
+
+.price-compare i {
+    color: var(--gray);
+}
+
+/* Benefits List */
+.benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+}
+
+.benefits-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.benefits-list i {
+    color: var(--success);
+    font-size: 16px;
+}
+
+/* Card Buttons */
+.card-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.card-buttons button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+.btn-secondary {
+    background: var(--light);
+    color: var(--text-dark);
+}
+
+:root {
+    --gray-light: #f1f5f9;   /* Light gray */
+}
+
+.btn-secondary:hover {
+    background: var(--gray-light);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+}
+
+/* ==========================================
+   EMPTY STATE
+   ========================================== */
+.empty-state {
+    background: white;
+    border-radius: 20px;
+    padding: 80px 40px;
+    text-align: center;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.empty-state i {
+    font-size: 80px;
+    color: var(--gray-light);
+    margin-bottom: 25px;
+}
+
+.empty-state h3 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0 0 10px 0;
+}
+
+.empty-state p {
+    font-size: 16px;
+    color: var(--gray);
+    margin: 0 0 30px 0;
+}
+
+/* ==========================================
+   NOTIFICATION SETTINGS MODAL
+   ========================================== */
+.settings-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.settings-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.settings-content {
+    background: white;
+    border-radius: 20px;
+    max-width: 700px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+}
+
+.settings-modal.active .settings-content {
+    transform: scale(1);
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    border-bottom: 2px solid var(--light);
+}
+
+.settings-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0;
+    color: var(--text-dark);
+}
+
+.settings-header h2 i {
+    color: var(--primary);
+}
+
+.modal-close {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background: var(--light);
+    color: var(--text-dark);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+    background: var(--danger);
+    color: white;
+    transform: rotate(90deg);
+}
+
+.settings-body {
+    padding: 30px;
+}
+
+.settings-section {
+    margin-bottom: 35px;
+}
+
+.settings-section:last-child {
+    margin-bottom: 0;
+}
+
+.settings-section h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 20px 0;
+}
+
+.setting-item {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    background: var(--light);
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.setting-item:last-child {
+    margin-bottom: 0;
+}
+
+.setting-info {
+    flex: 1;
+}
+
+.setting-info h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0 0 5px 0;
+}
+
+.setting-info p {
+    font-size: 13px;
+    color: var(--gray);
+    margin: 0;
+}
+
+/* Toggle Switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
+/* Settings Footer */
+.settings-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 25px 30px;
+    border-top: 2px solid var(--light);
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+@media (max-width: 1200px) {
+    .notifications-content {
+        grid-template-columns: 280px 1fr;
+        gap: 20px;
+    }
+
+    .notifications-sidebar {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    .notifications-content {
+        grid-template-columns: 1fr;
+    }
+
+    .notifications-sidebar {
+        position: static;
+    }
+
+    .filter-section {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .notifications-page {
+        padding: 120px 0 60px;
+    }
+
+    .notifications-container {
+        padding: 0 15px;
+    }
+
+    .notifications-header {
+        padding: 20px;
+    }
+
+    .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .header-title {
+        gap: 15px;
+    }
+
+    .header-title > i {
+        font-size: 36px;
+    }
+
+    .header-title h1 {
+        font-size: 24px;
+    }
+
+    .header-title p {
+        font-size: 14px;
+    }
+
+    .btn-clear-all {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .header-tabs {
+        flex-wrap: wrap;
+    }
+
+    .tab-btn {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    .notification-group {
+        padding: 15px;
+    }
+
+    .notification-card {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    .card-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .card-buttons {
+        flex-direction: column;
+    }
+
+    .card-buttons button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .settings-content {
+        width: 95%;
+        max-height: 90vh;
+    }
+
+    .settings-header,
+    .settings-body,
+    .settings-footer {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-title h1 {
+        font-size: 20px;
+    }
+
+    .tab-btn {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+
+    .card-title {
+        font-size: 16px;
+    }
+
+    .card-description {
+        font-size: 14px;
+    }
+}

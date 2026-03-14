@@ -25,7 +25,11 @@ class Review(CreatedBaseModel):
     text = TextField()
     visit_type = CharField(max_length=20, choices=VisitType.choices, blank=True)
     visited_at = DateTimeField(null=True, blank=True)
-    is_visible = BooleanField(default=True)
+    is_visible = BooleanField(default=False)
+
+    is_verified = BooleanField(default=False)
+    helpful_count = PositiveSmallIntegerField(default=0)
+    reported_count = PositiveSmallIntegerField(default=0)
 
     class Meta:
         ordering = ['-created_at']

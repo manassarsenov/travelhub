@@ -7,7 +7,7 @@
 </div>
 
 {% for destination in destinations %}
-    <article class="destination-card">
+    <article class="destination-card" data-slug="{{ destination.slug }}">
         {#         data-city="Samarkand" data-lat="39.6542" data-lon="66.9597"#}
         {#         data-hotels-url="/hotels/?city=samarkand"#}
         {#         data-flights-url="/flights/?to=samarkand">#}
@@ -80,10 +80,13 @@
             <div class="card-stats">
                 <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
                         class="fas fa-hotel"></i><span>120+ Hotels</span></button>
-                <button class="stat-item stat-flights" onclick="goToFlights(this)"><i
+                <button class="stat-item stat-flights" onclick="goToFlights(this)" data-slug="{{ destination.slug }}"
+                        data-name="{{ destination.name }}"><i
                         class="fas fa-plane"></i><span>Direct Flights</span></button>
                 <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
-                        data-city="Samarkand"><i class="fas fa-sun weather-icon"></i><span
+                        data-lat="{{ destination.latitude }}"
+                        data-lon="{{ destination.longitude }}"
+                        data-city="{{ destination.location }}"><i class="fas fa-sun weather-icon"></i><span
                         class="weather-temp">25°C</span></button>
                 <div class="stat-item"><i class="fas fa-clock"></i><span>5-7 Days</span></div>
             </div>
@@ -96,7 +99,8 @@
                     <span class="price-per">/ person</span>
                 </div>
                 <div class="card-actions">
-                    <button class="btn-outline" onclick="window.location.href='{% url 'destination_detail_page' %}'">See
+                    <button class="btn-outline"
+                            onclick="window.location.href='{% url 'destination_detail_page'  destination.slug %}'">See
                         Details <i
                                 class="fas fa-arrow-right"></i></button>
                 </div>

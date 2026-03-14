@@ -4,666 +4,891 @@
 {% block title %}<title>Admission to the London Eye — TravelHub</title>{% endblock %}
 
 {% block custom_css %}
-<link rel="stylesheet" href="{% static 'apps/css/destination_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'apps/css/destination_detail.css' %}">
 {% endblock %}
 
 {% block main_content %}
 
-<!-- ===== BREADCRUMB ===== -->
-<div class="dcd-breadcrumb">
-    <div class="dcd-breadcrumb-inner">
-        <a href="{% url 'home_page' %}"><i class="fas fa-home"></i> Home</a>
-        <i class="fas fa-chevron-right"></i>
-        <a href="{% url 'destinations_page' %}">Destinations</a>
-        <i class="fas fa-chevron-right"></i>
-        <span id="bc-name">Admission to the London Eye</span>
-    </div>
-</div>
-
-<!-- ===== PAGE ===== -->
-<div class="dcd-page">
-
-    <!-- ===== LEFT ===== -->
-    <div class="dcd-left">
-
-        <!-- TITLE -->
-        <div class="dcd-title-section">
-            <div class="dcd-bestseller-badge">
-                <i class="fas fa-medal"></i> #1 Best seller in London
-            </div>
-            <h1 class="dcd-main-title" id="dest-name">Admission to the London Eye</h1>
-            <p class="dcd-subtitle" id="dest-subtitle">A 30-minute ride on the London Eye to see the city's most famous landmarks</p>
-            <div class="dcd-title-actions">
-                <button class="dcd-share-btn" onclick="shareDestination()">
-                    <i class="fas fa-share-alt"></i> Share
-                </button>
-                <button class="dcd-wishlist-inline-btn" id="wishlist-btn" onclick="toggleWishlist()">
-                    <i class="far fa-heart"></i> Save
-                </button>
-            </div>
-        </div>
-
-        <!-- GALLERY -->
-        <div class="dcd-gallery">
-            <!-- Main image -->
-            <div class="dcd-gallery-main" onclick="openGalleryModal(0)">
-                <img id="gallery-main-img"
-                     src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=900&auto=format&fit=crop"
-                     alt="London Eye" class="dcd-main-img">
-                <div class="dcd-gallery-hover-overlay">
-                    <i class="fas fa-search-plus"></i>
-                </div>
-                <!-- Rating card overlay -->
-                <div class="dcd-rating-overlay">
-                    <div class="dcd-rating-card">
-                        <div class="dcd-rating-top">
-                            <i class="fas fa-star" style="color:#fbbf24;font-size:18px;"></i>
-                            <span class="dcd-rating-num">4.5</span>
-                            <span class="dcd-rating-label">Fabulous</span>
-                        </div>
-                        <div class="dcd-rating-count">5,478 reviews</div>
-                        <h5 class="dcd-loved-title">What guests loved most</h5>
-                        <div class="dcd-top-reviewer">
-                            <div class="dcd-top-rev-avatar">L</div>
-                            <strong>Louise</strong>
-                        </div>
-                        <p class="dcd-top-rev-text">Well organised. Woman in ticket office has great customer service skills. Amazing views.</p>
-                        <div class="dcd-rating-dots" id="rating-dots">
-                            <span class="dot active" onclick="changeDot(0)"></span>
-                            <span class="dot" onclick="changeDot(1)"></span>
-                            <span class="dot" onclick="changeDot(2)"></span>
-                            <span class="dot" onclick="changeDot(3)"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Thumbnails -->
-            <div class="dcd-gallery-thumbs">
-                <div class="dcd-thumb" onclick="openGalleryModal(0)">
-                    <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=300&auto=format&fit=crop" alt="London Eye night">
-                </div>
-                <div class="dcd-thumb" onclick="openGalleryModal(1)">
-                    <img src="https://images.unsplash.com/photo-1529655683826-aba9b3e77383?w=300&auto=format&fit=crop" alt="London view">
-                </div>
-                <div class="dcd-thumb" onclick="openGalleryModal(2)">
-                    <img src="https://images.unsplash.com/photo-1543832923-44667a44c804?w=300&auto=format&fit=crop" alt="London aerial">
-                </div>
-                <div class="dcd-thumb dcd-thumb-last" onclick="openGalleryModal(3)">
-                    <img src="https://images.unsplash.com/photo-1520986606214-8b456906c813?w=300&auto=format&fit=crop" alt="More photos">
-                    <div class="dcd-thumb-overlay">
-                        <i class="fas fa-images"></i>
-                        <span>Show all photos</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- QUICK STRIP -->
-        <div class="dcd-quick-strip">
-            <div class="dcd-strip-item dcd-strip-green">
-                <i class="fas fa-check-circle"></i>
-                <div>
-                    <strong>Free cancellation available</strong>
-                    <span>Up to 24 hours before the start time</span>
-                </div>
-            </div>
-            <div class="dcd-strip-item">
-                <i class="far fa-clock"></i>
-                <div><strong>Duration: 30 minutes</strong></div>
-            </div>
-        </div>
-
-        <!-- DESCRIPTION -->
-        <div class="dcd-section">
-            <div class="dcd-description collapsed" id="dcd-description">
-                <p>With this admission ticket, you can hop aboard the iconic London Eye for a 30-minute ride over the city.</p>
-                <p style="margin-top:12px;">The observation wheel reaches a height of 135 metres, offering you a chance to savour panoramic views of London. You can spot famous city landmarks like Big Ben, Buckingham Palace, St Paul's Cathedral, Westminster Abbey and Trafalgar Square.</p>
-                <p style="margin-top:12px;">Located on the South Bank of the Thames, the London Eye is one of the most visited paid tourist attractions in the United Kingdom. Each capsule provides 360-degree views and can accommodate up to 25 passengers. During your ride, you'll slowly rotate for the full 30 minutes, giving you ample time to take in the breathtaking scenery.</p>
-                <p style="margin-top:12px;">This world-famous landmark offers a unique perspective of London that you simply cannot get from ground level. Whether you're a first-time visitor or a London local, the experience of seeing the city from above is truly unforgettable. The ride is fully accessible and suitable for all ages.</p>
-            </div>
-            <button class="dcd-toggle-btn" id="dcd-desc-btn" onclick="toggleDescription()">
-                Show more <i class="fas fa-chevron-down"></i>
-            </button>
-        </div>
-
-        <!-- WHY VISIT -->
-        <div class="dcd-section">
-            <h2 class="dcd-section-title">Why visit</h2>
-            <ul class="dcd-check-list">
-                <li><i class="fas fa-check"></i> A thrilling bird's-eye view of the English capital</li>
-                <li><i class="fas fa-check"></i> Chance to spot prominent landmarks of the city</li>
-                <li><i class="fas fa-check"></i> Admire Big Ben, Buckingham Palace and St Paul's Cathedral</li>
-                <li><i class="fas fa-check"></i> Instant confirmation — no waiting in uncertainty</li>
-                <li><i class="fas fa-check"></i> Family-friendly experience suitable for all ages</li>
-            </ul>
-        </div>
-
-        <!-- WHAT'S INCLUDED -->
-        <div class="dcd-section">
-            <h2 class="dcd-section-title">What's included</h2>
-            <ul class="dcd-check-list dcd-included">
-                <li><i class="fas fa-check"></i> Admission to the London Eye</li>
-                <li><i class="fas fa-check"></i> 30-minute capsule ride</li>
-                <li><i class="fas fa-check"></i> Panoramic views of London's skyline</li>
-            </ul>
-        </div>
-
-        <!-- RESTRICTIONS -->
-        <div class="dcd-section">
-            <h2 class="dcd-section-title">Restrictions</h2>
-            <ul class="dcd-bullet-list">
-                <li>Children under 16 years old must be accompanied by an adult.</li>
-                <li>Visitors must show a valid photo ID.</li>
-                <li>Not recommended for people with vertigo or severe acrophobia.</li>
-                <li>Wheelchair accessible — please notify in advance.</li>
-            </ul>
-        </div>
-
-        <!-- ADDITIONAL INFO -->
-        <div class="dcd-section">
-            <h2 class="dcd-section-title">Additional information</h2>
-            <div class="dcd-description collapsed" id="dcd-additional">
-                <p>Please note that the time slot is for when you enter the queue for the attraction, not the time you are to gain admission. Holiday periods are subject to longer wait times.</p>
-                <p style="margin-top:12px;">Please note that attractions may close areas or exhibits at their discretion on the date of your visit. For all ticket holders, the number of people per capsule may vary.</p>
-                <p style="margin-top:12px;">There are strict security procedures at the London Eye. Please note that visitors are required to undergo a non-invasive security check before boarding. You can request to be searched by an officer of the same sex.</p>
-                <p style="margin-top:12px;">The following items are not permitted: alcohol, baseball bats, bicycles (including folding ones), explosives (including fireworks), guns, knives, pepper spray, pets (except for service animals), prams and buggies, sharp objects, scooters, skateboards, tasers and tripods.</p>
-            </div>
-            <button class="dcd-toggle-btn" id="dcd-add-btn" onclick="toggleAdditional()">
-                Show more <i class="fas fa-chevron-down"></i>
-            </button>
-        </div>
-
-        <!-- LOCATION -->
-        <div class="dcd-section">
-            <h2 class="dcd-section-title">Location</h2>
-            <div class="dcd-map-wrap">
-                <iframe
-                    width="100%" height="300"
-                    style="border:0;border-radius:16px;"
-                    loading="lazy" allowfullscreen
-                    src="https://www.google.com/maps?q=51.5033,+-0.1196&z=15&output=embed">
-                </iframe>
-            </div>
-            <div class="dcd-address-row">
-                <div class="dcd-address-icon"><i class="fas fa-map-marker-alt"></i></div>
-                <div>
-                    <strong>Admission to the London Eye</strong>
-                    <span>London Eye, The Queen's Walk, Lambeth, London, SE1</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- USER RATINGS -->
-        <div class="dcd-section">
-            <h2 class="dcd-section-title">User ratings</h2>
-            <div class="dcd-ratings-wrap">
-                <div class="dcd-overall">
-                    <div class="dcd-overall-score">
-                        <i class="fas fa-star" style="color:#fbbf24;font-size:28px;"></i>
-                        <span class="dcd-big-num">4.5</span>
-                        <span class="dcd-big-label">· Fabulous</span>
-                    </div>
-                    <a href="#reviews-section" class="dcd-see-all-link">(5,478 reviews) See all reviews</a>
-                </div>
-                <div class="dcd-score-grid">
-                    <div class="dcd-score-row">
-                        <span>Good value</span>
-                        <div class="dcd-score-bar"><div class="dcd-score-fill" data-width="88"></div></div>
-                        <span>4.4</span>
-                    </div>
-                    <div class="dcd-score-row">
-                        <span>Facilities</span>
-                        <div class="dcd-score-bar"><div class="dcd-score-fill" data-width="90"></div></div>
-                        <span>4.5</span>
-                    </div>
-                    <div class="dcd-score-row">
-                        <span>Quality of service</span>
-                        <div class="dcd-score-bar"><div class="dcd-score-fill" data-width="90"></div></div>
-                        <span>4.5</span>
-                    </div>
-                    <div class="dcd-score-row">
-                        <span>Ease of access</span>
-                        <div class="dcd-score-bar"><div class="dcd-score-fill" data-width="92"></div></div>
-                        <span>4.6</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- REVIEWS -->
-            <div class="dcd-reviews-row" id="reviews-section">
-                <h3>What guests loved most</h3>
-                <a href="#" class="dcd-see-all-link">See all reviews</a>
-            </div>
-
-            <div class="dcd-reviews-slider-wrap">
-                <div class="dcd-reviews-track" id="dcd-reviews-track">
-
-                    <div class="dcd-review-card">
-                        <div class="dcd-rev-head">
-                            <div class="dcd-rev-avatar" style="background:linear-gradient(135deg,#667eea,#764ba2)">W</div>
-                            <div><strong>Wayne</strong><span>Australia</span></div>
-                        </div>
-                        <p>Great attraction. A must see when travelling in London. The view from the eye is amazing. Highly recommend for all ages!</p>
-                        <small><i class="fas fa-users"></i> Visited with family · Posted 30 March 2025 on TravelHub</small>
-                    </div>
-
-                    <div class="dcd-review-card">
-                        <div class="dcd-rev-head">
-                            <div class="dcd-rev-avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c)">T</div>
-                            <div><strong>Ted</strong><span>United Kingdom</span></div>
-                        </div>
-                        <p>Many thanks to Lucy and James who were operating the Fast Track queue — excellent service and very smooth experience throughout.</p>
-                        <small><i class="fas fa-heart"></i> Visited with a partner · Posted 20 April 2025 on TravelHub</small>
-                    </div>
-
-                    <div class="dcd-review-card">
-                        <div class="dcd-rev-head">
-                            <div class="dcd-rev-avatar" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">F</div>
-                            <div><strong>Fei</strong><span>Australia</span></div>
-                        </div>
-                        <p>Long queue despite ticket precooked online. No shelter while waiting in the rain and cold. Views were still spectacular though.</p>
-                        <small><i class="fas fa-users"></i> Visited with family · Posted 04 January 2025 on TravelHub</small>
-                    </div>
-
-                    <div class="dcd-review-card">
-                        <div class="dcd-rev-head">
-                            <div class="dcd-rev-avatar" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">P</div>
-                            <div><strong>Peter</strong><span>Australia</span></div>
-                        </div>
-                        <p>Unique calming ride and view of the surroundings including Big Ben and Buckingham Palace. A truly unforgettable London experience.</p>
-                        <small><i class="fas fa-heart"></i> Visited with a partner · Posted 29 June 2025 on TravelHub</small>
-                    </div>
-
-                    <div class="dcd-review-card">
-                        <div class="dcd-rev-head">
-                            <div class="dcd-rev-avatar" style="background:linear-gradient(135deg,#fa709a,#fee140)">S</div>
-                            <div><strong>Sarah</strong><span>United States</span></div>
-                        </div>
-                        <p>Absolutely stunning views! The capsules are spacious and comfortable. Booked the sunset slot and it was magical. Worth every penny!</p>
-                        <small><i class="fas fa-user"></i> Solo traveller · Posted 15 May 2025 on TravelHub</small>
-                    </div>
-
-                    <div class="dcd-review-card">
-                        <div class="dcd-rev-head">
-                            <div class="dcd-rev-avatar" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">M</div>
-                            <div><strong>Marco</strong><span>Italy</span></div>
-                        </div>
-                        <p>Best way to see London from above! We went at dusk and the city lights starting to come on made for incredible photos. Very organised.</p>
-                        <small><i class="fas fa-users"></i> Visited with family · Posted 08 August 2025 on TravelHub</small>
-                    </div>
-
-                </div>
-                <button class="dcd-rev-arrow dcd-rev-prev" onclick="slideReviews(-1)"><i class="fas fa-chevron-left"></i></button>
-                <button class="dcd-rev-arrow dcd-rev-next" onclick="slideReviews(1)"><i class="fas fa-chevron-right"></i></button>
-            </div>
-        </div>
-
-        <!-- TRAVELLER PHOTOS -->
-        <div class="dcd-section">
-            <h2 class="dcd-section-title">Traveller photos</h2>
-            <div class="dcd-tp-wrap">
-                <div class="dcd-tp-track" id="dcd-tp-track">
-                    <div class="dcd-tp-item" onclick="openGalleryModal(0)">
-                        <img src="https://images.unsplash.com/photo-1529655683826-aba9b3e77383?w=400&auto=format&fit=crop" alt="Traveller photo 1">
-                    </div>
-                    <div class="dcd-tp-item" onclick="openGalleryModal(1)">
-                        <img src="https://images.unsplash.com/photo-1520986606214-8b456906c813?w=400&auto=format&fit=crop" alt="Traveller photo 2">
-                    </div>
-                    <div class="dcd-tp-item" onclick="openGalleryModal(2)">
-                        <img src="https://images.unsplash.com/photo-1543832923-44667a44c804?w=400&auto=format&fit=crop" alt="Traveller photo 3">
-                    </div>
-                    <div class="dcd-tp-item" onclick="openGalleryModal(3)">
-                        <img src="https://images.unsplash.com/photo-1533929736458-ca588d08c8be?w=400&auto=format&fit=crop" alt="Traveller photo 4">
-                    </div>
-                    <div class="dcd-tp-item" onclick="openGalleryModal(4)">
-                        <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&auto=format&fit=crop" alt="Traveller photo 5">
-                    </div>
-                </div>
-                <button class="dcd-tp-arrow" onclick="slidePhotos()"><i class="fas fa-chevron-right"></i></button>
-            </div>
-        </div>
-
-        <!-- FAQ -->
-        <div class="dcd-section">
-            <h2 class="dcd-section-title">Frequently asked questions</h2>
-            <div class="dcd-faq">
-                <div class="dcd-faq-item">
-                    <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                        <span>How do I book a ticket?</span><i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="dcd-faq-body"><p>Select your preferred date and time, choose the number of tickets, and click "Book Now". You'll receive instant confirmation via email with your digital ticket attached.</p></div>
-                </div>
-                <div class="dcd-faq-item">
-                    <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                        <span>When do I pay?</span><i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="dcd-faq-body"><p>Payment is processed immediately when you complete your booking. We accept all major credit and debit cards as well as PayPal and Apple Pay.</p></div>
-                </div>
-                <div class="dcd-faq-item">
-                    <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                        <span>How do digital tickets work?</span><i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="dcd-faq-body"><p>After booking, you'll receive your digital ticket via email. Simply show the QR code on your phone at the entrance — no printing required. Make sure your phone is charged!</p></div>
-                </div>
-                <div class="dcd-faq-item">
-                    <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                        <span>Can I cancel or modify my tickets?</span><i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="dcd-faq-body"><p>Yes! Free cancellation is available up to 24 hours before your activity starts. To modify your booking, go to My Bookings in your dashboard and select "Change date/time".</p></div>
-                </div>
-                <div class="dcd-faq-item">
-                    <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                        <span>When will I get my free cancellation refund?</span><i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="dcd-faq-body"><p>Refunds are typically processed within 5–10 business days, depending on your bank or payment provider. You'll receive a confirmation email once the refund is initiated.</p></div>
-                </div>
-                <div class="dcd-faq-item">
-                    <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                        <span>Is the London Eye accessible for wheelchair users?</span><i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="dcd-faq-body"><p>Yes! The London Eye is fully wheelchair accessible. Capsules are large enough to accommodate wheelchairs. Please notify us at booking time so we can ensure the best experience.</p></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SIMILAR / BESTSELLERS -->
-        <div class="dcd-section">
-            <div class="dcd-similar-head">
-                <h2 class="dcd-section-title" style="position:static;transform:none;left:auto;">Bestsellers in London</h2>
-                <a href="{% url 'destinations_page' %}" class="dcd-see-all-link">See all</a>
-            </div>
-            <div class="dcd-similar-wrap">
-                <div class="dcd-similar-track" id="dcd-similar-track">
-
-                    <div class="dcd-sim-card" onclick="window.location.href='{% url 'destinations_page' %}'">
-                        <div class="dcd-sim-img-wrap">
-                            <div class="dcd-sim-badge">#1 Best seller</div>
-                            <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&auto=format&fit=crop" alt="London Eye">
-                        </div>
-                        <div class="dcd-sim-info">
-                            <h4>Admission to the London Eye</h4>
-                            <div class="dcd-sim-rating"><i class="fas fa-star" style="color:#fbbf24;"></i><span>4.5</span><span style="color:var(--gray)">(5478)</span></div>
-                            <div class="dcd-sim-price">From $29</div>
-                        </div>
-                    </div>
-
-                    <div class="dcd-sim-card" onclick="window.location.href='{% url 'destinations_page' %}'">
-                        <div class="dcd-sim-img-wrap">
-                            <div class="dcd-sim-badge">#2 Best seller</div>
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&auto=format&fit=crop" alt="Madame Tussauds">
-                        </div>
-                        <div class="dcd-sim-info">
-                            <h4>Admission to Madame Tussauds London</h4>
-                            <div class="dcd-sim-rating"><i class="fas fa-star" style="color:#fbbf24;"></i><span>4.6</span><span style="color:var(--gray)">(3534)</span></div>
-                            <div class="dcd-sim-price">From $27</div>
-                        </div>
-                    </div>
-
-                    <div class="dcd-sim-card" onclick="window.location.href='{% url 'destinations_page' %}'">
-                        <div class="dcd-sim-img-wrap">
-                            <div class="dcd-sim-badge">#3 Best seller</div>
-                            <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&auto=format&fit=crop" alt="Tower of London">
-                        </div>
-                        <div class="dcd-sim-info">
-                            <h4>Tower of London and Crown Jewels Tour</h4>
-                            <div class="dcd-sim-rating"><i class="fas fa-star" style="color:#fbbf24;"></i><span>4.4</span><span style="color:var(--gray)">(3718)</span></div>
-                            <div class="dcd-sim-price">From $35</div>
-                        </div>
-                    </div>
-
-                    <div class="dcd-sim-card" onclick="window.location.href='{% url 'destinations_page' %}'">
-                        <div class="dcd-sim-img-wrap">
-                            <div class="dcd-sim-badge">#4 Best seller</div>
-                            <img src="https://images.unsplash.com/photo-1543832923-44667a44c804?w=400&auto=format&fit=crop" alt="Thames Cruise">
-                        </div>
-                        <div class="dcd-sim-info">
-                            <h4>Thames River Sightseeing Cruise</h4>
-                            <div class="dcd-sim-rating"><i class="fas fa-star" style="color:#fbbf24;"></i><span>4.3</span><span style="color:var(--gray)">(2891)</span></div>
-                            <div class="dcd-sim-price">From $19</div>
-                        </div>
-                    </div>
-
-                    <div class="dcd-sim-card" onclick="window.location.href='{% url 'destinations_page' %}'">
-                        <div class="dcd-sim-img-wrap">
-                            <div class="dcd-sim-badge">#5 Best seller</div>
-                            <img src="https://images.unsplash.com/photo-1520986606214-8b456906c813?w=400&auto=format&fit=crop" alt="Westminster">
-                        </div>
-                        <div class="dcd-sim-info">
-                            <h4>Westminster & Buckingham Palace Walking Tour</h4>
-                            <div class="dcd-sim-rating"><i class="fas fa-star" style="color:#fbbf24;"></i><span>4.7</span><span style="color:var(--gray)">(1204)</span></div>
-                            <div class="dcd-sim-price">From $22</div>
-                        </div>
-                    </div>
-
-                </div>
-                <button class="dcd-sim-arrow" onclick="slideSimilar()"><i class="fas fa-chevron-right"></i></button>
-            </div>
-        </div>
-
-    </div><!-- /dcd-left -->
-
-    <!-- ===== RIGHT STICKY PANEL ===== -->
-    <div class="dcd-right">
-        <div class="dcd-panel" id="dcd-booking-panel">
-
-            <div class="dcd-panel-title">
-                <h3>Tickets and prices</h3>
-            </div>
-
-            <!-- DATE PICKER -->
-            <div class="dcd-panel-block">
-                <div class="dcd-panel-label">Search ticket availability by date</div>
-                <div class="dcd-month-nav">
-                    <button onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
-                    <span id="dcd-month-title">March 2026</span>
-                    <button onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
-                </div>
-                <a href="#" class="dcd-panel-link" onclick="toggleCalendar(event)">Show more dates</a>
-                <div class="dcd-date-chips" id="dcd-date-chips"></div>
-                <!-- Full calendar -->
-                <div class="dcd-full-calendar" id="dcd-full-calendar" style="display:none;">
-                    <div class="dcd-cal-weekdays">
-                        <span>Mo</span><span>Tu</span><span>We</span>
-                        <span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
-                    </div>
-                    <div class="dcd-cal-grid" id="dcd-cal-grid"></div>
-                </div>
-            </div>
-
-            <!-- TIME PICKER -->
-            <div class="dcd-panel-block">
-                <div class="dcd-panel-label">Select time</div>
-                <div class="dcd-time-grid" id="dcd-time-grid"></div>
-                <button class="dcd-show-more-times-btn" id="dcd-times-toggle" onclick="toggleMoreTimes()">
-                    <i class="fas fa-chevron-down"></i> Show more
-                </button>
-            </div>
-
-            <!-- TICKET COUNTER -->
-            <div class="dcd-panel-block dcd-ticket-block">
-                <div class="dcd-ticket-header">
-                    <span><i class="fas fa-info-circle"></i> Standard Experience</span>
-                    <span class="dcd-non-ref-badge">Non-refundable</span>
-                </div>
-                <div class="dcd-tickets-title">How many tickets?</div>
-
-                <!-- Adult -->
-                <div class="dcd-ticket-row">
-                    <div>
-                        <div class="dcd-ticket-cat">Adult (age 16+)</div>
-                        <div class="dcd-ticket-price-tag">$33</div>
-                    </div>
-                    <div class="dcd-counter">
-                        <button onclick="changeTicket('adult',-1)"><i class="fas fa-minus"></i></button>
-                        <span id="count-adult">0</span>
-                        <button onclick="changeTicket('adult',1)"><i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-
-                <!-- Child -->
-                <div class="dcd-ticket-row">
-                    <div>
-                        <div class="dcd-ticket-cat">Child (age 2-15)</div>
-                        <div class="dcd-ticket-price-tag">$30</div>
-                    </div>
-                    <div class="dcd-counter">
-                        <button onclick="changeTicket('child',-1)"><i class="fas fa-minus"></i></button>
-                        <span id="count-child">0</span>
-                        <button onclick="changeTicket('child',1)"><i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-
-                <!-- Caregiver -->
-                <div class="dcd-ticket-row">
-                    <div>
-                        <div class="dcd-ticket-cat">Caregiver</div>
-                        <div class="dcd-ticket-price-tag">$0</div>
-                    </div>
-                    <div class="dcd-counter">
-                        <button onclick="changeTicket('caregiver',-1)"><i class="fas fa-minus"></i></button>
-                        <span id="count-caregiver">1</span>
-                        <button onclick="changeTicket('caregiver',1)"><i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-
-                <!-- Infant -->
-                <div class="dcd-ticket-row">
-                    <div>
-                        <div class="dcd-ticket-cat">Infant (age 0-1)</div>
-                        <div class="dcd-ticket-price-tag">$0</div>
-                    </div>
-                    <div class="dcd-counter">
-                        <button onclick="changeTicket('infant',-1)"><i class="fas fa-minus"></i></button>
-                        <span id="count-infant">0</span>
-                        <button onclick="changeTicket('infant',1)"><i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-
-                <!-- TOTAL -->
-                <div class="dcd-total">
-                    <span>Total</span>
-                    <span class="dcd-total-val">$<span id="total-num">0</span></span>
-                </div>
-                <div class="dcd-tax-note">Includes taxes and charges</div>
-
-                <button class="dcd-book-btn" onclick="proceedBooking()">
-                    Next <i class="fas fa-arrow-right"></i>
-                </button>
-
-                <div class="dcd-panel-free-cancel">
-                    <i class="fas fa-check-circle" style="color:var(--success);"></i>
-                    Free cancellation available
-                </div>
-            </div>
-
+    <!-- ===== BREADCRUMB ===== -->
+    <div class="dcd-breadcrumb">
+        <div class="dcd-breadcrumb-inner">
+            <a href="{% url 'home_page' %}"><i class="fas fa-home"></i> Home</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="{% url 'destinations_page' %}">Destinations</a>
+            <i class="fas fa-chevron-right"></i>
+            <span id="bc-name">{{ destination.name }}</span>
         </div>
     </div>
 
-</div><!-- /dcd-page -->
+    <!-- ===== PAGE ===== -->
+    <div class="dcd-page">
 
-<!-- ===== GALLERY MODAL ===== -->
-<div class="dcd-gm" id="dcd-gallery-modal">
-    <div class="dcd-gm-inner">
-        <div class="dcd-gm-topbar">
-            <h3>Admission to the London Eye</h3>
-            <div class="dcd-gm-actions">
-                <button class="dcd-gm-select-btn" onclick="selectTicketsFromModal()">Select tickets</button>
-                <button class="dcd-gm-close-btn" onclick="closeGalleryModal()">
-                    Close <i class="fas fa-times"></i>
+        <!-- ===== LEFT ===== -->
+        <div class="dcd-left">
+
+            <!-- TITLE -->
+            <div class="dcd-title-section">
+                {% if destination.featured_badge %}
+                    <div class="dcd-bestseller-badge">
+                        <i class="fas fa-medal"></i> {{ destination.featured_badge }}
+                    </div>
+                {% endif %}
+                <h1 class="dcd-main-title" id="dest-name">{{ destination.name }}</h1>
+                <p class="dcd-subtitle" id="dest-subtitle">{{ destination.short_description|safe }}</p>
+                <div class="dcd-title-actions">
+                    <button class="dcd-share-btn" onclick="shareDestination()">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                    <button class="dcd-wishlist-inline-btn" id="wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i> Save
+                    </button>
+                </div>
+            </div>
+
+            <!-- GALLERY -->
+            <div class="dcd-gallery">
+                <!-- Main image -->
+                <div class="dcd-gallery-main" onclick="openGalleryModal(0)">
+                    {% with main_img=destination.images.first %}
+                        <img id="gallery-main-img"
+                             src="
+
+
+                                     {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
+                             alt="{{ destination.name }}" class="dcd-main-img">
+                    {% endwith %}
+
+
+                    <div class="dcd-gallery-hover-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                    <!-- Rating card overlay -->
+                    <div class="dcd-rating-overlay">
+                        <div class="dcd-rating-card">
+                            <div class="dcd-rating-top">
+                                <i class="fas fa-star" style="color:#fbbf24;font-size:18px;"></i>
+                                <span class="dcd-rating-num">{{ destination.rating }}</span>
+                                <span class="dcd-rating-label">
+                                    {% if destination.rating >= 4.5 %}Excellent
+                                    {% elif destination.rating >= 4.0 %}Fabulous
+                                    {% elif destination.rating >= 3.5 %}Good
+                                    {% elif destination.rating >= 3.0 %}Average
+                                    {% else %}
+                                        Poor
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="dcd-rating-count">{{ destination.reviews_count }} reviews</div>
+                            <h5 class="dcd-loved-title">What guests loved most</h5>
+                            {% if top_review %}
+                                <div class="dcd-top-reviewer">
+                                    <div class="dcd-top-rev-avatar">{{ top_review.author_name|first|upper }}</div>
+                                    <strong>{{ top_review.author_name }}</strong>
+                                </div>
+                                <p class="dcd-top-rev-text">{{ top_review.text|truncatechars:100 }}</p>
+                            {% endif %}
+
+                            <div class="dcd-rating-dots" id="rating-dots">
+                                <span class="dot active" onclick="changeDot(0)"></span>
+                                <span class="dot" onclick="changeDot(1)"></span>
+                                <span class="dot" onclick="changeDot(2)"></span>
+                                <span class="dot" onclick="changeDot(3)"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thumbnails -->
+                <div class="dcd-gallery-thumbs">
+                    {% for img in destination.images.all|slice:"1:5" %}
+                        <div class="dcd-thumb {% if forloop.last %} dcd-thumb-last {% endif %}"
+                             onclick="openGalleryModal({{ forloop.counter }})">
+                            <img src="{{ img.image.url }}"
+                                 alt="{{ destination.name }}">
+                            {% if forloop.last %}
+                                <div class="dcd-thumb-overlay">
+                                    <i class="fas fa-images"></i>
+                                    <span>Show all photos</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- QUICK STRIP -->
+            <div class="dcd-quick-strip">
+                {% if destination.is_free_cancellation %}
+                    <div class="dcd-strip-item dcd-strip-green">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Free cancellation available</strong>
+                            <span>Up to 24 hours before the start time</span>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if destination.duration %}
+                    <div class="dcd-strip-item">
+                        <i class="far fa-clock"></i>
+                        <div><strong>Duration: {{ destination.get_duration_display }}</strong></div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="dcd-section">
+                <div class="dcd-description collapsed" id="dcd-description">
+                    {{ destination.description|safe }}
+                </div>
+                <button class="dcd-toggle-btn" id="dcd-desc-btn" onclick="toggleDescription()">
+                    Show more <i class="fas fa-chevron-down"></i>
                 </button>
             </div>
-        </div>
-        <div class="dcd-gm-body">
-            <!-- Photos grid -->
-            <div class="dcd-gm-photos" id="dcd-gm-photos">
-                <div class="dcd-gm-photo-item dcd-gm-large">
-                    <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=900&auto=format&fit=crop" alt="London Eye main">
+
+            <!-- WHY VISIT -->
+            {% if destination.why_visit %}
+                <div class="dcd-section">
+                    <h2 class="dcd-section-title">Why visit</h2>
+                    <div class="dcd-check-list">
+                        {{ destination.why_visit|safe }}
+                    </div>
                 </div>
-                <div class="dcd-gm-photo-item">
-                    <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&auto=format&fit=crop" alt="London Eye night">
+            {% endif %}
+
+            <!-- WHAT'S INCLUDED -->
+            {#            {% if destination.whats_included %}#}
+            {#                <div class="dcd-section">#}
+            {#                    <h2 class="dcd-section-title">What's included</h2>#}
+            {#                    <div class="dcd-check-list dcd-included">#}
+            {#                        <li><i class="fas fa-check"></i> Admission to the London Eye</li>#}
+            {#                        <li><i class="fas fa-check"></i> 30-minute capsule ride</li>#}
+            {#                        <li><i class="fas fa-check"></i> Panoramic views of London's skyline</li>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            {% endif %}#}
+
+            {% if destination.whats_included %}
+                <div class="dcd-section">
+                    <h2 class="dcd-section-title">What's included</h2>
+                    <div class="dcd-check-list dcd-included">
+                        {{ destination.whats_included|safe }}
+                    </div>
                 </div>
-                <div class="dcd-gm-photo-item">
-                    <img src="https://images.unsplash.com/photo-1529655683826-aba9b3e77383?w=600&auto=format&fit=crop" alt="London skyline">
+            {% endif %}
+
+
+
+
+            <!-- RESTRICTIONS -->
+            {#            <div class="dcd-section">#}
+            {#                <h2 class="dcd-section-title">Restrictions</h2>#}
+            {#                <ul class="dcd-bullet-list">#}
+            {#                    <li>Children under 16 years old must be accompanied by an adult.</li>#}
+            {#                    <li>Visitors must show a valid photo ID.</li>#}
+            {#                    <li>Not recommended for people with vertigo or severe acrophobia.</li>#}
+            {#                    <li>Wheelchair accessible — please notify in advance.</li>#}
+            {#                </ul>#}
+            {#            </div>#}
+
+            {% if destination.restrictions %}
+                <div class="dcd-section">
+                    <h2 class="dcd-section-title">Restrictions</h2>
+                    <div class="dcd-bullet-list">
+                        {{ destination.restrictions|safe }}
+                    </div>
                 </div>
-                <div class="dcd-gm-photo-item">
-                    <img src="https://images.unsplash.com/photo-1543832923-44667a44c804?w=600&auto=format&fit=crop" alt="London aerial">
+            {% endif %}
+
+
+            <!-- ADDITIONAL INFO -->
+            {% if destination.additional_info %}
+                <div class="dcd-section">
+                    <h2 class="dcd-section-title">Additional information</h2>
+                    <div class="dcd-description collapsed" id="dcd-additional">
+                        {{ destination.additional_info|safe }}
+                    </div>
+                    <button class="dcd-toggle-btn" id="dcd-add-btn" onclick="toggleAdditional()">
+                        Show more <i class="fas fa-chevron-down"></i>
+                    </button>
                 </div>
-                <div class="dcd-gm-photo-item">
-                    <img src="https://images.unsplash.com/photo-1520986606214-8b456906c813?w=600&auto=format&fit=crop" alt="Westminster bridge">
-                </div>
-                <div class="dcd-gm-photo-item">
-                    <img src="https://images.unsplash.com/photo-1533929736458-ca588d08c8be?w=600&auto=format&fit=crop" alt="London street">
-                </div>
-                <div class="dcd-gm-photo-item">
-                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop" alt="London landmarks">
-                </div>
-                <div class="dcd-gm-photo-item">
-                    <img src="https://images.unsplash.com/photo-1444723121867-7a241cacace9?w=600&auto=format&fit=crop" alt="Thames view">
-                </div>
-                <div class="dcd-gm-photo-item">
-                    <img src="https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=600&auto=format&fit=crop" alt="Big Ben">
+            {% endif %}
+
+            <!-- LOCATION -->
+            <div class="dcd-section">
+                <h2 class="dcd-section-title">Location</h2>
+                {% if destination.latitude and destination.longitude %}
+                    <div class="dcd-map-wrap">
+                        <iframe
+                                src="https://maps.google.com/maps?q={{ destination.latitude }},{{ destination.longitude }}&z=15&output=embed&hl=en&markers={{ destination.latitude }},{{ destination.longitude }}"
+                                width="100%" height="300"
+                                style="border:0;border-radius:16px;"
+                                loading="lazy"
+                                allowfullscreen
+                                referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+
+                {% endif %}
+                <div class="dcd-address-row">
+                    <div class="dcd-address-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <strong>{{ destination.name }}</strong>
+                        <span>{{ destination.location }}</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Reviews sidebar -->
-            <div class="dcd-gm-sidebar">
-                <div class="dcd-gm-rating">
-                    <i class="fas fa-star" style="color:#fbbf24;"></i>
-                    <strong>4.5 · Fabulous</strong>
-                    <span>(5,478 reviews)</span>
+            <!-- USER RATINGS -->
+            <div class="dcd-section">
+                <h2 class="dcd-section-title">User ratings</h2>
+                <div class="dcd-ratings-wrap">
+                    <div class="dcd-overall">
+                        <div class="dcd-overall-score">
+                            <i class="fas fa-star" style="color:#fbbf24;font-size:28px;"></i>
+                            <span class="dcd-big-num">{{ destination.rating }}</span>
+                            <span class="dcd-big-label">·
+                                {% if destination.rating >= 4.5 %}Excellent
+                                {% elif destination.rating >= 4.0 %}Fabulous
+                                {% elif destination.rating >= 3.5 %}Good
+                                {% elif destination.rating >= 3.0 %}Average
+                                {% else %}Poor{% endif %}
+                            </span></div>
+                        <a href="#reviews-section" class="dcd-see-all-link">({{ destination.reviews_count }} reviews)
+                            See all reviews</a>
+                    </div>
+                    <div class="dcd-score-grid">
+                        <div class="dcd-score-row">
+                            <span>Good value</span>
+                            <div class="dcd-score-bar">
+                                <div class="dcd-score-fill" data-width="88"></div>
+                            </div>
+                            <span>4.4</span>
+                        </div>
+                        <div class="dcd-score-row">
+                            <span>Facilities</span>
+                            <div class="dcd-score-bar">
+                                <div class="dcd-score-fill" data-width="90"></div>
+                            </div>
+                            <span>4.5</span>
+                        </div>
+                        <div class="dcd-score-row">
+                            <span>Quality of service</span>
+                            <div class="dcd-score-bar">
+                                <div class="dcd-score-fill" data-width="90"></div>
+                            </div>
+                            <span>4.5</span>
+                        </div>
+                        <div class="dcd-score-row">
+                            <span>Ease of access</span>
+                            <div class="dcd-score-bar">
+                                <div class="dcd-score-fill" data-width="92"></div>
+                            </div>
+                            <span>4.6</span>
+                        </div>
+                    </div>
                 </div>
-                <h4>What guests loved most:</h4>
-                <div class="dcd-gm-reviews">
-                    <div class="dcd-gm-review-item">
-                        <div class="dcd-gm-rev-head">
-                            <div class="dcd-gm-rev-avatar" style="background:linear-gradient(135deg,#667eea,#764ba2)">W</div>
-                            <div><strong>Wayne</strong><span>Australia</span></div>
+
+                <!-- REVIEWS -->
+                <div class="dcd-reviews-row" id="reviews-section">
+                    <h3>What guests loved most</h3>
+                    <a href="#" class="dcd-see-all-link">See all reviews</a>
+                </div>
+
+                <div class="dcd-reviews-slider-wrap">
+                    <!-- WRITE A REVIEW TRIGGER BUTTON -->
+                    <div class="dcd-write-review-trigger">
+                        <div class="dcd-wr-left">
+                            <div class="dcd-wr-icon"><i class="fas fa-pen-fancy"></i></div>
+                            <div>
+                                <h4>Share your experience</h4>
+                                <p>Help other travellers with your honest review</p>
+                            </div>
                         </div>
-                        <p>Great attraction. A must see when travelling in London. The view from the eye is amazing.</p>
-                        <small><i class="fas fa-users"></i> Visited with family · 30 March 2025</small>
+                        <button class="dcd-wr-open-btn" onclick="openReviewModal()">
+                            Write a Review
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <div class="dcd-gm-review-item">
-                        <div class="dcd-gm-rev-head">
-                            <div class="dcd-gm-rev-avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c)">T</div>
-                            <div><strong>Ted</strong><span>United Kingdom</span></div>
+
+                    <!-- ===== REVIEW MODAL ===== -->
+                    <div class="dcd-review-modal-overlay" id="reviewModal" onclick="closeReviewModal(event)">
+                        <div class="dcd-review-modal" onclick="event.stopPropagation()">
+
+                            <!-- Modal Header -->
+                            <div class="dcd-rm-header">
+                                <div class="dcd-rm-header-left">
+                                    <div class="dcd-rm-icon"><i class="fas fa-star"></i></div>
+                                    <div>
+                                        <h3>Write a Review</h3>
+                                        <p id="dcd-rm-dest-name">{{ destination.name }}</p>
+                                    </div>
+                                </div>
+                                <button class="dcd-rm-close" onclick="closeReviewModal()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+
+                            <!-- LOGIN REQUIRED (agar login qilinmagan bo'lsa) -->
+                            {% if not request.user.is_authenticated %}
+                                <div class="dcd-rm-login-wall">
+                                    <div class="dcd-rm-lw-icon">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    <h4>Sign in to write a review</h4>
+                                    <p>Join millions of travellers sharing their experiences on TravelHub</p>
+                                    <div class="dcd-rm-lw-actions">
+                                        <a href="{% url 'login_page' %}?next={{ request.path }}"
+                                           class="dcd-rm-login-btn">
+                                            <i class="fas fa-sign-in-alt"></i> Sign In
+                                        </a>
+                                        <a href="{% url 'register_page' %}" class="dcd-rm-register-btn">
+                                            Create Account
+                                        </a>
+                                    </div>
+                                    <div class="dcd-rm-lw-benefits">
+                                        <div class="dcd-rm-benefit"><i class="fas fa-check-circle"></i><span>Share honest reviews</span>
+                                        </div>
+                                        <div class="dcd-rm-benefit"><i class="fas fa-check-circle"></i><span>Help other travellers</span>
+                                        </div>
+                                        <div class="dcd-rm-benefit"><i class="fas fa-check-circle"></i><span>Build your travel profile</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+
+                                <!-- REVIEW FORM -->
+                                <form class="dcd-rm-form" id="reviewForm" onsubmit="submitReview(event)">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="destination_slug" id="rm-dest-slug" value="">
+
+                                    <!-- Step 1: Rating -->
+                                    <div class="dcd-rm-section">
+                                        <label class="dcd-rm-label">
+                                            <span class="dcd-rm-step">01</span>
+                                            Your overall rating
+                                        </label>
+                                        <div class="dcd-rm-stars" id="rm-stars">
+                                            <button type="button" class="dcd-rm-star" data-val="1"
+                                                    onclick="setRating(1)">
+                                                <i class="fas fa-star"></i>
+                                            </button>
+                                            <button type="button" class="dcd-rm-star" data-val="2"
+                                                    onclick="setRating(2)">
+                                                <i class="fas fa-star"></i>
+                                            </button>
+                                            <button type="button" class="dcd-rm-star" data-val="3"
+                                                    onclick="setRating(3)">
+                                                <i class="fas fa-star"></i>
+                                            </button>
+                                            <button type="button" class="dcd-rm-star" data-val="4"
+                                                    onclick="setRating(4)">
+                                                <i class="fas fa-star"></i>
+                                            </button>
+                                            <button type="button" class="dcd-rm-star" data-val="5"
+                                                    onclick="setRating(5)">
+                                                <i class="fas fa-star"></i>
+                                            </button>
+                                        </div>
+                                        <div class="dcd-rm-rating-label" id="rm-rating-label">Tap a star to rate</div>
+                                        <input type="hidden" name="rating" id="rm-rating-val" value="">
+                                    </div>
+
+                                    <!-- Step 2: Visit type -->
+                                    <div class="dcd-rm-section">
+                                        <label class="dcd-rm-label">
+                                            <span class="dcd-rm-step">02</span>
+                                            How did you visit?
+                                        </label>
+                                        <div class="dcd-rm-visit-types">
+                                            <button type="button" class="dcd-rm-vtype" data-val="family"
+                                                    onclick="setVisitType(this)">
+                                                <i class="fas fa-users"></i> Family
+                                            </button>
+                                            <button type="button" class="dcd-rm-vtype" data-val="partner"
+                                                    onclick="setVisitType(this)">
+                                                <i class="fas fa-heart"></i> Partner
+                                            </button>
+                                            <button type="button" class="dcd-rm-vtype" data-val="solo"
+                                                    onclick="setVisitType(this)">
+                                                <i class="fas fa-user"></i> Solo
+                                            </button>
+                                            <button type="button" class="dcd-rm-vtype" data-val="friends"
+                                                    onclick="setVisitType(this)">
+                                                <i class="fas fa-user-friends"></i> Friends
+                                            </button>
+                                        </div>
+                                        <input type="hidden" name="visit_type" id="rm-visit-type-val" value="">
+                                    </div>
+
+                                    <!-- Step 3: Review text -->
+                                    <div class="dcd-rm-section">
+                                        <label class="dcd-rm-label" for="rm-text">
+                                            <span class="dcd-rm-step">03</span>
+                                            Your review
+                                        </label>
+                                        <div class="dcd-rm-textarea-wrap">
+                        <textarea
+                                id="rm-text"
+                                name="text"
+                                class="dcd-rm-textarea"
+                                placeholder="Share what you loved, what could be better, and tips for other travellers..."
+                                rows="5"
+                                maxlength="1000"
+                                oninput="updateCharCount(this)"
+                                required
+                        ></textarea>
+                                            <div class="dcd-rm-char-count">
+                                                <span id="rm-char-num">0</span>/1000
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Step 4: Visit date -->
+                                    <div class="dcd-rm-section">
+                                        <label class="dcd-rm-label" for="rm-visited-at">
+                                            <span class="dcd-rm-step">04</span>
+                                            When did you visit? <span class="dcd-rm-optional">(optional)</span>
+                                        </label>
+                                        <input
+                                                type="date"
+                                                id="rm-visited-at"
+                                                name="visited_at"
+                                                class="dcd-rm-input"
+                                                max="{{ today|date:'Y-m-d' }}"
+                                        >
+                                    </div>
+
+                                    <!-- Error message -->
+                                    <div class="dcd-rm-error" id="rm-error" style="display:none;">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        <span id="rm-error-text">Please fill in all required fields.</span>
+                                    </div>
+
+                                    <!-- Submit -->
+                                    <div class="dcd-rm-footer">
+                                        <p class="dcd-rm-disclaimer">
+                                            <i class="fas fa-shield-alt"></i>
+                                            Your review will be visible after moderation (usually within 24 hours)
+                                        </p>
+                                        <button type="submit" class="dcd-rm-submit-btn" id="rm-submit-btn">
+                        <span id="rm-submit-text">
+                            <i class="fas fa-paper-plane"></i> Submit Review
+                        </span>
+                                            <span id="rm-submit-loading" style="display:none;">
+                            <i class="fas fa-spinner fa-spin"></i> Submitting...
+                        </span>
+                                        </button>
+                                    </div>
+                                </form>
+
+                            {% endif %}
+
+                            <!-- SUCCESS STATE -->
+                            <div class="dcd-rm-success" id="rm-success" style="display:none;">
+                                <div class="dcd-rm-success-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h3>Thank you for your review!</h3>
+                                <p>Your review has been submitted and will appear after moderation.</p>
+                                <button class="dcd-rm-success-btn" onclick="closeReviewModal()">
+                                    Close <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+
                         </div>
-                        <p>Many thanks to Lucy and James — excellent service at the Fast Track queue!</p>
-                        <small><i class="fas fa-heart"></i> Visited with a partner · 20 April 2025</small>
                     </div>
-                    <div class="dcd-gm-review-item">
-                        <div class="dcd-gm-rev-head">
-                            <div class="dcd-gm-rev-avatar" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">P</div>
-                            <div><strong>Peter</strong><span>Australia</span></div>
-                        </div>
-                        <p>Unique calming ride and view of the surroundings including Big Ben and Buckingham Palace.</p>
-                        <small><i class="fas fa-heart"></i> Visited with a partner · 29 June 2025</small>
+
+
+                    <div class="dcd-reviews-track" id="dcd-reviews-track">
+                        {% for review in destination.reviews.all %}
+                            {% if review.is_visible %}
+                                <div class="dcd-review-card">
+                                    <div class="dcd-rev-head">
+                                        <div class="dcd-rev-avatar"
+                                             style="background:linear-gradient(135deg,#667eea,#764ba2)">
+                                            {{ review.author_name|first|upper }}
+                                        </div>
+                                        <div>
+                                            <strong>{{ review.author_name }}</strong><span>{% if review.author_country %}
+                                            {{ review.author_country.name }} {% endif %}</span></div>
+                                    </div>
+                                    <p>{{ review.text|truncatechars:150 }}</p>
+                                    <small>
+                                        {% if review.visit_type == 'family' %}<i class="fas fa-users"></i> Visited with
+                                            family
+                                        {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i> Visited
+                                            with a partner
+                                        {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i> Solo traveller
+                                        {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i>
+                                            Visited with friends
+                                        {% endif %}                                        ·
+                                        Posted {{ review.created_at|date:"d F Y" }}
+                                        on
+                                        TravelHub</small>
+                                </div>
+                            {% endif %}
+                        {% empty %}
+                            <div class="dcd-review-card" style="min-width:300px;">
+                                <p style="color:var(--gray);text-align:center;padding:20px 0;">
+                                    No reviews yet. Be the first to share your experience!
+                                </p>
+                            </div>
+                        {% endfor %}
+
                     </div>
-                    <div class="dcd-gm-review-item">
-                        <div class="dcd-gm-rev-head">
-                            <div class="dcd-gm-rev-avatar" style="background:linear-gradient(135deg,#fa709a,#fee140)">S</div>
-                            <div><strong>Sarah</strong><span>United States</span></div>
+                    <button class="dcd-rev-arrow dcd-rev-prev" onclick="slideReviews(-1)"><i
+                            class="fas fa-chevron-left"></i></button>
+                    <button class="dcd-rev-arrow dcd-rev-next" onclick="slideReviews(1)"><i
+                            class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- TRAVELLER PHOTOS -->
+            {% if destination.images.count > 1 %}
+                <div class="dcd-section">
+                    <h2 class="dcd-section-title">Traveller photos</h2>
+                    <div class="dcd-tp-wrap">
+                        <div class="dcd-tp-track" id="dcd-tp-track">
+                            {% for img in destination.images.all %}
+                                <div class="dcd-tp-item" onclick="openGalleryModal({{ forloop.counter0 }})">
+                                    <img src="{{ img.image.url }}"
+                                         alt="{{ destination.name }}">
+                                </div>
+                            {% endfor %}
                         </div>
-                        <p>Absolutely stunning views! Booked the sunset slot — it was truly magical!</p>
-                        <small><i class="fas fa-user"></i> Solo traveller · 15 May 2025</small>
+
+                        <button class="dcd-tp-arrow left" onclick="slidePhotosBack()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="dcd-tp-arrow right" onclick="slidePhotos()"><i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            {% endif %}
+
+            <!-- FAQ -->
+            <div class="dcd-section">
+                <h2 class="dcd-section-title">Frequently asked questions</h2>
+                <div class="dcd-faq">
+                    <div class="dcd-faq-item">
+                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">
+                            <span>How do I book a ticket?</span><i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dcd-faq-body"><p>Select your preferred date and time, choose the number of tickets,
+                            and click "Book Now". You'll receive instant confirmation via email with your digital ticket
+                            attached.</p></div>
+                    </div>
+                    <div class="dcd-faq-item">
+                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">
+                            <span>When do I pay?</span><i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dcd-faq-body"><p>Payment is processed immediately when you complete your booking. We
+                            accept all major credit and debit cards as well as PayPal and Apple Pay.</p></div>
+                    </div>
+                    <div class="dcd-faq-item">
+                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">
+                            <span>How do digital tickets work?</span><i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dcd-faq-body"><p>After booking, you'll receive your digital ticket via email. Simply
+                            show the QR code on your phone at the entrance — no printing required. Make sure your phone
+                            is charged!</p></div>
+                    </div>
+                    <div class="dcd-faq-item">
+                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">
+                            <span>Can I cancel or modify my tickets?</span><i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dcd-faq-body"><p>Yes! Free cancellation is available up to 24 hours before your
+                            activity starts. To modify your booking, go to My Bookings in your dashboard and select
+                            "Change date/time".</p></div>
+                    </div>
+                    <div class="dcd-faq-item">
+                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">
+                            <span>When will I get my free cancellation refund?</span><i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dcd-faq-body"><p>Refunds are typically processed within 5–10 business days,
+                            depending on your bank or payment provider. You'll receive a confirmation email once the
+                            refund is initiated.</p></div>
+                    </div>
+                    <div class="dcd-faq-item">
+                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">
+                            <span>Is the London Eye accessible for wheelchair users?</span><i
+                                class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dcd-faq-body"><p>Yes! The London Eye is fully wheelchair accessible. Capsules are
+                            large enough to accommodate wheelchairs. Please notify us at booking time so we can ensure
+                            the best experience.</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIMILAR / BESTSELLERS -->
+            <div class="dcd-section">
+                <div class="dcd-similar-head">
+                    <h2 class="dcd-section-title" style="position:static;transform:none;left:auto;">Bestsellers in
+                        {{ destination.city.name }}</h2>
+                    <a href="{% url 'destinations_page' %}" class="dcd-see-all-link">See all</a>
+                </div>
+
+                <div class="dcd-similar-wrap">
+                    <div class="dcd-tp-overflow">
+                        <div class="dcd-similar-track" id="dcd-similar-track">
+                            {% for s_destination in similar_destinations %}
+                                <div class="dcd-sim-card"
+                                     onclick="window.location.href='{% url 'destinations_page' %}'">
+                                    <div class="dcd-sim-img-wrap">
+                                        {% if s_destination.is_popular %}
+                                            <div class="dcd-sim-badge">#{{ s_destination.featured_badge }} Best seller
+                                            </div>
+                                        {% endif %}
+                                        {% with s_img=s_destination.images.first %}
+                                            <img src="{% if s_img %} {{ s_img.image.url }} {% else %}
+                                            {% static 'apps/img/default.avif' %} {% endif %}"
+                                                 alt="{{ s_destination.name }}">
+
+                                        {% endwith %}
+                                    </div>
+
+                                    <div class="dcd-sim-info">
+                                        <h4>{{ s_destination.name }}</h4>
+                                        <div class="dcd-sim-rating"><i class="fas fa-star"
+                                                                       style="color:#fbbf24;"></i><span>{{ s_destination.rating }}</span><span
+                                                style="color:var(--gray)">({{ s_destination.reviews_count }})</span>
+                                        </div>
+                                        <div class="dcd-sim-price">From ${{ s_destination.price }}</div>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p style="color:var(--gray);">No similar destinations found.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <button class="dcd-sim-arrow left" onclick="slideSimilarBack()">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                    <button class="dcd-sim-arrow right" onclick="slideSimilar()">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div><!-- /dcd-left -->
+
+        <!-- ===== RIGHT STICKY PANEL ===== -->
+        <div class="dcd-right">
+            <div class="dcd-panel" id="dcd-booking-panel">
+
+                <div class="dcd-panel-title">
+                    <h3>Tickets and prices</h3>
+                </div>
+
+                <!-- DATE PICKER -->
+                <div class="dcd-panel-block">
+                    <div class="dcd-panel-label">Search ticket availability by date</div>
+                    <div class="dcd-month-nav">
+                        <button onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                        <span id="dcd-month-title">March 2026</span>
+                        <button onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <a href="#" class="dcd-panel-link" onclick="toggleCalendar(event)">Show more dates</a>
+                    <div class="dcd-date-chips" id="dcd-date-chips"></div>
+                    <!-- Full calendar -->
+                    <div class="dcd-full-calendar" id="dcd-full-calendar" style="display:none;">
+                        <div class="dcd-cal-weekdays">
+                            <span>Mo</span><span>Tu</span><span>We</span>
+                            <span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+                        </div>
+                        <div class="dcd-cal-grid" id="dcd-cal-grid"></div>
+                    </div>
+                </div>
+
+                <!-- TIME PICKER -->
+                <div class="dcd-panel-block">
+                    <div class="dcd-panel-label">Select time</div>
+                    <div class="dcd-time-grid" id="dcd-time-grid"></div>
+                    <button class="dcd-show-more-times-btn" id="dcd-times-toggle" onclick="toggleMoreTimes()">
+                        <i class="fas fa-chevron-down"></i> Show more
+                    </button>
+                </div>
+
+                <!-- TICKET COUNTER -->
+                <div class="dcd-panel-block dcd-ticket-block">
+                    <div class="dcd-ticket-header">
+                        <span><i class="fas fa-info-circle"></i> Standard Experience</span>
+                        <span class="dcd-non-ref-badge">Non-refundable</span>
+                    </div>
+                    <div class="dcd-tickets-title">How many tickets?</div>
+
+                    <!-- Adult -->
+                    <div class="dcd-ticket-row">
+                        <div>
+                            <div class="dcd-ticket-cat">Adult (age 16+)</div>
+                            <div class="dcd-ticket-price-tag">$33</div>
+                        </div>
+                        <div class="dcd-counter">
+                            <button onclick="changeTicket('adult',-1)"><i class="fas fa-minus"></i></button>
+                            <span id="count-adult">0</span>
+                            <button onclick="changeTicket('adult',1)"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Child -->
+                    <div class="dcd-ticket-row">
+                        <div>
+                            <div class="dcd-ticket-cat">Child (age 2-15)</div>
+                            <div class="dcd-ticket-price-tag">$30</div>
+                        </div>
+                        <div class="dcd-counter">
+                            <button onclick="changeTicket('child',-1)"><i class="fas fa-minus"></i></button>
+                            <span id="count-child">0</span>
+                            <button onclick="changeTicket('child',1)"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Caregiver -->
+                    <div class="dcd-ticket-row">
+                        <div>
+                            <div class="dcd-ticket-cat">Caregiver</div>
+                            <div class="dcd-ticket-price-tag">$0</div>
+                        </div>
+                        <div class="dcd-counter">
+                            <button onclick="changeTicket('caregiver',-1)"><i class="fas fa-minus"></i></button>
+                            <span id="count-caregiver">1</span>
+                            <button onclick="changeTicket('caregiver',1)"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Infant -->
+                    <div class="dcd-ticket-row">
+                        <div>
+                            <div class="dcd-ticket-cat">Infant (age 0-1)</div>
+                            <div class="dcd-ticket-price-tag">$0</div>
+                        </div>
+                        <div class="dcd-counter">
+                            <button onclick="changeTicket('infant',-1)"><i class="fas fa-minus"></i></button>
+                            <span id="count-infant">0</span>
+                            <button onclick="changeTicket('infant',1)"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- TOTAL -->
+                    <div class="dcd-total">
+                        <span>Total</span>
+                        <span class="dcd-total-val">$<span id="total-num">0</span></span>
+                    </div>
+                    <div class="dcd-tax-note">Includes taxes and charges</div>
+
+                    <button class="dcd-book-btn" onclick="proceedBooking()">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+
+                    <div class="dcd-panel-free-cancel">
+                        <i class="fas fa-check-circle" style="color:var(--success);"></i>
+                        Free cancellation available
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div><!-- /dcd-page -->
+
+    <!-- ===== GALLERY MODAL ===== -->
+    <div class="dcd-gm" id="dcd-gallery-modal">
+        <div class="dcd-gm-inner">
+            <div class="dcd-gm-topbar">
+                <h3>{{ destination.name }}</h3>
+                <div class="dcd-gm-actions">
+                    <button class="dcd-gm-select-btn" onclick="selectTicketsFromModal()">Select tickets</button>
+                    <button class="dcd-gm-close-btn" onclick="closeGalleryModal()">
+                        Close <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="dcd-gm-body">
+                <!-- Photos grid -->
+                <div class="dcd-gm-photos" id="dcd-gm-photos">
+                    {% with main_img=destination.images.first %}
+                        <div class="dcd-gm-photo-item dcd-gm-large">
+                            <img src="
+
+
+                                    {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
+                                 alt="{{ destination.name }}">
+                        </div>
+                    {% endwith %}
+
+                    {% for img in destination.images.all|slice:"1:" %}
+                        <div class="dcd-gm-photo-item">
+                            <img src="{{ img.image.url }}" alt="{{ destination.name }}">
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Reviews sidebar -->
+                <div class="dcd-gm-sidebar">
+                    <div class="dcd-gm-rating">
+                        <i class="fas fa-star" style="color:#fbbf24;"></i>
+                        <strong>{{ destination.rating }}
+                            {% if destination.rating >= 4.5 %}Excellent
+                            {% elif destination.rating >= 4.0 %}Fabulous
+                            {% elif destination.rating >= 3.5 %}Good
+                            {% elif destination.rating >= 3.0 %}Average
+                            {% else %}
+                                Poor
+                            {% endif %}
+                        </strong>
+                        <span>({{ destination.reviews_count }} reviews)</span>
+                    </div>
+                    <h4>What guests loved most:</h4>
+                    <div class="dcd-gm-reviews">
+                        {% for review in destination.reviews.all|slice:":4" %}
+                            {% if review.is_visible %}
+                                <div class="dcd-gm-review-item">
+                                    <div class="dcd-gm-rev-head">
+                                        <div class="dcd-gm-rev-avatar"
+                                             style="background:linear-gradient(135deg,#667eea,#764ba2)">{{ review.author_name|first|upper }}
+                                        </div>
+                                        <div>
+                                            <strong>{{ review.author_name }}</strong><span>{% if review.author_country %}
+                                            {{ review.author_counter.name }}{% endif %}</span></div>
+                                    </div>
+                                    <p>{{ review.text|truncatechars:120 }}</p>
+                                    <small>
+                                        {% if review.visit_type == 'family' %}<i class="fas fa-users"></i> Visited with
+                                            family
+                                        {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i> Visited
+                                            with a partner
+                                        {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i> Solo traveller
+                                        {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i>
+                                            Visited with friends
+                                        {% endif %}
+                                        · {{ review.created_at|date:"d F Y" }}
+                                    </small>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- MOBILE BOTTOM BAR -->
-<div class="dcd-mobile-bar" id="dcd-mobile-bar">
-    <div>
-        <div class="dcd-mobile-from">From</div>
-        <div class="dcd-mobile-price">$29 <span>per person</span></div>
+    <!-- MOBILE BOTTOM BAR -->
+    <div class="dcd-mobile-bar" id="dcd-mobile-bar">
+        <div>
+            <div class="dcd-mobile-from">From</div>
+            <div class="dcd-mobile-price">${{ destination.price }} <span>
+                per {{ destination.price_label }}</span></div>
+        </div>
+        <button onclick="scrollToPanel()">Book Now</button>
     </div>
-    <button onclick="scrollToPanel()">Book Now</button>
-</div>
 
 {% endblock %}
 
 {% block custom_js %}
-<script src="{% static 'apps/js/destination_detail.js' %}"></script>
+    <script src="{% static 'apps/js/destination_detail.js' %}"></script>
 {% endblock %}

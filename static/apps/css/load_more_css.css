@@ -1,0 +1,96 @@
+/* ============================================
+   LOAD MORE — TO'G'RILANGAN
+   MUAMMO: .btn-load-more i { animation: spin } — icon DOIMO aylanib turadi
+   YECHIM: Faqat .loading holatida aylansin
+============================================ */
+
+.load-more-container {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-load-more {
+    background: linear-gradient(135deg, #dd66ea, #764ba2);
+    color: white;
+    border: none;
+    padding: 16px 44px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    margin-bottom: 14px;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+}
+
+/* Shimmer effect */
+.btn-load-more::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.5s ease;
+}
+.btn-load-more:hover::before {
+    left: 100%;
+}
+
+.btn-load-more:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.45);
+}
+
+.btn-load-more:active {
+    transform: translateY(-1px);
+}
+
+/*
+ * ASOSIY FIX:
+ * Icon FAQAT .loading class qo'shilganda aylansin.
+ * Oddiy holatda statik tursin.
+ */
+.btn-load-more i {
+    font-size: 15px;
+    transition: transform 0.3s ease;
+    /* animation YO'Q — default statik */
+}
+
+/* Loading holati — JS .loading class qo'shganda */
+.btn-load-more.loading i {
+    animation: spin 0.8s linear infinite;
+}
+
+.btn-load-more.loading {
+    opacity: 0.85;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Tugma to'la yuklanganda (boshqa destinations yo'q) */
+.btn-load-more.no-more {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: default;
+    pointer-events: none;
+    box-shadow: none;
+    transform: none;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.showing-text {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+}
