@@ -44,16 +44,19 @@ class HomeTemplateView(TemplateView):
 
         context['trending_destinations'] = Destination.objects.filter(
             is_trending=True
-        ).select_related('city').prefetch_related('tags', 'images')
+        ).select_related('city').prefetch_related('tags', 'images').only('slug', 'name', 'location',
+                                                                         'short_description', 'hotels_count',
+                                                                         'duration',
+                                                                         'price', 'has_flights', 'city__name')
 
         context['featured_destinations'] = Destination.objects.filter(
             is_featured=True
         ).select_related('city').prefetch_related('tags', 'images', 'activities').only('slug', 'package_type', 'name',
                                                                                        'location',
                                                                                        'short_description', 'duration',
-                                                                                       'price_label','price',
+                                                                                       'price_label', 'price',
                                                                                        'restaurants_count',
-                                                                                       'has_flights','city__name')
+                                                                                       'has_flights', 'city__name')
 
         return context
 
