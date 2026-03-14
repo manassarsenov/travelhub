@@ -54,4 +54,3 @@ class Command(BaseCommand):
                 f"✅ Done! Created: {created_count}, Updated: {updated_count}"
             )
         )
-

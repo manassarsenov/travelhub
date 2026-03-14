@@ -72,6 +72,11 @@ INTERNAL_IPS = [
 ROOT_URLCONF = 'root.urls'
 AUTH_USER_MODEL = 'apps.User'
 
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login_page'
+
+LOGIN_URL = 'login_page'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

@@ -24,24 +24,19 @@
         </div>
     </section>
 
+    {% if flash_destinations %}
+        <!-- FLASH SALES -->
+        <section class="flash-deals">
+            <div class="container-custom">
+                <div class="section-header-custom">
+                    <div class="flash-badge"><i class="fas fa-bolt"></i><span>Flash Sale</span></div>
+                    <h2>Today's Best Deals</h2>
+                    <p>Limited time offers - Book now </p>
+                </div>
 
-    <!-- FLASH SALES -->
-    <section class="flash-deals">
-        <div class="container-custom">
-            <div class="section-header-custom">
-                <div class="flash-badge"><i class="fas fa-bolt"></i><span>Flash Sale</span></div>
-                <h2>Today's Best Deals</h2>
-                <p>Limited time offers - Book now and save up to 60%</p>
-            </div>
-
-            <div id="destinations-grid" class="destinations-grid">
-                {% for destination in flash_destinations %}
-                    {% if destination.discount_percentage > 0 %}
+                <div id="destinations-grid" class="destinations-grid">
+                    {% for destination in flash_destinations %}
                         <article class="destination-card">
-                            {#                             data-city="Samarkand" data-country="Samarkand, O'zbekiston"#}
-                            {#                             data-lat="39.6542" data-lon="66.9597"#}
-                            {#                             data-hotels-url="/hotels/?city=samarkand"#}
-                            {#                             data-flights-url="/flights/?to=samarkand">#}
 
                             <div class="deal-timer" data-end="{{ destination.flash_sale_end|date:'c' }}">
                                 <div class="timer-item"><span class="hours">00</span><small>Hours</small></div>
@@ -121,7 +116,9 @@
                                                 class="per">/ {{ destination.price_label }}</span></div>
                                     </div>
                                     <div class="card-actions">
-                                        <button class="btn-outline" onclick="window.location.href='{% url 'destination_detail_page' %}'">SeeDetails
+                                        <button class="btn-outline"
+                                                onclick="window.location.href='{% url 'destination_detail_page' %}'">
+                                            See Details
                                             <i class="fas fa-arrow-right"></i>
                                         </button>
 
@@ -129,27 +126,21 @@
                                 </div>
                             </div>
                         </article>
-                    {% endif %}
-                {% endfor %}
-
-                {% if not flash_destinations %}
-                    <p>Hozirda flash sale yo'q</p>
-                {% endif %}
+                    {% endfor %}
 
 
+                </div>
             </div>
-        </div>
-        <div class="load-more-container">
-            <button class="btn-load-more" onclick="loadMoreDestinations()">
-                <i class="fas fa-spinner"></i>
-                Load More Destinations
-            </button>
-            <p class="showing-text">Showing 12 of 156 destinations</p>
-        </div>
+            <div class="load-more-container">
+                <button class="btn-load-more" onclick="loadMoreDestinations()">
+                    <i class="fas fa-spinner"></i>
+                    Load More Destinations
+                </button>
+                <p class="showing-text">Showing 12 of 156 destinations</p>
+            </div>
 
-    </section>
-
-
+        </section>
+    {% endif %}
 
 
     <!-- OB-HAVO MODAL -->
@@ -222,376 +213,401 @@
     </div>
 
 
-    <!-- ALL-INCLUSIVE PACKAGES -->
-    <section class="package-deals">
-        <div class="container-custom">
-            <div class="section-header-custom">
-                <h2>All-Inclusive Packages</h2>
-                <p>Flight + Hotel + Activities - Everything you need in one package</p>
+    {% if featured_destinations %}
+        <!-- ALL-INCLUSIVE PACKAGES -->
+        <section class="package-deals">
+            <div class="container-custom">
+                <div class="section-header-custom">
+                    <h2>All-Inclusive Packages</h2>
+                    <p>Flight + Hotel + Activities - Everything you need in one package</p>
+                </div>
+
+                <div class="packages-grid">
+                    {% for destination in featured_destinations %}
+                        <div class="package-card">
+{#                             data-city="Male"#}
+{#                             data-country="Maldives"#}
+{#                             data-lat="4.1755"#}
+{#                             data-lon="73.5093"#}
+{#                             data-hotels-url="/hotels/?city=maldives"#}
+{#                             data-flights-url="/flights/?to=maldives">#}
+
+                            <div class="package-header">
+                                <span class="package-type">{{ destination.package_type }}</span>
+                            </div>
+
+                            <div class="card-image-wrapper">
+                                <div class="image-slider">
+                                    {% for img in destination.images.all %}
+                                        <img src="{{ img.image.url }}"
+                                             alt="{{ destination.name }}">
+                                    {% empty %}
+                                        <img src="{% static 'apps/img/default.jpg' %}" alt="No image">
+                                    {% endfor %}
+                                </div>
+                                {% if destination.images.count > 1 %}
+                                    <button class="slider-btn prev" onclick="slideImage(this, -1)">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button class="slider-btn next" onclick="slideImage(this, 1)">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                    <div class="image-dots">
+                                        {% for img in destination.images.all %}
+                                            <span class="dot{% if forloop.first %} active{% endif %}"></span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="destination-info">
+                                        <h3>{{ destination.name }}</h3>
+                                        <p class="location">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            {{ destination.location }}
+                                        </p>
+                                    </div>
+                                    <div class="rating-box">
+                                        <div class="rating-stars">
+                                            <i class="fas fa-star"></i>
+                                            <span>{{ destination.rating }}</span>
+                                        </div>
+                                        <p class="reviews">({{ destination.reviews_count }} reviews)</p>
+                                    </div>
+                                </div>
+
+                                <p class="card-description">
+                                    {{ destination.short_description|safe }}
+                                </p>
+
+                                <div class="card-tags">
+                                    {% for tag in destination.tags.all %}
+                                        <span class="tag">
+                                            <i class="fas {{ tag.icon }}"></i> {{ tag.name }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+
+                                <!-- 6 ta stat: 2 qator × 3 ustun -->
+                                <div class="card-stats">
+                                    <button class="stat-item stat-hotels" onclick="goToHotels(this)"
+                                            title="Hotels & Resorts">
+                                        <i class="fas fa-hotel"></i>
+                                        <span>{{ destination.hotels_count }} Hotels & Resorts</span>
+                                    </button>
+                                    <button class="stat-item stat-restaurants" onclick="goToRestaurants(this)"
+                                            title="Restaurants">
+                                        <i class="fas fa-utensils"></i>
+                                        <span>{{ destination.restaurants_count }}+ Restaurants</span>
+                                    </button>
+                                    {% if destination.has_flights %}
+                                        <button class="stat-item stat-flights" onclick="goToFlights(this)"
+                                                title="Direct Flights">
+                                            <i class="fas fa-plane"></i>
+                                            <span>Direct Flights</span>
+                                        </button>
+                                    {% endif %}
+
+                                    {% for activity in destination.activities.all %}
+                                        <button class="stat-item stat-activities" onclick="goToActivities(this)"
+                                                title="Activities">
+                                            <i class="fas {{ activity.icon }}"></i>
+                                            <span>{{ activity.name }}</span>
+                                        </button>
+                                    {% endfor %}
+
+                                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                                            data-city="Male"
+                                            data-lat="4.1755"
+                                            data-lon="73.5093"
+                                            title="Ob-havo">
+                                        <i class="fas fa-sun weather-icon"></i>
+                                        <span class="weather-temp">yuklanyapti...</span>
+                                    </button>
+                                    <div class="stat-item">
+                                        <i class="fas fa-clock"></i>
+                                        <span>{{ destination.duration }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="price-box">
+                                        <div class="price-current">
+                                            <span class="from">From</span>
+                                            <span class="amount">${{ destination.price }}</span>
+                                            <span class="per">/ {{ destination.price_label }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-actions">
+                                        <button class="btn-outline"
+                                                onclick="window.location.href='{% url 'destination_detail_page' %}'">See
+                                            Details
+                                            <i class="fas fa-arrow-right"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+                    <!-- ===== Package 1 - Maldives ===== -->
+
+                    {#                    <!-- ===== Package 2 - Dubai ===== -->#}
+                    {#                    <div class="package-card"#}
+                    {#                         data-city="Dubai"#}
+                    {#                         data-country="Dubai, UAE"#}
+                    {#                         data-lat="25.2048"#}
+                    {#                         data-lon="55.2708"#}
+                    {#                         data-hotels-url="/hotels/?city=dubai"#}
+                    {#                         data-flights-url="/flights/?to=dubai">#}
+                    {##}
+                    {#                        <div class="package-header">#}
+                    {#                            <span class="package-type">FAMILY FUN</span>#}
+                    {#                        </div>#}
+                    {##}
+                    {#                        <div class="card-image-wrapper">#}
+                    {#                            <div class="image-slider">#}
+                    {#                                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600"#}
+                    {#                                     alt="Dubai">#}
+                    {#                                <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600"#}
+                    {#                                     alt="Dubai 2">#}
+                    {#                            </div>#}
+                    {#                            <button class="slider-btn prev" onclick="slideImage(this, -1)">#}
+                    {#                                <i class="fas fa-chevron-left"></i>#}
+                    {#                            </button>#}
+                    {#                            <button class="slider-btn next" onclick="slideImage(this, 1)">#}
+                    {#                                <i class="fas fa-chevron-right"></i>#}
+                    {#                            </button>#}
+                    {#                            <div class="image-dots">#}
+                    {#                                <span class="dot active"></span>#}
+                    {#                                <span class="dot"></span>#}
+                    {#                            </div>#}
+                    {#                            <div class="card-badges">#}
+                    {#                                <span class="badge popular">Popular</span>#}
+                    {#                                <span class="badge deal">-20%</span>#}
+                    {#                            </div>#}
+                    {#                            <button class="wishlist-btn" onclick="toggleWishlist(this)">#}
+                    {#                                <i class="far fa-heart"></i>#}
+                    {#                            </button>#}
+                    {#                        </div>#}
+                    {##}
+                    {#                        <div class="card-content">#}
+                    {#                            <div class="card-header">#}
+                    {#                                <div class="destination-info">#}
+                    {#                                    <h3>Dubai Family Fun</h3>#}
+                    {#                                    <p class="location">#}
+                    {#                                        <i class="fas fa-map-marker-alt"></i>#}
+                    {#                                        Dubai, UAE#}
+                    {#                                    </p>#}
+                    {#                                </div>#}
+                    {#                                <div class="rating-box">#}
+                    {#                                    <div class="rating-stars">#}
+                    {#                                        <i class="fas fa-star"></i>#}
+                    {#                                        <span>4.8</span>#}
+                    {#                                    </div>#}
+                    {#                                    <p class="reviews">(5,120 reviews)</p>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {##}
+                    {#                            <p class="card-description">#}
+                    {#                                World's tallest buildings, theme parks and desert safaris — unforgettable family#}
+                    {#                                memories#}
+                    {#                            </p>#}
+                    {##}
+                    {#                            <div class="card-tags">#}
+                    {#                                <span class="tag"><i class="fas fa-users"></i> Family</span>#}
+                    {#                                <span class="tag"><i class="fas fa-city"></i> Modern</span>#}
+                    {#                                <span class="tag"><i class="fas fa-ticket-alt"></i> Activities</span>#}
+                    {#                            </div>#}
+                    {##}
+                    {#                            <!-- 6 ta stat: 2 qator × 3 ustun -->#}
+                    {#                            <div class="card-stats">#}
+                    {#                                <button class="stat-item stat-hotels" onclick="goToHotels(this)"#}
+                    {#                                        title="Hotels & Resorts">#}
+                    {#                                    <i class="fas fa-hotel"></i>#}
+                    {#                                    <span>Hotels & Resorts</span>#}
+                    {#                                </button>#}
+                    {#                                <button class="stat-item stat-restaurants" onclick="goToRestaurants(this)"#}
+                    {#                                        title="Restaurants">#}
+                    {#                                    <i class="fas fa-utensils"></i>#}
+                    {#                                    <span>200+ Restaurants</span>#}
+                    {#                                </button>#}
+                    {#                                <button class="stat-item stat-flights" onclick="goToFlights(this)"#}
+                    {#                                        title="Direct Flights">#}
+                    {#                                    <i class="fas fa-plane"></i>#}
+                    {#                                    <span>Direct Flights</span>#}
+                    {#                                </button>#}
+                    {#                                <button class="stat-item stat-activities" onclick="goToActivities(this)"#}
+                    {#                                        title="Activities">#}
+                    {#                                    <i class="fas fa-hiking"></i>#}
+                    {#                                    <span>Activities</span>#}
+                    {#                                </button>#}
+                    {#                                <button class="stat-item stat-weather" onclick="openWeatherModal(this)"#}
+                    {#                                        data-city="Dubai"#}
+                    {#                                        data-lat="25.2048"#}
+                    {#                                        data-lon="55.2708"#}
+                    {#                                        title="Ob-havo">#}
+                    {#                                    <i class="fas fa-sun weather-icon"></i>#}
+                    {#                                    <span class="weather-temp">yuklanyapti...</span>#}
+                    {#                                </button>#}
+                    {#                                <div class="stat-item">#}
+                    {#                                    <i class="fas fa-clock"></i>#}
+                    {#                                    <span>5-7 Days</span>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {##}
+                    {#                            <div class="card-footer">#}
+                    {#                                <div class="price-box">#}
+                    {#                                    <div class="price-current">#}
+                    {#                                        <span class="from">From</span>#}
+                    {#                                        <span class="amount">$5,499</span>#}
+                    {#                                        <span class="per">/ family</span>#}
+                    {#                                    </div>#}
+                    {#                                </div>#}
+                    {#                                <div class="card-actions">#}
+                    {#                                    <button class="btn-outline" onclick="viewPackageDetails(2)">See Details#}
+                    {#                                        <i class="fas fa-arrow-right"></i>#}
+                    {#                                    </button>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+                    {##}
+                    {#                    <!-- ===== Package 3 - Swiss Alps ===== -->#}
+                    {#                    <div class="package-card"#}
+                    {#                         data-city="Zurich"#}
+                    {#                         data-country="Switzerland"#}
+                    {#                         data-lat="47.3769"#}
+                    {#                         data-lon="8.5417"#}
+                    {#                         data-hotels-url="/hotels/?city=zurich"#}
+                    {#                         data-flights-url="/flights/?to=zurich">#}
+                    {##}
+                    {#                        <div class="package-header">#}
+                    {#                            <span class="package-type">ADVENTURE</span>#}
+                    {#                        </div>#}
+                    {##}
+                    {#                        <div class="card-image-wrapper">#}
+                    {#                            <div class="image-slider">#}
+                    {#                                <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600"#}
+                    {#                                     alt="Swiss">#}
+                    {#                                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600"#}
+                    {#                                     alt="Swiss 2">#}
+                    {#                            </div>#}
+                    {#                            <button class="slider-btn prev" onclick="slideImage(this, -1)">#}
+                    {#                                <i class="fas fa-chevron-left"></i>#}
+                    {#                            </button>#}
+                    {#                            <button class="slider-btn next" onclick="slideImage(this, 1)">#}
+                    {#                                <i class="fas fa-chevron-right"></i>#}
+                    {#                            </button>#}
+                    {#                            <div class="image-dots">#}
+                    {#                                <span class="dot active"></span>#}
+                    {#                                <span class="dot"></span>#}
+                    {#                            </div>#}
+                    {#                            <button class="wishlist-btn" onclick="toggleWishlist(this)">#}
+                    {#                                <i class="far fa-heart"></i>#}
+                    {#                            </button>#}
+                    {#                        </div>#}
+                    {##}
+                    {#                        <div class="card-content">#}
+                    {#                            <div class="card-header">#}
+                    {#                                <div class="destination-info">#}
+                    {#                                    <h3>Swiss Alps Expedition</h3>#}
+                    {#                                    <p class="location">#}
+                    {#                                        <i class="fas fa-map-marker-alt"></i>#}
+                    {#                                        Switzerland, Europe#}
+                    {#                                    </p>#}
+                    {#                                </div>#}
+                    {#                                <div class="rating-box">#}
+                    {#                                    <div class="rating-stars">#}
+                    {#                                        <i class="fas fa-star"></i>#}
+                    {#                                        <span>4.7</span>#}
+                    {#                                    </div>#}
+                    {#                                    <p class="reviews">(1,890 reviews)</p>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {##}
+                    {#                            <p class="card-description">#}
+                    {#                                Snow-capped peaks, pristine ski slopes and charming mountain villages await adventurers#}
+                    {#                            </p>#}
+                    {##}
+                    {#                            <div class="card-tags">#}
+                    {#                                <span class="tag"><i class="fas fa-mountain"></i> Adventure</span>#}
+                    {#                                <span class="tag"><i class="fas fa-skiing"></i> Ski</span>#}
+                    {#                                <span class="tag"><i class="fas fa-camera"></i> Scenic</span>#}
+                    {#                            </div>#}
+                    {##}
+                    {#                            <!-- 6 ta stat: 2 qator × 3 ustun -->#}
+                    {#                            <div class="card-stats">#}
+                    {#                                <button class="stat-item stat-hotels" onclick="goToHotels(this)"#}
+                    {#                                        title="Hotels & Lodges">#}
+                    {#                                    <i class="fas fa-hotel"></i>#}
+                    {#                                    <span>Hotels & Resorts</span>#}
+                    {#                                </button>#}
+                    {#                                <button class="stat-item stat-restaurants" onclick="goToRestaurants(this)"#}
+                    {#                                        title="Restaurants">#}
+                    {#                                    <i class="fas fa-utensils"></i>#}
+                    {#                                    <span>150+ Restaurants</span>#}
+                    {#                                </button>#}
+                    {#                                <button class="stat-item stat-flights" onclick="goToFlights(this)"#}
+                    {#                                        title="Direct Flights">#}
+                    {#                                    <i class="fas fa-plane"></i>#}
+                    {#                                    <span>Direct Flights</span>#}
+                    {#                                </button>#}
+                    {#                                <button class="stat-item stat-activities" onclick="goToActivities(this)"#}
+                    {#                                        title="Activities">#}
+                    {#                                    <i class="fas fa-hiking"></i>#}
+                    {#                                    <span>Activities</span>#}
+                    {#                                </button>#}
+                    {#                                <button class="stat-item stat-weather" onclick="openWeatherModal(this)"#}
+                    {#                                        data-city="Zurich"#}
+                    {#                                        data-lat="47.3769"#}
+                    {#                                        data-lon="8.5417"#}
+                    {#                                        title="Ob-havo">#}
+                    {#                                    <i class="fas fa-snowflake weather-icon"></i>#}
+                    {#                                    <span class="weather-temp">yuklanyapti...</span>#}
+                    {#                                </button>#}
+                    {#                                <div class="stat-item">#}
+                    {#                                    <i class="fas fa-clock"></i>#}
+                    {#                                    <span>6-8 Days</span>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {##}
+                    {#                            <div class="card-footer">#}
+                    {#                                <div class="price-box">#}
+                    {#                                    <div class="price-current">#}
+                    {#                                        <span class="from">From</span>#}
+                    {#                                        <span class="amount">$2,799</span>#}
+                    {#                                        <span class="per">/ person</span>#}
+                    {#                                    </div>#}
+                    {#                                </div>#}
+                    {#                                <div class="card-actions">#}
+                    {#                                    <button class="btn-outline" onclick="viewPackageDetails(3)">See Details#}
+                    {#                                        <i class="fas fa-arrow-right"></i>#}
+                    {#                                    </button>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+
+                </div><!-- /.packages-grid -->
+            </div>
+            <div class="load-more-container">
+                <button class="btn-load-more" onclick="loadMoreDestinations()">
+                    <i class="fas fa-spinner"></i>
+                    Load More Destinations
+                </button>
+                <p class="showing-text">Showing 12 of 156 destinations</p>
             </div>
 
-            <div class="packages-grid">
+        </section><!-- /.package-deals -->
+    {% endif %}
 
-                <!-- ===== Package 1 - Maldives ===== -->
-                <div class="package-card"
-                     data-city="Male"
-                     data-country="Maldives"
-                     data-lat="4.1755"
-                     data-lon="73.5093"
-                     data-hotels-url="/hotels/?city=maldives"
-                     data-flights-url="/flights/?to=maldives">
-
-                    <div class="package-header">
-                        <span class="package-type">HONEYMOON SPECIAL</span>
-                    </div>
-
-                    <div class="card-image-wrapper">
-                        <div class="image-slider">
-                            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600" alt="Maldives">
-                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600"
-                                 alt="Maldives 2">
-                            <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600"
-                                 alt="Maldives 3">
-                        </div>
-                        <button class="slider-btn prev" onclick="slideImage(this, -1)">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="slider-btn next" onclick="slideImage(this, 1)">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <div class="image-dots">
-                            <span class="dot active"></span>
-                            <span class="dot"></span>
-                            <span class="dot"></span>
-                        </div>
-                        <button class="wishlist-btn" onclick="toggleWishlist(this)">
-                            <i class="far fa-heart"></i>
-                        </button>
-                    </div>
-
-                    <div class="card-content">
-                        <div class="card-header">
-                            <div class="destination-info">
-                                <h3>Romantic Maldives</h3>
-                                <p class="location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    Maldives, Indian Ocean
-                                </p>
-                            </div>
-                            <div class="rating-box">
-                                <div class="rating-stars">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.9</span>
-                                </div>
-                                <p class="reviews">(3,241 reviews)</p>
-                            </div>
-                        </div>
-
-                        <p class="card-description">
-                            Overwater bungalows, crystal-clear lagoons and world-class diving — perfect for couples
-                        </p>
-
-                        <div class="card-tags">
-                            <span class="tag"><i class="fas fa-heart"></i> Romantic</span>
-                            <span class="tag"><i class="fas fa-water"></i> Beach</span>
-                            <span class="tag"><i class="fas fa-star"></i> Luxury</span>
-                        </div>
-
-                        <!-- 6 ta stat: 2 qator × 3 ustun -->
-                        <div class="card-stats">
-                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"
-                                    title="Hotels & Resorts">
-                                <i class="fas fa-hotel"></i>
-                                <span>Hotels & Resorts</span>
-                            </button>
-                            <button class="stat-item stat-restaurants" onclick="goToRestaurants(this)"
-                                    title="Restaurants">
-                                <i class="fas fa-utensils"></i>
-                                <span>500+ Restaurants</span>
-                            </button>
-                            <button class="stat-item stat-flights" onclick="goToFlights(this)"
-                                    title="Direct Flights">
-                                <i class="fas fa-plane"></i>
-                                <span>Direct Flights</span>
-                            </button>
-                            <button class="stat-item stat-activities" onclick="goToActivities(this)"
-                                    title="Activities">
-                                <i class="fas fa-hiking"></i>
-                                <span>Activities</span>
-                            </button>
-                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
-                                    data-city="Male"
-                                    data-lat="4.1755"
-                                    data-lon="73.5093"
-                                    title="Ob-havo">
-                                <i class="fas fa-sun weather-icon"></i>
-                                <span class="weather-temp">yuklanyapti...</span>
-                            </button>
-                            <div class="stat-item">
-                                <i class="fas fa-clock"></i>
-                                <span>7-10 Days</span>
-                            </div>
-                        </div>
-
-                        <div class="card-footer">
-                            <div class="price-box">
-                                <div class="price-current">
-                                    <span class="from">From</span>
-                                    <span class="amount">$3,999</span>
-                                    <span class="per">/ couple</span>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn-outline" onclick="viewPackageDetails(1)">See Details
-                                    <i class="fas fa-arrow-right"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ===== Package 2 - Dubai ===== -->
-                <div class="package-card"
-                     data-city="Dubai"
-                     data-country="Dubai, UAE"
-                     data-lat="25.2048"
-                     data-lon="55.2708"
-                     data-hotels-url="/hotels/?city=dubai"
-                     data-flights-url="/flights/?to=dubai">
-
-                    <div class="package-header">
-                        <span class="package-type">FAMILY FUN</span>
-                    </div>
-
-                    <div class="card-image-wrapper">
-                        <div class="image-slider">
-                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600" alt="Dubai">
-                            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600" alt="Dubai 2">
-                        </div>
-                        <button class="slider-btn prev" onclick="slideImage(this, -1)">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="slider-btn next" onclick="slideImage(this, 1)">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <div class="image-dots">
-                            <span class="dot active"></span>
-                            <span class="dot"></span>
-                        </div>
-                        <div class="card-badges">
-                            <span class="badge popular">Popular</span>
-                            <span class="badge deal">-20%</span>
-                        </div>
-                        <button class="wishlist-btn" onclick="toggleWishlist(this)">
-                            <i class="far fa-heart"></i>
-                        </button>
-                    </div>
-
-                    <div class="card-content">
-                        <div class="card-header">
-                            <div class="destination-info">
-                                <h3>Dubai Family Fun</h3>
-                                <p class="location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    Dubai, UAE
-                                </p>
-                            </div>
-                            <div class="rating-box">
-                                <div class="rating-stars">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.8</span>
-                                </div>
-                                <p class="reviews">(5,120 reviews)</p>
-                            </div>
-                        </div>
-
-                        <p class="card-description">
-                            World's tallest buildings, theme parks and desert safaris — unforgettable family memories
-                        </p>
-
-                        <div class="card-tags">
-                            <span class="tag"><i class="fas fa-users"></i> Family</span>
-                            <span class="tag"><i class="fas fa-city"></i> Modern</span>
-                            <span class="tag"><i class="fas fa-ticket-alt"></i> Activities</span>
-                        </div>
-
-                        <!-- 6 ta stat: 2 qator × 3 ustun -->
-                        <div class="card-stats">
-                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"
-                                    title="Hotels & Resorts">
-                                <i class="fas fa-hotel"></i>
-                                <span>Hotels & Resorts</span>
-                            </button>
-                            <button class="stat-item stat-restaurants" onclick="goToRestaurants(this)"
-                                    title="Restaurants">
-                                <i class="fas fa-utensils"></i>
-                                <span>200+ Restaurants</span>
-                            </button>
-                            <button class="stat-item stat-flights" onclick="goToFlights(this)"
-                                    title="Direct Flights">
-                                <i class="fas fa-plane"></i>
-                                <span>Direct Flights</span>
-                            </button>
-                            <button class="stat-item stat-activities" onclick="goToActivities(this)"
-                                    title="Activities">
-                                <i class="fas fa-hiking"></i>
-                                <span>Activities</span>
-                            </button>
-                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
-                                    data-city="Dubai"
-                                    data-lat="25.2048"
-                                    data-lon="55.2708"
-                                    title="Ob-havo">
-                                <i class="fas fa-sun weather-icon"></i>
-                                <span class="weather-temp">yuklanyapti...</span>
-                            </button>
-                            <div class="stat-item">
-                                <i class="fas fa-clock"></i>
-                                <span>5-7 Days</span>
-                            </div>
-                        </div>
-
-                        <div class="card-footer">
-                            <div class="price-box">
-                                <div class="price-current">
-                                    <span class="from">From</span>
-                                    <span class="amount">$5,499</span>
-                                    <span class="per">/ family</span>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn-outline" onclick="viewPackageDetails(2)">See Details
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ===== Package 3 - Swiss Alps ===== -->
-                <div class="package-card"
-                     data-city="Zurich"
-                     data-country="Switzerland"
-                     data-lat="47.3769"
-                     data-lon="8.5417"
-                     data-hotels-url="/hotels/?city=zurich"
-                     data-flights-url="/flights/?to=zurich">
-
-                    <div class="package-header">
-                        <span class="package-type">ADVENTURE</span>
-                    </div>
-
-                    <div class="card-image-wrapper">
-                        <div class="image-slider">
-                            <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600" alt="Swiss">
-                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600" alt="Swiss 2">
-                        </div>
-                        <button class="slider-btn prev" onclick="slideImage(this, -1)">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="slider-btn next" onclick="slideImage(this, 1)">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <div class="image-dots">
-                            <span class="dot active"></span>
-                            <span class="dot"></span>
-                        </div>
-                        <button class="wishlist-btn" onclick="toggleWishlist(this)">
-                            <i class="far fa-heart"></i>
-                        </button>
-                    </div>
-
-                    <div class="card-content">
-                        <div class="card-header">
-                            <div class="destination-info">
-                                <h3>Swiss Alps Expedition</h3>
-                                <p class="location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    Switzerland, Europe
-                                </p>
-                            </div>
-                            <div class="rating-box">
-                                <div class="rating-stars">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <p class="reviews">(1,890 reviews)</p>
-                            </div>
-                        </div>
-
-                        <p class="card-description">
-                            Snow-capped peaks, pristine ski slopes and charming mountain villages await adventurers
-                        </p>
-
-                        <div class="card-tags">
-                            <span class="tag"><i class="fas fa-mountain"></i> Adventure</span>
-                            <span class="tag"><i class="fas fa-skiing"></i> Ski</span>
-                            <span class="tag"><i class="fas fa-camera"></i> Scenic</span>
-                        </div>
-
-                        <!-- 6 ta stat: 2 qator × 3 ustun -->
-                        <div class="card-stats">
-                            <button class="stat-item stat-hotels" onclick="goToHotels(this)"
-                                    title="Hotels & Lodges">
-                                <i class="fas fa-hotel"></i>
-                                <span>Hotels & Resorts</span>
-                            </button>
-                            <button class="stat-item stat-restaurants" onclick="goToRestaurants(this)"
-                                    title="Restaurants">
-                                <i class="fas fa-utensils"></i>
-                                <span>150+ Restaurants</span>
-                            </button>
-                            <button class="stat-item stat-flights" onclick="goToFlights(this)"
-                                    title="Direct Flights">
-                                <i class="fas fa-plane"></i>
-                                <span>Direct Flights</span>
-                            </button>
-                            <button class="stat-item stat-activities" onclick="goToActivities(this)"
-                                    title="Activities">
-                                <i class="fas fa-hiking"></i>
-                                <span>Activities</span>
-                            </button>
-                            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
-                                    data-city="Zurich"
-                                    data-lat="47.3769"
-                                    data-lon="8.5417"
-                                    title="Ob-havo">
-                                <i class="fas fa-snowflake weather-icon"></i>
-                                <span class="weather-temp">yuklanyapti...</span>
-                            </button>
-                            <div class="stat-item">
-                                <i class="fas fa-clock"></i>
-                                <span>6-8 Days</span>
-                            </div>
-                        </div>
-
-                        <div class="card-footer">
-                            <div class="price-box">
-                                <div class="price-current">
-                                    <span class="from">From</span>
-                                    <span class="amount">$2,799</span>
-                                    <span class="per">/ person</span>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn-outline" onclick="viewPackageDetails(3)">See Details
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div><!-- /.packages-grid -->
-        </div>
-        <div class="load-more-container">
-            <button class="btn-load-more" onclick="loadMoreDestinations()">
-                <i class="fas fa-spinner"></i>
-                Load More Destinations
-            </button>
-            <p class="showing-text">Showing 12 of 156 destinations</p>
-        </div>
-
-    </section><!-- /.package-deals -->
 
     <!-- TRENDING DESTINATIONS -->
     <section class="trending-deals">
@@ -794,7 +810,6 @@
         </div>
 
     </section>
-
 
 
     <!-- LIVE ACTIVITY FEED -->
@@ -1047,7 +1062,7 @@
 {% endblock %}
 
 {% block custom_js %}
-    <script src="{% static 'apps/js/main_base.js' %}"></script>
     <script src="{% static 'apps/js/home.js' %}"></script>
+    <script src="{% static 'apps/js/slider.js' %}"></script>
 {% endblock %}
 

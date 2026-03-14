@@ -3,40 +3,31 @@ from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
 from django.forms import (BooleanField, CharField, ChoiceField, DateField,
                           EmailField, Form, ModelForm)
+from django.forms.models import ModelChoiceField
 from django.forms.widgets import PasswordInput
 
-from apps.models import User
+from apps.models import User, Country
 
 
 class RegisterModelForm(ModelForm):
-    COUNTRY_CHOICES = [
-        ('UZ', 'Uzbekistan'),
-        ('US', 'United States'),
-        ('GB', 'United Kingdom'),
-        ('RU', 'Russia'),
-        ('TR', 'Turkey'),
-        ('AE', 'United Arab Emirates'),
-        ('KR', 'South Korea'),
-        ('JP', 'Japan'),
-        ('CN', 'China'),
-        ('IN', 'India'),
-    ]
-
     first_name = CharField(max_length=255, required=True)
     last_name = CharField(max_length=255, required=True)
     username = CharField(max_length=255, required=True)
     email = EmailField(required=True)
-    phone_number = CharField(max_length=20, required=True)
+    phone_number = CharField(max_length=20, required=False)
     date_of_birth = DateField(required=False)
     password = CharField(max_length=255, required=True)
     confirm_password = CharField(max_length=255, required=True)
-    country = ChoiceField(choices=COUNTRY_CHOICES, required=True)
+    country = CharField(max_length=10, required=True)
     terms = BooleanField(required=True)
     newsletter = BooleanField(required=False)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = [
+            'username', 'email', 'password', 'first_name', 'last_name', 'phone_number',
+            'date_of_birth', 'country'
+        ]
 
     def clean(self):
         cleaned_data = super().clean()
@@ -50,14 +41,24 @@ class RegisterModelForm(ModelForm):
         if User.objects.filter(email=email).exists():
             raise ValidationError("Email already exists")
 
-        if User.objects.filter(phone_number=phone_number).exists():
-            raise ValidationError("This phone number is already registereddoc")
+        if phone_number and User.objects.filter(phone_number=phone_number).exists():
+            raise ValidationError("This phone number is already registered")
 
         if cleaned_data['password'] != cleaned_data.pop('confirm_password'):
             raise ValidationError("Passwords don't match")
 
         cleaned_data['password'] = make_password(cleaned_data['password'])
         return cleaned_data
+
+    def clean_country(self):
+        code = self.cleaned_data.get('country')
+        if not code:
+            raise ValidationError("Iltimos, mamlakatni tanlang.")
+        try:
+            return Country.objects.get(code=code, is_active=True)
+        except Country.DoesNotExist:
+            raise ValidationError("Noto'g'ri mamlakat.")
+
 
 
 class LoginForm(Form):

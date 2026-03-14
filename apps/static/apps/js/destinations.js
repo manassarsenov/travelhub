@@ -270,7 +270,6 @@ function filterByCity(citySlug, cityName) {
             const shown = parseInt(meta?.dataset.shown || 0);
             const hasMore = meta?.dataset.hasMore === 'true';
 
-            // Faqat cardlarni olish — meta div siz
             grid.innerHTML = '';
             doc.querySelectorAll('.destination-card').forEach(card => {
                 grid.appendChild(document.importNode(card, true));
@@ -280,7 +279,6 @@ function filterByCity(citySlug, cityName) {
             document.getElementById('results-subtitle').textContent = 'Showing results for: ' + cityName;
             showingText.textContent = `Showing ${shown} of ${total} destinations`;
 
-            // Load more button
             loadMoreBtn.dataset.offset = shown;
             loadMoreBtn.dataset.total = total;
 
@@ -290,9 +288,36 @@ function filterByCity(citySlug, cityName) {
             } else {
                 loadMoreBtn.style.display = 'none';
             }
+
+            // ← MANA SHU QISMNI TO'LIQ ALMASHTIRING:
+            const allImages = grid.querySelectorAll('img');
+            let loadedCount = 0;
+            const total_imgs = allImages.length;
+
+            if (total_imgs === 0) {
+                equalizeAndInit();
+                return;
+            }
+
+            allImages.forEach(img => {
+                if (img.complete) {
+                    loadedCount++;
+                    if (loadedCount === total_imgs) equalizeAndInit();
+                } else {
+                    img.addEventListener('load', () => {
+                        loadedCount++;
+                        if (loadedCount === total_imgs) equalizeAndInit();
+                    });
+                    img.addEventListener('error', () => {
+                        loadedCount++;
+                        if (loadedCount === total_imgs) equalizeAndInit();
+                    });
+                }
+            });
         });
 
     mainDestinations.scrollIntoView({behavior: 'smooth', block: 'start'});
+
 }
 
 function loadMoreByCity(citySlug) {
@@ -392,3 +417,55 @@ function backToExplore() {
 
     exploreSection.scrollIntoView({behavior: 'smooth', block: 'start'});
 }
+
+// Title va Description expand/collapse
+function initExpandable() {
+    // Title expand
+    document.querySelectorAll('.destination-info h3').forEach(el => {
+        el.title = el.textContent.trim(); // tooltip sifatida ham ko'rsatish
+        el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            el.classList.toggle('expanded');
+        });
+    });
+
+    // Description expand
+    document.querySelectorAll('.card-description').forEach(el => {
+        el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            el.classList.toggle('expanded');
+        });
+    });
+}
+
+// Grid yuklangandan keyin chaqirish
+function equalizeAndInit() {
+    initExpandable();
+
+    // Barcha cardlar bir xil balandlik
+    const grid = document.getElementById('destinations-grid');
+    if (!grid) return;
+
+    // Reset
+    grid.querySelectorAll('.destination-card').forEach(c => c.style.height = 'auto');
+
+    requestAnimationFrame(() => {
+        const cards = Array.from(grid.querySelectorAll('.destination-card'));
+        const rows = {};
+
+        cards.forEach(card => {
+            const top = Math.round(card.getBoundingClientRect().top);
+            if (!rows[top]) rows[top] = [];
+            rows[top].push(card);
+        });
+
+        Object.values(rows).forEach(row => {
+            const maxH = Math.max(...row.map(c => c.offsetHeight));
+            row.forEach(c => c.style.height = maxH + 'px');
+        });
+    });
+}
+
+// DOMContentLoaded va filterByCity dan keyin ham chaqirilsin
+document.addEventListener('DOMContentLoaded', equalizeAndInit);
+window.addEventListener('resize', equalizeAndInit);

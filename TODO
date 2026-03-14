@@ -9,3 +9,24 @@ python3 manage.py dumpdata apps.Category > categories.json
 python3 manage.py loaddata categories
 
 python manage.py seed_countries
+
+defer()
+cli
+
+
+design pattern
+
+SOLID, KISS, DRY
+
+figma.com
+claude
+v0 app
+
+
+
+django + ajax
+
+django htmx = html + ajax
+
+Django static cache tozalang:
+python manage.py collectstatic --clear --noinput

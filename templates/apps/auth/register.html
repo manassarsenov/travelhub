@@ -166,22 +166,70 @@
                     >
                     <span class="error-message" id="emailError"></span>
                 </div>
-
-                <!-- Phone Number (Optional) -->
+                <!-- Hidden select Django uchun -->
+                <input type="hidden" id="country" name="country" value="">                <!-- Country Selector -->
                 <div class="form-group">
-                    <label for="phone">
-                        <i class="fas fa-phone"></i>
-                        Phone Number <span class="optional">(Optional)</span>
-                    </label>
-                    <input
-                            type="tel"
-                            id="phone"
-                            name="phone_number"
-                            placeholder="+998 (__) ___-__-__"
-                            required
-                    >
+                    <label><i class="fas fa-globe"></i> Country</label>
+                    <div class="tg-wrapper" id="tgWrapper">
+                        <input
+                                type="text"
+                                id="countryInput"
+                                class="tg-input"
+                                placeholder="Country"
+                                autocomplete="off"
+                        >
+                        <i class="fas fa-chevron-down tg-chevron" id="selectorChevron"></i>
+
+                        <div class="tg-dropdown" id="tgDropdown">
+                            <div class="tg-country-list" id="countryListItems"></div>
+                        </div>
+                    </div>
+                    <span class="error-message" id="countryError"></span>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone Number <span class="optional">(Optional)</span></label>
+                    <div class="tg-phone-wrapper">
+                        <span class="tg-phone-code" id="phoneDialCode">—</span>
+                        <div class="tg-phone-divider"></div>
+                        <input type="tel" id="phone" name="phone_number"
+                               class="tg-phone-input" placeholder="__ ___ __ __">
+                    </div>
                     <span class="error-message" id="phoneError"></span>
                 </div>
+                {#                <!-- Country -->#}
+                {#                <div class="form-group">#}
+                {#                    <label for="country">#}
+                {#                        <i class="fas fa-globe"></i>#}
+                {#                        Country#}
+                {#                    </label>#}
+                {#                    <select id="country" name="country" required>#}
+                {#                        <option value="">Select your country</option>#}
+                {#                        {% for country in destination.country.all %}#}
+                {#                            <option value="{{ country.code }}">{{ country.name }}</option>#}
+                {#                        {% endfor %}#}
+                {##}
+                {##}
+                {#                    </select>#}
+                {#                    <span class="error-message" id="countryError"></span>#}
+                {#                </div>#}
+                {##}
+                {#                <!-- Phone Number (Optional) -->#}
+                {#                <div class="form-group">#}
+                {#                    <label for="phone">#}
+                {#                        <i class="fas fa-phone"></i>#}
+                {#                        Phone Number <span class="optional">(Optional)</span>#}
+                {#                    </label>#}
+                {#                    <input#}
+                {#                            type="tel"#}
+                {#                            id="phone"#}
+                {#                            name="phone_number"#}
+                {#                            placeholder="+998 (__) ___-__-__"#}
+                {#                            required#}
+                {#                    >#}
+                {#                    <span class="error-message" id="phoneError"></span>#}
+                {#                </div>#}
 
                 <!-- Password -->
                 <div class="form-group">
@@ -247,27 +295,6 @@
                     <span class="error-message" id="dobError"></span>
                 </div>
 
-                <!-- Country -->
-                <div class="form-group">
-                    <label for="country">
-                        <i class="fas fa-globe"></i>
-                        Country
-                    </label>
-                    <select id="country" name="country" required>
-                        <option value="">Select your country</option>
-                        <option value="UZ">Uzbekistan</option>
-                        <option value="US">United States</option>
-                        <option value="GB">United Kingdom</option>
-                        <option value="RU">Russia</option>
-                        <option value="TR">Turkey</option>
-                        <option value="AE">United Arab Emirates</option>
-                        <option value="KR">South Korea</option>
-                        <option value="JP">Japan</option>
-                        <option value="CN">China</option>
-                        <option value="IN">India</option>
-                    </select>
-                    <span class="error-message" id="countryError"></span>
-                </div>
 
                 <!-- Terms & Conditions -->
                 <div class="form-group checkbox-group">
@@ -311,51 +338,50 @@
 
         </div>
     </div>
-{% load static %}
 
-<!-- Right Side - Branding -->
-<div class="register-right"
-     style="background-image: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(124,58,237,0.9)),
-            url('{% static 'apps/img/registr_travelhub.jpeg' %}')">
-    <div class="branding-content">
-        <div class="brand-overlay"></div>
+    <!-- Right Side - Branding -->
+    <div class="register-right"
+         style="background-image: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(124,58,237,0.9)),
+                 url('{% static 'apps/img/registr_travelhub.jpeg' %}')">
+        <div class="branding-content">
+            <div class="brand-overlay"></div>
 
-        <div class="brand-text">
-            <h2>Welcome to TravelHub</h2>
-            <p>Join thousands of travelers discovering amazing destinations worldwide</p>
+            <div class="brand-text">
+                <h2>Welcome to TravelHub</h2>
+                <p>Join thousands of travelers discovering amazing destinations worldwide</p>
 
-            <div class="benefits">
-                <div class="benefit-item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>AI-Powered Recommendations</span>
+                <div class="benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>AI-Powered Recommendations</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Exclusive Travel Deals</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Save Your Favorites</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Travel Community</span>
+                    </div>
                 </div>
-                <div class="benefit-item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Exclusive Travel Deals</span>
-                </div>
-                <div class="benefit-item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Save Your Favorites</span>
-                </div>
-                <div class="benefit-item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Travel Community</span>
-                </div>
-            </div>
 
-            <div class="testimonial">
-                <div class="testimonial-avatar">
-                    <img src="{% static 'apps/img/avatar.jpg' %}" alt="User">
-                </div>
-                <div class="testimonial-content">
-                    <p>"TravelHub helped me discover hidden gems I never knew existed!"</p>
-                    <h4>Sarah Johnson</h4>
-                    <span>Travel Enthusiast</span>
+                <div class="testimonial">
+                    <div class="testimonial-avatar">
+                        <img src="{% static 'apps/img/avatar.jpg' %}" alt="User">
+                    </div>
+                    <div class="testimonial-content">
+                        <p>"TravelHub helped me discover hidden gems I never knew existed!"</p>
+                        <h4>Sarah Johnson</h4>
+                        <span>Travel Enthusiast</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 </div>
 
@@ -369,9 +395,22 @@
         </div>
     </div>
 </div>
-
+<script>
+    const COUNTRIES = [
+        {% for c in countries %}
+            {
+                name: "{{ c.name|escapejs }}",
+                code: "{{ c.code|escapejs }}",
+                dial: "{{ c.phone_code|escapejs }}",
+                flag: "{{ c.flag|default:''|escapejs }}",
+                maxLength: {{ c.phone_length }}
+            }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+</script>
 <!-- Register JS -->
 <script src="{% static 'apps/js/password-toggle.js' %}"></script>
+<script src="{% static 'apps/js/auth/register.js' %}"></script>
 
 </body>
 </html>

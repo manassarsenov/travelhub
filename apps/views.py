@@ -5,6 +5,7 @@ import requests
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.tokens import default_token_generator
+from django.db.models import Prefetch
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -16,7 +17,7 @@ from django.views.generic import CreateView, FormView, ListView, TemplateView
 from apps.forms import (ForgotPasswordForm, LoginForm,
                         PasswordResetConfirmForm, RegisterModelForm)
 from apps.mixins import LoginNotRequiredMixin
-from apps.models import Destination, User
+from apps.models import Destination, User, Country, Tag
 from apps.models.categories import City, Region
 from apps.utils.send_email import send_user_email
 from apps.utils.tokens import account_activation_token
@@ -33,8 +34,13 @@ class HomeTemplateView(TemplateView):
 
         context['flash_destinations'] = Destination.objects.filter(
             is_flash_sale=True,
-            flash_sale_end__gt=now
-        ).select_related('city').prefetch_related('tags', 'images')
+            flash_sale_end__gt=now,
+            discount_percentage__gt=0
+        ).select_related('city').prefetch_related('tags', 'images').only('slug', 'name', 'location',
+                                                                         'short_description',
+                                                                         'hotels_count', 'duration', 'price',
+                                                                         'discount_percentage', 'flash_sale_end',
+                                                                         'is_flash_sale', 'city__name', 'has_flights')
 
         context['trending_destinations'] = Destination.objects.filter(
             is_trending=True
@@ -42,7 +48,12 @@ class HomeTemplateView(TemplateView):
 
         context['featured_destinations'] = Destination.objects.filter(
             is_featured=True
-        ).select_related('city').prefetch_related('tags', 'images')
+        ).select_related('city').prefetch_related('tags', 'images', 'activities').only('slug', 'package_type', 'name',
+                                                                                       'location',
+                                                                                       'short_description', 'duration',
+                                                                                       'price_label','price',
+                                                                                       'restaurants_count',
+                                                                                       'has_flights','city__name')
 
         return context
 
@@ -124,34 +135,34 @@ class ActivateAccountView(View):
 
 class RegisterCreateView(CreateView):
     template_name = 'apps/auth/register.html'
-    # redirect_authenticated_user = True
+    redirect_authenticated_user = True
     success_url = reverse_lazy('login_page')
     form_class = RegisterModelForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['countries'] = Country.objects.filter(is_active=True).order_by('name')
+        return context
 
     def form_valid(self, form):
         user = form.save(False)
 
-        # user.first_name = form.cleaned_data['first_name']
-        # user.last_name = form.cleaned_data['last_name']
-        # user.phone_number = form.cleaned_data['phone_number']
-        # user.date_of_birth = form.cleaned_data['date_of_birth']
-
         user.is_active = False
         user.save()
 
-        send_user_email(user, f"http://{self.request.get_host()}", email_type='registration')
+        send_user_email(user, f"{self.request.scheme}://{self.request.get_host()}", email_type='registration')
         messages.success(self.request, "Ro'yxatdan muvaffaqiyatli o'tdingiz! Pochtangizni tekshiring.")
         return redirect(self.success_url)
 
     def form_invalid(self, form):
-        messages.error(self.request, 'Iltimos, to\'g\'ri email manzilini kiriting.')
+        # messages.error(self.request, 'Iltimos, to\'g\'ri email manzilini kiriting.')
         return super().form_invalid(form)
 
 
 class LoginFormView(LoginNotRequiredMixin, FormView):
     template_name = 'apps/auth/login.html'
     form_class = LoginForm
-    # redirect_authenticated_user = True
+    redirect_authenticated_user = True
     success_url = reverse_lazy('home_page')
 
     def form_valid(self, form):
@@ -186,7 +197,7 @@ class ForgotPasswordView(FormView):
         try:
             user = User.objects.get(email=email)
 
-            host = f"http://{self.request.get_host()}"
+            host = f"{self.request.scheme}://{self.request.get_host()}"
             send_user_email(user, host, email_type='reset_password')
 
             messages.success(

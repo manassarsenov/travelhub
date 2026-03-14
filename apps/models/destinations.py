@@ -33,7 +33,7 @@ class Destination(SlugBaseModel, CreatedBaseModel):
         WINTER = 'winter', '❄️ Winter'
 
     class PackageType(TextChoices):
-        NONE = '', 'No Package'
+        # NONE = '', 'No Package'
         HONEYMOON = 'honeymoon', 'Honeymoon Special'
         FAMILY = 'family', 'Family Fan'
         ADVENTURE = 'adventure', 'Adventure'
@@ -62,6 +62,7 @@ class Destination(SlugBaseModel, CreatedBaseModel):
 
     hotels_count = PositiveIntegerField(default=0, help_text="120 → '120+ Hotels'")
     has_flights = BooleanField(default=True, help_text="Direct FLights ko'rsatilsinmi")
+    restaurants_count = PositiveIntegerField(default=0, help_text="120 → '120+ Restaurants'")
 
     is_flash_sale = BooleanField(default=False)
     flash_sale_end = DateTimeField(null=True, blank=True)
@@ -76,7 +77,7 @@ class Destination(SlugBaseModel, CreatedBaseModel):
     is_featured = BooleanField(default=False)
     featured_badge = CharField(max_length=50, blank=True, help_text="#1 Best seller in London")
 
-    package_type = CharField(max_length=20, choices=PackageType.choices, blank=True, default=PackageType.NONE)
+    package_type = CharField(max_length=20, choices=PackageType.choices, blank=True, default=PackageType.HONEYMOON)
 
     @property
     def discounted_price(self):
