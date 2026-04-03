@@ -9,14 +9,17 @@
     {#                             data-flights-url="/flights/?to=maldives">#}
 
     <div class="package-header">
-        <span class="package-type">{{ destination.package_type }}</span>
+        <span class="package-type">{{ destination.get_package_type_display   }}</span>
     </div>
 
     <div class="card-image-wrapper">
         <div class="image-slider">
             {% for img in destination.images.all %}
+
+
                 <img src="{{ img.image.url }}"
                      alt="{{ destination.name }}">
+
             {% empty %}
                 <img src="{% static 'apps/img/default.avif' %}">
             {% endfor %}

@@ -12,8 +12,10 @@
     <div class="card-image-wrapper">
         <div class="image-slider">
             {% for img in destination.images.all %}
+
                 <img src="{{ img.image.url }}"
                      alt="{{ destination.name }}">
+
             {% empty %}
                 <img src="{% static 'apps/img/default.avif' %}" alt="No image">
 
