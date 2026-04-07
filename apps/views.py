@@ -125,42 +125,6 @@ class DestinationDetailView(TemplateView):
         return context
 
 
-# class HomeTemplateView(TemplateView):
-#     template_name = 'apps/home.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         now = timezone.now()
-#
-#         context['flash_destinations'] = Destination.objects.filter(
-#             is_flash_sale=True,
-#             flash_sale_end__gt=now,
-#             discount_percentage__gt=0
-#         ).select_related('city').prefetch_related('tags', 'images').only('slug', 'name', 'location',
-#                                                                          'short_description',
-#                                                                          'hotels_count', 'duration', 'price',
-#                                                                          'price_label',
-#                                                                          'discount_percentage', 'flash_sale_end',
-#                                                                          'is_flash_sale', 'city__name', 'has_flights')[
-#             :3]
-#
-#         context['trending_destinations'] = Destination.objects.filter(
-#             is_trending=True
-#         ).select_related('city').prefetch_related('tags', 'images').only('slug', 'name', 'location',
-#                                                                          'short_description', 'hotels_count',
-#                                                                          'duration', 'price_label',
-#                                                                          'price', 'has_flights', 'city__name')[:3]
-#
-#         context['featured_destinations'] = Destination.objects.filter(
-#             is_featured=True
-#         ).select_related('city').prefetch_related('tags', 'images', 'activities').only('slug', 'package_type', 'name',
-#                                                                                        'location',
-#                                                                                        'short_description', 'duration',
-#                                                                                        'price_label', 'price',
-#                                                                                        'restaurants_count',
-#                                                                                        'has_flights', 'city__name')[:3]
-#
-#         return context
 class HomeTemplateView(TemplateView):
     template_name = 'apps/home.html'
 
@@ -311,7 +275,7 @@ class LoadMoreDestinationsView(View):
         batch = destinations[offset: offset + 3]
         has_more = (offset + 3) < total
 
-        # Har bir destination uchun alohida HTML render qilamiz
+
         from django.template.loader import render_to_string
         html = "".join([
             render_to_string(template_name, {'destination': d}, request=request)
@@ -319,7 +283,7 @@ class LoadMoreDestinationsView(View):
         ])
 
         response = HttpResponse(html)
-        response['X-Has-More'] = str(has_more).lower()  # 'true' yoki 'false'
+        response['X-Has-More'] = str(has_more).lower()
         response['X-Total'] = str(total)
         response['X-Next-Offset'] = str(offset + 3)
         return response
