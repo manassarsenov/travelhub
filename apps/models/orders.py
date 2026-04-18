@@ -1,11 +1,12 @@
-import uuid
 import datetime
+import uuid
 
-from django.db.models import ForeignKey, CASCADE, PROTECT, SET_NULL
+from django.db.models import ForeignKey, CASCADE, PROTECT
 from django.db.models.enums import TextChoices
 from django.db.models.fields import CharField, DateField, TimeField, PositiveIntegerField, DecimalField, BooleanField, \
     DateTimeField, TextField
 from django.utils.translation import gettext_lazy as _
+
 from apps.models.base import CreatedBaseModel
 
 
@@ -17,11 +18,8 @@ class Booking(CreatedBaseModel):
         CANCELLED = 'cancelled', _('Cancelled')
 
     booking_number = CharField(max_length=50, unique=True, editable=False)
-
     user = ForeignKey('apps.User', CASCADE, related_name='bookings')
     destination = ForeignKey('apps.Destination', PROTECT, related_name='bookings')
-    hotel = ForeignKey('apps.Hotel', SET_NULL, related_name='bookings', null=True, blank=True)
-    flight = ForeignKey('apps.Flight', SET_NULL, null=True, blank=True, related_name='bookings')
 
     start_date = DateField()
     end_date = DateField()
@@ -32,20 +30,39 @@ class Booking(CreatedBaseModel):
     caregivers = PositiveIntegerField(default=0)
     infants = PositiveIntegerField(default=0)
 
-    total_price = DecimalField(max_digits=10, decimal_places=2)
+    total_price = DecimalField(max_digits=10, decimal_places=2, default=0)
     status = CharField(max_length=20, choices=Status.choices, default=Status.PENDING)
-
     is_paid = BooleanField(default=False)
     paid_at = DateTimeField(null=True, blank=True)
 
     cancellation_reason = TextField(null=True, blank=True)
+    cancelled_at = DateTimeField(null=True, blank=True)
     refund_amount = DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
+    def calculate_total_price(self):
+        if self.destination.discount_percentage > 0:
+            base_price = self.destination.discounted_price
+        else:
+            base_price = self.destination.price
+
+        adult_total = base_price * self.adults
+
+        child_total = int(base_price * 0.7) * self.children
+
+        # Caregiver va Infant — bepul
+        return adult_total + child_total
+
     def save(self, *args, **kwargs):
+        # Booking raqami
         if not self.booking_number:
             year = datetime.date.today().year
-            unique_id = str(uuid.uuid4()).split('-')[0].upper()
+            unique_id = uuid.uuid4().hex[:8].upper()
             self.booking_number = f"TH-{year}-{unique_id}"
+
+        # Total price avtomatik hisoblash
+        if self.destination_id:
+            self.total_price = self.calculate_total_price()
+
         super().save(*args, **kwargs)
 
     @property

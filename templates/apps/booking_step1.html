@@ -1,0 +1,140 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}<title>Book Your Trip — Step 1 | TravelHub</title>{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/booking.css' %}">
+{% endblock %}
+
+{% block main_content %}
+    <div class="booking-wrapper">
+        <div class="booking-progress">
+            <div class="progress-inner">
+                <div class="progress-step">
+                    <div class="step-circle active">1</div>
+                    <div class="step-info">
+                        <div class="step-label">Step 1 of 2</div>
+                        <div class="step-title">Your Details</div>
+                    </div>
+                </div>
+                <div class="step-line"></div>
+                <div class="progress-step">
+                    <div class="step-circle inactive">2</div>
+                    <div class="step-info">
+                        <div class="step-label">Step 2 of 2</div>
+                        <div class="step-title inactive">Check & Pay</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="booking-main">
+            <div class="booking-left">
+                <a href="{% url 'destinations_page' %}" class="back-link"
+                   style="display:inline-flex; align-items:center; gap:8px; margin-bottom:20px; color:var(--gray); text-decoration:none;">
+                    <i class="fas fa-chevron-left"></i> Back to Destination
+                </a>
+
+                <div class="booking-section">
+                    <div class="section-heading">
+                        <div class="section-heading-icon"><i class="fas fa-user"></i></div>
+                        <div>
+                            <h2>Your Details</h2>
+                            <p>We'll send confirmation details to your email</p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name <span>*</span></label>
+                            <input type="text" class="form-input" placeholder="e.g. Akbar" id="first-name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name <span>*</span></label>
+                            <input type="text" class="form-input" placeholder="e.g. Toshmatov" id="last-name">
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label class="form-label">Email Address <span>*</span></label>
+                            <input type="email" class="form-input" placeholder="your@email.com" id="email">
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label class="form-label">Phone Number <span>*</span></label>
+                            <div class="phone-wrap">
+                                <div class="phone-code">🇺🇿 +998</div>
+                                <input type="tel" class="phone-input" placeholder="90 123 45 67" id="phone">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-section">
+                    <div class="section-heading">
+                        <div class="section-heading-icon"><i class="fas fa-tag"></i></div>
+                        <div>
+                            <h2>Promo Code</h2>
+                            <p>Have a discount code? Enter it below</p>
+                        </div>
+                    </div>
+                    <div class="promo-input-wrap">
+                        <i class="fas fa-ticket-alt"></i>
+                        <input type="text" class="promo-input" placeholder="Enter promo code..." id="promo-code"
+                               maxlength="20">
+                    </div>
+                </div>
+
+                <div class="booking-section">
+                    <p style="font-size: 12px; color: var(--gray); line-height: 1.7;">
+                        By clicking "Payment details", you agree to the Terms and Conditions of TravelHub.
+                    </p>
+                    <input type="hidden" id="next-step-url" value="{% url 'booking_step2_page' %}">
+
+                    <button class="submit-btn" onclick="proceedToPayment()">
+                        <i class="fas fa-lock"></i> Payment Details <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="booking-right">
+                <div class="order-summary">
+                    <div class="summary-header">
+                        <h3>Your Booking Summary</h3>
+                    </div>
+                    <div class="summary-dest">
+                        <div class="summary-dest-img"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="summary-dest-info">
+                            <h4>Admission to the London Eye</h4>
+                            <div class="dest-date"><i class="fas fa-calendar"></i> Wed, 15 Apr 2026</div>
+                        </div>
+                    </div>
+                    <div class="summary-rows">
+                        <div class="summary-row"><span class="label">1x Adult</span><span class="value">$33.00</span>
+                        </div>
+                        <div class="summary-row"><span class="label">Taxes & charges</span><span class="value"
+                                                                                                 style="color:var(--gray)">Included</span>
+                        </div>
+                    </div>
+                    <div class="summary-total">
+                        <span class="total-label">Total price</span>
+                        <span class="total-price">$33.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-overlay" id="checkingOverlay">
+        <div class="overlay-box">
+            <i class="fas fa-spinner fa-spin" style="font-size: 40px; color: var(--primary); margin-bottom: 20px;"></i>
+            <h3>Checking details...</h3>
+            <p style="color: var(--gray); font-size: 14px;">Just a moment — we're getting your selection ready</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{% static 'apps/js/booking_step1.js' %}"></script>
+{% endblock %}

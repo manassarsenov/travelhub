@@ -1,0 +1,132 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}<title>Check & Pay — Step 2 | TravelHub</title>{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/booking.css' %}">
+{% endblock %}
+
+{% block main_content %}
+<div class="booking-wrapper">
+    <div class="booking-progress">
+        <div class="progress-inner">
+            <div class="progress-step">
+                <div class="step-circle done"><i class="fas fa-check"></i></div>
+                <div class="step-info">
+                    <div class="step-label">Step 1 of 2</div>
+                    <div class="step-title">Your Details</div>
+                </div>
+            </div>
+            <div class="step-line done"></div>
+            <div class="progress-step">
+                <div class="step-circle active">2</div>
+                <div class="step-info">
+                    <div class="step-label">Step 2 of 2</div>
+                    <div class="step-title">Check & Pay</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="booking-main">
+        <div class="booking-left">
+            <a href="{% url 'booking_step1_page' %}" class="back-link" style="display:inline-flex; align-items:center; gap:8px; margin-bottom:20px; color:var(--gray); text-decoration:none;">
+                <i class="fas fa-chevron-left"></i> Back to Your Details
+            </a>
+
+            <div class="booking-section">
+                <div class="section-heading">
+                    <div class="section-heading-icon"><i class="fas fa-credit-card"></i></div>
+                    <div>
+                        <h2>How would you like to pay?</h2>
+                        <p>Choose your preferred payment method</p>
+                    </div>
+                </div>
+
+                <div class="payment-methods">
+                    <div class="payment-method active" onclick="selectPayment(this, 'card')">
+                        <i class="fas fa-credit-card" style="font-size: 24px; color: #1a1f71;"></i>
+                        <div style="font-size: 12px; margin-top: 8px; font-weight: 700;">New Card</div>
+                    </div>
+                    <div class="payment-method" onclick="selectPayment(this, 'paypal')">
+                        <i class="fab fa-paypal" style="font-size: 24px; color: #003087;"></i>
+                        <div style="font-size: 12px; margin-top: 8px; font-weight: 700;">PayPal</div>
+                    </div>
+                </div>
+
+                <div id="card-form">
+                    <div class="form-group">
+                        <label class="form-label">Cardholder's Name <span>*</span></label>
+                        <input type="text" class="form-input" placeholder="As shown on your card" id="card-name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Card Number <span>*</span></label>
+                        <div class="card-input-wrap">
+                            <i class="fas fa-credit-card"></i>
+                            <input type="text" class="form-input" placeholder="1234 5678 9012 3456" id="card-number" maxlength="19">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Expiry Date <span>*</span></label>
+                            <input type="text" class="form-input" placeholder="MM / YY" id="card-expiry" maxlength="7">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">CVC <span>*</span></label>
+                            <div class="card-input-wrap">
+                                <i class="fas fa-lock"></i>
+                                <input type="text" class="form-input" placeholder="•••" id="card-cvc" maxlength="4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="complete-btn" onclick="completeBooking()">
+                    <i class="fas fa-lock"></i> Complete Booking <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="booking-right">
+            <div class="order-summary">
+                <div class="summary-header">
+                    <h3>Order Summary</h3>
+                </div>
+                <div class="summary-dest">
+                    <div class="summary-dest-img"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="summary-dest-info">
+                        <h4>Admission to the London Eye</h4>
+                        <div class="dest-date"><i class="fas fa-calendar"></i> Wed, 15 Apr 2026</div>
+                    </div>
+                </div>
+                <div class="summary-total">
+                    <span class="total-label">Total price</span>
+                    <span class="total-price">$33.00</span>
+                </div>
+                <div style="padding: 16px 24px; font-size: 12px; color: var(--gray); text-align: center;">
+                    <i class="fas fa-check-circle" style="color: var(--success);"></i> Free cancellation available
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="custom-overlay" id="successOverlay">
+    <div class="overlay-box">
+        <i class="fas fa-check-circle" style="font-size: 60px; color: var(--success); margin-bottom: 20px;"></i>
+        <h2>Booking Confirmed! 🎉</h2>
+        <p style="color: var(--gray); font-size: 14px; margin-bottom: 20px;">Confirmation details have been sent to your email.</p>
+        <div style="background: #f1f5f9; padding: 10px; border-radius: 10px; font-weight: 800; color: var(--primary); margin-bottom: 20px;">
+            <i class="fas fa-ticket-alt"></i> <span id="booking-num"></span>
+        </div>
+        <button class="complete-btn" style="margin-top: 0;" onclick="window.location.href='{% url 'dashboard_page' %}'">
+            <i class="fas fa-calendar-check"></i> Go to My Bookings
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{% static 'apps/js/booking_step2.js' %}"></script>
+{% endblock %}

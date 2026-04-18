@@ -1,8 +1,6 @@
 drf recursive serializers
 google intigrativity
 
-
-
 metabase dashboard uchun
 
 python3 manage.py dumpdata apps.Category > categories.json
@@ -34,3 +32,49 @@ python manage.py collectstatic --clear --noinput
 sentry
 
 cron
+
+
+
+telegram kirish
+brew install ngrok
+
+telegram login widjit
+
+
+
+1.LIVE Recent Bookings
+2.What Our Travelers Say commentariya qismini to'grilash
+3.DestinationDetail page description (show less)
+4.DestinationDetail page user rating
+5.DestinationDetail page (see all reviews)
+6.DestinationDetail page (write a review)
+7.DestinationDetail page (Why visit,What's included,Restrictions)
+8.DestinationDetail page (Tickets and prices)
+9.DestinationDetail page (Next button)
+10.DestinationDetail page (Share and save)
+11.Global search (navbardagi)
+12.Destinations page (search qismi)
+13.Destinations page (all destination,popular,beach,mountain,city,adventure)
+14.Destination page (Filters)
+15.Destination page (Filters (clear all))
+16.Destination page (sort by, compare)
+17.Destinations da image ustuniga bo'silganda (detail page) ga o'tishini qilish
+18.I18n toliq backend va frontend uchun toliq yozib chiqish
+19.Mode qismini to'grilash yoki ishlata o'lmasak olib tashlash
+20.Recommendation pageda (start quiz now)
+21.Recommendation pageda (Tell us about your dream trip) AI AGENT ULASH
+22.About page da (Meet Our Team)
+23.About page dagi our team uchun model yozish va frontenda chiqarish
+24.About page da (Our Journey Through Time)
+25.About page da (ur Core Values The principles that guide everything we do)
+26.Contact page da (telegram channel,whatsapp support,email support,telegram bot,instagram,facebook)
+27.Contact page da (Support, team availability) to'gri databasedan keladigan qilish kerak
+28.Contact page da (Send Us a Message) to'g'ri ma'lumotlar to'gri kiritilishi (post) jo'natish to'grilash
+29.Contact page da (Visit our office) uchun barcha model yozib chiqarish (manzil nomi,
+ishlash vaqti,shanba kungi vaqt,dam olish kuni,location)
+30.Contact page da (TravelHub Assistant) to'g'ri ishlaydigan qilamiz
+31.Contact page da (frequently asked questions) to'grilash
+32.Blog page da toliq detail ishlab chiqish kerak
+33.Wishlist page da o'zining ma'lumotlarini chiqarish, (model) yozish,search,
+
+
