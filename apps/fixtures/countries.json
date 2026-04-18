@@ -1,0 +1,3737 @@
+[
+  {
+    "model": "apps.country",
+    "pk": 1,
+    "fields": {
+      "slug": "aruba",
+      "updated_at": "2026-03-04T23:36:28.249Z",
+      "created_at": "2026-03-04T23:36:28.249Z",
+      "name": "Aruba",
+      "code": "AW",
+      "phone_code": "+297",
+      "flag": "🇦🇼",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 2,
+    "fields": {
+      "slug": "afghanistan",
+      "updated_at": "2026-03-04T23:36:28.270Z",
+      "created_at": "2026-03-04T23:36:28.270Z",
+      "name": "Afghanistan",
+      "code": "AF",
+      "phone_code": "+93",
+      "flag": "🇦🇫",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 3,
+    "fields": {
+      "slug": "angola",
+      "updated_at": "2026-03-04T23:36:28.275Z",
+      "created_at": "2026-03-04T23:36:28.275Z",
+      "name": "Angola",
+      "code": "AO",
+      "phone_code": "+244",
+      "flag": "🇦🇴",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 4,
+    "fields": {
+      "slug": "anguilla",
+      "updated_at": "2026-03-04T23:36:28.281Z",
+      "created_at": "2026-03-04T23:36:28.281Z",
+      "name": "Anguilla",
+      "code": "AI",
+      "phone_code": "+1",
+      "flag": "🇦🇮",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 5,
+    "fields": {
+      "slug": "aland-islands",
+      "updated_at": "2026-03-04T23:36:28.285Z",
+      "created_at": "2026-03-04T23:36:28.285Z",
+      "name": "Åland Islands",
+      "code": "AX",
+      "phone_code": "+358",
+      "flag": "🇦🇽",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 6,
+    "fields": {
+      "slug": "albania",
+      "updated_at": "2026-03-04T23:36:28.288Z",
+      "created_at": "2026-03-04T23:36:28.288Z",
+      "name": "Albania",
+      "code": "AL",
+      "phone_code": "+355",
+      "flag": "🇦🇱",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 7,
+    "fields": {
+      "slug": "andorra",
+      "updated_at": "2026-03-04T23:36:28.293Z",
+      "created_at": "2026-03-04T23:36:28.293Z",
+      "name": "Andorra",
+      "code": "AD",
+      "phone_code": "+376",
+      "flag": "🇦🇩",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 8,
+    "fields": {
+      "slug": "united-arab-emirates",
+      "updated_at": "2026-03-04T23:36:28.298Z",
+      "created_at": "2026-03-04T23:36:28.298Z",
+      "name": "United Arab Emirates",
+      "code": "AE",
+      "phone_code": "+971",
+      "flag": "🇦🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 9,
+    "fields": {
+      "slug": "argentina",
+      "updated_at": "2026-03-04T23:36:28.305Z",
+      "created_at": "2026-03-04T23:36:28.305Z",
+      "name": "Argentina",
+      "code": "AR",
+      "phone_code": "+54",
+      "flag": "🇦🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 10,
+    "fields": {
+      "slug": "armenia",
+      "updated_at": "2026-03-04T23:36:28.311Z",
+      "created_at": "2026-03-04T23:36:28.311Z",
+      "name": "Armenia",
+      "code": "AM",
+      "phone_code": "+374",
+      "flag": "🇦🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 11,
+    "fields": {
+      "slug": "american-samoa",
+      "updated_at": "2026-03-04T23:36:28.317Z",
+      "created_at": "2026-03-04T23:36:28.318Z",
+      "name": "American Samoa",
+      "code": "AS",
+      "phone_code": "+1",
+      "flag": "🇦🇸",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 12,
+    "fields": {
+      "slug": "antarctica",
+      "updated_at": "2026-03-04T23:36:28.323Z",
+      "created_at": "2026-03-04T23:36:28.323Z",
+      "name": "Antarctica",
+      "code": "AQ",
+      "phone_code": "",
+      "flag": "🇦🇶",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 13,
+    "fields": {
+      "slug": "french-southern-territories",
+      "updated_at": "2026-03-04T23:36:28.328Z",
+      "created_at": "2026-03-04T23:36:28.328Z",
+      "name": "French Southern Territories",
+      "code": "TF",
+      "phone_code": "",
+      "flag": "🇹🇫",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 14,
+    "fields": {
+      "slug": "antigua-and-barbuda",
+      "updated_at": "2026-03-04T23:36:28.335Z",
+      "created_at": "2026-03-04T23:36:28.335Z",
+      "name": "Antigua and Barbuda",
+      "code": "AG",
+      "phone_code": "+1",
+      "flag": "🇦🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 15,
+    "fields": {
+      "slug": "australia",
+      "updated_at": "2026-03-04T23:36:28.343Z",
+      "created_at": "2026-03-04T23:36:28.343Z",
+      "name": "Australia",
+      "code": "AU",
+      "phone_code": "+61",
+      "flag": "🇦🇺",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 16,
+    "fields": {
+      "slug": "austria",
+      "updated_at": "2026-03-04T23:36:28.353Z",
+      "created_at": "2026-03-04T23:36:28.353Z",
+      "name": "Austria",
+      "code": "AT",
+      "phone_code": "+43",
+      "flag": "🇦🇹",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 17,
+    "fields": {
+      "slug": "azerbaijan",
+      "updated_at": "2026-03-04T23:36:28.363Z",
+      "created_at": "2026-03-04T23:36:28.363Z",
+      "name": "Azerbaijan",
+      "code": "AZ",
+      "phone_code": "+994",
+      "flag": "🇦🇿",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 18,
+    "fields": {
+      "slug": "burundi",
+      "updated_at": "2026-03-04T23:36:28.371Z",
+      "created_at": "2026-03-04T23:36:28.371Z",
+      "name": "Burundi",
+      "code": "BI",
+      "phone_code": "+257",
+      "flag": "🇧🇮",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 19,
+    "fields": {
+      "slug": "belgium",
+      "updated_at": "2026-03-04T23:36:28.380Z",
+      "created_at": "2026-03-04T23:36:28.380Z",
+      "name": "Belgium",
+      "code": "BE",
+      "phone_code": "+32",
+      "flag": "🇧🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 20,
+    "fields": {
+      "slug": "benin",
+      "updated_at": "2026-03-04T23:36:28.391Z",
+      "created_at": "2026-03-04T23:36:28.391Z",
+      "name": "Benin",
+      "code": "BJ",
+      "phone_code": "+229",
+      "flag": "🇧🇯",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 21,
+    "fields": {
+      "slug": "bonaire-sint-eustatius-and-saba",
+      "updated_at": "2026-03-04T23:36:28.400Z",
+      "created_at": "2026-03-04T23:36:28.400Z",
+      "name": "Bonaire, Sint Eustatius and Saba",
+      "code": "BQ",
+      "phone_code": "+599",
+      "flag": "🇧🇶",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 22,
+    "fields": {
+      "slug": "burkina-faso",
+      "updated_at": "2026-03-04T23:36:28.410Z",
+      "created_at": "2026-03-04T23:36:28.410Z",
+      "name": "Burkina Faso",
+      "code": "BF",
+      "phone_code": "+226",
+      "flag": "🇧🇫",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 23,
+    "fields": {
+      "slug": "bangladesh",
+      "updated_at": "2026-03-04T23:36:28.421Z",
+      "created_at": "2026-03-04T23:36:28.421Z",
+      "name": "Bangladesh",
+      "code": "BD",
+      "phone_code": "+880",
+      "flag": "🇧🇩",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 24,
+    "fields": {
+      "slug": "bulgaria",
+      "updated_at": "2026-03-04T23:36:28.433Z",
+      "created_at": "2026-03-04T23:36:28.433Z",
+      "name": "Bulgaria",
+      "code": "BG",
+      "phone_code": "+359",
+      "flag": "🇧🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 25,
+    "fields": {
+      "slug": "bahrain",
+      "updated_at": "2026-03-04T23:36:28.444Z",
+      "created_at": "2026-03-04T23:36:28.444Z",
+      "name": "Bahrain",
+      "code": "BH",
+      "phone_code": "+973",
+      "flag": "🇧🇭",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 26,
+    "fields": {
+      "slug": "bahamas",
+      "updated_at": "2026-03-04T23:36:28.452Z",
+      "created_at": "2026-03-04T23:36:28.452Z",
+      "name": "Bahamas",
+      "code": "BS",
+      "phone_code": "+1",
+      "flag": "🇧🇸",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 27,
+    "fields": {
+      "slug": "bosnia-and-herzegovina",
+      "updated_at": "2026-03-04T23:36:28.461Z",
+      "created_at": "2026-03-04T23:36:28.461Z",
+      "name": "Bosnia and Herzegovina",
+      "code": "BA",
+      "phone_code": "+387",
+      "flag": "🇧🇦",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 28,
+    "fields": {
+      "slug": "saint-barthelemy",
+      "updated_at": "2026-03-04T23:36:28.469Z",
+      "created_at": "2026-03-04T23:36:28.469Z",
+      "name": "Saint Barthélemy",
+      "code": "BL",
+      "phone_code": "+590",
+      "flag": "🇧🇱",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 29,
+    "fields": {
+      "slug": "belarus",
+      "updated_at": "2026-03-04T23:36:28.476Z",
+      "created_at": "2026-03-04T23:36:28.476Z",
+      "name": "Belarus",
+      "code": "BY",
+      "phone_code": "+375",
+      "flag": "🇧🇾",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 30,
+    "fields": {
+      "slug": "belize",
+      "updated_at": "2026-03-04T23:36:28.487Z",
+      "created_at": "2026-03-04T23:36:28.487Z",
+      "name": "Belize",
+      "code": "BZ",
+      "phone_code": "+501",
+      "flag": "🇧🇿",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 31,
+    "fields": {
+      "slug": "bermuda",
+      "updated_at": "2026-03-04T23:36:28.495Z",
+      "created_at": "2026-03-04T23:36:28.495Z",
+      "name": "Bermuda",
+      "code": "BM",
+      "phone_code": "+1",
+      "flag": "🇧🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 32,
+    "fields": {
+      "slug": "bolivia-plurinational-state-of",
+      "updated_at": "2026-03-04T23:36:28.501Z",
+      "created_at": "2026-03-04T23:36:28.501Z",
+      "name": "Bolivia, Plurinational State of",
+      "code": "BO",
+      "phone_code": "+591",
+      "flag": "🇧🇴",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 33,
+    "fields": {
+      "slug": "brazil",
+      "updated_at": "2026-03-04T23:36:28.507Z",
+      "created_at": "2026-03-04T23:36:28.507Z",
+      "name": "Brazil",
+      "code": "BR",
+      "phone_code": "+55",
+      "flag": "🇧🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 34,
+    "fields": {
+      "slug": "barbados",
+      "updated_at": "2026-03-04T23:36:28.512Z",
+      "created_at": "2026-03-04T23:36:28.512Z",
+      "name": "Barbados",
+      "code": "BB",
+      "phone_code": "+1",
+      "flag": "🇧🇧",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 35,
+    "fields": {
+      "slug": "brunei-darussalam",
+      "updated_at": "2026-03-04T23:36:28.519Z",
+      "created_at": "2026-03-04T23:36:28.519Z",
+      "name": "Brunei Darussalam",
+      "code": "BN",
+      "phone_code": "+673",
+      "flag": "🇧🇳",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 36,
+    "fields": {
+      "slug": "bhutan",
+      "updated_at": "2026-03-04T23:36:28.524Z",
+      "created_at": "2026-03-04T23:36:28.524Z",
+      "name": "Bhutan",
+      "code": "BT",
+      "phone_code": "+975",
+      "flag": "🇧🇹",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 37,
+    "fields": {
+      "slug": "bouvet-island",
+      "updated_at": "2026-03-04T23:36:28.528Z",
+      "created_at": "2026-03-04T23:36:28.529Z",
+      "name": "Bouvet Island",
+      "code": "BV",
+      "phone_code": "",
+      "flag": "🇧🇻",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 38,
+    "fields": {
+      "slug": "botswana",
+      "updated_at": "2026-03-04T23:36:28.534Z",
+      "created_at": "2026-03-04T23:36:28.534Z",
+      "name": "Botswana",
+      "code": "BW",
+      "phone_code": "+267",
+      "flag": "🇧🇼",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 39,
+    "fields": {
+      "slug": "central-african-republic",
+      "updated_at": "2026-03-04T23:36:28.539Z",
+      "created_at": "2026-03-04T23:36:28.539Z",
+      "name": "Central African Republic",
+      "code": "CF",
+      "phone_code": "+236",
+      "flag": "🇨🇫",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 40,
+    "fields": {
+      "slug": "canada",
+      "updated_at": "2026-03-04T23:36:28.546Z",
+      "created_at": "2026-03-04T23:36:28.546Z",
+      "name": "Canada",
+      "code": "CA",
+      "phone_code": "+1",
+      "flag": "🇨🇦",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 41,
+    "fields": {
+      "slug": "cocos-keeling-islands",
+      "updated_at": "2026-03-04T23:36:28.551Z",
+      "created_at": "2026-03-04T23:36:28.551Z",
+      "name": "Cocos (Keeling) Islands",
+      "code": "CC",
+      "phone_code": "+61",
+      "flag": "🇨🇨",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 42,
+    "fields": {
+      "slug": "switzerland",
+      "updated_at": "2026-03-04T23:36:28.556Z",
+      "created_at": "2026-03-04T23:36:28.556Z",
+      "name": "Switzerland",
+      "code": "CH",
+      "phone_code": "+41",
+      "flag": "🇨🇭",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 43,
+    "fields": {
+      "slug": "chile",
+      "updated_at": "2026-03-04T23:36:28.561Z",
+      "created_at": "2026-03-04T23:36:28.561Z",
+      "name": "Chile",
+      "code": "CL",
+      "phone_code": "+56",
+      "flag": "🇨🇱",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 44,
+    "fields": {
+      "slug": "china",
+      "updated_at": "2026-03-04T23:36:28.565Z",
+      "created_at": "2026-03-04T23:36:28.565Z",
+      "name": "China",
+      "code": "CN",
+      "phone_code": "+86",
+      "flag": "🇨🇳",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 45,
+    "fields": {
+      "slug": "cote-divoire",
+      "updated_at": "2026-03-04T23:36:28.570Z",
+      "created_at": "2026-03-04T23:36:28.570Z",
+      "name": "Côte d'Ivoire",
+      "code": "CI",
+      "phone_code": "+225",
+      "flag": "🇨🇮",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 46,
+    "fields": {
+      "slug": "cameroon",
+      "updated_at": "2026-03-04T23:36:28.576Z",
+      "created_at": "2026-03-04T23:36:28.576Z",
+      "name": "Cameroon",
+      "code": "CM",
+      "phone_code": "+237",
+      "flag": "🇨🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 47,
+    "fields": {
+      "slug": "congo-the-democratic-republic-of-the",
+      "updated_at": "2026-03-04T23:36:28.582Z",
+      "created_at": "2026-03-04T23:36:28.582Z",
+      "name": "Congo, The Democratic Republic of the",
+      "code": "CD",
+      "phone_code": "+243",
+      "flag": "🇨🇩",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 48,
+    "fields": {
+      "slug": "congo",
+      "updated_at": "2026-03-04T23:36:28.589Z",
+      "created_at": "2026-03-04T23:36:28.589Z",
+      "name": "Congo",
+      "code": "CG",
+      "phone_code": "+242",
+      "flag": "🇨🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 49,
+    "fields": {
+      "slug": "cook-islands",
+      "updated_at": "2026-03-04T23:36:28.595Z",
+      "created_at": "2026-03-04T23:36:28.595Z",
+      "name": "Cook Islands",
+      "code": "CK",
+      "phone_code": "+682",
+      "flag": "🇨🇰",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 50,
+    "fields": {
+      "slug": "colombia",
+      "updated_at": "2026-03-04T23:36:28.603Z",
+      "created_at": "2026-03-04T23:36:28.603Z",
+      "name": "Colombia",
+      "code": "CO",
+      "phone_code": "+57",
+      "flag": "🇨🇴",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 51,
+    "fields": {
+      "slug": "comoros",
+      "updated_at": "2026-03-04T23:36:28.610Z",
+      "created_at": "2026-03-04T23:36:28.610Z",
+      "name": "Comoros",
+      "code": "KM",
+      "phone_code": "+269",
+      "flag": "🇰🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 52,
+    "fields": {
+      "slug": "cabo-verde",
+      "updated_at": "2026-03-04T23:36:28.617Z",
+      "created_at": "2026-03-04T23:36:28.617Z",
+      "name": "Cabo Verde",
+      "code": "CV",
+      "phone_code": "+238",
+      "flag": "🇨🇻",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 53,
+    "fields": {
+      "slug": "costa-rica",
+      "updated_at": "2026-03-04T23:36:28.624Z",
+      "created_at": "2026-03-04T23:36:28.624Z",
+      "name": "Costa Rica",
+      "code": "CR",
+      "phone_code": "+506",
+      "flag": "🇨🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 54,
+    "fields": {
+      "slug": "cuba",
+      "updated_at": "2026-03-04T23:36:28.631Z",
+      "created_at": "2026-03-04T23:36:28.631Z",
+      "name": "Cuba",
+      "code": "CU",
+      "phone_code": "+53",
+      "flag": "🇨🇺",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 55,
+    "fields": {
+      "slug": "curacao",
+      "updated_at": "2026-03-04T23:36:28.638Z",
+      "created_at": "2026-03-04T23:36:28.638Z",
+      "name": "Curaçao",
+      "code": "CW",
+      "phone_code": "+599",
+      "flag": "🇨🇼",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 56,
+    "fields": {
+      "slug": "christmas-island",
+      "updated_at": "2026-03-04T23:36:28.646Z",
+      "created_at": "2026-03-04T23:36:28.646Z",
+      "name": "Christmas Island",
+      "code": "CX",
+      "phone_code": "+61",
+      "flag": "🇨🇽",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 57,
+    "fields": {
+      "slug": "cayman-islands",
+      "updated_at": "2026-03-04T23:36:28.653Z",
+      "created_at": "2026-03-04T23:36:28.653Z",
+      "name": "Cayman Islands",
+      "code": "KY",
+      "phone_code": "+1",
+      "flag": "🇰🇾",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 58,
+    "fields": {
+      "slug": "cyprus",
+      "updated_at": "2026-03-04T23:36:28.662Z",
+      "created_at": "2026-03-04T23:36:28.662Z",
+      "name": "Cyprus",
+      "code": "CY",
+      "phone_code": "+357",
+      "flag": "🇨🇾",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 59,
+    "fields": {
+      "slug": "czechia",
+      "updated_at": "2026-03-04T23:36:28.671Z",
+      "created_at": "2026-03-04T23:36:28.671Z",
+      "name": "Czechia",
+      "code": "CZ",
+      "phone_code": "+420",
+      "flag": "🇨🇿",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 60,
+    "fields": {
+      "slug": "germany",
+      "updated_at": "2026-03-04T23:36:28.680Z",
+      "created_at": "2026-03-04T23:36:28.680Z",
+      "name": "Germany",
+      "code": "DE",
+      "phone_code": "+49",
+      "flag": "🇩🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 61,
+    "fields": {
+      "slug": "djibouti",
+      "updated_at": "2026-03-04T23:36:28.690Z",
+      "created_at": "2026-03-04T23:36:28.690Z",
+      "name": "Djibouti",
+      "code": "DJ",
+      "phone_code": "+253",
+      "flag": "🇩🇯",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 62,
+    "fields": {
+      "slug": "dominica",
+      "updated_at": "2026-03-04T23:36:28.700Z",
+      "created_at": "2026-03-04T23:36:28.700Z",
+      "name": "Dominica",
+      "code": "DM",
+      "phone_code": "+1",
+      "flag": "🇩🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 63,
+    "fields": {
+      "slug": "denmark",
+      "updated_at": "2026-03-04T23:36:28.710Z",
+      "created_at": "2026-03-04T23:36:28.710Z",
+      "name": "Denmark",
+      "code": "DK",
+      "phone_code": "+45",
+      "flag": "🇩🇰",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 64,
+    "fields": {
+      "slug": "dominican-republic",
+      "updated_at": "2026-03-04T23:36:28.718Z",
+      "created_at": "2026-03-04T23:36:28.718Z",
+      "name": "Dominican Republic",
+      "code": "DO",
+      "phone_code": "+1",
+      "flag": "🇩🇴",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 65,
+    "fields": {
+      "slug": "algeria",
+      "updated_at": "2026-03-04T23:36:28.725Z",
+      "created_at": "2026-03-04T23:36:28.725Z",
+      "name": "Algeria",
+      "code": "DZ",
+      "phone_code": "+213",
+      "flag": "🇩🇿",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 66,
+    "fields": {
+      "slug": "ecuador",
+      "updated_at": "2026-03-04T23:36:28.732Z",
+      "created_at": "2026-03-04T23:36:28.732Z",
+      "name": "Ecuador",
+      "code": "EC",
+      "phone_code": "+593",
+      "flag": "🇪🇨",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 67,
+    "fields": {
+      "slug": "egypt",
+      "updated_at": "2026-03-04T23:36:28.738Z",
+      "created_at": "2026-03-04T23:36:28.738Z",
+      "name": "Egypt",
+      "code": "EG",
+      "phone_code": "+20",
+      "flag": "🇪🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 68,
+    "fields": {
+      "slug": "eritrea",
+      "updated_at": "2026-03-04T23:36:28.743Z",
+      "created_at": "2026-03-04T23:36:28.743Z",
+      "name": "Eritrea",
+      "code": "ER",
+      "phone_code": "+291",
+      "flag": "🇪🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 69,
+    "fields": {
+      "slug": "western-sahara",
+      "updated_at": "2026-03-04T23:36:28.748Z",
+      "created_at": "2026-03-04T23:36:28.748Z",
+      "name": "Western Sahara",
+      "code": "EH",
+      "phone_code": "+212",
+      "flag": "🇪🇭",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 70,
+    "fields": {
+      "slug": "spain",
+      "updated_at": "2026-03-04T23:36:28.754Z",
+      "created_at": "2026-03-04T23:36:28.754Z",
+      "name": "Spain",
+      "code": "ES",
+      "phone_code": "+34",
+      "flag": "🇪🇸",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 71,
+    "fields": {
+      "slug": "estonia",
+      "updated_at": "2026-03-04T23:36:28.759Z",
+      "created_at": "2026-03-04T23:36:28.759Z",
+      "name": "Estonia",
+      "code": "EE",
+      "phone_code": "+372",
+      "flag": "🇪🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 72,
+    "fields": {
+      "slug": "ethiopia",
+      "updated_at": "2026-03-04T23:36:28.763Z",
+      "created_at": "2026-03-04T23:36:28.763Z",
+      "name": "Ethiopia",
+      "code": "ET",
+      "phone_code": "+251",
+      "flag": "🇪🇹",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 73,
+    "fields": {
+      "slug": "finland",
+      "updated_at": "2026-03-04T23:36:28.770Z",
+      "created_at": "2026-03-04T23:36:28.770Z",
+      "name": "Finland",
+      "code": "FI",
+      "phone_code": "+358",
+      "flag": "🇫🇮",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 74,
+    "fields": {
+      "slug": "fiji",
+      "updated_at": "2026-03-04T23:36:28.776Z",
+      "created_at": "2026-03-04T23:36:28.776Z",
+      "name": "Fiji",
+      "code": "FJ",
+      "phone_code": "+679",
+      "flag": "🇫🇯",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 75,
+    "fields": {
+      "slug": "falkland-islands-malvinas",
+      "updated_at": "2026-03-04T23:36:28.781Z",
+      "created_at": "2026-03-04T23:36:28.781Z",
+      "name": "Falkland Islands (Malvinas)",
+      "code": "FK",
+      "phone_code": "+500",
+      "flag": "🇫🇰",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 76,
+    "fields": {
+      "slug": "france",
+      "updated_at": "2026-03-04T23:36:28.786Z",
+      "created_at": "2026-03-04T23:36:28.786Z",
+      "name": "France",
+      "code": "FR",
+      "phone_code": "+33",
+      "flag": "🇫🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 77,
+    "fields": {
+      "slug": "faroe-islands",
+      "updated_at": "2026-03-04T23:36:28.790Z",
+      "created_at": "2026-03-04T23:36:28.790Z",
+      "name": "Faroe Islands",
+      "code": "FO",
+      "phone_code": "+298",
+      "flag": "🇫🇴",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 78,
+    "fields": {
+      "slug": "micronesia-federated-states-of",
+      "updated_at": "2026-03-04T23:36:28.795Z",
+      "created_at": "2026-03-04T23:36:28.795Z",
+      "name": "Micronesia, Federated States of",
+      "code": "FM",
+      "phone_code": "+691",
+      "flag": "🇫🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 79,
+    "fields": {
+      "slug": "gabon",
+      "updated_at": "2026-03-04T23:36:28.799Z",
+      "created_at": "2026-03-04T23:36:28.799Z",
+      "name": "Gabon",
+      "code": "GA",
+      "phone_code": "+241",
+      "flag": "🇬🇦",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 80,
+    "fields": {
+      "slug": "united-kingdom",
+      "updated_at": "2026-03-04T23:36:28.803Z",
+      "created_at": "2026-03-04T23:36:28.803Z",
+      "name": "United Kingdom",
+      "code": "GB",
+      "phone_code": "+44",
+      "flag": "🇬🇧",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 81,
+    "fields": {
+      "slug": "georgia",
+      "updated_at": "2026-03-04T23:36:28.807Z",
+      "created_at": "2026-03-04T23:36:28.807Z",
+      "name": "Georgia",
+      "code": "GE",
+      "phone_code": "+995",
+      "flag": "🇬🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 82,
+    "fields": {
+      "slug": "guernsey",
+      "updated_at": "2026-03-04T23:36:28.811Z",
+      "created_at": "2026-03-04T23:36:28.811Z",
+      "name": "Guernsey",
+      "code": "GG",
+      "phone_code": "+44",
+      "flag": "🇬🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 83,
+    "fields": {
+      "slug": "ghana",
+      "updated_at": "2026-03-04T23:36:28.814Z",
+      "created_at": "2026-03-04T23:36:28.814Z",
+      "name": "Ghana",
+      "code": "GH",
+      "phone_code": "+233",
+      "flag": "🇬🇭",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 84,
+    "fields": {
+      "slug": "gibraltar",
+      "updated_at": "2026-03-04T23:36:28.818Z",
+      "created_at": "2026-03-04T23:36:28.818Z",
+      "name": "Gibraltar",
+      "code": "GI",
+      "phone_code": "+350",
+      "flag": "🇬🇮",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 85,
+    "fields": {
+      "slug": "guinea",
+      "updated_at": "2026-03-04T23:36:28.821Z",
+      "created_at": "2026-03-04T23:36:28.821Z",
+      "name": "Guinea",
+      "code": "GN",
+      "phone_code": "+224",
+      "flag": "🇬🇳",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 86,
+    "fields": {
+      "slug": "guadeloupe",
+      "updated_at": "2026-03-04T23:36:28.824Z",
+      "created_at": "2026-03-04T23:36:28.824Z",
+      "name": "Guadeloupe",
+      "code": "GP",
+      "phone_code": "+590",
+      "flag": "🇬🇵",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 87,
+    "fields": {
+      "slug": "gambia",
+      "updated_at": "2026-03-04T23:36:28.828Z",
+      "created_at": "2026-03-04T23:36:28.828Z",
+      "name": "Gambia",
+      "code": "GM",
+      "phone_code": "+220",
+      "flag": "🇬🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 88,
+    "fields": {
+      "slug": "guinea-bissau",
+      "updated_at": "2026-03-04T23:36:28.832Z",
+      "created_at": "2026-03-04T23:36:28.832Z",
+      "name": "Guinea-Bissau",
+      "code": "GW",
+      "phone_code": "+245",
+      "flag": "🇬🇼",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 89,
+    "fields": {
+      "slug": "equatorial-guinea",
+      "updated_at": "2026-03-04T23:36:28.836Z",
+      "created_at": "2026-03-04T23:36:28.836Z",
+      "name": "Equatorial Guinea",
+      "code": "GQ",
+      "phone_code": "+240",
+      "flag": "🇬🇶",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 90,
+    "fields": {
+      "slug": "greece",
+      "updated_at": "2026-03-04T23:36:28.840Z",
+      "created_at": "2026-03-04T23:36:28.840Z",
+      "name": "Greece",
+      "code": "GR",
+      "phone_code": "+30",
+      "flag": "🇬🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 91,
+    "fields": {
+      "slug": "grenada",
+      "updated_at": "2026-03-04T23:36:28.845Z",
+      "created_at": "2026-03-04T23:36:28.845Z",
+      "name": "Grenada",
+      "code": "GD",
+      "phone_code": "+1",
+      "flag": "🇬🇩",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 92,
+    "fields": {
+      "slug": "greenland",
+      "updated_at": "2026-03-04T23:36:28.849Z",
+      "created_at": "2026-03-04T23:36:28.849Z",
+      "name": "Greenland",
+      "code": "GL",
+      "phone_code": "+299",
+      "flag": "🇬🇱",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 93,
+    "fields": {
+      "slug": "guatemala",
+      "updated_at": "2026-03-04T23:36:28.853Z",
+      "created_at": "2026-03-04T23:36:28.853Z",
+      "name": "Guatemala",
+      "code": "GT",
+      "phone_code": "+502",
+      "flag": "🇬🇹",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 94,
+    "fields": {
+      "slug": "french-guiana",
+      "updated_at": "2026-03-04T23:36:28.857Z",
+      "created_at": "2026-03-04T23:36:28.857Z",
+      "name": "French Guiana",
+      "code": "GF",
+      "phone_code": "+594",
+      "flag": "🇬🇫",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 95,
+    "fields": {
+      "slug": "guam",
+      "updated_at": "2026-03-04T23:36:28.862Z",
+      "created_at": "2026-03-04T23:36:28.862Z",
+      "name": "Guam",
+      "code": "GU",
+      "phone_code": "+1",
+      "flag": "🇬🇺",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 96,
+    "fields": {
+      "slug": "guyana",
+      "updated_at": "2026-03-04T23:36:28.865Z",
+      "created_at": "2026-03-04T23:36:28.865Z",
+      "name": "Guyana",
+      "code": "GY",
+      "phone_code": "+592",
+      "flag": "🇬🇾",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 97,
+    "fields": {
+      "slug": "hong-kong",
+      "updated_at": "2026-03-04T23:36:28.869Z",
+      "created_at": "2026-03-04T23:36:28.869Z",
+      "name": "Hong Kong",
+      "code": "HK",
+      "phone_code": "+852",
+      "flag": "🇭🇰",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 98,
+    "fields": {
+      "slug": "heard-island-and-mcdonald-islands",
+      "updated_at": "2026-03-04T23:36:28.872Z",
+      "created_at": "2026-03-04T23:36:28.872Z",
+      "name": "Heard Island and McDonald Islands",
+      "code": "HM",
+      "phone_code": "",
+      "flag": "🇭🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 99,
+    "fields": {
+      "slug": "honduras",
+      "updated_at": "2026-03-04T23:36:28.875Z",
+      "created_at": "2026-03-04T23:36:28.875Z",
+      "name": "Honduras",
+      "code": "HN",
+      "phone_code": "+504",
+      "flag": "🇭🇳",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 100,
+    "fields": {
+      "slug": "croatia",
+      "updated_at": "2026-03-04T23:36:28.879Z",
+      "created_at": "2026-03-04T23:36:28.879Z",
+      "name": "Croatia",
+      "code": "HR",
+      "phone_code": "+385",
+      "flag": "🇭🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 101,
+    "fields": {
+      "slug": "haiti",
+      "updated_at": "2026-03-04T23:36:28.885Z",
+      "created_at": "2026-03-04T23:36:28.885Z",
+      "name": "Haiti",
+      "code": "HT",
+      "phone_code": "+509",
+      "flag": "🇭🇹",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 102,
+    "fields": {
+      "slug": "hungary",
+      "updated_at": "2026-03-04T23:36:28.891Z",
+      "created_at": "2026-03-04T23:36:28.891Z",
+      "name": "Hungary",
+      "code": "HU",
+      "phone_code": "+36",
+      "flag": "🇭🇺",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 103,
+    "fields": {
+      "slug": "indonesia",
+      "updated_at": "2026-03-04T23:36:28.898Z",
+      "created_at": "2026-03-04T23:36:28.898Z",
+      "name": "Indonesia",
+      "code": "ID",
+      "phone_code": "+62",
+      "flag": "🇮🇩",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 104,
+    "fields": {
+      "slug": "isle-of-man",
+      "updated_at": "2026-03-04T23:36:28.905Z",
+      "created_at": "2026-03-04T23:36:28.905Z",
+      "name": "Isle of Man",
+      "code": "IM",
+      "phone_code": "+44",
+      "flag": "🇮🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 105,
+    "fields": {
+      "slug": "india",
+      "updated_at": "2026-03-04T23:36:28.912Z",
+      "created_at": "2026-03-04T23:36:28.912Z",
+      "name": "India",
+      "code": "IN",
+      "phone_code": "+91",
+      "flag": "🇮🇳",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 106,
+    "fields": {
+      "slug": "british-indian-ocean-territory",
+      "updated_at": "2026-03-04T23:36:28.916Z",
+      "created_at": "2026-03-04T23:36:28.916Z",
+      "name": "British Indian Ocean Territory",
+      "code": "IO",
+      "phone_code": "+246",
+      "flag": "🇮🇴",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 107,
+    "fields": {
+      "slug": "ireland",
+      "updated_at": "2026-03-04T23:36:28.922Z",
+      "created_at": "2026-03-04T23:36:28.922Z",
+      "name": "Ireland",
+      "code": "IE",
+      "phone_code": "+353",
+      "flag": "🇮🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 108,
+    "fields": {
+      "slug": "iran-islamic-republic-of",
+      "updated_at": "2026-03-04T23:36:28.927Z",
+      "created_at": "2026-03-04T23:36:28.927Z",
+      "name": "Iran, Islamic Republic of",
+      "code": "IR",
+      "phone_code": "+98",
+      "flag": "🇮🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 109,
+    "fields": {
+      "slug": "iraq",
+      "updated_at": "2026-03-04T23:36:28.932Z",
+      "created_at": "2026-03-04T23:36:28.932Z",
+      "name": "Iraq",
+      "code": "IQ",
+      "phone_code": "+964",
+      "flag": "🇮🇶",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 110,
+    "fields": {
+      "slug": "iceland",
+      "updated_at": "2026-03-04T23:36:28.936Z",
+      "created_at": "2026-03-04T23:36:28.936Z",
+      "name": "Iceland",
+      "code": "IS",
+      "phone_code": "+354",
+      "flag": "🇮🇸",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 111,
+    "fields": {
+      "slug": "israel",
+      "updated_at": "2026-03-04T23:36:28.942Z",
+      "created_at": "2026-03-04T23:36:28.942Z",
+      "name": "Israel",
+      "code": "IL",
+      "phone_code": "+972",
+      "flag": "🇮🇱",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 112,
+    "fields": {
+      "slug": "italy",
+      "updated_at": "2026-03-04T23:36:28.948Z",
+      "created_at": "2026-03-04T23:36:28.948Z",
+      "name": "Italy",
+      "code": "IT",
+      "phone_code": "+39",
+      "flag": "🇮🇹",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 113,
+    "fields": {
+      "slug": "jamaica",
+      "updated_at": "2026-03-04T23:36:28.954Z",
+      "created_at": "2026-03-04T23:36:28.954Z",
+      "name": "Jamaica",
+      "code": "JM",
+      "phone_code": "+1",
+      "flag": "🇯🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 114,
+    "fields": {
+      "slug": "jersey",
+      "updated_at": "2026-03-04T23:36:28.958Z",
+      "created_at": "2026-03-04T23:36:28.958Z",
+      "name": "Jersey",
+      "code": "JE",
+      "phone_code": "+44",
+      "flag": "🇯🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 115,
+    "fields": {
+      "slug": "jordan",
+      "updated_at": "2026-03-04T23:36:28.964Z",
+      "created_at": "2026-03-04T23:36:28.964Z",
+      "name": "Jordan",
+      "code": "JO",
+      "phone_code": "+962",
+      "flag": "🇯🇴",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 116,
+    "fields": {
+      "slug": "japan",
+      "updated_at": "2026-03-04T23:36:28.974Z",
+      "created_at": "2026-03-04T23:36:28.974Z",
+      "name": "Japan",
+      "code": "JP",
+      "phone_code": "+81",
+      "flag": "🇯🇵",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 117,
+    "fields": {
+      "slug": "kazakhstan",
+      "updated_at": "2026-03-04T23:36:28.980Z",
+      "created_at": "2026-03-04T23:36:28.980Z",
+      "name": "Kazakhstan",
+      "code": "KZ",
+      "phone_code": "+7",
+      "flag": "🇰🇿",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 118,
+    "fields": {
+      "slug": "kenya",
+      "updated_at": "2026-03-04T23:36:28.987Z",
+      "created_at": "2026-03-04T23:36:28.987Z",
+      "name": "Kenya",
+      "code": "KE",
+      "phone_code": "+254",
+      "flag": "🇰🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 119,
+    "fields": {
+      "slug": "kyrgyzstan",
+      "updated_at": "2026-03-04T23:36:28.995Z",
+      "created_at": "2026-03-04T23:36:28.995Z",
+      "name": "Kyrgyzstan",
+      "code": "KG",
+      "phone_code": "+996",
+      "flag": "🇰🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 120,
+    "fields": {
+      "slug": "cambodia",
+      "updated_at": "2026-03-04T23:36:29.001Z",
+      "created_at": "2026-03-04T23:36:29.001Z",
+      "name": "Cambodia",
+      "code": "KH",
+      "phone_code": "+855",
+      "flag": "🇰🇭",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 121,
+    "fields": {
+      "slug": "kiribati",
+      "updated_at": "2026-03-04T23:36:29.007Z",
+      "created_at": "2026-03-04T23:36:29.007Z",
+      "name": "Kiribati",
+      "code": "KI",
+      "phone_code": "+686",
+      "flag": "🇰🇮",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 122,
+    "fields": {
+      "slug": "saint-kitts-and-nevis",
+      "updated_at": "2026-03-04T23:36:29.013Z",
+      "created_at": "2026-03-04T23:36:29.013Z",
+      "name": "Saint Kitts and Nevis",
+      "code": "KN",
+      "phone_code": "+1",
+      "flag": "🇰🇳",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 123,
+    "fields": {
+      "slug": "korea-republic-of",
+      "updated_at": "2026-03-04T23:36:29.020Z",
+      "created_at": "2026-03-04T23:36:29.020Z",
+      "name": "Korea, Republic of",
+      "code": "KR",
+      "phone_code": "+82",
+      "flag": "🇰🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 124,
+    "fields": {
+      "slug": "kuwait",
+      "updated_at": "2026-03-04T23:36:29.024Z",
+      "created_at": "2026-03-04T23:36:29.024Z",
+      "name": "Kuwait",
+      "code": "KW",
+      "phone_code": "+965",
+      "flag": "🇰🇼",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 125,
+    "fields": {
+      "slug": "lao-peoples-democratic-republic",
+      "updated_at": "2026-03-04T23:36:29.030Z",
+      "created_at": "2026-03-04T23:36:29.030Z",
+      "name": "Lao People's Democratic Republic",
+      "code": "LA",
+      "phone_code": "+856",
+      "flag": "🇱🇦",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 126,
+    "fields": {
+      "slug": "lebanon",
+      "updated_at": "2026-03-04T23:36:29.034Z",
+      "created_at": "2026-03-04T23:36:29.034Z",
+      "name": "Lebanon",
+      "code": "LB",
+      "phone_code": "+961",
+      "flag": "🇱🇧",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 127,
+    "fields": {
+      "slug": "liberia",
+      "updated_at": "2026-03-04T23:36:29.038Z",
+      "created_at": "2026-03-04T23:36:29.038Z",
+      "name": "Liberia",
+      "code": "LR",
+      "phone_code": "+231",
+      "flag": "🇱🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 128,
+    "fields": {
+      "slug": "libya",
+      "updated_at": "2026-03-04T23:36:29.041Z",
+      "created_at": "2026-03-04T23:36:29.041Z",
+      "name": "Libya",
+      "code": "LY",
+      "phone_code": "+218",
+      "flag": "🇱🇾",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 129,
+    "fields": {
+      "slug": "saint-lucia",
+      "updated_at": "2026-03-04T23:36:29.046Z",
+      "created_at": "2026-03-04T23:36:29.046Z",
+      "name": "Saint Lucia",
+      "code": "LC",
+      "phone_code": "+1",
+      "flag": "🇱🇨",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 130,
+    "fields": {
+      "slug": "liechtenstein",
+      "updated_at": "2026-03-04T23:36:29.050Z",
+      "created_at": "2026-03-04T23:36:29.050Z",
+      "name": "Liechtenstein",
+      "code": "LI",
+      "phone_code": "+423",
+      "flag": "🇱🇮",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 131,
+    "fields": {
+      "slug": "sri-lanka",
+      "updated_at": "2026-03-04T23:36:29.054Z",
+      "created_at": "2026-03-04T23:36:29.054Z",
+      "name": "Sri Lanka",
+      "code": "LK",
+      "phone_code": "+94",
+      "flag": "🇱🇰",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 132,
+    "fields": {
+      "slug": "lesotho",
+      "updated_at": "2026-03-04T23:36:29.058Z",
+      "created_at": "2026-03-04T23:36:29.058Z",
+      "name": "Lesotho",
+      "code": "LS",
+      "phone_code": "+266",
+      "flag": "🇱🇸",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 133,
+    "fields": {
+      "slug": "lithuania",
+      "updated_at": "2026-03-04T23:36:29.062Z",
+      "created_at": "2026-03-04T23:36:29.062Z",
+      "name": "Lithuania",
+      "code": "LT",
+      "phone_code": "+370",
+      "flag": "🇱🇹",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 134,
+    "fields": {
+      "slug": "luxembourg",
+      "updated_at": "2026-03-04T23:36:29.066Z",
+      "created_at": "2026-03-04T23:36:29.066Z",
+      "name": "Luxembourg",
+      "code": "LU",
+      "phone_code": "+352",
+      "flag": "🇱🇺",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 135,
+    "fields": {
+      "slug": "latvia",
+      "updated_at": "2026-03-04T23:36:29.070Z",
+      "created_at": "2026-03-04T23:36:29.070Z",
+      "name": "Latvia",
+      "code": "LV",
+      "phone_code": "+371",
+      "flag": "🇱🇻",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 136,
+    "fields": {
+      "slug": "macao",
+      "updated_at": "2026-03-04T23:36:29.073Z",
+      "created_at": "2026-03-04T23:36:29.073Z",
+      "name": "Macao",
+      "code": "MO",
+      "phone_code": "+853",
+      "flag": "🇲🇴",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 137,
+    "fields": {
+      "slug": "saint-martin-french-part",
+      "updated_at": "2026-03-04T23:36:29.077Z",
+      "created_at": "2026-03-04T23:36:29.077Z",
+      "name": "Saint Martin (French part)",
+      "code": "MF",
+      "phone_code": "+590",
+      "flag": "🇲🇫",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 138,
+    "fields": {
+      "slug": "morocco",
+      "updated_at": "2026-03-04T23:36:29.080Z",
+      "created_at": "2026-03-04T23:36:29.080Z",
+      "name": "Morocco",
+      "code": "MA",
+      "phone_code": "+212",
+      "flag": "🇲🇦",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 139,
+    "fields": {
+      "slug": "monaco",
+      "updated_at": "2026-03-04T23:36:29.084Z",
+      "created_at": "2026-03-04T23:36:29.084Z",
+      "name": "Monaco",
+      "code": "MC",
+      "phone_code": "+377",
+      "flag": "🇲🇨",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 140,
+    "fields": {
+      "slug": "moldova-republic-of",
+      "updated_at": "2026-03-04T23:36:29.088Z",
+      "created_at": "2026-03-04T23:36:29.088Z",
+      "name": "Moldova, Republic of",
+      "code": "MD",
+      "phone_code": "+373",
+      "flag": "🇲🇩",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 141,
+    "fields": {
+      "slug": "madagascar",
+      "updated_at": "2026-03-04T23:36:29.092Z",
+      "created_at": "2026-03-04T23:36:29.092Z",
+      "name": "Madagascar",
+      "code": "MG",
+      "phone_code": "+261",
+      "flag": "🇲🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 142,
+    "fields": {
+      "slug": "maldives",
+      "updated_at": "2026-03-04T23:36:29.096Z",
+      "created_at": "2026-03-04T23:36:29.096Z",
+      "name": "Maldives",
+      "code": "MV",
+      "phone_code": "+960",
+      "flag": "🇲🇻",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 143,
+    "fields": {
+      "slug": "mexico",
+      "updated_at": "2026-03-04T23:36:29.099Z",
+      "created_at": "2026-03-04T23:36:29.099Z",
+      "name": "Mexico",
+      "code": "MX",
+      "phone_code": "+52",
+      "flag": "🇲🇽",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 144,
+    "fields": {
+      "slug": "marshall-islands",
+      "updated_at": "2026-03-04T23:36:29.102Z",
+      "created_at": "2026-03-04T23:36:29.102Z",
+      "name": "Marshall Islands",
+      "code": "MH",
+      "phone_code": "+692",
+      "flag": "🇲🇭",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 145,
+    "fields": {
+      "slug": "north-macedonia",
+      "updated_at": "2026-03-04T23:36:29.106Z",
+      "created_at": "2026-03-04T23:36:29.106Z",
+      "name": "North Macedonia",
+      "code": "MK",
+      "phone_code": "+389",
+      "flag": "🇲🇰",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 146,
+    "fields": {
+      "slug": "mali",
+      "updated_at": "2026-03-04T23:36:29.110Z",
+      "created_at": "2026-03-04T23:36:29.110Z",
+      "name": "Mali",
+      "code": "ML",
+      "phone_code": "+223",
+      "flag": "🇲🇱",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 147,
+    "fields": {
+      "slug": "malta",
+      "updated_at": "2026-03-04T23:36:29.114Z",
+      "created_at": "2026-03-04T23:36:29.114Z",
+      "name": "Malta",
+      "code": "MT",
+      "phone_code": "+356",
+      "flag": "🇲🇹",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 148,
+    "fields": {
+      "slug": "myanmar",
+      "updated_at": "2026-03-04T23:36:29.119Z",
+      "created_at": "2026-03-04T23:36:29.119Z",
+      "name": "Myanmar",
+      "code": "MM",
+      "phone_code": "+95",
+      "flag": "🇲🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 149,
+    "fields": {
+      "slug": "montenegro",
+      "updated_at": "2026-03-04T23:36:29.123Z",
+      "created_at": "2026-03-04T23:36:29.123Z",
+      "name": "Montenegro",
+      "code": "ME",
+      "phone_code": "+382",
+      "flag": "🇲🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 150,
+    "fields": {
+      "slug": "mongolia",
+      "updated_at": "2026-03-04T23:36:29.126Z",
+      "created_at": "2026-03-04T23:36:29.126Z",
+      "name": "Mongolia",
+      "code": "MN",
+      "phone_code": "+976",
+      "flag": "🇲🇳",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 151,
+    "fields": {
+      "slug": "northern-mariana-islands",
+      "updated_at": "2026-03-04T23:36:29.131Z",
+      "created_at": "2026-03-04T23:36:29.131Z",
+      "name": "Northern Mariana Islands",
+      "code": "MP",
+      "phone_code": "+1",
+      "flag": "🇲🇵",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 152,
+    "fields": {
+      "slug": "mozambique",
+      "updated_at": "2026-03-04T23:36:29.134Z",
+      "created_at": "2026-03-04T23:36:29.134Z",
+      "name": "Mozambique",
+      "code": "MZ",
+      "phone_code": "+258",
+      "flag": "🇲🇿",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 153,
+    "fields": {
+      "slug": "mauritania",
+      "updated_at": "2026-03-04T23:36:29.138Z",
+      "created_at": "2026-03-04T23:36:29.138Z",
+      "name": "Mauritania",
+      "code": "MR",
+      "phone_code": "+222",
+      "flag": "🇲🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 154,
+    "fields": {
+      "slug": "montserrat",
+      "updated_at": "2026-03-04T23:36:29.142Z",
+      "created_at": "2026-03-04T23:36:29.142Z",
+      "name": "Montserrat",
+      "code": "MS",
+      "phone_code": "+1",
+      "flag": "🇲🇸",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 155,
+    "fields": {
+      "slug": "martinique",
+      "updated_at": "2026-03-04T23:36:29.145Z",
+      "created_at": "2026-03-04T23:36:29.145Z",
+      "name": "Martinique",
+      "code": "MQ",
+      "phone_code": "+596",
+      "flag": "🇲🇶",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 156,
+    "fields": {
+      "slug": "mauritius",
+      "updated_at": "2026-03-04T23:36:29.149Z",
+      "created_at": "2026-03-04T23:36:29.149Z",
+      "name": "Mauritius",
+      "code": "MU",
+      "phone_code": "+230",
+      "flag": "🇲🇺",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 157,
+    "fields": {
+      "slug": "malawi",
+      "updated_at": "2026-03-04T23:36:29.152Z",
+      "created_at": "2026-03-04T23:36:29.152Z",
+      "name": "Malawi",
+      "code": "MW",
+      "phone_code": "+265",
+      "flag": "🇲🇼",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 158,
+    "fields": {
+      "slug": "malaysia",
+      "updated_at": "2026-03-04T23:36:29.156Z",
+      "created_at": "2026-03-04T23:36:29.156Z",
+      "name": "Malaysia",
+      "code": "MY",
+      "phone_code": "+60",
+      "flag": "🇲🇾",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 159,
+    "fields": {
+      "slug": "mayotte",
+      "updated_at": "2026-03-04T23:36:29.159Z",
+      "created_at": "2026-03-04T23:36:29.159Z",
+      "name": "Mayotte",
+      "code": "YT",
+      "phone_code": "+262",
+      "flag": "🇾🇹",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 160,
+    "fields": {
+      "slug": "namibia",
+      "updated_at": "2026-03-04T23:36:29.163Z",
+      "created_at": "2026-03-04T23:36:29.163Z",
+      "name": "Namibia",
+      "code": "NA",
+      "phone_code": "+264",
+      "flag": "🇳🇦",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 161,
+    "fields": {
+      "slug": "new-caledonia",
+      "updated_at": "2026-03-04T23:36:29.166Z",
+      "created_at": "2026-03-04T23:36:29.166Z",
+      "name": "New Caledonia",
+      "code": "NC",
+      "phone_code": "+687",
+      "flag": "🇳🇨",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 162,
+    "fields": {
+      "slug": "niger",
+      "updated_at": "2026-03-04T23:36:29.170Z",
+      "created_at": "2026-03-04T23:36:29.170Z",
+      "name": "Niger",
+      "code": "NE",
+      "phone_code": "+227",
+      "flag": "🇳🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 163,
+    "fields": {
+      "slug": "norfolk-island",
+      "updated_at": "2026-03-04T23:36:29.174Z",
+      "created_at": "2026-03-04T23:36:29.174Z",
+      "name": "Norfolk Island",
+      "code": "NF",
+      "phone_code": "+672",
+      "flag": "🇳🇫",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 164,
+    "fields": {
+      "slug": "nigeria",
+      "updated_at": "2026-03-04T23:36:29.178Z",
+      "created_at": "2026-03-04T23:36:29.178Z",
+      "name": "Nigeria",
+      "code": "NG",
+      "phone_code": "+234",
+      "flag": "🇳🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 165,
+    "fields": {
+      "slug": "nicaragua",
+      "updated_at": "2026-03-04T23:36:29.183Z",
+      "created_at": "2026-03-04T23:36:29.183Z",
+      "name": "Nicaragua",
+      "code": "NI",
+      "phone_code": "+505",
+      "flag": "🇳🇮",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 166,
+    "fields": {
+      "slug": "niue",
+      "updated_at": "2026-03-04T23:36:29.188Z",
+      "created_at": "2026-03-04T23:36:29.188Z",
+      "name": "Niue",
+      "code": "NU",
+      "phone_code": "+683",
+      "flag": "🇳🇺",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 167,
+    "fields": {
+      "slug": "netherlands",
+      "updated_at": "2026-03-04T23:36:29.195Z",
+      "created_at": "2026-03-04T23:36:29.195Z",
+      "name": "Netherlands",
+      "code": "NL",
+      "phone_code": "+31",
+      "flag": "🇳🇱",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 168,
+    "fields": {
+      "slug": "norway",
+      "updated_at": "2026-03-04T23:36:29.202Z",
+      "created_at": "2026-03-04T23:36:29.202Z",
+      "name": "Norway",
+      "code": "NO",
+      "phone_code": "+47",
+      "flag": "🇳🇴",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 169,
+    "fields": {
+      "slug": "nepal",
+      "updated_at": "2026-03-04T23:36:29.209Z",
+      "created_at": "2026-03-04T23:36:29.209Z",
+      "name": "Nepal",
+      "code": "NP",
+      "phone_code": "+977",
+      "flag": "🇳🇵",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 170,
+    "fields": {
+      "slug": "nauru",
+      "updated_at": "2026-03-04T23:36:29.215Z",
+      "created_at": "2026-03-04T23:36:29.215Z",
+      "name": "Nauru",
+      "code": "NR",
+      "phone_code": "+674",
+      "flag": "🇳🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 171,
+    "fields": {
+      "slug": "new-zealand",
+      "updated_at": "2026-03-04T23:36:29.222Z",
+      "created_at": "2026-03-04T23:36:29.222Z",
+      "name": "New Zealand",
+      "code": "NZ",
+      "phone_code": "+64",
+      "flag": "🇳🇿",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 172,
+    "fields": {
+      "slug": "oman",
+      "updated_at": "2026-03-04T23:36:29.228Z",
+      "created_at": "2026-03-04T23:36:29.228Z",
+      "name": "Oman",
+      "code": "OM",
+      "phone_code": "+968",
+      "flag": "🇴🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 173,
+    "fields": {
+      "slug": "pakistan",
+      "updated_at": "2026-03-04T23:36:29.235Z",
+      "created_at": "2026-03-04T23:36:29.235Z",
+      "name": "Pakistan",
+      "code": "PK",
+      "phone_code": "+92",
+      "flag": "🇵🇰",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 174,
+    "fields": {
+      "slug": "panama",
+      "updated_at": "2026-03-04T23:36:29.240Z",
+      "created_at": "2026-03-04T23:36:29.240Z",
+      "name": "Panama",
+      "code": "PA",
+      "phone_code": "+507",
+      "flag": "🇵🇦",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 175,
+    "fields": {
+      "slug": "pitcairn",
+      "updated_at": "2026-03-04T23:36:29.244Z",
+      "created_at": "2026-03-04T23:36:29.244Z",
+      "name": "Pitcairn",
+      "code": "PN",
+      "phone_code": "",
+      "flag": "🇵🇳",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 176,
+    "fields": {
+      "slug": "peru",
+      "updated_at": "2026-03-04T23:36:29.250Z",
+      "created_at": "2026-03-04T23:36:29.250Z",
+      "name": "Peru",
+      "code": "PE",
+      "phone_code": "+51",
+      "flag": "🇵🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 177,
+    "fields": {
+      "slug": "philippines",
+      "updated_at": "2026-03-04T23:36:29.256Z",
+      "created_at": "2026-03-04T23:36:29.256Z",
+      "name": "Philippines",
+      "code": "PH",
+      "phone_code": "+63",
+      "flag": "🇵🇭",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 178,
+    "fields": {
+      "slug": "palau",
+      "updated_at": "2026-03-04T23:36:29.261Z",
+      "created_at": "2026-03-04T23:36:29.261Z",
+      "name": "Palau",
+      "code": "PW",
+      "phone_code": "+680",
+      "flag": "🇵🇼",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 179,
+    "fields": {
+      "slug": "papua-new-guinea",
+      "updated_at": "2026-03-04T23:36:29.266Z",
+      "created_at": "2026-03-04T23:36:29.266Z",
+      "name": "Papua New Guinea",
+      "code": "PG",
+      "phone_code": "+675",
+      "flag": "🇵🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 180,
+    "fields": {
+      "slug": "poland",
+      "updated_at": "2026-03-04T23:36:29.271Z",
+      "created_at": "2026-03-04T23:36:29.271Z",
+      "name": "Poland",
+      "code": "PL",
+      "phone_code": "+48",
+      "flag": "🇵🇱",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 181,
+    "fields": {
+      "slug": "puerto-rico",
+      "updated_at": "2026-03-04T23:36:29.275Z",
+      "created_at": "2026-03-04T23:36:29.275Z",
+      "name": "Puerto Rico",
+      "code": "PR",
+      "phone_code": "+1",
+      "flag": "🇵🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 182,
+    "fields": {
+      "slug": "korea-democratic-peoples-republic-of",
+      "updated_at": "2026-03-04T23:36:29.280Z",
+      "created_at": "2026-03-04T23:36:29.280Z",
+      "name": "Korea, Democratic People's Republic of",
+      "code": "KP",
+      "phone_code": "+850",
+      "flag": "🇰🇵",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 183,
+    "fields": {
+      "slug": "portugal",
+      "updated_at": "2026-03-04T23:36:29.286Z",
+      "created_at": "2026-03-04T23:36:29.287Z",
+      "name": "Portugal",
+      "code": "PT",
+      "phone_code": "+351",
+      "flag": "🇵🇹",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 184,
+    "fields": {
+      "slug": "paraguay",
+      "updated_at": "2026-03-04T23:36:29.293Z",
+      "created_at": "2026-03-04T23:36:29.293Z",
+      "name": "Paraguay",
+      "code": "PY",
+      "phone_code": "+595",
+      "flag": "🇵🇾",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 185,
+    "fields": {
+      "slug": "palestine-state-of",
+      "updated_at": "2026-03-04T23:36:29.299Z",
+      "created_at": "2026-03-04T23:36:29.299Z",
+      "name": "Palestine, State of",
+      "code": "PS",
+      "phone_code": "+970",
+      "flag": "🇵🇸",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 186,
+    "fields": {
+      "slug": "french-polynesia",
+      "updated_at": "2026-03-04T23:36:29.306Z",
+      "created_at": "2026-03-04T23:36:29.306Z",
+      "name": "French Polynesia",
+      "code": "PF",
+      "phone_code": "+689",
+      "flag": "🇵🇫",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 187,
+    "fields": {
+      "slug": "qatar",
+      "updated_at": "2026-03-04T23:36:29.313Z",
+      "created_at": "2026-03-04T23:36:29.313Z",
+      "name": "Qatar",
+      "code": "QA",
+      "phone_code": "+974",
+      "flag": "🇶🇦",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 188,
+    "fields": {
+      "slug": "reunion",
+      "updated_at": "2026-03-04T23:36:29.319Z",
+      "created_at": "2026-03-04T23:36:29.319Z",
+      "name": "Réunion",
+      "code": "RE",
+      "phone_code": "+262",
+      "flag": "🇷🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 189,
+    "fields": {
+      "slug": "romania",
+      "updated_at": "2026-03-04T23:36:29.325Z",
+      "created_at": "2026-03-04T23:36:29.325Z",
+      "name": "Romania",
+      "code": "RO",
+      "phone_code": "+40",
+      "flag": "🇷🇴",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 190,
+    "fields": {
+      "slug": "russian-federation",
+      "updated_at": "2026-03-04T23:36:29.332Z",
+      "created_at": "2026-03-04T23:36:29.332Z",
+      "name": "Russian Federation",
+      "code": "RU",
+      "phone_code": "+7",
+      "flag": "🇷🇺",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 191,
+    "fields": {
+      "slug": "rwanda",
+      "updated_at": "2026-03-04T23:36:29.339Z",
+      "created_at": "2026-03-04T23:36:29.339Z",
+      "name": "Rwanda",
+      "code": "RW",
+      "phone_code": "+250",
+      "flag": "🇷🇼",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 192,
+    "fields": {
+      "slug": "saudi-arabia",
+      "updated_at": "2026-03-04T23:36:29.346Z",
+      "created_at": "2026-03-04T23:36:29.346Z",
+      "name": "Saudi Arabia",
+      "code": "SA",
+      "phone_code": "+966",
+      "flag": "🇸🇦",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 193,
+    "fields": {
+      "slug": "sudan",
+      "updated_at": "2026-03-04T23:36:29.352Z",
+      "created_at": "2026-03-04T23:36:29.352Z",
+      "name": "Sudan",
+      "code": "SD",
+      "phone_code": "+249",
+      "flag": "🇸🇩",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 194,
+    "fields": {
+      "slug": "senegal",
+      "updated_at": "2026-03-04T23:36:29.357Z",
+      "created_at": "2026-03-04T23:36:29.357Z",
+      "name": "Senegal",
+      "code": "SN",
+      "phone_code": "+221",
+      "flag": "🇸🇳",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 195,
+    "fields": {
+      "slug": "singapore",
+      "updated_at": "2026-03-04T23:36:29.362Z",
+      "created_at": "2026-03-04T23:36:29.362Z",
+      "name": "Singapore",
+      "code": "SG",
+      "phone_code": "+65",
+      "flag": "🇸🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 196,
+    "fields": {
+      "slug": "south-georgia-and-the-south-sandwich-islands",
+      "updated_at": "2026-03-04T23:36:29.366Z",
+      "created_at": "2026-03-04T23:36:29.366Z",
+      "name": "South Georgia and the South Sandwich Islands",
+      "code": "GS",
+      "phone_code": "",
+      "flag": "🇬🇸",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 197,
+    "fields": {
+      "slug": "saint-helena-ascension-and-tristan-da-cunha",
+      "updated_at": "2026-03-04T23:36:29.371Z",
+      "created_at": "2026-03-04T23:36:29.371Z",
+      "name": "Saint Helena, Ascension and Tristan da Cunha",
+      "code": "SH",
+      "phone_code": "+290",
+      "flag": "🇸🇭",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 198,
+    "fields": {
+      "slug": "svalbard-and-jan-mayen",
+      "updated_at": "2026-03-04T23:36:29.375Z",
+      "created_at": "2026-03-04T23:36:29.375Z",
+      "name": "Svalbard and Jan Mayen",
+      "code": "SJ",
+      "phone_code": "+47",
+      "flag": "🇸🇯",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 199,
+    "fields": {
+      "slug": "solomon-islands",
+      "updated_at": "2026-03-04T23:36:29.380Z",
+      "created_at": "2026-03-04T23:36:29.380Z",
+      "name": "Solomon Islands",
+      "code": "SB",
+      "phone_code": "+677",
+      "flag": "🇸🇧",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 200,
+    "fields": {
+      "slug": "sierra-leone",
+      "updated_at": "2026-03-04T23:36:29.384Z",
+      "created_at": "2026-03-04T23:36:29.384Z",
+      "name": "Sierra Leone",
+      "code": "SL",
+      "phone_code": "+232",
+      "flag": "🇸🇱",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 201,
+    "fields": {
+      "slug": "el-salvador",
+      "updated_at": "2026-03-04T23:36:29.388Z",
+      "created_at": "2026-03-04T23:36:29.388Z",
+      "name": "El Salvador",
+      "code": "SV",
+      "phone_code": "+503",
+      "flag": "🇸🇻",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 202,
+    "fields": {
+      "slug": "san-marino",
+      "updated_at": "2026-03-04T23:36:29.392Z",
+      "created_at": "2026-03-04T23:36:29.392Z",
+      "name": "San Marino",
+      "code": "SM",
+      "phone_code": "+378",
+      "flag": "🇸🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 203,
+    "fields": {
+      "slug": "somalia",
+      "updated_at": "2026-03-04T23:36:29.396Z",
+      "created_at": "2026-03-04T23:36:29.396Z",
+      "name": "Somalia",
+      "code": "SO",
+      "phone_code": "+252",
+      "flag": "🇸🇴",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 204,
+    "fields": {
+      "slug": "saint-pierre-and-miquelon",
+      "updated_at": "2026-03-04T23:36:29.399Z",
+      "created_at": "2026-03-04T23:36:29.399Z",
+      "name": "Saint Pierre and Miquelon",
+      "code": "PM",
+      "phone_code": "+508",
+      "flag": "🇵🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 205,
+    "fields": {
+      "slug": "serbia",
+      "updated_at": "2026-03-04T23:36:29.403Z",
+      "created_at": "2026-03-04T23:36:29.403Z",
+      "name": "Serbia",
+      "code": "RS",
+      "phone_code": "+381",
+      "flag": "🇷🇸",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 206,
+    "fields": {
+      "slug": "south-sudan",
+      "updated_at": "2026-03-04T23:36:29.407Z",
+      "created_at": "2026-03-04T23:36:29.407Z",
+      "name": "South Sudan",
+      "code": "SS",
+      "phone_code": "+211",
+      "flag": "🇸🇸",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 207,
+    "fields": {
+      "slug": "sao-tome-and-principe",
+      "updated_at": "2026-03-04T23:36:29.412Z",
+      "created_at": "2026-03-04T23:36:29.412Z",
+      "name": "Sao Tome and Principe",
+      "code": "ST",
+      "phone_code": "+239",
+      "flag": "🇸🇹",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 208,
+    "fields": {
+      "slug": "suriname",
+      "updated_at": "2026-03-04T23:36:29.417Z",
+      "created_at": "2026-03-04T23:36:29.417Z",
+      "name": "Suriname",
+      "code": "SR",
+      "phone_code": "+597",
+      "flag": "🇸🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 209,
+    "fields": {
+      "slug": "slovakia",
+      "updated_at": "2026-03-04T23:36:29.422Z",
+      "created_at": "2026-03-04T23:36:29.422Z",
+      "name": "Slovakia",
+      "code": "SK",
+      "phone_code": "+421",
+      "flag": "🇸🇰",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 210,
+    "fields": {
+      "slug": "slovenia",
+      "updated_at": "2026-03-04T23:36:29.427Z",
+      "created_at": "2026-03-04T23:36:29.427Z",
+      "name": "Slovenia",
+      "code": "SI",
+      "phone_code": "+386",
+      "flag": "🇸🇮",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 211,
+    "fields": {
+      "slug": "sweden",
+      "updated_at": "2026-03-04T23:36:29.432Z",
+      "created_at": "2026-03-04T23:36:29.432Z",
+      "name": "Sweden",
+      "code": "SE",
+      "phone_code": "+46",
+      "flag": "🇸🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 212,
+    "fields": {
+      "slug": "eswatini",
+      "updated_at": "2026-03-04T23:36:29.438Z",
+      "created_at": "2026-03-04T23:36:29.438Z",
+      "name": "Eswatini",
+      "code": "SZ",
+      "phone_code": "+268",
+      "flag": "🇸🇿",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 213,
+    "fields": {
+      "slug": "sint-maarten-dutch-part",
+      "updated_at": "2026-03-04T23:36:29.443Z",
+      "created_at": "2026-03-04T23:36:29.443Z",
+      "name": "Sint Maarten (Dutch part)",
+      "code": "SX",
+      "phone_code": "+1",
+      "flag": "🇸🇽",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 214,
+    "fields": {
+      "slug": "seychelles",
+      "updated_at": "2026-03-04T23:36:29.447Z",
+      "created_at": "2026-03-04T23:36:29.447Z",
+      "name": "Seychelles",
+      "code": "SC",
+      "phone_code": "+248",
+      "flag": "🇸🇨",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 215,
+    "fields": {
+      "slug": "syrian-arab-republic",
+      "updated_at": "2026-03-04T23:36:29.452Z",
+      "created_at": "2026-03-04T23:36:29.452Z",
+      "name": "Syrian Arab Republic",
+      "code": "SY",
+      "phone_code": "+963",
+      "flag": "🇸🇾",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 216,
+    "fields": {
+      "slug": "turks-and-caicos-islands",
+      "updated_at": "2026-03-04T23:36:29.456Z",
+      "created_at": "2026-03-04T23:36:29.456Z",
+      "name": "Turks and Caicos Islands",
+      "code": "TC",
+      "phone_code": "+1",
+      "flag": "🇹🇨",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 217,
+    "fields": {
+      "slug": "chad",
+      "updated_at": "2026-03-04T23:36:29.460Z",
+      "created_at": "2026-03-04T23:36:29.460Z",
+      "name": "Chad",
+      "code": "TD",
+      "phone_code": "+235",
+      "flag": "🇹🇩",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 218,
+    "fields": {
+      "slug": "togo",
+      "updated_at": "2026-03-04T23:36:29.464Z",
+      "created_at": "2026-03-04T23:36:29.464Z",
+      "name": "Togo",
+      "code": "TG",
+      "phone_code": "+228",
+      "flag": "🇹🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 219,
+    "fields": {
+      "slug": "thailand",
+      "updated_at": "2026-03-04T23:36:29.469Z",
+      "created_at": "2026-03-04T23:36:29.469Z",
+      "name": "Thailand",
+      "code": "TH",
+      "phone_code": "+66",
+      "flag": "🇹🇭",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 220,
+    "fields": {
+      "slug": "tajikistan",
+      "updated_at": "2026-03-04T23:36:29.474Z",
+      "created_at": "2026-03-04T23:36:29.474Z",
+      "name": "Tajikistan",
+      "code": "TJ",
+      "phone_code": "+992",
+      "flag": "🇹🇯",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 221,
+    "fields": {
+      "slug": "tokelau",
+      "updated_at": "2026-03-04T23:36:29.478Z",
+      "created_at": "2026-03-04T23:36:29.478Z",
+      "name": "Tokelau",
+      "code": "TK",
+      "phone_code": "+690",
+      "flag": "🇹🇰",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 222,
+    "fields": {
+      "slug": "turkmenistan",
+      "updated_at": "2026-03-04T23:36:29.483Z",
+      "created_at": "2026-03-04T23:36:29.483Z",
+      "name": "Turkmenistan",
+      "code": "TM",
+      "phone_code": "+993",
+      "flag": "🇹🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 223,
+    "fields": {
+      "slug": "timor-leste",
+      "updated_at": "2026-03-04T23:36:29.487Z",
+      "created_at": "2026-03-04T23:36:29.487Z",
+      "name": "Timor-Leste",
+      "code": "TL",
+      "phone_code": "+670",
+      "flag": "🇹🇱",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 224,
+    "fields": {
+      "slug": "tonga",
+      "updated_at": "2026-03-04T23:36:29.491Z",
+      "created_at": "2026-03-04T23:36:29.491Z",
+      "name": "Tonga",
+      "code": "TO",
+      "phone_code": "+676",
+      "flag": "🇹🇴",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 225,
+    "fields": {
+      "slug": "trinidad-and-tobago",
+      "updated_at": "2026-03-04T23:36:29.495Z",
+      "created_at": "2026-03-04T23:36:29.495Z",
+      "name": "Trinidad and Tobago",
+      "code": "TT",
+      "phone_code": "+1",
+      "flag": "🇹🇹",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 226,
+    "fields": {
+      "slug": "tunisia",
+      "updated_at": "2026-03-04T23:36:29.499Z",
+      "created_at": "2026-03-04T23:36:29.499Z",
+      "name": "Tunisia",
+      "code": "TN",
+      "phone_code": "+216",
+      "flag": "🇹🇳",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 227,
+    "fields": {
+      "slug": "turkiye",
+      "updated_at": "2026-03-04T23:36:29.503Z",
+      "created_at": "2026-03-04T23:36:29.503Z",
+      "name": "Türkiye",
+      "code": "TR",
+      "phone_code": "+90",
+      "flag": "🇹🇷",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 228,
+    "fields": {
+      "slug": "tuvalu",
+      "updated_at": "2026-03-04T23:36:29.507Z",
+      "created_at": "2026-03-04T23:36:29.507Z",
+      "name": "Tuvalu",
+      "code": "TV",
+      "phone_code": "+688",
+      "flag": "🇹🇻",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 229,
+    "fields": {
+      "slug": "taiwan-province-of-china",
+      "updated_at": "2026-03-04T23:36:29.510Z",
+      "created_at": "2026-03-04T23:36:29.510Z",
+      "name": "Taiwan, Province of China",
+      "code": "TW",
+      "phone_code": "+886",
+      "flag": "🇹🇼",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 230,
+    "fields": {
+      "slug": "tanzania-united-republic-of",
+      "updated_at": "2026-03-04T23:36:29.514Z",
+      "created_at": "2026-03-04T23:36:29.514Z",
+      "name": "Tanzania, United Republic of",
+      "code": "TZ",
+      "phone_code": "+255",
+      "flag": "🇹🇿",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 231,
+    "fields": {
+      "slug": "uganda",
+      "updated_at": "2026-03-04T23:36:29.519Z",
+      "created_at": "2026-03-04T23:36:29.519Z",
+      "name": "Uganda",
+      "code": "UG",
+      "phone_code": "+256",
+      "flag": "🇺🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 232,
+    "fields": {
+      "slug": "ukraine",
+      "updated_at": "2026-03-04T23:36:29.524Z",
+      "created_at": "2026-03-04T23:36:29.524Z",
+      "name": "Ukraine",
+      "code": "UA",
+      "phone_code": "+380",
+      "flag": "🇺🇦",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 233,
+    "fields": {
+      "slug": "united-states-minor-outlying-islands",
+      "updated_at": "2026-03-04T23:36:29.528Z",
+      "created_at": "2026-03-04T23:36:29.528Z",
+      "name": "United States Minor Outlying Islands",
+      "code": "UM",
+      "phone_code": "",
+      "flag": "🇺🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 234,
+    "fields": {
+      "slug": "uruguay",
+      "updated_at": "2026-03-04T23:36:29.532Z",
+      "created_at": "2026-03-04T23:36:29.532Z",
+      "name": "Uruguay",
+      "code": "UY",
+      "phone_code": "+598",
+      "flag": "🇺🇾",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 235,
+    "fields": {
+      "slug": "united-states",
+      "updated_at": "2026-03-04T23:36:29.537Z",
+      "created_at": "2026-03-04T23:36:29.537Z",
+      "name": "United States",
+      "code": "US",
+      "phone_code": "+1",
+      "flag": "🇺🇸",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 236,
+    "fields": {
+      "slug": "uzbekistan",
+      "updated_at": "2026-03-04T23:36:29.541Z",
+      "created_at": "2026-03-04T23:36:29.541Z",
+      "name": "Uzbekistan",
+      "code": "UZ",
+      "phone_code": "+998",
+      "flag": "🇺🇿",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 237,
+    "fields": {
+      "slug": "holy-see-vatican-city-state",
+      "updated_at": "2026-03-04T23:36:29.546Z",
+      "created_at": "2026-03-04T23:36:29.546Z",
+      "name": "Holy See (Vatican City State)",
+      "code": "VA",
+      "phone_code": "+39",
+      "flag": "🇻🇦",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 238,
+    "fields": {
+      "slug": "saint-vincent-and-the-grenadines",
+      "updated_at": "2026-03-04T23:36:29.551Z",
+      "created_at": "2026-03-04T23:36:29.551Z",
+      "name": "Saint Vincent and the Grenadines",
+      "code": "VC",
+      "phone_code": "+1",
+      "flag": "🇻🇨",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 239,
+    "fields": {
+      "slug": "venezuela-bolivarian-republic-of",
+      "updated_at": "2026-03-04T23:36:29.554Z",
+      "created_at": "2026-03-04T23:36:29.554Z",
+      "name": "Venezuela, Bolivarian Republic of",
+      "code": "VE",
+      "phone_code": "+58",
+      "flag": "🇻🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 240,
+    "fields": {
+      "slug": "virgin-islands-british",
+      "updated_at": "2026-03-04T23:36:29.559Z",
+      "created_at": "2026-03-04T23:36:29.559Z",
+      "name": "Virgin Islands, British",
+      "code": "VG",
+      "phone_code": "+1",
+      "flag": "🇻🇬",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 241,
+    "fields": {
+      "slug": "virgin-islands-us",
+      "updated_at": "2026-03-04T23:36:29.564Z",
+      "created_at": "2026-03-04T23:36:29.564Z",
+      "name": "Virgin Islands, U.S.",
+      "code": "VI",
+      "phone_code": "+1",
+      "flag": "🇻🇮",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 242,
+    "fields": {
+      "slug": "viet-nam",
+      "updated_at": "2026-03-04T23:36:29.569Z",
+      "created_at": "2026-03-04T23:36:29.569Z",
+      "name": "Viet Nam",
+      "code": "VN",
+      "phone_code": "+84",
+      "flag": "🇻🇳",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 243,
+    "fields": {
+      "slug": "vanuatu",
+      "updated_at": "2026-03-04T23:36:29.573Z",
+      "created_at": "2026-03-04T23:36:29.573Z",
+      "name": "Vanuatu",
+      "code": "VU",
+      "phone_code": "+678",
+      "flag": "🇻🇺",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 244,
+    "fields": {
+      "slug": "wallis-and-futuna",
+      "updated_at": "2026-03-04T23:36:29.577Z",
+      "created_at": "2026-03-04T23:36:29.577Z",
+      "name": "Wallis and Futuna",
+      "code": "WF",
+      "phone_code": "+681",
+      "flag": "🇼🇫",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 245,
+    "fields": {
+      "slug": "samoa",
+      "updated_at": "2026-03-04T23:36:29.581Z",
+      "created_at": "2026-03-04T23:36:29.581Z",
+      "name": "Samoa",
+      "code": "WS",
+      "phone_code": "+685",
+      "flag": "🇼🇸",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 246,
+    "fields": {
+      "slug": "yemen",
+      "updated_at": "2026-03-04T23:36:29.585Z",
+      "created_at": "2026-03-04T23:36:29.585Z",
+      "name": "Yemen",
+      "code": "YE",
+      "phone_code": "+967",
+      "flag": "🇾🇪",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 247,
+    "fields": {
+      "slug": "south-africa",
+      "updated_at": "2026-03-04T23:36:29.590Z",
+      "created_at": "2026-03-04T23:36:29.590Z",
+      "name": "South Africa",
+      "code": "ZA",
+      "phone_code": "+27",
+      "flag": "🇿🇦",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 248,
+    "fields": {
+      "slug": "zambia",
+      "updated_at": "2026-03-04T23:36:29.594Z",
+      "created_at": "2026-03-04T23:36:29.594Z",
+      "name": "Zambia",
+      "code": "ZM",
+      "phone_code": "+260",
+      "flag": "🇿🇲",
+      "phone_length": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "apps.country",
+    "pk": 249,
+    "fields": {
+      "slug": "zimbabwe",
+      "updated_at": "2026-03-04T23:36:29.598Z",
+      "created_at": "2026-03-04T23:36:29.598Z",
+      "name": "Zimbabwe",
+      "code": "ZW",
+      "phone_code": "+263",
+      "flag": "🇿🇼",
+      "phone_length": 15,
+      "is_active": true
+    }
+  }
+]

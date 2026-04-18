@@ -12,7 +12,7 @@ from django.utils import timezone
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
-from django.views.generic import CreateView, FormView, ListView, TemplateView
+from django.views.generic import CreateView, FormView, ListView, TemplateView, DetailView
 
 from apps.forms import (ForgotPasswordForm, LoginForm,
                         PasswordResetConfirmForm, RegisterModelForm)
@@ -23,6 +23,15 @@ from apps.utils.send_email import send_user_email
 from apps.utils.tokens import account_activation_token
 from root import settings
 
+class BookingStep1View(DetailView):
+    model = Destination
+    template_name = 'apps/booking_step1.html'
+    context_object_name = 'destination'
+
+class BookingStep2View(DetailView):
+    model = Destination
+    template_name = 'apps/booking_step2.html'
+    context_object_name = 'destination'
 
 class WeatherView(View):
     """
