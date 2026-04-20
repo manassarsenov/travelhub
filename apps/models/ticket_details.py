@@ -17,6 +17,17 @@ class TicketType(CreatedBaseModel):
     def __str__(self):
         return f"{self.destination} — {self.name} (${self.price})"
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Chipta saqlangandan keyin Destination narxini yangilash
+        self.destination.update_min_price()
+
+    def delete(self, *args, **kwargs):
+        destination = self.destination
+        super().delete(*args, **kwargs)
+        # Chipta o'chirilgandan keyin Destination narxini yangilash
+        destination.update_min_price()
+
     class Meta:
         ordering = ['order']
         verbose_name = 'Ticket Type'

@@ -1,7 +1,7 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import (CASCADE, SET_NULL, BooleanField, CharField,
                               ForeignKey, ManyToManyField,
-                              PositiveIntegerField, PositiveSmallIntegerField, ImageField)
+                              PositiveIntegerField, PositiveSmallIntegerField, ImageField, TimeField)
 from django.db.models.enums import TextChoices
 from django.db.models.fields import DecimalField, DateTimeField, TextField
 from django_ckeditor_5.fields import CKEditor5Field
@@ -109,6 +109,28 @@ class Destination(SlugBaseModel, CreatedBaseModel):
         verbose_name_plural = 'Destinations'
         ordering = ['-created_at']
 
+    def update_min_price(self):
+        """Eng arzon chipta narxini Destination.price ga yangilaydi"""
+        min_ticket_price = self.ticket_types.filter(price__gt=0).order_by('price').first()
+        if min_ticket_price:
+            self.price = min_ticket_price.price
+            self.save(update_fields=['price'])
+
+
+class DestinationFAQ(CreatedBaseModel):
+    destination = ForeignKey('apps.Destination', CASCADE, related_name='faqs')
+    question = CharField(max_length=500, verbose_name="Savol")
+    answer = CKEditor5Field(verbose_name="Javob")
+    order = PositiveSmallIntegerField(default=0, verbose_name="Tartib")
+
+    class Meta:
+        verbose_name = 'Destination FAQ'
+        verbose_name_plural = 'Destination FAQs'
+        ordering = ['order']
+
+    def __str__(self):
+        return f"{self.destination.name} - {self.question[:50]}"
+
 
 class DestinationImage(ImageBaseModel):
     destination = ForeignKey('apps.Destination', CASCADE, related_name='images')
@@ -164,14 +186,6 @@ class HotelImage(ImageBaseModel):
 
     class Meta:
         ordering = ['order']
-
-
-from django.db.models import (CASCADE, SET_NULL, BooleanField, CharField,
-                              DecimalField, ForeignKey, PositiveSmallIntegerField,
-                              TimeField)
-from django.db.models.enums import TextChoices
-
-from apps.models.base import CreatedBaseModel
 
 
 class Flight(CreatedBaseModel):
