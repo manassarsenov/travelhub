@@ -1,12 +1,14 @@
 import uuid
+
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import (
-    SET_NULL, CharField, ForeignKey, JSONField, BooleanField, 
-    DateTimeField, TextChoices, IntegerChoices, UUIDField, 
+    SET_NULL, CharField, ForeignKey, JSONField, BooleanField,
+    TextChoices, IntegerChoices, UUIDField,
     IntegerField, TextField, GenericIPAddressField, FloatField, Index
 )
 from django.utils.translation import gettext_lazy as _
+
 from apps.models.base import CreatedBaseModel
 
 

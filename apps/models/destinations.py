@@ -71,6 +71,11 @@ class Destination(SlugBaseModel, CreatedBaseModel):
     season = CharField(max_length=20, choices=Season.choices, blank=True)
 
     is_free_cancellation = BooleanField(default=False)
+    free_cancellation_hours = PositiveIntegerField(
+        default=24,
+        help_text="Sayohat boshlanishidan necha soat oldingacha bepul bekor qilish mumkin?"
+    )
+
     is_popular = BooleanField(default=False)
     is_trending = BooleanField(default=False)
     is_featured = BooleanField(default=False)
@@ -82,6 +87,17 @@ class Destination(SlugBaseModel, CreatedBaseModel):
     additional_info = CKEditor5Field(blank=True, help_text="Qo'shimcha ma'lumot")
 
     package_type = CharField(max_length=20, choices=PackageType.choices, blank=True, default=PackageType.HONEYMOON)
+
+    @property
+    def cancellation_text(self):
+        if not self.is_free_cancellation:
+            return None
+
+        hours = self.free_cancellation_hours
+        if hours >= 24:
+            days = hours // 24
+            return f"Up to {days} day{'s' if days > 1 else ''} before the start time"
+        return f"Up to {hours} hours before the start time"
 
     @property
     def discounted_price(self):

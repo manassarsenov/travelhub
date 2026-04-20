@@ -4,7 +4,7 @@
 {% block title %}<title>Admission to the London Eye — TravelHub</title>{% endblock %}
 
 {% block custom_css %}
-    <link rel="stylesheet" href="{% static 'apps/css/destination_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'apps/css/destination_detail.css' %}?v=1.3">
 {% endblock %}
 
 {% block main_content %}
@@ -52,6 +52,7 @@
                     {% with main_img=destination.images.first %}
                         <img id="gallery-main-img"
                              src="
+
 
 
                                      {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
@@ -105,10 +106,10 @@
                              onclick="openGalleryModal({{ forloop.counter }})">
                             <img src="{{ img.image.url }}"
                                  alt="{{ destination.name }}">
-                            {% if forloop.last %}
+                            {% if forloop.last and destination.images.count > 5 %}
                                 <div class="dcd-thumb-overlay">
                                     <i class="fas fa-images"></i>
-                                    <span>Show all photos</span>
+                                    <span>Show all {{ destination.images.count }} photos</span>
                                 </div>
                             {% endif %}
                         </div>
@@ -123,7 +124,7 @@
                         <i class="fas fa-check-circle"></i>
                         <div>
                             <strong>Free cancellation available</strong>
-                            <span>Up to 24 hours before the start time</span>
+                            <span>{{ destination.cancellation_text }}</span>
                         </div>
                     </div>
                 {% endif %}
@@ -136,15 +137,19 @@
                 {% endif %}
             </div>
 
+
             <!-- DESCRIPTION -->
-            <div class="dcd-section">
-                <div class="dcd-description collapsed" id="dcd-description">
-                    {{ destination.description|safe }}
+            {% if destination.description %}
+                <div class="dcd-section">
+                    <div class="dcd-description collapsed" id="dcd-description">
+                        {{ destination.description|safe }}
+                    </div>
+                    <button class="dcd-toggle-btn" id="dcd-desc-btn" onclick="toggleDescription()">
+                        Show more <i class="fas fa-chevron-down"></i>
+                    </button>
                 </div>
-                <button class="dcd-toggle-btn" id="dcd-desc-btn" onclick="toggleDescription()">
-                    Show more <i class="fas fa-chevron-down"></i>
-                </button>
-            </div>
+            {% endif %}
+
 
             <!-- WHY VISIT -->
             {% if destination.why_visit %}
@@ -176,9 +181,6 @@
                     </div>
                 </div>
             {% endif %}
-
-
-
 
             <!-- RESTRICTIONS -->
             {#            <div class="dcd-section">#}
@@ -338,11 +340,12 @@
                                     <h4>Sign in to write a review</h4>
                                     <p>Join millions of travellers sharing their experiences on TravelHub</p>
                                     <div class="dcd-rm-lw-actions">
-                                        <a href="{% url 'login_page' %}?next={{ request.path }}"
+                                        <a href="{% url 'login_page' %}?next={{ request.path|urlencode }}"
                                            class="dcd-rm-login-btn">
                                             <i class="fas fa-sign-in-alt"></i> Sign In
                                         </a>
-                                        <a href="{% url 'register_page' %}" class="dcd-rm-register-btn">
+                                        <a href="{% url 'register_page' %}?next={{ request.path|urlencode }}"
+                                           class="dcd-rm-register-btn">
                                             Create Account
                                         </a>
                                     </div>
@@ -366,32 +369,102 @@
                                     <div class="dcd-rm-section">
                                         <label class="dcd-rm-label">
                                             <span class="dcd-rm-step">01</span>
-                                            Your overall rating
+                                            Rate your experience
                                         </label>
-                                        <div class="dcd-rm-stars" id="rm-stars">
-                                            <button type="button" class="dcd-rm-star" data-val="1"
-                                                    onclick="setRating(1)">
-                                                <i class="fas fa-star"></i>
-                                            </button>
-                                            <button type="button" class="dcd-rm-star" data-val="2"
-                                                    onclick="setRating(2)">
-                                                <i class="fas fa-star"></i>
-                                            </button>
-                                            <button type="button" class="dcd-rm-star" data-val="3"
-                                                    onclick="setRating(3)">
-                                                <i class="fas fa-star"></i>
-                                            </button>
-                                            <button type="button" class="dcd-rm-star" data-val="4"
-                                                    onclick="setRating(4)">
-                                                <i class="fas fa-star"></i>
-                                            </button>
-                                            <button type="button" class="dcd-rm-star" data-val="5"
-                                                    onclick="setRating(5)">
-                                                <i class="fas fa-star"></i>
-                                            </button>
+                                        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">
+                                            Please rate the following aspects of your visit.</p>
+
+                                        <div class="dcd-rm-detailed-ratings">
+                                            <div class="dcd-rm-rating-row">
+                                                <div class="cat-label-wrap">
+                                                    <div class="cat-icon service"><i class="fas fa-concierge-bell"></i></div>
+                                                    <div class="cat-info">
+                                                        <span class="cat-name">Quality of Service</span>
+                                                        <span class="cat-desc">Staff and hospitality</span>
+                                                    </div>
+                                                </div>
+                                                <div class="dcd-rm-stars-mini" data-category="service_quality">
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                </div>
+                                                <input type="hidden" name="service_quality" id="val-service_quality" value="5">
+                                            </div>
+
+                                            <div class="dcd-rm-rating-row">
+                                                <div class="cat-label-wrap">
+                                                    <div class="cat-icon cleanliness"><i class="fas fa-sparkles"></i></div>
+                                                    <div class="cat-info">
+                                                        <span class="cat-name">Cleanliness</span>
+                                                        <span class="cat-desc">Hygiene and neatness</span>
+                                                    </div>
+                                                </div>
+                                                <div class="dcd-rm-stars-mini" data-category="cleanliness">
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                </div>
+                                                <input type="hidden" name="cleanliness" id="val-cleanliness" value="5">
+                                            </div>
+
+                                            <div class="dcd-rm-rating-row">
+                                                <div class="cat-label-wrap">
+                                                    <div class="cat-icon facilities"><i class="fas fa-swimming-pool"></i></div>
+                                                    <div class="cat-info">
+                                                        <span class="cat-name">Facilities</span>
+                                                        <span class="cat-desc">Amenities and equipment</span>
+                                                    </div>
+                                                </div>
+                                                <div class="dcd-rm-stars-mini" data-category="facilities">
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                </div>
+                                                <input type="hidden" name="facilities" id="val-facilities" value="5">
+                                            </div>
+
+                                            <div class="dcd-rm-rating-row">
+                                                <div class="cat-label-wrap">
+                                                    <div class="cat-icon location"><i class="fas fa-map-marker-alt"></i></div>
+                                                    <div class="cat-info">
+                                                        <span class="cat-name">Location</span>
+                                                        <span class="cat-desc">Accessibility and area</span>
+                                                    </div>
+                                                </div>
+                                                <div class="dcd-rm-stars-mini" data-category="location_rating">
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                </div>
+                                                <input type="hidden" name="location_rating" id="val-location_rating" value="5">
+                                            </div>
+
+                                            <div class="dcd-rm-rating-row">
+                                                <div class="cat-label-wrap">
+                                                    <div class="cat-icon value"><i class="fas fa-wallet"></i></div>
+                                                    <div class="cat-info">
+                                                        <span class="cat-name">Value for Money</span>
+                                                        <span class="cat-desc">Price and experience</span>
+                                                    </div>
+                                                </div>
+                                                <div class="dcd-rm-stars-mini" data-category="value_for_money">
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                    <i class="fas fa-star active"></i>
+                                                </div>
+                                                <input type="hidden" name="value_for_money" id="val-value_for_money" value="5">
+                                            </div>
                                         </div>
-                                        <div class="dcd-rm-rating-label" id="rm-rating-label">Tap a star to rate</div>
-                                        <input type="hidden" name="rating" id="rm-rating-val" value="">
                                     </div>
 
                                     <!-- Step 2: Visit type -->
@@ -781,8 +854,9 @@
                     </div>
                     <div class="dcd-tax-note">Includes taxes and charges</div>
 
-{#                    <button class="dcd-book-btn" onclick="proceedBooking()">#}
-                    <button class="dcd-book-btn" onclick="window.location.href='{% url 'booking_step1_page' destination.slug %}'">
+                    {#                    <button class="dcd-book-btn" onclick="proceedBooking()">#}
+                    <button class="dcd-book-btn"
+                            onclick="window.location.href='{% url 'booking_step1_page' destination.slug %}'">
                         Next <i class="fas fa-arrow-right"></i>
                     </button>
 
@@ -815,6 +889,12 @@
                     {% with main_img=destination.images.first %}
                         <div class="dcd-gm-photo-item dcd-gm-large">
                             <img src="
+
+
+
+
+
+
 
 
                                     {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
@@ -891,5 +971,5 @@
 {% endblock %}
 
 {% block custom_js %}
-    <script src="{% static 'apps/js/destination_detail.js' %}"></script>
+    <script src="{% static 'apps/js/destination_detail.js' %}?v=1.3 %}"></script>
 {% endblock %}

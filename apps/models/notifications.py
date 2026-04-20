@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import (
-    CASCADE, CharField, ForeignKey, JSONField, BooleanField, 
+    CASCADE, CharField, ForeignKey, JSONField, BooleanField,
     DateTimeField, TextChoices, Index, TextField
 )
 from django.utils.translation import gettext_lazy as _
@@ -27,37 +27,37 @@ class Notification(CreatedBaseModel):
         related_name='notifications',
         verbose_name=_("Recipient")
     )
-    
+
     actor = ForeignKey(
         'apps.User',
         on_delete=CASCADE,
         related_name='triggered_notifications',
-        null=True, 
+        null=True,
         blank=True,
         verbose_name=_("Actor")
     )
 
-    verb = CharField(max_length=255,default='created', verbose_name=_("Verb"))
+    verb = CharField(max_length=255, default='created', verbose_name=_("Verb"))
     description = TextField(null=True, blank=True, verbose_name=_("Description"))
-    
+
     level = CharField(
-        max_length=20, 
-        choices=Level.choices, 
+        max_length=20,
+        choices=Level.choices,
         default=Level.INFO,
         verbose_name=_("Level")
     )
     priority = CharField(
-        max_length=20, 
-        choices=Priority.choices, 
+        max_length=20,
+        choices=Priority.choices,
         default=Priority.MEDIUM,
         verbose_name=_("Priority")
     )
 
     target_content_type = ForeignKey(
-        ContentType, 
-        on_delete=CASCADE, 
+        ContentType,
+        on_delete=CASCADE,
         related_name='notify_target',
-        null=True, 
+        null=True,
         blank=True
     )
     target_object_id = CharField(max_length=255, null=True, blank=True)
@@ -65,7 +65,7 @@ class Notification(CreatedBaseModel):
 
     is_read = BooleanField(default=False, verbose_name=_("Is Read"))
     read_at = DateTimeField(null=True, blank=True, verbose_name=_("Read At"))
-    
+
     email_sent = BooleanField(default=False, verbose_name=_("Email Sent"))
     push_sent = BooleanField(default=False, verbose_name=_("Push Sent"))
 
@@ -93,13 +93,13 @@ class Notification(CreatedBaseModel):
 
 class NotificationSetting(CreatedBaseModel):
     user = ForeignKey(
-        'apps.User', 
-        on_delete=CASCADE, 
+        'apps.User',
+        on_delete=CASCADE,
         related_name='notification_settings',
         unique=True,
         verbose_name=_("User")
     )
-    
+
     enable_email = BooleanField(default=True, verbose_name=_("Enable Email"))
     enable_push = BooleanField(default=True, verbose_name=_("Enable Push"))
     enable_in_app = BooleanField(default=True, verbose_name=_("Enable In-App"))

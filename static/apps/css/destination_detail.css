@@ -521,6 +521,8 @@
     font-size: 14px;
     line-height: 1.9;
     color: #334155;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
 }
 
 .dcd-description p {
@@ -532,7 +534,7 @@
 }
 
 .dcd-description.collapsed {
-    max-height: 105px;
+    max-height: 200px;
     overflow: hidden;
     position: relative;
 }
@@ -3664,4 +3666,277 @@ body.dark-mode .dcd-rm-register-btn {
         width: 100%;
         justify-content: center;
     }
+}
+/* =========================================
+   REVIEW MODAL DETAILED RATINGS (PREMIUM)
+   ========================================= */
+.dcd-rm-detailed-ratings {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #f8fafc;
+    padding: 20px 24px;
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); /* Ichki soya - kreativlik uchun */
+}
+
+.dcd-rm-rating-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed #e2e8f0; /* Chiziqlar */
+}
+
+.dcd-rm-rating-row:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.dcd-rm-rating-row .cat-name {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: 0.2px;
+}
+
+.dcd-rm-stars-mini {
+    display: flex;
+    gap: 6px;
+}
+.dcd-rm-stars-mini i {
+    color: #e2e8f0 !important;
+    font-size: 24px !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+/* Yulduz aktiv holatda yoki hover bo'lganda */
+.dcd-rm-stars-mini i.active {
+    color: #fbbf24 !important;
+}
+.dcd-rm-stars-mini i:hover {
+    transform: scale(1.3) !important;
+    color: #fbbf24 !important;
+}
+
+/* Kichik izoh matni uchun dizayn (Premium touch) */
+.dcd-rm-section p {
+    font-size: 13.5px;
+    color: #64748b;
+    margin-bottom: 18px;
+    line-height: 1.5;
+}
+/* =========================================
+   CREATIVE REVIEW CATEGORIES
+   ========================================= */
+.cat-label-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.cat-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px !important;
+}
+.cat-icon i {
+    font-size: 18px !important;
+}
+
+
+.cat-icon.service { background: rgba(102, 126, 234, 0.1); color: #667eea; }
+.cat-icon.cleanliness { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.cat-icon.facilities { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.cat-icon.location { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+.cat-icon.value { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+
+.dcd-rm-rating-row:hover .cat-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.cat-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark);
+    display: block;
+    margin-bottom: 2px;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    -webkit-text-fill-color: unset !important;
+}
+body.dark-mode .cat-name {
+    background: linear-gradient(135deg, #f1f5f9, #94a3b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dcd-rm-stars-mini i {
+    color: #e2e8f0;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dcd-rm-stars-mini i.active {
+    color: #fbbf24;
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+}
+
+.dcd-rm-stars-mini i:hover {
+    transform: scale(1.3);
+}
+
+/* =========================================
+   ENHANCED CREATIVE REVIEW CATEGORIES
+   ========================================= */
+.cat-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cat-desc {
+    font-size: 11px;
+    color: #94a3b8;
+    font-weight: 500;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cat-icon {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.dcd-rm-stars-mini i.active {
+    color: #fbbf24;
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+/* Rating row hover effekti oddiy */
+.dcd-rm-rating-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+
+.dcd-rm-rating-row:hover {
+    transform: none; /* Eski translateX ni olib tashlash */
+    background: #fff;
+    border-color: #667eea;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.12);
+}
+
+/* =========================================
+   ULTRA-CREATIVE CATEGORY DESIGN
+   ========================================= */
+.dcd-rm-rating-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(5px);
+}
+
+.dcd-rm-rating-row:hover {
+    transform: translateX(8px) scale(1.02);
+    background: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.12);
+}
+
+.cat-label-wrap {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.cat-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.cat-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+.cat-icon.service::before { background: #667eea; }
+.cat-icon.cleanliness::before { background: #10b981; }
+.cat-icon.facilities::before { background: #f59e0b; }
+.cat-icon.location::before { background: #ef4444; }
+.cat-icon.value::before { background: #8b5cf6; }
+
+.cat-name {
+    font-size: 15px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #1e293b, #475569);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.cat-desc {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 500;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Yulduzlar uchun majburiy sariq rang (Default) */
+.dcd-rm-stars-mini i.active {
+    color: #fbbf24 !important;
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.5));
+}
+
+body.dark-mode .dcd-rm-rating-row {
+    background: rgba(30, 41, 59, 0.4);
+    border-color: rgba(51, 65, 85, 0.6);
+}
+
+body.dark-mode .cat-name {
+    background: linear-gradient(135deg, #f1f5f9, #94a3b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
