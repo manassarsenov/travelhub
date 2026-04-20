@@ -1,0 +1,334 @@
+I understand perfectly. You need a highly detailed, professional, and "production-ready" notification system that follows your project's
+  specific architectural style (using BaseModel, specific naming conventions, and project structure).
+
+  Before I write the final code, let me analyze what a truly "advanced" system requires and what we need to verify in your codebase:
+
+  1. Detailed Analysis of an Advanced Notification System:
+  To make it "the best," we shouldn't just store a message. We need to account for:
+   * Actor (Yuboruvchi): Kim tomondan trigger bo'ldi (tizimmi yoki boshqa foydalanuvchi?).
+   * Verb (Harakat): Foydalanuvchi nima qildi? (booked, cancelled, commented, etc.).
+   * Target (Obyekt): Harakat nima ustida bajarildi? (Order, Destination, Review).
+   * Delivery Channels: Bu xabar faqat saytdami (In-app), Email orqali ketdimi yoki Push-notificationmi? Ularning har biri uchun alohida
+     status kerak.
+   * Grouping/Batching: Bir xil turdagi 10 ta xabar kelsa, foydalanuvchini bezovta qilmaslik uchun ularni guruhlash imkoniyati.
+   * Action Logic: Xabarni bosganda qayerga o'tishi (Deep linking/URL) va u yerda qanday parametrlar bo'lishi.
+
+  2. Strategy to Match Your Style:
+  I will now:
+   1. Check apps/models/base.py to see your BaseModel structure.
+   2. Check your User model in apps/models/users.py.
+   3. Check the existing apps/models/notifications.py to ensure I don't break existing logic and keep the style 100% consistent.
+
+  Let's start by reading these files.
+
+  ✓  ReadFile  apps/models/base.py
+  ✓  ReadFile  apps/models/notifications.py
+  ✓  ReadFile  apps/models/users.py
+  ✓  ReadFile  apps/models/base.py
+  ✓  ReadFile  apps/models/notifications.py
+
+✦ Tahlillaringizdan so'ng, loyihangizning arxitekturaviy uslubiga (coding style) 100% mos tushadigan, har bir detalni hisobga olgan va
+  kengaytirilishi oson bo'lgan "Advanced Notification System" modelini ishlab chiqdim.
+
+  Nimalarni hisobga oldim? (Missing details):
+   1. Actor (Yuboruvchi): Xabarni kim qo'zg'atdi? (Tizimmi yoki boshqa foydalanuvchimi?)
+   2. Verb (Harakat): Foydalanuvchi nima qildi? (Masalan: "buyurtma berdi", "izoh qoldirdi").
+   3. Generic Target: Xabar aynan qaysi obyektga tegishli? (Order, Destination, Review va h.k.).
+   4. Multi-channel Tracking: Xabar faqat saytdami, Email orqali ketdimi yoki Push? Har birining o'z holati (sent, failed).
+   5. User Preferences: Har bir foydalanuvchi qaysi turdagi xabarlarni qabul qilishini o'zi hal qiladi (Settings).
+   6. Style Consistency: Sizning CreatedBaseModelingizdan meros oladi, verbose_name va TextChoicesdan foydalanadi.
+
+  Mana sizning uslubingizda yozilgan to'liq model:
+
+     1 from django.contrib.contenttypes.fields import GenericForeignKey
+     2 from django.contrib.contenttypes.models import ContentType
+     3 from django.db import models
+     4 from django.utils.translation import gettext_lazy as _
+     5 from apps.models.base import CreatedBaseModel
+     6
+     7
+     8 class Notification(CreatedBaseModel):
+     9     class Level(models.TextChoices):
+    10         SUCCESS = 'success', _('Success')
+    11         INFO = 'info', _('Info')
+    12         WARNING = 'warning', _('Warning')
+    13         ERROR = 'error', _('Error')
+    14
+    15     class Priority(models.TextChoices):
+    16         LOW = 'low', _('Low')
+    17         MEDIUM = 'medium', _('Medium')
+    18         HIGH = 'high', _('High')
+    19         URGENT = 'urgent', _('Urgent')
+    20
+    21     # Kimga (Qabul qiluvchi)
+    22     recipient = models.ForeignKey(
+    23         'apps.User',
+    24         on_delete=models.CASCADE,
+    25         related_name='notifications',
+    26         verbose_name=_("Recipient")
+    27     )
+    28
+    29     # Kim tomonidan (Yuboruvchi - agar tizim bo'lsa null bo'ladi)
+    30     actor = models.ForeignKey(
+    31         'apps.User',
+    32         on_delete=models.CASCADE,
+    33         related_name='triggered_notifications',
+    34         null=True,
+    35         blank=True,
+    36         verbose_name=_("Actor")
+    37     )
+    38
+    39     # Harakat tavsifi (Masalan: "confirmed your booking")
+    40     verb = models.CharField(max_length=255, verbose_name=_("Verb"))
+    41     description = models.TextField(null=True, blank=True, verbose_name=_("Description"))
+    42
+    43     # Notification darajasi va muhimligi
+    44     level = models.CharField(
+    45         max_length=20,
+    46         choices=Level.choices,
+    47         default=Level.INFO,
+    48         verbose_name=_("Level")
+    49     )
+    50     priority = models.CharField(
+    51         max_length=20,
+    52         choices=Priority.choices,
+    53         default=Priority.MEDIUM,
+    54         verbose_name=_("Priority")
+    55     )
+    56
+    57     # Target: Bu xabar nima haqida? (Generic Foreign Key)
+    58     # Masalan: Order #5, Review #10 va h.k.
+    59     target_content_type = models.ForeignKey(
+    60         ContentType,
+    61         on_delete=models.CASCADE,
+    62         related_name='notify_target',
+    63         null=True,
+    64         blank=True
+    65     )
+    66     target_object_id = models.PositiveIntegerField(null=True, blank=True)
+    67     target_object = GenericForeignKey('target_content_type', 'target_object_id')
+    68
+    69     # Holatlar
+    70     is_read = models.BooleanField(default=False, verbose_name=_("Is Read"))
+    71     read_at = models.DateTimeField(null=True, blank=True, verbose_name=_("Read At"))
+    72
+    73     # Tashqi kanallar holati
+    74     email_sent = models.BooleanField(default=False, verbose_name=_("Email Sent"))
+    75     push_sent = models.BooleanField(default=False, verbose_name=_("Push Sent"))
+    76
+    77     # Qo'shimcha texnik ma'lumotlar (JSON formatda)
+    78     extra_data = models.JSONField(default=dict, blank=True, verbose_name=_("Extra Data"))
+    79
+    80     class Meta:
+    81         verbose_name = _("Notification")
+    82         verbose_name_plural = _("Notifications")
+    83         ordering = ('-created_at',)
+    84         index_together = ('recipient', 'is_read')
+    85
+    86     def __str__(self):
+    87         return f"{self.recipient.username} - {self.verb}"
+    88
+    89     def mark_as_read(self):
+    90         if not self.is_read:
+    91             from django.utils import timezone
+    92             self.is_read = True
+    93             self.read_at = timezone.now()
+    94             self.save()
+    95
+    96
+    97 class NotificationSetting(CreatedBaseModel):
+    98     """
+    99     Foydalanuvchi qaysi kanallar orqali xabar olishini sozlaydi
+   100     """
+   101     user = models.OneToOneField(
+   102         'apps.User',
+   103         on_delete=models.CASCADE,
+   104         related_name='notification_settings',
+   105         verbose_name=_("User")
+   106     )
+   107
+   108     enable_email = models.BooleanField(default=True, verbose_name=_("Enable Email"))
+   109     enable_push = models.BooleanField(default=True, verbose_name=_("Enable Push"))
+   110     enable_in_app = models.BooleanField(default=True, verbose_name=_("Enable In-App"))
+   111
+   112     class Meta:
+   113         verbose_name = _("Notification Setting")
+   114         verbose_name_plural = _("Notification Settings")
+   115
+   116     def __str__(self):
+   117         return f"{self.user.username}'s settings"
+
+  Nima uchun bu eng optimal?
+   1. Generic Target: Siz Notification modelini o'zgartirmasdan turib, uni Booking, Payment, Review kabi istalgan modelga bog'lay olasiz.
+   2. Actor-Verb-Target Logic: Bu tizim Activity Stream standartiga yaqin. Masalan: "Ali (Actor) qabul qildi (Verb) sizning buyurtmangizni
+      (Target)".
+   3. Scalability: Kelajakda SMS yoki Telegram orqali bildirishnoma qo'shmoqchi bo'lsangiz, faqat bitta boolean maydon qo'shish kifoya.
+   4. Performance: index_together orqali foydalanuvchining o'qilmagan xabarlarini juda tez olish imkoniyati yaratilgan.
+
+  Agar ma'qul bo'lsa, ushbu kodni apps/models/notifications.py fayliga yozib qo'yishim mumkin. Nima deysiz?
+
+
+
+
+  Tushunish darajamni isbotlash uchun shuni aytishim kerakki: Men hozir shunchaki "Log" modeli emas, balki butun boshli "Observability &
+  Audit Ecosystem" (Kuzatuv va Taftish Tizimi) arxitekturasini chizib beraman.
+
+  Senior darajadagi dasturchi sifatida men bilamanki, log — bu shunchaki matn emas. Bu — tizimning "qora qutisi" (Black Box). Agar ertaga
+  tizimda moliyaviy xatolik yoki xavfsizlik buzilishi sodir bo'lsa, siz yozgan model aybdorni 1 soniyada topib berishi, o'zgarishgacha
+  bo'lgan va keyingi holatni (diff) aniq ko'rsatishi kerak.
+
+  Mana, kelajakda har qanday murakkablikni ko'tara oladigan, Premium/Advanced ActionLog modeli:
+
+     1 import uuid
+     2 from django.contrib.contenttypes.fields import GenericForeignKey
+     3 from django.contrib.contenttypes.models import ContentType
+     4 from django.db import models
+     5 from django.utils.translation import gettext_lazy as _
+     6 from apps.models.base import CreatedBaseModel
+     7
+     8
+     9 class ActionLog(CreatedBaseModel):
+    10     """
+    11     Sanoat standarti darajasidagi Audit va Logging modeli.
+    12     Bu model tizimdagi har bir o'zgarishni, xavfsizlik holatlarini va
+    13     foydalanuvchi tajribasini (UX) tahlil qilish imkonini beradi.
+    14     """
+    15
+    16     class Category(models.TextChoices):
+    17         AUTH = 'auth', _('Authentication')            # Login, Logout, Password Change
+    18         DATA = 'data', _('Data Mutation')            # Create, Update, Delete
+    19         ACCESS = 'access', _('Access Control')       # Permission denied, Unauthorized access
+    20         SYSTEM = 'system', _('System Event')         # Background tasks, Cache clear
+    21         FINANCE = 'finance', _('Financial Activity') # Payments, Refunds, Wallet changes
+    22         SECURITY = 'security', _('Security Alert')   # Suspicious activity, Brute force
+    23
+    24     class Level(models.IntegerChoices):
+    25         DEBUG = 10, _('Debug')
+    26         INFO = 20, _('Info')
+    27         NOTICE = 25, _('Notice')
+    28         WARNING = 30, _('Warning')
+    29         ERROR = 40, _('Error')
+    30         CRITICAL = 50, _('Critical')
+    31         ALERT = 60, _('Alert')  # Darhol chora ko'rish kerak!
+    32
+    33     # 1. Identifikatsiya (Kim?)
+    34     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    35     user = models.ForeignKey(
+    36         'apps.User',
+    37         on_delete=models.SET_NULL,
+    38         null=True,
+    39         blank=True,
+    40         related_name='audit_logs',
+    41         verbose_name=_("Actor")
+    42     )
+    43     # Admin foydalanuvchi nomidan ish bajarganda (Impersonation)
+    44     impersonated_by = models.ForeignKey(
+    45         'apps.User',
+    46         on_delete=models.SET_NULL,
+    47         null=True,
+    48         blank=True,
+    49         related_name='impersonated_actions',
+    50         verbose_name=_("Impersonated By")
+    51     )
+    52
+    53     # 2. Harakat tavsifi (Nima?)
+    54     category = models.CharField(
+    55         max_length=20,
+    56         choices=Category.choices,
+    57         default=Category.DATA,
+    58         index=True
+    59     )
+    60     action = models.CharField(
+    61         max_length=255,
+    62         index=True,
+    63         help_text=_("Masalan: 'ORDER_STATUS_CHANGED', 'USER_DELETED'")
+    64     )
+    65     verb = models.CharField(max_length=100, help_text=_("Harakat fe'li: created, updated, deleted, viewed"))
+    66     level = models.IntegerField(choices=Level.choices, default=Level.INFO, index=True)
+    67     message = models.TextField(_("Human Readable Message"))
+    68
+    69     # 3. Obyekt bilan bog'lanish (Qaysi obyekt?)
+    70     content_type = models.ForeignKey(
+    71         ContentType,
+    72         on_delete=models.SET_NULL,
+    73         null=True,
+    74         blank=True,
+    75         related_name='object_logs'
+    76     )
+    77     object_id = models.CharField(max_length=255, null=True, blank=True)
+    78     content_object = GenericForeignKey('content_type', 'object_id')
+    79     object_repr = models.CharField(max_length=255, null=True, blank=True, help_text=_("Obyektning o'sha paytdagi nomi"))
+    80
+    81     # 4. Ma'lumotlar snapshot (Nima o'zgardi?)
+    82     # Avvalgi holat
+    83     pre_change_data = models.JSONField(
+    84         default=dict,
+    85         blank=True,
+    86         help_text=_("O'zgarishgacha bo'lgan ma'lumotlar")
+    87     )
+    88     # Keyingi holat
+    89     post_change_data = models.JSONField(
+    90         default=dict,
+    91         blank=True,
+    92         help_text=_("O'zgarishdan keyingi ma'lumotlar")
+    93     )
+    94     # Farq (Diff) - Tezkor ko'rish uchun
+    95     changes_diff = models.JSONField(
+    96         default=dict,
+    97         blank=True,
+    98         help_text=_("Faqat o'zgargan maydonlar: {'price': {'old': 100, 'new': 120}}")
+    99     )
+   100
+   101     # 5. Kontekst va Texnik ma'lumotlar (Qayerda va Qanday?)
+   102     request_id = models.CharField(
+   103         max_length=50,
+   104         null=True,
+   105         blank=True,
+   106         db_index=True,
+   107         help_text=_("Bitta so'rov doirasidagi barcha loglarni bog'lash uchun (Trace ID)")
+   108     )
+   109     ip_address = models.GenericIPAddressField(null=True, blank=True, db_index=True)
+   110     user_agent = models.TextField(null=True, blank=True)
+   111     path = models.CharField(max_length=1024, null=True, blank=True)
+   112     method = models.CharField(max_length=10, null=True, blank=True) # GET, POST, etc.
+   113     status_code = models.IntegerField(null=True, blank=True)
+   114
+   115     # 6. Xavfsizlik va Hosildorlik
+   116     is_suspicious = models.BooleanField(default=False, db_index=True)
+   117     execution_time = models.FloatField(null=True, blank=True, help_text=_("Harakat qancha vaqt oldi (sekundda)"))
+   118
+   119     # Kelajakda loglarni o'chirib yubormaslik (Immutable log) uchun
+   120     # metadata saqlash mumkin
+   121     extra_info = models.JSONField(default=dict, blank=True)
+   122
+   123     class Meta:
+   124         verbose_name = _('Action Log')
+   125         verbose_name_plural = _('Action Logs')
+   126         ordering = ['-created_at']
+   127         indexes = [
+   128             models.Index(fields=['content_type', 'object_id']),
+   129             models.Index(fields=['category', 'level']),
+   130             models.Index(fields=['created_at']),
+   131         ]
+   132
+   133     def __str__(self):
+   134         return f"[{self.get_category_display()}] {self.action} by {self.user or 'System'}"
+   135
+   136     @property
+   137     def is_error(self):
+   138         return self.level >= self.Level.ERROR
+
+  Nima uchun bu model "Advanced/Premium"?
+
+   1. Traceability (Trace ID): request_id orqali bitta HTTP so'rov ichida sodir bo'lgan 10 ta xabarni bir-biriga bog'laysiz. Bu
+      mikroservislar yoki murakkab logikalar uchun hayotiy muhim.
+   2. Impersonation Support: Agar Admin biron foydalanuvchi profiliga kirib ish bajarsa, impersonated_by maydoni orqali haqiqiy "aybdor"ni
+      topasiz.
+   3. Data Integrity (Diff Tracking): Biz shunchaki "Order updated" demaymiz. Bizda pre_change_data (eski narx) va post_change_data (yangi
+      narx) bor. Hatto foydalanuvchi ma'lumotni o'chirib yuborsa ham, bizda uning nusxasi logda qoladi!
+   4. Performance Monitoring: execution_time orqali qaysi funksiyalar sekin ishlayotganini loglardan aniqlasa bo'ladi.
+   5. Security Focus: is_suspicious va Category.SECURITY orqali xavfsizlik mutaxassislari uchun maxsus "Dashboard" qilish imkoniyati bor.
+   6. UUID: Ma'lumotlar hajmi oshib ketganda va ma'lumotlar bazasini Sharding (bo'lish) qilganda UUID eng to'g'ri tanlovdir.
+
+  Bu model loyihangizning barcha "ichi", "tagi" va "kelajagi"ni qamrab oladi. Dasturchilar bu logni ko'rib, xuddi kinoni qayta ko'rgandek
+  tizimda nima bo'lganini aniq tushunishadi.

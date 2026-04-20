@@ -23,15 +23,18 @@ from apps.utils.send_email import send_user_email
 from apps.utils.tokens import account_activation_token
 from root import settings
 
+
 class BookingStep1View(DetailView):
     model = Destination
     template_name = 'apps/booking_step1.html'
     context_object_name = 'destination'
 
+
 class BookingStep2View(DetailView):
     model = Destination
     template_name = 'apps/booking_step2.html'
     context_object_name = 'destination'
+
 
 class WeatherView(View):
     """
@@ -177,59 +180,6 @@ class HomeTemplateView(TemplateView):
         return context
 
 
-# class LoadMoreDestinationsView(View):
-#
-#     def get(self, request):
-#         section = request.GET.get('section', '')
-#         offset = int(request.GET.get('offset', 3))
-#         now = timezone.now()
-#
-#         if section == 'flash':
-#             destinations = Destination.objects.filter(
-#                 is_flash_sale=True,
-#                 flash_sale_end__gt=now,
-#                 discount_percentage__gt=0
-#             ).select_related('city').prefetch_related('tags', 'images').only(
-#                 'slug', 'name', 'location', 'short_description',
-#                 'hotels_count', 'duration', 'price', 'price_label',
-#                 'discount_percentage', 'flash_sale_end',
-#                 'is_flash_sale', 'city__name', 'has_flights'
-#             )
-#             template_name = 'apps/partials/_flash_card.html'
-#
-#         elif section == 'featured':
-#             destinations = Destination.objects.filter(
-#                 is_featured=True
-#             ).select_related('city').prefetch_related('tags', 'images', 'activities').only(
-#                 'slug', 'package_type', 'name', 'location',
-#                 'short_description', 'duration', 'price_label', 'price',
-#                 'restaurants_count', 'has_flights', 'city__name'
-#             )
-#             template_name = 'apps/partials/_featured_card.html'
-#
-#         elif section == 'trending':
-#             destinations = Destination.objects.filter(
-#                 is_trending=True
-#             ).select_related('city').prefetch_related('tags', 'images').only(
-#                 'slug', 'name', 'location', 'short_description',
-#                 'hotels_count', 'duration', 'price_label',
-#                 'price', 'has_flights', 'city__name'
-#             )
-#             template_name = 'apps/partials/_trending_card.html'
-#
-#         else:
-#             return HttpResponse('', status=400)
-#
-#         total = destinations.count()
-#         batch = destinations[offset: offset + 3]
-#         has_more = (offset + 3) < total
-#
-#         return render(request, template_name, {
-#             'destinations': batch,
-#             'has_more': has_more,
-#             'total': total,
-#             'next_offset': offset + 3,
-#         })
 class LoadMoreDestinationsView(View):
 
     def get(self, request):
@@ -283,7 +233,6 @@ class LoadMoreDestinationsView(View):
         total = destinations.count()
         batch = destinations[offset: offset + 3]
         has_more = (offset + 3) < total
-
 
         from django.template.loader import render_to_string
         html = "".join([

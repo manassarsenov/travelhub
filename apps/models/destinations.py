@@ -1,7 +1,7 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import (CASCADE, SET_NULL, BooleanField, CharField,
                               ForeignKey, ManyToManyField,
-                              PositiveIntegerField, PositiveSmallIntegerField, ImageField)
+                              PositiveIntegerField, PositiveSmallIntegerField, ImageField, TimeField)
 from django.db.models.enums import TextChoices
 from django.db.models.fields import DecimalField, DateTimeField, TextField
 from django_ckeditor_5.fields import CKEditor5Field
@@ -164,14 +164,6 @@ class HotelImage(ImageBaseModel):
 
     class Meta:
         ordering = ['order']
-
-
-from django.db.models import (CASCADE, SET_NULL, BooleanField, CharField,
-                              DecimalField, ForeignKey, PositiveSmallIntegerField,
-                              TimeField)
-from django.db.models.enums import TextChoices
-
-from apps.models.base import CreatedBaseModel
 
 
 class Flight(CreatedBaseModel):
