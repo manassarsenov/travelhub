@@ -1,0 +1,634 @@
+{% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}<title>All Reviews for {{ destination.name }} — TravelHub</title>{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'apps/css/destination_detail.css' %}">
+    <style>
+        /* =========================================
+           HERO SECTION & LAYOUT
+           ========================================= */
+        .all-rev-hero {
+            position: relative;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .all-rev-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.85));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            letter-spacing: -1px;
+        }
+
+        .back-to-dest {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            padding: 10px 24px;
+            border-radius: 100px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .back-to-dest:hover {
+            background: white;
+            color: #1e293b;
+            transform: translateY(-2px);
+        }
+
+        .reviews-hub-container {
+            max-width: 1200px;
+            margin: -80px auto 100px;
+            position: relative;
+            z-index: 10;
+            padding: 0 20px;
+        }
+
+        .hub-layout {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 40px;
+        }
+
+        /* =========================================
+           SIDEBAR STATS
+           ========================================= */
+        .hub-sidebar {
+            position: sticky;
+            top: 100px;
+            align-self: start;
+        }
+
+        .stats-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            text-align: center;
+        }
+
+        .header-badge {
+            background: #eef2ff;
+            color: #6366f1;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .big-rating {
+            font-size: 72px;
+            font-weight: 900;
+            color: #1e293b;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .big-stars {
+            color: #fbbf24;
+            font-size: 22px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .rating-bars {
+            margin-top: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .bar-row > span:first-child {
+            width: 80px;
+            text-align: left;
+        }
+
+        .bar-track {
+            flex-grow: 1;
+            height: 8px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+
+        /* =========================================
+           MAIN CONTENT & FILTERS
+           ========================================= */
+        .hub-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .hub-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .filter-pills {
+            display: flex;
+            gap: 10px;
+            background: #ffffff;
+            padding: 6px;
+            border-radius: 100px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+        }
+
+        .filter-pills a {
+            text-decoration: none;
+        }
+
+        .filter-pill {
+            padding: 8px 20px;
+            border-radius: 100px;
+            background: transparent;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-pill:hover:not(.active) {
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        .filter-pill.active {
+            background: #1e293b;
+            color: white;
+            box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2);
+        }
+
+        /* =========================================
+           PREMIUM FULL-WIDTH REVIEW CARDS
+           ========================================= */
+        .reviews-list-hub {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .full-width-card {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .full-width-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.08);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        .list-view-text {
+            font-size: 15.5px;
+            line-height: 1.75;
+            color: #334155;
+            display: block !important;
+            overflow: visible !important;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* LAYK TUGMASI UCHUN MAXSUS STIL (MUHIM!) */
+        .rev-like-pill {
+            border: none;
+            background: #f1f5f9;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            font-weight: 700;
+        }
+
+        /* JavaScript "liked" class qo'shadi, biz ikkalasini ham hisobga olamiz */
+        .rev-like-pill.is-active,
+        .rev-like-pill.liked {
+            background: #eef2ff !important;
+            color: #6366f1 !important;
+            box-shadow: inset 0 2px 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .rev-like-pill:hover {
+            background: #e2e8f0;
+        }
+
+        /* =========================================
+           PAGINATION
+           ========================================= */
+        .hub-pagination {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: white;
+            padding: 10px 25px;
+            border-radius: 100px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .page-nav {
+            color: #1e293b;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .page-nav:hover {
+            color: #6366f1;
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 5px;
+        }
+
+        .page-num {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .page-num:hover:not(.active) {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .page-num.active {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .hub-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .hub-sidebar {
+                position: static;
+            }
+
+            .reviews-hub-container {
+                margin-top: -40px;
+            }
+        }
+        
+    </style>
+
+
+{% endblock %}
+
+{% block main_content %}
+    <section class="all-rev-hero" style="background-image: url('{% if destination.images.first %}{{ destination.images.first.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}');">
+        <div class="hero-content">
+            <a href="{% url 'destination_detail_page' destination.slug %}" class="back-to-dest">
+                <i class="fas fa-arrow-left"></i> Back to destination
+            </a>
+            <h1>{{ destination.name }}</h1>
+            <p>Community Stories & Authentic Experiences</p>
+        </div>
+    </section>
+
+    <div class="reviews-hub-container">
+        <div class="hub-layout">
+
+            <aside class="hub-sidebar">
+                <div class="stats-card">
+                    <span class="header-badge"><i class="fas fa-chart-line"></i> Rating Summary</span>
+                    <div class="big-rating">{{ destination.rating|floatformat:1 }}</div>
+
+                    <div class="big-stars">
+                        {% for i in "12345" %}
+                            <i class="fas fa-star"
+                               style="opacity: {% if forloop.counter <= destination.rating %}1{% else %}0.3{% endif %};"></i>
+                        {% endfor %}
+                    </div>
+                    <p style="color: #64748b; font-weight: 500;">Based on {{ total_count }} reviews</p>
+
+                    <div class="rating-bars">
+                        <div class="bar-row">
+                            <span>Quality</span>
+                            <div class="bar-track">
+                                <div class="bar-fill"
+                                     style="width: {% widthratio destination.service_score 5 100 %}%;"></div>
+                            </div>
+                            <span>{{ destination.service_score|floatformat:1 }}</span>
+                        </div>
+                        <div class="bar-row">
+                            <span>Cleanliness</span>
+                            <div class="bar-track">
+                                <div class="bar-fill"
+                                     style="width: {% widthratio destination.cleanliness_score 5 100 %}%;"></div>
+                            </div>
+                            <span>{{ destination.cleanliness_score|floatformat:1 }}</span>
+                        </div>
+                        <div class="bar-row">
+                            <span>Facilities</span>
+                            <div class="bar-track">
+                                <div class="bar-fill"
+                                     style="width: {% widthratio destination.facilities_score 5 100 %}%;"></div>
+                            </div>
+                            <span>{{ destination.facilities_score|floatformat:1 }}</span>
+                        </div>
+                        <div class="bar-row">
+                            <span>Value</span>
+                            <div class="bar-track">
+                                <div class="bar-fill"
+                                     style="width: {% widthratio destination.value_score 5 100 %}%;"></div>
+                            </div>
+                            <span>{{ destination.value_score|floatformat:1 }}</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary-v2"
+                            style="width: 100%; margin-top: 40px; padding: 16px; border-radius: 16px; font-weight: 700; font-size: 15px; border: none; cursor: pointer; color: white; background: linear-gradient(135deg, #6366f1, #a855f7);"
+                            onclick="openReviewModal()">
+                        <i class="fas fa-pen-fancy"></i> Write a review
+                    </button>
+                </div>
+            </aside>
+
+            <main class="hub-main">
+                <div class="hub-header-row">
+                    <h3 class="hub-title">Guest Reviews ({{ total_count }})</h3>
+                    <div class="filter-pills">
+                        <a href="?sort=newest" class="filter-pill {% if current_sort == 'newest' %}active{% endif %}">Newest</a>
+                        <a href="?sort=highest" class="filter-pill {% if current_sort == 'highest' %}active{% endif %}">Highest
+                            Rated</a>
+                        <a href="?sort=lowest" class="filter-pill {% if current_sort == 'lowest' %}active{% endif %}">Lowest
+                            Rated</a>
+                    </div>
+                </div>
+
+<div class="reviews-list-hub">
+    {% for review in hub_reviews %}
+        <div class="dcd-review-card-v2 full-width-card" style="margin-bottom: 20px;">
+            <div class="card-glass-effect"></div>
+
+            <div class="card-top">
+                <div class="user-profile">
+                    <div class="avatar-wrapper">
+                        <div class="avatar-gradient" style="background: linear-gradient(135deg, #6366f1, #a855f7);">
+                            {{ review.author_name|default:review.user.username|first|upper }}
+                        </div>
+                        {% if review.is_verified %}
+                            <div class="verified-indicator" title="Verified Traveller">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="user-info">
+                        <h4 class="user-name">{{ review.author_name|default:review.user.username }}</h4>
+                        <div class="user-meta">
+                            {% if review.author_country %}
+                                <span class="country">{{ review.author_country.name }}</span>
+                                <span class="dot"></span>
+                            {% endif %}
+                            <span class="date">{{ review.created_at|date:"M Y" }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="rating-box">
+                    <div class="rating-value">{{ review.rating }}</div>
+                    <div class="rating-stars">
+                        {% for i in "12345" %}
+                            <i class="fas fa-star {% if forloop.counter <= review.rating %}active{% endif %}"></i>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="quote-icon-bg">
+                    <i class="fas fa-quote-right"></i>
+                </div>
+                <p class="review-text-content list-view-text">{{ review.text }}</p>
+            </div>
+
+            <div class="card-footer">
+                <div class="visit-type-tag type-{{ review.visit_type|default:'general' }}">
+                    {% if review.visit_type == 'family' %}<i class="fas fa-users"></i>
+                    {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i>
+                    {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i>
+                    {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i>
+                    {% else %}<i class="fas fa-map-marker-alt"></i>{% endif %}
+                    <span>{{ review.get_visit_type_display|default:'Visited' }}</span>
+                </div>
+
+                <div class="footer-actions">
+                    <button class="like-button-v2 {% if request.user in review.likes.all %}is-liked{% endif %}"
+                            data-url="{% url 'toggle_review_like' review.id %}"
+                            onclick="toggleLike(this)">
+                        <div class="like-icon-wrap">
+                            <i class="{% if request.user in review.likes.all %}fas{% else %}far{% endif %} fa-heart"></i>
+                        </div>
+                        <span class="count">{{ review.likes.count }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    {% empty %}
+        <div class="empty-reviews-state-v2">
+            <div class="empty-art"><i class="fas fa-feather-alt"></i></div>
+            <h3>The stage is yours</h3>
+            <p>No stories have been shared yet. Be the pioneer and share your thoughts.</p>
+            <button class="btn-primary-v2" onclick="openReviewModal()">Share your experience</button>
+        </div>
+    {% endfor %}
+</div>
+                {% if hub_reviews.has_other_pages %}
+                    <div class="hub-pagination">
+                        <div class="pagination-wrapper">
+                            {% if hub_reviews.has_previous %}
+                                <a href="?page={{ hub_reviews.previous_page_number }}&sort={{ current_sort }}"
+                                   class="page-nav">
+                                    <i class="fas fa-chevron-left"></i> Prev
+                                </a>
+                            {% endif %}
+
+                            <div class="page-numbers">
+                                {% for num in hub_reviews.paginator.page_range %}
+                                    {% if hub_reviews.number == num %}
+                                        <span class="page-num active">{{ num }}</span>
+                                    {% elif num > hub_reviews.number|add:'-3' and num < hub_reviews.number|add:'3' %}
+                                        <a href="?page={{ num }}&sort={{ current_sort }}" class="page-num">{{ num }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            {% if hub_reviews.has_next %}
+                                <a href="?page={{ hub_reviews.next_page_number }}&sort={{ current_sort }}"
+                                   class="page-nav">
+                                    Next <i class="fas fa-chevron-right"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            </main>
+        </div>
+    </div>
+
+    {% include 'apps/partials/_review_modal.html' %}
+
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{% static 'apps/js/destination_detail.js' %}"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Hamma yulduzchalar qatorini topamiz
+            const containers = document.querySelectorAll('.dcd-rm-stars-mini');
+
+            containers.forEach(container => {
+                const categoryName = container.getAttribute('data-category');
+                const hiddenInput = document.getElementById('val-' + categoryName);
+
+                // HTML da yozgan <span class="star-wrap"> larni topamiz
+                const starWraps = Array.from(container.querySelectorAll('.star-wrap'));
+
+                if (!hiddenInput || starWraps.length === 0) return;
+
+                // Bo'yash funksiyasi (CSS ni ustidan bosib yozadi)
+                function updateStars(rating) {
+                    starWraps.forEach(wrap => {
+                        const val = parseInt(wrap.getAttribute('data-val'));
+                        if (val <= rating) {
+                            wrap.classList.add('active');
+                            // Majburan sariqqa bo'yash
+                            wrap.style.setProperty('color', '#fbbf24', 'important');
+                            wrap.style.setProperty('filter', 'drop-shadow(0 0 8px rgba(251, 191, 36, 0.5))', 'important');
+                        } else {
+                            wrap.classList.remove('active');
+                            // Majburan kulrang qilish
+                            wrap.style.setProperty('color', '#e2e8f0', 'important');
+                            wrap.style.setProperty('filter', 'none', 'important');
+                        }
+                    });
+                }
+
+                // Default o'rnatilgan qiymat (masalan: 5)
+                let currentSavedRating = parseInt(hiddenInput.value) || 5;
+                updateStars(currentSavedRating);
+
+                // Hover va Click
+                starWraps.forEach(wrap => {
+                    const wrapVal = parseInt(wrap.getAttribute('data-val'));
+
+                    // Sichqoncha borganda (Hover)
+                    wrap.addEventListener('mouseenter', () => {
+                        updateStars(wrapVal);
+                    });
+
+                    // Sichqoncha ketganda (Mouseleave)
+                    wrap.addEventListener('mouseleave', () => {
+                        updateStars(currentSavedRating);
+                    });
+
+                    // Yulduz BOSILGANDA (Click - SAQLASH qismi)
+                    wrap.addEventListener('click', () => {
+                        currentSavedRating = wrapVal;
+                        hiddenInput.value = currentSavedRating; // <-- Inputga bexato saqlaydi!
+                        updateStars(currentSavedRating);
+
+                        // Kichik vizual sakrash effekti
+                        wrap.style.transform = 'scale(1.4)';
+                        setTimeout(() => {
+                            wrap.style.transform = 'scale(1)';
+                        }, 150);
+                    });
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

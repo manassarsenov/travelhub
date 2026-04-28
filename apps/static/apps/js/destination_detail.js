@@ -428,14 +428,92 @@ document.addEventListener('keydown', e => {
 /* =====================================================
    REVIEWS SLIDER
    ===================================================== */
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initReviewSlider, 100);
+});
+
+function initReviewSlider() {
+    const track = document.getElementById('dcd-reviews-track');
+    const prevBtn = document.getElementById('rev-prev');
+    const nextBtn = document.getElementById('rev-next');
+    const controls = document.querySelector('.dcd-slider-navigation-v2');
+
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const cards = track.querySelectorAll('.dcd-review-card-v2');
+
+    // QOIDA: Agar reviewlar 0 ta bo'lsa, hamma narsani yashiramiz
+    if (cards.length === 0) {
+        if (controls) controls.style.display = 'none';
+        return;
+    }
+
+    // Agar 2 ta yoki undan kam bo'lsa, strelkalarni yashiramiz
+    if (cards.length <= 2) {
+        prevBtn.classList.add('hide-arrow');
+        nextBtn.classList.add('hide-arrow');
+        const status = document.querySelector('.slider-status-v2');
+        if (status) status.style.display = 'none';
+        return;
+    }
+
+    S.reviewIdx = 0;
+    track.style.transform = `translateX(0px)`;
+    updateArrowStates(cards.length);
+    updateProgressBar(0, cards.length);
+}
+
 function slideReviews(dir) {
     const track = document.getElementById('dcd-reviews-track');
     if (!track) return;
-    const cards = track.querySelectorAll('.dcd-review-card');
-    const cardW = 316; // 300px + 16px gap
+    const cards = track.querySelectorAll('.dcd-review-card-v2');
+    if (cards.length <= 2) return;
+
+    const cardW = cards[0].offsetWidth + 30; // 30px gap for V2
     const max = Math.max(0, cards.length - 2);
+
     S.reviewIdx = Math.max(0, Math.min(max, S.reviewIdx + dir));
+
+    track.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
     track.style.transform = `translateX(-${S.reviewIdx * cardW}px)`;
+
+    updateArrowStates(cards.length, max);
+    updateProgressBar(S.reviewIdx, cards.length);
+}
+
+function updateProgressBar(idx, total) {
+    const bar = document.getElementById('review-progress-bar');
+    if (!bar) return;
+    const progress = ((idx) / (total - 2)) * 100;
+    bar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+}
+
+function updateArrowStates(totalCards, maxIdx = null) {
+    const prevBtn = document.getElementById('rev-prev');
+    const nextBtn = document.getElementById('rev-next');
+
+    if (!prevBtn || !nextBtn) return;
+
+    if (totalCards <= 2) {
+        prevBtn.classList.add('hide-arrow');
+        nextBtn.classList.add('hide-arrow');
+        return;
+    }
+
+    if (maxIdx === null) {
+        maxIdx = Math.max(0, totalCards - 2);
+    }
+
+    if (S.reviewIdx <= 0) {
+        prevBtn.classList.add('hide-arrow');
+        nextBtn.classList.remove('hide-arrow');
+    } else if (S.reviewIdx >= maxIdx) {
+        nextBtn.classList.add('hide-arrow');
+        prevBtn.classList.remove('hide-arrow');
+    } else {
+        prevBtn.classList.remove('hide-arrow');
+        nextBtn.classList.remove('hide-arrow');
+    }
 }
 
 /* =====================================================
@@ -770,4 +848,68 @@ function getCsrfToken() {
         .split(';')
         .find(c => c.trim().startsWith('csrftoken='));
     return cookie ? decodeURIComponent(cookie.trim().split('=')[1]) : '';
+}
+
+// Izohlarga Like bosish funksiyasi
+function toggleLike(buttonElement) {
+    const url = buttonElement.getAttribute('data-url');
+    const icon = buttonElement.querySelector('i');
+    const countSpan = buttonElement.querySelector('.count');
+
+    // Kichik loading effekti
+    icon.style.opacity = '0.5';
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            if(response.status === 403 || response.status === 401) {
+                showToast('Info', 'Please login to like reviews', 'info');
+                throw new Error('Unauthorized');
+            }
+            throw new Error('Network error');
+        }
+        return response.json();
+    })
+    .then(data => {
+        icon.style.opacity = '1';
+
+        // Ekranda raqamni yangilash
+        if (countSpan) countSpan.textContent = data.total_likes;
+
+        // Tugma holatini o'zgartirish
+        if (data.liked) {
+            buttonElement.classList.add('is-liked');
+            icon.className = 'fas fa-heart'; // To'ldirilgan yurak
+        } else {
+            buttonElement.classList.remove('is-liked');
+            icon.className = 'far fa-heart'; // Bo'sh yurak
+        }
+    })
+    .catch(error => {
+        icon.style.opacity = '1';
+        console.error('Like error:', error);
+    });
+}
+
+// Django CSRF tokenini olish
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }

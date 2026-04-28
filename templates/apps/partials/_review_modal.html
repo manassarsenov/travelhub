@@ -1,0 +1,375 @@
+<style>
+    /* ================================================================
+       MODAL UCHUN MAXSUS CSS (O'zi bilan olib yuradi)
+       ================================================================ */
+    .dcd-review-modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 300000; display: none; align-items: center; justify-content: center; padding: 20px; animation: fadeInOverlay 0.25s ease; }
+    .dcd-review-modal-overlay.open { display: flex; }
+    @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+    .dcd-review-modal { background: #fff; border-radius: 28px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(102, 126, 234, .3) transparent; box-shadow: 0 30px 90px rgba(0, 0, 0, .30); animation: slideUpModal 0.35s cubic-bezier(.4, 0, .2, 1); position: relative; }
+    @keyframes slideUpModal { from { opacity: 0; transform: translateY(40px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    .dcd-rm-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 28px 20px; border-bottom: 1px solid #f1f5f9; position: sticky; top: 0; background: #fff; z-index: 10; border-radius: 28px 28px 0 0; }
+    .dcd-rm-header-left { display: flex; align-items: center; gap: 14px; }
+    .dcd-rm-icon { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #fbbf24, #f59e0b); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(251, 191, 36, .40); flex-shrink: 0; }
+    .dcd-rm-icon i { color: #fff; font-size: 18px; }
+    .dcd-rm-header h3 { font-size: 17px; font-weight: 800; color: #1e293b; margin: 0 0 2px 0; }
+    .dcd-rm-header p { font-size: 12px; color: #64748b; max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; }
+    .dcd-rm-close { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #e2e8f0; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #64748b; transition: all 0.24s ease; flex-shrink: 0; }
+    .dcd-rm-close:hover { background: #fee2e2; border-color: #fca5a5; color: #ef4444; transform: rotate(90deg); }
+
+    .dcd-rm-form { padding: 24px 28px; }
+    .dcd-rm-section { margin-bottom: 28px; }
+    .dcd-rm-label { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 14px; }
+    .dcd-rm-step { width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    /* CATEGORIES & ICONS */
+    .dcd-rm-detailed-ratings { display: flex; flex-direction: column; gap: 12px; }
+    .dcd-rm-rating-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; margin-bottom: 12px; background: rgba(248, 250, 252, 0.8) !important; border: 1px solid rgba(226, 232, 240, 0.8) !important; border-radius: 20px !important; transition: all 0.3s ease !important; }
+    .dcd-rm-rating-row:hover { transform: translateX(5px) scale(1.01) !important; background: #fff !important; border-color: #6366f1 !important; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.1) !important; }
+    .cat-label-wrap { display: flex; align-items: center; gap: 15px; }
+    .cat-icon { width: 42px; height: 42px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff !important; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); }
+    .cat-icon.service { background: linear-gradient(135deg, #FF9A9E, #FECFEF) !important; }
+    .cat-icon.cleanliness { background: linear-gradient(135deg, #4facfe, #00f2fe) !important; }
+    .cat-icon.facilities { background: linear-gradient(135deg, #43e97b, #38f9d7) !important; }
+    .cat-icon.location { background: linear-gradient(135deg, #fa709a, #fee140) !important; }
+    .cat-icon.value { background: linear-gradient(135deg, #f6d365, #fda085) !important; }
+    .cat-info { display: flex; flex-direction: column; gap: 2px; }
+    .cat-name { font-size: 15px !important; font-weight: 800 !important; color: #1e293b !important; display: block; margin-bottom: 2px; }
+    .cat-desc { font-size: 11px !important; color: #64748b !important; font-weight: 500; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* STARS (ENG MUHIM QISM) */
+    .dcd-rm-stars-mini { display: flex; gap: 6px; }
+    .dcd-rm-stars-mini .star-wrap { color: #e2e8f0 !important; font-size: 26px !important; cursor: pointer !important; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important; display: inline-block !important; }
+    .dcd-rm-stars-mini .star-wrap.active { color: #fbbf24 !important; filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.5)) !important; }
+    .dcd-rm-stars-mini .star-wrap:hover { transform: scale(1.3) !important; }
+    .dcd-rm-stars-mini .star-wrap svg, .dcd-rm-stars-mini .star-wrap i { color: inherit !important; fill: currentColor !important; pointer-events: none !important; }
+
+    /* VISIT TYPES */
+    .dcd-rm-visit-types { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .dcd-rm-vtype { display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 14px 8px; border-radius: 14px; border: 2px solid #e2e8f0; background: #fff; cursor: pointer; font-size: 12px; font-weight: 600; color: #1e293b; transition: all 0.24s ease; outline: none; }
+    .dcd-rm-vtype i { font-size: 20px; color: #64748b; transition: color 0.24s ease; }
+    .dcd-rm-vtype:hover { border-color: #6366f1; background: rgba(99, 102, 241, .05); color: #6366f1; }
+    .dcd-rm-vtype:hover i { color: #6366f1; }
+    .dcd-rm-vtype.active { border-color: #6366f1; background: rgba(99, 102, 241, .08); color: #6366f1; box-shadow: 0 4px 14px rgba(99, 102, 241, .20); }
+    .dcd-rm-vtype.active i { color: #6366f1; }
+
+    /* TEXTAREA & FOOTER */
+    .dcd-rm-textarea-wrap { position: relative; }
+    .dcd-rm-textarea { width: 100%; padding: 16px 18px; border: 2px solid #e2e8f0; border-radius: 16px; font-size: 14px; color: #1e293b; min-height: 130px; resize: vertical; outline: none; background: #fff; line-height: 1.65; }
+    .dcd-rm-textarea:focus { border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99, 102, 241, .12); }
+    .dcd-rm-char-count { position: absolute; bottom: 12px; right: 14px; font-size: 11px; color: #64748b; font-weight: 600; background: rgba(255, 255, 255, .9); padding: 2px 8px; border-radius: 6px; }
+    .dcd-rm-input { width: 100%; padding: 13px 16px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 14px; color: #1e293b; background: #fff; outline: none; cursor: pointer; }
+    .dcd-rm-input:focus { border-color: #6366f1; }
+    .dcd-rm-footer { padding-top: 20px; border-top: 1px solid #f1f5f9; display: flex; flex-direction: column; gap: 14px; align-items: stretch; }
+    .dcd-rm-disclaimer { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #64748b; line-height: 1.5; margin: 0; }
+    .dcd-rm-disclaimer i { color: #10b981; font-size: 13px; margin-top: 1px; flex-shrink: 0; }
+    .dcd-rm-submit-btn { width: 100%; padding: 17px; background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; border: none; border-radius: 14px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 28px rgba(102, 126, 234, .42); transition: all 0.3s ease; outline: none; }
+    .dcd-rm-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 38px rgba(102, 126, 234, .55); }
+
+    /* Login Wall CSS */
+    .dcd-rm-login-wall { padding: 40px 28px; text-align: center; }
+    .dcd-rm-lw-icon { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, rgba(102, 126, 234, .12), rgba(118, 75, 162, .12)); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+    .dcd-rm-lw-icon i { font-size: 28px; background: linear-gradient(135deg, #6366f1, #a855f7); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .dcd-rm-login-wall h4 { font-size: 20px; font-weight: 800; color: #1e293b; margin-bottom: 10px; margin-top: 0; }
+    .dcd-rm-login-wall > p { font-size: 14px; color: #64748b; line-height: 1.65; margin-bottom: 28px; margin-top: 0; }
+    .dcd-rm-lw-actions { display: flex; gap: 12px; justify-content: center; margin-bottom: 28px; flex-wrap: wrap; }
+    .dcd-rm-login-btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 28px; background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff !important; border-radius: 50px; font-size: 14px; font-weight: 700; text-decoration: none; box-shadow: 0 6px 20px rgba(102, 126, 234, .40); transition: all 0.3s ease; }
+    .dcd-rm-login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(102, 126, 234, .52); }
+    .dcd-rm-register-btn { display: inline-flex; align-items: center; padding: 13px 28px; border: 2px solid #e2e8f0; border-radius: 50px; font-size: 14px; font-weight: 700; color: #1e293b !important; text-decoration: none; transition: all 0.3s ease; }
+    .dcd-rm-register-btn:hover { border-color: #6366f1; color: #6366f1 !important; background: rgba(102, 126, 234, .05); }
+    .dcd-rm-lw-benefits { display: flex; flex-direction: column; gap: 10px; text-align: left; background: #f8fafc; border-radius: 14px; padding: 18px 22px; }
+    .dcd-rm-benefit { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #1e293b; font-weight: 500; }
+    .dcd-rm-benefit i { color: #10b981; font-size: 14px; }
+</style>
+<div class="dcd-review-modal-overlay" id="reviewModal" onclick="closeReviewModal(event)">
+    <div class="dcd-review-modal" onclick="event.stopPropagation()">
+
+        <div class="dcd-rm-header">
+            <div class="dcd-rm-header-left">
+                <div class="dcd-rm-icon"><i class="fas fa-star"></i></div>
+                <div>
+                    <h3>{% if user_review %}Edit your Review{% else %}Write a Review{% endif %}</h3>
+                    <p id="dcd-rm-dest-name">{{ destination.name }}</p>
+                </div>
+            </div>
+            <button class="dcd-rm-close" onclick="closeReviewModal()"><i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        {% if not request.user.is_authenticated %}
+            <div class="dcd-rm-login-wall">
+                <div class="dcd-rm-lw-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h4>Sign in to write a review</h4>
+                <p>Join millions of travellers sharing their experiences on TravelHub</p>
+                <div class="dcd-rm-lw-actions">
+                    <a href="{% url 'login_page' %}?next={{ request.path|urlencode }}"
+                       class="dcd-rm-login-btn">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </a>
+                    <a href="{% url 'register_page' %}?next={{ request.path|urlencode }}"
+                       class="dcd-rm-register-btn">
+                        Create Account
+                    </a>
+                </div>
+                <div class="dcd-rm-lw-benefits">
+                    <div class="dcd-rm-benefit"><i class="fas fa-check-circle">
+                    </i><span>Share honest reviews</span>
+                    </div>
+                    <div class="dcd-rm-benefit"><i class="fas fa-check-circle">
+                    </i><span>Help other travellers</span>
+                    </div>
+                    <div class="dcd-rm-benefit"><i class="fas fa-check-circle">
+                    </i><span>Build your travel profile</span>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <form class="dcd-rm-form" id="reviewForm" action="{% url 'submit_review' %}"
+                  method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="destination_slug" value="{{ destination.slug }}">
+
+                <div class="dcd-rm-section">
+                    <label class="dcd-rm-label"><span class="dcd-rm-step">01</span>Rate your
+                        experience</label>
+                    <div class="dcd-rm-detailed-ratings">
+                        <div class="dcd-rm-rating-row">
+                            <div class="cat-label-wrap">
+                                <div class="cat-icon service"><i class="fas fa-concierge-bell"></i>
+                                </div>
+                                <div class="cat-info"><span
+                                        class="cat-name">Quality of Service</span><span
+                                        class="cat-desc">Staff and hospitality</span></div>
+                            </div>
+                            <div class="dcd-rm-stars-mini" data-category="service_quality">
+                                                    <span class="star-wrap" data-val="1"><i
+                                                            class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="2"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="3"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="4"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="5"><i
+                                        class="fas fa-star"></i></span>
+                            </div>
+                            <input type="hidden" name="service_quality" id="val-service_quality"
+                                   value="
+
+
+
+
+
+
+
+
+
+                                           {% if user_review %}{{ user_review.service_quality }}{% else %}5{% endif %}">
+                        </div>
+                        <div class="dcd-rm-rating-row">
+                            <div class="cat-label-wrap">
+                                <div class="cat-icon cleanliness"><i class="fas fa-sparkles"></i>
+                                </div>
+                                <div class="cat-info"><span class="cat-name">Cleanliness</span><span
+                                        class="cat-desc">Hygiene and neatness</span></div>
+                            </div>
+                            <div class="dcd-rm-stars-mini" data-category="cleanliness">
+                                                    <span class="star-wrap" data-val="1"><i
+                                                            class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="2"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="3"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="4"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="5"><i
+                                        class="fas fa-star"></i></span>
+                            </div>
+                            <input type="hidden" name="cleanliness" id="val-cleanliness" value="
+
+
+
+
+
+
+
+
+
+                                    {% if user_review %}{{ user_review.cleanliness }}{% else %}5{% endif %}">
+                        </div>
+                        <div class="dcd-rm-rating-row">
+                            <div class="cat-label-wrap">
+                                <div class="cat-icon facilities"><i
+                                        class="fas fa-swimming-pool"></i></div>
+                                <div class="cat-info"><span class="cat-name">Facilities</span><span
+                                        class="cat-desc">Amenities and equipment</span></div>
+                            </div>
+                            <div class="dcd-rm-stars-mini" data-category="facilities">
+                                                    <span class="star-wrap" data-val="1"><i
+                                                            class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="2"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="3"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="4"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="5"><i
+                                        class="fas fa-star"></i></span>
+                            </div>
+                            <input type="hidden" name="facilities" id="val-facilities" value="
+
+
+
+
+
+
+
+
+
+                                    {% if user_review %}{{ user_review.facilities }}{% else %}5{% endif %}">
+                        </div>
+                        <div class="dcd-rm-rating-row">
+                            <div class="cat-label-wrap">
+                                <div class="cat-icon location"><i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="cat-info"><span class="cat-name">Location</span><span
+                                        class="cat-desc">Accessibility and area</span></div>
+                            </div>
+                            <div class="dcd-rm-stars-mini" data-category="location_rating">
+                                                    <span class="star-wrap" data-val="1"><i
+                                                            class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="2"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="3"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="4"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="5"><i
+                                        class="fas fa-star"></i></span>
+                            </div>
+                            <input type="hidden" name="location_rating" id="val-location_rating"
+                                   value="
+
+
+
+
+
+
+
+
+
+                                           {% if user_review %}{{ user_review.location_rating }}{% else %}5{% endif %}">
+                        </div>
+                        <div class="dcd-rm-rating-row">
+                            <div class="cat-label-wrap">
+                                <div class="cat-icon value"><i class="fas fa-wallet"></i></div>
+                                <div class="cat-info"><span
+                                        class="cat-name">Value for Money</span><span
+                                        class="cat-desc">Price and experience</span></div>
+                            </div>
+                            <div class="dcd-rm-stars-mini" data-category="value_for_money">
+                                                    <span class="star-wrap" data-val="1"><i
+                                                            class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="2"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="3"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="4"><i
+                                        class="fas fa-star"></i></span>
+                                <span class="star-wrap" data-val="5"><i
+                                        class="fas fa-star"></i></span>
+                            </div>
+                            <input type="hidden" name="value_for_money" id="val-value_for_money"
+                                   value="
+
+
+
+
+
+
+
+
+
+                                           {% if user_review %}{{ user_review.value_for_money }}{% else %}5{% endif %}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dcd-rm-section">
+                    <label class="dcd-rm-label"><span class="dcd-rm-step">02</span>How did you
+                        visit?</label>
+                    <div class="dcd-rm-visit-types">
+                        <button type="button"
+                                class="dcd-rm-vtype {% if user_review.visit_type == 'family' %}active{% endif %}"
+                                data-val="family" onclick="setVisitType(this)"><i
+                                class="fas fa-users"></i> Family
+                        </button>
+                        <button type="button"
+                                class="dcd-rm-vtype {% if user_review.visit_type == 'partner' %}active{% endif %}"
+                                data-val="partner" onclick="setVisitType(this)"><i
+                                class="fas fa-heart"></i> Partner
+                        </button>
+                        <button type="button"
+                                class="dcd-rm-vtype {% if user_review.visit_type == 'solo' %}active{% endif %}"
+                                data-val="solo" onclick="setVisitType(this)"><i
+                                class="fas fa-user"></i> Solo
+                        </button>
+                        <button type="button"
+                                class="dcd-rm-vtype {% if user_review.visit_type == 'friends' %}active{% endif %}"
+                                data-val="friends" onclick="setVisitType(this)"><i
+                                class="fas fa-user-friends"></i> Friends
+                        </button>
+                    </div>
+                    <input type="hidden" name="visit_type" id="rm-visit-type-val"
+                           value="{% if user_review %}{{ user_review.visit_type }}{% endif %}">
+                </div>
+
+                <div class="dcd-rm-section">
+                    <label class="dcd-rm-label" for="rm-text"><span class="dcd-rm-step">03</span>Your
+                        review</label>
+                    <div class="dcd-rm-textarea-wrap">
+                                            <textarea id="rm-text" name="text" class="dcd-rm-textarea"
+                                                      placeholder="Share what you loved..." rows="5" maxlength="1000"
+                                                      oninput="updateCharCount(this)" required>{% if user_review %}
+                                                {{ user_review.text }}{% endif %}</textarea>
+                        <div class="dcd-rm-char-count"><span id="rm-char-num">0</span>/1000</div>
+                    </div>
+                </div>
+
+                <div class="dcd-rm-section">
+                    <label class="dcd-rm-label" for="rm-visited-at"><span
+                            class="dcd-rm-step">04</span>When did you visit? <span
+                            class="dcd-rm-optional">(optional)</span></label>
+                    <input type="date" id="rm-visited-at" name="visited_at" class="dcd-rm-input"
+                           max="{% now 'Y-m-d' %}" value="
+
+
+
+
+
+
+
+
+
+                            {% if user_review and user_review.visited_at %}{{ user_review.visited_at|date:'Y-m-d' }}{% endif %}">
+                </div>
+
+                <div class="dcd-rm-footer">
+                    <p class="dcd-rm-disclaimer"><i class="fas fa-shield-alt"></i> Your review will
+                        be visible after moderation (usually within 24 hours)</p>
+                    <button type="submit" class="dcd-rm-submit-btn" id="rm-submit-btn"
+                            onclick="document.getElementById('rm-submit-text').style.display='none'; document.getElementById('rm-submit-loading').style.display='inline-block';">
+                                            <span id="rm-submit-text">
+                                                <i class="fas fa-paper-plane"></i> {% if user_review %}Update
+                                                Review{% else %}Submit Review{% endif %}
+                                            </span>
+                        <span id="rm-submit-loading" style="display:none;"><i
+                                class="fas fa-spinner fa-spin"></i> Submitting...</span>
+                    </button>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</div>

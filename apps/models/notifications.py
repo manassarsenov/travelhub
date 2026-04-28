@@ -2,9 +2,11 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import (
     CASCADE, CharField, ForeignKey, JSONField, BooleanField,
-    DateTimeField, TextChoices, Index, TextField
+    DateTimeField, TextChoices, Index, TextField, OneToOneField
 )
 from django.utils.translation import gettext_lazy as _
+
+from apps.models import ActionLog
 from apps.models.base import CreatedBaseModel
 
 
@@ -90,13 +92,47 @@ class Notification(CreatedBaseModel):
             self.read_at = timezone.now()
             self.save()
 
+    def save(self, *args, **kwargs):
+        is_new = self._state.adding
+        super().save(*args, **kwargs)
+
+        if is_new:
+            try:
+                ActionLog.objects.create(
+                    user=self.recipient,  # Xabar oluvchi
+                    category=ActionLog.Category.DATA,  # Data Mutation (TextChoices)
+                    action="Notification System",
+                    verb=self.verb,  # Masalan: 'moderated', 'liked'
+                    level=ActionLog.Level.INFO,  # Info (IntegerChoices: 20)
+                    message=self.description or "No description",
+
+                    # ContentType (Notification obyektining o'ziga bog'laymiz)
+                    content_type=ContentType.objects.get_for_model(self),
+                    object_id=str(self.id),
+                    object_repr=str(self),
+
+                    # Texnik ma'lumotlar (Notification obyektidan olingan holatda)
+                    # Agar request obyektiga kirish imkoni bo'lmasa, bular bo'sh qoladi
+                    path="/internal/notification/",
+                    method="SYSTEM",
+                    post_change_data={
+                        "verb": self.verb,
+                        "level": self.level,
+                        "priority": self.priority
+                    },
+
+                    extra_info=self.extra_data
+                )
+            except Exception as e:
+                import logging
+                logging.getLogger(__name__).error(f"ActionLog creation failed in Notification save: {e}")
+
 
 class NotificationSetting(CreatedBaseModel):
-    user = ForeignKey(
+    user = OneToOneField(
         'apps.User',
         on_delete=CASCADE,
         related_name='notification_settings',
-        unique=True,
         verbose_name=_("User")
     )
 

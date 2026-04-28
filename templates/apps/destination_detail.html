@@ -4,8 +4,28 @@
 {% block title %}<title>Admission to the London Eye — TravelHub</title>{% endblock %}
 
 {% block custom_css %}
-    <link rel="stylesheet" href="{% static 'apps/css/destination_detail.css' %}?v=1.3">
+    <link rel="stylesheet" href="{% static 'apps/css/destination_detail.css' %}?v=123">
 {% endblock %}
+
+
+<!-- SUCCESS STATE -->
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <div class="dcd-rm-success" id="rm-success">
+                <div class="dcd-rm-success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Thank you for your review!</h3>
+                <p>{{ message }}</p>
+                <button class="dcd-rm-success-btn" onclick="closeReviewModal()">
+                    Close <i class="fas fa-times"></i>
+                </button>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+{% endif %}
 
 {% block main_content %}
 
@@ -55,6 +75,10 @@
 
 
 
+
+
+
+
                                      {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
                              alt="{{ destination.name }}" class="dcd-main-img">
                     {% endwith %}
@@ -79,7 +103,7 @@
                                     {% endif %}
                                 </span>
                             </div>
-                            <div class="dcd-rating-count">{{ destination.reviews_count }} reviews</div>
+                            <div class="dcd-rating-count">{{ destination.visible_reviews_count }} reviews</div>
                             <h5 class="dcd-loved-title">What guests loved most</h5>
                             {% if top_review %}
                                 <div class="dcd-top-reviewer">
@@ -118,8 +142,9 @@
             </div>
 
             <!-- QUICK STRIP -->
-            <div class="dcd-quick-strip">
-                {% if destination.is_free_cancellation %}
+            {% if destination.is_free_cancellation or destination.duration %}
+                <div class="dcd-quick-strip">
+
                     <div class="dcd-strip-item dcd-strip-green">
                         <i class="fas fa-check-circle"></i>
                         <div>
@@ -127,15 +152,14 @@
                             <span>{{ destination.cancellation_text }}</span>
                         </div>
                     </div>
-                {% endif %}
 
-                {% if destination.duration %}
                     <div class="dcd-strip-item">
                         <i class="far fa-clock"></i>
                         <div><strong>Duration: {{ destination.get_duration_display }}</strong></div>
                     </div>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
+
 
 
             <!-- DESCRIPTION -->
@@ -248,372 +272,180 @@
                     <div class="dcd-overall">
                         <div class="dcd-overall-score">
                             <i class="fas fa-star" style="color:#fbbf24;font-size:28px;"></i>
-                            <span class="dcd-big-num">{{ destination.rating }}</span>
+                            <span class="dcd-big-num">{{ destination.rating|floatformat:1 }}</span>
                             <span class="dcd-big-label">·
                                 {% if destination.rating >= 4.5 %}Excellent
                                 {% elif destination.rating >= 4.0 %}Fabulous
                                 {% elif destination.rating >= 3.5 %}Good
                                 {% elif destination.rating >= 3.0 %}Average
                                 {% else %}Poor{% endif %}
-                            </span></div>
-                        <a href="#reviews-section" class="dcd-see-all-link">({{ destination.reviews_count }} reviews)
-                            See all reviews</a>
+                            </span>
+                        </div>
+{#                        <a href="#reviews-section" class="dcd-see-all-link">({{ destination.visible_reviews_count }} reviews)#}
+{#                            See all reviews</a>#}
                     </div>
                     <div class="dcd-score-grid">
+
                         <div class="dcd-score-row">
                             <span>Good value</span>
                             <div class="dcd-score-bar">
-                                <div class="dcd-score-fill" data-width="88"></div>
+                                <div class="dcd-score-fill"
+                                     data-width="{% widthratio destination.value_score 5 100 %}"></div>
                             </div>
-                            <span>4.4</span>
+                            <span>{{ destination.value_score|floatformat:1 }}</span>
                         </div>
+
                         <div class="dcd-score-row">
                             <span>Facilities</span>
                             <div class="dcd-score-bar">
-                                <div class="dcd-score-fill" data-width="90"></div>
+                                <div class="dcd-score-fill"
+                                     data-width="{% widthratio destination.facilities_score 5 100 %}"></div>
                             </div>
-                            <span>4.5</span>
+                            <span>{{ destination.facilities_score|floatformat:1 }}</span>
                         </div>
+
                         <div class="dcd-score-row">
                             <span>Quality of service</span>
                             <div class="dcd-score-bar">
-                                <div class="dcd-score-fill" data-width="90"></div>
+                                <div class="dcd-score-fill"
+                                     data-width="{% widthratio destination.service_score 5 100 %}"></div>
                             </div>
-                            <span>4.5</span>
+                            <span>{{ destination.service_score|floatformat:1 }}</span>
                         </div>
+
                         <div class="dcd-score-row">
                             <span>Ease of access</span>
                             <div class="dcd-score-bar">
-                                <div class="dcd-score-fill" data-width="92"></div>
+                                <div class="dcd-score-fill"
+                                     data-width="{% widthratio destination.access_score 5 100 %}"></div>
                             </div>
-                            <span>4.6</span>
+                            <span>{{ destination.access_score|floatformat:1 }}</span>
                         </div>
+
                     </div>
                 </div>
-
                 <!-- REVIEWS -->
-                <div class="dcd-reviews-row" id="reviews-section">
-                    <h3>What guests loved most</h3>
-                    <a href="#" class="dcd-see-all-link">See all reviews</a>
-                </div>
-
                 <div class="dcd-reviews-slider-wrap">
-                    <!-- WRITE A REVIEW TRIGGER BUTTON -->
-                    <div class="dcd-write-review-trigger">
-                        <div class="dcd-wr-left">
-                            <div class="dcd-wr-icon"><i class="fas fa-pen-fancy"></i></div>
-                            <div>
-                                <h4>Share your experience</h4>
-                                <p>Help other travellers with your honest review</p>
-                            </div>
-                        </div>
-                        <button class="dcd-wr-open-btn" onclick="openReviewModal()">
-                            Write a Review
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-
                     <!-- ===== REVIEW MODAL ===== -->
-                    <div class="dcd-review-modal-overlay" id="reviewModal" onclick="closeReviewModal(event)">
-                        <div class="dcd-review-modal" onclick="event.stopPropagation()">
-
-                            <!-- Modal Header -->
-                            <div class="dcd-rm-header">
-                                <div class="dcd-rm-header-left">
-                                    <div class="dcd-rm-icon"><i class="fas fa-star"></i></div>
-                                    <div>
-                                        <h3>Write a Review</h3>
-                                        <p id="dcd-rm-dest-name">{{ destination.name }}</p>
-                                    </div>
-                                </div>
-                                <button class="dcd-rm-close" onclick="closeReviewModal()">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-
-                            <!-- LOGIN REQUIRED (agar login qilinmagan bo'lsa) -->
-                            {% if not request.user.is_authenticated %}
-                                <div class="dcd-rm-login-wall">
-                                    <div class="dcd-rm-lw-icon">
-                                        <i class="fas fa-lock"></i>
-                                    </div>
-                                    <h4>Sign in to write a review</h4>
-                                    <p>Join millions of travellers sharing their experiences on TravelHub</p>
-                                    <div class="dcd-rm-lw-actions">
-                                        <a href="{% url 'login_page' %}?next={{ request.path|urlencode }}"
-                                           class="dcd-rm-login-btn">
-                                            <i class="fas fa-sign-in-alt"></i> Sign In
-                                        </a>
-                                        <a href="{% url 'register_page' %}?next={{ request.path|urlencode }}"
-                                           class="dcd-rm-register-btn">
-                                            Create Account
-                                        </a>
-                                    </div>
-                                    <div class="dcd-rm-lw-benefits">
-                                        <div class="dcd-rm-benefit"><i class="fas fa-check-circle"></i><span>Share honest reviews</span>
-                                        </div>
-                                        <div class="dcd-rm-benefit"><i class="fas fa-check-circle"></i><span>Help other travellers</span>
-                                        </div>
-                                        <div class="dcd-rm-benefit"><i class="fas fa-check-circle"></i><span>Build your travel profile</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% else %}
-
-                                <!-- REVIEW FORM -->
-                                <form class="dcd-rm-form" id="reviewForm" onsubmit="submitReview(event)">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="destination_slug" id="rm-dest-slug" value="">
-
-                                    <!-- Step 1: Rating -->
-                                    <div class="dcd-rm-section">
-                                        <label class="dcd-rm-label">
-                                            <span class="dcd-rm-step">01</span>
-                                            Rate your experience
-                                        </label>
-                                        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">
-                                            Please rate the following aspects of your visit.</p>
-
-                                        <div class="dcd-rm-detailed-ratings">
-                                            <div class="dcd-rm-rating-row">
-                                                <div class="cat-label-wrap">
-                                                    <div class="cat-icon service"><i class="fas fa-concierge-bell"></i></div>
-                                                    <div class="cat-info">
-                                                        <span class="cat-name">Quality of Service</span>
-                                                        <span class="cat-desc">Staff and hospitality</span>
-                                                    </div>
-                                                </div>
-                                                <div class="dcd-rm-stars-mini" data-category="service_quality">
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                </div>
-                                                <input type="hidden" name="service_quality" id="val-service_quality" value="5">
-                                            </div>
-
-                                            <div class="dcd-rm-rating-row">
-                                                <div class="cat-label-wrap">
-                                                    <div class="cat-icon cleanliness"><i class="fas fa-sparkles"></i></div>
-                                                    <div class="cat-info">
-                                                        <span class="cat-name">Cleanliness</span>
-                                                        <span class="cat-desc">Hygiene and neatness</span>
-                                                    </div>
-                                                </div>
-                                                <div class="dcd-rm-stars-mini" data-category="cleanliness">
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                </div>
-                                                <input type="hidden" name="cleanliness" id="val-cleanliness" value="5">
-                                            </div>
-
-                                            <div class="dcd-rm-rating-row">
-                                                <div class="cat-label-wrap">
-                                                    <div class="cat-icon facilities"><i class="fas fa-swimming-pool"></i></div>
-                                                    <div class="cat-info">
-                                                        <span class="cat-name">Facilities</span>
-                                                        <span class="cat-desc">Amenities and equipment</span>
-                                                    </div>
-                                                </div>
-                                                <div class="dcd-rm-stars-mini" data-category="facilities">
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                </div>
-                                                <input type="hidden" name="facilities" id="val-facilities" value="5">
-                                            </div>
-
-                                            <div class="dcd-rm-rating-row">
-                                                <div class="cat-label-wrap">
-                                                    <div class="cat-icon location"><i class="fas fa-map-marker-alt"></i></div>
-                                                    <div class="cat-info">
-                                                        <span class="cat-name">Location</span>
-                                                        <span class="cat-desc">Accessibility and area</span>
-                                                    </div>
-                                                </div>
-                                                <div class="dcd-rm-stars-mini" data-category="location_rating">
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                </div>
-                                                <input type="hidden" name="location_rating" id="val-location_rating" value="5">
-                                            </div>
-
-                                            <div class="dcd-rm-rating-row">
-                                                <div class="cat-label-wrap">
-                                                    <div class="cat-icon value"><i class="fas fa-wallet"></i></div>
-                                                    <div class="cat-info">
-                                                        <span class="cat-name">Value for Money</span>
-                                                        <span class="cat-desc">Price and experience</span>
-                                                    </div>
-                                                </div>
-                                                <div class="dcd-rm-stars-mini" data-category="value_for_money">
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                    <i class="fas fa-star active"></i>
-                                                </div>
-                                                <input type="hidden" name="value_for_money" id="val-value_for_money" value="5">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Step 2: Visit type -->
-                                    <div class="dcd-rm-section">
-                                        <label class="dcd-rm-label">
-                                            <span class="dcd-rm-step">02</span>
-                                            How did you visit?
-                                        </label>
-                                        <div class="dcd-rm-visit-types">
-                                            <button type="button" class="dcd-rm-vtype" data-val="family"
-                                                    onclick="setVisitType(this)">
-                                                <i class="fas fa-users"></i> Family
-                                            </button>
-                                            <button type="button" class="dcd-rm-vtype" data-val="partner"
-                                                    onclick="setVisitType(this)">
-                                                <i class="fas fa-heart"></i> Partner
-                                            </button>
-                                            <button type="button" class="dcd-rm-vtype" data-val="solo"
-                                                    onclick="setVisitType(this)">
-                                                <i class="fas fa-user"></i> Solo
-                                            </button>
-                                            <button type="button" class="dcd-rm-vtype" data-val="friends"
-                                                    onclick="setVisitType(this)">
-                                                <i class="fas fa-user-friends"></i> Friends
-                                            </button>
-                                        </div>
-                                        <input type="hidden" name="visit_type" id="rm-visit-type-val" value="">
-                                    </div>
-
-                                    <!-- Step 3: Review text -->
-                                    <div class="dcd-rm-section">
-                                        <label class="dcd-rm-label" for="rm-text">
-                                            <span class="dcd-rm-step">03</span>
-                                            Your review
-                                        </label>
-                                        <div class="dcd-rm-textarea-wrap">
-                        <textarea
-                                id="rm-text"
-                                name="text"
-                                class="dcd-rm-textarea"
-                                placeholder="Share what you loved, what could be better, and tips for other travellers..."
-                                rows="5"
-                                maxlength="1000"
-                                oninput="updateCharCount(this)"
-                                required
-                        ></textarea>
-                                            <div class="dcd-rm-char-count">
-                                                <span id="rm-char-num">0</span>/1000
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Step 4: Visit date -->
-                                    <div class="dcd-rm-section">
-                                        <label class="dcd-rm-label" for="rm-visited-at">
-                                            <span class="dcd-rm-step">04</span>
-                                            When did you visit? <span class="dcd-rm-optional">(optional)</span>
-                                        </label>
-                                        <input
-                                                type="date"
-                                                id="rm-visited-at"
-                                                name="visited_at"
-                                                class="dcd-rm-input"
-                                                max="{{ today|date:'Y-m-d' }}"
-                                        >
-                                    </div>
-
-                                    <!-- Error message -->
-                                    <div class="dcd-rm-error" id="rm-error" style="display:none;">
-                                        <i class="fas fa-exclamation-circle"></i>
-                                        <span id="rm-error-text">Please fill in all required fields.</span>
-                                    </div>
-
-                                    <!-- Submit -->
-                                    <div class="dcd-rm-footer">
-                                        <p class="dcd-rm-disclaimer">
-                                            <i class="fas fa-shield-alt"></i>
-                                            Your review will be visible after moderation (usually within 24 hours)
-                                        </p>
-                                        <button type="submit" class="dcd-rm-submit-btn" id="rm-submit-btn">
-                        <span id="rm-submit-text">
-                            <i class="fas fa-paper-plane"></i> Submit Review
-                        </span>
-                                            <span id="rm-submit-loading" style="display:none;">
-                            <i class="fas fa-spinner fa-spin"></i> Submitting...
-                        </span>
-                                        </button>
-                                    </div>
-                                </form>
-
-                            {% endif %}
-
-                            <!-- SUCCESS STATE -->
-                            <div class="dcd-rm-success" id="rm-success" style="display:none;">
-                                <div class="dcd-rm-success-icon">
-                                    <i class="fas fa-check-circle"></i>
-                                </div>
-                                <h3>Thank you for your review!</h3>
-                                <p>Your review has been submitted and will appear after moderation.</p>
-                                <button class="dcd-rm-success-btn" onclick="closeReviewModal()">
-                                    Close <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-
+                {% include 'apps/partials/_review_modal.html' %}
+                    <div class="dcd-reviews-advanced-header">
+                        <div class="header-titles">
+                            <span class="header-badge">Experiences</span>
+                            <h2 class="dcd-section-title">What travellers are saying</h2>
+                        </div>
+                        <div class="header-actions">
+                            <button class="header-write-btn" onclick="openReviewModal()">
+                                <i class="fas fa-pen-nib"></i>
+                                <span>Write a review</span>
+                            </button>
+                             <a href="{% url 'destination_reviews_page' destination.slug %}" class="view-all-link">
+                                Explore all {{ destination.visible_reviews_count }} reviews
+                                <span class="link-icon"><i class="fas fa-arrow-right"></i></span>
+                             </a>
                         </div>
                     </div>
 
+                    <div class="dcd-reviews-premium-container">
+                        <div class="dcd-creative-backdrop">
+                            <div class="backdrop-blob blob-blue"></div>
+                            <div class="backdrop-blob blob-purple"></div>
+                        </div>
 
-                    <div class="dcd-reviews-track" id="dcd-reviews-track">
-                        {% for review in destination.reviews.all %}
-                            {% if review.is_visible %}
-                                <div class="dcd-review-card">
-                                    <div class="dcd-rev-head">
-                                        <div class="dcd-rev-avatar"
-                                             style="background:linear-gradient(135deg,#667eea,#764ba2)">
-                                            {{ review.author_name|first|upper }}
+                        <div class="dcd-reviews-track" id="dcd-reviews-track">
+                            {% for review in destination.visible_reviews %}
+                                <!-- Card content remains same -->
+                                <div class="dcd-review-card-v2">
+                                    <div class="card-glass-effect"></div>
+                                    <div class="card-top">
+                                        <div class="user-profile">
+                                            <div class="avatar-wrapper">
+                                                <div class="avatar-gradient" style="background: linear-gradient(135deg, #6366f1, #a855f7);">
+                                                    {{ review.author_name|default:review.user.username|first|upper }}
+                                                </div>
+                                                {% if review.is_verified %}
+                                                    <div class="verified-indicator" title="Verified Traveller">
+                                                        <i class="fas fa-check"></i>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="user-info">
+                                                <h4 class="user-name">{{ review.author_name|default:review.user.username }}</h4>
+                                                <div class="user-meta">
+                                                    {% if review.author_country %}
+                                                        <span class="country">{{ review.author_country.name }}</span>
+                                                        <span class="dot"></span>
+                                                    {% endif %}
+                                                    <span class="date">{{ review.created_at|date:"M Y" }}</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <strong>{{ review.author_name }}</strong><span>{% if review.author_country %}
-                                            {{ review.author_country.name }} {% endif %}</span></div>
+                                        <div class="rating-box">
+                                            <div class="rating-value">{{ review.rating }}</div>
+                                            <div class="rating-stars">
+                                                {% for i in "12345" %}
+                                                    <i class="fas fa-star {% if forloop.counter <= review.rating %}active{% endif %}"></i>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <p>{{ review.text|truncatechars:150 }}</p>
-                                    <small>
-                                        {% if review.visit_type == 'family' %}<i class="fas fa-users"></i> Visited with
-                                            family
-                                        {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i> Visited
-                                            with a partner
-                                        {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i> Solo traveller
-                                        {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i>
-                                            Visited with friends
-                                        {% endif %}                                        ·
-                                        Posted {{ review.created_at|date:"d F Y" }}
-                                        on
-                                        TravelHub</small>
-                                </div>
-                            {% endif %}
-                        {% empty %}
-                            <div class="dcd-review-card" style="min-width:300px;">
-                                <p style="color:var(--gray);text-align:center;padding:20px 0;">
-                                    No reviews yet. Be the first to share your experience!
-                                </p>
-                            </div>
-                        {% endfor %}
 
+                                    <div class="card-body">
+                                        <div class="quote-icon-bg">
+                                            <i class="fas fa-quote-right"></i>
+                                        </div>
+                                        <p class="review-text-content">{{ review.text }}</p>
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <div class="visit-type-tag type-{{ review.visit_type|default:'general' }}">
+                                            {% if review.visit_type == 'family' %}<i class="fas fa-users"></i>
+                                            {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i>
+                                            {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i>
+                                            {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i>
+                                            {% else %}<i class="fas fa-map-marker-alt"></i>{% endif %}
+                                            <span>{{ review.get_visit_type_display|default:'Visited' }}</span>
+                                        </div>
+                                        <div class="footer-actions">
+                                            <button class="like-button-v2 {% if request.user in review.likes.all %}is-liked{% endif %}"
+                                                    data-url="{% url 'toggle_review_like' review.id %}"
+                                                    onclick="toggleLike(this)">
+                                                <div class="like-icon-wrap">
+                                                    <i class="fas fa-heart"></i>
+                                                </div>
+                                                <span class="count">{{ review.total_likes }}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <div class="empty-reviews-state-v2">
+                                    <div class="empty-art">
+                                        <i class="fas fa-feather-alt"></i>
+                                    </div>
+                                    <h3>The stage is yours</h3>
+                                    <p>No stories have been shared yet. Be the pioneer and share your thoughts.</p>
+                                    <button class="btn-primary-v2" onclick="openReviewModal()">Share your experience</button>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- ADVANCED CONTROLS -->
+                        <div class="dcd-slider-navigation-v2">
+                            <button class="nav-btn-v2 prev-v2" onclick="slideReviews(-1)" id="rev-prev">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            
+                            <div class="slider-status-v2">
+                                <div class="progress-track-v2">
+                                    <div class="progress-fill-v2" id="review-progress-bar"></div>
+                                </div>
+                            </div>
+
+                            <button class="nav-btn-v2 next-v2" onclick="slideReviews(1)" id="rev-next">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
                     </div>
-                    <button class="dcd-rev-arrow dcd-rev-prev" onclick="slideReviews(-1)"><i
-                            class="fas fa-chevron-left"></i></button>
-                    <button class="dcd-rev-arrow dcd-rev-next" onclick="slideReviews(1)"><i
-                            class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
 
@@ -642,59 +474,81 @@
             {% endif %}
 
             <!-- FAQ -->
+{#            <div class="dcd-section">#}
+{#                <h2 class="dcd-section-title">Frequently asked questions</h2>#}
+{#                <div class="dcd-faq">#}
+{#                    <div class="dcd-faq-item">#}
+{#                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">#}
+{#                            <span>How do I book a ticket?</span><i class="fas fa-chevron-down"></i>#}
+{#                        </button>#}
+{#                        <div class="dcd-faq-body"><p>Select your preferred date and time, choose the number of tickets,#}
+{#                            and click "Book Now". You'll receive instant confirmation via email with your digital ticket#}
+{#                            attached.</p></div>#}
+{#                    </div>#}
+{#                    <div class="dcd-faq-item">#}
+{#                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">#}
+{#                            <span>When do I pay?</span><i class="fas fa-chevron-down"></i>#}
+{#                        </button>#}
+{#                        <div class="dcd-faq-body"><p>Payment is processed immediately when you complete your booking. We#}
+{#                            accept all major credit and debit cards as well as PayPal and Apple Pay.</p></div>#}
+{#                    </div>#}
+{#                    <div class="dcd-faq-item">#}
+{#                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">#}
+{#                            <span>How do digital tickets work?</span><i class="fas fa-chevron-down"></i>#}
+{#                        </button>#}
+{#                        <div class="dcd-faq-body"><p>After booking, you'll receive your digital ticket via email. Simply#}
+{#                            show the QR code on your phone at the entrance — no printing required. Make sure your phone#}
+{#                            is charged!</p></div>#}
+{#                    </div>#}
+{#                    <div class="dcd-faq-item">#}
+{#                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">#}
+{#                            <span>Can I cancel or modify my tickets?</span><i class="fas fa-chevron-down"></i>#}
+{#                        </button>#}
+{#                        <div class="dcd-faq-body"><p>Yes! Free cancellation is available up to 24 hours before your#}
+{#                            activity starts. To modify your booking, go to My Bookings in your dashboard and select#}
+{#                            "Change date/time".</p></div>#}
+{#                    </div>#}
+{#                    <div class="dcd-faq-item">#}
+{#                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">#}
+{#                            <span>When will I get my free cancellation refund?</span><i class="fas fa-chevron-down"></i>#}
+{#                        </button>#}
+{#                        <div class="dcd-faq-body"><p>Refunds are typically processed within 5–10 business days,#}
+{#                            depending on your bank or payment provider. You'll receive a confirmation email once the#}
+{#                            refund is initiated.</p></div>#}
+{#                    </div>#}
+{#                    <div class="dcd-faq-item">#}
+{#                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">#}
+{#                            <span>Is the London Eye accessible for wheelchair users?</span><i#}
+{#                                class="fas fa-chevron-down"></i>#}
+{#                        </button>#}
+{#                        <div class="dcd-faq-body"><p>Yes! The London Eye is fully wheelchair accessible. Capsules are#}
+{#                            large enough to accommodate wheelchairs. Please notify us at booking time so we can ensure#}
+{#                            the best experience.</p></div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+
+            {% if destination.faqs.exists %}
             <div class="dcd-section">
                 <h2 class="dcd-section-title">Frequently asked questions</h2>
                 <div class="dcd-faq">
+
+                    {% for faq in destination.faqs.all %}
                     <div class="dcd-faq-item">
                         <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                            <span>How do I book a ticket?</span><i class="fas fa-chevron-down"></i>
+                            <span>{{ faq.question }}</span><i class="fas fa-chevron-down"></i>
                         </button>
-                        <div class="dcd-faq-body"><p>Select your preferred date and time, choose the number of tickets,
-                            and click "Book Now". You'll receive instant confirmation via email with your digital ticket
-                            attached.</p></div>
+
+                        <div class="dcd-faq-body">
+                            {{ faq.answer|safe }}
+                        </div>
+
                     </div>
-                    <div class="dcd-faq-item">
-                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                            <span>When do I pay?</span><i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="dcd-faq-body"><p>Payment is processed immediately when you complete your booking. We
-                            accept all major credit and debit cards as well as PayPal and Apple Pay.</p></div>
-                    </div>
-                    <div class="dcd-faq-item">
-                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                            <span>How do digital tickets work?</span><i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="dcd-faq-body"><p>After booking, you'll receive your digital ticket via email. Simply
-                            show the QR code on your phone at the entrance — no printing required. Make sure your phone
-                            is charged!</p></div>
-                    </div>
-                    <div class="dcd-faq-item">
-                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                            <span>Can I cancel or modify my tickets?</span><i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="dcd-faq-body"><p>Yes! Free cancellation is available up to 24 hours before your
-                            activity starts. To modify your booking, go to My Bookings in your dashboard and select
-                            "Change date/time".</p></div>
-                    </div>
-                    <div class="dcd-faq-item">
-                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                            <span>When will I get my free cancellation refund?</span><i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="dcd-faq-body"><p>Refunds are typically processed within 5–10 business days,
-                            depending on your bank or payment provider. You'll receive a confirmation email once the
-                            refund is initiated.</p></div>
-                    </div>
-                    <div class="dcd-faq-item">
-                        <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                            <span>Is the London Eye accessible for wheelchair users?</span><i
-                                class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="dcd-faq-body"><p>Yes! The London Eye is fully wheelchair accessible. Capsules are
-                            large enough to accommodate wheelchairs. Please notify us at booking time so we can ensure
-                            the best experience.</p></div>
-                    </div>
+                    {% endfor %}
+
                 </div>
             </div>
+            {% endif %}
 
             <!-- SIMILAR / BESTSELLERS -->
             <div class="dcd-section">
@@ -727,7 +581,7 @@
                                         <h4>{{ s_destination.name }}</h4>
                                         <div class="dcd-sim-rating"><i class="fas fa-star"
                                                                        style="color:#fbbf24;"></i><span>{{ s_destination.rating }}</span><span
-                                                style="color:var(--gray)">({{ s_destination.reviews_count }})</span>
+                                                style="color:var(--gray)">({{ s_destination.visible_reviews_count }})</span>
                                         </div>
                                         <div class="dcd-sim-price">From ${{ s_destination.price }}</div>
                                     </div>
@@ -897,6 +751,12 @@
 
 
 
+
+
+
+
+
+
                                     {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
                                  alt="{{ destination.name }}">
                         </div>
@@ -922,7 +782,7 @@
                                 Poor
                             {% endif %}
                         </strong>
-                        <span>({{ destination.reviews_count }} reviews)</span>
+                        <span>({{ destination.visible_reviews_count }} reviews)</span>
                     </div>
                     <h4>What guests loved most:</h4>
                     <div class="dcd-gm-reviews">
@@ -968,8 +828,76 @@
         <button onclick="scrollToPanel()">Book Now</button>
     </div>
 
+
 {% endblock %}
 
+
 {% block custom_js %}
-    <script src="{% static 'apps/js/destination_detail.js' %}?v=1.3 %}"></script>
+    <script src="{% static 'apps/js/destination_detail.js' %}?v=123"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Hamma yulduzchalar qatorini topamiz
+            const containers = document.querySelectorAll('.dcd-rm-stars-mini');
+
+            containers.forEach(container => {
+                const categoryName = container.getAttribute('data-category');
+                const hiddenInput = document.getElementById('val-' + categoryName);
+
+                // HTML da yozgan <span class="star-wrap"> larni topamiz
+                const starWraps = Array.from(container.querySelectorAll('.star-wrap'));
+
+                if (!hiddenInput || starWraps.length === 0) return;
+
+                // Bo'yash funksiyasi (CSS ni ustidan bosib yozadi)
+                function updateStars(rating) {
+                    starWraps.forEach(wrap => {
+                        const val = parseInt(wrap.getAttribute('data-val'));
+                        if (val <= rating) {
+                            wrap.classList.add('active');
+                            // Majburan sariqqa bo'yash
+                            wrap.style.setProperty('color', '#fbbf24', 'important');
+                            wrap.style.setProperty('filter', 'drop-shadow(0 0 8px rgba(251, 191, 36, 0.5))', 'important');
+                        } else {
+                            wrap.classList.remove('active');
+                            // Majburan kulrang qilish
+                            wrap.style.setProperty('color', '#e2e8f0', 'important');
+                            wrap.style.setProperty('filter', 'none', 'important');
+                        }
+                    });
+                }
+
+                // Default o'rnatilgan qiymat (masalan: 5)
+                let currentSavedRating = parseInt(hiddenInput.value) || 5;
+                updateStars(currentSavedRating);
+
+                // Hover va Click
+                starWraps.forEach(wrap => {
+                    const wrapVal = parseInt(wrap.getAttribute('data-val'));
+
+                    // Sichqoncha borganda (Hover)
+                    wrap.addEventListener('mouseenter', () => {
+                        updateStars(wrapVal);
+                    });
+
+                    // Sichqoncha ketganda (Mouseleave)
+                    wrap.addEventListener('mouseleave', () => {
+                        updateStars(currentSavedRating);
+                    });
+
+                    // Yulduz BOSILGANDA (Click - SAQLASH qismi)
+                    wrap.addEventListener('click', () => {
+                        currentSavedRating = wrapVal;
+                        hiddenInput.value = currentSavedRating; // <-- Inputga bexato saqlaydi!
+                        updateStars(currentSavedRating);
+
+                        // Kichik vizual sakrash effekti
+                        wrap.style.transform = 'scale(1.4)';
+                        setTimeout(() => {
+                            wrap.style.transform = 'scale(1)';
+                        }, 150);
+                    });
+                });
+            });
+        });
+    </script>
 {% endblock %}

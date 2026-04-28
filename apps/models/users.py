@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
-    class Type(TextChoices):
+    class Role(TextChoices):
         USER = 'user', _('User')
         ADMIN = 'admin', _('Admin')
 
@@ -21,12 +21,12 @@ class User(AbstractUser):
         message=_("Telefon raqami formati: '+998991234567'. 15 tagacha raqam ruxsat etiladi.")
     )
 
-    type = CharField(choices=Type.choices, max_length=20, default=Type.USER, verbose_name=_("User Type"))
+    role = CharField(choices=Role.choices, max_length=20, default=Role.USER, verbose_name=_("User Role"))
     email = EmailField(_('email address'), unique=True)
     phone_number = CharField(validators=[phone_regex], max_length=20, unique=True, null=True, blank=True,
                              verbose_name=_("PhoneNumber"))
 
-    avatar = ImageField(upload_to='users/avatars/', null=True, blank=True, verbose_name=_("Avatar"))
+    avatar = ImageField(upload_to='users/avatars/%Y/%m/%d/', null=True, blank=True, verbose_name=_("Avatar"))
     gender = CharField(choices=Gender.choices, max_length=10, null=True, blank=True, verbose_name=_("Gender"))
     date_of_birth = DateField(null=True, blank=True, verbose_name=_("Date of Birth"))
     country = ForeignKey('apps.Country', on_delete=SET_NULL, null=True, blank=True, related_name='users',
@@ -34,9 +34,12 @@ class User(AbstractUser):
 
     bio = TextField(max_length=500, blank=True, verbose_name=_("Bio"))
 
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
     class Meta:
         verbose_name = _("User")
         verbose_name_plural = _("Users")
 
     def __str__(self):
-        return self.type
+        return f"{self.email} ({self.get_role_display()})"

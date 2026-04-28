@@ -1,7 +1,9 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import (CASCADE, SET_NULL, BooleanField, CharField,
-                              DateTimeField, ForeignKey, PositiveSmallIntegerField, TextChoices,
-                              TextField, Avg)
+                              ForeignKey, PositiveSmallIntegerField, TextChoices,
+                              TextField, ManyToManyField)
+from django.db.models.fields import DateField
+
 from apps.models.base import CreatedBaseModel
 
 
@@ -24,6 +26,12 @@ class Review(CreatedBaseModel):
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         help_text='Overall rating 1-5'
     )
+    likes = ManyToManyField(
+        'apps.User',  # Agar user modelingiz default bo'lsa 'auth.User' yoki tayyor Custom User nomini yozing
+        related_name='liked_reviews',
+        blank=True,
+        verbose_name="Foydali deb topganlar"
+    )
 
     # Detallashgan reytinglar (Senior yondashuv)
     service_quality = PositiveSmallIntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(5)])
@@ -34,7 +42,7 @@ class Review(CreatedBaseModel):
 
     text = TextField()
     visit_type = CharField(max_length=20, choices=VisitType.choices, blank=True)
-    visited_at = DateTimeField(null=True, blank=True)
+    visited_at = DateField(null=True, blank=True)
     
     is_visible = BooleanField(default=True)
     is_verified = BooleanField(default=False)
@@ -42,13 +50,20 @@ class Review(CreatedBaseModel):
     helpful_count = PositiveSmallIntegerField(default=0)
     reported_count = PositiveSmallIntegerField(default=0)
 
+    @property
+    def total_likes(self):
+        return self.likes.count()
+
     class Meta:
         ordering = ['-created_at']
         verbose_name = 'Review'
         verbose_name_plural = 'Reviews'
+        unique_together = ('user', 'destination')
 
     def __str__(self):
-        return f"{self.author_name or self.user.username} - {self.destination.name}"
+        u_name = self.user.username if self.user else "Anonymous"
+        display_name = self.author_name or u_name
+        return f"{display_name} - {self.destination.name}"
 
     def save(self, *args, **kwargs):
         # Umumiy reytingni kategoriyalardan kelib chiqib avtomatik hisoblash

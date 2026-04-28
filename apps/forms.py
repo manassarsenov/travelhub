@@ -1,12 +1,11 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
-from django.forms import (BooleanField, CharField, ChoiceField, DateField,
+from django.forms import (BooleanField, CharField, DateField,
                           EmailField, Form, ModelForm)
-from django.forms.models import ModelChoiceField
 from django.forms.widgets import PasswordInput
 
-from apps.models import User, Country
+from apps.models import User, Country, Review
 
 
 class RegisterModelForm(ModelForm):
@@ -60,7 +59,6 @@ class RegisterModelForm(ModelForm):
             raise ValidationError("Noto'g'ri mamlakat.")
 
 
-
 class LoginForm(Form):
     identifier = CharField(label="Username or Email")
     password = CharField(max_length=128, required=True)
@@ -89,7 +87,7 @@ class LoginForm(Form):
             else:
                 raise ValidationError("Username yoki parol noto'g'ri")
 
-        user = authenticate(username=user_obj.username, password=password)
+        user = authenticate(email=user_obj.email, password=password)
         if not user:
             if is_email:
                 raise ValidationError("Email yoki parol noto'g'ri")
@@ -135,3 +133,22 @@ class PasswordResetConfirmForm(Form):
             raise ValidationError("Parol kamida bitta raqam yoki belgi bo'lishi kerak.")
 
         return password
+
+
+class ReviewModelForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = [
+            'service_quality', 'cleanliness', 'facilities',
+            'location_rating', 'value_for_money',
+            'visit_type', 'text', 'visited_at'
+        ]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        text = cleaned_data.get('text')
+
+        if text and len(text.strip()) < 2:
+            raise ValidationError("Izohingiz juda qisqa. Iltimos, kamida 2 ta belgi kiriting.")
+
+        return cleaned_data

@@ -1,7 +1,7 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import (CASCADE, SET_NULL, BooleanField, CharField,
                               ForeignKey, ManyToManyField,
-                              PositiveIntegerField, PositiveSmallIntegerField, ImageField, TimeField)
+                              PositiveIntegerField, PositiveSmallIntegerField, ImageField, TimeField, Avg)
 from django.db.models.enums import TextChoices
 from django.db.models.fields import DecimalField, DateTimeField, TextField
 from django_ckeditor_5.fields import CKEditor5Field
@@ -70,6 +70,8 @@ class Destination(SlugBaseModel, CreatedBaseModel):
     duration = CharField(max_length=20, choices=Duration.choices, blank=True)
     season = CharField(max_length=20, choices=Season.choices, blank=True)
 
+    visible_reviews_count = PositiveIntegerField(default=0, verbose_name="Visible Reviews Count")
+
     is_free_cancellation = BooleanField(default=False)
     free_cancellation_hours = PositiveIntegerField(
         default=24,
@@ -110,20 +112,42 @@ class Destination(SlugBaseModel, CreatedBaseModel):
     @property
     def rating(self):
         from django.db.models import Avg
-        result = self.reviews.aggregate(Avg('rating'))
+        result = self.reviews.filter(is_visible=True).aggregate(Avg('rating'))
         return round(result['rating__avg'] or 0, 1)
 
     @property
-    def reviews_count(self):
-        return self.reviews.count()
+    def service_score(self):
+        from django.db.models import Avg
+        result = self.reviews.filter(is_visible=True).aggregate(Avg('service_quality'))
+        return round(result['service_quality__avg'] or 0, 1)
 
-    def __str__(self):
-        return self.name
+    @property
+    def cleanliness_score(self):
+        from django.db.models import Avg
+        result = self.reviews.filter(is_visible=True).aggregate(Avg('cleanliness'))
+        return round(result['cleanliness__avg'] or 0, 1)
 
-    class Meta:
-        verbose_name = 'Destination'
-        verbose_name_plural = 'Destinations'
-        ordering = ['-created_at']
+    @property
+    def facilities_score(self):
+        from django.db.models import Avg
+        result = self.reviews.filter(is_visible=True).aggregate(Avg('facilities'))
+        return round(result['facilities__avg'] or 0, 1)
+
+    @property
+    def access_score(self):
+        from django.db.models import Avg
+        result = self.reviews.filter(is_visible=True).aggregate(Avg('location_rating'))
+        return round(result['location_rating__avg'] or 0, 1)
+
+    @property
+    def value_score(self):
+        from django.db.models import Avg
+        result = self.reviews.filter(is_visible=True).aggregate(Avg('value_for_money'))
+        return round(result['value_for_money__avg'] or 0, 1)
+
+    @property
+    def visible_reviews(self):
+        return self.reviews.filter(is_visible=True)
 
     def update_min_price(self):
         """Eng arzon chipta narxini Destination.price ga yangilaydi"""
@@ -131,6 +155,11 @@ class Destination(SlugBaseModel, CreatedBaseModel):
         if min_ticket_price:
             self.price = min_ticket_price.price
             self.save(update_fields=['price'])
+
+    class Meta:
+        verbose_name = 'Destination'
+        verbose_name_plural = 'Destinations'
+        ordering = ['-created_at']
 
 
 class DestinationFAQ(CreatedBaseModel):

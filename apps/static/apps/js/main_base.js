@@ -5,7 +5,45 @@ window.addEventListener('load', function () {
     }, 2000);
 
     setupScrollEffects();
+    // --- DJANGO XABARLARINI USHLAB OLISH ---
+    checkForDjangoMessages();
 });
+
+function checkForDjangoMessages() {
+    const msgContainer = document.getElementById('django-messages-data');
+    if (!msgContainer) return;
+
+    const messages = msgContainer.querySelectorAll('.django-msg-item');
+    if (messages.length === 0) return;
+
+    let delay = 100; // Xabarlar ustma-ust chiqib ketmasligi uchun
+
+    messages.forEach(msg => {
+        setTimeout(() => {
+            let type = msg.getAttribute('data-type'); // 'success', 'error', 'info', 'warning'
+            let text = msg.getAttribute('data-text');
+
+            let title = "Xabar";
+
+            // Django dan kelgan 'error' ni JS dagi 'error' turiga moslashtiramiz
+            if (type === 'error' || type === 'danger') {
+                title = "Xatolik";
+                type = "error";
+            } else if (type === 'success') {
+                title = "Muvaffaqiyat!";
+            }
+
+            // Sizning mavjud zo'r funksiyangizni ishga tushiramiz
+            showToast(title, text, type);
+
+        }, delay);
+
+        delay += 600; // Keyingi xabar yarim sekunddan keyin chiqadi
+    });
+
+    // O'qib bo'lingach, ularni HTML dan o'chirib tashlaymiz (toza turishi uchun)
+    msgContainer.innerHTML = '';
+}
 
 // // Language Switcher
 // function switchLang(lang, index) {
@@ -174,7 +212,7 @@ function showToast(title, message, type = 'success') {
 
     setTimeout(() => {
         toast.classList.remove('show');
-    }, 3500);
+    }, 5000);
 }
 
 // Modal
@@ -366,3 +404,5 @@ document.addEventListener('click', function (e) {
     const wrap = document.getElementById('navbar-search-wrap');
     if (wrap && !wrap.contains(e.target)) hideRecentSearches();
 });
+
+

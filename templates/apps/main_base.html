@@ -487,6 +487,13 @@
     </div>
 </div>
 
+<div id="django-messages-data" style="display: none;">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="django-msg-item" data-type="{{ message.tags }}" data-text="{{ message }}"></div>
+        {% endfor %}
+    {% endif %}
+</div>
 
 <script src="{% static 'apps/js/main_base.js' %}"></script>
 <script src="{% static 'apps/js/flights_modal.js' %}"></script>

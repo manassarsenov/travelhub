@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'mptt',
     'debug_toolbar',
     'django_ckeditor_5',
+    'django_celery_results',
+    'django_celery_beat',
 
 ]
 
@@ -158,6 +160,25 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+REDIS_HOST = os.getenv('REDIS_HOST')
+REDIS_PORT = os.getenv('REDIS_PORT')
+REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
+
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = 'django-db'
+
+# # CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
+# CSRF_TRUSTED_ORIGINS = [
+#     origin for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if origin
+# ]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": REDIS_URL,
+    }
+}
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -166,6 +187,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
 GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI')
+
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
