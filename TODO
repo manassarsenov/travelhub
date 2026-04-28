@@ -80,3 +80,17 @@ ishlash vaqti,shanba kungi vaqt,dam olish kuni,location)
 
 locust
 zarba berib tekshirib ko'tarish uchun
+
+
+from google import genai
+
+# O'zingizning API kalitingizni yozing
+API_KEY = "AIzaSyB0CZdZB0mu9UP2pKa9HyE48grq0UuJ8-0"
+
+client = genai.Client(api_key=API_KEY)
+
+# Sizga ruxsat berilgan hamma modellarni ro'yxatini ekranga chiqaradi
+for model in client.models.list():
+    print(f"Model nomi: {model.name}")
+
+CTF

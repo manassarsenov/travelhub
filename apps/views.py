@@ -1,10 +1,19 @@
+import json
+import logging
 import urllib.parse
 import uuid
 
 import requests
+import time
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.contenttypes.models import ContentType
+from django.core.cache import cache
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db import transaction, IntegrityError
+from django.forms.models import model_to_dict
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -14,14 +23,18 @@ from django.utils.http import urlsafe_base64_decode
 from django.views import View
 from django.views.generic import CreateView, FormView, ListView, TemplateView, DetailView
 
+from apps.ai_moderator import check_review_with_ai
 from apps.forms import (ForgotPasswordForm, LoginForm,
-                        PasswordResetConfirmForm, RegisterModelForm)
+                        PasswordResetConfirmForm, RegisterModelForm, ReviewModelForm)
 from apps.mixins import LoginNotRequiredMixin
-from apps.models import Destination, User, Country
+from apps.models import Destination, User, Country, Review, ActionLog
 from apps.models.categories import City, Region
+from apps.tasks import moderate_review_task
 from apps.utils.send_email import send_user_email
 from apps.utils.tokens import account_activation_token
 from root import settings
+
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 class BookingStep1View(DetailView):
@@ -34,6 +47,304 @@ class BookingStep2View(DetailView):
     model = Destination
     template_name = 'apps/booking_step2.html'
     context_object_name = 'destination'
+
+
+class DestinationAllReviewsView(DetailView):
+    model = Destination
+    template_name = 'apps/all_reviews.html'
+    context_object_name = 'destination'
+
+    def get_context_data(self, **kwargs):
+        # 1. Ijro vaqtini o'lchashni boshlaymiz
+        start_time = time.time()
+
+        context = super().get_context_data(**kwargs)
+        destination = self.get_object()
+        request = self.request
+
+        # 2. XAVFSIZ FILTRLASH VA OPTIMALLASHTIRISH
+        base_reviews_qs = Review.objects.filter(
+            destination=destination,
+            is_visible=True
+        ).select_related('user')  
+
+        total_reviews_count = destination.visible_reviews_count
+        context['visible_reviews_count'] = total_reviews_count
+
+        # 3. DINAMIK TARTIBLASH (URL Query)
+        sort_by = request.GET.get('sort', 'newest')
+        if sort_by == 'highest':
+            reviews_qs = base_reviews_qs.order_by('-rating', '-created_at')
+        elif sort_by == 'lowest':
+            reviews_qs = base_reviews_qs.order_by('rating', '-created_at')
+        else:
+            reviews_qs = base_reviews_qs.order_by('-created_at')
+
+        # 4. FOYDALANUVCHINING SHAXSIY IZOHI
+        if request.user.is_authenticated:
+            context['user_review'] = Review.objects.filter(
+                destination=destination,
+                user=request.user
+            ).first()
+        else:
+            context['user_review'] = None
+
+        # 5. PAGINATION (Xatosiz uslub)
+        page_number = request.GET.get('page', 1)
+        paginator = Paginator(reviews_qs, 10)
+        hub_reviews = paginator.get_page(page_number)
+
+        # 6. CONTEXT YIG'ISH
+        context.update({
+            'hub_reviews': hub_reviews,
+            'total_count': total_reviews_count,
+            'current_sort': sort_by,
+        })
+
+        # ==========================================
+        # 7. ADVANCED ACTION LOG (KUZATUV)
+        # ==========================================
+        execution_time = time.time() - start_time
+
+        if request.user.is_authenticated:
+            x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+            if x_forwarded_for:
+                ip_address = x_forwarded_for.split(',')[0]
+            else:
+                ip_address = request.META.get('REMOTE_ADDR')
+
+            try:
+                ActionLog.objects.create(
+                    user=request.user,
+                    category=ActionLog.Category.ACCESS,
+                    action="Viewed Destination All Reviews",
+                    verb="viewed",
+                    level=ActionLog.Level.INFO,
+                    message=f"User viewed reviews for destination: {destination.name} (Page: {page_number}, Sort: {sort_by})",
+                    content_type=ContentType.objects.get_for_model(Destination),
+                    object_id=str(destination.id),
+                    object_repr=destination.name,
+                    ip_address=ip_address,
+                    user_agent=request.META.get('HTTP_USER_AGENT', ''),
+                    path=request.path,
+                    method=request.method,
+                    execution_time=execution_time,
+                    extra_info={
+                        "page_number": page_number,
+                        "sort_method": sort_by,
+                        "total_reviews": total_reviews_count
+                    }
+                )
+            except Exception:
+                pass
+
+        return context
+
+
+logger = logging.getLogger(__name__)
+
+
+class ToggleReviewLikeView(View):
+    """
+    Advanced & Secure Like Toggle API
+    """
+
+    @transaction.atomic
+    def post(self, request, review_id, *args, **kwargs):
+        # 1. XAVFSIZLIK: Foydalanuvchi tizimga kirganligini AJAX usulida tekshirish
+        if not request.user.is_authenticated:
+            return JsonResponse({'error': 'Please sign in to like reviews.'}, status=401)
+
+        user = request.user
+
+        # 2. XAVFSIZLIK (Anti-Spam): 1 soniyada ketma-ket bosishdan himoya
+        cache_key = f"like_cooldown_{user.id}_{review_id}"
+        if cache.get(cache_key):
+            logger.warning(f"Spam detected: User {user.id} is clicking like too fast on review {review_id}")
+            return JsonResponse({'error': 'Too many requests. Please wait a moment.'}, status=429)
+
+        # 1.5 soniyaga qulflaymiz
+        cache.set(cache_key, True, timeout=1.5)
+
+        try:
+            from apps.models import Review, ActionLog  # Circular import oldini olish uchun
+
+            # 3. XAVFSIZLIK (Race Condition): select_for_update() bazadagi shu qatorni
+            # tranzaksiya tugaguncha boshqa so'rovlardan qulflab turadi.
+            review = Review.objects.select_for_update().get(id=review_id)
+
+        except Review.DoesNotExist:
+            return JsonResponse({'error': 'Review not found.'}, status=404)
+        except Exception as e:
+            logger.error(f"Database error during like toggle: {e}")
+            return JsonResponse({'error': 'Server error.'}, status=500)
+
+        # 4. ASOSIY MANTIQ VA ACTION LOG
+        content_type = ContentType.objects.get_for_model(Review)
+
+        # O'zgarishdan oldingi holatni saqlab olamiz
+        old_likes_count = review.likes.count()
+        is_liked = review.likes.filter(id=user.id).exists()
+
+        if is_liked:
+            review.likes.remove(user)
+            liked = False
+            action_msg = f"{user.username} unliked review {review.id}"
+            verb_type = "unliked"
+            new_likes_count = old_likes_count - 1
+        else:
+            review.likes.add(user)
+            liked = True
+            action_msg = f"{user.username} liked review {review.id}"
+            verb_type = "liked"
+            new_likes_count = old_likes_count + 1
+
+        user_agent = request.META.get('HTTP_USER_AGENT', '')
+        user_ip = request.META.get('REMOTE_ADDR', '')
+
+        try:
+            ActionLog.objects.create(
+                user=user,
+                content_type=content_type,
+                object_id=review.id,
+                object_repr=f"Review ID: {review.id}",
+                action="Toggle Review Like",
+                verb=verb_type,
+                category=ActionLog.Category.DATA,
+                level=ActionLog.Level.INFO,
+                message=action_msg,
+
+                # Texnik va manzil maydonlari
+                ip_address=user_ip,
+                user_agent=user_agent,
+                path=request.path,
+                method=request.method,
+
+                # O'zgarishlar tarixi (Bo'sh '{}' o'rniga aniq faktlar yozamiz)
+                pre_change_data={"likes_count": old_likes_count},
+                post_change_data={"likes_count": new_likes_count},
+                changes_diff={"likes_changed": new_likes_count - old_likes_count},
+
+                # Faqat qo'shimcha ma'lumotgina extra_info'ga ketadi
+                extra_info={
+                    "is_ajax": request.headers.get('x-requested-with') == 'XMLHttpRequest'
+                }
+            )
+        except Exception as e:
+            logger.error(f"Failed to create detailed ActionLog for Like: {e}")
+
+        # 6. MUAFFAQIYATLI JAVOB
+        return JsonResponse({
+            'liked': liked,
+            'total_likes': review.likes.count()
+        })
+
+
+class SubmitReviewView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        slug = request.POST.get('destination_slug')
+        if not slug:
+            messages.error(request, "Xatolik: Manzil topilmadi.")
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+
+        destination = get_object_or_404(Destination, slug=slug)
+        fallback_redirect = redirect('destination_detail_page', slug=slug)
+
+        try:
+            form = ReviewModelForm(request.POST)
+
+            if form.is_valid():
+                with transaction.atomic():
+                    old_instance = Review.objects.filter(user=request.user, destination=destination).first()
+
+                    # 1-TUZATISH: pre_data uchun xavfsiz JSON konvertatsiya
+                    pre_data = {}
+                    if old_instance:
+                        old_dict = model_to_dict(old_instance, exclude=['likes', 'user', 'destination'])
+                        old_dict['user'] = old_instance.user_id
+                        old_dict['destination'] = old_instance.destination_id
+                        pre_data = json.loads(json.dumps(old_dict, cls=DjangoJSONEncoder))
+
+                    # Bazaga saqlash
+                    review, created = Review.objects.update_or_create(
+                        user=request.user,
+                        destination=destination,
+                        defaults={
+                            'text': form.cleaned_data['text'][:3000],
+                            'service_quality': form.cleaned_data['service_quality'],
+                            'cleanliness': form.cleaned_data['cleanliness'],
+                            'facilities': form.cleaned_data['facilities'],
+                            'location_rating': form.cleaned_data['location_rating'],
+                            'value_for_money': form.cleaned_data['value_for_money'],
+                            'visit_type': form.cleaned_data.get('visit_type', ''),
+                            'visited_at': form.cleaned_data.get('visited_at'),
+                            'is_visible': False,
+                            'is_verified': False,
+                            'author_name': request.user.get_full_name().strip() or request.user.username,
+                            'author_country': getattr(request.user, 'country', None),
+                        }
+                    )
+
+                    verb = 'created' if created else 'updated'
+
+                    # 2-TUZATISH: post_data uchun xavfsiz JSON konvertatsiya
+                    new_dict = model_to_dict(review, exclude=['likes', 'user', 'destination'])
+                    new_dict['user'] = review.user_id
+                    new_dict['destination'] = review.destination_id
+                    post_data = json.loads(json.dumps(new_dict, cls=DjangoJSONEncoder))
+
+                    diff = {k: post_data[k] for k in post_data if k not in pre_data or pre_data[k] != post_data[k]}
+                    # Request ID yasash
+                    req_id = getattr(request, 'id', None) or request.META.get('HTTP_X_REQUEST_ID') or str(uuid.uuid4())
+
+                    # SHU QATORNI QO'SHING (Brauzer ma'lumotini olish uchun):
+                    user_agent = request.META.get('HTTP_USER_AGENT', '')[:255]
+
+                    ActionLog.objects.create(
+                        user=request.user,
+                        action=f"Review {verb.capitalize()} (Pending AI Moderation)",
+                        verb=verb,
+                        target_object=review,
+                        object_repr=str(review),  # 1-RASM YECHIMI
+                        message="Review saved to database. Waiting for Celery AI task.",
+                        pre_change_data=pre_data,
+                        post_change_data=post_data,
+                        changes_diff=diff,
+                        extra_info={},
+                        ip_address=self.get_client_ip(request),
+                        request_id=req_id,  # 2-RASM YECHIMI
+                        user_agent=user_agent,  # <--- SHU YERGA HAM QO'SHIB QO'YING!
+                        path=request.path[:250],
+                        method=request.method
+                    )
+
+                    # AI'ga yuborish
+                    transaction.on_commit(
+                        lambda: moderate_review_task.delay(review.id, destination.name)
+                    )
+
+                messages.info(request, "Izohingiz qabul qilindi. AI uni tekshirmoqda...", extra_tags='info')
+            else:
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, error, extra_tags='error')
+
+
+        except IntegrityError:
+
+            messages.info(request, "Izohingiz allaqachon yangilangan.", extra_tags='info')
+
+        except Exception as e:
+
+            logger.error(f"CRITICAL ERROR in SubmitReviewView: {str(e)}", exc_info=True)
+
+            messages.error(request, "Tizimda xatolik yuz berdi. Keyinroq qayta urinib ko'ring.", extra_tags='error')
+
+        return fallback_redirect
+
+    def get_client_ip(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        return x_forwarded_for.split(',')[0][:45] if x_forwarded_for else request.META.get('REMOTE_ADDR', '')[:45]
 
 
 class WeatherView(View):
@@ -134,6 +445,12 @@ class DestinationDetailView(TemplateView):
             city=destination.city,
         ).exclude(slug=slug).prefetch_related('images')[:5]
         context['today'] = timezone.now().date()
+
+        if self.request.user.is_authenticated:
+            context['user_review'] = Review.objects.filter(destination=destination, user=self.request.user).first()
+        else:
+            context['user_review'] = None
+
         return context
 
 
@@ -353,6 +670,14 @@ class LoginFormView(LoginNotRequiredMixin, FormView):
     form_class = LoginForm
     redirect_authenticated_user = True
     success_url = reverse_lazy('home_page')
+
+    def get_success_url(self):
+        next_url = self.request.POST.get('next') or self.request.GET.get('next')
+
+        if next_url:
+            return next_url
+
+        return super().get_success_url()
 
     def form_valid(self, form):
         login(self.request, form.cleaned_data['user'])

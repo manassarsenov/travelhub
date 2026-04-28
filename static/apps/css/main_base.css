@@ -837,3 +837,20 @@ footer { background: var(--dark); color: white; padding: 80px 30px 30px; margin-
     .navbar-search { flex: 1; }
     .search-input { font-size: 12px; }
 }
+/* --- STAR RATING FIX --- */
+.dcd-rm-stars-mini i {
+    color: #cbd5e1 !important; /* Default kulrang */
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    font-size: 24px !important;
+}
+
+.dcd-rm-stars-mini i.active,
+.dcd-rm-stars-mini i.hover {
+    color: #fbbf24 !important; /* Sariq rang */
+    transform: scale(1.1);
+}
+
+.dcd-rm-stars-mini i:hover {
+    color: #fbbf24 !important;
+}

@@ -25,7 +25,7 @@ if (backendDataRaw) {
     }
 }
 
-// Vaqtlar ro'yxati (Hozircha statik, lekin buni ham backenddan olish mumkin)
+// Vaqtlar ro'yxati (Hozircha statik)
 const TIMES_LIST = [
     '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
     '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
@@ -38,7 +38,7 @@ const MONTHS_FULL = [
 ];
 
 // =====================================================
-// 2. GLOBAL STATE (Holatni saqlash)
+// 2. GLOBAL STATE
 // =====================================================
 const S = {
     selectedDate: null,
@@ -57,13 +57,13 @@ const S = {
 };
 
 // =====================================================
-// 3. ASOSIY INIT (Sahifa yuklanganda barcha sozlamalar)
+// 3. ASOSIY INIT (Sahifa yuklanganda)
 // =====================================================
 document.addEventListener('DOMContentLoaded', () => {
     // --- A. UI Komponentlarni ishga tushirish ---
     buildDateChips();
     buildTimeGrid();
-    updateTotal(); // Dinamik narxni hisoblash
+    updateTotal();
     initScoreBars();
     initMobileBar();
 
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     updateMonthLabel();
 
-    // --- B. Uzun matnlarni avtomatik qisqartirish (Advanced Logic) ---
+    // --- B. Uzun matnlarni avtomatik qisqartirish ---
     const textSections = [
         {elId: 'dcd-description', btnId: 'dcd-desc-btn'},
         {elId: 'dcd-additional', btnId: 'dcd-add-btn'}
@@ -83,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = document.getElementById(item.btnId);
 
         if (el && btn) {
-            // Matn qisqa bo'lsa "Show more" tugmasini yashirish
             if (el.scrollHeight <= 205) {
                 btn.style.display = 'none';
                 el.classList.remove('collapsed');
@@ -102,41 +101,75 @@ document.addEventListener('DOMContentLoaded', () => {
         if (destName) destName.textContent = document.getElementById('dest-name')?.textContent || '';
     }
 
-    /// --- D. Premium Categorical Rating (Hover & Click Logic) ---
-    const ratingCategories = document.querySelectorAll('.dcd-rm-stars-mini');
-ratingCategories.forEach(container => {
-    const stars = Array.from(container.querySelectorAll('i'));
-    const categoryName = container.dataset.category;
-    const hiddenInput = document.getElementById(`val-${categoryName}`);
+   // --- D. Premium Categorical Rating (FONTAWESOME SAFE) ---
+    document.querySelectorAll('.dcd-rm-stars-mini').forEach(container => {
+        const stars = Array.from(container.querySelectorAll('.star-wrap'));
+        const categoryName = container.dataset.category;
+        const hiddenInput = document.getElementById(`val-${categoryName}`);
 
-    if (!hiddenInput) return;
+        if (!hiddenInput) return;
 
-    function updateStars(val) {
-        stars.forEach((s, i) => {
-            s.classList.toggle('active', i < val);
-        });
-    }
+        // Yulduzlarni yangilash funksiyasi
+        const updateStars = (rating) => {
+            stars.forEach((star, index) => {
+                const starVal = index + 1; // 1 dan 5 gacha
+                if (starVal <= rating) {
+                    star.classList.add('active');
+                    star.style.color = '#fbbf24'; // Sariq
+                    star.querySelector('i').style.color = '#fbbf24';
+                } else {
+                    star.classList.remove('active');
+                    star.style.color = '#e2e8f0'; // Kulrang
+                    star.querySelector('i').style.color = '#e2e8f0';
+                }
+            });
+        };
 
-    stars.forEach((star, index) => {
-        star.addEventListener('mouseenter', () => updateStars(index + 1));
+        // Boshlang'ich holat
+        let currentRating = parseInt(hiddenInput.value) || 5;
+        updateStars(currentRating);
 
-        star.addEventListener('mouseleave', () => {
-            updateStars(parseInt(hiddenInput.value) || 5);
-        });
+        // Click va Hover eventlari
+        stars.forEach((star, index) => {
+            const starVal = index + 1;
 
-        star.addEventListener('click', () => {
-            hiddenInput.value = index + 1;
-            updateStars(index + 1);
+            star.addEventListener('mouseenter', () => updateStars(starVal));
+            star.addEventListener('mouseleave', () => updateStars(currentRating));
+
+            star.addEventListener('click', () => {
+                currentRating = starVal;
+                hiddenInput.value = currentRating;
+                updateStars(currentRating);
+
+                star.style.transform = 'scale(1.4)';
+                setTimeout(() => { star.style.transform = ''; }, 150);
+            });
         });
     });
 
-    // Boshlang'ich holat - 5 yulduz sariq
-    updateStars(parseInt(hiddenInput.value) || 5);
-});
-});
+    // --- E. MUVAFFAQIYAT XABARINI USHLAB OLISH VA MODALNI OCHISH ---
+    // HTMLda success bloki bormi yo'qmi tekshiramiz
+    const successBlock = document.getElementById('rm-success');
+    const reviewForm = document.getElementById('reviewForm');
+    const reviewModal = document.getElementById('reviewModal');
 
+    if (successBlock) {
+        // Demak, Django formani muvaffaqiyatli saqlab, sahifani yangilagan
+        if (reviewForm) {
+            reviewForm.style.display = 'none'; // Formani yashiramiz
+        }
+        if (reviewModal) {
+            reviewModal.classList.add('open'); // Modalni avtomatik ochamiz
+        }
+    }
+
+    // URL hash tekshirish (Agar #reviewModal bo'lsa modalni ochish)
+    if (window.location.hash === '#reviewModal') {
+        openReviewModal();
+    }
+});
 // =====================================================
-// 4. DATE & TIME (Sana va vaqt tanlash)
+// 4. DATE & TIME
 // =====================================================
 function buildDateChips() {
     const wrap = document.getElementById('dcd-date-chips');
@@ -282,7 +315,7 @@ function toggleMoreTimes() {
 }
 
 // =====================================================
-// 5. TICKET COUNTER & DYNAMIC CALCULATION
+// 5. TICKET COUNTER
 // =====================================================
 function changeTicket(ticketId, delta, price) {
     const el = document.getElementById(`count-${ticketId}`);
@@ -292,7 +325,6 @@ function changeTicket(ticketId, delta, price) {
     let newVal = Math.max(0, currentVal + delta);
     el.textContent = newVal;
 
-    // Animatsiya (Bounce)
     el.style.transform = delta > 0 ? 'scale(1.4)' : 'scale(0.7)';
     setTimeout(() => { el.style.transform = 'scale(1)'; }, 200);
 
@@ -301,7 +333,6 @@ function changeTicket(ticketId, delta, price) {
 
 function updateTotal() {
     let total = 0;
-    // Barcha ticket counterlarini yig'ib chiqamiz
     document.querySelectorAll('.ticket-count').forEach(span => {
         const count = parseInt(span.textContent) || 0;
         const price = parseFloat(span.dataset.price) || 0;
@@ -309,47 +340,11 @@ function updateTotal() {
     });
 
     const el = document.getElementById('total-num');
-    if (el) el.textContent = total.toFixed(2); // Sentlar bilan to'g'ri chiqish uchun
-}
-
-function proceedBooking() {
-    if (!S.selectedDate) {
-        toast('Please select a date first', 'error'); return;
-    }
-    if (!S.selectedTime) {
-        toast('Please select a time slot', 'error'); return;
-    }
-
-    let totalCount = 0;
-    let totalAmount = 0;
-    const ticketParams = new URLSearchParams();
-
-    ticketParams.append('date', S.selectedDate);
-    ticketParams.append('time', S.selectedTime);
-
-    document.querySelectorAll('.ticket-count').forEach(span => {
-        const count = parseInt(span.textContent) || 0;
-        const price = parseFloat(span.dataset.price) || 0;
-        const tId = span.id.replace('count-', '');
-
-        if (count > 0) {
-            ticketParams.append(`ticket_${tId}`, count);
-            totalCount += count;
-            totalAmount += count * price;
-        }
-    });
-
-    if (totalCount === 0) {
-        toast('Please select at least 1 ticket', 'error');
-        return;
-    }
-
-    ticketParams.append('total', totalAmount);
-    window.location.href = `/booking/create/?${ticketParams.toString()}`;
+    if (el) el.textContent = total.toFixed(2);
 }
 
 // =====================================================
-// 6. UX / UI TOGGLES (Accordion, Modals, Sliders)
+// 6. UX / UI TOGGLES
 // =====================================================
 function toggleDescription() {
     const el = document.getElementById('dcd-description');
@@ -437,36 +432,84 @@ document.addEventListener('keydown', e => {
     }
 });
 
-// --- SLIDERS ---
-function slideReviews(dir) {
-    const track = document.getElementById('dcd-reviews-track');
-    if (!track) return;
-    const cards = track.querySelectorAll('.dcd-review-card');
-    const cardW = 316;
-    const max = Math.max(0, cards.length - 2);
-    S.reviewIdx = Math.max(0, Math.min(max, S.reviewIdx + dir));
-    track.style.transform = `translateX(-${S.reviewIdx * cardW}px)`;
-}
-
 function slideSimilar() {
     const track = document.getElementById('dcd-similar-track');
     if (!track) return;
     const cards = track.querySelectorAll('.dcd-sim-card');
-    const cardW = 236;
-    const max = Math.max(0, cards.length - 3);
-    S.similarIdx = S.similarIdx >= max ? 0 : S.similarIdx + 1;
-    track.style.transform = `translateX(-${S.similarIdx * cardW}px)`;
+    if (cards.length === 0) return;
+
+    const cardWidth = 260; // Yangi qat'iy kenglik
+    const gap = 20; 
+    const step = cardWidth + gap;
+    
+    const containerWidth = track.parentElement.offsetWidth;
+    const visibleCards = Math.floor(containerWidth / step) || 1;
+    const maxIdx = Math.max(0, cards.length - visibleCards);
+
+    if (S.similarIdx < maxIdx) {
+        S.similarIdx++;
+    } else {
+        S.similarIdx = 0; 
+    }
+    
+    track.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+    track.style.transform = `translateX(-${S.similarIdx * step}px)`;
 }
 
 function slideSimilarBack() {
     const track = document.getElementById('dcd-similar-track');
     if (!track) return;
     const cards = track.querySelectorAll('.dcd-sim-card');
-    const cardW = 236;
-    const max = Math.max(0, cards.length - 3);
-    S.similarIdx = S.similarIdx <= 0 ? max : S.similarIdx - 1;
-    track.style.transform = `translateX(-${S.similarIdx * cardW}px)`;
+    if (cards.length === 0) return;
+
+    const cardWidth = 260;
+    const gap = 20;
+    const step = cardWidth + gap;
+    
+    const containerWidth = track.parentElement.offsetWidth;
+    const visibleCards = Math.floor(containerWidth / step) || 1;
+    const maxIdx = Math.max(0, cards.length - visibleCards);
+
+    if (S.similarIdx > 0) {
+        S.similarIdx--;
+    } else {
+        S.similarIdx = maxIdx;
+    }
+    
+    track.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+    track.style.transform = `translateX(-${S.similarIdx * step}px)`;
 }
+
+function updateSimilarArrows(totalCards, visibleCards) {
+    const prevBtn = document.querySelector('.dcd-sim-arrow.left');
+    const nextBtn = document.querySelector('.dcd-sim-arrow.right');
+    if (!prevBtn || !nextBtn) return;
+
+    if (totalCards <= visibleCards) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+    } else {
+        prevBtn.style.display = 'flex';
+        nextBtn.style.display = 'flex';
+    }
+}
+
+// Sahifa yuklanganda strelkalarni tekshirish
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const track = document.getElementById('dcd-similar-track');
+        if (track) {
+            const cards = track.querySelectorAll('.dcd-sim-card');
+            const containerWidth = track.parentElement.offsetWidth;
+            if (cards.length > 0) {
+                const cardWidth = cards[0].offsetWidth;
+                const gap = parseFloat(window.getComputedStyle(track).gap) || 0;
+                const visibleCards = Math.floor((containerWidth + gap) / (cardWidth + gap));
+                updateSimilarArrows(cards.length, visibleCards);
+            }
+        }
+    }, 500);
+});
 
 function slidePhotos() {
     const track = document.getElementById('dcd-tp-track');
@@ -567,7 +610,7 @@ function submitReview(e) {
     e.preventDefault();
 
     const textVal = document.getElementById('rm-text')?.value.trim();
-    // Barcha kategoriyalar kiritilganini tasdiqlash uchun (aslida barchasida default 5 turadi)
+    // Barcha kategoriyalar kiritilganini tasdiqlash uchun
     const serviceVal = document.getElementById('val-service_quality')?.value;
 
     const submitBtn = document.getElementById('rm-submit-btn');
@@ -684,4 +727,151 @@ function toast(message, type = 'success') {
     if (ic) ic.className = `fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'} toast-icon ${type}`;
     clearTimeout(t._timer);
     t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+window.reviewSliderIdx = 0;
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Sahifa to'liq ochilib, elementlar o'lchamini olguncha 100ms kutamiz
+    setTimeout(initReviewSlider, 100);
+});
+
+function initReviewSlider() {
+    const track = document.getElementById('dcd-reviews-track');
+    const prevBtn = document.getElementById('rev-prev');
+    const nextBtn = document.getElementById('rev-next');
+    const controls = document.querySelector('.dcd-slider-navigation-v2');
+
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const cards = track.querySelectorAll('.dcd-review-card-v2');
+
+    // QOIDA: Agar reviewlar 0 ta bo'lsa, hamma narsani yashiramiz
+    if (cards.length === 0) {
+        if (controls) controls.style.display = 'none';
+        return;
+    }
+
+    // Indexni nollaymiz
+    S.reviewIdx = 0;
+    track.style.transform = `translateX(0px)`;
+
+    // Boshlang'ich holatni tekshiramiz
+    updateArrowStates(cards.length);
+}
+
+function slideReviews(dir) {
+    const track = document.getElementById('dcd-reviews-track');
+    const cards = track.querySelectorAll('.dcd-review-card-premium');
+
+    if (!track || cards.length <= 2) return;
+
+    // Kartochka kengligi va orasidagi joy (gap: 25px)
+    const cardW = cards[0].offsetWidth + 25;
+
+    // Ekranga 2 tasi sig'adi deb hisoblaymiz (slider 2 tadan keyin suriladi)
+    const maxIdx = Math.max(0, cards.length - 2);
+
+    // Yangi indexni hisoblaymiz
+    let newIdx = S.reviewIdx + dir;
+    if (newIdx < 0) newIdx = 0;
+    if (newIdx > maxIdx) newIdx = maxIdx;
+
+    S.reviewIdx = newIdx;
+
+    // Surish animatsiyasi
+    track.style.transition = 'transform 0.4s ease-in-out';
+    track.style.transform = `translateX(-${S.reviewIdx * cardW}px)`;
+
+    // Strelkalarni yangilaymiz
+    updateArrowStates(cards.length, maxIdx);
+}
+
+function updateArrowStates(totalCards, maxIdx = null) {
+    const prevBtn = document.querySelector('.dcd-rev-prev');
+    const nextBtn = document.querySelector('.dcd-rev-next');
+
+    if (!prevBtn || !nextBtn) return;
+
+    // AGAR 2 TA YOKI UNDAN KAM BO'LSA - HAR QANDAY HOLATDA YASHIRISH
+    if (totalCards <= 2) {
+        prevBtn.classList.add('hide-arrow');
+        nextBtn.classList.add('hide-arrow');
+        prevBtn.style.display = 'none'; // Qo'shimcha xavfsizlik
+        nextBtn.style.display = 'none';
+        return;
+    } else {
+        prevBtn.style.display = ''; // Qayta ko'rsatish
+        nextBtn.style.display = '';
+    }
+
+    if (maxIdx === null) {
+        maxIdx = Math.max(0, totalCards - 2);
+    }
+
+    // 1. BOSHIDA tursak (index == 0) -> Chap (prev) yashirinadi, o'ng (next) chiqadi
+    if (S.reviewIdx <= 0) {
+        prevBtn.classList.add('hide-arrow');
+        nextBtn.classList.remove('hide-arrow');
+    }
+    // 2. OXIRIDA tursak (index >= maxIdx) -> O'ng (next) yashirinadi, chap (prev) chiqadi
+    else if (S.reviewIdx >= maxIdx) {
+        nextBtn.classList.add('hide-arrow');
+        prevBtn.classList.remove('hide-arrow');
+    }
+    // 3. O'RTADA tursak -> Ikkalasi ham ko'rinadi
+    else {
+        prevBtn.classList.remove('hide-arrow');
+        nextBtn.classList.remove('hide-arrow');
+    }
+}
+
+
+// =====================================================
+// 9. IZOHLARGA LIKE BOSISH (SMART AJAX)
+// =====================================================
+function toggleLike(buttonElement) {
+    const url = buttonElement.getAttribute('data-url');
+    const icon = buttonElement.querySelector('i');
+
+    const originalIconClass = icon.className.includes('fa-heart') ? 'fa-heart' : 'fa-thumbs-up';
+    icon.className = 'fas fa-spinner fa-spin'; // Loading...
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCsrfToken(),
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            if(response.status === 403 || response.status === 401) {
+                toast('Please login to like reviews', 'error');
+                throw new Error('Unauthorized');
+            }
+            throw new Error('Network error');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Layk bosilsa, V2 dizayni uchun "is-liked" qo'shamiz
+        if (data.liked) {
+            buttonElement.classList.add('is-active', 'liked', 'is-liked');
+            icon.className = `fas ${originalIconClass}`;
+        } else {
+            buttonElement.classList.remove('is-active', 'liked', 'is-liked');
+            icon.className = `far ${originalIconClass}`;
+        }
+
+        // Raqamni o'zgartirish (.count yoki .like-count ni qidiradi)
+        const countSpan = buttonElement.querySelector('.like-count') || buttonElement.querySelector('.count');
+        if(countSpan) countSpan.textContent = data.total_likes;
+    })
+    .catch(error => {
+        // Xato bersa oldingi holiga qaytaramiz
+        const isLiked = buttonElement.classList.contains('is-liked');
+        icon.className = `${isLiked ? 'fas' : 'far'} ${originalIconClass}`;
+    });
 }

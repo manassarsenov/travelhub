@@ -14,6 +14,24 @@
     <link rel="stylesheet" href="{% static 'apps/css/flights_modal.css' %}">
     <link rel="stylesheet" href="{% static 'apps/css/weather.css' %}">
     {% block custom_css %}{% endblock %}
+
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=108926251', 'ym');
+
+    ym(108926251, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/108926251" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+
+
 </head>
 <body>
 
@@ -487,6 +505,13 @@
     </div>
 </div>
 
+<div id="django-messages-data" style="display: none;">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="django-msg-item" data-type="{{ message.tags }}" data-text="{{ message }}"></div>
+        {% endfor %}
+    {% endif %}
+</div>
 
 <script src="{% static 'apps/js/main_base.js' %}"></script>
 <script src="{% static 'apps/js/flights_modal.js' %}"></script>

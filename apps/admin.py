@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from apps.models import Destination, Country, Tag, Review, User, Activity
 from apps.models.categories import City, Region
-from apps.models.destinations import DestinationImage
+from apps.models.destinations import DestinationImage, DestinationFAQ
 from apps.models.ticket_details import TicketType
 from django.contrib import admin
 from django.utils.html import format_html
@@ -57,14 +57,19 @@ class CountryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
 
 
+class DestinationFAQInline(admin.TabularInline):
+    model = DestinationFAQ
+    extra = 1
+
+
 @admin.register(Destination)
 class DestinationAdmin(admin.ModelAdmin):
-    inlines = [DestinationImageInline]
+    inlines = [DestinationImageInline, DestinationFAQInline]
 
     list_display = (
         'name', 'location', 'city', 'price',
         'is_flash_sale', 'is_trending', 'is_featured', 'is_popular',
-        'rating', 'reviews_count',
+        'rating',
     )
 
     list_filter = (
@@ -76,7 +81,7 @@ class DestinationAdmin(admin.ModelAdmin):
 
     search_fields = ('name', 'location', 'city__name')
 
-    readonly_fields = ('map_preview', 'rating', 'reviews_count')
+    readonly_fields = ('map_preview', 'rating',)
 
     fieldsets = (
         ('General', {
@@ -121,7 +126,7 @@ class DestinationAdmin(admin.ModelAdmin):
             )
         }),
         ('Reviews (readonly)', {
-            'fields': ('rating', 'reviews_count'),
+            'fields': ('rating',),
         }),
     )
 

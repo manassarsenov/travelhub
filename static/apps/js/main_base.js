@@ -1,10 +1,30 @@
 // Initialize
+// Initialize
 window.addEventListener('load', function () {
     setTimeout(() => {
         document.getElementById('loading-screen').style.display = 'none';
     }, 2000);
 
     setupScrollEffects();
+
+    // YENGI QO'SHILGAN QISM: Django xabarlarini avtomatik ko'rsatish
+    const messagesData = document.getElementById('django-messages-data');
+    if (messagesData) {
+        const msgItems = messagesData.querySelectorAll('.django-msg-item');
+        msgItems.forEach(item => {
+            const type = item.getAttribute('data-type'); // success, error, info
+            const text = item.getAttribute('data-text');
+
+            // Xabar turiga qarab Title ni o'zgartirish
+            let title = "Xabar";
+            if (type.includes('success')) title = "Muvaffaqiyatli";
+            else if (type.includes('error')) title = "Xatolik";
+            else if (type.includes('info')) title = "Ma'lumot";
+
+            // Ekrannga ko'rsatish
+            showToast(title, text, type.replace(' ', ''));
+        });
+    }
 });
 
 // // Language Switcher
