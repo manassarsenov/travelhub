@@ -73,6 +73,12 @@
                         <img id="gallery-main-img"
                              src="
 
+
+
+
+
+
+
                                      {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
                              alt="{{ destination.name }}" class="dcd-main-img">
                     {% endwith %}
@@ -489,7 +495,7 @@
             {% endif %}
 
             <!-- SIMILAR / BESTSELLERS -->
-<div class="dcd-section">
+            <div class="dcd-section">
                 <div class="dcd-similar-head">
                     <h2 class="dcd-section-title" style="position:static;transform:none;left:auto;">Bestsellers in
                         {{ destination.city.name }}</h2>
@@ -518,7 +524,7 @@
 
                                     <div class="dcd-sim-info">
                                         <h4>{{ s_destination.name }}</h4>
-                                        
+
                                         <div class="dcd-sim-footer">
                                             <div class="dcd-sim-rating">
                                                 <i class="fas fa-star" style="color:#fbbf24;"></i>
@@ -559,121 +565,116 @@
         <div class="dcd-right">
             <div class="dcd-panel" id="dcd-booking-panel">
 
-                <div class="dcd-panel-title">
-                    <h3>Tickets and prices</h3>
-                </div>
+                <form action="{% url 'booking_step1_page' destination.slug %}" method="GET" id="bookingForm">
 
-                <!-- DATE PICKER -->
-                <div class="dcd-panel-block">
-                    <div class="dcd-panel-label">Search ticket availability by date</div>
-                    <div class="dcd-month-nav">
-                        <button onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
-                        <span id="dcd-month-title">March 2026</span>
-                        <button onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                    <a href="#" class="dcd-panel-link" onclick="toggleCalendar(event)">Show more dates</a>
-                    <div class="dcd-date-chips" id="dcd-date-chips"></div>
-                    <!-- Full calendar -->
-                    <div class="dcd-full-calendar" id="dcd-full-calendar" style="display:none;">
-                        <div class="dcd-cal-weekdays">
-                            <span>Mo</span><span>Tu</span><span>We</span>
-                            <span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
-                        </div>
-                        <div class="dcd-cal-grid" id="dcd-cal-grid"></div>
-                    </div>
-                </div>
-
-                <!-- TIME PICKER -->
-                <div class="dcd-panel-block">
-                    <div class="dcd-panel-label">Select time</div>
-                    <div class="dcd-time-grid" id="dcd-time-grid"></div>
-                    <button class="dcd-show-more-times-btn" id="dcd-times-toggle" onclick="toggleMoreTimes()">
-                        <i class="fas fa-chevron-down"></i> Show more
-                    </button>
-                </div>
-
-                <!-- TICKET COUNTER -->
-                <div class="dcd-panel-block dcd-ticket-block">
-                    <div class="dcd-ticket-header">
-                        <span><i class="fas fa-info-circle"></i> Standard Experience</span>
-                        <span class="dcd-non-ref-badge">Non-refundable</span>
-                    </div>
-                    <div class="dcd-tickets-title">How many tickets?</div>
-
-                    <!-- Adult -->
-                    <div class="dcd-ticket-row">
-                        <div>
-                            <div class="dcd-ticket-cat">Adult (age 16+)</div>
-                            <div class="dcd-ticket-price-tag">$33</div>
-                        </div>
-                        <div class="dcd-counter">
-                            <button onclick="changeTicket('adult',-1)"><i class="fas fa-minus"></i></button>
-                            <span id="count-adult">0</span>
-                            <button onclick="changeTicket('adult',1)"><i class="fas fa-plus"></i></button>
-                        </div>
+                    <div class="dcd-panel-title">
+                        <h3>Tickets and prices</h3>
                     </div>
 
-                    <!-- Child -->
-                    <div class="dcd-ticket-row">
-                        <div>
-                            <div class="dcd-ticket-cat">Child (age 2-15)</div>
-                            <div class="dcd-ticket-price-tag">$30</div>
+                    <div class="dcd-panel-block">
+                        <div class="dcd-panel-label">Search ticket availability by date</div>
+
+                        <div class="dcd-month-nav">
+                            <button type="button" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                            <span id="dcd-month-title">March 2026</span>
+                            <button type="button" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
                         </div>
-                        <div class="dcd-counter">
-                            <button onclick="changeTicket('child',-1)"><i class="fas fa-minus"></i></button>
-                            <span id="count-child">0</span>
-                            <button onclick="changeTicket('child',1)"><i class="fas fa-plus"></i></button>
+
+                        <div class="dcd-date-chips" id="dcd-date-chips"></div>
+
+                        <a href="#" class="dcd-panel-link" style="margin-top: 10px; display: inline-block;"
+                           onclick="toggleCalendar(event)">Show more dates</a>
+
+                        <div class="dcd-full-calendar" id="dcd-full-calendar" style="display:none;">
+                            <div class="dcd-cal-weekdays">
+                                <span>Mo</span><span>Tu</span><span>We</span>
+                                <span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+                            </div>
+                            <div class="dcd-cal-grid" id="dcd-cal-grid"></div>
                         </div>
+
+                        <input type="hidden" name="date" id="form-selected-date" value="">
                     </div>
 
-                    <!-- Caregiver -->
-                    <div class="dcd-ticket-row">
-                        <div>
-                            <div class="dcd-ticket-cat">Caregiver</div>
-                            <div class="dcd-ticket-price-tag">$0</div>
-                        </div>
-                        <div class="dcd-counter">
-                            <button onclick="changeTicket('caregiver',-1)"><i class="fas fa-minus"></i></button>
-                            <span id="count-caregiver">1</span>
-                            <button onclick="changeTicket('caregiver',1)"><i class="fas fa-plus"></i></button>
-                        </div>
+                    <div class="dcd-panel-block">
+                        <div class="dcd-panel-label">Select time</div>
+                        <div class="dcd-time-grid" id="dcd-time-grid"></div>
+                        <button type="button" class="dcd-show-more-times-btn" id="dcd-times-toggle"
+                                onclick="toggleMoreTimes()">
+                            <i class="fas fa-chevron-down"></i> Show more
+                        </button>
+
+                        <input type="hidden" name="time" id="form-selected-time" value="">
                     </div>
 
-                    <!-- Infant -->
-                    <div class="dcd-ticket-row">
-                        <div>
-                            <div class="dcd-ticket-cat">Infant (age 0-1)</div>
-                            <div class="dcd-ticket-price-tag">$0</div>
+                    <div class="dcd-panel-block dcd-ticket-block">
+                        <div class="dcd-ticket-header">
+                            {% if not destination.is_free_cancellation %}
+                                <span><i class="fas fa-info-circle"></i> Standard Experience</span>
+                                <span class="dcd-non-ref-badge">Non-refundable</span>
+                            {% endif %}
                         </div>
-                        <div class="dcd-counter">
-                            <button onclick="changeTicket('infant',-1)"><i class="fas fa-minus"></i></button>
-                            <span id="count-infant">0</span>
-                            <button onclick="changeTicket('infant',1)"><i class="fas fa-plus"></i></button>
+                        <div class="dcd-tickets-title">How many tickets?</div>
+
+                        {% for ticket in destination.ticket_types.all %}
+                            <div class="dcd-ticket-row">
+                                <div>
+                                    <div class="dcd-ticket-cat">
+                                        {{ ticket.name }} {% if ticket.age_label %}({{ ticket.age_label }}){% endif %}
+                                    </div>
+                                    <div class="dcd-ticket-price-tag">
+                                        {% if ticket.is_free or ticket.price == 0 %}
+                                            Free
+                                        {% else %}
+                                            ${{ ticket.price }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="dcd-counter">
+                                    <button type="button" onclick="changeTicket('{{ ticket.id }}', -1)"><i
+                                            class="fas fa-minus"></i></button>
+                                    <span id="count-{{ ticket.id }}" class="ticket-count"
+                                          data-price="{{ ticket.price }}">0</span>
+                                    <button type="button" onclick="changeTicket('{{ ticket.id }}', 1)"><i
+                                            class="fas fa-plus"></i></button>
+                                </div>
+
+                                <input type="hidden" name="ticket_{{ ticket.id }}" id="form-{{ ticket.id }}" value="0">
+                            </div>
+                        {% empty %}
+                            <p style="color: var(--gray); font-size: 14px;">No tickets available at the moment.</p>
+                        {% endfor %}
+
+                        <div class="dcd-total">
+                            <span>Total</span>
+                            <span class="dcd-total-val">$<span id="total-num">0</span></span>
                         </div>
+                        <div class="dcd-tax-note">Includes taxes and charges</div>
+
+                        <input type="hidden" name="total_price" id="form-total-price" value="0">
+
+                        <button type="submit" class="dcd-book-btn">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+
+                        {% if destination.is_free_cancellation %}
+                            <div class="dcd-panel-free-cancel"
+                                 style="margin-top: 15px; text-align: center; display: block;">
+                                <div>
+                                    <i class="fas fa-check-circle" style="color:var(--success);"></i>
+                                    <span style="font-weight: 600;">Free cancellation available</span>
+                                </div>
+                                <div style="font-size: 13px; color: var(--gray); margin-top: 4px;">
+                                    {{ destination.cancellation_text }}
+                                </div>
+                            </div>
+                        {% endif %}
+
                     </div>
 
-                    <!-- TOTAL -->
-                    <div class="dcd-total">
-                        <span>Total</span>
-                        <span class="dcd-total-val">$<span id="total-num">0</span></span>
-                    </div>
-                    <div class="dcd-tax-note">Includes taxes and charges</div>
-
-                    {#                    <button class="dcd-book-btn" onclick="proceedBooking()">#}
-                    <button class="dcd-book-btn"
-                            onclick="window.location.href='{% url 'booking_step1_page' destination.slug %}'">
-                        Next <i class="fas fa-arrow-right"></i>
-                    </button>
-
-                    <div class="dcd-panel-free-cancel">
-                        <i class="fas fa-check-circle" style="color:var(--success);"></i>
-                        Free cancellation available
-                    </div>
-                </div>
-
+                </form>
             </div>
         </div>
-
     </div><!-- /dcd-page -->
 
     <!-- ===== GALLERY MODAL ===== -->
@@ -694,15 +695,6 @@
                     {% with main_img=destination.images.first %}
                         <div class="dcd-gm-photo-item dcd-gm-large">
                             <img src="
-
-
-
-
-
-
-
-
-
 
 
 
@@ -781,11 +773,16 @@
     </div>
 
 
+
+
 {% endblock %}
 
 
 {% block custom_js %}
-    <script src="{% static 'apps/js/destination_detail.js' %}?v=123"></script>
+    <script id="backend-data" type="application/json">
+    {{ backend_data_json|safe }}
+    </script>
+    <script src="{% static 'apps/js/destination_detail.js' %}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Hamma yulduzchalar qatorini topamiz

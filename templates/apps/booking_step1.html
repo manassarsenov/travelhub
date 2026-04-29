@@ -8,35 +8,36 @@
 {% endblock %}
 
 {% block main_content %}
-<div class="booking-wrapper">
-    <div class="booking-progress">
-        <div class="progress-inner">
-            <div class="progress-step">
-                <div class="step-circle active"><i class="fas fa-user"></i></div>
-                <div class="step-info">
-                    <div class="step-label">Step 1</div>
-                    <div class="step-title">Personal Details</div>
+
+    <div class="booking-wrapper">
+        <div class="booking-progress">
+            <div class="progress-inner">
+                <div class="progress-step">
+                    <div class="step-circle active"><i class="fas fa-user"></i></div>
+                    <div class="step-info">
+                        <div class="step-label">Step 1</div>
+                        <div class="step-title">Personal Details</div>
+                    </div>
                 </div>
-            </div>
-            <div class="step-line active"></div>
-            <div class="progress-step" style="opacity: 0.5;">
-                <div class="step-circle inactive"><i class="fas fa-credit-card"></i></div>
-                <div class="step-info">
-                    <div class="step-label">Step 2</div>
-                    <div class="step-title inactive">Secure Payment</div>
+                <div class="step-line active"></div>
+                <div class="progress-step" style="opacity: 0.5;">
+                    <div class="step-circle inactive"><i class="fas fa-credit-card"></i></div>
+                    <div class="step-info">
+                        <div class="step-label">Step 2</div>
+                        <div class="step-title inactive">Secure Payment</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="booking-main">
-        <div class="booking-left">
-            <a href="{% url 'destination_detail_page' destination.slug %}" class="back-link"
-               style="display:inline-flex; align-items:center; gap:8px; margin-bottom:25px; color:var(--text-muted); text-decoration:none; font-weight: 700; transition: 0.3s; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">
-                <i class="fas fa-arrow-left"></i> Back to Experience
-            </a>
+        <div class="booking-main">
+            <div class="booking-left">
+                <a href="{% url 'destination_detail_page' destination.slug %}" class="back-link"
+                   style="display:inline-flex; align-items:center; gap:8px; margin-bottom:25px; color:var(--text-muted); text-decoration:none; font-weight: 700; transition: 0.3s; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">
+                    <i class="fas fa-arrow-left"></i> Back to Experience
+                </a>
 
-          {% if not user.is_authenticated %}
+                {% if not user.is_authenticated %}
                     <div class="auth-banner">
                         <div class="auth-banner-left">
                             <span class="gift-icon">🎁</span>
@@ -52,274 +53,332 @@
                     </div>
                 {% endif %}
 
-            <div class="booking-section">
-                <div class="section-heading">
-                    <div class="section-heading-icon"><i class="fas fa-id-card"></i></div>
-                    <div>
-                        <h2>Let's get to know you</h2>
-                        <p>Your tickets will be issued based on these details.</p>
-                    </div>
-                </div>
-
-                <form id="booking-form" onsubmit="submitBookingForm(event)">
-                    <div class="form-row">
-                        <div class="floating-group">
-                            <input type="text" id="first_name" class="floating-input" placeholder=" " value="{{ user.first_name|default:'' }}" required>
-                            <label class="floating-label">First Name</label>
-                        </div>
-                        <div class="floating-group">
-                            <input type="text" id="last_name" class="floating-input" placeholder=" " value="{{ user.last_name|default:'' }}" required>
-                            <label class="floating-label">Last Name</label>
-                        </div>
-                    </div>
-
-                    <div class="form-row full">
-                        <div class="floating-group">
-                            <input type="email" id="email" class="floating-input" placeholder=" " value="{{ user.email|default:'' }}" required>
-                            <label class="floating-label">Email Address</label>
-                        </div>
-                    </div>
-
-                    <div class="form-row full" style="position: relative; z-index: 20;">
-                        <div class="phone-group">
-                            <div class="phone-prefix" id="country-selector" onclick="toggleCountryDropdown()">
-                                <span id="selected-flag">🇺🇿</span>
-                                <span id="selected-code" style="margin-left: 6px;">+998</span>
-                                <i class="fas fa-chevron-down" style="font-size: 10px; margin-left: 6px; color: var(--text-muted);"></i>
-                            </div>
-
-                            <div class="floating-group" style="flex:1; background: transparent; border: none; box-shadow: none; margin-bottom: 0;">
-                                <input type="tel" id="phone" name="phone" class="floating-input phone-input" placeholder=" " required>
-                                <label class="floating-label">Phone Number</label>
-                            </div>
-
-                            <div class="country-dropdown" id="country-dropdown">
-                                <div class="dropdown-header" onclick="toggleCountryDropdown()">
-                                    <span>Country</span>
-                                    <i class="fas fa-chevron-up"></i>
-                                </div>
-                                <div class="country-search">
-                                    <i class="fas fa-search" style="color: var(--text-muted);"></i>
-                                    <input type="text" placeholder="Search country..." id="country-search-input" onkeyup="filterCountries()">
-                                </div>
-                                <ul class="country-list" id="country-list">
-                                    {% for country in countries %}
-                                    <li onclick="selectCountry('{{ country.flag|default:'🏳️' }}', '{{ country.phone_code }}', {{ country.phone_length|default:15 }})">
-                                        <span class="c-flag">{{ country.flag|default:'🏳️' }}</span>
-                                        <span class="c-name">{{ country.name }}</span>
-                                        <span class="c-code">{{ country.phone_code }}</span>
-                                    </li>
-                                    {% empty %}
-                                    <li onclick="selectCountry('🇦🇫', '+93', 15)"><span class="c-flag">🇦🇫</span><span class="c-name">Afghanistan</span><span class="c-code">+93</span></li>
-                                    <li onclick="selectCountry('🇦🇱', '+355', 15)"><span class="c-flag">🇦🇱</span><span class="c-name">Albania</span><span class="c-code">+355</span></li>
-                                    <li onclick="selectCountry('🇩🇿', '+213', 15)"><span class="c-flag">🇩🇿</span><span class="c-name">Algeria</span><span class="c-code">+213</span></li>
-                                    <li onclick="selectCountry('🇺🇿', '+998', 12)"><span class="c-flag">🇺🇿</span><span class="c-name">Uzbekistan</span><span class="c-code">+998</span></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="booking-section" style="box-shadow: none; border: 2px dashed var(--border-light); margin-top: 40px; padding: 30px; background: transparent;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <h4 style="font-size: 16px; font-weight: 800; color: var(--dark); margin: 0;">
-                                <i class="fas fa-gift" style="color: var(--secondary); margin-right: 8px;"></i> Have a Promo Code?
-                            </h4>
-                            <span id="promo-status" style="font-size: 13px; font-weight: 700; color: var(--success); display: none;">
-                                <i class="fas fa-check-circle"></i> Applied!
-                            </span>
-                        </div>
-                        <div style="display: flex; gap: 12px; align-items: stretch;">
-                            <div class="floating-group" style="flex: 1;">
-                                <input type="text" id="promo_code" class="floating-input" placeholder=" ">
-                                <label class="floating-label">Enter code (Optional)</label>
-                                <div id="promo-error" style="color: var(--danger); font-size: 12px; font-weight: 600; margin-top: 8px; display: none; padding-left: 5px;">
-                                    <i class="fas fa-exclamation-circle"></i> Invalid or expired promo code.
-                                </div>
-                            </div>
-                            <button type="button" class="btn-apply" onclick="applyPromoCode()" style="height: 60px;">Apply</button>
-                        </div>
-                    </div>
-
-                    <div class="terms-text">
-                        By clicking "Proceed to Payment" and completing a booking, you agree with the
-                        <a href="{% url 'terms_of_service_page' %}" target="_blank">Terms and Conditions</a> of TravelHub and the privacy policy.<br>
-                        Please see our <a href="{% url 'privacy_policy_page' %}" target="_blank">Privacy Statement</a> to understand how we use and protect your personal information.
-                    </div>
-
-                    <div id="auth-error-msg" style="display: none; background: #fef2f2; border: 1px solid #ef4444; color: #ef4444; padding: 14px 20px; border-radius: 12px; margin-bottom: 20px; text-align: center; font-size: 14px; font-weight: 600; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.1);">
-                        <i class="fas fa-exclamation-circle" style="margin-right: 5px;"></i>
-                        Please <a href="{% url 'login_page' %}?next={{ request.path }}" style="color: #ef4444; text-decoration: underline;">Sign In</a> or <a href="{% url 'register_page' %}?next={{ request.path }}" style="color: #ef4444; text-decoration: underline;">Register</a> to proceed to payment.
-                    </div>
-
-                    <button type="submit" class="btn-proceed" id="submit-btn" style="margin-top: 20px;">
-                        Proceed to Payment <i class="fas fa-arrow-right"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <div class="booking-right">
-            <div class="ticket-summary">
-                <div class="ticket-img-wrap">
-                    <img src="{% if destination.images.first %}{{ destination.images.first.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}" alt="Destination">
-                    <div class="ticket-img-overlay">
+                <div class="booking-section">
+                    <div class="section-heading">
+                        <div class="section-heading-icon"><i class="fas fa-id-card"></i></div>
                         <div>
-                            <h4>{{ destination.name }}</h4>
-                            <div class="date"><i class="fas fa-calendar-alt"></i> Wed, 15 Apr 2026</div>
+                            <h2>Let's get to know you</h2>
+                            <p>Your tickets will be issued based on these details.</p>
+                        </div>
+                    </div>
+
+                    <form id="booking-form" method="POST">
+                        {% csrf_token %} <input type="hidden" name="selected_date" value="{{ selected_date }}">
+                        <input type="hidden" name="selected_time" value="{{ selected_time }}">
+                        <input type="hidden" name="total_price" id="final-price-input" value="{{ total_price }}">
+
+                        {% for item in selected_tickets %}
+                            <input type="hidden" name="ticket_{{ item.id }}" value="{{ item.quantity }}">
+                        {% endfor %}
+
+                        <div class="form-row">
+                            <div class="floating-group">
+                                <input type="text" name="first_name" id="first_name" class="floating-input"
+                                       placeholder=" "
+                                       value="{{ user.first_name|default:'' }}" required>
+                                <label class="floating-label">First Name</label>
+                            </div>
+                            <div class="floating-group">
+                                <input type="text" name="last_name" id="last_name" class="floating-input"
+                                       placeholder=" "
+                                       value="{{ user.last_name|default:'' }}" required>
+                                <label class="floating-label">Last Name</label>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="floating-group">
+                                <input type="email" name="email" id="email" class="floating-input" placeholder=" "
+                                       value="{{ user.email|default:'' }}" required>
+                                <label class="floating-label">Email Address</label>
+                            </div>
+                        </div>
+
+                        <div class="form-row full" style="position: relative; z-index: 20;">
+                            <div class="phone-group">
+                                <div class="phone-prefix" id="country-selector" onclick="toggleCountryDropdown()">
+                                    <span id="selected-flag">🇺🇿</span>
+                                    <span id="selected-code" style="margin-left: 6px;">+998</span>
+                                    <i class="fas fa-chevron-down"
+                                       style="font-size: 10px; margin-left: 6px; color: var(--text-muted);"></i>
+                                </div>
+
+                                <input type="hidden" name="phone_code" id="hidden-phone-code" value="+998">
+
+                                <div class="floating-group"
+                                     style="flex:1; background: transparent; border: none; box-shadow: none; margin-bottom: 0;">
+                                    <input type="tel" id="phone" name="phone" class="floating-input phone-input"
+                                           placeholder=" " required>
+                                    <label class="floating-label">Phone Number</label>
+                                </div>
+
+                                {% include 'apps/partials/_country_dropdown.html' %}
+                            </div>
+                        </div>
+
+                <div class="booking-section" style="box-shadow: none; border: 2px dashed var(--border-light); margin-top: 40px; padding: 30px; background: transparent;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h4 style="font-size: 16px; font-weight: 800; color: var(--dark); margin: 0;">
+            <i class="fas fa-gift" style="color: var(--secondary); margin-right: 8px;"></i> Have a Promo Code?
+        </h4>
+        <span id="promo-status" style="font-size: 13px; font-weight: 700; color: var(--success); display: none;"></span>
+    </div>
+
+    <div style="display: flex; gap: 12px; align-items: stretch;">
+        <div class="floating-group" style="flex: 1;">
+            <input type="text" id="promo_code" class="floating-input" placeholder=" " value="{{ pending_promo|default:'' }}">
+            <label class="floating-label">Enter code (Optional)</label>
+
+            <input type="hidden" name="promo_code" id="hidden_promo_code" value="{{ pending_promo|default:'' }}">
+
+            <div id="promo-error" style="color: var(--danger); font-size: 12px; font-weight: 600; margin-top: 8px; display: none; padding-left: 5px;"></div>
+        </div>
+        <button type="button" class="btn-apply" onclick="applyPromoCode()" style="height: 60px;">Apply</button>
+    </div>
+</div>
+                        <button type="submit" class="btn-proceed" id="submit-btn" style="margin-top: 20px;">
+                            Proceed to Payment <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="booking-right">
+                <div class="ticket-summary">
+                    <div class="ticket-img-wrap">
+                        <img src="
+
+
+
+
+                                {% if destination.images.first %}{{ destination.images.first.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
+                             alt="{{ destination.name }}">
+
+                        <div class="ticket-img-overlay">
+                            <div>
+                                <h4>{{ destination.name }}</h4>
+                                <div class="date">
+                                    <i class="fas fa-calendar-alt"></i> {{ selected_date }} | {{ selected_time }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ticket-details">
+                        <div class="ticket-cutout-right"></div>
+
+                        {% for ticket in selected_tickets %}
+                            <div class="summary-row">
+                                <span style="color: var(--text-muted);">{{ ticket.name }}</span>
+                                <span style="font-weight: 800; color: var(--dark);">x{{ ticket.quantity }}</span>
+                            </div>
+                        {% endfor %}
+
+                        <div class="summary-row">
+                            <span style="color: var(--text-muted);">Taxes & Fees</span>
+                            <span style="font-weight: 800; color: var(--success);">Included</span>
+                        </div>
+
+                        <div class="summary-row" id="summary-discount-row" style="display: none;">
+                <span style="color: var(--success); font-weight: 700;">
+                    <i class="fas fa-tag"></i> Promo (<span id="promo-name-display"></span>)
+                </span>
+                            <span style="font-weight: 800; color: var(--success);"
+                                  id="summary-discount-val">-$0.00</span>
+                        </div>
+
+                        <div class="summary-row total">
+                            <span class="total-text">Total Due</span>
+                            <span class="total-price" id="summary-total-price" data-original-price="{{ total_price }}">
+                    ${{ total_price }}
+                </span>
                         </div>
                     </div>
                 </div>
-                <div class="ticket-details">
-                    <div class="ticket-cutout-right"></div>
-                    <div class="summary-row">
-                        <span style="color: var(--text-muted);">Adult Ticket</span>
-                        <span style="font-weight: 800; color: var(--dark);">x1</span>
-                    </div>
-                    <div class="summary-row">
-                        <span style="color: var(--text-muted);">Taxes & Fees</span>
-                        <span style="font-weight: 800; color: var(--success);">Included</span>
-                    </div>
-                    <div class="summary-row" id="summary-discount-row" style="display: none;">
-                        <span style="color: var(--success); font-weight: 700;"><i class="fas fa-tag"></i> Promo (<span id="promo-name-display"></span>)</span>
-                        <span style="font-weight: 800; color: var(--success);" id="summary-discount-val">-$0.00</span>
-                    </div>
-                    <div class="summary-row total">
-                        <span class="total-text">Total Due</span>
-                        <span class="total-price" id="summary-total-price" data-original-price="33.00">$33.00</span>
-                    </div>
+
+                <div style="text-align: center; margin-top: 25px; font-size: 13px; color: var(--text-muted); font-weight: 600;">
+                    <i class="fas fa-shield-alt" style="color: var(--success); margin-right: 5px;"></i>
+                    SSL Secured Checkout
                 </div>
-            </div>
-            <div style="text-align: center; margin-top: 25px; font-size: 13px; color: var(--text-muted); font-weight: 600;">
-                <i class="fas fa-shield-alt" style="color: var(--success); margin-right: 5px;"></i> SSL Secured Checkout
             </div>
         </div>
     </div>
-</div>
 
-<div class="custom-overlay" id="checkingOverlay">
-    <div class="overlay-box" style="background: var(--glass-bg); backdrop-filter: blur(25px);">
-        <i class="fas fa-compass fa-spin" style="font-size: 60px; color: var(--primary); margin-bottom: 25px;"></i>
-        <h3 id="loader-text" style="font-weight: 900; font-size: 24px; margin-bottom: 10px; color: var(--dark);">Securing your spot...</h3>
-        <p style="color: var(--text-muted); font-weight: 500;">Please wait a moment.</p>
+    <div class="custom-overlay" id="checkingOverlay">
+        <div class="overlay-box" style="background: var(--glass-bg); backdrop-filter: blur(25px);">
+            <i class="fas fa-compass fa-spin" style="font-size: 60px; color: var(--primary); margin-bottom: 25px;"></i>
+            <h3 id="loader-text" style="font-weight: 900; font-size: 24px; margin-bottom: 10px; color: var(--dark);">
+                Securing your spot...</h3>
+            <p style="color: var(--text-muted); font-weight: 500;">Please wait a moment.</p>
+        </div>
     </div>
-</div>
 
-<script>
-    // 🌟 DJANGO FOYDALANUVCHI HOLATI (Step 1 uchun)
-    const isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
+    <script>
+        // ? DJANGO VA GLOBAL O'ZGARUVCHILAR
+        const isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
+        const destId = "{{ destination.id }}"; // Promo-kod aynan shu joyga to'g'ri kelishini tekshirish uchun
+        let isFreeBooking = false;
 
-    let isFreeBooking = false;
+        // 1. SAHIFA YUKLANGANDA (INITIALIZATION)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Eski vaqtincha ma'lumotlarni tozalash
+            sessionStorage.removeItem('promoCode');
 
-    document.addEventListener('DOMContentLoaded', () => {
-        sessionStorage.removeItem('promoCode');
-        sessionStorage.removeItem('discountAmount');
-        sessionStorage.removeItem('newTotal');
-
-        // 🌟 MA'LUMOTLARNI AVTO-SAQLASH (FORM DATA RECOVERY)
-        const inputsToSave = ['first_name', 'last_name', 'email', 'phone'];
-        inputsToSave.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                const savedValue = sessionStorage.getItem('booking_' + id);
-                if (savedValue) {
-                    element.value = savedValue;
-                    element.classList.add('valid');
+            // Formani qayta tiklash mantiqi (Foydalanuvchi adashib refresh qilsa ma'lumotlar o'chib ketmaydi)
+            const inputsToSave = ['first_name', 'last_name', 'email', 'phone'];
+            inputsToSave.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    const savedValue = sessionStorage.getItem('booking_' + id);
+                    if (savedValue) {
+                        element.value = savedValue;
+                        element.classList.add('valid');
+                    }
+                    element.addEventListener('input', () => {
+                        sessionStorage.setItem('booking_' + id, element.value);
+                    });
                 }
-                element.addEventListener('input', () => {
-                    sessionStorage.setItem('booking_' + id, element.value);
-                });
+            });
+        });
+
+        const promoInput = document.getElementById('promo_code');
+        if (promoInput && promoInput.value.trim() !== "") {
+            // applyPromoCode - bu sizning promo kodni tekshiradigan funksiyangiz nomi
+            // Uni 0.5 soniya kutib chaqiramiz, hamma narxlar yuklanib olsin
+            setTimeout(() => {
+                applyPromoCode();
+            }, 500);
+        }
+
+        // 2. PROMO-KODNI BAZADAN TEKSHIRISH (ASYNCHRONOUS AJAX)
+        async function applyPromoCode() {
+            const codeInput = document.getElementById('promo_code').value.trim().toUpperCase();
+            const errorEl = document.getElementById('promo-error');
+            const statusEl = document.getElementById('promo-status');
+            const totalDisplay = document.getElementById('summary-total-price');
+            const hiddenTotalInput = document.getElementById('final-price-input'); // Backendga ketadigan narx
+            const hiddenPromoInput = document.getElementById('hidden_promo_code'); // Backendga ketadigan kod nom
+
+            const originalPrice = parseFloat(totalDisplay.getAttribute('data-original-price'));
+            const discountRow = document.getElementById('summary-discount-row');
+            const discountValEl = document.getElementById('summary-discount-val');
+            const promoNameEl = document.getElementById('promo-name-display');
+
+            // Tozalash
+            errorEl.style.display = 'none';
+            statusEl.style.display = 'none';
+
+            if (!codeInput) return;
+
+            try {
+                // Backend View-ga so'rov yuboramiz (CheckPromoCodeView)
+                const response = await fetch(`/booking/check-promo/?code=${codeInput}&dest_id=${destId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    // Muvaffaqiyatli: Chegirma foizini olamiz
+                    const discountPercent = data.discount_percent;
+                    const discountAmount = (originalPrice * discountPercent) / 100;
+                    const newTotal = Math.max(0, originalPrice - discountAmount);
+
+                    // UI yangilash
+                    statusEl.style.display = 'inline-flex';
+                    statusEl.innerHTML = `<i class="fas fa-check-circle"></i> ${data.message}`;
+                    discountRow.style.display = 'flex';
+                    promoNameEl.textContent = codeInput;
+                    discountValEl.textContent = `-$${discountAmount.toFixed(2)}`;
+                    totalDisplay.textContent = `$${newTotal.toFixed(2)}`;
+
+                    // ?? BACKEND UCHUN INPUTLARNI YANGILASH
+                    hiddenTotalInput.value = newTotal.toFixed(2);
+                    hiddenPromoInput.value = codeInput;
+
+                    // Agar bepul bo'lib qolsa (100% chegirma)
+                    if (newTotal <= 0) {
+                        isFreeBooking = true;
+                        totalDisplay.style.color = 'var(--success)';
+                        document.getElementById('submit-btn').innerHTML = `Complete Booking <i class="fas fa-check-circle"></i>`;
+                    } else {
+                        isFreeBooking = false;
+                        totalDisplay.style.color = '';
+                        document.getElementById('submit-btn').innerHTML = `Proceed to Payment <i class="fas fa-arrow-right"></i>`;
+                    }
+                } else {
+                    // Xatolik: Muddat o'tgan yoki noto'g'ri kod
+                    errorEl.textContent = data.message;
+                    errorEl.style.display = 'block';
+                    resetPromoUI(originalPrice);
+                }
+            } catch (error) {
+                console.error("Promo check error:", error);
+                errorEl.textContent = "Network error. Please try again.";
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function resetPromoUI(price) {
+            document.getElementById('summary-total-price').textContent = `$${price.toFixed(2)}`;
+            document.getElementById('final-price-input').value = price.toFixed(2);
+            document.getElementById('hidden_promo_code').value = "";
+            document.getElementById('summary-discount-row').style.display = 'none';
+            isFreeBooking = false;
+        }
+
+        // 3. FORM SUBMIT LOGIKASI (STEP 1 -> STEP 2)
+        // Formani topib unga 'submit' eventini ulaymiz
+        document.getElementById('booking-form').addEventListener('submit', function (e) {
+            // Foydalanuvchi tizimga kirmagan bo'lsa to'xtatamiz
+            if (!isAuthenticated) {
+                e.preventDefault();
+                const authError = document.getElementById('auth-error-msg');
+                authError.style.display = 'block';
+                authError.scrollIntoView({behavior: 'smooth', block: 'center'});
+                return;
+            }
+
+            // Loader animatsiyasini yoqamiz
+            const loader = document.getElementById('checkingOverlay');
+            const loaderText = document.getElementById('loader-text');
+
+            loaderText.textContent = isFreeBooking ? "Finalizing your free booking..." : "Preparing secure payment...";
+            loader.classList.add('show');
+
+            // Form POST orqali yuboriladi (Action orqali Step 2 View-ga boradi)
+            // Hech qanday window.location.href shart emas, chunki bu klassik form submit
+        });
+
+        // 4. DAVLATLARNI TANLASH (COUNTRY SELECTOR)
+        function toggleCountryDropdown() {
+            document.getElementById('country-dropdown').classList.toggle('show');
+        }
+
+        function selectCountry(flag, code, maxLength) {
+            document.getElementById('selected-flag').textContent = flag;
+            document.getElementById('selected-code').textContent = code;
+            const phoneInput = document.getElementById('phone');
+            phoneInput.maxLength = maxLength || 15;
+            phoneInput.focus();
+            document.getElementById('country-dropdown').classList.remove('show');
+        }
+
+        function filterCountries() {
+            const filter = document.getElementById('country-search-input').value.toLowerCase();
+            document.querySelectorAll('#country-list li').forEach(item => {
+                const name = item.querySelector('.c-name').textContent.toLowerCase();
+                const code = item.querySelector('.c-code').textContent.toLowerCase();
+                item.style.display = (name.includes(filter) || code.includes(filter)) ? '' : 'none';
+            });
+        }
+
+        // Dropdown tashqarisiga bosilganda yopish
+        document.addEventListener('click', function (e) {
+            const selector = document.getElementById('country-selector');
+            const dropdown = document.getElementById('country-dropdown');
+            if (dropdown && !selector.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
             }
         });
-    });
+    </script>
 
-    function applyPromoCode() {
-        const codeInput = document.getElementById('promo_code').value.trim().toUpperCase();
-        const statusEl = document.getElementById('promo-status');
-        const errorEl = document.getElementById('promo-error');
-        const submitBtn = document.getElementById('submit-btn');
-        const totalEl = document.getElementById('summary-total-price');
-        const originalPrice = parseFloat(totalEl.getAttribute('data-original-price'));
-        const discountRow = document.getElementById('summary-discount-row');
-        const discountValEl = document.getElementById('summary-discount-val');
-        const promoNameEl = document.getElementById('promo-name-display');
-
-        errorEl.style.display = 'none'; statusEl.style.display = 'none';
-
-        if (!codeInput) { errorEl.innerHTML = `<i class="fas fa-info-circle"></i> Please enter a code first.`; errorEl.style.display = 'block'; return; }
-
-        let discountPercent = 0;
-        if (codeInput === 'SALE10') { discountPercent = 10; }
-        else if (codeInput === 'FREE100') { discountPercent = 100; }
-        else {
-            errorEl.innerHTML = `<i class="fas fa-exclamation-circle"></i> Invalid or expired promo code.`;
-            errorEl.style.display = 'block'; totalEl.textContent = `$${originalPrice.toFixed(2)}`;
-            discountRow.style.display = 'none'; isFreeBooking = false;
-            submitBtn.innerHTML = `Proceed to Payment <i class="fas fa-arrow-right"></i>`;
-            return;
-        }
-
-        const discountAmount = (originalPrice * discountPercent) / 100;
-        const newTotal = originalPrice - discountAmount;
-        sessionStorage.setItem('promoCode', codeInput); sessionStorage.setItem('discountAmount', discountAmount.toFixed(2)); sessionStorage.setItem('newTotal', newTotal.toFixed(2));
-
-        statusEl.style.display = 'inline-flex'; statusEl.innerHTML = `<i class="fas fa-check-circle"></i> ${discountPercent}% Off Applied!`;
-        discountRow.style.display = 'flex'; promoNameEl.textContent = codeInput; discountValEl.textContent = `-$${discountAmount.toFixed(2)}`;
-        totalEl.textContent = `$${newTotal.toFixed(2)}`;
-
-        if (newTotal === 0) {
-            isFreeBooking = true; totalEl.style.color = 'var(--success)';
-            submitBtn.innerHTML = `Complete Booking <i class="fas fa-check-circle"></i>`;
-        }
-    }
-
-    function toggleCountryDropdown() { document.getElementById('country-dropdown').classList.toggle('show'); }
-    document.addEventListener('click', function(e) {
-        const selector = document.getElementById('country-selector'); const dropdown = document.getElementById('country-dropdown');
-        if (dropdown && !selector.contains(e.target) && !dropdown.contains(e.target)) { dropdown.classList.remove('show'); }
-    });
-
-    function filterCountries() {
-        const filter = document.getElementById('country-search-input').value.toLowerCase();
-        document.querySelectorAll('#country-list li').forEach(item => {
-            const name = item.querySelector('.c-name').textContent.toLowerCase();
-            const code = item.querySelector('.c-code').textContent.toLowerCase();
-            item.style.display = (name.includes(filter) || code.includes(filter)) ? '' : 'none';
-        });
-    }
-
-    function selectCountry(flag, code, maxLength) {
-        document.getElementById('selected-flag').textContent = flag; document.getElementById('selected-code').textContent = code;
-        const phoneInput = document.getElementById('phone'); phoneInput.maxLength = maxLength || 15; phoneInput.focus();
-        document.getElementById('country-dropdown').classList.remove('show');
-    }
-
-    // 🌟 MUKAMMAL FORM SUBMIT LOGIKASI (STEP 1 UCHUN)
-    function submitBookingForm(e) {
-        e.preventDefault(); // Sahifa yangilanishini to'xtatadi
-
-        // Agar forma to'liq to'ldirilgan bo'lsa (Buni HTML required atributi tekshiradi), auth ni tekshiramiz
-        if (!isAuthenticated) {
-            const authError = document.getElementById('auth-error-msg');
-            authError.style.display = 'block';
-            authError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            return; // Keyingi bosqichga o'tishni to'xtatadi
-        }
-
-        // Hamma narsa joyida bo'lsa (Login qilingan va formalar to'lgan bo'lsa), keyingi sahifaga o'tish
-        const loader = document.getElementById('checkingOverlay');
-        const loaderText = document.getElementById('loader-text');
-        loaderText.textContent = isFreeBooking ? "Finalizing your booking..." : "Connecting to secure payment...";
-        loader.classList.add('show');
-
-        setTimeout(() => {
-            if (isFreeBooking) {
-                alert("Booking Successful! (Amount paid: $0.00)");
-                window.location.href = "{% url 'home_page' %}";
-            } else {
-                window.location.href = "{% url 'booking_step2_page' destination.slug %}";
-            }
-        }, 1500);
-    }
-</script>
 {% endblock %}

@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from apps.models import Destination, Country, Tag, Review, User, Activity
+from apps.models import Destination, Country, Tag, Review, User, Activity, PromoCode, Booking
 from apps.models.categories import City, Region
-from apps.models.destinations import DestinationImage, DestinationFAQ
+from apps.models.destinations import DestinationImage, DestinationFAQ, DestinationTimeSlot
 from apps.models.ticket_details import TicketType
 from django.contrib import admin
 from django.utils.html import format_html
@@ -37,6 +37,14 @@ class TicketTypeAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
 
 
+@admin.register(PromoCode)
+class PromoCodeAdmin(admin.ModelAdmin):
+    list_display = ['id']
+
+@admin.register(Booking)
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ['id']
+
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     pass
@@ -57,14 +65,19 @@ class CountryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
 
 
-class DestinationFAQInline(admin.TabularInline):
+class DestinationFAQInline(admin.StackedInline):
     model = DestinationFAQ
+    extra = 1
+
+
+class DestinationTimeSlotInline(admin.StackedInline):
+    model = DestinationTimeSlot
     extra = 1
 
 
 @admin.register(Destination)
 class DestinationAdmin(admin.ModelAdmin):
-    inlines = [DestinationImageInline, DestinationFAQInline]
+    inlines = [DestinationImageInline, DestinationFAQInline, DestinationTimeSlotInline]
 
     list_display = (
         'name', 'location', 'city', 'price',
@@ -133,26 +146,26 @@ class DestinationAdmin(admin.ModelAdmin):
     def map_preview(self, obj):
         """Admin da xarita ko'rsatadi"""
         if obj.latitude and obj.longitude:
+            # Jingalak qavslar sonini argumentlar soniga mosladik
             return format_html(
                 '<div style="margin-top:8px;">'
                 '<iframe '
                 '  width="560" height="300" '
                 '  style="border:0;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.15);" '
                 '  loading="lazy" allowfullscreen '
-                '  src="https://www.google.com/maps?q={},{}&z=15&output=embed">'
+                '  src="http://maps.google.com/maps?q={},{}&z=15&output=embed">'
                 '</iframe>'
                 '<p style="margin-top:8px;color:#666;font-size:12px;">'
                 '📍 lat: <b>{}</b> | lng: <b>{}</b> — '
                 'Noto\'g\'ri bo\'lsa latitude/longitude ni o\'zgartiring va qayta saqlang.'
                 '</p>'
                 '</div>',
-                obj.latitude, obj.longitude,
-                obj.latitude, obj.longitude,
+                obj.latitude, obj.longitude,  # iframe src uchun
+                obj.latitude, obj.longitude  # pastdagi tekst uchun
             )
         return format_html(
-            '<p style="color:#999;font-style:italic;">'
-            'Xarita yo\'q — location yozing va saqlang, koordinatlar avtomatik to\'ldiriladi.'
-            '</p>'
+            '<p style="color:#999;font-style:italic;">{}</p>',
+            "Xarita yo'q — location yozing va saqlang, koordinatlar avtomatik to'ldiriladi."
         )
 
     map_preview.short_description = '🗺 Map Preview'

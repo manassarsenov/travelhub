@@ -161,6 +161,9 @@ class Destination(SlugBaseModel, CreatedBaseModel):
         verbose_name_plural = 'Destinations'
         ordering = ['-created_at']
 
+    def __str__(self):
+        return self.name
+
 
 class DestinationFAQ(CreatedBaseModel):
     destination = ForeignKey('apps.Destination', CASCADE, related_name='faqs')
@@ -176,6 +179,19 @@ class DestinationFAQ(CreatedBaseModel):
     def __str__(self):
         return f"{self.destination.name} - {self.question[:50]}"
 
+class DestinationTimeSlot(CreatedBaseModel):
+    destination = ForeignKey('apps.Destination', CASCADE, related_name='time_slots')
+    time = TimeField(verbose_name="Boshlanish vaqti", help_text="Masalan: 14:30")
+    is_active = BooleanField(default=True, verbose_name="Faolmi?")
+
+    class Meta:
+        verbose_name = 'Time Slot'
+        verbose_name_plural = 'Time Slots'
+        ordering = ['time']
+        unique_together = ('destination', 'time')
+
+    def __str__(self):
+        return f"{self.destination.name} - {self.time.strftime('%H:%M')}"
 
 class DestinationImage(ImageBaseModel):
     destination = ForeignKey('apps.Destination', CASCADE, related_name='images')

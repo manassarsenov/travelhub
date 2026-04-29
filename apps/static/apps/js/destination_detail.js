@@ -5,38 +5,16 @@
 
 'use strict';
 
-// ===== STATIC DATA (hardcoded) =====
-const PRICES = {adult: 33, child: 30, caregiver: 0, infant: 0};
-const CURRENCY = '$';
 
-const TIMES_LIST = [
-    '12:00', '12:30', '13:00',
-    '13:30', '14:00', '14:30',
-    '15:00', '15:30', '16:00',
-    '16:30', '17:00', '17:30',
-    '18:00', '18:30', '19:00'
-];
+
+
 
 const MONTHS_FULL = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-// Rating overlay reviews (hardcoded)
-const OVERLAY_REVIEWS = [
-    {
-        avatar: 'L',
-        name: 'Louise',
-        text: 'Well organised. Woman in ticket office has great customer service skills. Amazing views.'
-    },
-    {
-        avatar: 'W',
-        name: 'Wayne',
-        text: 'Great attraction. A must see when travelling in London. The view from the eye is amazing.'
-    },
-    {avatar: 'T', name: 'Ted', text: 'Many thanks to Lucy and James — excellent service at the Fast Track queue!'},
-    {avatar: 'P', name: 'Peter', text: 'Unique calming ride and stunning views of Big Ben and Buckingham Palace.'}
-];
+
 
 // ===== STATE =====
 const S = {
@@ -57,6 +35,7 @@ const S = {
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Asosiy UI elementlarni ishga tushirish
     buildDateChips();
     buildTimeGrid();
     updateTotal();
@@ -64,6 +43,60 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileBar();
     startOverlayDots();
     updateMonthLabel();
+
+    // 1. BACKENDDAN MA'LUMOTLARNI O'QISH VA O'ZLASHTIRISH
+    const backendDataRaw = document.getElementById('backend-data');
+    if (backendDataRaw) {
+        try {
+            const backendData = JSON.parse(backendDataRaw.textContent);
+
+            // Narxlarni yangilash (agar kelgan bo'lsa)
+            if (backendData.prices) PRICES = backendData.prices;
+
+            // VAQTLARNI YANGILASH (Eng muhim joyi)
+            if (backendData.times && backendData.times.length > 0) {
+                TIMES_LIST = backendData.times;
+                console.log("Bazadan yuklangan vaqtlar:", TIMES_LIST);
+            }
+        } catch (e) {
+            console.error("JSON o'qishda xatolik:", e);
+        }
+    }
+
+    // 2. ⚠️ FORMA VALIDATSIYASI (Next bosilganda tekshirish)
+    const bookingForm = document.getElementById('bookingForm');
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', function(e) {
+
+            // A) Sana tanlanganligini tekshirish
+            const dateInput = document.getElementById('form-selected-date');
+            if (!dateInput || !dateInput.value) {
+                e.preventDefault(); // Jo'natishni to'xtatadi
+                toast('Please select a date first', 'error'); // Qizil xatolik chiqaradi
+                return;
+            }
+
+            // B) Vaqt tanlanganligini tekshirish
+            const timeInput = document.getElementById('form-selected-time');
+            if (!timeInput || !timeInput.value) {
+                e.preventDefault();
+                toast('Please select a time slot', 'error');
+                return;
+            }
+
+            // C) Kamida 1 ta chipta tanlanganligini tekshirish
+            let totalTickets = 0;
+            document.querySelectorAll('.ticket-count').forEach(span => {
+                totalTickets += parseInt(span.textContent) || 0;
+            });
+
+            if (totalTickets === 0) {
+                e.preventDefault();
+                toast('Please select at least 1 ticket', 'error');
+                return;
+            }
+        });
+    }
 });
 
 /* =====================================================
@@ -75,13 +108,19 @@ function buildDateChips() {
     wrap.innerHTML = '';
     const today = new Date();
 
-    for (let i = 0; i < 4; i++) {
+    // 4 ta emas, endi 6 ta kun chiqariladi
+    for (let i = 0; i < 6; i++) {
         const d = new Date(today);
         d.setDate(today.getDate() + i);
         const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
         const btn = document.createElement('button');
+
+        // Forma submit bo'lib ketmasligi uchun majburiy button type
+        btn.type = 'button';
+
         btn.className = 'dcd-date-chip' + (i === 0 ? ' active' : '');
-        btn.dataset.dateStr = d.toISOString().split('T')[0];
+        btn.dataset.dateStr = d.toISOString().split('T')[0]; // Masalan: "2026-04-29"
+
         btn.innerHTML = `
             <span class="chip-day">${dayNames[d.getDay()]}</span>
             <span class="chip-date">${d.getDate()}</span>
@@ -89,19 +128,31 @@ function buildDateChips() {
             ${i === 0 ? '<span class="chip-today">Today</span>' : ''}
             ${i === 1 ? '<span class="chip-tomorrow">Tomorrow</span>' : ''}
         `;
+
         btn.addEventListener('click', () => {
             document.querySelectorAll('.dcd-date-chip').forEach(c => c.classList.remove('active'));
             btn.classList.add('active');
+
+            // Global JS o'zgaruvchisini yangilaymiz
             S.selectedDate = btn.dataset.dateStr;
             S.currentMonth = d.getMonth();
             S.currentYear = d.getFullYear();
+
+            // ⚠️ ENG ASOSIY JOYI: Backendga jo'natish uchun HTML dagi yashirin inputga qiymat yozamiz
+            const hiddenDateInput = document.getElementById('form-selected-date');
+            if (hiddenDateInput) hiddenDateInput.value = S.selectedDate;
+
             updateMonthLabel();
-            buildTimeGrid(); // refresh times for new date
+            buildTimeGrid();
         });
+
         wrap.appendChild(btn);
     }
-    // Default = today
+
+    // Sahifa yuklanganda dastlabki (Bugungi) sanani ham yashirin inputga yozib qo'yamiz
     S.selectedDate = today.toISOString().split('T')[0];
+    const hiddenDateInput = document.getElementById('form-selected-date');
+    if (hiddenDateInput) hiddenDateInput.value = S.selectedDate;
 }
 
 /* =====================================================
@@ -187,6 +238,39 @@ function renderCalendar() {
     }
 }
 
+
+// =====================================================
+// 1. DINAMIK MA'LUMOTLARNI OLISH (Data Injection)
+// =====================================================
+let PRICES = {adult: 33, child: 30, caregiver: 0, infant: 0};
+let CURRENCY = '$';
+let OVERLAY_REVIEWS = [];
+
+// Diqqat: CONST emas, LET qilib ochamiz va default vaqtlarni berib qo'yamiz.
+let TIMES_LIST = [
+    '12:01', '12:30', '13:00', '13:30', '14:00', '14:30',
+    '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
+    '18:00', '18:30', '19:00'
+];
+
+const backendDataRaw = document.getElementById('backend-data');
+if (backendDataRaw) {
+    try {
+        const backendData = JSON.parse(backendDataRaw.textContent);
+        if (backendData.prices) PRICES = backendData.prices;
+        if (backendData.currency) CURRENCY = backendData.currency;
+        if (backendData.overlay_reviews) OVERLAY_REVIEWS = backendData.overlay_reviews;
+
+        // ⚠️ ASOSIY JOYI: Agar backenddan vaqtlar kelsa, default ro'yxatni ustidan yozib yuboramiz:
+        if (backendData.times && backendData.times.length > 0) {
+            TIMES_LIST = backendData.times;
+        }
+    } catch (e) {
+        console.error("Backend ma'lumotlarini o'qishda xatolik:", e);
+    }
+}
+
+
 /* =====================================================
    TIME GRID
    ===================================================== */
@@ -194,26 +278,47 @@ function buildTimeGrid() {
     const grid = document.getElementById('dcd-time-grid');
     if (!grid) return;
     grid.innerHTML = '';
+
+    // Agar TIMES_LIST bo'sh bo'lsa (Backenddan kelmagan bo'lsa), xavfsizlik uchun hech nima chizmaymiz
+    if (!TIMES_LIST || TIMES_LIST.length === 0) return;
+
+    // Default holatda 1-vaqtni tanlangan qilib qo'yamiz
     S.selectedTime = TIMES_LIST[0];
+
+    // Yashirin inputga boshlang'ich vaqtni yozamiz
+    const hiddenTimeInput = document.getElementById('form-selected-time');
+    if (hiddenTimeInput) hiddenTimeInput.value = S.selectedTime;
 
     TIMES_LIST.forEach((t, i) => {
         const btn = document.createElement('button');
+        btn.type = 'button'; // Forma yuborilmasligi uchun
         btn.className = 'dcd-time-btn' + (i >= 6 ? ' hidden-time' : '') + (i === 0 ? ' active' : '');
         btn.textContent = t;
         btn.dataset.t = t;
+
         btn.addEventListener('click', () => {
             document.querySelectorAll('.dcd-time-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             S.selectedTime = t;
+
+            // Yangi vaqt bosilganda, yashirin inputni yangilaymiz
+            if (hiddenTimeInput) hiddenTimeInput.value = S.selectedTime;
         });
+
         grid.appendChild(btn);
     });
 
     // Reset show-more btn
     const toggle = document.getElementById('dcd-times-toggle');
     if (toggle) {
-        toggle.classList.remove('expanded');
-        toggle.innerHTML = '<i class="fas fa-chevron-down"></i> Show more';
+        // Agar vaqtlar 6 tadan kam bo'lsa, "Show more" tugmasini umuman yashiramiz
+        if (TIMES_LIST.length <= 6) {
+            toggle.style.display = 'none';
+        } else {
+            toggle.style.display = 'flex';
+            toggle.classList.remove('expanded');
+            toggle.innerHTML = '<i class="fas fa-chevron-down"></i> Show more';
+        }
     }
     S.moreTimesOpen = false;
 }
@@ -233,26 +338,44 @@ function toggleMoreTimes() {
 }
 
 /* =====================================================
-   TICKET COUNTER
+   5. TICKET COUNTER (100% Dynamic with Backend)
    ===================================================== */
-function changeTicket(type, delta) {
-    S.tickets[type] = Math.max(0, S.tickets[type] + delta);
-    const el = document.getElementById(`count-${type}`);
-    if (el) {
-        el.textContent = S.tickets[type];
-        // Bounce animation
-        el.style.transform = delta > 0 ? 'scale(1.4)' : 'scale(0.7)';
-        setTimeout(() => {
-            el.style.transform = 'scale(1)';
-        }, 200);
-    }
+function changeTicket(ticketId, delta) {
+    const countSpan = document.getElementById(`count-${ticketId}`);
+    const hiddenInput = document.getElementById(`form-${ticketId}`);
+    if (!countSpan || !hiddenInput) return;
+
+    // Hozirgi qiymatni olamiz. Agar topilmasa yoki xato bo'lsa, 0 qilamiz.
+    let currentVal = parseInt(countSpan.textContent) || 0;
+    let newVal = Math.max(0, currentVal + delta);
+
+    // UI (Ekranni) va Yashirin formani yangilaymiz
+    countSpan.textContent = newVal;
+    hiddenInput.value = newVal;
+
+    // Kichik vizual sakrash effekti
+    countSpan.style.transform = delta > 0 ? 'scale(1.4)' : 'scale(0.7)';
+    setTimeout(() => { countSpan.style.transform = 'scale(1)'; }, 200);
+
+    // Umumiy narxni qayta hisoblaymiz
     updateTotal();
 }
 
 function updateTotal() {
-    const total = (S.tickets.adult * PRICES.adult) + (S.tickets.child * PRICES.child);
-    const el = document.getElementById('total-num');
-    if (el) el.textContent = total;
+    let total = 0;
+
+    // Sahifadagi barcha chiptalarni topib, avtomat hisoblaymiz
+    document.querySelectorAll('.ticket-count').forEach(span => {
+        const count = parseInt(span.textContent) || 0;
+        const price = parseFloat(span.dataset.price) || 0; // Narxni endi HTML ni o'zidan (Backenddan) oladi
+        total += count * price;
+    });
+
+    const totalEl = document.getElementById('total-num');
+    const hiddenTotalInput = document.getElementById('form-total-price');
+
+    if (totalEl) totalEl.textContent = total;
+    if (hiddenTotalInput) hiddenTotalInput.value = total;
 }
 
 /* =====================================================
@@ -756,12 +879,14 @@ function changeDot(index) {
    TOAST NOTIFICATION
    ===================================================== */
 function toast(message, type = 'success') {
-    // main_base.js da showToast funksiyasi bor
+    // main_base.js dagi showToast funksiyasi (3 ta parametr kutadi: Title, Message, Type)
     if (typeof showToast === 'function') {
-        showToast(message, type);
+        const title = type === 'error' ? 'Error' : (type === 'info' ? 'Info' : 'Success');
+        showToast(title, message, type);
         return;
     }
-    // Fallback
+
+    // Fallback (Agar main_base.js topilmasa)
     const t = document.getElementById('toast');
     const ti = document.getElementById('toast-title');
     const tm = document.getElementById('toast-message');
@@ -769,9 +894,14 @@ function toast(message, type = 'success') {
     if (!t) return;
 
     t.className = `toast ${type} show`;
-    if (ti) ti.textContent = type === 'success' ? 'Success' : 'Notice';
+
+    // Matnni turiga qarab o'zgartirish
+    if (ti) ti.textContent = type === 'error' ? 'Error' : (type === 'success' ? 'Success' : 'Notice');
     if (tm) tm.textContent = message;
-    if (ic) ic.className = `fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'} toast-icon ${type}`;
+
+    // Ikonkani turiga qarab o'zgartirish (Xato bo'lsa undov belgisi)
+    if (ic) ic.className = `fas ${type === 'error' ? 'fa-exclamation-circle' : (type === 'success' ? 'fa-check-circle' : 'fa-info-circle')} toast-icon ${type}`;
+
     clearTimeout(t._timer);
     t._timer = setTimeout(() => t.classList.remove('show'), 3000);
 }

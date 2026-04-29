@@ -1,0 +1,37 @@
+<div class="country-dropdown" id="country-dropdown">
+    <div class="dropdown-header" onclick="toggleCountryDropdown()">
+        <span>Select Country</span>
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <div class="country-search">
+        <i class="fas fa-search" style="color: var(--text-muted);"></i>
+        <input type="text" placeholder="Search country..." id="country-search-input" onkeyup="filterCountries()">
+    </div>
+
+    <ul class="country-list" id="country-list">
+        {% for country in countries %}
+            <li onclick="selectCountry('{{ country.flag|default:'🏳️' }}', '{{ country.phone_code }}', {{ country.phone_length|default:15 }})">
+                <span class="c-flag">{{ country.flag|default:'🏳️' }}</span>
+                <span class="c-name">{{ country.name }}</span>
+                <span class="c-code">{{ country.phone_code }}</span>
+            </li>
+        {% empty %}
+            <li onclick="selectCountry('🇺🇿', '+998', 9)">
+                <span class="c-flag">🇺🇿</span>
+                <span class="c-name">Uzbekistan</span>
+                <span class="c-code">+998</span>
+            </li>
+            <li onclick="selectCountry('🇺🇸', '+1', 10)">
+                <span class="c-flag">🇺🇸</span>
+                <span class="c-name">United States</span>
+                <span class="c-code">+1</span>
+            </li>
+            <li onclick="selectCountry('🇬🇧', '+44', 10)">
+                <span class="c-flag">🇬🇧</span>
+                <span class="c-name">United Kingdom</span>
+                <span class="c-code">+44</span>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

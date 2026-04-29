@@ -8,353 +8,557 @@
 {% endblock %}
 
 {% block main_content %}
-<div class="booking-wrapper">
-    <div class="booking-progress">
-        <div class="progress-inner">
-            <div class="progress-step"><div class="step-circle done"><i class="fas fa-check"></i></div><div class="step-info"><div class="step-label">Step 1</div><div class="step-title" style="color: var(--success);">Personal Details</div></div></div>
-            <div class="step-line done"></div>
-            <div class="progress-step"><div class="step-circle active"><i class="fas fa-lock"></i></div><div class="step-info"><div class="step-label">Step 2</div><div class="step-title">Secure Payment</div></div></div>
+    <div class="booking-wrapper">
+        <div class="booking-progress">
+            <div class="progress-inner">
+                <div class="progress-step">
+                    <div class="step-circle done"><i class="fas fa-check"></i></div>
+                    <div class="step-info">
+                        <div class="step-label">Step 1</div>
+                        <div class="step-title" style="color: var(--success);">Personal Details</div>
+                    </div>
+                </div>
+                <div class="step-line done"></div>
+                <div class="progress-step">
+                    <div class="step-circle active"><i class="fas fa-lock"></i></div>
+                    <div class="step-info">
+                        <div class="step-label">Step 2</div>
+                        <div class="step-title">Secure Payment</div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="booking-main">
-        <div class="booking-left">
-            <a href="{% url 'booking_step1_page' destination.slug %}" style="display:inline-flex; align-items:center; gap:8px; margin-bottom:20px; color:var(--text-muted); text-decoration:none; font-weight: 700; font-size: 13px; text-transform: uppercase;">
-                <i class="fas fa-arrow-left"></i> Edit Details
-            </a>
+        <div class="booking-main">
+            <div class="booking-left">
+                <a href="{% url 'booking_step1_page' destination.slug %}"
+                   style="display:inline-flex; align-items:center; gap:8px; margin-bottom:20px; color:var(--text-muted); text-decoration:none; font-weight: 700; font-size: 13px; text-transform: uppercase;">
+                    <i class="fas fa-arrow-left"></i> Edit Details
+                </a>
 
-            <div class="booking-section" style="padding-top: 30px;">
-                <h2 class="section-title" style="margin-bottom: 15px; font-size: 24px; font-weight: 800; color: var(--dark);">How do you want to pay?</h2>
-                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 25px;">All transactions are secure and encrypted.</p>
+                <div class="booking-section" style="padding-top: 30px;">
+                    <h2 class="section-title"
+                        style="margin-bottom: 15px; font-size: 24px; font-weight: 800; color: var(--dark);">How do you
+                        want to pay?</h2>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 25px;">All transactions are
+                        secure and encrypted.</p>
 
-                <div class="payment-methods">
-                    <div class="pay-method active" id="btn-card" onclick="switchMethod('card')">
-                        <i class="fas fa-credit-card" style="color: var(--primary);"></i><span>New card</span>
-                    </div>
-                    <div class="pay-method" id="btn-paypal" onclick="switchMethod('paypal')">
-                        <i class="fab fa-paypal" style="color: #003087;"></i><span>PayPal</span>
-                    </div>
-                    <div class="pay-method" id="btn-kaspi" onclick="switchMethod('kaspi')">
-                        <div style="font-weight: 900; font-size: 16px; color: #f43f5e; margin-bottom: 8px; font-style: italic;">Kaspi</div><span>Kaspi.kz</span>
-                    </div>
-                    <div class="pay-method" id="btn-apple" onclick="switchMethod('apple')">
-                        <i class="fab fa-apple" style="color: #000;"></i><span>Apple Pay</span>
-                    </div>
-                </div>
-
-                <div id="redirect-paypal" class="redirect-info" style="display: none;">
-                    <i class="fab fa-paypal" style="font-size: 30px; color: #003087; margin-bottom: 10px;"></i>
-                    <h3 style="font-size: 16px; font-weight: 800; margin: 0;">PayPal</h3>
-                    <ul>
-                        <li>You'll be redirected to PayPal</li>
-                        <li>Make sure you complete all the steps with PayPal</li>
-                        <li>You'll receive confirmation after you pay</li>
-                    </ul>
-                    <hr>
-                    <p style="font-size: 12px; color: var(--text-muted); margin: 0;">Keep in mind that your card issuer may charge you a foreign transaction fee.</p>
-                </div>
-
-                <div id="redirect-kaspi" class="redirect-info" style="display: none;">
-                    <i class="fas fa-qrcode" style="font-size: 30px; color: #f43f5e; margin-bottom: 10px;"></i>
-                    <h3 style="font-size: 16px; font-weight: 800; margin: 0;">Kaspi.kz</h3>
-                    <ul>
-                        <li>You'll be redirected to Kaspi mobile app</li>
-                        <li>Confirm your payment securely using your Kaspi pin</li>
-                    </ul>
-                </div>
-
-                <div id="redirect-apple" class="redirect-info" style="display: none;">
-                    <i class="fab fa-apple" style="font-size: 30px; color: #000; margin-bottom: 10px;"></i>
-                    <h3 style="font-size: 16px; font-weight: 800; margin: 0;">Apple Pay</h3>
-                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 10px;">Confirm the payment using Touch ID or Face ID on your Apple device securely.</p>
-                </div>
-
-                <div id="card-form-wrapper">
-                    <div id="we-accept-row" class="payment-brands-row" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px dashed var(--border-light);">
-                        <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">We accept:</span>
-                        <span class="brand-badge b-visa">VISA</span>
-                        <span class="brand-badge b-mc"><i class="fab fa-cc-mastercard" style="font-size: 14px; margin-right: 4px;"></i> Mastercard</span>
-                        <span class="brand-badge b-amex">AMEX</span>
-                        <span class="brand-badge">JCB</span>
-                        <span class="brand-badge b-uz">UZCARD</span>
-                        <span class="brand-badge b-hu">HUMO</span>
-                    </div>
-
-                    <div class="cc-visual-container">
-                        <div class="cc-visual" id="cc-visual">
-                            <div class="cc-top">
-                                <div class="cc-chip"></div>
-                                <div class="cc-logo" id="cc-brand">VISA</div>
+                    <div class="payment-methods">
+                        <div class="pay-method active" id="btn-card" onclick="switchMethod('card')">
+                            <i class="fas fa-credit-card" style="color: var(--primary);"></i><span>New card</span>
+                        </div>
+                        <div class="pay-method" id="btn-paypal" onclick="switchMethod('paypal')">
+                            <i class="fab fa-paypal" style="color: #003087;"></i><span>PayPal</span>
+                        </div>
+                        <div class="pay-method" id="btn-kaspi" onclick="switchMethod('kaspi')">
+                            <div style="font-weight: 900; font-size: 16px; color: #f43f5e; margin-bottom: 8px; font-style: italic;">
+                                Kaspi
                             </div>
-                            <div class="cc-number-display" id="cc-vis-num">#### #### #### ####</div>
-                            <div class="cc-bottom">
-                                <div><div class="cc-label">Card Holder</div><div class="cc-value" id="cc-vis-name">JOHN DOE</div></div>
-                                <div style="text-align: right;"><div class="cc-label">Expires</div><div class="cc-value" id="cc-vis-exp">MM/YY</div></div>
-                            </div>
+                            <span>Kaspi.kz</span>
+                        </div>
+                        <div class="pay-method" id="btn-apple" onclick="switchMethod('apple')">
+                            <i class="fab fa-apple" style="color: #000;"></i><span>Apple Pay</span>
                         </div>
                     </div>
 
-                    <form id="payment-form" onsubmit="event.preventDefault(); processCardPayment();">
+                    {#                <div id="redirect-paypal" class="redirect-info" style="display: none;">#}
+                    {#                    <i class="fab fa-paypal" style="font-size: 30px; color: #003087; margin-bottom: 10px;"></i>#}
+                    {#                    <h3 style="font-size: 16px; font-weight: 800; margin: 0;">PayPal</h3>#}
+                    {#                    <ul>#}
+                    {#                        <li>You'll be redirected to PayPal</li>#}
+                    {#                        <li>Make sure you complete all the steps with PayPal</li>#}
+                    {#                        <li>You'll receive confirmation after you pay</li>#}
+                    {#                    </ul>#}
+                    {#                    <hr>#}
+                    {#                    <p style="font-size: 12px; color: var(--text-muted); margin: 0;">Keep in mind that your card issuer may charge you a foreign transaction fee.</p>#}
+                    {#                </div>#}
+                    <div id="redirect-paypal" class="redirect-info"
+                         style="display: none; text-align: center; padding: 20px;">
+                        <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 15px; color: var(--dark);">Checkout
+                            with PayPal</h3>
 
-                        <div class="floating-group" id="group-name" style="margin-bottom: 24px;">
-                            <input type="text" id="card-name" class="floating-input" placeholder=" " required>
-                            <label class="floating-label">Cardholder's name *</label>
-                            <i class="fas fa-check-circle input-icon valid-icon"></i>
+                        <div id="paypal-button-container" style="max-width: 400px; margin: 0 auto;"></div>
+
+                        <hr style="margin: 20px 0; border: none; border-top: 1px dashed var(--border-light);">
+                        <p style="font-size: 12px; color: var(--text-muted); margin: 0;">
+                            <i class="fas fa-lock" style="color: var(--success); margin-right: 5px;"></i> Transactions
+                            are encrypted and secure.
+                        </p>
+                    </div>
+
+                    <div id="redirect-kaspi" class="redirect-info" style="display: none;">
+                        <i class="fas fa-qrcode" style="font-size: 30px; color: #f43f5e; margin-bottom: 10px;"></i>
+                        <h3 style="font-size: 16px; font-weight: 800; margin: 0;">Kaspi.kz</h3>
+                        <ul>
+                            <li>You'll be redirected to Kaspi mobile app</li>
+                            <li>Confirm your payment securely using your Kaspi pin</li>
+                        </ul>
+                    </div>
+
+                    <div id="redirect-apple" class="redirect-info" style="display: none;">
+                        <i class="fab fa-apple" style="font-size: 30px; color: #000; margin-bottom: 10px;"></i>
+                        <h3 style="font-size: 16px; font-weight: 800; margin: 0;">Apple Pay</h3>
+                        <p style="font-size: 13px; color: var(--text-muted); margin-top: 10px;">Confirm the payment
+                            using Touch ID or Face ID on your Apple device securely.</p>
+                    </div>
+
+                    <div id="card-form-wrapper">
+                        <div id="we-accept-row" class="payment-brands-row"
+                             style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px dashed var(--border-light);">
+                            <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">We accept:</span>
+                            <span class="brand-badge b-visa">VISA</span>
+                            <span class="brand-badge b-mc"><i class="fab fa-cc-mastercard"
+                                                              style="font-size: 14px; margin-right: 4px;"></i> Mastercard</span>
+                            <span class="brand-badge b-amex">AMEX</span>
+                            <span class="brand-badge">JCB</span>
+                            <span class="brand-badge b-uz">UZCARD</span>
+                            <span class="brand-badge b-hu">HUMO</span>
                         </div>
 
-                        <div style="position: relative; margin-bottom: 24px;">
-                            <div class="floating-group" id="group-number" style="margin-bottom: 0;">
-                                <input type="text" id="card-number" class="floating-input" placeholder=" " maxlength="19" required style="padding-right: 50px;">
-                                <label class="floating-label">Card number *</label>
-                                <i class="fas fa-credit-card input-icon" id="card-default-icon"></i>
-                                <i class="fas fa-check-circle input-icon valid-icon" id="card-valid-icon" style="display:none;"></i>
-                                <i class="fas fa-exclamation-circle input-icon error-icon" id="card-error-icon" style="display:none;"></i>
-
-                                <div id="detected-brand-box" class="detected-brand-box">
-                                    <div class="brand-left">
-                                        <span id="box-brand-logo" class="b-logo visa">VISA</span>
-                                        <span id="box-brand-name" class="b-name">Visa</span>
+                        <div class="cc-visual-container">
+                            <div class="cc-visual" id="cc-visual">
+                                <div class="cc-top">
+                                    <div class="cc-chip"></div>
+                                    <div class="cc-logo" id="cc-brand">VISA</div>
+                                </div>
+                                <div class="cc-number-display" id="cc-vis-num">#### #### #### ####</div>
+                                <div class="cc-bottom">
+                                    <div>
+                                        <div class="cc-label">Card Holder</div>
+                                        <div class="cc-value" id="cc-vis-name">JOHN DOE</div>
                                     </div>
-                                    <i class="fas fa-check-circle b-check"></i>
-                                </div>
-                            </div>
-                            <div class="error-text" id="card-error-text" style="margin-top: 5px;">Card number not valid</div>
-                        </div>
-
-                        <div class="card-type-wrapper" style="margin-bottom: 24px;">
-                            <div class="card-type-selected" onclick="toggleCardDropdown(event)">
-                                <div class="inner-content" id="selected-type-content">
-                                    <span style="color: var(--text-muted); font-weight: 500;">Select a card type *</span>
-                                </div>
-                                <i class="fas fa-chevron-down" style="color: var(--text-muted);"></i>
-                            </div>
-
-                            <div class="card-dropdown-list" id="card-dropdown-list">
-                                <div class="card-dropdown-item" onclick="selectCardOption('Visa', 'b-visa', 'VISA')">
-                                    <span class="brand-badge b-visa">VISA</span> Visa
-                                </div>
-                                <div class="card-dropdown-item" onclick="selectCardOption('Mastercard', 'b-mc', '<i class=\'fab fa-cc-mastercard\'></i>')">
-                                    <span class="brand-badge b-mc"><i class="fab fa-cc-mastercard"></i></span> Mastercard
-                                </div>
-                                <div class="card-dropdown-item" onclick="selectCardOption('American Express', 'b-amex', 'AMEX')">
-                                    <span class="brand-badge b-amex">AMEX</span> American Express
-                                </div>
-                                <div class="card-dropdown-item" onclick="selectCardOption('UZCARD', 'b-uz', 'UZ')">
-                                    <span class="brand-badge b-uz">UZ</span> UZCARD
-                                </div>
-                                <div class="card-dropdown-item" onclick="selectCardOption('HUMO', 'b-hu', 'HU')">
-                                    <span class="brand-badge b-hu">HU</span> HUMO
+                                    <div style="text-align: right;">
+                                        <div class="cc-label">Expires</div>
+                                        <div class="cc-value" id="cc-vis-exp">MM/YY</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="expiry-cvc-row" style="margin-bottom: 24px; display: flex; gap: 20px;">
-                            <div class="floating-group exp-group" id="group-exp" style="margin-bottom: 0; flex: 1;">
-                                <input type="text" id="card-expiry" class="floating-input" placeholder=" " maxlength="5" required>
-                                <label class="floating-label">Expiration date *</label>
+                        <form id="payment-form" onsubmit="event.preventDefault(); processCardPayment();">
+
+                            <div class="floating-group" id="group-name" style="margin-bottom: 24px;">
+                                <input type="text" id="card-name" class="floating-input" placeholder=" " required>
+                                <label class="floating-label">Cardholder's name *</label>
                                 <i class="fas fa-check-circle input-icon valid-icon"></i>
                             </div>
 
-                            <div class="floating-group cvc-group" id="cvc-box" style="margin-bottom: 0; flex: 1;">
-                                <input type="password" id="card-cvc" class="floating-input" placeholder=" " maxlength="3" required>
-                                <label class="floating-label">CVC *</label>
-                                <i class="fas fa-check-circle input-icon valid-icon"></i>
+                            <div style="position: relative; margin-bottom: 24px;">
+                                <div class="floating-group" id="group-number" style="margin-bottom: 0;">
+                                    <input type="text" id="card-number" class="floating-input" placeholder=" "
+                                           maxlength="19" required style="padding-right: 50px;">
+                                    <label class="floating-label">Card number *</label>
+                                    <i class="fas fa-credit-card input-icon" id="card-default-icon"></i>
+                                    <i class="fas fa-check-circle input-icon valid-icon" id="card-valid-icon"
+                                       style="display:none;"></i>
+                                    <i class="fas fa-exclamation-circle input-icon error-icon" id="card-error-icon"
+                                       style="display:none;"></i>
+
+                                    <div id="detected-brand-box" class="detected-brand-box">
+                                        <div class="brand-left">
+                                            <span id="box-brand-logo" class="b-logo visa">VISA</span>
+                                            <span id="box-brand-name" class="b-name">Visa</span>
+                                        </div>
+                                        <i class="fas fa-check-circle b-check"></i>
+                                    </div>
+                                </div>
+                                <div class="error-text" id="card-error-text" style="margin-top: 5px;">Card number not
+                                    valid
+                                </div>
+                            </div>
+
+                            <div class="card-type-wrapper" style="margin-bottom: 24px;">
+                                <div class="card-type-selected" onclick="toggleCardDropdown(event)">
+                                    <div class="inner-content" id="selected-type-content">
+                                        <span style="color: var(--text-muted); font-weight: 500;">Select a card type *</span>
+                                    </div>
+                                    <i class="fas fa-chevron-down" style="color: var(--text-muted);"></i>
+                                </div>
+
+                                <div class="card-dropdown-list" id="card-dropdown-list">
+                                    <div class="card-dropdown-item"
+                                         onclick="selectCardOption('Visa', 'b-visa', 'VISA')">
+                                        <span class="brand-badge b-visa">VISA</span> Visa
+                                    </div>
+                                    <div class="card-dropdown-item"
+                                         onclick="selectCardOption('Mastercard', 'b-mc', '<i class=\'fab fa-cc-mastercard\'></i>')">
+                                        <span class="brand-badge b-mc"><i class="fab fa-cc-mastercard"></i></span>
+                                        Mastercard
+                                    </div>
+                                    <div class="card-dropdown-item"
+                                         onclick="selectCardOption('American Express', 'b-amex', 'AMEX')">
+                                        <span class="brand-badge b-amex">AMEX</span> American Express
+                                    </div>
+                                    <div class="card-dropdown-item" onclick="selectCardOption('UZCARD', 'b-uz', 'UZ')">
+                                        <span class="brand-badge b-uz">UZ</span> UZCARD
+                                    </div>
+                                    <div class="card-dropdown-item" onclick="selectCardOption('HUMO', 'b-hu', 'HU')">
+                                        <span class="brand-badge b-hu">HU</span> HUMO
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="expiry-cvc-row" style="margin-bottom: 24px; display: flex; gap: 20px;">
+                                <div class="floating-group exp-group" id="group-exp" style="margin-bottom: 0; flex: 1;">
+                                    <input type="text" id="card-expiry" class="floating-input" placeholder=" "
+                                           maxlength="5" required>
+                                    <label class="floating-label">Expiration date *</label>
+                                    <i class="fas fa-check-circle input-icon valid-icon"></i>
+                                </div>
+
+                                <div class="floating-group cvc-group" id="cvc-box" style="margin-bottom: 0; flex: 1;">
+                                    <input type="password" id="card-cvc" class="floating-input" placeholder=" "
+                                           maxlength="3" required>
+                                    <label class="floating-label">CVC *</label>
+                                    <i class="fas fa-check-circle input-icon valid-icon"></i>
+                                </div>
+                            </div>
+
+                            <div class="terms-text"
+                                 style="font-size: 12px; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px;">
+                                By clicking "Payment details" and completing a booking, you agree with the <a
+                                    href="{% url 'terms_of_service_page' %}"
+                                    style="color: var(--primary); font-weight: 600; text-decoration: underline;">terms
+                                and conditions of TravelHub</a> and the privacy policy of Klook.<br>
+                                Please see our <a href="{% url 'privacy_policy_page' %}"
+                                                  style="color: var(--primary); font-weight: 600; text-decoration: underline;">Privacy
+                                Statement</a> to understand how we use and protect your personal information.
+                            </div>
+
+                            <button type="submit" id="hidden-submit-btn" style="display:none;"></button>
+                        </form>
+                    </div>
+
+
+                    <button class="btn-proceed" onclick="triggerPayment()" style="margin-top: 10px;">
+                        Payment details <i class="fas fa-chevron-right" style="font-size: 14px;"></i>
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="booking-right">
+                <div class="ticket-summary">
+                    <div class="ticket-img-wrap">
+                        <img src="
+
+
+                                {% if destination.images.first %}{{ destination.images.first.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
+                             alt="Destination">
+                        <div class="ticket-img-overlay">
+                            <div>
+                                <h4>{{ destination.name }}</h4>
+                                <div class="date">
+                                    <i class="fas fa-calendar-alt"></i> {{ booking_data.booking_details.date }}
+                                    {% if booking_data.booking_details.time %}|
+                                        {{ booking_data.booking_details.time }}{% endif %}
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="terms-text" style="font-size: 12px; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px;">
-                            By clicking "Payment details" and completing a booking, you agree with the <a href="{% url 'terms_of_service_page' %}" style="color: var(--primary); font-weight: 600; text-decoration: underline;">terms and conditions of TravelHub</a> and the privacy policy of Klook.<br>
-                            Please see our <a href="{% url 'privacy_policy_page' %}" style="color: var(--primary); font-weight: 600; text-decoration: underline;">Privacy Statement</a> to understand how we use and protect your personal information.
+                    <div class="ticket-details">
+                        <div class="ticket-cutout-right"></div>
+
+                        {% for name, qty in booking_data.booking_details.tickets_items.items %}
+                            <div class="summary-row">
+                                <span style="color: var(--text-muted);">{{ name }}</span>
+                                <span style="font-weight: 800; color: var(--dark);">x{{ qty }}</span>
+                            </div>
+                        {% endfor %}
+
+                        <div class="summary-row">
+                            <span style="color: var(--text-muted);">Taxes & Fees</span>
+                            <span style="font-weight: 800; color: var(--success);">Included</span>
                         </div>
 
-                        <button type="submit" id="hidden-submit-btn" style="display:none;"></button>
-                    </form>
+           {% if pending_promo or booking_data.booking_details.promo_code %}
+    <div class="summary-row" style="display: flex !important; justify-content: space-between; align-items: center; background: #ecfdf5; padding: 12px; border-radius: 10px; border: 1px solid #10b981; margin-bottom: 15px;">
+        <span style="color: #065f46; font-weight: 700; font-size: 14px;">
+            <i class="fas fa-tag"></i> Promo Applied
+        </span>
+        <span style="font-weight: 800; color: #065f46; font-family: monospace;">
+            ({% firstof pending_promo booking_data.booking_details.promo_code %})
+        </span>
+    </div>
+{% endif %}
+
+                        <div class="summary-row total">
+                            <span class="total-text">Total Due</span>
+                            <span class="total-price" id="step2-total-price">
+                    ${{ booking_data.booking_details.total_price }}
+                </span>
+                        </div>
+                    </div>
                 </div>
-
-
-
-                <button class="btn-proceed" onclick="triggerPayment()" style="margin-top: 10px;">
-                    Payment details <i class="fas fa-chevron-right" style="font-size: 14px;"></i>
-                </button>
-
-            </div>
-        </div>
-
-        <div class="booking-right">
-            <div class="ticket-summary">
-                <div class="ticket-img-wrap"><img src="{% if destination.images.first %}{{ destination.images.first.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}" alt="Destination"><div class="ticket-img-overlay"><div><h4>{{ destination.name }}</h4><div class="date"><i class="fas fa-calendar-alt"></i> Wed, 15 Apr 2026</div></div></div></div>
-                <div class="ticket-details">
-                    <div class="ticket-cutout-right"></div>
-                    <div class="summary-row"><span style="color: var(--text-muted);">Adult Ticket</span><span style="font-weight: 800; color: var(--dark);">x1</span></div>
-                    <div class="summary-row"><span style="color: var(--text-muted);">Taxes & Fees</span><span style="font-weight: 800; color: var(--success);">Included</span></div>
-                    <div class="summary-row" id="step2-discount-row" style="display: none;"><span style="color: var(--success); font-weight: 700;"><i class="fas fa-tag"></i> Promo</span><span style="font-weight: 800; color: var(--success);" id="step2-discount-val">-$0.00</span></div>
-                    <div class="summary-row total"><span class="total-text">Total Due</span><span class="total-price" id="step2-total-price" data-original-price="33.00">$33.00</span></div>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 25px; font-size: 13px; color: var(--text-muted); font-weight: 600;">
-                <i class="fas fa-shield-alt" style="color: var(--success); margin-right: 5px;"></i> SSL Secured Checkout
             </div>
         </div>
     </div>
-</div>
 
-<div class="custom-overlay" id="successOverlay">
-    <div class="overlay-box" style="background: white; padding: 45px 40px; border-radius: 28px; text-align: center; max-width: 400px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
-        <div style="width: 75px; height: 75px; background: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;"><i class="fas fa-check" style="font-size: 35px; color: white;"></i></div>
-        <h2 style="font-weight: 900; margin-bottom: 10px; font-size: 24px; color: #0f172a;">Booking Confirmed!</h2>
-        <p style="color: #64748b; font-size: 14px; margin-bottom: 25px; line-height: 1.6;">Your payment was successful. We've sent the e-tickets to your email.</p>
+    <div class="custom-overlay" id="successOverlay">
+        <div class="overlay-box"
+             style="background: white; padding: 45px 40px; border-radius: 28px; text-align: center; max-width: 400px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+            <div style="width: 75px; height: 75px; background: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <i class="fas fa-check" style="font-size: 35px; color: white;"></i></div>
+            <h2 style="font-weight: 900; margin-bottom: 10px; font-size: 24px; color: #0f172a;">Booking Confirmed!</h2>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 25px; line-height: 1.6;">Your payment was
+                successful. We've sent the e-tickets to your email.</p>
 
-        <div style="background: #f8fafc; border-radius: 16px; padding: 15px; margin-bottom: 30px; border: 1px dashed #cbd5e1;">
-            <span style="display: block; font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 5px;">Booking Reference</span>
-            <span id="booking-num" style="font-size: 22px; font-weight: 800; color: #2563eb; font-family: monospace; letter-spacing: 2px;">TH-XXXXXX</span>
+            <div style="background: #f8fafc; border-radius: 16px; padding: 15px; margin-bottom: 30px; border: 1px dashed #cbd5e1;">
+                <span style="display: block; font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 5px;">Booking Reference</span>
+                <span id="booking-num"
+                      style="font-size: 22px; font-weight: 800; color: #2563eb; font-family: monospace; letter-spacing: 2px;">TH-XXXXXX</span>
+            </div>
+
+            <button class="btn-proceed" style="border-radius: 50px; justify-content: center;"
+                    onclick="window.location.href='{% url 'home_page' %}'">Return to Homepage
+            </button>
         </div>
-
-        <button class="btn-proceed" style="border-radius: 50px; justify-content: center;" onclick="window.location.href='{% url 'home_page' %}'">Return to Homepage</button>
     </div>
-</div>
 
-<script>
-    // DJANGO FOYDALANUVCHI HOLATI
-    const isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const dAmount = sessionStorage.getItem('discountAmount');
-        const nTotal = sessionStorage.getItem('newTotal');
-        if (dAmount && nTotal) {
-            document.getElementById('step2-discount-row').style.display = 'flex';
-            document.getElementById('step2-discount-val').textContent = `-$${dAmount}`;
-            document.getElementById('step2-total-price').textContent = `$${nTotal}`;
+{% endblock %}
+
+{% block custom_js %}
+    <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+    <script>
+        /* ==========================================
+           1. GLOBAL O'ZGARUVCHILAR VA INITIALIZATION
+           ========================================== */
+        const isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
+        let currentMethod = 'card';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Step 1 dan qolgan chegirmalarni SessionStorage orqali UI da ko'rsatish
+            const dAmount = sessionStorage.getItem('discountAmount');
+            const nTotal = sessionStorage.getItem('newTotal');
+            if (dAmount && nTotal) {
+                const discRow = document.getElementById('step2-discount-row');
+                if (discRow) discRow.style.display = 'flex';
+
+                const discVal = document.getElementById('step2-discount-val');
+                if (discVal) discVal.textContent = `-$${dAmount}`;
+
+                const totalVal = document.getElementById('step2-total-price');
+                if (totalVal) totalVal.textContent = `$${nTotal}`;
+            }
+        });
+
+        /* ==========================================
+           2. TO'LOV USULLARI (SWITCH METHODS)
+           ========================================== */
+        function switchMethod(method) {
+            currentMethod = method;
+
+            // Tugmalar holatini yangilash
+            document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('active'));
+            document.getElementById('btn-' + method).classList.add('active');
+
+            // Asosiy "Payment details" tugmasi
+            const mainProceedBtn = document.querySelector('.btn-proceed');
+
+            // Kartani ko'rsatish/yashirish
+            document.getElementById('card-form-wrapper').style.display = (method === 'card') ? 'block' : 'none';
+
+            // Redirect blocklarini yashirish
+            document.querySelectorAll('.redirect-info').forEach(el => el.style.display = 'none');
+
+            if (method === 'card') {
+                // Agar Karta bo'lsa, asosiy binafsha tugmani ko'rsatamiz
+                mainProceedBtn.style.display = 'flex';
+            } else if (method === 'paypal') {
+                // Agar PayPal bo'lsa, uni ko'rsatamiz va binafsha tugmani yashiramiz
+                document.getElementById('redirect-paypal').style.display = 'block';
+                mainProceedBtn.style.display = 'none';
+            } else {
+                // Kaspi yoki Apple Pay uchun
+                document.getElementById('redirect-' + method).style.display = 'block';
+                mainProceedBtn.style.display = 'flex';
+            }
         }
-    });
 
-    let currentMethod = 'card';
-    function switchMethod(method) {
-        currentMethod = method;
-        document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('active'));
-        document.getElementById('btn-' + method).classList.add('active');
+        /* ==========================================
+           3. KARTA DROPDOWN VA BRANDLAR
+           ========================================== */
+        function toggleCardDropdown(e) {
+            e.stopPropagation();
+            const list = document.getElementById('card-dropdown-list');
+            if (list) list.classList.toggle('show');
+        }
 
-        document.getElementById('card-form-wrapper').style.display = (method === 'card') ? 'block' : 'none';
+        function selectCardOption(name, badgeClass, badgeText) {
+            const content = document.getElementById('selected-type-content');
+            let html = `<span class="brand-badge ${badgeClass}">${badgeText}</span>
+                    <span style="font-weight: 600; font-size: 14px; color: var(--dark); margin-left: 10px;">${name}</span>`;
 
-        document.querySelectorAll('.redirect-info').forEach(el => el.style.display = 'none');
-        if(method !== 'card') document.getElementById('redirect-' + method).style.display = 'block';
+            if (name === 'Mastercard') {
+                html = `<span class="brand-badge b-mc"><i class="fab fa-cc-mastercard"></i></span>
+                    <span style="font-weight: 600; font-size: 14px; color: var(--dark); margin-left: 10px;">Mastercard</span>`;
+            }
 
-    }
+            if (content) content.innerHTML = html;
+            document.getElementById('card-dropdown-list').classList.remove('show');
+            document.getElementById('cc-brand').textContent = name;
 
-    function toggleCardDropdown(e) {
-        e.stopPropagation();
-        document.getElementById('card-dropdown-list').classList.toggle('show');
-    }
+            // Visual Card va CVC mantiqi
+            const ccVisual = document.getElementById('cc-visual');
+            const cvcBox = document.getElementById('cvc-box');
+            const cvcInput = document.getElementById('card-cvc');
 
-    function selectCardOption(name, badgeClass, badgeText) {
-        let html = `<span class="brand-badge ${badgeClass}">${badgeText}</span> <span style="font-weight: 600; font-size: 14px; color: var(--dark); margin-left: 10px;">${name}</span>`;
-        if (name === 'Mastercard') { html = `<span class="brand-badge b-mc"><i class="fab fa-cc-mastercard"></i></span> <span style="font-weight: 600; font-size: 14px; color: var(--dark); margin-left: 10px;">Mastercard</span>`; }
+            if (['UZCARD', 'HUMO'].includes(name)) {
+                ccVisual.classList.add('black-theme');
+                cvcBox.classList.add('hide-cvc');
+                cvcInput.removeAttribute('required');
+                cvcInput.value = '';
+            } else {
+                ccVisual.classList.remove('black-theme');
+                cvcBox.classList.remove('hide-cvc');
+                cvcInput.setAttribute('required', 'true');
+            }
+        }
 
-        document.getElementById('selected-type-content').innerHTML = html;
-        document.getElementById('card-dropdown-list').classList.remove('show');
+        /* ==========================================
+           4. KARTA INPUTLARINI BOSHQARISH (REAL-TIME)
+           ========================================== */
+        const numInput = document.getElementById('card-number');
+        if (numInput) {
+            numInput.addEventListener('input', (e) => {
+                let val = e.target.value.replace(/\D/g, '').substring(0, 16);
+                let formatted = val.replace(/(.{4})/g, '$1 ').trim();
+                e.target.value = formatted;
 
-        document.getElementById('cc-brand').textContent = name;
-        const ccVisual = document.getElementById('cc-visual');
-        const cvcBox = document.getElementById('cvc-box');
+                document.getElementById('cc-vis-num').textContent = formatted || '#### #### #### ####';
+
+                // Avtomatik brand aniqlash
+                if (val.startsWith('8600') || val.startsWith('5614')) selectCardOption('UZCARD', 'b-uz', 'UZ');
+                else if (val.startsWith('9860')) selectCardOption('HUMO', 'b-hu', 'HU');
+                else if (val.startsWith('4')) selectCardOption('Visa', 'b-visa', 'VISA');
+                else if (val.startsWith('5')) selectCardOption('Mastercard', 'b-mc', 'MC');
+            });
+        }
+
+        document.getElementById('card-name').addEventListener('input', (e) => {
+            document.getElementById('cc-vis-name').textContent = e.target.value.toUpperCase() || 'JOHN DOE';
+        });
+
+        document.getElementById('card-expiry').addEventListener('input', (e) => {
+            let val = e.target.value.replace(/\D/g, '').substring(0, 4);
+            if (val.length >= 2) val = val.substring(0, 2) + '/' + val.substring(2);
+            e.target.value = val;
+            document.getElementById('cc-vis-exp').textContent = val || 'MM/YY';
+        });
+
         const cvcInput = document.getElementById('card-cvc');
-
-        if (name === 'UZCARD' || name === 'HUMO') {
-            ccVisual.classList.add('black-theme');
-            cvcBox.classList.add('hide-cvc');
-            cvcInput.removeAttribute('required');
-            cvcInput.value = '';
-        } else {
-            ccVisual.classList.remove('black-theme');
-            cvcBox.classList.remove('hide-cvc');
-            cvcInput.setAttribute('required', 'true');
-        }
-    }
-
-    document.addEventListener('click', function(e) {
-        const dropdown = document.getElementById('card-dropdown-list');
-        if (dropdown && dropdown.classList.contains('show') && !e.target.closest('.card-type-wrapper')) {
-            dropdown.classList.remove('show');
-        }
-    });
-
-    const numInput = document.getElementById('card-number');
-    const grpNum = document.getElementById('group-number');
-    const defIcon = document.getElementById('card-default-icon');
-    const valIconCard = document.getElementById('card-valid-check');
-    const detectedBox = document.getElementById('detected-brand-box');
-    const boxLogo = document.getElementById('box-brand-logo');
-    const boxName = document.getElementById('box-brand-name');
-
-    numInput.addEventListener('input', (e) => {
-        let val = e.target.value.replace(/\D/g, '').substring(0, 16);
-        let formatted = val.replace(/(.{4})/g, '$1 ').trim();
-        e.target.value = formatted;
-
-        document.getElementById('cc-vis-num').textContent = formatted || '#### #### #### ####';
-
-        let brand = 'CARD';
-        let requireCvc = true;
-
-        grpNum.classList.remove('error'); grpNum.classList.remove('valid');
-        defIcon.style.display = 'block'; valIconCard.style.display = 'none';
-
-        if(val.startsWith('8600') || val.startsWith('5614')) { brand = 'UZCARD'; requireCvc = false; document.getElementById('cc-visual').classList.add('black-theme'); if(val.length >= 4) selectCardOption('UZCARD', 'b-uz', 'UZ'); }
-        else if(val.startsWith('9860')) { brand = 'HUMO'; requireCvc = false; document.getElementById('cc-visual').classList.add('black-theme'); if(val.length >= 4) selectCardOption('HUMO', 'b-hu', 'HU'); }
-        else if(val.startsWith('4')) { brand = 'VISA'; document.getElementById('cc-visual').classList.remove('black-theme'); if(val.length >= 4) selectCardOption('Visa', 'b-visa', 'VISA'); }
-        else if(val.startsWith('5')) { brand = 'MasterCard'; document.getElementById('cc-visual').classList.remove('black-theme'); if(val.length >= 4) selectCardOption('Mastercard', 'b-mc', '<i class="fab fa-cc-mastercard"></i>'); }
-
-        document.getElementById('cc-brand').textContent = brand;
-
-        if(val.length >= 4 && brand !== 'CARD') {
-            boxName.textContent = brand; boxLogo.textContent = brand; boxLogo.className = 'b-logo';
-            if(brand==='VISA') { boxLogo.classList.add('visa'); boxLogo.style.color = '#1a1f71'; }
-            else if(brand==='MasterCard') { boxLogo.classList.add('mc'); boxLogo.innerHTML = '<i class="fab fa-cc-mastercard"></i>'; boxLogo.style.color = '#ea580c'; }
-            else if(brand==='UZCARD') { boxLogo.classList.add('uzcard'); boxLogo.style.color = '#1e3a8a'; }
-            else if(brand==='HUMO') { boxLogo.classList.add('humo'); boxLogo.style.color = '#ea580c'; }
-            detectedBox.classList.add('show');
-        } else {
-            detectedBox.classList.remove('show');
+        if (cvcInput) {
+            cvcInput.addEventListener('focus', () => {
+                document.getElementById('cc-visual').style.transform = 'rotateY(180deg) scale(1.05)';
+            });
+            cvcInput.addEventListener('blur', () => {
+                document.getElementById('cc-visual').style.transform = 'rotateY(0deg) scale(1)';
+            });
         }
 
-        if(val.length === 16) {
-            grpNum.classList.add('valid'); defIcon.style.display = 'none'; valIconCard.style.display = 'block'; detectedBox.classList.remove('show');
+        /* ==========================================
+           5. HAQIQIY BACKEND TO'LOV (AJAX FETCH)
+           ========================================== */
+        async function processPayment() {
+            const btn = document.querySelector('.btn-proceed');
+            const originalText = btn.innerHTML;
+
+            // Tugmani bloklash va loader ko'rsatish
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing Payment...';
+
+            try {
+                // Django URL ga POST so'rov yuboramiz
+                const response = await fetch(window.location.pathname, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Booking raqamini ko'rsatish va muvaffaqiyat oynasini ochish
+                    document.getElementById('booking-num').textContent = data.booking_number;
+                    document.getElementById('successOverlay').classList.add('show');
+
+                    // Mahalliy keshni tozalash
+                    sessionStorage.clear();
+                } else {
+                    alert("Payment Error: " + data.message);
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }
+            } catch (error) {
+                console.error("Backend Error:", error);
+                alert("Network connection failed. Please try again.");
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
         }
 
-        const cvcBox = document.getElementById('cvc-box');
-        const cvcInput = document.getElementById('card-cvc');
-        if(requireCvc) { cvcBox.classList.remove('hide-cvc'); cvcInput.setAttribute('required', 'true'); }
-        else { cvcBox.classList.add('hide-cvc'); cvcInput.removeAttribute('required'); cvcInput.value = ''; }
-    });
+        /* ==========================================
+           6. ASOSIY TRIGGER (PAYMENT DETAILS TUGMASI)
+           ========================================== */
+        function triggerPayment() {
+            if (currentMethod === 'card') {
+                const form = document.getElementById('payment-form');
+                if (form.checkValidity()) {
+                    processPayment();
+                } else {
+                    form.reportValidity();
+                }
+            } else {
+                // PayPal, Kaspi va boshqalar uchun to'g'ridan-to'g'ri saqlash
+                processPayment();
+            }
+        }
 
-    numInput.addEventListener('blur', () => {
-        let val = numInput.value.replace(/\D/g, '');
-        if(val.length > 0 && val.length < 16) { grpNum.classList.add('error'); defIcon.style.display = 'none'; detectedBox.classList.remove('show'); }
-    });
+        // Dropdown-ni tashqariga bosganda yopish
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('card-dropdown-list');
+            if (dropdown && !e.target.closest('.card-type-wrapper')) {
+                dropdown.classList.remove('show');
+            }
+        });
+        // PayPal Render
+        paypal.Buttons({
+            createOrder: function (data, actions) {
+                // 1. Narx matnini HTML dan olamiz
+                let rawText = document.getElementById('step2-total-price').textContent;
 
-    document.getElementById('card-name').addEventListener('input', (e) => {
-        document.getElementById('cc-vis-name').textContent = e.target.value.toUpperCase() || 'JOHN DOE';
-        if(e.target.value.length > 3) document.getElementById('group-name').classList.add('valid'); else document.getElementById('group-name').classList.remove('valid');
-    });
+                // 2. FAQAT raqam va nuqtani qoldiramiz (Barcha probel, $ va harflarni o'chiradi)
+                let cleanAmount = rawText.replace(/[^0-9.]/g, '');
 
-    document.getElementById('card-expiry').addEventListener('input', (e) => {
-        let val = e.target.value.replace(/\D/g, '').substring(0, 4);
-        if (val.length >= 2) { val = val.substring(0,2) + '/' + val.substring(2); }
-        e.target.value = val; document.getElementById('cc-vis-exp').textContent = val || 'MM/YY';
-        if(val.length === 5) document.getElementById('group-exp').classList.add('valid'); else document.getElementById('group-exp').classList.remove('valid');
-    });
+                // Agar bo'sh qolib ketsa, xato bermasligi uchun default 1.00 beramiz
+                if (!cleanAmount) cleanAmount = '1.00';
 
-    document.getElementById('card-cvc').addEventListener('input', (e) => {
-        if(e.target.value.length === 3) document.getElementById('cvc-box').classList.add('valid'); else document.getElementById('cvc-box').classList.remove('valid');
-    });
-    document.getElementById('card-cvc').addEventListener('focus', () => { document.getElementById('cc-visual').style.transform = 'rotateY(180deg) scale(1.05)'; });
-    document.getElementById('card-cvc').addEventListener('blur', () => { document.getElementById('cc-visual').style.transform = 'rotateY(0deg) scale(1)'; });
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: cleanAmount // Toza raqam PayPal ga ketadi
+                        }
+                    }]
+                });
+            },
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    console.log('To\'lov muvaffaqiyatli: ' + details.payer.name.given_name);
+                    // Haqiqiy bazaga saqlash
+                    processPayment();
+                });
+            },
+            style: {
+                layout: 'vertical',
+                color: 'gold',
+                shape: 'rect',
+                label: 'paypal'
+            }
+        }).render('#paypal-button-container');
+    </script>
 
-
-    function completeBooking() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; let id = '';
-        for(let i=0; i<8; i++) id += chars.charAt(Math.floor(Math.random() * chars.length));
-        document.getElementById('booking-num').textContent = 'TH-' + id;
-        document.getElementById('successOverlay').classList.add('show');
-        sessionStorage.clear();
-    }
-</script>
 {% endblock %}

@@ -16,7 +16,7 @@ from apps.views import (AboutTemplateView, ActivateAccountView,
                         TelegramChannelTemplateView,
                         TermsOfServiceTemplateView, WishlistTemplateView, DestinationByCityView,
                         LoadMoreDestinationsView, BookingStep1View, BookingStep2View, SubmitReviewView,
-                        ToggleReviewLikeView, DestinationAllReviewsView)
+                        ToggleReviewLikeView, DestinationAllReviewsView, CheckPromoCodeView)
 
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home_page'),
@@ -47,13 +47,14 @@ urlpatterns = [
     path('cancellation/', CancellationTemplateView.as_view(), name='cancellation_page'),
     path('faq/', FAQTemplateView.as_view(), name='faq_page'),
     path('destination-detail/<slug:slug>/', DestinationDetailView.as_view(), name='destination_detail_page'),
-    path('destination-detail/<slug:slug>/reviews/', DestinationAllReviewsView.as_view(), name='destination_reviews_page'),
+    path('destination-detail/<slug:slug>/reviews/', DestinationAllReviewsView.as_view(),
+         name='destination_reviews_page'),
 
     path('booking/step-1/<slug:slug>/', BookingStep1View.as_view(), name='booking_step1_page'),
     path('booking/step-2/<slug:slug>/', BookingStep2View.as_view(), name='booking_step2_page'),
     path('reviews/submit/', SubmitReviewView.as_view(), name='submit_review'),
     path('reviews/<int:review_id>/like/', ToggleReviewLikeView.as_view(), name='toggle_review_like'),
-
+    path('booking/check-promo/', CheckPromoCodeView.as_view(), name='check_promo_code'),
 
     re_path(r'^auth/user/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,40})/$',
             ActivateAccountView.as_view(), name='confirm_email_page'),

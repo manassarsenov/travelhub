@@ -3,6 +3,7 @@ from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
 from django.forms import (BooleanField, CharField, DateField,
                           EmailField, Form, ModelForm)
+from django.forms.fields import DecimalField
 from django.forms.widgets import PasswordInput
 
 from apps.models import User, Country, Review
@@ -152,3 +153,27 @@ class ReviewModelForm(ModelForm):
             raise ValidationError("Izohingiz juda qisqa. Iltimos, kamida 2 ta belgi kiriting.")
 
         return cleaned_data
+
+
+class BookingGuestForm(Form):
+    first_name = CharField(max_length=100, required=True)
+    last_name = CharField(max_length=100, required=True)
+    email = EmailField(required=True)
+
+    phone_code = CharField(max_length=10, required=True)
+    phone = CharField(max_length=20, required=True)
+
+    applied_promo = CharField(required=False)
+    selected_date = CharField(required=True)
+    selected_time = CharField(required=True)
+
+    # Narx (raqam bo'lishini tekshirish uchun)
+    total_price = DecimalField(max_digits=10, decimal_places=2, required=True)
+
+    def get_full_phone(self):
+        """Davlat kodi va telefonni birlashtirish (+998 va 901234567)"""
+        phone_code = self.cleaned_data.get('phone_code', '')
+        phone = self.cleaned_data.get('phone', '')
+
+        # Ortiqcha probellarni tozalab birlashtiramiz
+        return f"{phone_code.strip()}{phone.strip()}"

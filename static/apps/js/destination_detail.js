@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (destName) destName.textContent = document.getElementById('dest-name')?.textContent || '';
     }
 
-   // --- D. Premium Categorical Rating (FONTAWESOME SAFE) ---
+    // --- D. Premium Categorical Rating (FONTAWESOME SAFE) ---
     document.querySelectorAll('.dcd-rm-stars-mini').forEach(container => {
         const stars = Array.from(container.querySelectorAll('.star-wrap'));
         const categoryName = container.dataset.category;
@@ -142,7 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateStars(currentRating);
 
                 star.style.transform = 'scale(1.4)';
-                setTimeout(() => { star.style.transform = ''; }, 150);
+                setTimeout(() => {
+                    star.style.transform = '';
+                }, 150);
             });
         });
     });
@@ -171,19 +173,28 @@ document.addEventListener('DOMContentLoaded', () => {
 // =====================================================
 // 4. DATE & TIME
 // =====================================================
+// =====================================================
+// 4. DATE & TIME
+// =====================================================
 function buildDateChips() {
     const wrap = document.getElementById('dcd-date-chips');
     if (!wrap) return;
     wrap.innerHTML = '';
     const today = new Date();
 
-    for (let i = 0; i < 4; i++) {
+    // 4 ta emas, endi 6 ta kun chiqariladi
+    for (let i = 0; i < 6; i++) {
         const d = new Date(today);
         d.setDate(today.getDate() + i);
         const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
         const btn = document.createElement('button');
+
+        // Forma submit bo'lib ketmasligi uchun majburiy button type
+        btn.type = 'button';
+
         btn.className = 'dcd-date-chip' + (i === 0 ? ' active' : '');
-        btn.dataset.dateStr = d.toISOString().split('T')[0];
+        btn.dataset.dateStr = d.toISOString().split('T')[0]; // Masalan: "2026-04-29"
+
         btn.innerHTML = `
             <span class="chip-day">${dayNames[d.getDay()]}</span>
             <span class="chip-date">${d.getDate()}</span>
@@ -191,24 +202,43 @@ function buildDateChips() {
             ${i === 0 ? '<span class="chip-today">Today</span>' : ''}
             ${i === 1 ? '<span class="chip-tomorrow">Tomorrow</span>' : ''}
         `;
+
         btn.addEventListener('click', () => {
             document.querySelectorAll('.dcd-date-chip').forEach(c => c.classList.remove('active'));
             btn.classList.add('active');
+
+            // Global JS o'zgaruvchisini yangilaymiz
             S.selectedDate = btn.dataset.dateStr;
             S.currentMonth = d.getMonth();
             S.currentYear = d.getFullYear();
+
+            // ⚠️ ENG ASOSIY JOYI: Backendga jo'natish uchun HTML dagi yashirin inputga qiymat yozamiz
+            const hiddenDateInput = document.getElementById('form-selected-date');
+            if (hiddenDateInput) hiddenDateInput.value = S.selectedDate;
+
             updateMonthLabel();
             buildTimeGrid();
         });
+
         wrap.appendChild(btn);
     }
+
+    // Sahifa yuklanganda dastlabki (Bugungi) sanani ham yashirin inputga yozib qo'yamiz
     S.selectedDate = today.toISOString().split('T')[0];
+    const hiddenDateInput = document.getElementById('form-selected-date');
+    if (hiddenDateInput) hiddenDateInput.value = S.selectedDate;
 }
 
 function changeMonth(dir) {
     S.currentMonth += dir;
-    if (S.currentMonth > 11) { S.currentMonth = 0; S.currentYear++; }
-    if (S.currentMonth < 0) { S.currentMonth = 11; S.currentYear--; }
+    if (S.currentMonth > 11) {
+        S.currentMonth = 0;
+        S.currentYear++;
+    }
+    if (S.currentMonth < 0) {
+        S.currentMonth = 11;
+        S.currentYear--;
+    }
     updateMonthLabel();
     if (S.calendarOpen) renderCalendar();
 }
@@ -256,11 +286,19 @@ function renderCalendar() {
         btn.textContent = d;
         btn.disabled = isPast;
 
-        if (!isPast) {
+      if (!isPast) {
+            // Forma yuborilmasligi uchun type qo'shamiz
+            btn.type = 'button';
+
             btn.addEventListener('click', () => {
                 S.selectedDate = dateStr;
                 S.currentMonth = date.getMonth();
                 S.currentYear = date.getFullYear();
+
+                // ⚠️ Kalendardan tanlangan sanani yashirin inputga yozamiz
+                const hiddenDateInput = document.getElementById('form-selected-date');
+                if (hiddenDateInput) hiddenDateInput.value = S.selectedDate;
+
                 document.querySelectorAll('.dcd-cal-day').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 document.querySelectorAll('.dcd-date-chip').forEach(c => {
@@ -326,7 +364,9 @@ function changeTicket(ticketId, delta, price) {
     el.textContent = newVal;
 
     el.style.transform = delta > 0 ? 'scale(1.4)' : 'scale(0.7)';
-    setTimeout(() => { el.style.transform = 'scale(1)'; }, 200);
+    setTimeout(() => {
+        el.style.transform = 'scale(1)';
+    }, 200);
 
     updateTotal();
 }
@@ -439,9 +479,9 @@ function slideSimilar() {
     if (cards.length === 0) return;
 
     const cardWidth = 260; // Yangi qat'iy kenglik
-    const gap = 20; 
+    const gap = 20;
     const step = cardWidth + gap;
-    
+
     const containerWidth = track.parentElement.offsetWidth;
     const visibleCards = Math.floor(containerWidth / step) || 1;
     const maxIdx = Math.max(0, cards.length - visibleCards);
@@ -449,9 +489,9 @@ function slideSimilar() {
     if (S.similarIdx < maxIdx) {
         S.similarIdx++;
     } else {
-        S.similarIdx = 0; 
+        S.similarIdx = 0;
     }
-    
+
     track.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
     track.style.transform = `translateX(-${S.similarIdx * step}px)`;
 }
@@ -465,7 +505,7 @@ function slideSimilarBack() {
     const cardWidth = 260;
     const gap = 20;
     const step = cardWidth + gap;
-    
+
     const containerWidth = track.parentElement.offsetWidth;
     const visibleCards = Math.floor(containerWidth / step) || 1;
     const maxIdx = Math.max(0, cards.length - visibleCards);
@@ -475,7 +515,7 @@ function slideSimilarBack() {
     } else {
         S.similarIdx = maxIdx;
     }
-    
+
     track.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
     track.style.transform = `translateX(-${S.similarIdx * step}px)`;
 }
@@ -563,14 +603,14 @@ function initScoreBars() {
 
 function startOverlayDots() {
     setInterval(() => {
-        if(OVERLAY_REVIEWS.length === 0) return;
+        if (OVERLAY_REVIEWS.length === 0) return;
         S.overlayDotIdx = (S.overlayDotIdx + 1) % OVERLAY_REVIEWS.length;
         changeDot(S.overlayDotIdx);
     }, 4000);
 }
 
 function changeDot(index) {
-    if(OVERLAY_REVIEWS.length === 0) return;
+    if (OVERLAY_REVIEWS.length === 0) return;
     S.overlayDotIdx = index;
     const dots = document.querySelectorAll('#rating-dots .dot');
     dots.forEach((d, i) => d.classList.toggle('active', i === index));
@@ -642,19 +682,19 @@ function submitReview(e) {
         headers: {'X-CSRFToken': getCsrfToken()},
         body: formData,
     })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            showSuccess();
-        } else {
-            showError(data.error || 'Something went wrong. Please try again.');
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showSuccess();
+            } else {
+                showError(data.error || 'Something went wrong. Please try again.');
+                resetSubmitBtn();
+            }
+        })
+        .catch(() => {
+            showError('Network error. Please check your connection and try again.');
             resetSubmitBtn();
-        }
-    })
-    .catch(() => {
-        showError('Network error. Please check your connection and try again.');
-        resetSubmitBtn();
-    });
+        });
 }
 
 function showSuccess() {
@@ -731,7 +771,7 @@ function toast(message, type = 'success') {
 
 window.reviewSliderIdx = 0;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Sahifa to'liq ochilib, elementlar o'lchamini olguncha 100ms kutamiz
     setTimeout(initReviewSlider, 100);
 });
@@ -845,33 +885,33 @@ function toggleLike(buttonElement) {
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            if(response.status === 403 || response.status === 401) {
-                toast('Please login to like reviews', 'error');
-                throw new Error('Unauthorized');
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 403 || response.status === 401) {
+                    toast('Please login to like reviews', 'error');
+                    throw new Error('Unauthorized');
+                }
+                throw new Error('Network error');
             }
-            throw new Error('Network error');
-        }
-        return response.json();
-    })
-    .then(data => {
-        // Layk bosilsa, V2 dizayni uchun "is-liked" qo'shamiz
-        if (data.liked) {
-            buttonElement.classList.add('is-active', 'liked', 'is-liked');
-            icon.className = `fas ${originalIconClass}`;
-        } else {
-            buttonElement.classList.remove('is-active', 'liked', 'is-liked');
-            icon.className = `far ${originalIconClass}`;
-        }
+            return response.json();
+        })
+        .then(data => {
+            // Layk bosilsa, V2 dizayni uchun "is-liked" qo'shamiz
+            if (data.liked) {
+                buttonElement.classList.add('is-active', 'liked', 'is-liked');
+                icon.className = `fas ${originalIconClass}`;
+            } else {
+                buttonElement.classList.remove('is-active', 'liked', 'is-liked');
+                icon.className = `far ${originalIconClass}`;
+            }
 
-        // Raqamni o'zgartirish (.count yoki .like-count ni qidiradi)
-        const countSpan = buttonElement.querySelector('.like-count') || buttonElement.querySelector('.count');
-        if(countSpan) countSpan.textContent = data.total_likes;
-    })
-    .catch(error => {
-        // Xato bersa oldingi holiga qaytaramiz
-        const isLiked = buttonElement.classList.contains('is-liked');
-        icon.className = `${isLiked ? 'fas' : 'far'} ${originalIconClass}`;
-    });
+            // Raqamni o'zgartirish (.count yoki .like-count ni qidiradi)
+            const countSpan = buttonElement.querySelector('.like-count') || buttonElement.querySelector('.count');
+            if (countSpan) countSpan.textContent = data.total_likes;
+        })
+        .catch(error => {
+            // Xato bersa oldingi holiga qaytaramiz
+            const isLiked = buttonElement.classList.contains('is-liked');
+            icon.className = `${isLiked ? 'fas' : 'far'} ${originalIconClass}`;
+        });
 }
