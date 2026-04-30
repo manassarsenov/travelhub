@@ -59,6 +59,16 @@
                         <div class="pay-method" id="btn-apple" onclick="switchMethod('apple')">
                             <i class="fab fa-apple" style="color: #000;"></i><span>Apple Pay</span>
                         </div>
+                        <div class="pay-method" id="btn-payme" onclick="switchMethod('payme')">
+                            <div style="font-weight: 900; font-size: 16px; color: #33cccc; margin-bottom: 8px;">Payme
+                            </div>
+                            <span>payme.uz</span>
+                        </div>
+                        <div class="pay-method" id="btn-click" onclick="switchMethod('click')">
+                            <div style="font-weight: 900; font-size: 16px; color: #00adef; margin-bottom: 8px;">Click
+                            </div>
+                            <span>click.uz</span>
+                        </div>
                     </div>
 
                     {#                <div id="redirect-paypal" class="redirect-info" style="display: none;">#}
@@ -100,6 +110,24 @@
                         <h3 style="font-size: 16px; font-weight: 800; margin: 0;">Apple Pay</h3>
                         <p style="font-size: 13px; color: var(--text-muted); margin-top: 10px;">Confirm the payment
                             using Touch ID or Face ID on your Apple device securely.</p>
+                    </div>
+
+                    <div id="redirect-payme" class="redirect-info" style="display: none;">
+                        <i class="fas fa-qrcode" style="font-size: 30px; color: #33cccc; margin-bottom: 10px;"></i>
+                        <h3 style="font-size: 16px; font-weight: 800; margin: 0;">Payme</h3>
+                        <ul>
+                            <li>You'll be redirected to Payme mobile app</li>
+                            <li>Confirm your payment securely using Payme</li>
+                        </ul>
+                    </div>
+
+                    <div id="redirect-click" class="redirect-info" style="display: none;">
+                        <i class="fas fa-qrcode" style="font-size: 30px; color: #00adef; margin-bottom: 10px;"></i>
+                        <h3 style="font-size: 16px; font-weight: 800; margin: 0;">Click Up</h3>
+                        <ul>
+                            <li>You'll be redirected to Click Up mobile app</li>
+                            <li>Confirm your payment securely using Click</li>
+                        </ul>
                     </div>
 
                     <div id="card-form-wrapper">
@@ -243,6 +271,11 @@
                         <img src="
 
 
+
+
+
+
+
                                 {% if destination.images.first %}{{ destination.images.first.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
                              alt="Destination">
                         <div class="ticket-img-overlay">
@@ -272,16 +305,17 @@
                             <span style="font-weight: 800; color: var(--success);">Included</span>
                         </div>
 
-           {% if pending_promo or booking_data.booking_details.promo_code %}
-    <div class="summary-row" style="display: flex !important; justify-content: space-between; align-items: center; background: #ecfdf5; padding: 12px; border-radius: 10px; border: 1px solid #10b981; margin-bottom: 15px;">
+                        {% if pending_promo or booking_data.booking_details.promo_code %}
+                            <div class="summary-row"
+                                 style="display: flex !important; justify-content: space-between; align-items: center; background: #ecfdf5; padding: 12px; border-radius: 10px; border: 1px solid #10b981; margin-bottom: 15px;">
         <span style="color: #065f46; font-weight: 700; font-size: 14px;">
             <i class="fas fa-tag"></i> Promo Applied
         </span>
-        <span style="font-weight: 800; color: #065f46; font-family: monospace;">
+                                <span style="font-weight: 800; color: #065f46; font-family: monospace;">
             ({% firstof pending_promo booking_data.booking_details.promo_code %})
         </span>
-    </div>
-{% endif %}
+                            </div>
+                        {% endif %}
 
                         <div class="summary-row total">
                             <span class="total-text">Total Due</span>
@@ -328,21 +362,6 @@
         const isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
         let currentMethod = 'card';
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Step 1 dan qolgan chegirmalarni SessionStorage orqali UI da ko'rsatish
-            const dAmount = sessionStorage.getItem('discountAmount');
-            const nTotal = sessionStorage.getItem('newTotal');
-            if (dAmount && nTotal) {
-                const discRow = document.getElementById('step2-discount-row');
-                if (discRow) discRow.style.display = 'flex';
-
-                const discVal = document.getElementById('step2-discount-val');
-                if (discVal) discVal.textContent = `-$${dAmount}`;
-
-                const totalVal = document.getElementById('step2-total-price');
-                if (totalVal) totalVal.textContent = `$${nTotal}`;
-            }
-        });
 
         /* ==========================================
            2. TO'LOV USULLARI (SWITCH METHODS)
@@ -465,28 +484,59 @@
             const btn = document.querySelector('.btn-proceed');
             const originalText = btn.innerHTML;
 
-            // Tugmani bloklash va loader ko'rsatish
+            // 🚀 1. Apple nomini bazamizga to'g'rilab moslaymiz
+            let exactMethod = currentMethod;
+            if (currentMethod === 'apple') {
+                exactMethod = 'apple_pay'; // <--- BAZADAGI NOM BILAN BIR XIL QILDIK
+            }
+
+            let paymentData = {
+                method: exactMethod, // Endi 'apple_pay' ketadi
+                card_type: null,
+                card_mask: null
+            };
+
+            // 🚀 2. Apple Pay uchun card_type qo'shamiz
+            if (currentMethod === 'card') {
+                const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+                paymentData.card_type = document.getElementById('cc-brand').textContent;
+                paymentData.card_mask = cardNumber.substring(0, 4) + " **** **** " + cardNumber.slice(-4);
+            } else if (currentMethod === 'paypal') {
+                paymentData.card_type = 'PayPal Account';
+            } else if (currentMethod === 'kaspi') {
+                paymentData.card_type = 'Kaspi Gold';
+            } else if (currentMethod === 'apple') {
+                // APPLE PAY UCHUN TYPE:
+                paymentData.card_type = 'Apple Wallet';
+            } else if (currentMethod === 'payme') {
+                // 🚀 PAYME QO'SHILDI
+                paymentData.card_type = 'Payme Wallet';
+            } else if (currentMethod === 'click') {
+                // 🚀 CLICK QO'SHILDI
+                paymentData.card_type = 'Click Wallet';
+            }
+
+
+            // Tugmani bloklash
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing Payment...';
 
             try {
-                // Django URL ga POST so'rov yuboramiz
                 const response = await fetch(window.location.pathname, {
                     method: 'POST',
                     headers: {
                         'X-CSRFToken': '{{ csrf_token }}',
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    body: JSON.stringify(paymentData)
                 });
 
                 const data = await response.json();
 
+                // ... qolgan kodlar o'zgarishsiz qoladi
                 if (data.success) {
-                    // Booking raqamini ko'rsatish va muvaffaqiyat oynasini ochish
                     document.getElementById('booking-num').textContent = data.booking_number;
                     document.getElementById('successOverlay').classList.add('show');
-
-                    // Mahalliy keshni tozalash
                     sessionStorage.clear();
                 } else {
                     alert("Payment Error: " + data.message);
@@ -495,7 +545,7 @@
                 }
             } catch (error) {
                 console.error("Backend Error:", error);
-                alert("Network connection failed. Please try again.");
+                alert("Network connection failed.");
                 btn.disabled = false;
                 btn.innerHTML = originalText;
             }
@@ -547,8 +597,8 @@
             },
             onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
-                    console.log('To\'lov muvaffaqiyatli: ' + details.payer.name.given_name);
-                    // Haqiqiy bazaga saqlash
+                    // PayPal muvaffaqiyatli bo'lsa, methodni paypal qilib backendga yuboramiz
+                    currentMethod = 'paypal';
                     processPayment();
                 });
             },

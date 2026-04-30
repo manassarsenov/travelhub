@@ -115,7 +115,7 @@ class BookingStep1View(DetailView):
                     ticket_id = key.split('_')[1]
                     tickets_data[ticket_id] = int(value)
 
-            promo_from_post = request.POST.get('applied_promo', '').strip()
+            promo_from_post = request.POST.get('promo_code', '').strip()
 
             # Sessionga saqlash
             request.session['pending_booking'] = {
@@ -218,28 +218,23 @@ def log_action(request, category, action, verb, level, message, target_object=No
 class BookingStep2View(View):
 
     def get(self, request, slug):
-        """Step 2 sahifasini ko'rsatish va ma'lumotlarni render qilish"""
+        """Step 2 sahifasini ko'rsatish"""
         destination = get_object_or_404(Destination, slug=slug)
         pending = request.session.get('pending_booking')
 
-        # Xavfsizlik: Agar session bo'sh bo'lsa Step 1 ga qaytarish
         if not pending or pending.get('destination_id') != destination.id:
             return redirect('booking_step1_page', slug=slug)
 
-        # Chipta ID-larini nomlarga aylantirish (HTML Summary uchun)
+        # Chipta ID-larini nomlarga aylantirish
         tickets_with_names = {}
         tickets_data = pending['booking_details'].get('tickets', {})
-
         for t_id, qty in tickets_data.items():
             ticket_type = TicketType.objects.filter(id=t_id).first()
             if ticket_type:
                 tickets_with_names[ticket_type.name] = qty
 
-        # Context-ga chipta nomlarini qo'shamiz
         pending['booking_details']['tickets_items'] = tickets_with_names
-
-        # Promokodni alohida o'zgaruvchi sifatida uzatamiz (HTML {% if %} uchun)
-        promo_code = pending.get('booking_details', {}).get('promo_code', '')
+        promo_code = pending['booking_details'].get('promo_code', '')
 
         return render(request, 'apps/booking_step2.html', {
             'destination': destination,
@@ -249,31 +244,31 @@ class BookingStep2View(View):
 
     @transaction.atomic
     def post(self, request, slug):
-        """To'lov tasdiqlanganda haqiqiy Booking yaratish"""
+        """JS dan kelgan JSON ma'lumotni qabul qilib, bazaga hamma narsani saqlash"""
         pending = request.session.get('pending_booking')
 
         if not pending:
-            log_action(
-                request,
-                category=ActionLog.Category.SYSTEM,
-                action="Booking Failed",
-                verb="failed",
-                level=ActionLog.Level.WARNING,
-                message=f"Session expired for destination: {slug}"
-            )
             return JsonResponse({'success': False, 'message': 'Session expired.'})
 
         destination = get_object_or_404(Destination, slug=slug)
 
         try:
-            # 1. Baza uchun chipta ID-larini nomlarga o'giramiz
+            # 🚀 1. JS dan yuborilgan JSON body'ni o'qiymiz
+            data = json.loads(request.body)
+
+            # JS dan kelayotgan to'lov ma'lumotlari
+            payment_method = data.get('method', 'card')
+            card_type = data.get('card_type')  # Visa, Humo va h.k.
+            card_mask = data.get('card_mask')  # 8600 **** 1234
+
+            # 2. Chipta nomlarini yig'ish
             tickets_with_names = {}
             for t_id, qty in pending['booking_details']['tickets'].items():
                 t_obj = TicketType.objects.filter(id=t_id).first()
                 if t_obj:
                     tickets_with_names[t_obj.name] = qty
 
-            # 2. HAQIQIY BOOKING YARATISH
+            # 🚀 3. HAQIQIY BOOKING YARATISH (Barcha yangi maydonlar bilan)
             booking = Booking.objects.create(
                 user=request.user if request.user.is_authenticated else None,
                 destination=destination,
@@ -289,57 +284,50 @@ class BookingStep2View(View):
                 total_price=pending['booking_details']['total_price'],
                 promo_code=pending['booking_details'].get('promo_code', ''),
 
+                # ✅ YANGI MODEL MAYDONLARI:
                 status=Booking.Status.CONFIRMED,
                 is_paid=True,
-                paid_at=timezone.now()
+                paid_at=timezone.now(),
+                payment_method=payment_method,
+                card_type=card_type,
+                card_mask=card_mask,
+                # Noyob tranzaksiya ID yaratish (kelajakda to'lov tizimidan keladi)
+                transaction_id=f"TRX-{uuid.uuid4().hex[:12].upper()}"
             )
 
-            # 3. Promo-kod ishlatilgan bo'lsa used_count-ni oshirish
+            # 4. Promo-kod ishlatilishini yangilash
             p_code = pending['booking_details'].get('promo_code')
             if p_code:
                 PromoCode.objects.filter(code__iexact=p_code).update(used_count=F('used_count') + 1)
 
-            # 4. ACTION LOG YOZISH (Professional Audit)
-            post_change_data = {
-                "booking_number": booking.booking_number,
-                "email": booking.guest_email,
-                "total_price": float(booking.total_price),
-                "tickets": tickets_with_names,
-                "promo_used": p_code or "None"
-            }
-
+            # 5. ACTION LOG (Audit uchun barcha detallar bilan)
             log_action(
                 request,
                 category=ActionLog.Category.FINANCE,
                 action="Booking Created & Paid",
                 verb="created",
                 level=ActionLog.Level.INFO,
-                message=f"New booking ({booking.booking_number}) created for {destination.name}.",
+                message=f"Booking {booking.booking_number} confirmed via {payment_method}.",
                 target_object=booking,
-                post_data=post_change_data
+                post_data={
+                    "booking_number": booking.booking_number,
+                    "method": payment_method,
+                    "card": card_mask,
+                    "total": float(booking.total_price)
+                }
             )
 
-            # 5. Sessionni tozalash
+            # 6. Sessionni tozalash
             del request.session['pending_booking']
 
             return JsonResponse({
                 'success': True,
-                'booking_number': booking.booking_number
+                'booking_number': booking.booking_number  # TH-2026-XXXXXXXX
             })
 
         except Exception as e:
-            # Xatolikni ActionLog-ga qayd etish
-            log_action(
-                request,
-                category=ActionLog.Category.SYSTEM,
-                action="Booking Exception",
-                verb="error",
-                level=ActionLog.Level.CRITICAL,
-                message=str(e),
-                extra={"slug": slug, "session_data": pending}
-            )
-            return JsonResponse({'success': False, 'message': f'Database error: {str(e)}'})
-
+            # Xatolikni log qilish
+            return JsonResponse({'success': False, 'message': f'Error: {str(e)}'})
 
 class CheckPromoCodeView(View):
     """
@@ -778,24 +766,30 @@ class WeatherView(View):
             return JsonResponse({'error': str(e)}, status=500)
 
 
-class DestinationDetailView(TemplateView):
+class DestinationDetailView(DetailView):
+
     template_name = 'apps/destination_detail.html'
+    context_object_name = 'destination'
+    queryset = Destination.objects.select_related('city', 'country').prefetch_related(
+        'images', 'reviews', 'tags',
+        'activities',
+        'reviews__author_country',
+        'time_slots'
+    )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        slug = self.kwargs.get('slug')
+        destination = self.object
 
-        destination = get_object_or_404(
-            Destination.objects.select_related('city', 'country').prefetch_related('images', 'reviews', 'tags',
-                                                                                   'activities',
-                                                                                   'reviews__author_country',
-                                                                                   'time_slots'),
-            slug=slug)
-        context['destination'] = destination
-        context['top_review'] = destination.reviews.filter(is_visible=True).first()
+
+        context['sidebar_reviews'] = destination.reviews.filter(
+            is_visible=True
+        ).order_by('-total_likes', '-created_at', '-rating')[:10]
+
         context['similar_destinations'] = Destination.objects.filter(
             city=destination.city,
-        ).exclude(slug=slug).prefetch_related('images')[:5]
+        ).exclude(id=destination.id).prefetch_related('images')[:5]
+
         context['today'] = timezone.now().date()
 
         if self.request.user.is_authenticated:

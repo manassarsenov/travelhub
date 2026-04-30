@@ -41,9 +41,42 @@ class TicketTypeAdmin(admin.ModelAdmin):
 class PromoCodeAdmin(admin.ModelAdmin):
     list_display = ['id']
 
+
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ['id']
+
+    list_display = ('booking_number', 'guest_first_name', 'destination', 'total_price', 'payment_method', 'is_paid',
+                    'status', 'created_at')
+
+    # O'ng tarafda filtr qilish uchun
+    list_filter = ('status', 'is_paid', 'payment_method', 'booking_date')
+
+    # Qidiruv berilganda qaysi maydonlardan qidirish kerak
+    search_fields = ('booking_number', 'guest_email', 'guest_phone', 'guest_first_name', 'transaction_id')
+
+    # Admin o'zgartira olmaydigan (faqat o'qish uchun) maydonlar
+    readonly_fields = ('booking_number', 'transaction_id', 'created_at', 'updated_at')
+
+    # 🚀 ICHKARI SAHIFA: Ma'lumotlarni chiroyli bo'limlarga ajratib ko'rsatish
+    fieldsets = (
+        ('Primary Information', {
+            'fields': ('booking_number', 'user', 'destination', 'status')
+        }),
+        ('Guest Details', {
+            'fields': ('guest_first_name', 'guest_last_name', 'guest_email', 'guest_phone')
+        }),
+        ('Booking Details', {
+            'fields': ('booking_date', 'time', 'tickets_data', 'total_guests', 'promo_code', 'notes')
+        }),
+        ('💰 Payment Information (Yangi)', {  # Mana shu yerda yangi maydonlar chiqadi
+            'fields': ('total_price', 'is_paid', 'paid_at', 'payment_method', 'card_type', 'card_mask',
+                       'transaction_id')
+        }),
+        ('System Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)  # Bu bo'limni yig'ib qo'yadi (joyni tejash uchun)
+        }),
+    )
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):

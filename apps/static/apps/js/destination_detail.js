@@ -63,6 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    const allSlides = document.querySelectorAll('.dcd-review-slide');
+    if (allSlides.length > 0) {
+        // OVERLAY_REVIEWS ni slide'lar soniga qarab to'ldiramiz (masalan, [0, 1, 2, 3])
+        OVERLAY_REVIEWS = Array.from(allSlides);
+        console.log("Slayder uchun izohlar topildi:", OVERLAY_REVIEWS.length);
+
+        // Endi dots (nuqtalar) aylanishini boshlaymiz
+        startOverlayDots();
+    }
+
     // 2. ⚠️ FORMA VALIDATSIYASI (Next bosilganda tekshirish)
     const bookingForm = document.getElementById('bookingForm');
     if (bookingForm) {
@@ -847,33 +857,39 @@ function initScoreBars() {
    RATING CARD OVERLAY DOTS — auto rotate
    ===================================================== */
 function startOverlayDots() {
-    setInterval(() => {
+    // Izohlar 1 tadan ko'p bo'lsagina aylantiramiz
+    if (OVERLAY_REVIEWS.length <= 1) return;
+
+    // Har ehtimolga qarshi eski taymer bo'lsa tozalaymiz
+    if (window.overlayInterval) clearInterval(window.overlayTimer);
+
+    window.overlayTimer = setInterval(() => {
+        // S.overlayDotIdx ni bittaga oshiramiz va bor izohlar soniga bo'lamiz (qoldiq)
         S.overlayDotIdx = (S.overlayDotIdx + 1) % OVERLAY_REVIEWS.length;
+
+        // Keyingi nuqta va izohni yoqamiz
         changeDot(S.overlayDotIdx);
-    }, 4000);
+    }, 4000); // 4 soniyada bir almashadi
 }
 
 function changeDot(index) {
-    S.overlayDotIdx = index;
-    const dots = document.querySelectorAll('#rating-dots .dot');
-    dots.forEach((d, i) => d.classList.toggle('active', i === index));
+        // Hamma slidelarni yashiramiz
+        const slides = document.querySelectorAll('.dcd-review-slide');
+        slides.forEach(slide => slide.style.display = 'none');
 
-    const r = OVERLAY_REVIEWS[index];
-    const avatarEl = document.querySelector('.dcd-top-rev-avatar');
-    const nameEl = document.querySelector('.dcd-top-reviewer strong');
-    const textEl = document.querySelector('.dcd-top-rev-text');
+        // Hamma nuqtalardan 'active' klassini olib tashlaymiz
+        const dots = document.querySelectorAll('#rating-dots .dot');
+        dots.forEach(dot => dot.classList.remove('active'));
 
-    if (avatarEl && nameEl && textEl) {
-        // Fade transition
-        [avatarEl, nameEl, textEl].forEach(el => el.style.opacity = '0');
-        setTimeout(() => {
-            avatarEl.textContent = r.avatar;
-            nameEl.textContent = r.name;
-            textEl.textContent = r.text;
-            [avatarEl, nameEl, textEl].forEach(el => el.style.opacity = '1');
-        }, 200);
+        // Faqat bosilgan nuqtaga tegishli slideni va nuqtani yoqamiz
+        const activeSlide = document.getElementById('slide-' + index);
+        if(activeSlide) {
+            activeSlide.style.display = 'block';
+        }
+        if(dots[index]) {
+            dots[index].classList.add('active');
+        }
     }
-}
 
 /* =====================================================
    TOAST NOTIFICATION

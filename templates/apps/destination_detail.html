@@ -75,10 +75,6 @@
 
 
 
-
-
-
-
                                      {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
                              alt="{{ destination.name }}" class="dcd-main-img">
                     {% endwith %}
@@ -105,20 +101,34 @@
                             </div>
                             <div class="dcd-rating-count">{{ destination.visible_reviews_count }} reviews</div>
                             <h5 class="dcd-loved-title">What guests loved most</h5>
-                            {% if top_review %}
-                                <div class="dcd-top-reviewer">
-                                    <div class="dcd-top-rev-avatar">{{ top_review.author_name|first|upper }}</div>
-                                    <strong>{{ top_review.author_name }}</strong>
-                                </div>
-                                <p class="dcd-top-rev-text">{{ top_review.text|truncatechars:100 }}</p>
-                            {% endif %}
 
-                            <div class="dcd-rating-dots" id="rating-dots">
-                                <span class="dot active" onclick="changeDot(0)"></span>
-                                <span class="dot" onclick="changeDot(1)"></span>
-                                <span class="dot" onclick="changeDot(2)"></span>
-                                <span class="dot" onclick="changeDot(3)"></span>
+                            <div id="dcd-rating-slides">
+                                {% for review in sidebar_reviews %}
+                                    <div class="dcd-review-slide" id="slide-{{ forloop.counter0 }}"
+                                         style="display: {% if forloop.first %}block{% else %}none{% endif %};">
+                                        <div class="dcd-top-reviewer">
+                                            <div class="dcd-top-rev-avatar">
+                                                {{ review.author_name|first|upper }}
+                                            </div>
+                                            <strong>{{ review.author_name }}</strong>
+                                        </div>
+                                        <p class="dcd-top-rev-text">{{ review.text|truncatechars:100 }}</p>
+                                    </div>
+                                {% empty %}
+                                    <p style="color: var(--gray); font-size: 13px; font-style: italic; margin-top: 10px;">
+                                        No reviews yet.
+                                    </p>
+                                {% endfor %}
                             </div>
+
+                            {% if sidebar_reviews|length > 1 %}
+                                <div class="dcd-rating-dots" id="rating-dots">
+                                    {% for review in sidebar_reviews %}
+                                        <span class="dot {% if forloop.first %}active{% endif %}"
+                                              onclick="changeDot({{ forloop.counter0 }})"></span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -701,6 +711,9 @@
 
 
 
+
+
+
                                     {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
                                  alt="{{ destination.name }}">
                         </div>
@@ -729,32 +742,65 @@
                         <span>({{ destination.visible_reviews_count }} reviews)</span>
                     </div>
                     <h4>What guests loved most:</h4>
+                    {#                    <div class="dcd-gm-reviews">#}
+                    {#                        {% for review in destination.reviews.all|slice:":4" %}#}
+                    {#                            {% if review.is_visible %}#}
+                    {#                                <div class="dcd-gm-review-item">#}
+                    {#                                    <div class="dcd-gm-rev-head">#}
+                    {#                                        <div class="dcd-gm-rev-avatar"#}
+                    {#                                             style="background:linear-gradient(135deg,#667eea,#764ba2)">{{ review.author_name|first|upper }}#}
+                    {#                                        </div>#}
+                    {#                                        <div>#}
+                    {#                                            <strong>{{ review.author_name }}</strong><span>{% if review.author_country %}#}
+                    {#                                            {{ review.author_counter.name }}{% endif %}</span></div>#}
+                    {#                                    </div>#}
+                    {#                                    <p>{{ review.text|truncatechars:120 }}</p>#}
+                    {#                                    <small>#}
+                    {#                                        {% if review.visit_type == 'family' %}<i class="fas fa-users"></i> Visited with#}
+                    {#                                            family#}
+                    {#                                        {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i> Visited#}
+                    {#                                            with a partner#}
+                    {#                                        {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i> Solo traveller#}
+                    {#                                        {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i>#}
+                    {#                                            Visited with friends#}
+                    {#                                        {% endif %}#}
+                    {#                                        · {{ review.created_at|date:"d F Y" }}#}
+                    {#                                    </small>#}
+                    {#                                </div>#}
+                    {#                            {% endif %}#}
+                    {#                        {% endfor %}#}
+                    {#                    </div>#}
                     <div class="dcd-gm-reviews">
-                        {% for review in destination.reviews.all|slice:":4" %}
-                            {% if review.is_visible %}
-                                <div class="dcd-gm-review-item">
-                                    <div class="dcd-gm-rev-head">
-                                        <div class="dcd-gm-rev-avatar"
-                                             style="background:linear-gradient(135deg,#667eea,#764ba2)">{{ review.author_name|first|upper }}
-                                        </div>
-                                        <div>
-                                            <strong>{{ review.author_name }}</strong><span>{% if review.author_country %}
-                                            {{ review.author_counter.name }}{% endif %}</span></div>
+                        {% for review in sidebar_reviews %}
+                            <div class="dcd-gm-review-item">
+                                <div class="dcd-gm-rev-head">
+                                    <div class="dcd-gm-rev-avatar"
+                                         style="background:linear-gradient(135deg,#667eea,#764ba2)">
+                                        {{ review.author_name|first|upper }}
                                     </div>
-                                    <p>{{ review.text|truncatechars:120 }}</p>
-                                    <small>
-                                        {% if review.visit_type == 'family' %}<i class="fas fa-users"></i> Visited with
-                                            family
-                                        {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i> Visited
-                                            with a partner
-                                        {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i> Solo traveller
-                                        {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i>
-                                            Visited with friends
-                                        {% endif %}
-                                        · {{ review.created_at|date:"d F Y" }}
-                                    </small>
+                                    <div>
+                                        <strong>{{ review.author_name }}</strong>
+                                        <span>
+                        {% if review.author_country %}{{ review.author_country.name }}{% endif %}
+                    </span>
+                                    </div>
                                 </div>
-                            {% endif %}
+                                <p>{{ review.text|truncatechars:120 }}</p>
+                                <small>
+                                    {% if review.visit_type == 'family' %}<i class="fas fa-users"></i> Visited with
+                                        family
+                                    {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i> Visited with a
+                                        partner
+                                    {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i> Solo traveller
+                                    {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i> Visited
+                                        with friends
+                                    {% endif %}
+                                    • {{ review.created_at|date:"d F Y" }}
+                                </small>
+                            </div>
+                        {% empty %}
+                            <p style="color: var(--text-muted); font-size: 13px; font-style: italic;">No reviews
+                                found.</p>
                         {% endfor %}
                     </div>
                 </div>

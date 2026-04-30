@@ -46,3 +46,6 @@ class PromoCode(Model):
             return False, f"This code only works for {self.destination.name}."
 
         return True, "Success"
+
+    def __str__(self):
+        return self.code
