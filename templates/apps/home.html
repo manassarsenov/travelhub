@@ -195,74 +195,43 @@
             <section class="section" style="background: var(--light);">
                 <h2 class="section-title">What Our Travelers Say</h2>
                 <div class="card-grid">
-                    <div class="destination-card">
-                        <div class="card-content">
-                            <div class="rating" style="margin-bottom: 25px;">
-                                <i class="fas fa-star stars"></i>
-                                <i class="fas fa-star stars"></i>
-                                <i class="fas fa-star stars"></i>
-                                <i class="fas fa-star stars"></i>
-                                <i class="fas fa-star stars"></i>
-                            </div>
-                            <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">
-                                "Absolutely amazing! The AI recommendations were spot-on. Found my dream vacation in
-                                minutes!"
-                            </p>
-                            <div style="display: flex; align-items: center; gap: 18px;">
-                                <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=70"
-                                     style="border-radius: 50%;">
-                                <div>
-                                    <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 5px;">Sarah
-                                        Johnson</h4>
-                                    <p style="color: var(--gray); font-size: 14px;">Traveled to Maldives</p>
+                    {% for review in top_reviews %}
+                        <div class="destination-card">
+                            <div class="card-content" style="display: flex; flex-direction: column; min-height: 280px;">
+
+                                <div class="rating" style="margin-bottom: 20px; color: #f59e0b;">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= review.rating %}
+                                            <i class="fas fa-star stars"></i>
+                                        {% else %}
+                                            <i class="far fa-star stars"></i>
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
+
+                                <p style="font-size: 16px; line-height: 1.8; color: var(--gray); flex-grow: 1; margin-bottom: 0;">
+                                    "{{ review.text|truncatechars:120 }}"
+                                </p>
+
+                                <div style="display: flex; align-items: center; gap: 15px; margin-top: 20px;">
+
+                                    <img src="https://ui-avatars.com/api/?name={{ review.author_name|default:review.user.username }}&background={% if forloop.counter == 1 %}667eea{% elif forloop.counter == 2 %}764ba2{% else %}c084fc{% endif %}&color=fff&size=70"
+                                         style="border-radius: 50%; width: 55px; height: 55px; object-fit: cover;"
+                                         alt="Avatar">
+
+                                    <div>
+                                        <h4 style="font-size: 17px; font-weight: 800; margin-bottom: 4px; color: var(--text-primary);">
+                                            {{ review.author_name|default:review.user.username }}
+                                        </h4>
+                                        <p style="color: #667eea; font-size: 13px; font-weight: 600;">
+                                            Traveled to {{ review.destination.name }}
+                                        </p>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                    </div>
-                    <div class="destination-card">
-                        <div class="card-content">
-                            <div class="rating" style="margin-bottom: 25px;">
-                                <i class="fas fa-star stars"></i>
-                                <i class="fas fa-star stars"></i>
-                                <i class="fas fa-star stars"></i>
-                                <i class="fas fa-star stars"></i>
-                                <i class="fas fa-star stars"></i>
-                            </div>
-                            <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">
-                                "Best booking experience ever! Smooth, fast, and incredibly helpful customer service."
-                            </p>
-                            <div style="display: flex; align-items: center; gap: 18px;">
-                                <img src="https://ui-avatars.com/api/?name=Michael+Chen&background=764ba2&color=fff&size=70"
-                                     style="border-radius: 50%;">
-                                <div>
-                                    <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 5px;">Michael Chen</h4>
-                                    <p style="color: var(--gray); font-size: 14px;">Traveled to Switzerland</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="destination-card">
-                        <div class="card-content">
-                            <div class="rating" style="margin-bottom: 25px;">
-                                <i class="fas fa-star stars"></i>
-                                <i class="fas fa-star stars"></i>
-                                <i class="fas fa-star stars"></i>
-                                <i class="fas fa-star stars"></i>
-                                <i class="fas fa-star stars"></i>
-                            </div>
-                            <p style="font-size: 17px; line-height: 1.8; margin-bottom: 25px; color: var(--gray);">
-                                "The personalized recommendations saved us hours of research. Highly recommend!"
-                            </p>
-                            <div style="display: flex; align-items: center; gap: 18px;">
-                                <img src="https://ui-avatars.com/api/?name=Emma+Wilson&background=a855f7&color=fff&size=70"
-                                     style="border-radius: 50%;">
-                                <div>
-                                    <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 5px;">Emma Wilson</h4>
-                                    <p style="color: var(--gray); font-size: 14px;">Traveled to Bali</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </section>
 
@@ -274,7 +243,12 @@
                     <i class="fab fa-cc-amex"></i>
                     <i class="fab fa-cc-paypal"></i>
                     <i class="fab fa-apple-pay"></i>
-                    <i class="fab fa-google-pay"></i>
+                    <img src="{% static 'apps/img/payments/Payme.png' %}" alt="Payme" class="custom-pay-icon">
+                    <img src="{% static 'apps/img/payments/Click.png' %}" alt="Click" class="custom-pay-icon">
+                    <img src="{% static 'apps/img/payments/Uzcard.png' %}" alt="Uzcard" class="custom-pay-icon">
+                    <img src="{% static 'apps/img/payments/Humo.jpg' %}" alt="Humo" class="custom-pay-icon">
+                    <img src="{% static 'apps/img/payments/Kaspi.png' %}" alt="Kaspi.kz" class="kaspi-logo">
+
                 </div>
             </div>
 

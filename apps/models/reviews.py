@@ -46,8 +46,8 @@ class Review(CreatedBaseModel):
     
     is_visible = BooleanField(default=True)
     is_verified = BooleanField(default=False)
-    
-    helpful_count = PositiveSmallIntegerField(default=0)
+
+    helpful_count = PositiveSmallIntegerField(default=0, db_index=True)
     reported_count = PositiveSmallIntegerField(default=0)
 
     @property

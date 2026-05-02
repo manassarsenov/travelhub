@@ -32,59 +32,104 @@
     <button class="wishlist-btn" onclick="toggleWishlist(this)"><i
             class="far fa-heart"></i>
     </button>
+{#        <div class="card-badges">#}
+{#            <img src="{% static 'apps/img/trending.webp' %}" alt="Trending" class="trending-logo">#}
+{#        </div>#}
+    <div class="card-badges">
+    <span class="modern-trending-badge">
+        <i class="fas fa-fire"></i> TRENDING
+    </span>
+</div>
     </div>
-    <div class="card-content">
+
+<div class="card-content">
+
         <div class="card-header">
             <div class="destination-info">
-                <h3>{{ destination.name }}</h3>
-                <p class="location"><i
-                        class="fas fa-map-marker-alt"></i> {{ destination.location }}
-                </p>
+                <h3 title="{{ destination.name }}">{{ destination.name }}</h3>
             </div>
             <div class="rating-box">
-                <div class="rating-stars"><i
-                        class="fas fa-star"></i><span>{{ destination.rating }}</span></div>
-                <p class="reviews">({{ destination.reviews_count }} reviews)</p></div>
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i><span>{{ destination.rating }}</span>
+                </div>
+                <p class="reviews">({{ destination.reviews_count|default:"0" }} reviews)</p>
+            </div>
         </div>
-        <p class="card-description">{{ destination.short_description|safe }}</p>
+
+        <p class="location">
+            <i class="fas fa-map-marker-alt"></i> {{ destination.location }}
+        </p>
+
+        <a href="{% url 'destination_detail_page' destination.slug %}" class="desc-link">
+            <p class="card-description">
+                {{ destination.short_description|striptags }}
+            </p>
+        </a>
+
         <div class="card-tags">
             {% for tag in destination.tags.all %}
-                <span class="tag"><i class="fas {{ tag.icon }}"></i> {{ tag.name }}</span>
+                <span class="tag"><i class="fas {{ tag.icon|default:'fa-check' }}"></i> {{ tag.name }}</span>
             {% endfor %}
         </div>
+
         <div class="card-stats">
             {% if destination.hotels_count > 0 %}
-                <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i
-                        class="fas fa-hotel"></i><span>{{ destination.hotels_count }} Hotels & Resorts</span>
+                <button class="stat-item stat-hotels" onclick="goToHotels(this)">
+                    <i class="fas fa-hotel"></i>
+                    <span>{{ destination.hotels_count }} Hotels</span>
                 </button>
             {% endif %}
 
             {% if destination.has_flights %}
-                <button class="stat-item stat-flights" onclick="goToFlights(this)" data-slug="{{ destination.slug }}"
-                        data-name="{{ destination.name }}"><i
-                        class="fas fa-plane"></i><span>Direct Flights</span></button>
+                <button class="stat-item stat-flights" onclick="goToFlights(this)" data-slug="{{ destination.slug }}" data-name="{{ destination.name }}">
+                    <i class="fas fa-plane"></i>
+                    <span>Flights</span>
+                </button>
+            {% else %}
+                <div class="stat-item stat-flights">
+                    <i class="fas fa-route"></i>
+                    <span>Tours</span>
+                </div>
             {% endif %}
+
             <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
                     data-lat="{{ destination.latitude }}"
                     data-lon="{{ destination.longitude }}"
-                    data-city="{{ destination.location }}"><i
-                    class="fas fa-sun weather-icon"></i><span
-                    class="weather-temp">yuklanyapti...</span></button>
-            <div class="stat-item"><i class="fas fa-clock"></i><span>5-7 Days</span></div>
+                    data-city="{{ destination.location }}">
+                <i class="fas fa-sun weather-icon"></i>
+                <span class="weather-temp">Load...</span>
+            </button>
+
+            <div class="stat-item">
+                <i class="fas fa-clock"></i>
+                <span>{{ destination.duration|default:"5-7 Days" }}</span>
+            </div>
+
+            {% for activity in destination.activities.all %}
+                <button class="stat-item stat-activities" onclick="goToActivities(this)">
+                    <i class="fas {{ activity.icon|default:'fa-walking' }}"></i>
+                    <span>{{ activity.name }}</span>
+                </button>
+            {% endfor %}
         </div>
+
         <div class="card-footer">
             <div class="price-box">
-                <div class="price-current"><span class="from">From</span><span
-                        class="amount">${{ destination.price }}</span><span
-                        class="per">/ {{ destination.price_label }}</span></div>
+                {% if destination.discount_percentage > 0 %}
+                    <div class="price-original">${{ destination.price }}</div>
+                {% endif %}
+                <div class="price-current">
+                    <span class="from">From</span>
+                    <span class="amount">${{ destination.discounted_price|default:destination.price }}</span>
+                    <span class="per">/ {{ destination.price_label }}</span>
+                </div>
             </div>
             <div class="card-actions">
-                <button class="btn-outline"
-                        onclick="window.location.href='{% url 'destination_detail_page' destination.slug %}'">See
-                    Details
-                    <i class="fas fa-arrow-right"></i>
+                <button class="btn-outline" onclick="window.location.href='{% url 'destination_detail_page' destination.slug %}'">
+                    See Details <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
         </div>
+
     </div>
 </article>

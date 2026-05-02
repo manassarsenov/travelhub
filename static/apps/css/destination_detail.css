@@ -142,13 +142,22 @@
     white-space: nowrap;
 }
 
+.dcd-title-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 12px;
+}
+
 .dcd-main-title {
     font-size: 34px;
     font-weight: 900;
     color: var(--dark);
     line-height: 1.2;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     letter-spacing: -0.5px;
+    flex: 1;
 }
 
 .dcd-subtitle {
@@ -2141,6 +2150,7 @@ body.dark-mode .dcd-mobile-price span { color: #94a3b8; }
 
 @media (max-width: 480px) {
     .dcd-page { padding: 12px 12px 90px; }
+    .dcd-title-header-flex { flex-direction: column; gap: 12px; }
     .dcd-main-title { font-size: 20px; }
     .dcd-section-title { font-size: 17px; }
     .dcd-gallery { height: 240px; }

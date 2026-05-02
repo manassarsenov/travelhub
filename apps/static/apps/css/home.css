@@ -355,9 +355,22 @@
     position: absolute;
     top: 14px;
     right: 14px;
-    display: flex;
-    gap: 8px;
-    z-index: 5;
+    z-index: 10;
+}
+
+.modern-trending-badge {
+    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); /* Chiroyli olovrang gradient */
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 20px; /* To'liq dumaloq chetlar */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4); /* O'zining rangidagi soya */
 }
 
 .card-badges .badge {
@@ -435,6 +448,19 @@
     }
 }
 
+/* ===== TRENDING LOGO ===== */
+.trending-logo {
+    height: 40px; /* Yurakcha bilan deyarli bir xil hajmda turadi */
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); /* Rasm orqasiga chiroyli soya */
+    transition: transform 0.3s ease;
+}
+
+.trending-logo:hover {
+    transform: scale(1.1) rotate(5deg); /* Ustiga borganda ozgina qimirlaydi */
+}
+
 /* ===== COMPARE CHECKBOX ===== */
 .compare-checkbox {
     position: absolute;
@@ -509,7 +535,7 @@
    CARD CONTENT — ikkala grid ham shu structurani ishlatadi
    ================================================================ */
 .card-content {
-    padding: 16px 20px 12px;
+    padding: 16px 20px 16px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -519,23 +545,29 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 10px;
     gap: 10px;
-    min-height: 52px;
+    margin-bottom: 6px;
+    min-height: 46px; /* 🚀 "height" va "overflow" o'chirildi, o'rniga min-height qo'yildi */
+}
+
+.destination-info {
+    flex: 1;
 }
 
 .destination-info h3 {
     font-size: 18px;
     font-weight: 900;
     color: var(--text-primary);
-    margin-bottom: 4px;
+    margin: 0;
     line-height: 1.2;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 2; /* 2 qatorda kesish */
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* 2. Joylashuv */
 .location {
     display: flex;
     align-items: center;
@@ -543,6 +575,7 @@
     font-size: 13px;
     color: var(--text-secondary);
     font-weight: 500;
+    margin-bottom: 8px; /* Matnga yopishib turadi */
 }
 
 .location i {
@@ -582,42 +615,52 @@
     font-size: 11px;
     color: var(--text-light);
     font-weight: 500;
+    margin-top: 3px; /* 🚀 Yulduzdan biroz pastroqqa suramiz */
+    line-height: 1.2; /* 🚀 Matn qisilib qolmasligi uchun */
+    display: block;
 }
 
-/* ===== CARD DESCRIPTION & TAGS ===== */
+.desc-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .card-description {
     font-size: 13px;
     color: var(--text-secondary);
-    line-height: 1.55;
-    margin-bottom: 12px;
+    line-height: 1.5;
+    margin-bottom: 8px; /* Taglarga yopishib turadi */
     font-weight: 500;
+    height: 58px; /* 3 qator uchun aniq balandlik (13*1.5*3) */
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3; /* 3 qatorda kesish */
     -webkit-box-orient: vertical;
     overflow: hidden;
-    min-height: 40px;
+    text-overflow: ellipsis;
 }
 
+/* 4. Taglar: Qat'iy 1 qator */
 .card-tags {
     display: flex;
     gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
-    min-height: 32px;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    margin-bottom: 10px; /* Statistikaga yopishib turadi */
+    height: 26px; /* 1 qator uchun aniq balandlik */
 }
 
 .tag {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 5px 12px;
+    padding: 4px 10px;
     background: #f1f5f9;
     border-radius: 20px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     color: var(--text-secondary);
-    transition: var(--transition-base);
-    border: 1.5px solid transparent;
+    white-space: nowrap;
 }
 
 .tag:hover {
@@ -634,24 +677,25 @@
 /* ===== CARD STATS ===== */
 .card-stats {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* Doim 4 ta ustun */
+    grid-auto-rows: 55px; /* Element balandligi */
     gap: 6px;
-    margin-bottom: 16px;
-    margin-top: auto;
+    margin-bottom: auto; /* 🚀 ENG MUHIMI: Shu kod tepa qismni bir-biriga yopishtirib, footerni eng pastga itaradi */
 }
 
 .card-stats .stat-item {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 4px;
-    padding: 8px 4px;
+    padding: 4px;
     background: #f8fafc;
-    border-radius: 10px;
+    border-radius: 8px;
     text-align: center;
-    transition: var(--transition-base);
-    border: 1.5px solid transparent;
-    cursor: default;
+    border: 1px solid transparent;
+    cursor: pointer;
+    overflow: hidden;
 }
 
 .card-stats .stat-item:hover {
@@ -661,17 +705,16 @@
 }
 
 .card-stats .stat-item i {
-    font-size: 14px;
-    color: #667eea;
-    margin-bottom: 1px;
+    font-size: 16px;
+    margin-bottom: 0;
 }
 
 .card-stats .stat-item span {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--text-secondary);
-    text-align: center;
-    line-height: 1.2;
+    font-size: 9px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 /* Hotels stat */
@@ -811,10 +854,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 10px;
+    padding-top: 12px;
     border-top: 1.5px solid #f1f5f9;
-    gap: 8px;
-    margin-top: 10px;
+    margin-top: 12px;
 }
 
 .price-box {
@@ -895,6 +937,7 @@
     gap: 6px;
     border-radius: 50px !important;
 }
+
 .btn-outline:hover {
     background: #667eea;
     color: white;
@@ -2006,9 +2049,11 @@
 .payment-icons {
     display: flex;
     justify-content: center;
+    align-items: center; /* 🚀 Rasmlar va ikonkalarni o'rtadan tekislaydi */
     gap: 40px;
     flex-wrap: wrap;
 }
+
 
 /* Visa — klassik ko'k */
 .payment-icons .fa-cc-visa {
@@ -2041,7 +2086,7 @@
 }
 
 .payment-icons i {
-    font-size: 56px;
+    font-size: 42px; /* 🚀 56px sal kattalik qiladi, rasmlar fonida silliq turishi uchun 42px qildik */
     color: #94a3b8;
     transition: var(--transition-base);
     cursor: pointer;
@@ -2049,7 +2094,24 @@
 
 .payment-icons i:hover {
     color: #667eea;
-    transform: scale(1.3) rotate(5deg);
+    transform: scale(1.2) rotate(5deg);
+}
+
+.payment-icons img {
+    height: 75px; /* 🚀 Rasmlarni Visa/Mastercard bilan bir xil hajmga keltirdik (oldin 26px edi) */
+    width: auto;
+    filter: none; /* 🚀 Kulrang effektni olib tashladik, o'z rangida chiqadi! */
+    opacity: 1; /* 🚀 Xiralikni olib tashladik, yorqin ko'rinadi */
+    transition: var(--transition-base);
+    cursor: pointer;
+}
+
+.payment-icons img:hover {
+    transform: scale(1.15) rotate(3deg); /* 🚀 Ustiga borganda chiroyli kattalashib, sal buriladi */
+}
+
+.payment-icons img.kaspi-logo {
+    height: 42px; /* Kaspini kichraytirdik */
 }
 
 .partners-section {
@@ -2618,8 +2680,14 @@
 }
 
 @keyframes pulse-red {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50%       { transform: scale(1.4); opacity: 0.6; }
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.4);
+        opacity: 0.6;
+    }
 }
 
 /* Feed container */
@@ -2757,8 +2825,14 @@
 }
 
 @keyframes fadeInBadge {
-    from { opacity: 0; transform: scale(0.8); }
-    to   { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* Empty state */
@@ -2780,24 +2854,91 @@
 }
 
 /* Dark mode */
-body.dark-mode .live-feed        { background: #0f172a; border-color: #1e293b; }
-body.dark-mode .feed-header h3   { color: #f1f5f9; }
-body.dark-mode .feed-item        { background: #1e293b; border-color: #334155; }
-body.dark-mode .feed-item-new    { background: rgba(102, 126, 234, .08); border-color: rgba(102, 126, 234, .25); }
-body.dark-mode .feed-name        { color: #f1f5f9; }
-body.dark-mode .feed-price       { color: #f1f5f9; }
-body.dark-mode .feed-container::after { background: linear-gradient(to bottom, transparent, #0f172a); }
+body.dark-mode .live-feed {
+    background: #0f172a;
+    border-color: #1e293b;
+}
+
+body.dark-mode .feed-header h3 {
+    color: #f1f5f9;
+}
+
+body.dark-mode .feed-item {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+body.dark-mode .feed-item-new {
+    background: rgba(102, 126, 234, .08);
+    border-color: rgba(102, 126, 234, .25);
+}
+
+body.dark-mode .feed-name {
+    color: #f1f5f9;
+}
+
+body.dark-mode .feed-price {
+    color: #f1f5f9;
+}
+
+body.dark-mode .feed-container::after {
+    background: linear-gradient(to bottom, transparent, #0f172a);
+}
 
 /* Responsive */
 @media (max-width: 768px) {
     .feed-item-meta {
         gap: 8px;
     }
+
     .feed-time {
         margin-left: 0;
         width: 100%;
     }
+
     .feed-item {
         padding: 12px 14px;
     }
+}
+
+/* ===== 3D RIBBON (LENTA) ===== */
+.ribbon-wrapper {
+    position: absolute;
+    top: 14px;
+    right: -8px; /* 🚀 Kartochkadan biroz chiqib turadi (3D effekt uchun) */
+    z-index: 10;
+}
+
+.ribbon {
+    position: relative;
+    background: #e50914; /* Rasmingizdagi to'q qizil rang */
+    color: white;
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 20px 6px 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Ribbonning chap tomonidagi kesilgan burchagi (Tail) */
+.ribbon::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 0;
+    border-width: 14px 12px 14px 0;
+    border-style: solid;
+    border-color: #e50914 #e50914 #e50914 transparent; /* 🚀 Kesilgan shaklni yasaydi */
+}
+
+/* Ribbonning o'ng tomondagi bukilgan qismi (Fold) */
+.ribbon::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -8px;
+    border-width: 8px 8px 0 0;
+    border-style: solid;
+    border-color: #990000 transparent transparent transparent; /* To'qroq qizil - soya effekti uchun */
 }

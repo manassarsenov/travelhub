@@ -13,7 +13,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction, IntegrityError
-from django.db.models import F
+from django.db.models import F, Q
+from django.db.models.aggregates import Count
 from django.forms.models import model_to_dict
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -329,6 +330,7 @@ class BookingStep2View(View):
             # Xatolikni log qilish
             return JsonResponse({'success': False, 'message': f'Error: {str(e)}'})
 
+
 class CheckPromoCodeView(View):
     """
     AJAX orqali promo-kodni validatsiya qilish uchun View.
@@ -485,98 +487,83 @@ logger = logging.getLogger(__name__)
 
 class ToggleReviewLikeView(View):
     """
-    Advanced & Secure Like Toggle API
+    Advanced, Secure & Optimized Like Toggle API
     """
 
     @transaction.atomic
     def post(self, request, review_id, *args, **kwargs):
-        # 1. XAVFSIZLIK: Foydalanuvchi tizimga kirganligini AJAX usulida tekshirish
+        # 1. XAVFSIZLIK: Foydalanuvchi tizimga kirganligini tekshirish
         if not request.user.is_authenticated:
             return JsonResponse({'error': 'Please sign in to like reviews.'}, status=401)
 
         user = request.user
 
-        # 2. XAVFSIZLIK (Anti-Spam): 1 soniyada ketma-ket bosishdan himoya
+        # 2. XAVFSIZLIK (Anti-Spam): 1.5 soniyada faqat bir marta bosish
         cache_key = f"like_cooldown_{user.id}_{review_id}"
         if cache.get(cache_key):
-            logger.warning(f"Spam detected: User {user.id} is clicking like too fast on review {review_id}")
-            return JsonResponse({'error': 'Too many requests. Please wait a moment.'}, status=429)
-
-        # 1.5 soniyaga qulflaymiz
+            return JsonResponse({'error': 'Too many requests. Please wait.'}, status=429)
         cache.set(cache_key, True, timeout=1.5)
 
         try:
-            from apps.models import Review, ActionLog  # Circular import oldini olish uchun
+            from apps.models import Review, ActionLog
 
-            # 3. XAVFSIZLIK (Race Condition): select_for_update() bazadagi shu qatorni
-            # tranzaksiya tugaguncha boshqa so'rovlardan qulflab turadi.
+            # 3. SELECT_FOR_UPDATE: Ma'lumotlar bazasida ushbu qatorni bloklash
             review = Review.objects.select_for_update().get(id=review_id)
+
+            # 4. ASOSIY MANTIQ
+            is_liked = review.likes.filter(id=user.id).exists()
+            old_likes_count = review.helpful_count  # Integer field dan olamiz
+
+            if is_liked:
+                review.likes.remove(user)
+                liked = False
+                verb_type = "unliked"
+                # 🚀 ATOMIK YANGILASH (F expression)
+                Review.objects.filter(id=review.id).update(helpful_count=F('helpful_count') - 1)
+                new_likes_count = old_likes_count - 1
+            else:
+                review.likes.add(user)
+                liked = True
+                verb_type = "liked"
+                # 🚀 ATOMIK YANGILASH (F expression)
+                Review.objects.filter(id=review.id).update(helpful_count=F('helpful_count') + 1)
+                new_likes_count = old_likes_count + 1
+
+            # 5. ACTION LOG (Audit Trail)
+            try:
+                content_type = ContentType.objects.get_for_model(Review)
+                ActionLog.objects.create(
+                    user=user,
+                    content_type=content_type,
+                    object_id=review.id,
+                    object_repr=f"Review ID: {review.id}",
+                    action="Toggle Review Like",
+                    verb=verb_type,
+                    category=ActionLog.Category.DATA,
+                    level=ActionLog.Level.INFO,
+                    message=f"{user.username} {verb_type} review {review.id}",
+                    ip_address=request.META.get('REMOTE_ADDR', ''),
+                    user_agent=request.META.get('HTTP_USER_AGENT', ''),
+                    path=request.path,
+                    method=request.method,
+                    pre_change_data={"likes_count": old_likes_count},
+                    post_change_data={"likes_count": new_likes_count},
+                    changes_diff={"likes_changed": new_likes_count - old_likes_count}
+                )
+            except Exception as log_e:
+                logger.error(f"ActionLog Error: {log_e}")
+
+            # 6. MUAFFAQIYATLI JAVOB
+            return JsonResponse({
+                'liked': liked,
+                'total_likes': new_likes_count
+            })
 
         except Review.DoesNotExist:
             return JsonResponse({'error': 'Review not found.'}, status=404)
         except Exception as e:
             logger.error(f"Database error during like toggle: {e}")
             return JsonResponse({'error': 'Server error.'}, status=500)
-
-        # 4. ASOSIY MANTIQ VA ACTION LOG
-        content_type = ContentType.objects.get_for_model(Review)
-
-        # O'zgarishdan oldingi holatni saqlab olamiz
-        old_likes_count = review.likes.count()
-        is_liked = review.likes.filter(id=user.id).exists()
-
-        if is_liked:
-            review.likes.remove(user)
-            liked = False
-            action_msg = f"{user.username} unliked review {review.id}"
-            verb_type = "unliked"
-            new_likes_count = old_likes_count - 1
-        else:
-            review.likes.add(user)
-            liked = True
-            action_msg = f"{user.username} liked review {review.id}"
-            verb_type = "liked"
-            new_likes_count = old_likes_count + 1
-
-        user_agent = request.META.get('HTTP_USER_AGENT', '')
-        user_ip = request.META.get('REMOTE_ADDR', '')
-
-        try:
-            ActionLog.objects.create(
-                user=user,
-                content_type=content_type,
-                object_id=review.id,
-                object_repr=f"Review ID: {review.id}",
-                action="Toggle Review Like",
-                verb=verb_type,
-                category=ActionLog.Category.DATA,
-                level=ActionLog.Level.INFO,
-                message=action_msg,
-
-                # Texnik va manzil maydonlari
-                ip_address=user_ip,
-                user_agent=user_agent,
-                path=request.path,
-                method=request.method,
-
-                # O'zgarishlar tarixi (Bo'sh '{}' o'rniga aniq faktlar yozamiz)
-                pre_change_data={"likes_count": old_likes_count},
-                post_change_data={"likes_count": new_likes_count},
-                changes_diff={"likes_changed": new_likes_count - old_likes_count},
-
-                # Faqat qo'shimcha ma'lumotgina extra_info'ga ketadi
-                extra_info={
-                    "is_ajax": request.headers.get('x-requested-with') == 'XMLHttpRequest'
-                }
-            )
-        except Exception as e:
-            logger.error(f"Failed to create detailed ActionLog for Like: {e}")
-
-        # 6. MUAFFAQIYATLI JAVOB
-        return JsonResponse({
-            'liked': liked,
-            'total_likes': review.likes.count()
-        })
 
 
 class SubmitReviewView(LoginRequiredMixin, View):
@@ -767,7 +754,6 @@ class WeatherView(View):
 
 
 class DestinationDetailView(DetailView):
-
     template_name = 'apps/destination_detail.html'
     context_object_name = 'destination'
     queryset = Destination.objects.select_related('city', 'country').prefetch_related(
@@ -781,29 +767,29 @@ class DestinationDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         destination = self.object
 
-
+        # 🚀 1. TARTIBLASH: helpful_count (Integer) bo'yicha saralaymiz.
+        # total_likes property bo'lgani uchun order_by ichida ishlamaydi.
         context['sidebar_reviews'] = destination.reviews.filter(
             is_visible=True
-        ).order_by('-total_likes', '-created_at', '-rating')[:10]
+        ).order_by('-helpful_count', '-created_at', '-rating')[:10]
 
+        # 2. O'XSHASH MANZILLAR
         context['similar_destinations'] = Destination.objects.filter(
             city=destination.city,
         ).exclude(id=destination.id).prefetch_related('images')[:5]
 
         context['today'] = timezone.now().date()
 
+        # 3. FOYDALANUVCHI IZOHI (agar login qilgan bo'lsa)
         if self.request.user.is_authenticated:
             context['user_review'] = Review.objects.filter(destination=destination, user=self.request.user).first()
         else:
             context['user_review'] = None
 
-        # 1. BAZADAN VAQTLARNI OLISH: Shu Destination'ga tegishli faol vaqtlarni ajratib olamiz
+        # 4. VAQTLARNI JSON QILIB FRONTENDGA UZATISH
         active_slots = destination.time_slots.filter(is_active=True).order_by('time')
-
-        # 2. Python Time obyektini JS tushunadigan '14:00' kabi String (matn) formatiga o'tkazamiz
         available_times = [slot.time.strftime('%H:%M') for slot in active_slots]
 
-        # 3. JSON qilib Frontendga uzatamiz
         backend_data = {
             'times': available_times,
             'slug': destination.slug
@@ -812,7 +798,6 @@ class DestinationDetailView(DetailView):
         context['backend_data_json'] = json.dumps(backend_data)
 
         return context
-
 
 class HomeTemplateView(TemplateView):
     template_name = 'apps/home.html'
@@ -825,7 +810,9 @@ class HomeTemplateView(TemplateView):
             is_flash_sale=True,
             flash_sale_end__gt=now,
             discount_percentage__gt=0
-        ).select_related('city').prefetch_related('tags', 'images', 'reviews').only(
+        ).select_related('city').prefetch_related('tags', 'images', 'reviews').annotate(
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
+        ).only(
             'slug', 'name', 'location', 'short_description',
             'hotels_count', 'duration', 'price', 'price_label',
             'discount_percentage', 'flash_sale_end',
@@ -836,7 +823,10 @@ class HomeTemplateView(TemplateView):
 
         trending_qs = Destination.objects.filter(
             is_trending=True
-        ).select_related('city').prefetch_related('tags', 'images', 'reviews').only(
+        ).select_related('city').prefetch_related('tags', 'images', 'reviews').annotate(
+
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
+        ).only(
             'slug', 'name', 'location', 'short_description',
             'hotels_count', 'duration', 'price_label',
             'price', 'has_flights', 'city__name'
@@ -846,13 +836,23 @@ class HomeTemplateView(TemplateView):
 
         featured_qs = Destination.objects.filter(
             is_featured=True
-        ).select_related('city').prefetch_related('tags', 'images', 'activities', 'reviews').only(
+        ).select_related('city').prefetch_related('tags', 'images', 'activities', 'reviews').annotate(
+
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
+        ).only(
             'slug', 'package_type', 'name', 'location',
             'short_description', 'duration', 'price_label', 'price',
             'restaurants_count', 'has_flights', 'city__name'
         )
         context['featured_total'] = featured_qs.count()
         context['featured_destinations'] = featured_qs[:3]
+
+        context['top_reviews'] = Review.objects.filter(
+            is_visible=True,
+            rating__gte=4
+        ).select_related(
+            'user', 'destination'
+        ).order_by('-rating', '-helpful_count', '-created_at')[:3]
 
         return context
 
