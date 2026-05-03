@@ -21,7 +21,8 @@ from apps.views import (AboutTemplateView, ActivateAccountView,
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home_page'),
     path('destinations/', DestinationsListView.as_view(), name='destinations_page'),
-    path('destinations/cities/<slug:region_slug>/', CitiesAjaxView.as_view(), name='cities-ajax'),
+    # path('destinations/cities/<slug:region_slug>/', CitiesAjaxView.as_view(), name='cities-ajax'),
+    path('destinations/cities/by-country/<str:country_code>/', CitiesAjaxView.as_view(), name='cities_by_country_ajax'),
     path('destinations/by-city/', DestinationByCityView.as_view(), name='destinations_by_city'),
     path('destinations/load-more/', LoadMoreDestinationsView.as_view(), name='load_more_destinations'),
 

@@ -122,7 +122,7 @@ class DestinationAdmin(admin.ModelAdmin):
         'is_flash_sale', 'is_trending', 'is_featured',
         'is_popular', 'is_free_cancellation',
         'trip_type', 'duration', 'season', 'package_type',
-        'city__region',
+        'city__country__region',
     )
 
     search_fields = ('name', 'location', 'city__name')

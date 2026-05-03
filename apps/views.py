@@ -13,11 +13,11 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction, IntegrityError
-from django.db.models import F, Q
-from django.db.models.aggregates import Count
+from django.db.models import F, Q, Prefetch, Count, Avg
 from django.forms.models import model_to_dict
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.encoding import force_bytes, force_str
@@ -858,69 +858,73 @@ class HomeTemplateView(TemplateView):
 
 
 class LoadMoreDestinationsView(View):
-
     def get(self, request):
-        section = request.GET.get('section', '')
-        offset = int(request.GET.get('offset', 3))
+        section = request.GET.get('section', 'all')  # Default 'all'
+        offset = int(request.GET.get('offset', 0))
+        city_slug = request.GET.get('city', '')  # Shahar bo'yicha filtr
         now = timezone.now()
 
+        # Sayohatlarni optimizatsiya qilingan holda olish (Baza yukini kamaytirish)
+        queryset = Destination.objects.select_related('city', 'city__country').prefetch_related(
+            'tags', 'images', 'reviews', 'activities'
+        ).annotate(
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True)),
+            avg_rating=Avg('reviews__rating', filter=Q(reviews__is_visible=True))
+        )
+
         if section == 'flash':
-            destinations = (Destination.objects.filter(
+            destinations = queryset.filter(
                 is_flash_sale=True,
                 flash_sale_end__gt=now,
                 discount_percentage__gt=0
-            ).select_related('city').prefetch_related('tags', 'images', 'reviews').only(
-                'slug', 'name', 'location', 'short_description',
-                'hotels_count', 'duration', 'price', 'price_label',
-                'discount_percentage', 'flash_sale_end',
-                'is_flash_sale', 'city__name', 'has_flights'
-            )
             )
             template_name = 'apps/partials/_flash_card.html'
-            context_var = 'flash_destinations'
 
         elif section == 'featured':
-            destinations = (Destination.objects.filter(
-                is_featured=True
-            ).select_related('city').prefetch_related('tags', 'images', 'activities', 'reviews').only(
-                'slug', 'package_type', 'name', 'location',
-                'short_description', 'duration', 'price_label', 'price',
-                'restaurants_count', 'has_flights', 'city__name'
-            )
-            )
+            destinations = queryset.filter(is_featured=True)
             template_name = 'apps/partials/_featured_card.html'
-            context_var = 'featured_destinations'
 
         elif section == 'trending':
-            destinations = (Destination.objects.filter(
-                is_trending=True
-            ).select_related('city').prefetch_related('tags', 'images', 'reviews').only(
-                'slug', 'name', 'location', 'short_description',
-                'hotels_count', 'duration', 'price_label',
-                'price', 'has_flights', 'city__name'
-            )
-            )
+            destinations = queryset.filter(is_trending=True)
             template_name = 'apps/partials/_trending_card.html'
-            context_var = 'trending_destinations'
 
-
+        # 🚀 YANGI: Umumiy ro'yxat va shahar bo'yicha filtr (Explore bo'limi uchun)
         else:
-            return HttpResponse('', status=400)
+            destinations = queryset
+            if city_slug:
+                destinations = destinations.filter(city__slug=city_slug)
+            template_name = 'apps/partials/destination_cards.html'
 
         total = destinations.count()
-        batch = destinations[offset: offset + 3]
-        has_more = (offset + 3) < total
+        # Bir safarda 6 ta element yuklash (Frontendga moslab)
+        limit = 6
+        batch = destinations[offset: offset + limit]
+        has_more = (offset + limit) < total
 
-        from django.template.loader import render_to_string
+        # HTML bo'lagini render qilish
         html = "".join([
             render_to_string(template_name, {'destination': d}, request=request)
             for d in batch
         ])
 
+        if not html and offset == 0:
+            return HttpResponse('<p class="no-results">No destinations found.</p>')
+
         response = HttpResponse(html)
         response['X-Has-More'] = str(has_more).lower()
         response['X-Total'] = str(total)
-        response['X-Next-Offset'] = str(offset + 3)
+        response['X-Next-Offset'] = str(offset + limit)
+
+        # JSON response for destinations.js loadMoreDestinations
+        accept_header = request.headers.get('accept', '')
+        if 'application/json' in accept_header or 'api' in request.path:
+            return JsonResponse({
+                'html': html,
+                'count': batch.count(),
+                'has_more': has_more,
+                'total': total
+            })
+
         return response
 
 
@@ -931,34 +935,58 @@ class DestinationsListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['regions'] = Region.objects.filter(level=0).order_by('id').prefetch_related('cities')
+
+        # Davlatlarni shaharlar soni bo'yicha kamayish tartibida saralaymiz
+        countries_qs = Country.objects.annotate(
+            city_count=Count('cities')
+        ).order_by('-city_count', 'name')
+
+        context['regions'] = Region.objects.filter(level=0).order_by('id').prefetch_related(
+            Prefetch('countries', queryset=countries_qs),
+            'countries__cities'
+        )
+        
+        # Initial count for the template
+        context['initial_count'] = 0
+        context['total_count'] = Destination.objects.count()
+
         return context
 
 
 class CitiesAjaxView(View):
+    def get(self, request, country_code):
+        # Davlatni topish
+        country = get_object_or_404(Country, code=country_code)
 
-    def get(self, request, region_slug):
-        region = get_object_or_404(Region, slug=region_slug, level=0)
-        all_cities = list(City.objects.filter(region=region))
-        offset = int(request.GET.get('offset', 0))
-        cities_slice = all_cities[offset:offset + 8]
+        # Shaharlarni filtrlaymiz
+        all_cities_query = City.objects.filter(country=country).order_by('-things_to_do')
+
+        # 6 tadan yuklash mantiqi (offset va limit)
+        try:
+            offset = int(request.GET.get('offset', 0))
+        except (ValueError, TypeError):
+            offset = 0
+            
+        limit = 6
+        cities_slice = all_cities_query[offset:offset + limit]
+        total_count = all_cities_query.count()
+
         cities_data = []
         for city in cities_slice:
-            cities_data.append(
-                {
-                    'name': city.name,
-                    'slug': city.slug,
-                    'things_to_do': city.things_to_do,
-                    'image_url': request.build_absolute_uri(city.image.url),
-                }
-            )
+            cities_data.append({
+                'name': city.name,
+                'slug': city.slug,
+                'things_to_do': city.things_to_do,
+                'image_url': city.image.url if city.image else '/static/apps/img/default.jpg',
+            })
+
         return JsonResponse({
             'cities': cities_data,
-            'total': len(all_cities),
-            'has_more': (offset + 8) < len(all_cities)
-
+            'country_name': country.name,
+            'total': total_count,
+            'has_more': (offset + limit) < total_count,
+            'offset': offset + len(cities_data)
         })
-
 
 class DestinationByCityView(View):
     def get(self, request):
@@ -966,7 +994,15 @@ class DestinationByCityView(View):
         offset = int(request.GET.get('offset', 0))
         limit = 6
 
-        all_destinations = Destination.objects.filter(city__slug=city_slug)
+        all_destinations = Destination.objects.filter(city__slug=city_slug).select_related(
+            'city', 'city__country'
+        ).prefetch_related(
+            'tags', 'images', 'reviews', 'activities'
+        ).annotate(
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True)),
+            avg_rating=Avg('reviews__rating', filter=Q(reviews__is_visible=True))
+        )
+        
         total = all_destinations.count()
         destinations = all_destinations[offset:offset + limit]
         has_more = (offset + limit) < total

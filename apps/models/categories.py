@@ -1,4 +1,4 @@
-from django.db.models import CASCADE, CharField, PositiveIntegerField
+from django.db.models import CASCADE, CharField, PositiveIntegerField, ForeignKey
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
@@ -20,7 +20,8 @@ class Region(SlugBaseModel, CreatedBaseModel, MPTTModel):
 class City(CreatedBaseModel, SlugBaseModel, ImageBaseModel):
     name = CharField(max_length=255)
     things_to_do = PositiveIntegerField(default=0)
-    region = TreeForeignKey('apps.Region', CASCADE, related_name='cities', limit_choices_to={'level': 0})
+    country = ForeignKey('apps.Country', on_delete=CASCADE, null=True,
+                         blank=True, related_name='cities')
 
     def __str__(self):
         return self.name

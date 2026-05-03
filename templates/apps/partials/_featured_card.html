@@ -1,12 +1,146 @@
-{% load static %}
-
-<div class="package-card" data-slug="{{ destination.slug }}">
+{#{% load static %}#}
+{##}
+{#<div class="package-card" data-slug="{{ destination.slug }}">#}
     {#                             data-city="Male"#}
     {#                             data-country="Maldives"#}
     {#                             data-lat="4.1755"#}
     {#                             data-lon="73.5093"#}
     {#                             data-hotels-url="/hotels/?city=maldives"#}
     {#                             data-flights-url="/flights/?to=maldives">#}
+{##}
+{#    <div class="package-header">#}
+{#        <span class="package-type">{{ destination.get_package_type_display }}</span>#}
+{#    </div>#}
+{##}
+{#    <div class="card-image-wrapper">#}
+{#        <div class="image-slider">#}
+{#            {% for img in destination.images.all %}#}
+{##}
+{##}
+{#                <img src="{{ img.image.url }}"#}
+{#                     alt="{{ destination.name }}">#}
+{##}
+{#            {% empty %}#}
+{#                <img src="{% static 'apps/img/default.avif' %}">#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#        {% if destination.images.count > 1 %}#}
+{#            <button class="slider-btn prev" onclick="slideImage(this, -1)">#}
+{#                <i class="fas fa-chevron-left"></i>#}
+{#            </button>#}
+{#            <button class="slider-btn next" onclick="slideImage(this, 1)">#}
+{#                <i class="fas fa-chevron-right"></i>#}
+{#            </button>#}
+{#            <div class="image-dots">#}
+{#                {% for img in destination.images.all %}#}
+{#                    <span class="dot{% if forloop.first %} active{% endif %}"></span>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        {% endif %}#}
+{##}
+{#        <button class="wishlist-btn" onclick="toggleWishlist(this)">#}
+{#            <i class="far fa-heart"></i>#}
+{#        </button>#}
+{#    </div>#}
+{##}
+{#    <div class="card-content">#}
+{##}
+{#        <div class="card-header">#}
+{#            <div class="destination-info">#}
+{#                <h3 title="{{ destination.name }}">{{ destination.name }}</h3>#}
+{#            </div>#}
+{#            <div class="rating-box">#}
+{#                <div class="rating-stars">#}
+{#                    <i class="fas fa-star"></i><span>{{ destination.rating }}</span>#}
+{#                </div>#}
+{#                <p class="reviews">({{ destination.reviews_count|default:"0" }} reviews)</p>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <p class="location">#}
+{#            <i class="fas fa-map-marker-alt"></i> {{ destination.location }}#}
+{#        </p>#}
+{##}
+{#        <a href="{% url 'destination_detail_page' destination.slug %}" class="desc-link">#}
+{#            <p class="card-description">#}
+{#                {{ destination.short_description|striptags }}#}
+{#            </p>#}
+{#        </a>#}
+{##}
+{#        <div class="card-tags">#}
+{#            {% for tag in destination.tags.all %}#}
+{#                <span class="tag"><i class="fas {{ tag.icon|default:'fa-check' }}"></i> {{ tag.name }}</span>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{##}
+{#        <div class="card-stats">#}
+{#            {% if destination.hotels_count > 0 %}#}
+{#                <button class="stat-item stat-hotels" onclick="goToHotels(this)">#}
+{#                    <i class="fas fa-hotel"></i>#}
+{#                    <span>{{ destination.hotels_count }} Hotels</span>#}
+{#                </button>#}
+{#            {% endif %}#}
+{##}
+{#            {% if destination.has_flights %}#}
+{#                <button class="stat-item stat-flights" onclick="goToFlights(this)" data-slug="{{ destination.slug }}"#}
+{#                        data-name="{{ destination.name }}">#}
+{#                    <i class="fas fa-plane"></i>#}
+{#                    <span>Flights</span>#}
+{#                </button>#}
+{#            {% else %}#}
+{#                <div class="stat-item stat-flights">#}
+{#                    <i class="fas fa-route"></i>#}
+{#                    <span>Tours</span>#}
+{#                </div>#}
+{#            {% endif %}#}
+{##}
+{#            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"#}
+{#                    data-lat="{{ destination.latitude }}"#}
+{#                    data-lon="{{ destination.longitude }}"#}
+{#                    data-city="{{ destination.location }}">#}
+{#                <i class="fas fa-sun weather-icon"></i>#}
+{#                <span class="weather-temp">Load...</span>#}
+{#            </button>#}
+{##}
+{#            <div class="stat-item">#}
+{#                <i class="fas fa-clock"></i>#}
+{#                <span>{{ destination.duration|default:"5-7 Days" }}</span>#}
+{#            </div>#}
+{##}
+{#            {% for activity in destination.activities.all %}#}
+{#                <button class="stat-item stat-activities" onclick="goToActivities(this)">#}
+{#                    <i class="fas {{ activity.icon|default:'fa-walking' }}"></i>#}
+{#                    <span>{{ activity.name }}</span>#}
+{#                </button>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{##}
+{#        <div class="card-footer">#}
+{#            <div class="price-box">#}
+{#                {% if destination.discount_percentage > 0 %}#}
+{#                    <div class="price-original">${{ destination.price }}</div>#}
+{#                {% endif %}#}
+{#                <div class="price-current">#}
+{#                    <span class="from">From</span>#}
+{#                    <span class="amount">${{ destination.discounted_price|default:destination.price }}</span>#}
+{#                    <span class="per">/ {{ destination.price_label }}</span>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="card-actions">#}
+{#                <button class="btn-outline"#}
+{#                        onclick="window.location.href='{% url 'destination_detail_page' destination.slug %}'">#}
+{#                    See Details <i class="fas fa-arrow-right"></i>#}
+{#                </button>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#    </div>#}
+{#</div>#}
+
+
+
+{% load static %}
+<div class="package-card" data-slug="{{ destination.slug }}">
 
     <div class="package-header">
         <span class="package-type">{{ destination.get_package_type_display }}</span>
@@ -15,57 +149,44 @@
     <div class="card-image-wrapper">
         <div class="image-slider">
             {% for img in destination.images.all %}
-
-
-                <img src="{{ img.image.url }}"
-                     alt="{{ destination.name }}">
-
+                <img src="{{ img.image.url }}" alt="{{ destination.name }}">
             {% empty %}
-                <img src="{% static 'apps/img/default.avif' %}">
+                <img src="{% static 'apps/img/default.avif' %}" alt="No Image">
             {% endfor %}
         </div>
         {% if destination.images.count > 1 %}
-            <button class="slider-btn prev" onclick="slideImage(this, -1)">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slider-btn next" onclick="slideImage(this, 1)">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+            <button class="slider-btn prev" onclick="slideImage(this, -1)"><i class="fas fa-chevron-left"></i></button>
+            <button class="slider-btn next" onclick="slideImage(this, 1)"><i class="fas fa-chevron-right"></i></button>
             <div class="image-dots">
                 {% for img in destination.images.all %}
                     <span class="dot{% if forloop.first %} active{% endif %}"></span>
                 {% endfor %}
             </div>
         {% endif %}
-
-        <button class="wishlist-btn" onclick="toggleWishlist(this)">
-            <i class="far fa-heart"></i>
-        </button>
+        <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i></button>
     </div>
 
     <div class="card-content">
-
         <div class="card-header">
             <div class="destination-info">
                 <h3 title="{{ destination.name }}">{{ destination.name }}</h3>
             </div>
             <div class="rating-box">
-                <div class="rating-stars">
-                    <i class="fas fa-star"></i><span>{{ destination.rating }}</span>
-                </div>
+                <div class="rating-stars"><i class="fas fa-star"></i><span>{{ destination.rating }}</span></div>
                 <p class="reviews">({{ destination.reviews_count|default:"0" }} reviews)</p>
             </div>
         </div>
 
-        <p class="location">
+        <p class="card-location" title="{{ destination.location }}">
             <i class="fas fa-map-marker-alt"></i> {{ destination.location }}
         </p>
 
-        <a href="{% url 'destination_detail_page' destination.slug %}" class="desc-link">
-            <p class="card-description">
-                {{ destination.short_description|striptags }}
-            </p>
-        </a>
+        <div class="card-description">
+            {{ destination.short_description|striptags|truncatechars:100 }}
+            {% if destination.short_description|length > 100 %}
+                <a href="{% url 'destination_detail_page' destination.slug %}" class="desc-read-more">...</a>
+            {% endif %}
+        </div>
 
         <div class="card-tags">
             {% for tag in destination.tags.all %}
@@ -73,53 +194,31 @@
             {% endfor %}
         </div>
 
-        <div class="card-stats">
+        <div class="card-stats featured-stats">
             {% if destination.hotels_count > 0 %}
                 <button class="stat-item stat-hotels" onclick="goToHotels(this)">
-                    <i class="fas fa-hotel"></i>
-                    <span>{{ destination.hotels_count }} Hotels</span>
+                    <i class="fas fa-hotel"></i><span>{{ destination.hotels_count }} Hotels</span>
                 </button>
             {% endif %}
-
-            {% if destination.has_flights %}
-                <button class="stat-item stat-flights" onclick="goToFlights(this)" data-slug="{{ destination.slug }}"
-                        data-name="{{ destination.name }}">
-                    <i class="fas fa-plane"></i>
-                    <span>Flights</span>
-                </button>
-            {% else %}
-                <div class="stat-item stat-flights">
-                    <i class="fas fa-route"></i>
-                    <span>Tours</span>
-                </div>
-            {% endif %}
-
-            <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
-                    data-lat="{{ destination.latitude }}"
-                    data-lon="{{ destination.longitude }}"
-                    data-city="{{ destination.location }}">
-                <i class="fas fa-sun weather-icon"></i>
-                <span class="weather-temp">Load...</span>
+            <button class="stat-item stat-flights" onclick="goToFlights(this)" data-slug="{{ destination.slug }}" data-name="{{ destination.name }}">
+                <i class="fas {% if destination.has_flights %}fa-plane{% else %}fa-route{% endif %}"></i>
+                <span>{% if destination.has_flights %}Flights{% else %}Tours{% endif %}</span>
             </button>
-
+            <button class="stat-item stat-weather" onclick="openWeatherModal(this)" data-lat="{{ destination.latitude }}" data-lon="{{ destination.longitude }}" data-city="{{ destination.location }}">
+                <i class="fas fa-sun weather-icon"></i><span class="weather-temp">Load...</span>
+            </button>
             <div class="stat-item">
-                <i class="fas fa-clock"></i>
-                <span>{{ destination.duration|default:"5-7 Days" }}</span>
+                <i class="fas fa-clock"></i><span>{{ destination.duration|default:"5-7 Days" }}</span>
             </div>
-
-            {% for activity in destination.activities.all %}
+            {% for activity in destination.activities.all|slice:":2" %}
                 <button class="stat-item stat-activities" onclick="goToActivities(this)">
-                    <i class="fas {{ activity.icon|default:'fa-walking' }}"></i>
-                    <span>{{ activity.name }}</span>
+                    <i class="fas {{ activity.icon|default:'fa-walking' }}"></i><span>{{ activity.name }}</span>
                 </button>
             {% endfor %}
         </div>
 
         <div class="card-footer">
             <div class="price-box">
-                {% if destination.discount_percentage > 0 %}
-                    <div class="price-original">${{ destination.price }}</div>
-                {% endif %}
                 <div class="price-current">
                     <span class="from">From</span>
                     <span class="amount">${{ destination.discounted_price|default:destination.price }}</span>
@@ -127,12 +226,10 @@
                 </div>
             </div>
             <div class="card-actions">
-                <button class="btn-outline"
-                        onclick="window.location.href='{% url 'destination_detail_page' destination.slug %}'">
+                <a href="{% url 'destination_detail_page' destination.slug %}" class="btn-outline">
                     See Details <i class="fas fa-arrow-right"></i>
-                </button>
+                </a>
             </div>
         </div>
-
     </div>
 </div>

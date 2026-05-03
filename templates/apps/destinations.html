@@ -107,47 +107,136 @@
          EXPLORE SECTION — Booking.com style tabs + city grid
          City bosilganda bu section yashirinadi
     ============================================================ -->
+    {#    <section class="explore-section" id="explore-section">#}
+    {#        <div class="explore-header">#}
+    {#            <h2>Explore more destinations</h2>#}
+    {#            <p>Find things to do in cities around the world</p>#}
+    {#        </div>#}
+    {##}
+    {#        <div class="category-tabs-wrap">#}
+    {##}
+    {#            <div class="category-tabs" id="category-tabs">#}
+    {#                {% for region in regions %}#}
+    {#                    <button class="cat-tab {% if forloop.first %}active{% endif %}"#}
+    {#                            data-region="{{ region.slug }}"#}
+    {#                            onclick="switchRegion('{{ region.slug }}', this)">#}
+    {#                        <span class="tab-icon">{{ region.imoji }}</span> {{ region.name }}#}
+    {#                    </button>#}
+    {#                {% endfor %}#}
+    {##}
+    {#            </div>#}
+    {#        </div>#}
+    {##}
+    {#        {% for region in regions %}#}
+    {#            <div class="cities-panel {% if forloop.first %}active{% endif %}"#}
+    {#                 id="panel-{{ region.slug }}"#}
+    {#                 data-loaded="{% if forloop.first %}true{% else %}false{% endif %}"#}
+    {#                 data-total="{{ region.cities.count }}">#}
+    {#                <div class="cities-grid">#}
+    {#                    {% if forloop.first %}#}
+    {#                        {% for city in region.cities.all|slice:":8" %}#}
+    {#                            <div class="city-card" onclick="filterByCity('{{ city.slug }}','{{ city.name }}')">#}
+    {#                                <img src="{{ city.image.url }}" alt="{{ city.name }}" loading="lazy">#}
+    {#                                <div class="city-card-overlay"></div>#}
+    {#                                <div class="city-card-info">#}
+    {#                                    <div class="city-card-name">{{ city.name }}</div>#}
+    {#                                    <div class="city-card-things">{{ city.things_to_do }} things to do</div>#}
+    {#                                </div>#}
+    {#                            </div>#}
+    {#                        {% endfor %}#}
+    {#                    {% endif %}#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        {% endfor %}#}
+    {##}
+    {#        <div class="load-more-container">#}
+    {#            <button class="btn-load-more" id="cities-load-more-btn" onclick="loadMoreCities()" style="display:none;">#}
+    {#                <i class="fas fa-plus-circle"></i> Load More Cities#}
+    {#            </button>#}
+    {#            <p class="showing-text" id="cities-showing-text"></p>#}
+    {#        </div>#}
+    {##}
+    {#    </section>#}
+    <!-- END explore-section -->
+
     <section class="explore-section" id="explore-section">
         <div class="explore-header">
             <h2>Explore more destinations</h2>
             <p>Find things to do in cities around the world</p>
         </div>
 
-        <div class="category-tabs-wrap">
+        <div class="explore-navigation-wrap">
+            <div class="nav-row">
+                <span class="row-label">Region</span>
+                <div class="row-tabs" id="region-tabs">
+                    {% for region in regions %}
+                        <button class="nav-btn region-btn {% if forloop.first %}active{% endif %}"
+                                data-region="{{ region.slug }}"
+                                onclick="switchRegion('{{ region.slug }}', this)">
+                            <span class="tab-icon">{{ region.imoji }}</span> {{ region.name }}
+                        </button>
+                    {% endfor %}
+                </div>
+            </div>
 
-            <div class="category-tabs" id="category-tabs">
-                {% for region in regions %}
-                    <button class="cat-tab {% if forloop.first %}active{% endif %}"
-                            data-region="{{ region.slug }}"
-                            onclick="switchRegion('{{ region.slug }}', this)">
-                        <span class="tab-icon">{{ region.imoji }}</span> {{ region.name }}
-                    </button>
-                {% endfor %}
-
+            <div class="nav-row">
+                <span class="row-label">Country</span>
+                <div class="row-tabs" id="country-tabs-container">
+                    {% for region in regions %}
+                        <div class="country-group {% if forloop.first %}active{% endif %}"
+                             id="countries-{{ region.slug }}">
+                            {% for country in region.countries.all %}
+                                <button class="nav-btn country-btn {% if forloop.parentloop.first and forloop.first %}active{% endif %}"
+                                        data-country="{{ country.code }}"
+                                        onclick="switchCountry('{{ country.code }}', this)">
+                                    <span class="tab-icon">{{ country.flag }}</span> {{ country.name }}
+                                </button>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
 
-        {% for region in regions %}
-            <div class="cities-panel {% if forloop.first %}active{% endif %}"
-                 id="panel-{{ region.slug }}"
-                 data-loaded="{% if forloop.first %}true{% else %}false{% endif %}"
-                 data-total="{{ region.cities.count }}">
-                <div class="cities-grid">
-                    {% if forloop.first %}
-                        {% for city in region.cities.all|slice:":8" %}
-                            <div class="city-card" onclick="filterByCity('{{ city.slug }}','{{ city.name }}')">
-                                <img src="{{ city.image.url }}" alt="{{ city.name }}" loading="lazy">
-                                <div class="city-card-overlay"></div>
-                                <div class="city-card-info">
-                                    <div class="city-card-name">{{ city.name }}</div>
-                                    <div class="city-card-things">{{ city.things_to_do }} things to do</div>
+        <div class="cities-container">
+            {% for region in regions %}
+                {% for country in region.countries.all %}
+                    <div class="cities-panel {% if forloop.parentloop.first and forloop.first %}active{% endif %}"
+                         id="panel-{{ country.code }}"
+                         data-total="{{ country.cities.count }}"
+                         data-loaded="{% if forloop.parentloop.first and forloop.first %}true{% else %}false{% endif %}">
+                        <div class="cities-grid">
+                            {% for city in country.cities.all|slice:":6" %}
+                                <div class="city-card" onclick="filterByCity('{{ city.slug }}','{{ city.name }}')">
+                                    <img src="
+                                            {% if city.image %}{{ city.image.url }}{% else %}{% static 'apps/img/default.jpg' %}{% endif %}"
+                                         alt="{{ city.name }}" loading="lazy">
+                                    <div class="city-card-overlay"></div>
+
+                                    <div class="city-card-badges">
+                                        {% if forloop.counter|divisibleby:2 %}
+                                            <span class="badge badge-premium">Premium</span>
+                                        {% else %}
+                                            <span class="badge badge-rating"><i class="fas fa-star"
+                                                                                style="color:#f59e0b;"></i> A rating</span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="city-card-info">
+                                        <div class="city-card-name">{{ city.name }}, {{ country.name }}</div>
+                                        <div class="city-card-things">{{ city.things_to_do }}+ curated things to do
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
-        {% endfor %}
+                            {% empty %}
+                                <p style="text-align: center; grid-column: 1/-1; color: var(--gray-500);">No cities
+                                    found for {{ country.name }}.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
 
         <div class="load-more-container">
             <button class="btn-load-more" id="cities-load-more-btn" onclick="loadMoreCities()" style="display:none;">
@@ -155,9 +244,7 @@
             </button>
             <p class="showing-text" id="cities-showing-text"></p>
         </div>
-
     </section>
-    <!-- END explore-section -->
 
 
     <!-- ============================================================
@@ -208,22 +295,22 @@
                             <span>$<span id="max-price-value">5000</span></span>
                         </div>
                     </div>
-{#                    <div class="filter-group">#}
-{#                        <h4><i class="fas fa-globe-asia"></i> Region</h4>#}
-{#                        <div class="filter-options">#}
-{#                            <label class="filter-checkbox"><input type="checkbox" name="region"#}
-{#                                                                  value="asia"><span>Asia</span><span#}
-{#                                    class="count">(45)</span></label>#}
-{#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="europe"><span>Europe</span><span#}
-{#                                    class="count">(67)</span></label>#}
-{#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="africa"><span>Africa</span><span#}
-{#                                    class="count">(23)</span></label>#}
-{#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="americas"><span>Americas</span><span#}
-{#                                    class="count">(38)</span></label>#}
-{#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="oceania"><span>Oceania</span><span#}
-{#                                    class="count">(12)</span></label>#}
-{#                        </div>#}
-{#                    </div>#}
+                    {#                    <div class="filter-group">#}
+                    {#                        <h4><i class="fas fa-globe-asia"></i> Region</h4>#}
+                    {#                        <div class="filter-options">#}
+                    {#                            <label class="filter-checkbox"><input type="checkbox" name="region"#}
+                    {#                                                                  value="asia"><span>Asia</span><span#}
+                    {#                                    class="count">(45)</span></label>#}
+                    {#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="europe"><span>Europe</span><span#}
+                    {#                                    class="count">(67)</span></label>#}
+                    {#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="africa"><span>Africa</span><span#}
+                    {#                                    class="count">(23)</span></label>#}
+                    {#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="americas"><span>Americas</span><span#}
+                    {#                                    class="count">(38)</span></label>#}
+                    {#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="oceania"><span>Oceania</span><span#}
+                    {#                                    class="count">(12)</span></label>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
                     <div class="filter-group">
                         <h4><i class="fas fa-suitcase"></i> Trip Type</h4>
                         <div class="filter-options">

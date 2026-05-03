@@ -38,8 +38,12 @@ class Destination(SlugBaseModel, CreatedBaseModel):
         ADVENTURE = 'adventure', 'Adventure'
         BUSINESS = 'business', 'Business'
 
-    city = ForeignKey('apps.City', CASCADE, related_name='destinations',
-                      limit_choices_to={'region__level': 0})
+    city = ForeignKey(
+        'apps.City',
+        on_delete=CASCADE,
+        related_name='destinations',
+        limit_choices_to={'country__region__level': 0}  
+    )
     tags = ManyToManyField('apps.Tag', blank=True, related_name='destinations')
     activities = ManyToManyField('apps.Activity', blank=True, related_name='destinations')
     country = ForeignKey('apps.Country', SET_NULL, null=True, blank=True, related_name='destinations')
