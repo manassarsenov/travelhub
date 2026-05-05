@@ -142,11 +142,10 @@
 {% load static %}
 <div class="package-card" data-slug="{{ destination.slug }}">
 
-    <div class="package-header">
-        <span class="package-type">{{ destination.get_package_type_display }}</span>
-    </div>
-
     <div class="card-image-wrapper">
+        <div class="package-header">
+            <span class="package-type">{{ destination.get_package_type_display }}</span>
+        </div>
         <div class="image-slider">
             {% for img in destination.images.all %}
                 <img src="{{ img.image.url }}" alt="{{ destination.name }}">

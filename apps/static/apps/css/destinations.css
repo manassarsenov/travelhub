@@ -973,38 +973,40 @@
 /* ===== DEAL TIMER ===== */
 .deal-timer {
     position: absolute;
-    top: 14px;
-    right: 14px;
-    background: rgba(0, 0, 0, 0.72);
-    backdrop-filter: blur(15px);
-    padding: 10px 14px;
-    border-radius: 14px;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    padding: 6px 12px;
+    border-radius: 12px;
     display: flex;
     gap: 8px;
     z-index: 10;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .timer-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3px;
+    gap: 1px;
+    min-width: 30px;
 }
 
 .timer-item span {
-    font-size: 17px;
-    font-weight: 900;
-    color: white;
-    line-height: 1;
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
 }
 
 .timer-item small {
     font-size: 8px;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.7);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
     font-weight: 700;
+    letter-spacing: 0.3px;
 }
 
 /* ===== CARD BADGES ===== */
@@ -1035,20 +1037,32 @@
 
 /* ===== PACKAGE CARD SPECIFICS ===== */
 .package-header {
-    background: var(--gradient-primary);
-    padding: 14px 18px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+    padding: 12px 18px;
+    text-align: left;
+    z-index: 10;
+    pointer-events: none;
 }
 
 .package-type {
     color: white;
     font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 2px;
-    position: relative;
-    z-index: 1;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.package-card .card-image-wrapper {
+    height: 280px !important; /* Ensure consistent height */
+}
+
+.package-card:hover .card-image-wrapper {
+    height: 280px !important; /* Prevent jumping if hover effect was different */
 }
 
 .package-header::before {
@@ -1075,9 +1089,29 @@
 }
 
 .featured-stats {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 8px !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 4px !important;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.featured-stats .stat-item {
+    flex: 1;
+    min-width: 0;
+    padding: 6px 2px !important;
+}
+
+.featured-stats .stat-item i {
+    font-size: 13px !important;
+}
+
+.featured-stats .stat-item span {
+    font-size: 9px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 .package-footer {

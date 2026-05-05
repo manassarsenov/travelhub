@@ -20,19 +20,75 @@ function initFlashTimers() {
                 return;
             }
 
-            const hours = Math.floor(diff / 3600000);
+            const totalHours = Math.floor(diff / 3600000);
             const mins = Math.floor((diff % 3600000) / 60000);
             const secs = Math.floor((diff % 60000) / 1000);
 
+            const daysEl = timer.querySelector('.days');
+            const dayItem = timer.querySelector('.day-item');
             const hoursEl = timer.querySelector('.hours');
             const minsEl = timer.querySelector('.minutes');
             const secsEl = timer.querySelector('.seconds');
             
-            if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+            if (totalHours >= 24) {
+                const days = Math.floor(totalHours / 24);
+                const hours = totalHours % 24;
+                if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+                if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+                if (dayItem) dayItem.style.display = 'flex';
+            } else {
+                if (hoursEl) hoursEl.textContent = String(totalHours).padStart(2, '0');
+                if (dayItem) dayItem.style.display = 'none';
+            }
+            
             if (minsEl) minsEl.textContent = String(mins).padStart(2, '0');
             if (secsEl) secsEl.textContent = String(secs).padStart(2, '0');
         }, 1000);
     });
+}
+
+function loadMoreCities() {
+    const btn = document.getElementById('cities-load-more-btn');
+    if (!btn || btn.disabled) return;
+
+    const countryCode = btn.dataset.country;
+    const offset = parseInt(btn.dataset.offset || 0);
+    const lang = getCurrentLang();
+    const panel = document.getElementById('panel-' + countryCode);
+    const grid = panel.querySelector('.cities-grid');
+
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.disabled = true;
+
+    fetch(`/${lang}/destinations/cities/by-country/${countryCode}/?offset=${offset}`)
+        .then(res => res.json())
+        .then(data => {
+            data.cities.forEach(city => {
+                grid.insertAdjacentHTML('beforeend', `
+                    <div class="city-card" onclick="filterByCity('${city.slug}','${city.name}')">
+                        <img src="${city.image_url}" alt="${city.name}" loading="lazy">
+                        <div class="city-card-overlay"></div>
+                        <div class="city-card-info">
+                            <div class="city-card-name">${city.name}, ${data.country_name || ''}</div>
+                            <div class="city-card-things">${city.things_to_do}+ curated things to do</div>
+                        </div>
+                    </div>`);
+            });
+
+            btn.dataset.offset = data.offset;
+            updateLoadMoreUI(panel);
+            
+            if (!data.has_more) {
+                btn.style.display = 'none';
+            } else {
+                btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Cities';
+                btn.disabled = false;
+            }
+        })
+        .catch(() => {
+            btn.innerHTML = '<i class="fas fa-redo"></i> Try Again';
+            btn.disabled = false;
+        });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
