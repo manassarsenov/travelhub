@@ -800,61 +800,61 @@ class DestinationDetailView(DetailView):
         return context
 
 class HomeTemplateView(TemplateView):
-    template_name = 'apps/test_vaqtinsha.html'
+    template_name = 'apps/home.html'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     now = timezone.now()
-    #
-    #     flash_qs = Destination.objects.filter(
-    #         is_flash_sale=True,
-    #         flash_sale_end__gt=now,
-    #         discount_percentage__gt=0
-    #     ).select_related('city').prefetch_related('tags', 'images', 'reviews').annotate(
-    #         reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
-    #     ).only(
-    #         'slug', 'name', 'location', 'short_description',
-    #         'hotels_count', 'duration', 'price', 'price_label',
-    #         'discount_percentage', 'flash_sale_end',
-    #         'is_flash_sale', 'city__name', 'has_flights'
-    #     )
-    #     context['flash_total'] = flash_qs.count()
-    #     context['flash_destinations'] = flash_qs[:3]
-    #
-    #     trending_qs = Destination.objects.filter(
-    #         is_trending=True
-    #     ).select_related('city').prefetch_related('tags', 'images', 'reviews').annotate(
-    #
-    #         reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
-    #     ).only(
-    #         'slug', 'name', 'location', 'short_description',
-    #         'hotels_count', 'duration', 'price_label',
-    #         'price', 'has_flights', 'city__name'
-    #     )
-    #     context['trending_total'] = trending_qs.count()
-    #     context['trending_destinations'] = trending_qs[:3]
-    #
-    #     featured_qs = Destination.objects.filter(
-    #         is_featured=True
-    #     ).select_related('city').prefetch_related('tags', 'images', 'activities', 'reviews').annotate(
-    #
-    #         reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
-    #     ).only(
-    #         'slug', 'package_type', 'name', 'location',
-    #         'short_description', 'duration', 'price_label', 'price',
-    #         'restaurants_count', 'has_flights', 'city__name'
-    #     )
-    #     context['featured_total'] = featured_qs.count()
-    #     context['featured_destinations'] = featured_qs[:3]
-    #
-    #     context['top_reviews'] = Review.objects.filter(
-    #         is_visible=True,
-    #         rating__gte=4
-    #     ).select_related(
-    #         'user', 'destination'
-    #     ).order_by('-rating', '-helpful_count', '-created_at')[:3]
-    #
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        now = timezone.now()
+
+        flash_qs = Destination.objects.filter(
+            is_flash_sale=True,
+            flash_sale_end__gt=now,
+            discount_percentage__gt=0
+        ).select_related('city').prefetch_related('tags', 'images', 'reviews').annotate(
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
+        ).only(
+            'slug', 'name', 'location', 'short_description',
+            'hotels_count', 'duration', 'price', 'price_label',
+            'discount_percentage', 'flash_sale_end',
+            'is_flash_sale', 'city__name', 'has_flights'
+        )
+        context['flash_total'] = flash_qs.count()
+        context['flash_destinations'] = flash_qs[:3]
+
+        trending_qs = Destination.objects.filter(
+            is_trending=True
+        ).select_related('city').prefetch_related('tags', 'images', 'reviews').annotate(
+
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
+        ).only(
+            'slug', 'name', 'location', 'short_description',
+            'hotels_count', 'duration', 'price_label',
+            'price', 'has_flights', 'city__name'
+        )
+        context['trending_total'] = trending_qs.count()
+        context['trending_destinations'] = trending_qs[:3]
+
+        featured_qs = Destination.objects.filter(
+            is_featured=True
+        ).select_related('city').prefetch_related('tags', 'images', 'activities', 'reviews').annotate(
+
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
+        ).only(
+            'slug', 'package_type', 'name', 'location',
+            'short_description', 'duration', 'price_label', 'price',
+            'restaurants_count', 'has_flights', 'city__name'
+        )
+        context['featured_total'] = featured_qs.count()
+        context['featured_destinations'] = featured_qs[:3]
+
+        context['top_reviews'] = Review.objects.filter(
+            is_visible=True,
+            rating__gte=4
+        ).select_related(
+            'user', 'destination'
+        ).order_by('-rating', '-helpful_count', '-created_at')[:3]
+
+        return context
 
 
 class LoadMoreDestinationsView(View):
