@@ -209,6 +209,7 @@
                             {% for city in country.cities.all|slice:":6" %}
                                 <div class="city-card" onclick="filterByCity('{{ city.slug }}','{{ city.name }}')">
                                     <img src="
+
                                             {% if city.image %}{{ city.image.url }}{% else %}{% static 'apps/img/default.jpg' %}{% endif %}"
                                          alt="{{ city.name }}" loading="lazy">
                                     <div class="city-card-overlay"></div>
@@ -266,6 +267,104 @@
                 </div>
 
                 <!-- SIDEBAR -->
+                {#                <aside class="filters-sidebar">#}
+                {#                    <div class="filters-header">#}
+                {#                        <h3>Filters</h3>#}
+                {#                        <button class="clear-filters" onclick="clearAllFilters()">#}
+                {#                            <i class="fas fa-redo"></i> Clear All#}
+                {#                        </button>#}
+                {#                    </div>#}
+                {#                    <div class="view-toggle">#}
+                {#                        <button class="view-btn active" onclick="switchView('grid')">#}
+                {#                            <i class="fas fa-th"></i>#}
+                {#                        </button>#}
+                {#                        <button class="view-btn" onclick="switchView('list')">#}
+                {#                            <i class="fas fa-list"></i>#}
+                {#                        </button>#}
+                {#                        <button class="view-btn" onclick="switchView('map')">#}
+                {#                            <i class="fas fa-map"></i>#}
+                {#                        </button>#}
+                {#                    </div>#}
+                {#                    <div class="filter-group">#}
+                {#                        <h4><i class="fas fa-dollar-sign"></i> Price Range</h4>#}
+                {#                        <div class="price-range-slider">#}
+                {#                            <input type="range" id="min-price" min="0" max="5000" value="0">#}
+                {#                            <input type="range" id="max-price" min="0" max="5000" value="5000">#}
+                {#                        </div>#}
+                {#                        <div class="price-values">#}
+                {#                            <span>$<span id="min-price-value">0</span></span>#}
+                {#                            <span>$<span id="max-price-value">5000</span></span>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                    <div class="filter-group">#}
+                {#                        <h4><i class="fas fa-globe-asia"></i> Region</h4>#}
+                {#                        <div class="filter-options">#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="region"#}
+                {#                                                                  value="asia"><span>Asia</span><span#}
+                {#                                    class="count">(45)</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="europe"><span>Europe</span><span#}
+                {#                                    class="count">(67)</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="africa"><span>Africa</span><span#}
+                {#                                    class="count">(23)</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="americas"><span>Americas</span><span#}
+                {#                                    class="count">(38)</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="oceania"><span>Oceania</span><span#}
+                {#                                    class="count">(12)</span></label>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                    <div class="filter-group">#}
+                {#                        <h4><i class="fas fa-suitcase"></i> Trip Type</h4>#}
+                {#                        <div class="filter-options">#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="type" value="adventure"><span>Adventure</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="type" value="beach"><span>Beach & Relaxation</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="type" value="cultural"><span>Cultural</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="type" value="nature"><span>Nature & Wildlife</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="type" value="city"><span>City Tours</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="type" value="romantic"><span>Romantic</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="type" value="family"><span>Family</span></label>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                    <div class="filter-group">#}
+                {#                        <h4><i class="fas fa-clock"></i> Duration</h4>#}
+                {#                        <div class="filter-options">#}
+                {#                            <label class="filter-radio"><input type="radio" name="duration" value="weekend"><span>Weekend (1-3 days)</span></label>#}
+                {#                            <label class="filter-radio"><input type="radio" name="duration" value="short"><span>Short Trip (4-7 days)</span></label>#}
+                {#                            <label class="filter-radio"><input type="radio" name="duration" value="long"><span>Long Vacation (8-14 days)</span></label>#}
+                {#                            <label class="filter-radio"><input type="radio" name="duration" value="extended"><span>Extended (15+ days)</span></label>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                    <div class="filter-group">#}
+                {#                        <h4><i class="fas fa-star"></i> Rating</h4>#}
+                {#                        <div class="filter-options">#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="rating" value="5"><span>★★★★★ Only</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="rating" value="4"><span>★★★★☆ & up</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="rating" value="3"><span>★★★☆☆ & up</span></label>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                    <div class="filter-group">#}
+                {#                        <h4><i class="fas fa-hiking"></i> Activities</h4>#}
+                {#                        <div class="filter-options">#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="activity" value="hiking"><span>Hiking & Trekking</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="activity"#}
+                {#                                                                  value="watersports"><span>Water Sports</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="activity"#}
+                {#                                                                  value="shopping"><span>Shopping</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="activity"#}
+                {#                                                                  value="nightlife"><span>Nightlife</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="activity" value="food"><span>Food & Cuisine</span></label>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                    <div class="filter-group">#}
+                {#                        <h4><i class="fas fa-calendar-alt"></i> Best Season</h4>#}
+                {#                        <div class="filter-options">#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="season" value="spring"><span>🌸 Spring</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="season" value="summer"><span>☀️ Summer</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="season" value="autumn"><span>🍂 Autumn</span></label>#}
+                {#                            <label class="filter-checkbox"><input type="checkbox" name="season" value="winter"><span>❄️ Winter</span></label>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                </aside>#}
+
                 <aside class="filters-sidebar">
                     <div class="filters-header">
                         <h3>Filters</h3>
@@ -273,6 +372,7 @@
                             <i class="fas fa-redo"></i> Clear All
                         </button>
                     </div>
+
                     <div class="view-toggle">
                         <button class="view-btn active" onclick="switchView('grid')">
                             <i class="fas fa-th"></i>
@@ -284,82 +384,77 @@
                             <i class="fas fa-map"></i>
                         </button>
                     </div>
+
                     <div class="filter-group">
                         <h4><i class="fas fa-dollar-sign"></i> Price Range</h4>
                         <div class="price-range-slider">
-                            <input type="range" id="min-price" min="0" max="5000" value="0">
-                            <input type="range" id="max-price" min="0" max="5000" value="5000">
+                            <input type="range" id="min-price" min="{{ min_price|default:0 }}"
+                                   max="{{ max_price|default:5000 }}" value="{{ min_price|default:0 }}">
+                            <input type="range" id="max-price" min="{{ min_price|default:0 }}"
+                                   max="{{ max_price|default:5000 }}" value="{{ max_price|default:5000 }}">
                         </div>
                         <div class="price-values">
-                            <span>$<span id="min-price-value">0</span></span>
-                            <span>$<span id="max-price-value">5000</span></span>
+                            <span>$<span id="min-price-value">{{ min_price|default:0 }}</span></span>
+                            <span>$<span id="max-price-value">{{ max_price|default:5000 }}</span></span>
                         </div>
                     </div>
-                    {#                    <div class="filter-group">#}
-                    {#                        <h4><i class="fas fa-globe-asia"></i> Region</h4>#}
-                    {#                        <div class="filter-options">#}
-                    {#                            <label class="filter-checkbox"><input type="checkbox" name="region"#}
-                    {#                                                                  value="asia"><span>Asia</span><span#}
-                    {#                                    class="count">(45)</span></label>#}
-                    {#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="europe"><span>Europe</span><span#}
-                    {#                                    class="count">(67)</span></label>#}
-                    {#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="africa"><span>Africa</span><span#}
-                    {#                                    class="count">(23)</span></label>#}
-                    {#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="americas"><span>Americas</span><span#}
-                    {#                                    class="count">(38)</span></label>#}
-                    {#                            <label class="filter-checkbox"><input type="checkbox" name="region" value="oceania"><span>Oceania</span><span#}
-                    {#                                    class="count">(12)</span></label>#}
-                    {#                        </div>#}
-                    {#                    </div>#}
+
                     <div class="filter-group">
                         <h4><i class="fas fa-suitcase"></i> Trip Type</h4>
                         <div class="filter-options">
-                            <label class="filter-checkbox"><input type="checkbox" name="type" value="adventure"><span>Adventure</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="type" value="beach"><span>Beach & Relaxation</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="type" value="cultural"><span>Cultural</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="type" value="nature"><span>Nature & Wildlife</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="type" value="city"><span>City Tours</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="type" value="romantic"><span>Romantic</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="type" value="family"><span>Family</span></label>
+                            {% for value, label in trip_types %}
+                                <label class="filter-checkbox">
+                                    <input type="checkbox" name="type" value="{{ value }}">
+                                    <span>{{ label }}</span>
+                                </label>
+                            {% endfor %}
                         </div>
                     </div>
+
                     <div class="filter-group">
                         <h4><i class="fas fa-clock"></i> Duration</h4>
                         <div class="filter-options">
-                            <label class="filter-radio"><input type="radio" name="duration" value="weekend"><span>Weekend (1-3 days)</span></label>
-                            <label class="filter-radio"><input type="radio" name="duration" value="short"><span>Short Trip (4-7 days)</span></label>
-                            <label class="filter-radio"><input type="radio" name="duration" value="long"><span>Long Vacation (8-14 days)</span></label>
-                            <label class="filter-radio"><input type="radio" name="duration" value="extended"><span>Extended (15+ days)</span></label>
+                            {% for value, label in durations %}
+                                <label class="filter-radio">
+                                    <input type="radio" name="duration" value="{{ value }}">
+                                    <span>{{ label }}</span>
+                                </label>
+                            {% endfor %}
                         </div>
                     </div>
+
                     <div class="filter-group">
                         <h4><i class="fas fa-star"></i> Rating</h4>
                         <div class="filter-options">
-                            <label class="filter-checkbox"><input type="checkbox" name="rating" value="5"><span>★★★★★ Only</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="rating" value="4"><span>★★★★☆ & up</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="rating" value="3"><span>★★★☆☆ & up</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="rating" value="5"><span>⭐⭐⭐⭐⭐ Only</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="rating" value="4"><span>⭐⭐⭐⭐ & up</span></label>
+                            <label class="filter-checkbox"><input type="checkbox" name="rating"
+                                                                  value="3"><span>⭐⭐⭐ & up</span></label>
                         </div>
                     </div>
+
                     <div class="filter-group">
                         <h4><i class="fas fa-hiking"></i> Activities</h4>
                         <div class="filter-options">
-                            <label class="filter-checkbox"><input type="checkbox" name="activity" value="hiking"><span>Hiking & Trekking</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="activity"
-                                                                  value="watersports"><span>Water Sports</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="activity"
-                                                                  value="shopping"><span>Shopping</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="activity"
-                                                                  value="nightlife"><span>Nightlife</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="activity" value="food"><span>Food & Cuisine</span></label>
+                            {% for activity in activities %}
+                                <label class="filter-checkbox">
+                                    <input type="checkbox" name="activity" value="{{ activity.icon }}">
+                                    <span><i class="fas {{ activity.icon }}"
+                                             style="width: 20px; text-align: center; margin-right: 6px; color: var(--primary);"></i>{{ activity.name }}</span>
+                                </label>
+                            {% endfor %}
                         </div>
                     </div>
+
                     <div class="filter-group">
                         <h4><i class="fas fa-calendar-alt"></i> Best Season</h4>
                         <div class="filter-options">
-                            <label class="filter-checkbox"><input type="checkbox" name="season" value="spring"><span>🌸 Spring</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="season" value="summer"><span>☀️ Summer</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="season" value="autumn"><span>🍂 Autumn</span></label>
-                            <label class="filter-checkbox"><input type="checkbox" name="season" value="winter"><span>❄️ Winter</span></label>
+                            {% for value, label in seasons %}
+                                <label class="filter-checkbox">
+                                    <input type="checkbox" name="season" value="{{ value }}">
+                                    <span>{{ label }}</span>
+                                </label>
+                            {% endfor %}
                         </div>
                     </div>
                 </aside>

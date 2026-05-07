@@ -8,17 +8,17 @@
 {##}
 {#{% for destination in destinations %}#}
 {#    <article class="destination-card" data-slug="{{ destination.slug }}">#}
-        {#         data-city="Samarkand" data-lat="39.6542" data-lon="66.9597"#}
-        {#         data-hotels-url="/hotels/?city=samarkand"#}
-        {#         data-flights-url="/flights/?to=samarkand">#}
+{#         data-city="Samarkand" data-lat="39.6542" data-lon="66.9597"#}
+{#         data-hotels-url="/hotels/?city=samarkand"#}
+{#         data-flights-url="/flights/?to=samarkand">#}
 {#        <div class="card-image-wrapper">#}
-            {#            <div class="image-slider">#}
-            {#                {% for img in destination.images.all %}#}
-            {#                    <img src="{{ img.image.url }}"#}
-            {#                         alt="{{ destination.name }}">#}
-            {#                {% endfor %}#}
-            {##}
-            {#            </div>#}
+{#            <div class="image-slider">#}
+{#                {% for img in destination.images.all %}#}
+{#                    <img src="{{ img.image.url }}"#}
+{#                         alt="{{ destination.name }}">#}
+{#                {% endfor %}#}
+{##}
+{#            </div>#}
 {##}
 {#            <div class="image-slider">#}
 {#                {% for img in destination.images.all %}#}
@@ -113,17 +113,16 @@
 {#onclick="window.location.href='{% url 'login_page' %}'#}
 
 
-
 {% load static %}
+
 <div id="cards-meta"
-     data-total="{{ total }}"
-     data-shown="{{ shown }}"
+     data-total="{{ total|default:0 }}"
+     data-shown="{{ shown|default:0 }}"
      data-has-more="{{ has_more|yesno:'true,false' }}"
      style="display:none;">
 </div>
 
 {% for destination in destinations %}
-
     {% if destination.is_flash_sale %}
         {% include 'apps/partials/_flash_card.html' with destination=destination %}
 
@@ -135,7 +134,6 @@
 
     {% else %}
         <article class="destination-card" data-slug="{{ destination.slug }}">
-
             <div class="card-image-wrapper">
                 <div class="image-slider">
                     {% for img in destination.images.all %}
@@ -148,12 +146,14 @@
                         <img src="{% static 'apps/img/default.avif' %}" alt="No image">
                     {% endfor %}
                 </div>
+
                 {% if destination.images.count > 1 %}
                     <button class="slider-btn prev" onclick="slideImage(this,-1)"><i class="fas fa-chevron-left"></i></button>
                     <button class="slider-btn next" onclick="slideImage(this,1)"><i class="fas fa-chevron-right"></i></button>
                     <div class="image-dots">
                         {% for img in destination.images.all %}
-                            <span class="dot {% if forloop.first %}active{% endif %}" onclick="goToSlide(this, {{ forloop.counter0 }})"></span>
+                            <span class="dot {% if forloop.first %}active{% endif %}"
+                                  onclick="goToSlide(this, {{ forloop.counter0 }})"></span>
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -171,7 +171,10 @@
                         <h3 title="{{ destination.name }}">{{ destination.name }}</h3>
                     </div>
                     <div class="rating-box">
-                        <div class="rating-stars"><i class="fas fa-star"></i><span>{{ destination.avg_rating|floatformat:1|default:"0.0" }}</span></div>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <span>{{ destination.rating|floatformat:1 }}</span>
+                        </div>
                         <p class="reviews">({{ destination.reviews_count|default:"0" }} reviews)</p>
                     </div>
                 </div>
@@ -181,8 +184,8 @@
                 </p>
 
                 <div class="card-description">
-                    {{ destination.short_description|striptags|truncatechars:100 }}
-                    {% if destination.short_description|length > 100 %}
+                    {{ destination.short_description|striptags|truncatechars:95 }}
+                    {% if destination.short_description|striptags|length > 95 %}
                         <a href="{% url 'destination_detail_page' destination.slug %}" class="desc-read-more">...</a>
                     {% endif %}
                 </div>
@@ -199,15 +202,22 @@
                             <i class="fas fa-hotel"></i><span>{{ destination.hotels_count }} Hotels</span>
                         </button>
                     {% endif %}
-                    <button class="stat-item stat-flights" onclick="goToFlights(this)" data-slug="{{ destination.slug }}" data-name="{{ destination.name }}">
+
+                    <button class="stat-item stat-flights" onclick="goToFlights(this)"
+                            data-slug="{{ destination.slug }}" data-name="{{ destination.name }}">
                         <i class="fas {% if destination.has_flights %}fa-plane{% else %}fa-route{% endif %}"></i>
                         <span>{% if destination.has_flights %}Flights{% else %}Tours{% endif %}</span>
                     </button>
-                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)" data-lat="{{ destination.latitude }}" data-lon="{{ destination.longitude }}" data-city="{{ destination.location|default:destination.city.name }}">
+
+                    <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
+                            data-lat="{{ destination.latitude }}" data-lon="{{ destination.longitude }}"
+                            data-city="{{ destination.location|default:destination.city.name }}">
                         <i class="fas fa-sun weather-icon"></i><span class="weather-temp">Load...</span>
                     </button>
+
                     <div class="stat-item">
-                        <i class="fas fa-clock"></i><span>{{ destination.duration|default:"5-7 Days" }}</span>
+                        <i class="fas fa-clock"></i>
+                        <span>{{ destination.get_duration_display|default:"Flexible" }}</span>
                     </div>
                 </div>
 
@@ -218,8 +228,8 @@
                         {% endif %}
                         <div class="price-current">
                             <span class="from">From</span>
-                            <span class="amount">${{ destination.discounted_price|default:destination.price }}</span>
-                            <span class="per">/ {{ destination.price_label|default:"person" }}</span>
+                            <span class="amount">${{ destination.discounted_price }}</span>
+                            <span class="per">/ {{ destination.get_price_label_display|default:"person" }}</span>
                         </div>
                     </div>
                     <div class="card-actions">
@@ -230,4 +240,13 @@
                 </div>
             </div>
         </article>
-    {% endif %} {% endfor %}
+    {% endif %}
+
+{% empty %}
+    <div style="grid-column: 1/-1; text-align: center; padding: 60px; background: var(--gray-50); border-radius: 12px; border: 2px dashed var(--gray-200);">
+        <i class="fas fa-search" style="font-size: 3rem; color: var(--gray-300); margin-bottom: 20px;"></i>
+        <h3 style="color: var(--gray-700); margin-bottom: 10px;">No destinations found</h3>
+        <p style="color: var(--gray-500);">Try adjusting your price range or other filters to find more options.</p>
+        <button class="btn-primary" style="margin-top: 20px;" onclick="clearAllFilters()">Clear All Filters</button>
+    </div>
+{% endfor %}

@@ -2,7 +2,7 @@ function initFlashTimers() {
     document.querySelectorAll('.deal-timer').forEach(timer => {
         // Agar timer allaqachon ishga tushgan bo'lsa, qayta ishga tushirmaymiz
         if (timer.dataset.timerStarted === 'true') return;
-        
+
         const endTimeStr = timer.dataset.end;
         if (!endTimeStr) return;
 
@@ -31,7 +31,7 @@ function initFlashTimers() {
             const hoursEl = timer.querySelector('.hours');
             const minsEl = timer.querySelector('.minutes');
             const secsEl = timer.querySelector('.seconds');
-            
+
             if (totalHours >= 24) {
                 const days = Math.floor(totalHours / 24);
                 const hours = totalHours % 24;
@@ -42,7 +42,7 @@ function initFlashTimers() {
                 if (hoursEl) hoursEl.textContent = String(totalHours).padStart(2, '0');
                 if (dayItem) dayItem.style.display = 'none';
             }
-            
+
             if (minsEl) minsEl.textContent = String(mins).padStart(2, '0');
             if (secsEl) secsEl.textContent = String(secs).padStart(2, '0');
         }, 1000);
@@ -79,7 +79,7 @@ function loadMoreCities() {
 
             btn.dataset.offset = data.offset;
             updateLoadMoreUI(panel);
-            
+
             if (!data.has_more) {
                 btn.style.display = 'none';
             } else {
@@ -113,8 +113,59 @@ document.addEventListener('DOMContentLoaded', () => {
     if (citySlug && cityName) {
         filterByCity(citySlug, cityName);
     }
-    
+
     initFlashTimers();
+
+    const minSlider = document.getElementById('min-price');
+    const maxSlider = document.getElementById('max-price');
+    const minVal = document.getElementById('min-price-value');
+    const maxVal = document.getElementById('max-price-value');
+    const filters = document.querySelectorAll('.filters-sidebar input[type="checkbox"], .filters-sidebar input[type="radio"]');
+
+    // ==========================================
+    // SLAYDER DIZAYNI (Ko'k chiziq va sonlar)
+    // ==========================================
+    function updateSliderTrack() {
+        if (!minSlider || !maxSlider) return;
+        const min = parseInt(minSlider.min);
+        const max = parseInt(minSlider.max);
+        const currentMin = parseInt(minSlider.value);
+        const currentMax = parseInt(maxSlider.value);
+
+        const percent1 = ((currentMin - min) / (max - min)) * 100;
+        const percent2 = ((currentMax - min) / (max - min)) * 100;
+        maxSlider.style.background = `linear-gradient(to right, var(--gray-200) ${percent1}%, var(--primary) ${percent1}%, var(--primary) ${percent2}%, var(--gray-200) ${percent2}%)`;
+    }
+
+    if (minSlider && maxSlider) {
+        // Mishka bilan harakatlantirganda faqat yozuv o'zgaradi
+        minSlider.addEventListener('input', function () {
+            if (parseInt(minSlider.value) >= parseInt(maxSlider.value)) minSlider.value = parseInt(maxSlider.value) - 10;
+            minVal.textContent = minSlider.value;
+            updateSliderTrack();
+        });
+
+        maxSlider.addEventListener('input', function () {
+            if (parseInt(maxSlider.value) <= parseInt(minSlider.value)) maxSlider.value = parseInt(minSlider.value) + 10;
+            maxVal.textContent = maxSlider.value;
+            updateSliderTrack();
+        });
+
+        // Birinchi yuklanganda slayder dizaynini chizish
+        updateSliderTrack();
+
+        // Mishkani qo'yib yuborganda (change) AJAX ishga tushadi
+        minSlider.addEventListener('change', applyFilters);
+        maxSlider.addEventListener('change', applyFilters);
+    }
+
+    // ==========================================
+    // CHECKBOX VA RADIO TUGMALARGA AJAX ULASH
+    // ==========================================
+    filters.forEach(input => {
+        input.addEventListener('change', applyFilters);
+    });
+
 });
 
 function getCurrentLang() {
@@ -209,7 +260,7 @@ function switchCountry(countryCode, btn) {
         .then(data => {
             grid.innerHTML = '';
             panel.dataset.loaded = 'true';
-            
+
             data.cities.forEach(city => {
                 grid.insertAdjacentHTML('beforeend', `
                     <div class="city-card" onclick="filterByCity('${city.slug}','${city.name}')">
@@ -251,7 +302,7 @@ function loadMoreDestinations() {
         .then(data => {
             if (grid) grid.insertAdjacentHTML('beforeend', data.html);
             btn.dataset.offset = offset + data.count;
-            
+
             const showingText = document.getElementById('showing-text');
             if (showingText) {
                 showingText.textContent = `Showing ${offset + data.count} destinations`;
@@ -446,7 +497,7 @@ function backToExplore() {
 
     if (loadMoreBtn) {
         loadMoreBtn.style.display = 'inline-block';
-        loadMoreBtn.onclick = function() {
+        loadMoreBtn.onclick = function () {
             if (typeof loadMoreDestinations === 'function') loadMoreDestinations();
         };
     }
@@ -495,3 +546,141 @@ function initDestinationsPage() {
 
 document.addEventListener('DOMContentLoaded', initDestinationsPage);
 window.addEventListener('resize', equalizeAndInit);
+
+function applyFilters() {
+    const grid = document.getElementById('destinations-grid');
+    const countDisplay = document.getElementById('results-count');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const showingText = document.getElementById('showing-text');
+
+    const params = new URLSearchParams(window.location.search);
+
+    // Narxlarni olish
+    params.set('min_price', document.getElementById('min-price')?.value || 0);
+    params.set('max_price', document.getElementById('max-price')?.value || 5000);
+
+    // Checkbox va Radiolarni yig'ish
+    const getCheckedValues = (name) => {
+        return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value).join(',');
+    };
+
+    ['type', 'activity', 'season', 'rating'].forEach(name => {
+        const val = getCheckedValues(name);
+        if (val) params.set(name, val); else params.delete(name);
+    });
+
+    const duration = document.querySelector('input[name="duration"]:checked')?.value;
+    if (duration) params.set('duration', duration); else params.delete('duration');
+
+    // Filtrlash boshlanganda offset doim 0 bo'ladi
+    params.set('offset', 0);
+
+    if (grid) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px;"><i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary);"></i><p>Searching...</p></div>';
+    }
+
+    const lang = getCurrentLang();
+    const url = `/${lang}/filter-destinations/?${params.toString()}`;
+
+    fetch(url)
+        .then(res => res.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const meta = doc.getElementById('cards-meta');
+
+            // 🚀 DINAMIK METADATA YANGILASH
+            const total = parseInt(meta?.dataset.total || 0);
+            const shown = parseInt(meta?.dataset.shown || 0);
+            const hasMore = meta?.dataset.hasMore === 'true';
+
+            if (grid) grid.innerHTML = html;
+
+            // Natijalar sonini yangilash
+            if (countDisplay) countDisplay.textContent = total;
+
+            // "Showing X of Y" matnini yangilash
+            if (showingText) {
+                showingText.textContent = `Showing ${shown} of ${total} destinations`;
+            }
+
+            // "Load More" tugmasini holati
+            if (loadMoreBtn) {
+                loadMoreBtn.dataset.offset = shown;
+                loadMoreBtn.dataset.total = total;
+                loadMoreBtn.style.display = hasMore ? 'inline-block' : 'none';
+
+                // Tugmaga yangi URL parametrlarini bog'lab qo'yamiz
+                loadMoreBtn.onclick = () => loadMoreWithFilters(params);
+            }
+
+            initFlashTimers();
+            equalizeAndInit();
+        });
+}
+
+// Filtrlangan holatda "Load More" funksiyasi
+function loadMoreWithFilters(currentParams) {
+    const btn = document.getElementById('load-more-btn');
+    const grid = document.getElementById('destinations-grid');
+    const showingText = document.getElementById('showing-text');
+
+    if (!btn || btn.disabled) return;
+
+    const offset = parseInt(btn.dataset.offset);
+    currentParams.set('offset', offset);
+
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.disabled = true;
+
+    const lang = getCurrentLang();
+    const url = `/${lang}/filter-destinations/?${currentParams.toString()}`;
+
+    fetch(url)
+        .then(res => res.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const meta = doc.getElementById('cards-meta');
+
+            const total = parseInt(meta?.dataset.total || 0);
+            const shown = parseInt(meta?.dataset.shown || 0);
+            const hasMore = meta?.dataset.hasMore === 'true';
+
+            // Kartalarni oxiriga qo'shish (Grid ichidagi mavjud HTML ni o'chirmasdan)
+            doc.querySelectorAll('.destination-card, .package-card').forEach(card => {
+                grid.appendChild(document.importNode(card, true));
+            });
+
+            btn.dataset.offset = shown;
+            if (showingText) showingText.textContent = `Showing ${shown} of ${total} destinations`;
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';
+            btn.style.display = hasMore ? 'inline-block' : 'none';
+
+            initFlashTimers();
+            equalizeAndInit();
+        });
+}
+
+// Filtrlarni tozalash funksiyasi
+function clearAllFilters() {
+    // 1. Barcha checkbox va radiolarni ochirish
+    document.querySelectorAll('.filters-sidebar input[type="checkbox"], .filters-sidebar input[type="radio"]').forEach(el => {
+        el.checked = false;
+    });
+
+    // 2. Slayderlarni asl holiga qaytarish
+    const minSlider = document.getElementById('min-price');
+    const maxSlider = document.getElementById('max-price');
+    if (minSlider && maxSlider) {
+        minSlider.value = minSlider.min;
+        maxSlider.value = maxSlider.max;
+        document.getElementById('min-price-value').textContent = minSlider.min;
+        document.getElementById('max-price-value').textContent = maxSlider.max;
+    }
+
+    // 3. Filtrlarni qayta ishga tushirish
+    applyFilters();
+}

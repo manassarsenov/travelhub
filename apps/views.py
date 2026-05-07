@@ -3,6 +3,7 @@ import logging
 import urllib.parse
 import uuid
 
+import math
 import requests
 import time
 from django.contrib import messages
@@ -13,7 +14,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction, IntegrityError
-from django.db.models import F, Q, Prefetch, Count, Avg
+from django.db.models import F, Q, Prefetch, Count, Avg, Min, Max
 from django.forms.models import model_to_dict
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -29,7 +30,7 @@ from apps.ai_moderator import check_review_with_ai
 from apps.forms import (ForgotPasswordForm, LoginForm,
                         PasswordResetConfirmForm, RegisterModelForm, ReviewModelForm, BookingGuestForm)
 from apps.mixins import LoginNotRequiredMixin
-from apps.models import Destination, User, Country, Review, ActionLog, PromoCode, TicketType, Booking
+from apps.models import Destination, User, Country, Review, ActionLog, PromoCode, TicketType, Booking, Activity
 from apps.models.categories import City, Region
 from apps.tasks import moderate_review_task
 from apps.utils.send_email import send_user_email
@@ -37,6 +38,76 @@ from apps.utils.tokens import account_activation_token
 from root import settings
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
+
+class FilterDestinationsTemplateView(TemplateView):
+    template_name = 'apps/partials/destination_cards.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        request = self.request
+
+        # 🚀 1. N+1 NING OLDINI OLISH: Reytingni shu yerda hisoblaymiz (Annotate)
+        qs = Destination.objects.select_related('city', 'city__country').prefetch_related(
+            'tags', 'images', 'activities'
+        ).annotate(
+            # Bazadan o'rtacha reytingni bitta so'rovda qo'shib olamiz
+            db_avg_rating=Avg('reviews__rating', filter=Q(reviews__is_visible=True))
+        )
+
+        city_slug = request.GET.get('city')
+        if city_slug:
+            qs = qs.filter(city__slug=city_slug)
+
+        min_price = request.GET.get('min_price')
+        max_price = request.GET.get('max_price')
+        if min_price and max_price:
+            qs = qs.filter(price__gte=min_price, price__lte=max_price)
+
+        trip_types = request.GET.get('type')
+        if trip_types:
+            qs = qs.filter(trip_type__in=trip_types.split(','))
+
+        duration = request.GET.get('duration')
+        if duration:
+            qs = qs.filter(duration=duration)
+
+        seasons = request.GET.get('season')
+        if seasons:
+            qs = qs.filter(season__in=seasons.split(','))
+
+        activities = request.GET.get('activity')
+        if activities:
+            qs = qs.filter(activities__icon__in=activities.split(','))
+
+        ratings = request.GET.get('rating')
+        if ratings:
+            rating_list = [int(r) for r in ratings.split(',') if r.isdigit()]
+            if rating_list:
+                min_rating = min(rating_list)
+                # 🚀 Annotate qilingan tayyor maydondan foydalanamiz
+                qs = qs.filter(db_avg_rating__gte=min_rating)
+
+        # Dublikatlarni tozalaymiz (Activities Multiple-join qilingani uchun kerak)
+        qs = qs.distinct()
+
+        # 🚀 2. PAGINATION (Faqat 6 tasini kesib olish)
+        total_count = qs.count()
+        try:
+            offset = int(request.GET.get('offset', 0))
+        except ValueError:
+            offset = 0
+
+        limit = 6
+        destinations = qs[offset:offset + limit]
+
+        # Natijalarni yuborish
+        context['destinations'] = destinations
+        context['total'] = total_count
+        context['shown'] = offset + destinations.count()
+        context['has_more'] = (offset + limit) < total_count
+
+        return context
 
 
 class BookingStep1View(DetailView):
@@ -799,6 +870,7 @@ class DestinationDetailView(DetailView):
 
         return context
 
+
 class HomeTemplateView(TemplateView):
     template_name = 'apps/home.html'
 
@@ -935,24 +1007,47 @@ class LoadMoreDestinationsView(View):
 
 
 class DestinationsListView(ListView):
-    queryset = Destination.objects.all()
+    # 🚀 1. XOTIRA MUAMMOSI YECHIMI:
+    # AJAX yordamida kartalar yuklanadigan bo'lsa, birinchi ochilishda backendni qotirmaslik
+    # uchun queryset ni bo'sh qilib yuboramiz (.none()). Barcha sayohatlarni RAMga yuklamaydi!
+    queryset = Destination.objects.none()
     template_name = 'apps/destinations.html'
     context_object_name = 'destinations'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Davlatlarni shaharlar soni bo'yicha kamayish tartibida saralaymiz
+        # 🚀 2. PREFETCH VA DEFER/ONLY YONDASHUVI (N+1 va RAM uchun)
+        # Sidebar va Menyu uchun faqat ID va Nomlar kerak. Rasm, text kabi og'ir maydonlarni RAMga tortmaymiz
         countries_qs = Country.objects.annotate(
             city_count=Count('cities')
-        ).order_by('-city_count', 'name')
+        ).order_by('-city_count', 'name').only('id', 'name', 'code')
+
+        cities_qs = City.objects.only('id', 'name', 'slug', 'country_id')
 
         context['regions'] = Region.objects.filter(level=0).order_by('id').prefetch_related(
             Prefetch('countries', queryset=countries_qs),
-            'countries__cities'
+            Prefetch('countries__cities', queryset=cities_qs)
+        ).only('id', 'name', 'slug', 'imoji')
+
+        # 🚀 3. DINAMIK FILTRLAR (Bazada nima bo'lsa shuni oladi)
+        context['trip_types'] = Destination.TripType.choices
+        context['durations'] = Destination.Duration.choices
+        context['seasons'] = Destination.Season.choices
+
+        # Activities modelidan faqat nom va ikonkalarni olamiz
+        context['activities'] = Activity.objects.only('name', 'icon')
+
+        # 🚀 4. DINAMIK NARX (Eng zo'r SQL yondashuv)
+        # 10 000 ta obyekti aylanib chiqmasdan, to'g'ridan-to'g'ri bazaga "Menga faqat eng arzon va eng qimmatni ber" deb bitta so'rov yuboramiz
+        price_agg = Destination.objects.aggregate(
+            min_p=Min('price'),
+            max_p=Max('price')
         )
-        
-        # Initial count for the template
+        context['min_price'] = math.floor(price_agg['min_p'] or 0)
+        context['max_price'] = math.ceil(price_agg['max_p'] or 5000)
+
+        # 5. JAMI STATISTIKA (Faqatgina sonini hisoblaydi, barcha ob'ektlarni olmaydi)
         context['initial_count'] = 0
         context['total_count'] = Destination.objects.count()
 
@@ -972,7 +1067,7 @@ class CitiesAjaxView(View):
             offset = int(request.GET.get('offset', 0))
         except (ValueError, TypeError):
             offset = 0
-            
+
         limit = 6
         cities_slice = all_cities_query[offset:offset + limit]
         total_count = all_cities_query.count()
@@ -994,6 +1089,7 @@ class CitiesAjaxView(View):
             'offset': offset + len(cities_data)
         })
 
+
 class DestinationByCityView(View):
     def get(self, request):
         city_slug = request.GET.get('city')
@@ -1008,7 +1104,7 @@ class DestinationByCityView(View):
             reviews_count=Count('reviews', filter=Q(reviews__is_visible=True)),
             avg_rating=Avg('reviews__rating', filter=Q(reviews__is_visible=True))
         )
-        
+
         total = all_destinations.count()
         destinations = all_destinations[offset:offset + limit]
         has_more = (offset + limit) < total

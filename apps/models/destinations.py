@@ -42,7 +42,7 @@ class Destination(SlugBaseModel, CreatedBaseModel):
         'apps.City',
         on_delete=CASCADE,
         related_name='destinations',
-        limit_choices_to={'country__region__level': 0}  
+        limit_choices_to={'country__region__level': 0}
     )
     tags = ManyToManyField('apps.Tag', blank=True, related_name='destinations')
     activities = ManyToManyField('apps.Activity', blank=True, related_name='destinations')
@@ -115,6 +115,10 @@ class Destination(SlugBaseModel, CreatedBaseModel):
 
     @property
     def rating(self):
+        if hasattr(self, 'db_avg_rating'):
+            return round(self.db_avg_rating or 0, 1)
+
+        # 2-yo'l: Agar oddiy Detail sahifasida chaqirilsa, eski usulda bazadan oladi
         from django.db.models import Avg
         result = self.reviews.filter(is_visible=True).aggregate(Avg('rating'))
         return round(result['rating__avg'] or 0, 1)
@@ -183,6 +187,7 @@ class DestinationFAQ(CreatedBaseModel):
     def __str__(self):
         return f"{self.destination.name} - {self.question[:50]}"
 
+
 class DestinationTimeSlot(CreatedBaseModel):
     destination = ForeignKey('apps.Destination', CASCADE, related_name='time_slots')
     time = TimeField(verbose_name="Boshlanish vaqti", help_text="Masalan: 14:30")
@@ -196,6 +201,7 @@ class DestinationTimeSlot(CreatedBaseModel):
 
     def __str__(self):
         return f"{self.destination.name} - {self.time.strftime('%H:%M')}"
+
 
 class DestinationImage(ImageBaseModel):
     destination = ForeignKey('apps.Destination', CASCADE, related_name='images')
