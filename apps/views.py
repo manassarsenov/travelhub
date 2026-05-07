@@ -819,12 +819,15 @@ class HomeTemplateView(TemplateView):
             'is_flash_sale', 'city__name', 'has_flights'
         )
         context['flash_total'] = flash_qs.count()
-        context['flash_destinations'] = flash_qs[:3]
+        flash_batch = list(flash_qs[:3])
+        context['flash_destinations'] = flash_batch
+        flash_ids = {d.id for d in flash_batch}
 
         trending_qs = Destination.objects.filter(
             is_trending=True
+        ).exclude(
+            id__in=flash_ids
         ).select_related('city').prefetch_related('tags', 'images', 'reviews').annotate(
-
             reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
         ).only(
             'slug', 'name', 'location', 'short_description',
@@ -832,12 +835,15 @@ class HomeTemplateView(TemplateView):
             'price', 'has_flights', 'city__name'
         )
         context['trending_total'] = trending_qs.count()
-        context['trending_destinations'] = trending_qs[:3]
+        trending_batch = list(trending_qs[:3])
+        context['trending_destinations'] = trending_batch
+        trending_ids = {d.id for d in trending_batch}
 
         featured_qs = Destination.objects.filter(
             is_featured=True
+        ).exclude(
+            id__in=flash_ids | trending_ids
         ).select_related('city').prefetch_related('tags', 'images', 'activities', 'reviews').annotate(
-
             reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
         ).only(
             'slug', 'package_type', 'name', 'location',

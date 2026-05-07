@@ -181,11 +181,9 @@
                 </p>
 
                 <div class="card-description">
-                    <a href="{% url 'destination_detail_page' destination.slug %}">
-                        {{ destination.short_description|striptags|truncatechars:95 }}
-                    </a>
-                    {% if destination.short_description|length > 95 %}
-                        <a href="{% url 'destination_detail_page' destination.slug %}" class="read-more-dots">...</a>
+                    {{ destination.short_description|striptags|truncatechars:100 }}
+                    {% if destination.short_description|length > 100 %}
+                        <a href="{% url 'destination_detail_page' destination.slug %}" class="desc-read-more">...</a>
                     {% endif %}
                 </div>
 
@@ -198,7 +196,7 @@
                 <div class="card-stats">
                     {% if destination.hotels_count > 0 %}
                         <button class="stat-item stat-hotels" onclick="goToHotels(this)">
-                            <i class="fas fa-hotel"></i><span>{{ destination.hotels_count|default:"100+" }} Hotels</span>
+                            <i class="fas fa-hotel"></i><span>{{ destination.hotels_count }} Hotels</span>
                         </button>
                     {% endif %}
                     <button class="stat-item stat-flights" onclick="goToFlights(this)" data-slug="{{ destination.slug }}" data-name="{{ destination.name }}">
@@ -215,6 +213,9 @@
 
                 <div class="card-footer">
                     <div class="price-box">
+                        {% if destination.discount_percentage > 0 %}
+                            <div class="price-original">${{ destination.price }}</div>
+                        {% endif %}
                         <div class="price-current">
                             <span class="from">From</span>
                             <span class="amount">${{ destination.discounted_price|default:destination.price }}</span>

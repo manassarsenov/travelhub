@@ -2247,6 +2247,11 @@ footer {
     z-index: 10; /* Rasmdan tepada turadi */
 }
 
+.slider-btn.hidden {
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
 .slider-btn.prev {
     left: 10px;
 }
@@ -2257,6 +2262,31 @@ footer {
 
 .card-image-wrapper:hover .slider-btn {
     opacity: 1;
+}
+
+.image-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 5;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.dot.active {
+    background: #fff;
+    width: 18px;
+    border-radius: 6px;
 }
 
 .read-more-dots {

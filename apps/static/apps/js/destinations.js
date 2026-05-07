@@ -5,8 +5,10 @@ function initFlashTimers() {
         
         const endTimeStr = timer.dataset.end;
         if (!endTimeStr) return;
-        
+
         const endTime = new Date(endTimeStr);
+        if (isNaN(endTime.getTime())) return;
+
         timer.dataset.timerStarted = 'true';
 
         const interval = setInterval(() => {
@@ -396,6 +398,36 @@ function loadMoreByCity(citySlug) {
         });
 }
 
+function switchView(mode) {
+    const grid = document.getElementById('destinations-grid');
+    if (!grid) return;
+
+    document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.querySelector(`.view-btn[onclick*="'${mode}'"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+
+    grid.classList.remove('view-grid', 'view-list', 'view-map');
+    grid.classList.add('view-' + mode);
+
+    if (mode === 'list') {
+        grid.querySelectorAll('.destination-card, .package-card').forEach(c => {
+            c.style.height = 'auto';
+        });
+    } else {
+        equalizeAndInit();
+    }
+
+    localStorage.setItem('destinationsViewMode', mode);
+}
+
+// Restore saved view mode on page load
+function restoreViewMode() {
+    const saved = localStorage.getItem('destinationsViewMode');
+    if (saved && saved !== 'grid') {
+        switchView(saved);
+    }
+}
+
 function backToExplore() {
     const exploreSection = document.getElementById('explore-section');
     const mainDestinations = document.getElementById('main-destinations');
@@ -456,5 +488,10 @@ function equalizeAndInit() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', equalizeAndInit);
+function initDestinationsPage() {
+    equalizeAndInit();
+    restoreViewMode();
+}
+
+document.addEventListener('DOMContentLoaded', initDestinationsPage);
 window.addEventListener('resize', equalizeAndInit);

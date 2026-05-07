@@ -1,6 +1,10 @@
 function initFlashTimers() {
     document.querySelectorAll('.deal-timer').forEach(timer => {
-        const endTime = new Date(timer.dataset.end);
+        const endTimeStr = timer.dataset.end;
+        if (!endTimeStr) return;
+
+        const endTime = new Date(endTimeStr);
+        if (isNaN(endTime.getTime())) return;
 
         // Taymer ichidagi barcha span va div larni topib olamiz
         const dayItem = timer.querySelector('.day-item'); // Kun qutichasi (HTML ga qo'shganimiz)

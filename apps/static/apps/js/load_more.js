@@ -43,6 +43,8 @@ function loadMore(section) {
             });
         });
 
+        if (typeof initFlashTimers === 'function') initFlashTimers();
+
         state.offset  = nextOffset;
         state.loading = false;
 

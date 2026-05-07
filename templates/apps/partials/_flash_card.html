@@ -188,8 +188,8 @@
             </div>
         </div>
 
-        <p class="card-location" title="{{ destination.location }}">
-            <i class="fas fa-map-marker-alt"></i> {{ destination.location }}
+        <p class="card-location" title="{{ destination.location|default:destination.city.name }}">
+            <i class="fas fa-map-marker-alt"></i> {{ destination.location|default:destination.city.name }}
         </p>
 
         <div class="card-description">

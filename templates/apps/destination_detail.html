@@ -43,57 +43,61 @@
     <!-- ===== PAGE ===== -->
     <div class="dcd-page">
 
-        <!-- ===== LEFT ===== -->
-        <div class="dcd-left">
+    <!-- ===== LEFT ===== -->
+    <div class="dcd-left">
 
-            <!-- TITLE -->
-            <div class="dcd-title-section">
-                {% if destination.featured_badge %}
-                    <div class="dcd-bestseller-badge">
-                        <i class="fas fa-medal"></i> {{ destination.featured_badge }}
-                    </div>
-                {% endif %}
-
-                <div class="dcd-title-header-flex">
-                    <h1 class="dcd-main-title" id="dest-name">{{ destination.name }}</h1>
-                    <div class="dcd-title-actions">
-                        <button class="dcd-share-btn" onclick="shareDestination()">
-                            <i class="fas fa-share-alt"></i> Share
-                        </button>
-                        <button class="dcd-wishlist-inline-btn" id="wishlist-btn" onclick="toggleWishlist(this)">
-                            <i class="far fa-heart"></i> Save
-                        </button>
-                    </div>
+        <!-- TITLE -->
+        <div class="dcd-title-section">
+            {% if destination.featured_badge %}
+                <div class="dcd-bestseller-badge">
+                    <i class="fas fa-medal"></i> {{ destination.featured_badge }}
                 </div>
+            {% endif %}
 
-                <p class="dcd-subtitle" id="dest-subtitle">{{ destination.short_description|safe }}</p>
+            <div class="dcd-title-header-flex">
+                <h1 class="dcd-main-title" id="dest-name">{{ destination.name }}</h1>
+                <div class="dcd-title-actions">
+                    <button class="dcd-share-btn" onclick="shareDestination()">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                    <button class="dcd-wishlist-inline-btn" id="wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i> Save
+                    </button>
+                </div>
             </div>
 
-            <!-- GALLERY -->
-            <div class="dcd-gallery">
-                <!-- Main image -->
-                <div class="dcd-gallery-main" onclick="openGalleryModal(0)">
-                    {% with main_img=destination.images.first %}
-                        <img id="gallery-main-img"
-                             src="
+            <p class="dcd-subtitle" id="dest-subtitle">{{ destination.short_description|safe }}</p>
+        </div>
+
+        <!-- GALLERY -->
+        <div class="dcd-gallery">
+            <!-- Main image -->
+            <div class="dcd-gallery-main" onclick="openGalleryModal(0)">
+                {% with main_img=destination.images.first %}
+                    <img id="gallery-main-img"
+                         src="
 
 
 
-                                     {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
-                             alt="{{ destination.name }}" class="dcd-main-img">
-                    {% endwith %}
 
 
-                    <div class="dcd-gallery-hover-overlay">
-                        <i class="fas fa-search-plus"></i>
-                    </div>
-                    <!-- Rating card overlay -->
-                    <div class="dcd-rating-overlay">
-                        <div class="dcd-rating-card">
-                            <div class="dcd-rating-top">
-                                <i class="fas fa-star" style="color:#fbbf24;font-size:18px;"></i>
-                                <span class="dcd-rating-num">{{ destination.rating }}</span>
-                                <span class="dcd-rating-label">
+
+
+                                 {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
+                         alt="{{ destination.name }}" class="dcd-main-img">
+                {% endwith %}
+
+
+                <div class="dcd-gallery-hover-overlay">
+                    <i class="fas fa-search-plus"></i>
+                </div>
+                <!-- Rating card overlay -->
+                <div class="dcd-rating-overlay">
+                    <div class="dcd-rating-card">
+                        <div class="dcd-rating-top">
+                            <i class="fas fa-star" style="color:#fbbf24;font-size:18px;"></i>
+                            <span class="dcd-rating-num">{{ destination.rating }}</span>
+                            <span class="dcd-rating-label">
                                     {% if destination.rating >= 4.5 %}Excellent
                                     {% elif destination.rating >= 4.0 %}Fabulous
                                     {% elif destination.rating >= 3.5 %}Good
@@ -102,477 +106,483 @@
                                         Poor
                                     {% endif %}
                                 </span>
-                            </div>
-                            <div class="dcd-rating-count">{{ destination.visible_reviews_count }} reviews</div>
-                            <h5 class="dcd-loved-title">What guests loved most</h5>
+                        </div>
+                        <div class="dcd-rating-count">{{ destination.visible_reviews_count }} reviews</div>
+                        <h5 class="dcd-loved-title">What guests loved most</h5>
 
-                            <div id="dcd-rating-slides">
-                                {% for review in sidebar_reviews %}
-                                    <div class="dcd-review-slide" id="slide-{{ forloop.counter0 }}"
-                                         style="display: {% if forloop.first %}block{% else %}none{% endif %};">
-                                        <div class="dcd-top-reviewer">
-                                            <div class="dcd-top-rev-avatar">
-                                                {{ review.author_name|first|upper }}
-                                            </div>
-                                            <strong>{{ review.author_name }}</strong>
+                        <div id="dcd-rating-slides">
+                            {% for review in sidebar_reviews %}
+                                <div class="dcd-review-slide" id="slide-{{ forloop.counter0 }}"
+                                     style="display: {% if forloop.first %}block{% else %}none{% endif %};">
+                                    <div class="dcd-top-reviewer">
+                                        <div class="dcd-top-rev-avatar">
+                                            {{ review.author_name|first|upper }}
                                         </div>
-                                        <p class="dcd-top-rev-text">{{ review.text|truncatechars:100 }}</p>
+                                        <strong>{{ review.author_name }}</strong>
                                     </div>
-                                {% empty %}
-                                    <p style="color: var(--gray); font-size: 13px; font-style: italic; margin-top: 10px;">
-                                        No reviews yet.
-                                    </p>
+                                    <p class="dcd-top-rev-text">{{ review.text|truncatechars:100 }}</p>
+                                </div>
+                            {% empty %}
+                                <p style="color: var(--gray); font-size: 13px; font-style: italic; margin-top: 10px;">
+                                    No reviews yet.
+                                </p>
+                            {% endfor %}
+                        </div>
+
+                        {% if sidebar_reviews|length > 1 %}
+                            <div class="dcd-rating-dots" id="rating-dots">
+                                {% for review in sidebar_reviews %}
+                                    <span class="dot {% if forloop.first %}active{% endif %}"
+                                          onclick="changeDot({{ forloop.counter0 }})"></span>
                                 {% endfor %}
                             </div>
-
-                            {% if sidebar_reviews|length > 1 %}
-                                <div class="dcd-rating-dots" id="rating-dots">
-                                    {% for review in sidebar_reviews %}
-                                        <span class="dot {% if forloop.first %}active{% endif %}"
-                                              onclick="changeDot({{ forloop.counter0 }})"></span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
+                        {% endif %}
                     </div>
-                </div>
-
-                <!-- Thumbnails -->
-                <div class="dcd-gallery-thumbs">
-                    {% for img in destination.images.all|slice:"1:5" %}
-                        <div class="dcd-thumb {% if forloop.last %} dcd-thumb-last {% endif %}"
-                             onclick="openGalleryModal({{ forloop.counter }})">
-                            <img src="{{ img.image.url }}"
-                                 alt="{{ destination.name }}">
-                            {% if forloop.last and destination.images.count > 5 %}
-                                <div class="dcd-thumb-overlay">
-                                    <i class="fas fa-images"></i>
-                                    <span>Show all {{ destination.images.count }} photos</span>
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
                 </div>
             </div>
 
-            <!-- QUICK STRIP -->
-            {% if destination.is_free_cancellation or destination.duration %}
-                <div class="dcd-quick-strip">
-
-                    <div class="dcd-strip-item dcd-strip-green">
-                        <i class="fas fa-check-circle"></i>
-                        <div>
-                            <strong>Free cancellation available</strong>
-                            <span>{{ destination.cancellation_text }}</span>
-                        </div>
+            <!-- Thumbnails -->
+            <div class="dcd-gallery-thumbs">
+                {% for img in destination.images.all|slice:"1:5" %}
+                    <div class="dcd-thumb {% if forloop.last %} dcd-thumb-last {% endif %}"
+                         onclick="openGalleryModal({{ forloop.counter }})">
+                        {% if img.image %}
+                            <img src="{{ img.image.url }}" alt="{{ destination.name }}">
+                        {% else %}
+                            <img src="{% static 'apps/img/default.avif' %}" alt="No image">
+                        {% endif %}
+                        {% if forloop.last and destination.images.count > 5 %}
+                            <div class="dcd-thumb-overlay">
+                                <i class="fas fa-images"></i>
+                                <span>Show all {{ destination.images.count }} photos</span>
+                            </div>
+                        {% endif %}
                     </div>
+                {% endfor %}
+            </div>
+        </div>
 
-                    <div class="dcd-strip-item">
-                        <i class="far fa-clock"></i>
-                        <div><strong>Duration: {{ destination.get_duration_display }}</strong></div>
-                    </div>
-                </div>
-            {% endif %}
+        <!-- QUICK STRIP -->
+        {% if destination.is_free_cancellation or destination.duration %}
+            <div class="dcd-quick-strip">
 
-
-
-            <!-- DESCRIPTION -->
-            {% if destination.description %}
-                <div class="dcd-section">
-                    <div class="dcd-description collapsed" id="dcd-description">
-                        {{ destination.description|safe }}
-                    </div>
-                    <button class="dcd-toggle-btn" id="dcd-desc-btn" onclick="toggleDescription()">
-                        Show more <i class="fas fa-chevron-down"></i>
-                    </button>
-                </div>
-            {% endif %}
-
-
-            <!-- WHY VISIT -->
-            {% if destination.why_visit %}
-                <div class="dcd-section">
-                    <h2 class="dcd-section-title">Why visit</h2>
-                    <div class="dcd-check-list">
-                        {{ destination.why_visit|safe }}
-                    </div>
-                </div>
-            {% endif %}
-
-            <!-- WHAT'S INCLUDED -->
-            {#            {% if destination.whats_included %}#}
-            {#                <div class="dcd-section">#}
-            {#                    <h2 class="dcd-section-title">What's included</h2>#}
-            {#                    <div class="dcd-check-list dcd-included">#}
-            {#                        <li><i class="fas fa-check"></i> Admission to the London Eye</li>#}
-            {#                        <li><i class="fas fa-check"></i> 30-minute capsule ride</li>#}
-            {#                        <li><i class="fas fa-check"></i> Panoramic views of London's skyline</li>#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#            {% endif %}#}
-
-            {% if destination.whats_included %}
-                <div class="dcd-section">
-                    <h2 class="dcd-section-title">What's included</h2>
-                    <div class="dcd-check-list dcd-included">
-                        {{ destination.whats_included|safe }}
-                    </div>
-                </div>
-            {% endif %}
-
-            <!-- RESTRICTIONS -->
-            {#            <div class="dcd-section">#}
-            {#                <h2 class="dcd-section-title">Restrictions</h2>#}
-            {#                <ul class="dcd-bullet-list">#}
-            {#                    <li>Children under 16 years old must be accompanied by an adult.</li>#}
-            {#                    <li>Visitors must show a valid photo ID.</li>#}
-            {#                    <li>Not recommended for people with vertigo or severe acrophobia.</li>#}
-            {#                    <li>Wheelchair accessible — please notify in advance.</li>#}
-            {#                </ul>#}
-            {#            </div>#}
-
-            {% if destination.restrictions %}
-                <div class="dcd-section">
-                    <h2 class="dcd-section-title">Restrictions</h2>
-                    <div class="dcd-bullet-list">
-                        {{ destination.restrictions|safe }}
-                    </div>
-                </div>
-            {% endif %}
-
-
-            <!-- ADDITIONAL INFO -->
-            {% if destination.additional_info %}
-                <div class="dcd-section">
-                    <h2 class="dcd-section-title">Additional information</h2>
-                    <div class="dcd-description collapsed" id="dcd-additional">
-                        {{ destination.additional_info|safe }}
-                    </div>
-                    <button class="dcd-toggle-btn" id="dcd-add-btn" onclick="toggleAdditional()">
-                        Show more <i class="fas fa-chevron-down"></i>
-                    </button>
-                </div>
-            {% endif %}
-
-            <!-- LOCATION -->
-            <div class="dcd-section">
-                <h2 class="dcd-section-title">Location</h2>
-                {% if destination.latitude and destination.longitude %}
-                    <div class="dcd-map-wrap">
-                        <iframe
-                                src="https://maps.google.com/maps?q={{ destination.latitude }},{{ destination.longitude }}&z=15&output=embed&hl=en&markers={{ destination.latitude }},{{ destination.longitude }}"
-                                width="100%" height="300"
-                                style="border:0;border-radius:16px;"
-                                loading="lazy"
-                                allowfullscreen
-                                referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
-                    </div>
-
-                {% endif %}
-                <div class="dcd-address-row">
-                    <div class="dcd-address-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="dcd-strip-item dcd-strip-green">
+                    <i class="fas fa-check-circle"></i>
                     <div>
-                        <strong>{{ destination.name }}</strong>
-                        <span>{{ destination.location }}</span>
+                        <strong>Free cancellation available</strong>
+                        <span>{{ destination.cancellation_text }}</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- USER RATINGS -->
+                <div class="dcd-strip-item">
+                    <i class="far fa-clock"></i>
+                    <div><strong>Duration: {{ destination.get_duration_display }}</strong></div>
+                </div>
+            </div>
+        {% endif %}
+
+
+
+        <!-- DESCRIPTION -->
+        {% if destination.description %}
             <div class="dcd-section">
-                <h2 class="dcd-section-title">User ratings</h2>
-                <div class="dcd-ratings-wrap">
-                    <div class="dcd-overall">
-                        <div class="dcd-overall-score">
-                            <i class="fas fa-star" style="color:#fbbf24;font-size:28px;"></i>
-                            <span class="dcd-big-num">{{ destination.rating|floatformat:1 }}</span>
-                            <span class="dcd-big-label">·
-                                {% if destination.rating >= 4.5 %}Excellent
-                                {% elif destination.rating >= 4.0 %}Fabulous
-                                {% elif destination.rating >= 3.5 %}Good
-                                {% elif destination.rating >= 3.0 %}Average
-                                {% else %}Poor{% endif %}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="dcd-score-grid">
-
-                        <div class="dcd-score-row">
-                            <span>Good value</span>
-                            <div class="dcd-score-bar">
-                                <div class="dcd-score-fill"
-                                     data-width="{% widthratio destination.value_score 5 100 %}"></div>
-                            </div>
-                            <span>{{ destination.value_score|floatformat:1 }}</span>
-                        </div>
-
-                        <div class="dcd-score-row">
-                            <span>Facilities</span>
-                            <div class="dcd-score-bar">
-                                <div class="dcd-score-fill"
-                                     data-width="{% widthratio destination.facilities_score 5 100 %}"></div>
-                            </div>
-                            <span>{{ destination.facilities_score|floatformat:1 }}</span>
-                        </div>
-
-                        <div class="dcd-score-row">
-                            <span>Quality of service</span>
-                            <div class="dcd-score-bar">
-                                <div class="dcd-score-fill"
-                                     data-width="{% widthratio destination.service_score 5 100 %}"></div>
-                            </div>
-                            <span>{{ destination.service_score|floatformat:1 }}</span>
-                        </div>
-
-                        <div class="dcd-score-row">
-                            <span>Ease of access</span>
-                            <div class="dcd-score-bar">
-                                <div class="dcd-score-fill"
-                                     data-width="{% widthratio destination.access_score 5 100 %}"></div>
-                            </div>
-                            <span>{{ destination.access_score|floatformat:1 }}</span>
-                        </div>
-
-                    </div>
+                <div class="dcd-description collapsed" id="dcd-description">
+                    {{ destination.description|safe }}
                 </div>
-                <!-- REVIEWS -->
-                <div class="dcd-reviews-slider-wrap">
-                    <!-- ===== REVIEW MODAL ===== -->
-                    {% include 'apps/partials/_review_modal.html' %}
-                    <div class="dcd-reviews-advanced-header">
-                        <div class="header-titles">
-                            <span class="header-badge">Experiences</span>
-                            <h2 class="dcd-section-title">What travellers are saying</h2>
-                        </div>
-                        <div class="header-actions">
-                            <button class="header-write-btn" onclick="openReviewModal()">
-                                <i class="fas fa-pen-nib"></i>
-                                <span>Write a review</span>
-                            </button>
-                            <a href="{% url 'destination_reviews_page' destination.slug %}" class="view-all-link">
-                                Explore all {{ destination.visible_reviews_count }} reviews
-                                <span class="link-icon"><i class="fas fa-arrow-right"></i></span>
-                            </a>
-                        </div>
-                    </div>
+                <button class="dcd-toggle-btn" id="dcd-desc-btn" onclick="toggleDescription()">
+                    Show more <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        {% endif %}
 
-                    <div class="dcd-reviews-premium-container">
-                        <div class="dcd-creative-backdrop">
-                            <div class="backdrop-blob blob-blue"></div>
-                            <div class="backdrop-blob blob-purple"></div>
-                        </div>
 
-                        <div class="dcd-reviews-track" id="dcd-reviews-track">
-                            {% for review in destination.visible_reviews %}
-                                <!-- Card content remains same -->
-                                <div class="dcd-review-card-v2">
-                                    <div class="card-glass-effect"></div>
-                                    <div class="card-top">
-                                        <div class="user-profile">
-                                            <div class="avatar-wrapper">
-                                                <div class="avatar-gradient"
-                                                     style="background: linear-gradient(135deg, #6366f1, #a855f7);">
-                                                    {{ review.author_name|default:review.user.username|first|upper }}
-                                                </div>
-                                                {% if review.is_verified %}
-                                                    <div class="verified-indicator" title="Verified Traveller">
-                                                        <i class="fas fa-check"></i>
-                                                    </div>
-                                                {% endif %}
-                                            </div>
-                                            <div class="user-info">
-                                                <h4 class="user-name">{{ review.author_name|default:review.user.username }}</h4>
-                                                <div class="user-meta">
-                                                    {% if review.author_country %}
-                                                        <span class="country">{{ review.author_country.name }}</span>
-                                                        <span class="dot"></span>
-                                                    {% endif %}
-                                                    <span class="date">{{ review.created_at|date:"M Y" }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="rating-box">
-                                            <div class="rating-value">{{ review.rating }}</div>
-                                            <div class="rating-stars">
-                                                {% for i in "12345" %}
-                                                    <i class="fas fa-star {% if forloop.counter <= review.rating %}active{% endif %}"></i>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <div class="quote-icon-bg">
-                                            <i class="fas fa-quote-right"></i>
-                                        </div>
-                                        <p class="review-text-content">{{ review.text }}</p>
-                                    </div>
-
-                                    <div class="card-footer">
-                                        <div class="visit-type-tag type-{{ review.visit_type|default:'general' }}">
-                                            {% if review.visit_type == 'family' %}<i class="fas fa-users"></i>
-                                            {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i>
-                                            {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i>
-                                            {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i>
-                                            {% else %}<i class="fas fa-map-marker-alt"></i>{% endif %}
-                                            <span>{{ review.get_visit_type_display|default:'Visited' }}</span>
-                                        </div>
-                                        <div class="footer-actions">
-                                            <button class="like-button-v2 {% if request.user in review.likes.all %}is-liked{% endif %}"
-                                                    data-url="{% url 'toggle_review_like' review.id %}"
-                                                    onclick="toggleLike(this)">
-                                                <div class="like-icon-wrap">
-                                                    <i class="fas fa-heart"></i>
-                                                </div>
-                                                <span class="count">{{ review.total_likes }}</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% empty %}
-                                <div class="empty-reviews-state-v2">
-                                    <div class="empty-art">
-                                        <i class="fas fa-feather-alt"></i>
-                                    </div>
-                                    <h3>The stage is yours</h3>
-                                    <p>No stories have been shared yet. Be the pioneer and share your thoughts.</p>
-                                    <button class="btn-primary-v2" onclick="openReviewModal()">Share your experience
-                                    </button>
-                                </div>
-                            {% endfor %}
-                        </div>
-
-                        <!-- ADVANCED CONTROLS -->
-                        <div class="dcd-slider-navigation-v2">
-                            <button class="nav-btn-v2 prev-v2" onclick="slideReviews(-1)" id="rev-prev">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-
-                            <div class="slider-status-v2">
-                                <div class="progress-track-v2">
-                                    <div class="progress-fill-v2" id="review-progress-bar"></div>
-                                </div>
-                            </div>
-
-                            <button class="nav-btn-v2 next-v2" onclick="slideReviews(1)" id="rev-next">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
-                        </div>
-                    </div>
+        <!-- WHY VISIT -->
+        {% if destination.why_visit %}
+            <div class="dcd-section">
+                <h2 class="dcd-section-title">Why visit</h2>
+                <div class="dcd-check-list">
+                    {{ destination.why_visit|safe }}
                 </div>
             </div>
+        {% endif %}
 
-            <!-- TRAVELLER PHOTOS -->
-            {% if destination.images.count > 1 %}
-                <div class="dcd-section">
-                    <h2 class="dcd-section-title">Traveller photos</h2>
-                    <div class="dcd-tp-wrap">
-                        <div class="dcd-tp-track" id="dcd-tp-track">
-                            {% for img in destination.images.all %}
-                                <div class="dcd-tp-item" onclick="openGalleryModal({{ forloop.counter0 }})">
-                                    <img src="{{ img.image.url }}"
-                                         alt="{{ destination.name }}">
-                                </div>
-                            {% endfor %}
-                        </div>
+        <!-- WHAT'S INCLUDED -->
+        {#            {% if destination.whats_included %}#}
+        {#                <div class="dcd-section">#}
+        {#                    <h2 class="dcd-section-title">What's included</h2>#}
+        {#                    <div class="dcd-check-list dcd-included">#}
+        {#                        <li><i class="fas fa-check"></i> Admission to the London Eye</li>#}
+        {#                        <li><i class="fas fa-check"></i> 30-minute capsule ride</li>#}
+        {#                        <li><i class="fas fa-check"></i> Panoramic views of London's skyline</li>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            {% endif %}#}
 
-                        <button class="dcd-tp-arrow left" onclick="slidePhotosBack()">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="dcd-tp-arrow right" onclick="slidePhotos()"><i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
+        {% if destination.whats_included %}
+            <div class="dcd-section">
+                <h2 class="dcd-section-title">What's included</h2>
+                <div class="dcd-check-list dcd-included">
+                    {{ destination.whats_included|safe }}
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- RESTRICTIONS -->
+        {#            <div class="dcd-section">#}
+        {#                <h2 class="dcd-section-title">Restrictions</h2>#}
+        {#                <ul class="dcd-bullet-list">#}
+        {#                    <li>Children under 16 years old must be accompanied by an adult.</li>#}
+        {#                    <li>Visitors must show a valid photo ID.</li>#}
+        {#                    <li>Not recommended for people with vertigo or severe acrophobia.</li>#}
+        {#                    <li>Wheelchair accessible — please notify in advance.</li>#}
+        {#                </ul>#}
+        {#            </div>#}
+
+        {% if destination.restrictions %}
+            <div class="dcd-section">
+                <h2 class="dcd-section-title">Restrictions</h2>
+                <div class="dcd-bullet-list">
+                    {{ destination.restrictions|safe }}
+                </div>
+            </div>
+        {% endif %}
+
+
+        <!-- ADDITIONAL INFO -->
+        {% if destination.additional_info %}
+            <div class="dcd-section">
+                <h2 class="dcd-section-title">Additional information</h2>
+                <div class="dcd-description collapsed" id="dcd-additional">
+                    {{ destination.additional_info|safe }}
+                </div>
+                <button class="dcd-toggle-btn" id="dcd-add-btn" onclick="toggleAdditional()">
+                    Show more <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        {% endif %}
+
+        <!-- LOCATION -->
+        <div class="dcd-section">
+            <h2 class="dcd-section-title">Location</h2>
+            {% if destination.latitude and destination.longitude %}
+                <div class="dcd-map-wrap">
+                    <iframe
+                            src="https://maps.google.com/maps?q={{ destination.latitude }},{{ destination.longitude }}&z=15&output=embed&hl=en&markers={{ destination.latitude }},{{ destination.longitude }}"
+                            width="100%" height="300"
+                            style="border:0;border-radius:16px;"
+                            loading="lazy"
+                            allowfullscreen
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
                 </div>
 
             {% endif %}
-            {% if destination.faqs.exists %}
-                <div class="dcd-section">
-                    <h2 class="dcd-section-title">Frequently asked questions</h2>
-                    <div class="dcd-faq">
+            <div class="dcd-address-row">
+                <div class="dcd-address-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div>
+                    <strong>{{ destination.name }}</strong>
+                    <span>{{ destination.location }}</span>
+                </div>
+            </div>
+        </div>
 
-                        {% for faq in destination.faqs.all %}
-                            <div class="dcd-faq-item">
-                                <button class="dcd-faq-btn" onclick="toggleFaq(this)">
-                                    <span>{{ faq.question }}</span><i class="fas fa-chevron-down"></i>
-                                </button>
+        <!-- USER RATINGS -->
+        <div class="dcd-section">
+            <h2 class="dcd-section-title">User ratings</h2>
+            <div class="dcd-ratings-wrap">
+                <div class="dcd-overall">
+                    <div class="dcd-overall-score">
+                        <i class="fas fa-star" style="color:#fbbf24;font-size:28px;"></i>
+                        <span class="dcd-big-num">{{ destination.rating|floatformat:1 }}</span>
+                        <span class="dcd-big-label">·
+                            {% if destination.rating >= 4.5 %}Excellent
+                            {% elif destination.rating >= 4.0 %}Fabulous
+                            {% elif destination.rating >= 3.5 %}Good
+                            {% elif destination.rating >= 3.0 %}Average
+                            {% else %}Poor{% endif %}
+                            </span>
+                    </div>
+                </div>
+                <div class="dcd-score-grid">
 
-                                <div class="dcd-faq-body">
-                                    {{ faq.answer|safe }}
+                    <div class="dcd-score-row">
+                        <span>Good value</span>
+                        <div class="dcd-score-bar">
+                            <div class="dcd-score-fill"
+                                 data-width="{% widthratio destination.value_score 5 100 %}"></div>
+                        </div>
+                        <span>{{ destination.value_score|floatformat:1 }}</span>
+                    </div>
+
+                    <div class="dcd-score-row">
+                        <span>Facilities</span>
+                        <div class="dcd-score-bar">
+                            <div class="dcd-score-fill"
+                                 data-width="{% widthratio destination.facilities_score 5 100 %}"></div>
+                        </div>
+                        <span>{{ destination.facilities_score|floatformat:1 }}</span>
+                    </div>
+
+                    <div class="dcd-score-row">
+                        <span>Quality of service</span>
+                        <div class="dcd-score-bar">
+                            <div class="dcd-score-fill"
+                                 data-width="{% widthratio destination.service_score 5 100 %}"></div>
+                        </div>
+                        <span>{{ destination.service_score|floatformat:1 }}</span>
+                    </div>
+
+                    <div class="dcd-score-row">
+                        <span>Ease of access</span>
+                        <div class="dcd-score-bar">
+                            <div class="dcd-score-fill"
+                                 data-width="{% widthratio destination.access_score 5 100 %}"></div>
+                        </div>
+                        <span>{{ destination.access_score|floatformat:1 }}</span>
+                    </div>
+
+                </div>
+            </div>
+            <!-- REVIEWS -->
+            <div class="dcd-reviews-slider-wrap">
+                <!-- ===== REVIEW MODAL ===== -->
+                {% include 'apps/partials/_review_modal.html' %}
+                <div class="dcd-reviews-advanced-header">
+                    <div class="header-titles">
+                        <span class="header-badge">Experiences</span>
+                        <h2 class="dcd-section-title">What travellers are saying</h2>
+                    </div>
+                    <div class="header-actions">
+                        <button class="header-write-btn" onclick="openReviewModal()">
+                            <i class="fas fa-pen-nib"></i>
+                            <span>Write a review</span>
+                        </button>
+                        <a href="{% url 'destination_reviews_page' destination.slug %}" class="view-all-link">
+                            Explore all {{ destination.visible_reviews_count }} reviews
+                            <span class="link-icon"><i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="dcd-reviews-premium-container">
+                    <div class="dcd-creative-backdrop">
+                        <div class="backdrop-blob blob-blue"></div>
+                        <div class="backdrop-blob blob-purple"></div>
+                    </div>
+
+                    <div class="dcd-reviews-track" id="dcd-reviews-track">
+                        {% for review in destination.visible_reviews %}
+                            <!-- Card content remains same -->
+                            <div class="dcd-review-card-v2">
+                                <div class="card-glass-effect"></div>
+                                <div class="card-top">
+                                    <div class="user-profile">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar-gradient"
+                                                 style="background: linear-gradient(135deg, #6366f1, #a855f7);">
+                                                {{ review.author_name|default:review.user.username|first|upper }}
+                                            </div>
+                                            {% if review.is_verified %}
+                                                <div class="verified-indicator" title="Verified Traveller">
+                                                    <i class="fas fa-check"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="user-info">
+                                            <h4 class="user-name">{{ review.author_name|default:review.user.username }}</h4>
+                                            <div class="user-meta">
+                                                {% if review.author_country %}
+                                                    <span class="country">{{ review.author_country.name }}</span>
+                                                    <span class="dot"></span>
+                                                {% endif %}
+                                                <span class="date">{{ review.created_at|date:"M Y" }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="rating-box">
+                                        <div class="rating-value">{{ review.rating }}</div>
+                                        <div class="rating-stars">
+                                            {% for i in "12345" %}
+                                                <i class="fas fa-star {% if forloop.counter <= review.rating %}active{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
                                 </div>
 
+                                <div class="card-body">
+                                    <div class="quote-icon-bg">
+                                        <i class="fas fa-quote-right"></i>
+                                    </div>
+                                    <p class="review-text-content">{{ review.text }}</p>
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="visit-type-tag type-{{ review.visit_type|default:'general' }}">
+                                        {% if review.visit_type == 'family' %}<i class="fas fa-users"></i>
+                                        {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i>
+                                        {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i>
+                                        {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i>
+                                        {% else %}<i class="fas fa-map-marker-alt"></i>{% endif %}
+                                        <span>{{ review.get_visit_type_display|default:'Visited' }}</span>
+                                    </div>
+                                    <div class="footer-actions">
+                                        <button class="like-button-v2 {% if request.user in review.likes.all %}is-liked{% endif %}"
+                                                data-url="{% url 'toggle_review_like' review.id %}"
+                                                onclick="toggleLike(this)">
+                                            <div class="like-icon-wrap">
+                                                <i class="fas fa-heart"></i>
+                                            </div>
+                                            <span class="count">{{ review.total_likes }}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="empty-reviews-state-v2">
+                                <div class="empty-art">
+                                    <i class="fas fa-feather-alt"></i>
+                                </div>
+                                <h3>The stage is yours</h3>
+                                <p>No stories have been shared yet. Be the pioneer and share your thoughts.</p>
+                                <button class="btn-primary-v2" onclick="openReviewModal()">Share your experience
+                                </button>
                             </div>
                         {% endfor %}
-
                     </div>
-                </div>
-            {% endif %}
 
-            <!-- SIMILAR / BESTSELLERS -->
-            <div class="dcd-section">
-                <div class="dcd-similar-head">
-                    <h2 class="dcd-section-title" style="position:static;transform:none;left:auto;">Bestsellers in
-                        {{ destination.city.name }}</h2>
-                    <a href="{% url 'destinations_page' %}" class="dcd-see-all-link">See all</a>
-                </div>
+                    <!-- ADVANCED CONTROLS -->
+                    <div class="dcd-slider-navigation-v2">
+                        <button class="nav-btn-v2 prev-v2" onclick="slideReviews(-1)" id="rev-prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
 
-                <div class="dcd-similar-wrap">
-                    <div class="dcd-tp-overflow">
-                        <div class="dcd-similar-track" id="dcd-similar-track">
-                            {% for s_destination in similar_destinations %}
-
-                                <div class="dcd-sim-card"
-                                     onclick="window.location.href='{% url 'destination_detail_page' s_destination.slug %}'">
-
-                                    <div class="dcd-sim-img-wrap">
-                                        {% if s_destination.is_popular %}
-                                            <div class="dcd-sim-badge">#{{ s_destination.featured_badge }} Best seller
-                                            </div>
-                                        {% endif %}
-
-                                        {% with s_img=s_destination.images.first %}
-                                            <img src="{% if s_img %} {{ s_img.image.url }} {% else %} {% static 'apps/img/default.avif' %} {% endif %}"
-                                                 alt="{{ s_destination.name }}">
-                                        {% endwith %}
-                                    </div>
-
-                                    <div class="dcd-sim-info">
-                                        <h4>{{ s_destination.name }}</h4>
-
-                                        <div class="dcd-sim-footer">
-                                            <div class="dcd-sim-rating">
-                                                <i class="fas fa-star" style="color:#fbbf24;"></i>
-                                                <span>{{ s_destination.rating }}</span>
-                                                <span style="color:var(--gray); font-size: 11px;">({{ s_destination.visible_reviews_count }})</span>
-                                            </div>
-
-                                            <div class="dcd-sim-price">
-                                                <span class="price-label">From</span>
-                                                {% if s_destination.discount_percentage > 0 %}
-                                                    <strong>${{ s_destination.discounted_price }}</strong>
-                                                {% else %}
-                                                    <strong>${{ s_destination.price }}</strong>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            {% empty %}
-                                <p style="color:var(--gray);">No similar destinations found.</p>
-                            {% endfor %}
+                        <div class="slider-status-v2">
+                            <div class="progress-track-v2">
+                                <div class="progress-fill-v2" id="review-progress-bar"></div>
+                            </div>
                         </div>
+
+                        <button class="nav-btn-v2 next-v2" onclick="slideReviews(1)" id="rev-next">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRAVELLER PHOTOS -->
+        {% if destination.images.count > 1 %}
+            <div class="dcd-section">
+            <h2 class="dcd-section-title">Traveller photos</h2>
+            <div class="dcd-tp-wrap">
+                <div class="dcd-tp-track" id="dcd-tp-track">
+                    {% for img in destination.images.all %}
+                        <div class="dcd-tp-item" onclick="openGalleryModal({{ forloop.counter0 }})">
+                        {% if img.image %}
+                            <img src="{{ img.image.url }}" alt="{{ destination.name }}">
+                        {% else %}
+                            <img src="{% static 'apps/img/default.avif' %}" alt="No image">
+                        {% endif %}
+
+                    {% endfor %}
                     </div>
 
-                    <button class="dcd-sim-arrow left" onclick="slideSimilarBack()">
+                    <button class="dcd-tp-arrow left" onclick="slidePhotosBack()">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-
-                    <button class="dcd-sim-arrow right" onclick="slideSimilar()">
-                        <i class="fas fa-chevron-right"></i>
+                    <button class="dcd-tp-arrow right" onclick="slidePhotos()"><i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </div>
+
+        {% endif %}
+        {% if destination.faqs.exists %}
+            <div class="dcd-section">
+                <h2 class="dcd-section-title">Frequently asked questions</h2>
+                <div class="dcd-faq">
+
+                    {% for faq in destination.faqs.all %}
+                        <div class="dcd-faq-item">
+                            <button class="dcd-faq-btn" onclick="toggleFaq(this)">
+                                <span>{{ faq.question }}</span><i class="fas fa-chevron-down"></i>
+                            </button>
+
+                            <div class="dcd-faq-body">
+                                {{ faq.answer|safe }}
+                            </div>
+
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- SIMILAR / BESTSELLERS -->
+        <div class="dcd-section">
+            <div class="dcd-similar-head">
+                <h2 class="dcd-section-title" style="position:static;transform:none;left:auto;">Bestsellers in
+                    {{ destination.city.name }}</h2>
+                <a href="{% url 'destinations_page' %}" class="dcd-see-all-link">See all</a>
+            </div>
+
+            <div class="dcd-similar-wrap">
+                <div class="dcd-tp-overflow">
+                    <div class="dcd-similar-track" id="dcd-similar-track">
+                        {% for s_destination in similar_destinations %}
+
+                            <div class="dcd-sim-card"
+                                 onclick="window.location.href='{% url 'destination_detail_page' s_destination.slug %}'">
+
+                                <div class="dcd-sim-img-wrap">
+                                    {% if s_destination.is_popular %}
+                                        <div class="dcd-sim-badge">#{{ s_destination.featured_badge }} Best seller
+                                        </div>
+                                    {% endif %}
+
+                                    {% with s_img=s_destination.images.first %}
+                                        <img src="{% if s_img %} {{ s_img.image.url }} {% else %} {% static 'apps/img/default.avif' %} {% endif %}"
+                                             alt="{{ s_destination.name }}">
+                                    {% endwith %}
+                                </div>
+
+                                <div class="dcd-sim-info">
+                                    <h4>{{ s_destination.name }}</h4>
+
+                                    <div class="dcd-sim-footer">
+                                        <div class="dcd-sim-rating">
+                                            <i class="fas fa-star" style="color:#fbbf24;"></i>
+                                            <span>{{ s_destination.rating }}</span>
+                                            <span style="color:var(--gray); font-size: 11px;">({{ s_destination.visible_reviews_count }})</span>
+                                        </div>
+
+                                        <div class="dcd-sim-price">
+                                            <span class="price-label">From</span>
+                                            {% if s_destination.discount_percentage > 0 %}
+                                                <strong>${{ s_destination.discounted_price }}</strong>
+                                            {% else %}
+                                                <strong>${{ s_destination.price }}</strong>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        {% empty %}
+                            <p style="color:var(--gray);">No similar destinations found.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button class="dcd-sim-arrow left" onclick="slideSimilarBack()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <button class="dcd-sim-arrow right" onclick="slideSimilar()">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
         </div><!-- /dcd-left -->
 
         <!-- ===== RIGHT STICKY PANEL ===== -->
@@ -718,6 +728,12 @@
 
 
 
+
+
+
+
+
+
                                     {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
                                  alt="{{ destination.name }}">
                         </div>
@@ -725,8 +741,11 @@
 
                     {% for img in destination.images.all|slice:"1:" %}
                         <div class="dcd-gm-photo-item">
-                            <img src="{{ img.image.url }}" alt="{{ destination.name }}">
-                        </div>
+                            {% if img.image %}
+                                <img src="{{ img.image.url }}" alt="{{ destination.name }}">
+                            {% else %}
+                                <img src="{% static 'apps/img/default.avif' %}" alt="No image">
+                            {% endif %}                        </div>
                     {% endfor %}
                 </div>
 
@@ -811,19 +830,7 @@
             </div>
         </div>
     </div>
-
-    <!-- MOBILE BOTTOM BAR -->
-    <div class="dcd-mobile-bar" id="dcd-mobile-bar">
-        <div>
-            <div class="dcd-mobile-from">From</div>
-            <div class="dcd-mobile-price">${{ destination.price }} <span>
-                per {{ destination.price_label }}</span></div>
-        </div>
-        <button onclick="scrollToPanel()">Book Now</button>
-    </div>
-
-
-
+    
 
 {% endblock %}
 
