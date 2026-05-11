@@ -106,6 +106,11 @@ class Destination(SlugBaseModel, CreatedBaseModel):
         return f"Up to {hours} hours before the start time"
 
     @property
+    def is_flash_sale_active(self):
+        from django.utils import timezone
+        return self.is_flash_sale and self.flash_sale_end is not None and self.flash_sale_end > timezone.now()
+
+    @property
     def discounted_price(self):
         if not (0 <= self.discount_percentage <= 100):
             raise ValueError("Discount percentage must be between 0 and 100")

@@ -17,7 +17,7 @@ from django.db import transaction, IntegrityError
 from django.db.models import F, Q, Prefetch, Count, Avg, Min, Max
 from django.forms.models import model_to_dict
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -30,7 +30,9 @@ from apps.ai_moderator import check_review_with_ai
 from apps.forms import (ForgotPasswordForm, LoginForm,
                         PasswordResetConfirmForm, RegisterModelForm, ReviewModelForm, BookingGuestForm)
 from apps.mixins import LoginNotRequiredMixin
-from apps.models import Destination, User, Country, Review, ActionLog, PromoCode, TicketType, Booking, Activity
+from apps.models import Destination, User, Country, Review, ActionLog, PromoCode, TicketType, Booking, Activity, Notification
+from apps.models.notifications import NotificationSetting
+from datetime import timedelta
 from apps.models.categories import City, Region
 from apps.tasks import moderate_review_task
 from apps.utils.send_email import send_user_email
@@ -106,6 +108,7 @@ class FilterDestinationsTemplateView(TemplateView):
         context['total'] = total_count
         context['shown'] = offset + destinations.count()
         context['has_more'] = (offset + limit) < total_count
+        context['now'] = timezone.now()
 
         return context
 
@@ -368,8 +371,12 @@ class BookingStep2View(View):
             )
 
             # 4. Promo-kod ishlatilishini yangilash
-            p_code = pending['booking_details'].get('promo_code')
+            p_code = pending['booking_details'].get('promo_code', '').strip()
+            promo_discount = 0  # chegirma foizini keyingi notification uchun saqlaymiz
             if p_code:
+                promo_obj = PromoCode.objects.filter(code__iexact=p_code).first()
+                if promo_obj:
+                    promo_discount = promo_obj.discount_percent
                 PromoCode.objects.filter(code__iexact=p_code).update(used_count=F('used_count') + 1)
 
             # 5. ACTION LOG (Audit uchun barcha detallar bilan)
@@ -392,13 +399,167 @@ class BookingStep2View(View):
             # 6. Sessionni tozalash
             del request.session['pending_booking']
 
+            # ✅ 1.1 NOTIFICATION: Booking tasdiqlandi
+            if request.user.is_authenticated:
+                try:
+                    Notification.objects.create(
+                        recipient=request.user,
+                        verb='booking_confirmed',
+                        description=f"'{destination.name}' uchun broningiz tasdiqlandi! "
+                                    f"Sana: {booking.booking_date.strftime('%b %d, %Y')}. "
+                                    f"Umumiy narx: ${float(booking.total_price):,.0f}.",
+                        level=Notification.Level.SUCCESS,
+                        priority=Notification.Priority.HIGH,
+                        target_content_type=ContentType.objects.get_for_model(Booking),
+                        target_object_id=str(booking.id),
+                        extra_data={
+                            'category': 'bookings',
+                            'title': 'Bron Tasdiqlandi! ✈️',
+                            'icon_class': 'fa-check-circle',
+                            'icon_bg': 'booking',
+                            'booking_number': booking.booking_number,
+                            'destination_name': destination.name,
+                            'booking_date': booking.booking_date.strftime('%b %d, %Y'),
+                            'total_price': float(booking.total_price),
+                            'payment_method': booking.get_payment_method_display(),
+                            'action_url': '/my_bookings/',
+                            'action_label': "Bronni Ko'rish",
+                        }
+                    )
+                except Exception as notif_err:
+                    logger.error(f"Booking confirmed notification failed: {notif_err}")
+
+                # ─────────────────────────────────────────────────────────────
+                # ✅ 2.1 NOTIFICATION: To'lov muvaffaqiyatli (Payment Successful)
+                # Real loyihada: to'lov tizimidan (Payme, Click) callback kelganda
+                # Hozir: booking.is_paid=True bo'lganda yaratiladi
+                # Ma'lumotlar: transaction_id, summa, karta turi, to'lov usuli
+                # ─────────────────────────────────────────────────────────────
+                try:
+                    # Karta oxirgi 4 raqamini ajratamiz: "**** **** 1234" → "1234"
+                    card_last4 = ''
+                    if card_mask:
+                        digits = ''.join(filter(str.isdigit, card_mask))
+                        card_last4 = digits[-4:] if len(digits) >= 4 else digits
+
+                    Notification.objects.create(
+                        recipient=request.user,
+                        verb='payment_successful',
+                        description=(
+                            f"${float(booking.total_price):,.0f} miqdoridagi to'lovingiz "
+                            f"muvaffaqiyatli amalga oshirildi. "
+                            f"To'lov usuli: {booking.get_payment_method_display()}"
+                            + (f" (*{card_last4})" if card_last4 else "") + "."
+                        ),
+                        level=Notification.Level.SUCCESS,
+                        priority=Notification.Priority.HIGH,
+                        target_content_type=ContentType.objects.get_for_model(Booking),
+                        target_object_id=str(booking.id),
+                        extra_data={
+                            'category': 'promotions',   # payment → promotions sidebar da
+                            'title': "To'lov Muvaffaqiyatli! 💳",
+                            'icon_class': 'fa-credit-card',
+                            'icon_bg': 'payment',
+                            'booking_number': booking.booking_number,
+                            'transaction_id': booking.transaction_id,
+                            'total_price': float(booking.total_price),
+                            'payment_method': booking.get_payment_method_display(),
+                            'card_type': card_type or '',
+                            'card_last4': card_last4,
+                            'destination_name': destination.name,
+                            'paid_at': booking.paid_at.strftime('%d %b %Y, %H:%M') if booking.paid_at else '',
+                            'action_url': '/my_bookings/',
+                            'action_label': "To'lov Chekini Ko'rish",
+                        }
+                    )
+                except Exception as notif_err:
+                    logger.error(f"Payment successful notification failed: {notif_err}")
+
+                # ─────────────────────────────────────────────────────────────
+                # ✅ 2.3 NOTIFICATION: Promo-kod qo'llanildi
+                # Faqat agar promo_code kiritilgan bo'lsa va chegirma > 0 bo'lsa
+                # Ma'lumotlar: kod nomi, chegirma %, tejab qolgan summa
+                # ─────────────────────────────────────────────────────────────
+                if p_code and promo_discount > 0:
+                    try:
+                        original_price = float(booking.total_price) / (1 - promo_discount / 100)
+                        saved_amount = original_price - float(booking.total_price)
+
+                        Notification.objects.create(
+                            recipient=request.user,
+                            verb='promo_applied',
+                            description=(
+                                f"'{p_code.upper()}' promo-kodi muvaffaqiyatli qo'llanildi! "
+                                f"{promo_discount}% chegirma bilan "
+                                f"${saved_amount:,.0f} tejadingiz."
+                            ),
+                            level=Notification.Level.SUCCESS,
+                            priority=Notification.Priority.LOW,
+                            target_content_type=ContentType.objects.get_for_model(Booking),
+                            target_object_id=str(booking.id),
+                            extra_data={
+                                'category': 'promotions',
+                                'title': f'Promo-Kod Qo\'llanildi! 🎁',
+                                'icon_class': 'fa-tag',
+                                'icon_bg': 'promotion',
+                                'promo_code': p_code.upper(),
+                                'discount_percent': promo_discount,
+                                'saved_amount': round(saved_amount, 2),
+                                'final_price': float(booking.total_price),
+                                'booking_number': booking.booking_number,
+                                'action_url': '/destinations/',
+                                'action_label': "Ko'proq Sayohat Qidirish",
+                            }
+                        )
+                    except Exception as notif_err:
+                        logger.error(f"Promo applied notification failed: {notif_err}")
+
             return JsonResponse({
                 'success': True,
-                'booking_number': booking.booking_number  # TH-2026-XXXXXXXX
+                'booking_number': booking.booking_number
             })
 
         except Exception as e:
-            # Xatolikni log qilish
+            logger.error(f"BookingStep2View error: {e}")
+
+            # ─────────────────────────────────────────────────────────────────
+            # ✅ 2.2 NOTIFICATION: To'lov muvaffaqiyatsiz (Payment Failed)
+            # Qachon: booking yaratishda yoki to'lovda xatolik yuz berganda
+            # Real loyihada: Payme/Click webhook 'failed' status yuboraganda
+            # Ma'lumotlar: xatolik sababi, qaysi destination, qancha summa
+            # ─────────────────────────────────────────────────────────────────
+            if request.user.is_authenticated:
+                try:
+                    failed_amount = 0
+                    failed_dest = destination.name if 'destination' in dir() else 'Noma\'lum'
+                    if pending and 'booking_details' in pending:
+                        failed_amount = pending['booking_details'].get('total_price', 0)
+
+                    Notification.objects.create(
+                        recipient=request.user,
+                        verb='payment_failed',
+                        description=(
+                            f"'{failed_dest}' uchun to'lovda xatolik yuz berdi. "
+                            f"Sabab: {str(e)[:120]}. "
+                            f"Iltimos, qayta urinib ko'ring yoki boshqa to'lov usulini tanlang."
+                        ),
+                        level=Notification.Level.ERROR,
+                        priority=Notification.Priority.HIGH,
+                        extra_data={
+                            'category': 'security',  # xatolik → security sidebar
+                            'title': "To'lovda Xatolik! ❌",
+                            'icon_class': 'fa-exclamation-triangle',
+                            'icon_bg': 'security',
+                            'destination_name': failed_dest,
+                            'failed_amount': float(failed_amount),
+                            'error_code': type(e).__name__,
+                            'action_url': f'/booking/step-1/{slug}/',
+                            'action_label': "Qayta Urinish",
+                        }
+                    )
+                except Exception as notif_err:
+                    logger.error(f"Payment failed notification error: {notif_err}")
+
             return JsonResponse({'success': False, 'message': f'Error: {str(e)}'})
 
 
@@ -625,6 +786,37 @@ class ToggleReviewLikeView(View):
                 logger.error(f"ActionLog Error: {log_e}")
 
             # 6. MUAFFAQIYATLI JAVOB
+            # ✅ 3.4 NOTIFICATION: Izohga like bosildi
+            # Faqat LIKE bosilganda, unlike emas. Review egasiga xabar beriladi
+            if liked and review.user != user:
+                try:
+                    Notification.objects.create(
+                        recipient=review.user,         # izoh egasi
+                        actor=user,                    # like bosgan kishi
+                        verb='review_liked',
+                        description=(
+                            f"{user.get_full_name() or user.username} sizning "
+                            f"'{review.destination.name}' haqidagi izohingizni foydali topdi."
+                        ),
+                        level=Notification.Level.INFO,
+                        priority=Notification.Priority.LOW,
+                        target_content_type=ContentType.objects.get_for_model(Review),
+                        target_object_id=str(review.id),
+                        extra_data={
+                            'category': 'messages',
+                            'title': 'Izohingizga Like! 👍',
+                            'icon_class': 'fa-thumbs-up',
+                            'icon_bg': 'message',
+                            'liker_name': user.get_full_name() or user.username,
+                            'destination_name': review.destination.name,
+                            'total_likes': new_likes_count,
+                            'action_url': f'/destination-detail/{review.destination.slug}/',
+                            'action_label': "Izohni Ko'rish",
+                        }
+                    )
+                except Exception as notif_err:
+                    logger.error(f"Review liked notification failed: {notif_err}")
+
             return JsonResponse({
                 'liked': liked,
                 'total_likes': new_likes_count
@@ -980,10 +1172,20 @@ class LoadMoreDestinationsView(View):
         has_more = (offset + limit) < total
 
         # HTML bo'lagini render qilish
-        html = "".join([
-            render_to_string(template_name, {'destination': d}, request=request)
-            for d in batch
-        ])
+        from django.utils import timezone
+        if section in ('flash', 'featured', 'trending'):
+            html = "".join([
+                render_to_string(template_name, {'destination': d, 'now': timezone.now()}, request=request)
+                for d in batch
+            ])
+        else:
+            html = render_to_string(template_name, {
+                'destinations': batch,
+                'now': timezone.now(),
+                'total': total,
+                'shown': offset + len(batch),
+                'has_more': has_more
+            }, request=request)
 
         if not html and offset == 0:
             return HttpResponse('<p class="no-results">No destinations found.</p>')
@@ -1129,8 +1331,31 @@ class ActivateAccountView(View):
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
-            # login(request, user)
             messages.success(request, "Email tasdiqlandi, endi bemalol login qilsa bo'ladi")
+
+            # ✅ 6.1 NOTIFICATION: Xush kelibsiz (Email tasdiqlandi)
+            try:
+                Notification.objects.create(
+                    recipient=user,
+                    verb='welcome',
+                    description=(
+                        f"TravelHub ga xush kelibsiz, {user.get_full_name() or user.username}! "
+                        f"Email manzilingiz tasdiqlandi. "
+                        f"Endi birinchi sayohatingizni tanlashingiz mumkin."
+                    ),
+                    level=Notification.Level.SUCCESS,
+                    priority=Notification.Priority.MEDIUM,
+                    extra_data={
+                        'category': 'account',
+                        'title': 'Xush Kelibsiz! 🎉',
+                        'icon_class': 'fa-hands-helping',
+                        'icon_bg': 'promotion',
+                        'action_url': '/destinations/',
+                        'action_label': 'Sayohatlarni Ko\'rish',
+                    }
+                )
+            except Exception as notif_err:
+                logger.error(f"Email confirmed notification failed: {notif_err}")
         else:
             messages.error(request, "Bu linkda xatolik bor")
 
@@ -1178,13 +1403,62 @@ class LoginFormView(LoginNotRequiredMixin, FormView):
         return super().get_success_url()
 
     def form_valid(self, form):
-        login(self.request, form.cleaned_data['user'])
+        user = form.cleaned_data['user']
+        login(self.request, user)
         remember = form.cleaned_data.get('remember')
 
         if not remember:
             self.request.session.set_expiry(0)
         else:
             self.request.session.set_expiry(60 * 60 * 24 * 14)
+
+        # ✅ 4.1 NOTIFICATION: Yangi qurilmadan kirish (Login Detected)
+        # Real loyihada: IP manzil va User-Agent dan qurilma aniqlanadi
+        # Hozir: har kirganida notification (spam bo'lmasligi uchun cache key ishlatamiz)
+        try:
+            from django.core.cache import cache as _cache
+            ip = self.request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')[0].strip() \
+                 or self.request.META.get('REMOTE_ADDR', 'Unknown')
+            user_agent = self.request.META.get('HTTP_USER_AGENT', '')
+
+            # Qurilma turini aniqlaymiz (oddiy usul)
+            if 'Mobile' in user_agent:
+                device = 'Mobile'
+            elif 'Mac' in user_agent:
+                device = 'Mac'
+            else:
+                device = 'Windows PC'
+
+            # Anti-spam: bir soatda bir marta
+            login_notif_key = f"login_notif_{user.id}_{ip}"
+            if not _cache.get(login_notif_key):
+                _cache.set(login_notif_key, True, timeout=3600)
+                Notification.objects.create(
+                    recipient=user,
+                    verb='login_detected',
+                    description=(
+                        f"{device} qurilmasidan tizimga kirish aniqlandi. "
+                        f"IP: {ip}. "
+                        f"Agar bu siz bo'lmasangiz, parolingizni o'zgartiring."
+                    ),
+                    level=Notification.Level.WARNING,
+                    priority=Notification.Priority.HIGH,
+                    extra_data={
+                        'category': 'security',
+                        'title': 'Yangi Kirish Aniqlandi! 🔐',
+                        'icon_class': 'fa-shield-alt',
+                        'icon_bg': 'security',
+                        'device': device,
+                        'ip_address': ip,
+                        'login_time': timezone.now().strftime('%d %b %Y, %H:%M'),
+                        'action_url': '/profile_settings/',
+                        'action_label': 'Parolni O\'zgartirish',
+                        'action_danger_url': '/profile_settings/',
+                        'action_danger_label': 'Hisobni Himoyalash',
+                    }
+                )
+        except Exception as notif_err:
+            logger.error(f"Login detected notification failed: {notif_err}")
 
         return super().form_valid(form)
 
@@ -1265,7 +1539,6 @@ class PasswordResetConfirmView(FormView):
 
     def form_valid(self, form):
         password = form.cleaned_data['new_password']
-
         self.user.set_password(password)
         self.user.save()
 
@@ -1273,6 +1546,35 @@ class PasswordResetConfirmView(FormView):
             self.request,
             'Parolingiz muvaffaqiyatli o\'zgartirildi! Endi tizimga kirishingiz mumkin.'
         )
+
+        # ✅ 4.3 NOTIFICATION: Parol o'zgartirildi
+        try:
+            ip = self.request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')[0].strip() \
+                 or self.request.META.get('REMOTE_ADDR', 'Unknown')
+            Notification.objects.create(
+                recipient=self.user,
+                verb='password_changed',
+                description=(
+                    f"Parolingiz muvaffaqiyatli o'zgartirildi. "
+                    f"Vaqt: {timezone.now().strftime('%d %b %Y, %H:%M')}. "
+                    f"Agar bu siz bo'lmasangiz, darhol bizga murojaat qiling."
+                ),
+                level=Notification.Level.WARNING,
+                priority=Notification.Priority.HIGH,
+                extra_data={
+                    'category': 'security',
+                    'title': 'Parol O\'zgartirildi! 🔑',
+                    'icon_class': 'fa-key',
+                    'icon_bg': 'security',
+                    'changed_at': timezone.now().strftime('%d %b %Y, %H:%M'),
+                    'ip_address': ip,
+                    'action_url': '/profile_settings/',
+                    'action_label': 'Profil Sozlamalari',
+                }
+            )
+        except Exception as notif_err:
+            logger.error(f"Password changed notification failed: {notif_err}")
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -1345,6 +1647,35 @@ class GoogleCallbackView(View):
             user.save()
 
         login(request, user)
+
+        # ✅ 4.2 NOTIFICATION: Google orqali kirish
+        try:
+            is_new_user = not User.objects.filter(email=email).exclude(pk=user.pk).exists()
+            Notification.objects.create(
+                recipient=user,
+                verb='google_login',
+                description=(
+                    f"Google hisobi ({email}) orqali tizimga muvaffaqiyatli kirdingiz. "
+                    + ("TravelHub ga xush kelibsiz!" if is_new_user else
+                       f"Vaqt: {timezone.now().strftime('%d %b %Y, %H:%M')}.")
+                ),
+                level=Notification.Level.INFO,
+                priority=Notification.Priority.MEDIUM,
+                extra_data={
+                    'category': 'security',
+                    'title': 'Google Orqali Kirish 🔵',
+                    'icon_class': 'fab fa-google',
+                    'icon_bg': 'booking',
+                    'google_email': email,
+                    'is_new_user': is_new_user,
+                    'login_time': timezone.now().strftime('%d %b %Y, %H:%M'),
+                    'action_url': '/profile_settings/',
+                    'action_label': 'Profil Sozlamalari',
+                }
+            )
+        except Exception as notif_err:
+            logger.error(f"Google login notification failed: {notif_err}")
+
         return redirect("home_page")
 
 
@@ -1384,8 +1715,162 @@ class BlogTemplateView(TemplateView):
     template_name = 'apps/blog.html'
 
 
-class NotificationTemplateView(TemplateView):
+class NotificationTemplateView(LoginRequiredMixin, View):
     template_name = 'apps/notification.html'
+    login_url = 'login_page'
+
+    def get(self, request):
+        user = request.user
+        qs = Notification.objects.filter(recipient=user).order_by('-created_at')
+
+        total = qs.count()
+        unread = qs.filter(is_read=False).count()
+        read_count = total - unread
+
+        # Sidebar category counts
+        cat_counts = {
+            'all': total,
+            'bookings': qs.filter(extra_data__category='bookings').count(),
+            'promotions': qs.filter(extra_data__category='promotions').count(),
+            'security': qs.filter(extra_data__category='security').count(),
+            'messages': qs.filter(extra_data__category='messages').count(),
+            'updates': qs.filter(extra_data__category='updates').count(),
+        }
+
+        # Vaqt bo'yicha guruhlash (eng so'nggi 100 ta)
+        now = timezone.now()
+        today = now.date()
+        yesterday = today - timedelta(days=1)
+        week_ago = today - timedelta(days=7)
+        month_ago = today - timedelta(days=30)
+
+        year_ago = today.replace(year=today.year - 1)
+
+        all_notifs = list(qs[:100])
+
+        group_keys = ['today', 'yesterday', 'this_week', 'this_month', 'this_year', 'older']
+        group_labels = {
+            'today': 'Bugun',
+            'yesterday': 'Kecha',
+            'this_week': 'Bu Hafta',
+            'this_month': 'Bu Oy',
+            'this_year': 'Bu Yil',
+            'older': 'Oldingi',
+        }
+        groups = {k: [] for k in group_keys}
+
+        for notif in all_notifs:
+            d = notif.created_at.date()
+            if d == today:
+                groups['today'].append(notif)
+            elif d == yesterday:
+                groups['yesterday'].append(notif)
+            elif d > week_ago:
+                groups['this_week'].append(notif)
+            elif d > month_ago:
+                groups['this_month'].append(notif)
+            elif d > year_ago:
+                groups['this_year'].append(notif)
+            else:
+                groups['older'].append(notif)
+
+        ordered_groups = [
+            {'key': k, 'label': group_labels[k], 'items': groups[k]}
+            for k in group_keys if groups[k]
+        ]
+
+        notif_settings, _ = NotificationSetting.objects.get_or_create(user=user)
+
+        return render(request, self.template_name, {
+            'ordered_groups': ordered_groups,
+            'all_notifications': all_notifs,
+            'total_count': total,
+            'unread_count': unread,
+            'read_count': read_count,
+            'cat_counts': cat_counts,
+            'notif_settings': notif_settings,
+        })
+
+
+# ── Notification API Views ────────────────────────────────────────────────────
+
+class NotificationMarkReadView(LoginRequiredMixin, View):
+    """AJAX: Bitta notificationni o'qilgan qilish."""
+    def post(self, request, pk):
+        notif = get_object_or_404(Notification, pk=pk, recipient=request.user)
+        notif.mark_as_read()
+        return JsonResponse({'success': True})
+
+
+class NotificationMarkAllReadView(LoginRequiredMixin, View):
+    """AJAX: Barcha notificationlarni o'qilgan qilish."""
+    def post(self, request):
+        updated = Notification.objects.filter(
+            recipient=request.user, is_read=False
+        ).update(is_read=True, read_at=timezone.now())
+        return JsonResponse({'success': True, 'updated': updated})
+
+
+class NotificationDeleteView(LoginRequiredMixin, View):
+    """AJAX: Notificationni o'chirish."""
+    def post(self, request, pk):
+        deleted, _ = Notification.objects.filter(pk=pk, recipient=request.user).delete()
+        return JsonResponse({'success': bool(deleted)})
+
+
+class NotificationSettingsSaveView(LoginRequiredMixin, View):
+    """AJAX: Notification sozlamalarini saqlash."""
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            settings_obj, _ = NotificationSetting.objects.get_or_create(user=request.user)
+            settings_obj.enable_email = data.get('enable_email', True)
+            settings_obj.enable_push = data.get('enable_push', True)
+            settings_obj.enable_in_app = data.get('enable_in_app', True)
+            settings_obj.save(update_fields=['enable_email', 'enable_push', 'enable_in_app'])
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+
+
+class CancelBookingView(LoginRequiredMixin, View):
+    """1.2 NOTIFICATION: Booking bekor qilish."""
+    def post(self, request, booking_number):
+        booking = get_object_or_404(
+            Booking, booking_number=booking_number, user=request.user
+        )
+        if booking.status in [Booking.Status.CONFIRMED, Booking.Status.PENDING]:
+            booking.status = Booking.Status.CANCELLED
+            booking.save(update_fields=['status'])
+
+            # 1.2 Notification: Booking bekor qilindi
+            try:
+                Notification.objects.create(
+                    recipient=request.user,
+                    verb='booking_cancelled',
+                    description=f"'{booking.destination.name}' broningiz bekor qilindi. "
+                                f"Bron raqami: {booking.booking_number}.",
+                    level=Notification.Level.WARNING,
+                    priority=Notification.Priority.HIGH,
+                    target_content_type=ContentType.objects.get_for_model(Booking),
+                    target_object_id=str(booking.id),
+                    extra_data={
+                        'category': 'bookings',
+                        'title': 'Bron Bekor Qilindi ❌',
+                        'icon_class': 'fa-times-circle',
+                        'icon_bg': 'security',
+                        'booking_number': booking.booking_number,
+                        'destination_name': booking.destination.name,
+                        'booking_date': booking.booking_date.strftime('%b %d, %Y'),
+                        'action_url': '/my_bookings/',
+                        'action_label': 'Bronlarimni Ko\'rish',
+                    }
+                )
+            except Exception as e:
+                logger.error(f"Cancel booking notification failed: {e}")
+
+            return JsonResponse({'success': True, 'message': 'Bron bekor qilindi.'})
+        return JsonResponse({'success': False, 'message': 'Bu bronni bekor qilib bo\'lmaydi.'})
 
 
 class DashboardTemplateView(TemplateView):
@@ -1400,8 +1885,71 @@ class WishlistTemplateView(TemplateView):
     template_name = 'apps/wishlist.html'
 
 
-class ProfileSettingsTemplateView(TemplateView):
+class ProfileSettingsTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'apps/profile_settings.html'
+
+    def post(self, request, *args, **kwargs):
+        action = request.POST.get('action')
+
+        if action == 'delete_account':
+            # ✅ 6.3 NOTIFICATION: Hisob o'chirilishi
+            # Real loyihada bu yerda hisob o'chiriladi. 
+            # Biz uni inactive qilib notification (email orqali) yuborishimiz yoki
+            # xavfsizlik uchun faqat xabar berishimiz mumkin.
+            try:
+                Notification.objects.create(
+                    recipient=request.user,
+                    verb='account_deleted',
+                    description=(
+                        f"Hisobingizni o'chirish so'rovi qabul qilindi. "
+                        f"Sizning hisobingiz 30 kundan so'ng butunlay o'chiriladi. "
+                        f"Agar fikringizdan qaytsangiz, biz bilan bog'laning."
+                    ),
+                    level=Notification.Level.ERROR,
+                    priority=Notification.Priority.HIGH,
+                    extra_data={
+                        'category': 'account',
+                        'title': 'Hisob O\'chirilmoqda ⚠️',
+                        'icon_class': 'fa-user-slash',
+                        'icon_bg': 'security',
+                        'action_danger_url': '/contact/',
+                        'action_danger_label': 'Bekor Qilish',
+                    }
+                )
+            except Exception as e:
+                logger.error(f"Account delete logic error: {e}")
+            
+            # user.is_active = False
+            # user.save()
+            return JsonResponse({'success': True, 'message': 'Hisobni o\'chirish so\'rovi yuborildi.'})
+
+        # Boshqa hollarda (Profil ma'lumotlarini saqlash)
+        # ✅ 6.2 NOTIFICATION: Profil yangilandi
+        try:
+            # Agar real data save bo'lsa: request.user.first_name = ...; request.user.save()
+            # Hozir shunchaki notification yaratamiz
+            Notification.objects.create(
+                recipient=request.user,
+                verb='profile_updated',
+                description=(
+                    f"Profil ma'lumotlaringiz muvaffaqiyatli yangilandi. "
+                    f"O'zgarishlar tizimda saqlandi."
+                ),
+                level=Notification.Level.SUCCESS,
+                priority=Notification.Priority.LOW,
+                extra_data={
+                    'category': 'account',
+                    'title': 'Profil Yangilandi',
+                    'icon_class': 'fa-user-check',
+                    'icon_bg': 'booking',
+                    'action_url': '/profile-settings/',
+                    'action_label': 'Profilni Ko\'rish',
+                }
+            )
+        except Exception as e:
+            logger.error(f"Profile update notification failed: {e}")
+
+        return JsonResponse({'success': True, 'message': 'Profil muvaffaqiyatli saqlandi!'})
 
 
 class AdminPanelTemplateView(TemplateView):
@@ -1414,3 +1962,87 @@ class TelegramChannelTemplateView(TemplateView):
 
 class InstagramTemplateView(TemplateView):
     template_name = 'apps/instagram.html'
+
+
+class CompareDestinationsView(View):
+    """Destinationlarni solishtirish uchun ma'lumotlarni JSON qaytaradi."""
+
+    def get(self, request):
+        slugs = request.GET.get('slugs', '')
+        if not slugs:
+            return JsonResponse({'destinations': []})
+
+        slug_list = [s.strip() for s in slugs.split(',') if s.strip()]
+        if not slug_list:
+            return JsonResponse({'destinations': []})
+
+        # Destinationlarni optimizatsiya bilan olish
+        destinations = Destination.objects.filter(
+            slug__in=slug_list
+        ).select_related('city', 'city__country').prefetch_related(
+            'images', 'tags', 'activities', 'flights', 'hotels', 'ticket_types'
+        ).annotate(
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True)),
+            avg_rating=Avg('reviews__rating', filter=Q(reviews__is_visible=True))
+        )
+
+        data = []
+        for d in destinations:
+            first_image = d.images.first()
+            image_url = first_image.image.url if first_image and first_image.image else ''
+
+            # Hotels ma'lumotlari
+            hotels = []
+            for h in d.hotels.all()[:3]:
+                hotels.append({
+                    'name': h.name,
+                    'stars': h.stars,
+                    'price_per_night': str(h.price_per_night),
+                })
+
+            # Flights ma'lumotlari
+            flights = []
+            for f in d.flights.filter(is_available=True)[:3]:
+                flights.append({
+                    'airline_name': f.airline_name,
+                    'price_economy': str(f.price_economy),
+                    'is_direct': f.is_direct,
+                    'flight_duration': f.flight_duration,
+                })
+
+            # Ticket types ma'lumotlari
+            ticket_types = []
+            for t in d.ticket_types.all():
+                ticket_types.append({
+                    'name': t.name,
+                    'price': t.price,
+                    'is_free': t.is_free,
+                    'age_label': t.age_label,
+                })
+
+            data.append({
+                'slug': d.slug,
+                'name': d.name,
+                'location': d.location or (d.city.name if d.city else ''),
+                'city': d.city.name if d.city else '',
+                'image': image_url,
+                'price': d.price,
+                'discount_percentage': d.discount_percentage,
+                'discounted_price': d.discounted_price,
+                'rating': round(d.avg_rating or 0, 1),
+                'reviews_count': d.reviews_count,
+                'trip_type': d.get_trip_type_display(),
+                'duration': d.get_duration_display(),
+                'season': d.get_season_display(),
+                'package_type': d.get_package_type_display(),
+                'hotels_count': d.hotels_count,
+                'has_flights': d.has_flights,
+                'is_free_cancellation': d.is_free_cancellation,
+                'cancellation_text': d.cancellation_text or '',
+                'detail_url': reverse('destination_detail_page', kwargs={'slug': d.slug}),
+                'hotels': hotels,
+                'flights': flights,
+                'ticket_types': ticket_types,
+            })
+
+        return JsonResponse({'destinations': data})

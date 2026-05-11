@@ -1622,95 +1622,135 @@
 }
 
 /* ============================================================
-   EXPLORE SECTION — Booking.com style tabs + city grid
+   EXPLORE NAVIGATION — Premium Wrapped Style
 ============================================================ */
-.explore-section {
-    background: #fff;
-    padding: 48px 0 0;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-[data-theme="dark"] .explore-section {
-    background: var(--gray-50);
-    border-bottom-color: var(--gray-200);
-}
-
-.explore-header {
+.explore-navigation-wrap {
     max-width: 1500px;
     margin: 0 auto;
-    padding: 0 32px 24px;
-}
-
-.explore-header h2 {
-    font-size: 24px;
-    font-weight: 800;
-    color: #111827;
-    margin-bottom: 4px;
-}
-
-[data-theme="dark"] .explore-header h2 {
-    color: var(--gray-900);
-}
-
-.explore-header p {
-    font-size: 14px;
-    color: #6b7280;
-}
-
-/* Tab navigation */
-.category-tabs-wrap {
-    max-width: 1500px;
-    margin: 0 auto;
-    padding: 0 32px;
-    position: relative;
-}
-
-.category-tabs {
+    padding: 0 32px 32px;
     display: flex;
-    gap: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    border-bottom: 2px solid #e5e7eb;
+    flex-direction: column;
+    gap: 24px;
 }
 
-[data-theme="dark"] .category-tabs {
-    border-bottom-color: var(--gray-200);
-}
-
-.category-tabs::-webkit-scrollbar {
-    display: none;
-}
-
-.cat-tab {
+.nav-row {
     display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.row-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-left: 4px;
+}
+
+.row-tabs {
+    display: flex;
+    flex-wrap: wrap !important;
+    gap: 10px;
+    overflow: visible !important;
+}
+
+/* Premium Navigation Buttons — Senior UI Refinement */
+.nav-btn {
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 14px 20px;
-    border: none;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-    background: transparent;
-    font-size: 14px;
+    gap: 12px;
+    padding: 12px 24px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    font-size: 15px;
     font-weight: 600;
-    color: #6b7280;
+    color: #475569;
     cursor: pointer;
-    white-space: nowrap;
-    transition: color 0.2s, border-color 0.2s;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     font-family: 'Poppins', sans-serif;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
-.cat-tab:hover {
-    color: #111827;
+.nav-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #1e293b;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 
-.cat-tab.active {
-    color: #2563eb;
-    border-bottom-color: #2563eb;
+/* Region Button - Active (Deep Midnight Premium) */
+.region-btn.active {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%) !important;
+    border-color: #1e293b !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    box-shadow: 0 12px 24px rgba(30, 41, 59, 0.25) !important;
 }
 
-.cat-tab .tab-icon {
-    font-size: 16px;
+/* Country Button - Active (Original Purple-Blue) */
+.country-btn.active {
+    background: var(--gradient-primary) !important;
+    border-color: var(--primary) !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3) !important;
+}
+
+/* Subtle Shimmer Effect for Active Region Button */
+.region-btn.active::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.nav-btn .tab-icon {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.nav-btn.active .tab-icon {
+    transform: scale(1.1);
+}
+
+/* Country Group Logic */
+.country-group {
+    display: none;
+    flex-wrap: wrap !important;
+    gap: 10px;
+    width: 100%;
+    overflow: visible !important;
+}
+
+.country-group.active {
+    display: flex;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+    .explore-navigation-wrap {
+        padding: 0 20px 24px;
+    }
+    
+    .nav-btn {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
 }
 
 /* Cities Panel */

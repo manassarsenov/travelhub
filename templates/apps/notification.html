@@ -11,11 +11,13 @@
 
 {% block main_content %}
 
-<!-- Notifications Page -->
+<!-- CSRF token JS uchun -->
+<meta name="csrf-token" content="{{ csrf_token }}">
+
 <div class="notifications-page">
     <div class="notifications-container">
-        
-        <!-- Page Header -->
+
+        <!-- ===== PAGE HEADER ===== -->
         <div class="notifications-header">
             <div class="header-top">
                 <div class="header-title">
@@ -25,99 +27,109 @@
                         <p>Stay updated with your travel activities</p>
                     </div>
                 </div>
-                <button class="btn-clear-all" onclick="clearAllNotifications()">
+                <button class="btn-clear-all" id="btn-mark-all-read">
                     <i class="fas fa-check-double"></i>
-                    <span>Clear All</span>
+                    <span>Mark All Read</span>
                 </button>
             </div>
 
+            <!-- Tabs -->
             <div class="header-tabs">
-                <button class="tab-btn active" data-tab="all" onclick="switchTab('all')">
+                <button class="tab-btn active" data-tab="all" id="tab-all">
                     All
-                    <span class="tab-count">24</span>
+                    <span class="tab-count" id="count-all">{{ total_count }}</span>
                 </button>
-                <button class="tab-btn" data-tab="unread" onclick="switchTab('unread')">
+                <button class="tab-btn" data-tab="unread" id="tab-unread">
                     Unread
-                    <span class="tab-count badge-unread">5</span>
+                    <span class="tab-count badge-unread" id="count-unread">{{ unread_count }}</span>
                 </button>
-                <button class="tab-btn" data-tab="read" onclick="switchTab('read')">
+                <button class="tab-btn" data-tab="read" id="tab-read">
                     Read
-                    <span class="tab-count">19</span>
+                    <span class="tab-count" id="count-read">{{ read_count }}</span>
                 </button>
             </div>
 
+            <!-- Search -->
             <div class="header-search">
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Search notifications..." id="notification-search">
             </div>
         </div>
 
+        <!-- ===== MAIN CONTENT: SIDEBAR + LIST ===== -->
         <div class="notifications-content">
-            
-            <!-- Sidebar Filters -->
+
+            <!-- SIDEBAR -->
             <aside class="notifications-sidebar">
-                
-                <!-- Categories Filter -->
+
+                <!-- Time Period Filter -->
                 <div class="filter-section">
                     <h3 class="filter-title">
-                        <i class="fas fa-folder"></i>
-                        Categories
+                        <i class="fas fa-calendar-alt"></i> Time Period
+                    </h3>
+                    <ul class="filter-list">
+                        <li class="filter-item active" data-time="all">
+                            <i class="fas fa-history"></i>
+                            <span>All Time</span>
+                        </li>
+                        <li class="filter-item" data-time="today">
+                            <i class="fas fa-clock"></i>
+                            <span>Today</span>
+                        </li>
+                        <li class="filter-item" data-time="yesterday">
+                            <i class="fas fa-undo"></i>
+                            <span>Yesterday</span>
+                        </li>
+                        <li class="filter-item" data-time="this_week">
+                            <i class="fas fa-calendar-week"></i>
+                            <span>This Week</span>
+                        </li>
+                        <li class="filter-item" data-time="this_month">
+                            <i class="fas fa-calendar-day"></i>
+                            <span>This Month</span>
+                        </li>
+                        <li class="filter-item" data-time="this_year">
+                            <i class="fas fa-calendar"></i>
+                            <span>This Year</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Categories -->
+                <div class="filter-section">
+                    <h3 class="filter-title">
+                        <i class="fas fa-folder"></i> Categories
                     </h3>
                     <ul class="filter-list">
                         <li class="filter-item active" data-category="all">
                             <i class="fas fa-bell"></i>
                             <span>All Notifications</span>
-                            <span class="filter-count">24</span>
+                            <span class="filter-count">{{ cat_counts.all }}</span>
                         </li>
                         <li class="filter-item" data-category="bookings">
                             <i class="fas fa-plane"></i>
                             <span>Bookings</span>
-                            <span class="filter-count">8</span>
+                            <span class="filter-count">{{ cat_counts.bookings }}</span>
                         </li>
                         <li class="filter-item" data-category="promotions">
                             <i class="fas fa-gift"></i>
                             <span>Promotions</span>
-                            <span class="filter-count">5</span>
+                            <span class="filter-count">{{ cat_counts.promotions }}</span>
                         </li>
                         <li class="filter-item" data-category="security">
                             <i class="fas fa-shield-alt"></i>
                             <span>Security</span>
-                            <span class="filter-count">2</span>
+                            <span class="filter-count">{{ cat_counts.security }}</span>
                         </li>
                         <li class="filter-item" data-category="messages">
                             <i class="fas fa-comments"></i>
                             <span>Messages</span>
-                            <span class="filter-count">6</span>
+                            <span class="filter-count">{{ cat_counts.messages }}</span>
                         </li>
                         <li class="filter-item" data-category="updates">
                             <i class="fas fa-sync"></i>
                             <span>Updates</span>
-                            <span class="filter-count">3</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Time Filter -->
-                <div class="filter-section">
-                    <h3 class="filter-title">
-                        <i class="fas fa-clock"></i>
-                        Time Period
-                    </h3>
-                    <ul class="filter-list">
-                        <li class="filter-item" data-time="today">
-                            <span>Today</span>
-                        </li>
-                        <li class="filter-item" data-time="yesterday">
-                            <span>Yesterday</span>
-                        </li>
-                        <li class="filter-item" data-time="week">
-                            <span>Last 7 days</span>
-                        </li>
-                        <li class="filter-item" data-time="month">
-                            <span>Last 30 days</span>
-                        </li>
-                        <li class="filter-item" data-time="older">
-                            <span>Older</span>
+                            <span class="filter-count">{{ cat_counts.updates }}</span>
                         </li>
                     </ul>
                 </div>
@@ -125,408 +137,386 @@
                 <!-- Priority Filter -->
                 <div class="filter-section">
                     <h3 class="filter-title">
-                        <i class="fas fa-flag"></i>
-                        Priority
+                        <i class="fas fa-flag"></i> Priority
                     </h3>
                     <ul class="filter-list">
                         <li class="filter-item" data-priority="high">
-                            <span class="priority-badge high">●</span>
+                            <span class="dot-badge dot-high">●</span>
                             <span>High Priority</span>
                         </li>
                         <li class="filter-item" data-priority="medium">
-                            <span class="priority-badge medium">●</span>
+                            <span class="dot-badge dot-medium">●</span>
                             <span>Medium Priority</span>
                         </li>
                         <li class="filter-item" data-priority="low">
-                            <span class="priority-badge low">●</span>
+                            <span class="dot-badge dot-low">●</span>
                             <span>Low Priority</span>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Settings Button -->
-                <button class="btn-settings" onclick="openNotificationSettings()">
+                <button class="btn-settings" id="btn-open-settings">
                     <i class="fas fa-cog"></i>
                     <span>Notification Settings</span>
                 </button>
-
             </aside>
 
-            <!-- Notifications List -->
-            <main class="notifications-main">
-                
-                <!-- Today Group -->
-                <div class="notification-group">
-                    <h3 class="group-title">Today (5)</h3>
-                    
-                    <!-- Booking Confirmation -->
-                    <div class="notification-card unread high-priority" data-id="1">
-                        <div class="card-indicator"></div>
-                        <div class="card-icon booking">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="card-badges">
-                                    <span class="category-badge booking">Booking</span>
-                                    <span class="priority-badge high">High</span>
+            <!-- NOTIFICATIONS LIST -->
+            <main class="notifications-main" id="notifications-main">
+
+                {% if all_notifications %}
+                    {% for group in ordered_groups %}
+                        <div class="notification-group" data-group="{{ group.key }}">
+                            <h3 class="group-title">
+                                {{ group.label }} ({{ group.items|length }})
+                            </h3>
+
+                            {% for notif in group.items %}
+                            {# --- Har bir notification card --- #}
+                            <div class="notification-card {% if not notif.is_read %}unread{% else %}read{% endif %} {% if notif.priority == 'high' or notif.priority == 'urgent' %}high-priority{% endif %}"
+                                 data-id="{{ notif.id }}"
+                                 data-category="{{ notif.extra_data.category|default:'updates' }}"
+                                 data-priority="{{ notif.priority }}"
+                                 data-read="{{ notif.is_read|yesno:'true,false' }}">
+
+                                {% if not notif.is_read %}
+                                <div class="card-indicator"></div>
+                                {% endif %}
+
+                                <!-- Icon -->
+                                <div class="card-icon {{ notif.extra_data.icon_bg|default:'update' }}">
+                                    <i class="fas {{ notif.extra_data.icon_class|default:'fa-bell' }}"></i>
                                 </div>
-                                <div class="card-actions">
-                                    <span class="card-time">2 hours ago</span>
-                                    <button class="btn-action" onclick="toggleCardMenu(1)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div class="action-menu" id="menu-1">
-                                        <button onclick="markAsRead(1)">
-                                            <i class="fas fa-check"></i>
-                                            Mark as read
-                                        </button>
-                                        <button onclick="archiveNotification(1)">
-                                            <i class="fas fa-archive"></i>
-                                            Archive
-                                        </button>
-                                        <button onclick="deleteNotification(1)">
-                                            <i class="fas fa-trash"></i>
-                                            Delete
-                                        </button>
+
+                                <!-- Content -->
+                                <div class="card-content">
+                                    <div class="card-header">
+                                        <div class="card-badges">
+                                            <span class="cat-badge cat-{{ notif.extra_data.category|default:'updates' }}">
+                                                {{ notif.extra_data.category|default:'updates'|capfirst }}
+                                            </span>
+                                            {% if notif.priority == 'high' or notif.priority == 'urgent' %}
+                                            <span class="prio-badge prio-high">High</span>
+                                            {% elif notif.priority == 'medium' %}
+                                            <span class="prio-badge prio-medium">Medium</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="card-actions">
+                                            <span class="card-time">{{ notif.created_at|timesince }} ago</span>
+                                            <button class="btn-action" onclick="toggleCardMenu({{ notif.id }})">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div class="action-menu" id="menu-{{ notif.id }}">
+                                                {% if not notif.is_read %}
+                                                <button onclick="markAsRead({{ notif.id }})">
+                                                    <i class="fas fa-check"></i> Mark as read
+                                                </button>
+                                                {% endif %}
+                                                <button onclick="deleteNotification({{ notif.id }})">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
+
+                                    <!-- Title -->
+                                    <h4 class="card-title">
+                                        {{ notif.extra_data.title|default:notif.verb }}
+                                    </h4>
+
+                                    <!-- Description -->
+                                    <p class="card-description">{{ notif.description }}</p>
+
+                                    <!-- Booking-specific details -->
+                                    {% if notif.extra_data.booking_number %}
+                                    <div class="card-details">
+                                        <div class="detail-item">
+                                            <i class="fas fa-hashtag"></i>
+                                            <span>Booking ID: {{ notif.extra_data.booking_number }}</span>
+                                        </div>
+                                        {% if notif.extra_data.destination_name %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>{{ notif.extra_data.destination_name }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if notif.extra_data.booking_date %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-calendar"></i>
+                                            <span>{{ notif.extra_data.booking_date }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if notif.extra_data.total_price %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-dollar-sign"></i>
+                                            <span>Total: ${{ notif.extra_data.total_price }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if notif.extra_data.days_left %}
+                                        <div class="card-timer">
+                                            <i class="fas fa-clock"></i>
+                                            <span>{{ notif.extra_data.days_left }} kun qoldi!</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- 2.1 Payment Successful details -->
+                                    {% if notif.verb == 'payment_successful' %}
+                                    <div class="card-details">
+                                        {% if notif.extra_data.transaction_id %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-receipt"></i>
+                                            <span>TXN: {{ notif.extra_data.transaction_id }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if notif.extra_data.payment_method %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-credit-card"></i>
+                                            <span>{{ notif.extra_data.payment_method }}
+                                                {% if notif.extra_data.card_last4 %}
+                                                    (*{{ notif.extra_data.card_last4 }})
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        {% endif %}
+                                        {% if notif.extra_data.paid_at %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-clock"></i>
+                                            <span>{{ notif.extra_data.paid_at }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- 2.3 Promo Applied details -->
+                                    {% if notif.verb == 'promo_applied' %}
+                                    <div class="card-details">
+                                        <div class="detail-item">
+                                            <i class="fas fa-tag"></i>
+                                            <span>Kod: <strong>{{ notif.extra_data.promo_code }}</strong></span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-percent"></i>
+                                            <span>Chegirma: {{ notif.extra_data.discount_percent }}%</span>
+                                        </div>
+                                        {% if notif.extra_data.saved_amount %}
+                                        <div class="price-compare">
+                                            <span class="new-price">
+                                                Tejadingiz: ${{ notif.extra_data.saved_amount }}
+                                            </span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- 5-GURUH: Promotions details -->
+                                    {% if notif.verb == 'flash_sale_started' or notif.verb == 'flash_sale_ending' %}
+                                    <div class="card-details">
+                                        <div class="detail-item">
+                                            <i class="fas fa-fire" style="color: #ef4444;"></i>
+                                            <span>Chegirma: {{ notif.extra_data.discount_percent }}%</span>
+                                        </div>
+                                        <div class="price-compare">
+                                            {% if notif.extra_data.original_price %}
+                                            <span class="old-price" style="text-decoration: line-through; color: #9ca3af; font-size: 0.9em; margin-right: 8px;">
+                                                ${{ notif.extra_data.original_price }}
+                                            </span>
+                                            {% endif %}
+                                            <span class="new-price" style="color: #ef4444; font-weight: bold;">
+                                                ${{ notif.extra_data.discounted_price }}
+                                            </span>
+                                        </div>
+                                        <div class="card-timer">
+                                            <i class="fas fa-clock"></i>
+                                            <span>Tugaydi: {{ notif.extra_data.ends_at }}</span>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if notif.verb == 'price_dropped' %}
+                                    <div class="card-details">
+                                        <div class="price-compare">
+                                            <span class="old-price" style="text-decoration: line-through; color: #9ca3af; font-size: 0.9em; margin-right: 8px;">
+                                                ${{ notif.extra_data.old_price }}
+                                            </span>
+                                            <span class="new-price" style="color: #10b981; font-weight: bold;">
+                                                ${{ notif.extra_data.new_price }}
+                                            </span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-piggy-bank"></i>
+                                            <span style="color: #10b981;">${{ notif.extra_data.saved_amount }} tejaysiz!</span>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if notif.verb == 'personal_promo_received' %}
+                                    <div class="card-details">
+                                        <div class="detail-item">
+                                            <i class="fas fa-tag"></i>
+                                            <span>Kod: <strong>{{ notif.extra_data.promo_code }}</strong></span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-percent"></i>
+                                            <span>Chegirma: {{ notif.extra_data.discount_percent }}%</span>
+                                        </div>
+                                        <div class="card-timer">
+                                            <i class="fas fa-clock"></i>
+                                            <span>Muddati: {{ notif.extra_data.valid_to }}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>Uchun: {{ notif.extra_data.destination_name }}</span>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- 2.2 Payment Failed — Qayta Urinish tugmasi alohida ko'rinadi -->
+                                    {% if notif.verb == 'payment_failed' %}
+                                    <div class="card-details">
+                                        {% if notif.extra_data.destination_name %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>{{ notif.extra_data.destination_name }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if notif.extra_data.failed_amount %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-dollar-sign"></i>
+                                            <span>Summa: ${{ notif.extra_data.failed_amount }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- 4.1 Login / 4.2 Google / 4.3 Password — Security details -->
+                                    {% if notif.verb == 'login_detected' or notif.verb == 'google_login' or notif.verb == 'password_changed' %}
+                                    <div class="card-details">
+                                        {% if notif.extra_data.device %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-laptop"></i>
+                                            <span>{{ notif.extra_data.device }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if notif.extra_data.ip_address %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-globe"></i>
+                                            <span>IP: {{ notif.extra_data.ip_address }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if notif.extra_data.login_time %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-clock"></i>
+                                            <span>{{ notif.extra_data.login_time }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if notif.extra_data.changed_at %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-clock"></i>
+                                            <span>{{ notif.extra_data.changed_at }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if notif.extra_data.google_email %}
+                                        <div class="detail-item">
+                                            <i class="fab fa-google"></i>
+                                            <span>{{ notif.extra_data.google_email }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- 6.3 Account Deleted details -->
+                                    {% if notif.verb == 'account_deleted' %}
+                                    <div class="card-details">
+                                        <div class="detail-item" style="color: #ef4444; font-weight: 500;">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                            <span>Sizning hisobingiz 30 kundan so'ng butunlay o'chiriladi.</span>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- 7-GURUH: System / Tizim details -->
+                                    {% if notif.verb == 'loyalty_reward' %}
+                                    <div class="card-details">
+                                        <div class="detail-item" style="color: #f59e0b; font-weight: bold;">
+                                            <i class="fas fa-star"></i>
+                                            <span>Jami yakunlangan sayohatlar: {{ notif.extra_data.bookings_count }} ta</span>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if notif.verb == 'maintenance_warning' %}
+                                    <div class="card-details">
+                                        <div class="detail-item" style="color: #ef4444; font-weight: bold;">
+                                            <i class="fas fa-tools"></i>
+                                            <span>Boshlanadi: {{ notif.extra_data.start_time }}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-check-circle"></i>
+                                            <span>Tugaydi: {{ notif.extra_data.end_time }}</span>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Action Button -->
+                                    {% if notif.extra_data.action_url %}
+                                    <div class="card-buttons">
+                                        <a href="{{ notif.extra_data.action_url }}"
+                                           class="btn-primary"
+                                           onclick="markAsRead({{ notif.id }})">
+                                            <i class="fas fa-arrow-right"></i>
+                                            {{ notif.extra_data.action_label|default:'View Details' }}
+                                        </a>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
-                            <h4 class="card-title">Booking Confirmed</h4>
-                            <p class="card-description">Your booking for Dubai has been confirmed</p>
-                            <div class="card-details">
-                                <div class="detail-item">
-                                    <i class="fas fa-hashtag"></i>
-                                    <span>Booking ID: #TH-2024-001234</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>Destination: Dubai, UAE</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="fas fa-calendar"></i>
-                                    <span>Dates: Jan 15 - Jan 22, 2025</span>
-                                </div>
-                            </div>
-                            <div class="card-buttons">
-                                <button class="btn-primary">
-                                    <i class="fas fa-eye"></i>
-                                    View Details
-                                </button>
-                                <button class="btn-secondary">
-                                    <i class="fas fa-download"></i>
-                                    Download Receipt
-                                </button>
-                            </div>
+                            {% endfor %}
                         </div>
+                    {% endfor %}
+
+                {% else %}
+                    <!-- Empty State -->
+                    <div class="empty-state">
+                        <i class="fas fa-bell-slash"></i>
+                        <h3>No notifications yet</h3>
+                        <p>You're all caught up! Explore destinations to get started.</p>
+                        <a href="{% url 'destinations_page' %}" class="btn-primary">
+                            <i class="fas fa-compass"></i>
+                            Explore Destinations
+                        </a>
                     </div>
-
-                    <!-- Payment Success -->
-                    <div class="notification-card unread" data-id="2">
-                        <div class="card-indicator"></div>
-                        <div class="card-icon payment">
-                            <i class="fas fa-credit-card"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="card-badges">
-                                    <span class="category-badge booking">Payment</span>
-                                </div>
-                                <div class="card-actions">
-                                    <span class="card-time">5 hours ago</span>
-                                    <button class="btn-action" onclick="toggleCardMenu(2)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <h4 class="card-title">Payment Successful</h4>
-                            <p class="card-description">Your payment of $1,299 has been processed</p>
-                            <div class="card-details">
-                                <div class="detail-item">
-                                    <i class="fas fa-receipt"></i>
-                                    <span>Transaction ID: TXN-9876543210</span>
-                                </div>
-                            </div>
-                            <div class="card-buttons">
-                                <button class="btn-primary">
-                                    <i class="fas fa-file-invoice"></i>
-                                    View Receipt
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Flash Sale -->
-                    <div class="notification-card unread" data-id="3">
-                        <div class="card-indicator"></div>
-                        <div class="card-icon promotion">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="card-badges">
-                                    <span class="category-badge promotion">Flash Sale</span>
-                                    <span class="priority-badge medium">Medium</span>
-                                </div>
-                                <div class="card-actions">
-                                    <span class="card-time">8 hours ago</span>
-                                    <button class="btn-action" onclick="toggleCardMenu(3)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <h4 class="card-title">🔥 Flash Sale Alert!</h4>
-                            <p class="card-description">Dubai packages starting at $699 - Only 5 hours left!</p>
-                            <div class="card-timer">
-                                <i class="fas fa-clock"></i>
-                                <span>Ends: Today at midnight</span>
-                            </div>
-                            <div class="card-buttons">
-                                <button class="btn-primary">
-                                    <i class="fas fa-shopping-cart"></i>
-                                    Shop Now
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Yesterday Group -->
-                <div class="notification-group">
-                    <h3 class="group-title">Yesterday (8)</h3>
-
-                    <!-- Security Alert -->
-                    <div class="notification-card read" data-id="4">
-                        <div class="card-icon security">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="card-badges">
-                                    <span class="category-badge security">Security</span>
-                                    <span class="priority-badge high">High</span>
-                                </div>
-                                <div class="card-actions">
-                                    <span class="card-time">Yesterday</span>
-                                    <button class="btn-action" onclick="toggleCardMenu(4)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <h4 class="card-title">New Login Detected</h4>
-                            <p class="card-description">Login from Windows PC in Tashkent, Uzbekistan</p>
-                            <div class="card-details">
-                                <div class="detail-item">
-                                    <i class="fas fa-clock"></i>
-                                    <span>Time: Dec 5, 2024 at 10:30 AM</span>
-                                </div>
-                            </div>
-                            <div class="card-buttons">
-                                <button class="btn-success">
-                                    <i class="fas fa-check"></i>
-                                    Yes, it was me
-                                </button>
-                                <button class="btn-danger">
-                                    <i class="fas fa-lock"></i>
-                                    Secure my account
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Review Request -->
-                    <div class="notification-card read" data-id="5">
-                        <div class="card-icon message">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="card-badges">
-                                    <span class="category-badge message">Review</span>
-                                </div>
-                                <div class="card-actions">
-                                    <span class="card-time">Yesterday</span>
-                                    <button class="btn-action" onclick="toggleCardMenu(5)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <h4 class="card-title">Share Your Experience</h4>
-                            <p class="card-description">How was your trip to Dubai? Help others by leaving a review</p>
-                            <div class="card-buttons">
-                                <button class="btn-primary">
-                                    <i class="fas fa-edit"></i>
-                                    Write Review
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Price Drop -->
-                    <div class="notification-card read" data-id="6">
-                        <div class="card-icon promotion">
-                            <i class="fas fa-tag"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="card-badges">
-                                    <span class="category-badge promotion">Price Drop</span>
-                                </div>
-                                <div class="card-actions">
-                                    <span class="card-time">Yesterday</span>
-                                    <button class="btn-action" onclick="toggleCardMenu(6)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <h4 class="card-title">💰 Price Drop Alert!</h4>
-                            <p class="card-description">Tokyo trip price dropped by $250</p>
-                            <div class="price-compare">
-                                <span class="old-price">Was: $1,499</span>
-                                <i class="fas fa-arrow-right"></i>
-                                <span class="new-price">Now: $1,249</span>
-                            </div>
-                            <div class="card-buttons">
-                                <button class="btn-primary">
-                                    <i class="fas fa-shopping-cart"></i>
-                                    Book at New Price
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- This Week Group -->
-                <div class="notification-group">
-                    <h3 class="group-title">This Week (11)</h3>
-
-                    <!-- System Update -->
-                    <div class="notification-card read" data-id="7">
-                        <div class="card-icon update">
-                            <i class="fas fa-rocket"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="card-badges">
-                                    <span class="category-badge update">New Feature</span>
-                                </div>
-                                <div class="card-actions">
-                                    <span class="card-time">3 days ago</span>
-                                    <button class="btn-action" onclick="toggleCardMenu(7)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <h4 class="card-title">🎉 New Feature Available!</h4>
-                            <p class="card-description">We've added AI-powered itinerary planner. Try it now to create your perfect trip</p>
-                            <div class="card-buttons">
-                                <button class="btn-primary">
-                                    <i class="fas fa-magic"></i>
-                                    Try Now
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Loyalty Reward -->
-                    <div class="notification-card read" data-id="8">
-                        <div class="card-icon promotion">
-                            <i class="fas fa-award"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="card-badges">
-                                    <span class="category-badge promotion">Rewards</span>
-                                </div>
-                                <div class="card-actions">
-                                    <span class="card-time">5 days ago</span>
-                                    <button class="btn-action" onclick="toggleCardMenu(8)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <h4 class="card-title">🎖️ You've Earned Rewards!</h4>
-                            <p class="card-description">Congratulations! You've reached Gold Status</p>
-                            <ul class="benefits-list">
-                                <li><i class="fas fa-check"></i> 15% off all bookings</li>
-                                <li><i class="fas fa-check"></i> Free airport lounge access</li>
-                                <li><i class="fas fa-check"></i> Priority customer support</li>
-                            </ul>
-                            <div class="card-buttons">
-                                <button class="btn-primary">
-                                    <i class="fas fa-trophy"></i>
-                                    View Rewards Dashboard
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Empty State (Hidden by default) -->
-                <div class="empty-state" style="display: none;">
-                    <i class="fas fa-bell-slash"></i>
-                    <h3>No notifications yet</h3>
-                    <p>You're all caught up!</p>
-                    <button class="btn-primary" onclick="window.location.href='{% url 'destinations_page' %}'">
-                        <i class="fas fa-compass"></i>
-                        Explore Destinations
-                    </button>
-                </div>
+                {% endif %}
 
             </main>
-
         </div>
-
     </div>
 </div>
 
-<!-- Notification Settings Modal -->
+<!-- ===== NOTIFICATION SETTINGS MODAL ===== -->
 <div id="notification-settings-modal" class="settings-modal">
     <div class="settings-content">
         <div class="settings-header">
-            <h2>
-                <i class="fas fa-cog"></i>
-                Notification Preferences
-            </h2>
-            <button class="modal-close" onclick="closeNotificationSettings()">
+            <h2><i class="fas fa-cog"></i> Notification Preferences</h2>
+            <button class="modal-close" id="btn-close-settings">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="settings-body">
-            
+
             <div class="settings-section">
                 <h3>Email Notifications</h3>
                 <div class="setting-item">
                     <label class="switch">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" id="setting-email"
+                               {% if notif_settings.enable_email %}checked{% endif %}>
                         <span class="slider"></span>
                     </label>
                     <div class="setting-info">
-                        <h4>Booking confirmations</h4>
-                        <p>Receive emails for booking confirmations</p>
-                    </div>
-                </div>
-                <div class="setting-item">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
-                    </label>
-                    <div class="setting-info">
-                        <h4>Payment receipts</h4>
-                        <p>Receive payment confirmation emails</p>
-                    </div>
-                </div>
-                <div class="setting-item">
-                    <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider"></span>
-                    </label>
-                    <div class="setting-info">
-                        <h4>Promotional offers</h4>
-                        <p>Receive promotional emails and deals</p>
+                        <h4>Email notifications</h4>
+                        <p>Booking confirmations and important updates</p>
                     </div>
                 </div>
             </div>
@@ -535,46 +525,37 @@
                 <h3>Push Notifications</h3>
                 <div class="setting-item">
                     <label class="switch">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" id="setting-push"
+                               {% if notif_settings.enable_push %}checked{% endif %}>
                         <span class="slider"></span>
                     </label>
                     <div class="setting-info">
-                        <h4>Booking reminders</h4>
-                        <p>Get reminded about upcoming trips</p>
-                    </div>
-                </div>
-                <div class="setting-item">
-                    <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider"></span>
-                    </label>
-                    <div class="setting-info">
-                        <h4>Price drops</h4>
-                        <p>Get notified when prices drop</p>
+                        <h4>Push notifications</h4>
+                        <p>Booking reminders and price drops</p>
                     </div>
                 </div>
             </div>
 
             <div class="settings-section">
-                <h3>SMS Notifications</h3>
+                <h3>In-App Notifications</h3>
                 <div class="setting-item">
                     <label class="switch">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" id="setting-inapp"
+                               {% if notif_settings.enable_in_app %}checked{% endif %}>
                         <span class="slider"></span>
                     </label>
                     <div class="setting-info">
-                        <h4>Booking confirmations only</h4>
-                        <p>Receive SMS for important bookings</p>
+                        <h4>In-app notifications</h4>
+                        <p>Show notifications inside TravelHub</p>
                     </div>
                 </div>
             </div>
 
         </div>
         <div class="settings-footer">
-            <button class="btn-secondary" onclick="closeNotificationSettings()">Cancel</button>
-            <button class="btn-primary" onclick="saveNotificationSettings()">
-                <i class="fas fa-save"></i>
-                Save Changes
+            <button class="btn-secondary" id="btn-cancel-settings">Cancel</button>
+            <button class="btn-primary" id="btn-save-settings">
+                <i class="fas fa-save"></i> Save Changes
             </button>
         </div>
     </div>

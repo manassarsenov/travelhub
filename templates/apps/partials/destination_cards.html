@@ -123,7 +123,8 @@
 </div>
 
 {% for destination in destinations %}
-    {% if destination.is_flash_sale %}
+
+    {% if destination.is_flash_sale and destination.flash_sale_end > now %}
         {% include 'apps/partials/_flash_card.html' with destination=destination %}
 
     {% elif destination.is_featured %}
@@ -159,10 +160,12 @@
                 {% endif %}
 
                 <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i></button>
+                {% if 'destinations' in request.path %}
                 <label class="compare-checkbox">
-                    <input type="checkbox" onchange="addToCompare(this)">
+                    <input type="checkbox" data-slug="{{ destination.slug }}" data-name="{{ destination.name }}" data-image="{% if destination.images.first %}{{ destination.images.first.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}" data-price="{{ destination.discounted_price|default:destination.price }}" data-rating="{{ destination.rating }}" onchange="addToCompare(this)">
                     <span>Compare</span>
                 </label>
+                {% endif %}
             </div>
 
             <div class="card-content">

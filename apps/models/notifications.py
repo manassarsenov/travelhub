@@ -90,7 +90,8 @@ class Notification(CreatedBaseModel):
             from django.utils import timezone
             self.is_read = True
             self.read_at = timezone.now()
-            self.save()
+            # update_fields ishlatilmasa auto_now=True bo'lgan created_at yangilanib ketadi!
+            self.save(update_fields=['is_read', 'read_at'])
 
     def save(self, *args, **kwargs):
         is_new = self._state.adding

@@ -16,6 +16,14 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
 
+# Beat schedule - flash sale'larni avtomatik tozalash
+app.conf.beat_schedule = {
+    'expire-flash-sales-every-5-minutes': {
+        'task': 'expire_flash_sales',
+        'schedule': 300.0,  # 5 daqiqa (sekundlarda)
+    },
+}
+
 
 @app.task(bind=True, ignore_result=True)
 def debug_task(self):

@@ -148,9 +148,15 @@
 }
 
 /* Categories Section */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 .help-categories {
     padding: 80px 20px;
-    background: var(--background);
+    background: var(--hc-bg);
 }
 
 .section-header {
@@ -161,13 +167,13 @@
 .section-title {
     font-size: 42px;
     font-weight: 900;
-    color: var(--text);
+    color: var(--hc-text);
     margin-bottom: 12px;
 }
 
 .section-subtitle {
     font-size: 18px;
-    color: var(--gray);
+    color: var(--hc-text-light);
     font-weight: 400;
 }
 
@@ -181,13 +187,14 @@
 
 /* Category Cards */
 .category-card {
-    background: var(--card-bg);
+    background: var(--hc-card-bg);
     border-radius: 20px;
     padding: 35px;
     transition: all 0.3s ease;
-    border: 2px solid var(--border);
+    border: 1px solid var(--hc-border);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 .category-card::before {
@@ -261,13 +268,13 @@
 .category-title {
     font-size: 24px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--hc-text);
     margin-bottom: 8px;
 }
 
 .category-desc {
     font-size: 15px;
-    color: var(--gray);
+    color: var(--hc-text-light);
     margin-bottom: 20px;
     line-height: 1.6;
 }
@@ -284,7 +291,7 @@
 .article-list a {
     display: flex;
     align-items: center;
-    color: var(--text);
+    color: var(--hc-text);
     text-decoration: none;
     font-size: 15px;
     font-weight: 500;
@@ -326,7 +333,7 @@
 /* Popular Articles */
 .popular-articles {
     padding: 80px 20px;
-    background: linear-gradient(180deg, var(--background) 0%, rgba(102, 126, 234, 0.05) 100%);
+    background: linear-gradient(180deg, var(--hc-bg) 0%, rgba(102, 126, 234, 0.05) 100%);
 }
 
 .articles-grid {
@@ -338,12 +345,13 @@
 }
 
 .article-card {
-    background: var(--card-bg);
+    background: var(--hc-card-bg);
     border-radius: 20px;
     padding: 30px;
     transition: all 0.3s ease;
-    border: 2px solid var(--border);
+    border: 1px solid var(--hc-border);
     position: relative;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 .article-card:hover {
@@ -381,14 +389,14 @@
 .article-title {
     font-size: 22px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--hc-text);
     margin-bottom: 12px;
     line-height: 1.4;
 }
 
 .article-excerpt {
     font-size: 15px;
-    color: var(--gray);
+    color: var(--hc-text-light);
     line-height: 1.7;
     margin-bottom: 20px;
 }
@@ -406,7 +414,7 @@
     align-items: center;
     gap: 8px;
     font-size: 14px;
-    color: var(--gray);
+    color: var(--hc-text-light);
     font-weight: 500;
 }
 
@@ -432,17 +440,17 @@
 /* Contact Support */
 .contact-support {
     padding: 80px 20px;
-    background: var(--background);
+    background: var(--hc-bg);
 }
 
 .contact-support-box {
     max-width: 900px;
     margin: 0 auto;
-    background: var(--card-bg);
+    background: var(--hc-card-bg);
     border-radius: 30px;
     padding: 60px 40px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    border: 2px solid var(--border);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--hc-border);
 }
 
 .support-header {
@@ -462,13 +470,13 @@
 .support-header h2 {
     font-size: 38px;
     font-weight: 900;
-    color: var(--text);
+    color: var(--hc-text);
     margin-bottom: 12px;
 }
 
 .support-header p {
     font-size: 18px;
-    color: var(--gray);
+    color: var(--hc-text-light);
 }
 
 .contact-options {
@@ -481,10 +489,10 @@
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 20px;
-    background: var(--background);
+    background: var(--hc-bg);
     padding: 25px 30px;
     border-radius: 16px;
-    border: 2px solid var(--border);
+    border: 1px solid var(--hc-border);
     transition: all 0.3s ease;
     cursor: pointer;
 }
@@ -527,20 +535,20 @@
 .option-content h4 {
     font-size: 20px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--hc-text);
     margin-bottom: 4px;
 }
 
 .option-content p {
     font-size: 15px;
-    color: var(--text);
+    color: var(--hc-text);
     font-weight: 500;
     margin-bottom: 4px;
 }
 
 .response-time {
     font-size: 13px;
-    color: var(--gray);
+    color: var(--hc-text-light);
     font-weight: 500;
 }
 
@@ -568,7 +576,7 @@
 /* FAQ Quick */
 .faq-quick {
     padding: 80px 20px;
-    background: linear-gradient(180deg, var(--background) 0%, rgba(102, 126, 234, 0.03) 100%);
+    background: linear-gradient(180deg, var(--hc-bg) 0%, rgba(102, 126, 234, 0.03) 100%);
 }
 
 .faq-title {
@@ -588,12 +596,13 @@
 }
 
 .faq-item {
-    background: var(--card-bg);
+    background: var(--hc-card-bg);
     padding: 30px;
     border-radius: 16px;
-    border: 2px solid var(--border);
+    border: 1px solid var(--hc-border);
     transition: all 0.3s ease;
     cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 .faq-item:hover {
@@ -611,14 +620,14 @@
 .faq-item h4 {
     font-size: 18px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--hc-text);
     margin-bottom: 10px;
     line-height: 1.4;
 }
 
 .faq-item p {
     font-size: 15px;
-    color: var(--gray);
+    color: var(--hc-text-light);
     line-height: 1.6;
 }
 
@@ -636,7 +645,7 @@
 
 /* Dark Mode Styles */
 [data-theme="dark"] .help-search-box {
-    background: var(--card-bg);
+    background: var(--hc-card-bg);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 

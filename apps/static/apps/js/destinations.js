@@ -315,6 +315,7 @@ function loadMoreDestinations() {
                 btn.disabled = false;
             }
             initFlashTimers();
+            initCompareCheckboxes();
         })
         .catch(() => {
             btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More';
@@ -375,6 +376,7 @@ function filterByCity(citySlug, cityName) {
             if (grid) {
                 waitForImagesAndInit(grid);
                 initFlashTimers();
+                initCompareCheckboxes();
             }
         })
         .catch(err => {
@@ -441,6 +443,7 @@ function loadMoreByCity(citySlug) {
             if (grid) {
                 waitForImagesAndInit(grid);
                 initFlashTimers();
+                initCompareCheckboxes();
             }
         })
         .catch(() => {
@@ -615,6 +618,7 @@ function applyFilters() {
             }
 
             initFlashTimers();
+            initCompareCheckboxes();
             equalizeAndInit();
         });
 }
@@ -660,6 +664,7 @@ function loadMoreWithFilters(currentParams) {
             btn.style.display = hasMore ? 'inline-block' : 'none';
 
             initFlashTimers();
+            initCompareCheckboxes();
             equalizeAndInit();
         });
 }
@@ -684,3 +689,255 @@ function clearAllFilters() {
     // 3. Filtrlarni qayta ishga tushirish
     applyFilters();
 }
+
+// ============================================================
+// COMPARE FUNKSIONALLIK
+// ============================================================
+const COMPARE_KEY = 'travelhub_compare';
+const COMPARE_MAX = 4;
+
+function getCompareList() {
+    try {
+        return JSON.parse(localStorage.getItem(COMPARE_KEY)) || [];
+    } catch {
+        return [];
+    }
+}
+
+function saveCompareList(list) {
+    localStorage.setItem(COMPARE_KEY, JSON.stringify(list));
+}
+
+function updateCompareCount() {
+    const list = getCompareList();
+    const countEl = document.getElementById('compare-count');
+    if (countEl) countEl.textContent = list.length;
+    const btn = document.querySelector('.compare-btn');
+    if (btn) {
+        btn.style.display = list.length > 0 ? 'inline-flex' : 'inline-flex';
+    }
+}
+
+function isInCompare(slug) {
+    return getCompareList().some(item => item.slug === slug);
+}
+
+function addToCompare(checkbox) {
+    const slug = checkbox.dataset.slug;
+    const name = checkbox.dataset.name;
+    const image = checkbox.dataset.image;
+    const price = checkbox.dataset.price;
+    const rating = checkbox.dataset.rating;
+
+    let list = getCompareList();
+
+    if (checkbox.checked) {
+        if (isInCompare(slug)) return;
+        if (list.length >= COMPARE_MAX) {
+            alert(`You can only compare up to ${COMPARE_MAX} destinations.`);
+            checkbox.checked = false;
+            return;
+        }
+        list.push({ slug, name, image, price, rating });
+    } else {
+        list = list.filter(item => item.slug !== slug);
+    }
+
+    saveCompareList(list);
+    updateCompareCount();
+}
+
+function removeFromCompare(slug) {
+    let list = getCompareList().filter(item => item.slug !== slug);
+    saveCompareList(list);
+    updateCompareCount();
+    // Modal ichidagi checkboxlarni yangilash
+    document.querySelectorAll(`.compare-checkbox input[data-slug="${slug}"]`).forEach(cb => {
+        cb.checked = false;
+    });
+    openComparison();
+}
+
+function clearCompare() {
+    saveCompareList([]);
+    updateCompareCount();
+    document.querySelectorAll('.compare-checkbox input').forEach(cb => cb.checked = false);
+    openComparison();
+}
+
+function openComparison() {
+    const list = getCompareList();
+    const modal = document.getElementById('comparison-modal');
+    const grid = document.getElementById('comparison-grid');
+    if (!modal || !grid) return;
+
+    if (list.length === 0) {
+        grid.innerHTML = `
+            <div style="text-align: center; padding: 80px 60px; color: #6b7280;">
+                <i class="fas fa-balance-scale" style="font-size: 3rem; margin-bottom: 20px; display: block;"></i>
+                <h3 style="margin: 0 0 10px; color: #374151;">No destinations selected</h3>
+                <p style="margin: 0;">Choose destinations from the list to compare them side by side.</p>
+            </div>
+        `;
+        modal.classList.add('active');
+        return;
+    }
+
+    if (list.length === 1) {
+        grid.innerHTML = `
+            <div style="text-align: center; padding: 80px 60px; color: #6b7280;">
+                <i class="fas fa-balance-scale" style="font-size: 3rem; margin-bottom: 20px; display: block;"></i>
+                <h3 style="margin: 0 0 10px; color: #374151;">Select at least 2 destinations</h3>
+                <p style="margin: 0;">You have 1 destination selected. Please select one more to start comparing.</p>
+            </div>
+        `;
+        modal.classList.add('active');
+        return;
+    }
+
+    grid.innerHTML = '<div style="text-align: center; padding: 80px 60px;"><i class="fas fa-spinner fa-spin fa-2x" style="color:#4f46e5;"></i><p style="margin-top: 15px; color: #6b7280;">Loading comparison...</p></div>';
+    modal.classList.add('active');
+
+    const lang = getCurrentLang();
+    const slugs = list.map(item => item.slug).join(',');
+
+    fetch(`/${lang}/compare-destinations/?slugs=${encodeURIComponent(slugs)}`)
+        .then(res => {
+            if (!res.ok) throw new Error('Server error');
+            return res.json();
+        })
+        .then(data => renderComparison(data.destinations))
+        .catch(() => {
+            grid.innerHTML = '<div style="text-align: center; padding: 60px; color: #dc2626;"><i class="fas fa-exclamation-circle" style="font-size: 2rem; margin-bottom: 15px; display: block;"></i><h3 style="margin: 0 0 10px;">Error loading comparison data.</h3></div>';
+        });
+}
+
+function closeComparison() {
+    const modal = document.getElementById('comparison-modal');
+    if (modal) modal.classList.remove('active');
+}
+
+function renderComparison(destinations) {
+    const grid = document.getElementById('comparison-grid');
+    if (!grid) return;
+
+    if (!destinations || destinations.length === 0) {
+        grid.innerHTML = '<div style="text-align: center; padding: 60px;"><h3>No data available</h3></div>';
+        return;
+    }
+
+    const n = destinations.length;
+    const gridCols = `200px repeat(${n}, 1fr)`;
+
+    const imgUrl = (d) => d.image && d.image.length > 5 && !d.image.includes('vectorstock') ? d.image : '/static/apps/img/default.avif';
+
+    const fmtBool = (v) => v
+        ? '<span class="bool-yes"><i class="fas fa-check-circle"></i> Yes</span>'
+        : '<span class="bool-no"><i class="fas fa-times-circle"></i> No</span>';
+
+    // ===== HEADER ROW =====
+    let html = `<div class="compare-header-row" style="grid-template-columns: ${gridCols};">`;
+    html += `<div class="compare-header-cell label-col">Destinations</div>`;
+
+    destinations.forEach(d => {
+        const priceHtml = d.discount_percentage > 0
+            ? `<span class="compare-header-original">$${d.price}</span><span class="compare-header-current">$${d.discounted_price}</span>`
+            : `<span class="compare-header-current">$${d.price}</span>`;
+
+        html += `
+        <div class="compare-header-cell">
+            <button class="compare-header-remove" onclick="removeFromCompare('${d.slug}')" title="Remove">&times;</button>
+            <div class="compare-header-img">
+                <img src="${imgUrl(d)}" alt="${d.name}" onerror="this.parentElement.innerHTML='<div class=\\'no-img\\'><i class=\\'fas fa-image\\'></i> No Image</div>'">
+            </div>
+            <h4 class="compare-header-name">${d.name}</h4>
+            <p class="compare-header-location"><i class="fas fa-map-marker-alt"></i> ${d.location || d.city || 'N/A'}</p>
+            <div class="compare-header-meta">
+                <span class="compare-header-rating"><i class="fas fa-star"></i> ${d.rating || 0} <small>(${d.reviews_count || 0})</small></span>
+            </div>
+            <div class="compare-header-price">${priceHtml}</div>
+            <a href="${d.detail_url}" class="compare-header-btn">See Details <i class="fas fa-arrow-right" style="font-size:0.7em;"></i></a>
+        </div>`;
+    });
+    html += '</div>';
+
+    // ===== COMPARISON BODY =====
+    html += '<div class="compare-body">';
+
+    const addRow = (icon, label, values) => {
+        html += `<div class="compare-row" style="grid-template-columns: ${gridCols};">`;
+        html += `<div class="compare-label"><i class="fas ${icon}"></i> ${label}</div>`;
+        values.forEach(v => {
+            html += `<div class="compare-value">${v}</div>`;
+        });
+        html += `</div>`;
+    };
+
+    const addSection = (title) => {
+        html += `<div class="compare-section-row" style="grid-template-columns: ${gridCols};"><div class="compare-section-label">${title}</div></div>`;
+    };
+
+    // Basic info rows
+    addRow('fa-route', 'Trip Type', destinations.map(d => d.trip_type || '-'));
+    addRow('fa-clock', 'Duration', destinations.map(d => d.duration || '-'));
+    addRow('fa-sun', 'Season', destinations.map(d => d.season || '-'));
+    addRow('fa-box', 'Package Type', destinations.map(d => d.package_type || '-'));
+    addRow('fa-hotel', 'Hotels', destinations.map(d => (d.hotels_count || 0).toString()));
+    addRow('fa-plane', 'Flights', destinations.map(d => fmtBool(d.has_flights)));
+    addRow('fa-undo', 'Cancellation', destinations.map(d => d.is_free_cancellation
+        ? '<span class="bool-yes"><i class="fas fa-check-circle"></i> Free</span>'
+        : '<span class="bool-no"><i class="fas fa-times-circle"></i> Non-refundable</span>'));
+    addRow('fa-tag', 'Discount', destinations.map(d => d.discount_percentage > 0
+        ? `<span style="color:#dc2626;font-weight:700;">-${d.discount_percentage}%</span>`
+        : '-'));
+
+    // Flights section
+    const hasFlights = destinations.some(d => d.flights && d.flights.length > 0);
+    if (hasFlights) {
+        addSection('<i class="fas fa-plane"></i> Available Flights');
+        addRow('fa-plane', 'Flight Options', destinations.map(d => {
+            if (!d.flights || d.flights.length === 0) return '<span style="color:#9ca3af;">No flights</span>';
+            return d.flights.map(f => `${f.airline_name}: <strong>$${f.price_economy}</strong>`).join('<br>');
+        }));
+    }
+
+    // Hotels section
+    const hasHotels = destinations.some(d => d.hotels && d.hotels.length > 0);
+    if (hasHotels) {
+        addSection('<i class="fas fa-hotel"></i> Available Hotels');
+        addRow('fa-hotel', 'Hotel Options', destinations.map(d => {
+            if (!d.hotels || d.hotels.length === 0) return '<span style="color:#9ca3af;">No hotels</span>';
+            return d.hotels.map(h => `${h.name}<br><small>${h.stars}⭐ · $${h.price_per_night}/night</small>`).join('<br><br>');
+        }));
+    }
+
+    // Tickets section
+    const hasTickets = destinations.some(d => d.ticket_types && d.ticket_types.length > 0);
+    if (hasTickets) {
+        addSection('<i class="fas fa-ticket-alt"></i> Ticket Types');
+        addRow('fa-ticket-alt', 'Tickets', destinations.map(d => {
+            if (!d.ticket_types || d.ticket_types.length === 0) return '<span style="color:#9ca3af;">No tickets</span>';
+            return d.ticket_types.map(t => {
+                const label = t.age_label ? `${t.name} (${t.age_label})` : t.name;
+                const price = t.is_free ? '<span class="bool-yes">Free</span>' : `<strong>$${t.price}</strong>`;
+                return `${label}: ${price}`;
+            }).join('<br>');
+        }));
+    }
+
+    html += '</div>';
+    grid.innerHTML = html;
+}
+
+function initCompareCheckboxes() {
+    const list = getCompareList();
+    document.querySelectorAll('.compare-checkbox input').forEach(cb => {
+        cb.checked = list.some(item => item.slug === cb.dataset.slug);
+    });
+    updateCompareCount();
+}
+
+// DOMContentLoaded da compare checkbox holatini tiklash
+document.addEventListener('DOMContentLoaded', () => {
+    initCompareCheckboxes();
+});

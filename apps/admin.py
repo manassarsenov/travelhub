@@ -100,7 +100,7 @@ class CountryAdmin(admin.ModelAdmin):
 
 class DestinationFAQInline(admin.StackedInline):
     model = DestinationFAQ
-    extra = 1
+
 
 
 class DestinationTimeSlotInline(admin.StackedInline):
@@ -114,7 +114,7 @@ class DestinationAdmin(admin.ModelAdmin):
 
     list_display = (
         'name', 'location', 'city', 'price',
-        'is_flash_sale', 'is_trending', 'is_featured', 'is_popular',
+        'is_flash_sale_active', 'is_flash_sale', 'is_trending', 'is_featured', 'is_popular',
         'rating',
     )
 

@@ -271,8 +271,8 @@
                             width="100%" height="300"
                             style="border:0;border-radius:16px;"
                             loading="lazy"
-                            allowfullscreen
-                            referrerpolicy="no-referrer-when-downgrade">
+                            allow="fullscreen"
+                            referrerpolicy="strict-origin-when-cross-origin">
                     </iframe>
                 </div>
 
@@ -483,9 +483,8 @@
                         {% else %}
                             <img src="{% static 'apps/img/default.avif' %}" alt="No image">
                         {% endif %}
-
+                        </div>
                     {% endfor %}
-                    </div>
 
                     <button class="dcd-tp-arrow left" onclick="slidePhotosBack()">
                         <i class="fas fa-chevron-left"></i>
@@ -494,7 +493,7 @@
                     </button>
                 </div>
             </div>
-
+            </div>
         {% endif %}
         {% if destination.faqs.exists %}
             <div class="dcd-section">

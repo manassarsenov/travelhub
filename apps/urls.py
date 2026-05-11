@@ -10,6 +10,9 @@ from apps.views import (AboutTemplateView, ActivateAccountView,
                         GoogleLoginView, HelpCenterTemplateView,
                         HomeTemplateView, InstagramTemplateView, LoginFormView,
                         MyBookingsTemplateView, NotificationTemplateView,
+                        NotificationMarkReadView, NotificationMarkAllReadView,
+                        NotificationDeleteView, NotificationSettingsSaveView,
+                        CancelBookingView,
                         PasswordResetConfirmView, PrivacyPolicyTemplateView,
                         ProfileSettingsTemplateView,
                         RecommendationTemplateView, RegisterCreateView,
@@ -17,7 +20,7 @@ from apps.views import (AboutTemplateView, ActivateAccountView,
                         TermsOfServiceTemplateView, WishlistTemplateView, DestinationByCityView,
                         LoadMoreDestinationsView, BookingStep1View, BookingStep2View, SubmitReviewView,
                         ToggleReviewLikeView, DestinationAllReviewsView, CheckPromoCodeView,
-                        FilterDestinationsTemplateView)
+                        FilterDestinationsTemplateView, CompareDestinationsView)
 
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home_page'),
@@ -57,7 +60,17 @@ urlpatterns = [
     path('reviews/submit/', SubmitReviewView.as_view(), name='submit_review'),
     path('reviews/<int:review_id>/like/', ToggleReviewLikeView.as_view(), name='toggle_review_like'),
     path('booking/check-promo/', CheckPromoCodeView.as_view(), name='check_promo_code'),
-path('filter-destinations/', FilterDestinationsTemplateView.as_view(), name='filter_destinations'),
+    path('filter-destinations/', FilterDestinationsTemplateView.as_view(), name='filter_destinations'),
+    path('compare-destinations/', CompareDestinationsView.as_view(), name='compare_destinations'),
+
+    # ── Notification API ──────────────────────────────────────────────────────
+    path('api/notifications/<int:pk>/read/', NotificationMarkReadView.as_view(), name='notification_mark_read'),
+    path('api/notifications/read-all/', NotificationMarkAllReadView.as_view(), name='notification_mark_all_read'),
+    path('api/notifications/<int:pk>/delete/', NotificationDeleteView.as_view(), name='notification_delete'),
+    path('api/notifications/settings/', NotificationSettingsSaveView.as_view(), name='notification_settings_save'),
+
+    # ── Booking Cancel ────────────────────────────────────────────────────────
+    path('my_bookings/<str:booking_number>/cancel/', CancelBookingView.as_view(), name='cancel_booking'),
 
     re_path(r'^auth/user/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,40})/$',
             ActivateAccountView.as_view(), name='confirm_email_page'),
