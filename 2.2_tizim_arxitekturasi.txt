@@ -1,0 +1,53 @@
+### 2.2. Tizim arxitekturasi va qo‘llanilgan texnologiyalar
+
+"TravelHub" axborot tizimini ishlab chiqishda zamonaviy veb-texnologiyalar, asinxron ishlov berish tizimlari va sun'iy intellekt modullaridan foydalanilgan. Tizim yuqori darajadagi xavfsizlik, kengayuvchanlik va foydalanuvchi tajribasini (UX) ta'minlashga yo'naltirilgan.
+
+#### 2.2.1. Tizimning umumiy arxitekturasi (Monolithic Modular Architecture)
+
+Tizim **MVT (Model-View-Template)** arxitekturaviy naqshi (pattern) asosida qurilgan. Standart monolitik tuzilishdan farqli o‘laroq, loyiha **modulli (modular)** yondashuv asosida tashkil etilgan bo‘lib, har bir funksional qism `apps/` papkasida alohida modullar ko‘rinishida ajratilgan.
+
+*   **Model (Ma'lumotlar qatlami):** PostgreSQL (yoki SQLite) ma'lumotlar bazasi bilan ishlash uchun Django ORM (Object-Relational Mapping) dan foydalanadi. Ma'lumotlar strukturasi normallashtirilgan bo'lib, geografik ma'lumotlar, foydalanuvchi profillari, buyurtmalar va AI loglari uchun alohida jadvallar shakllantirilgan.
+*   **View (Biznes mantiq qatlami):** Foydalanuvchi so‘rovlarini qabul qiladi, `tasks.py` orqali asinxron vazifalarni ishga tushiradi va kerakli natijani qaytaradi.
+*   **Template (Taqdimot qatlami):** Dinamik HTML sahifalar, CSS modullari va JavaScript skriptlari orqali foydalanuvchi interfeysini shakllantiradi.
+
+#### 2.2.2. Backend texnologiyalari va dasturiy vositalar
+
+Tizimning server qismi quyidagi texnologiyalar yordamida amalga oshirilgan:
+
+1.  **Python 3.12:** Loyihaning asosi hisoblanib, uning zamonaviy `typing` va `asyncio` imkoniyatlaridan foydalanilgan.
+2.  **Django Framework:** Veb-ilovaning xavfsizligi (CSRF, SQL Injection va XSS dan himoya) va ma'muriy boshqaruv paneli uchun asosiy freymvork sifatida tanlangan.
+3.  **Celery va Redis:** Tizimda asinxron vazifalarni (masalan, `send_email.py` orqali xat yuborish, buyurtma holatlarini yangilash) boshqarish uchun ishlatiladi. Redis xabarlar brokeri (message broker) vazifasini bajaradi.
+4.  **Django MPTT:** Geografik joylashuvlar (Mamlakat -> Viloyat -> Shahar) va turistik destinatsiyalarning iyerarxik tuzilishini samarali boshqarish va bazadan tezkor olish uchun qo‘llanilgan.
+5.  **AI Moderator (OpenAI/Gemini API):** Tizimga kiritilayotgan izohlar va ma'lumotlarni avtomatik moderatsiya qilish uchun maxsus AI moduli (`apps/ai_moderator.py`) integratsiya qilingan.
+
+#### 2.2.3. Frontend va Foydalanuvchi interfeysi (Client-side)
+
+Frontend qismi "Single Page Experience" ga yaqinlashtirilgan bo‘lib, quyidagi tarkibiy qismlardan iborat:
+
+*   **HTML5 va Vanilla CSS3:** Tizim dizayni maxsus (`main_base.css`, `responsive.css`) uslublar asosida qurilgan bo‘lib, har qanday qurilmaga (mobile, tablet, desktop) moslashuvchan.
+*   **JavaScript (Modular JS):** Foydalanuvchi interfeysining interaktivligini oshirish uchun har bir funksiya uchun alohida modullar yaratilgan:
+    *   `booking_step.js`: Bron qilish jarayonini bosqichma-bosqich (Multi-step) amalga oshirish.
+    *   `weather.js`: Tashqi API-lar bilan integratsiya orqali tanlangan hududning ob-havosini real vaqtda ko‘rsatish.
+    *   `slider.js` va `home.js`: Dinamik kontent yuklash va vizual effektlar.
+*   **Django Templating Engine:** Server tomonida render qilingan ma'lumotlarni xavfsiz va tezkor ko‘rsatish uchun foydalanilgan.
+
+#### 2.2.4. Ma'lumotlar bazasi va saqlash tizimi
+
+Loyiha ma'lumotlar bazasi bir nechta mantiqiy bloklarga bo‘lingan:
+*   **Location Schema:** Mamlakatlar, mintaqalar va shaharlar o‘rtasidagi bog‘liqlikni saqlaydi (`fixtures/` ichidagi JSON fayllar orqali boshlang‘ich ma'lumotlar to‘ldirilgan).
+*   **User Management:** Maxsus kengaytirilgan foydalanuvchi modeli (`Custom User Model`) orqali profillar, bildirishnomalar va seanslar boshqariladi.
+*   **Operational Data:** Buyurtmalar (`orders`), destinatsiyalar (`destinations`), va sharhlar (`reviews`) o'zaro bog'langan (Foreign Key, Many-to-Many).
+
+#### 2.2.5. Xalqaro integratsiya va mahalliylashtirish (i18n)
+
+Tizim global sayyohlik bozoriga yo‘naltirilganligi sababli, **Django Internationalization (i18n)** tizimi integratsiya qilingan. `locale/` papkasida o‘zbek (`uz`), rus (`ru`) va ingliz (`en`) tillari uchun tarjima fayllari (`django.po`) shakllantirilgan bo‘lib, foydalanuvchi tilni o‘zgartirganda butun interfeys dinamik ravishda moslashadi.
+
+#### 2.2.6. Loyihani boshqarish va xavfsizlik vositalari
+
+*   **UV Package Manager:** Loyihaning barcha bog‘liqliklarini (dependencies) boshqarish uchun eng so‘nggi va tezkor `uv` paket menejeridan foydalanilgan (`uv.lock`, `pyproject.toml`).
+*   **Environment Variables (.env):** API kalitlari (OpenAI, Email SMTP, DB parollari) maxfiy saqlanishi ta'minlangan.
+*   **Flake8:** Kod sifatini tekshirish va yagona standartga (PEP8) muvofiqligini ta'minlash uchun ishlatilgan.
+
+---
+**Xulosa:**
+Ushbu arxitektura "TravelHub" platformasining nafaqat bugungi kundagi talablarga javob berishini, balki kelajakda mobil ilovalar uchun API (Django Rest Framework orqali) yaratish yoki tizimni mikroxizmatlarga (microservices) ajratish uchun mustahkam poydevor bo‘lishini ta'minlaydi.
