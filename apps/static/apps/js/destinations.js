@@ -106,12 +106,20 @@ document.addEventListener('DOMContentLoaded', () => {
         updateLoadMoreUI(firstPanel);
     }
 
-    // Refresh da city state tiklash
-    const params = new URLSearchParams(window.location.search);
-    const citySlug = params.get('city');
-    const cityName = params.get('city_name');
-    if (citySlug && cityName) {
+    // URL dan state tiklash
+    const params      = new URLSearchParams(window.location.search);
+    const citySlug    = params.get('city');
+    const cityName    = params.get('city_name');
+    const countrySlug = params.get('country');
+    const countryName = params.get('country_name');
+    const searchQuery = params.get('q');
+
+    if (searchQuery) {
+        filterByQuery(searchQuery);
+    } else if (citySlug && cityName) {
         filterByCity(citySlug, cityName);
+    } else if (countrySlug && countryName) {
+        filterByCountry(countrySlug, countryName);
     }
 
     initFlashTimers();
@@ -387,6 +395,107 @@ function filterByCity(citySlug, cityName) {
     if (mainDestinations) mainDestinations.scrollIntoView({behavior: 'smooth', block: 'start'});
 }
 
+function filterByCountry(countrySlug, countryName) {
+    const exploreSection   = document.getElementById('explore-section');
+    const mainDestinations = document.getElementById('main-destinations');
+    const grid             = document.getElementById('destinations-grid');
+    const loadMoreBtn      = document.getElementById('load-more-btn');
+    const showingText      = document.getElementById('showing-text');
+    const lang             = getCurrentLang();
+
+    if (exploreSection)   exploreSection.style.display = 'none';
+    if (mainDestinations) mainDestinations.classList.add('visible');
+
+    const badge = document.getElementById('active-city-name');
+    if (badge) badge.textContent = countryName;
+
+    const url = new URL(window.location);
+    url.searchParams.set('country', countrySlug);
+    url.searchParams.set('country_name', countryName);
+    url.searchParams.delete('city');
+    url.searchParams.delete('city_name');
+    url.searchParams.delete('q');
+    window.history.pushState({}, '', url);
+
+    if (grid) grid.innerHTML =
+        '<div style="grid-column:1/-1;text-align:center;padding:60px;">' +
+        '<i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary);"></i></div>';
+
+    fetch(`/${lang}/filter-destinations/?country=${countrySlug}&offset=0`)
+        .then(res => { if (!res.ok) throw new Error(); return res.text(); })
+        .then(html => {
+            const doc     = new DOMParser().parseFromString(html, 'text/html');
+            const meta    = doc.getElementById('cards-meta');
+            const total   = parseInt(meta?.dataset.total   || 0);
+            const shown   = parseInt(meta?.dataset.shown   || 0);
+            const hasMore = meta?.dataset.hasMore === 'true';
+
+            if (grid) {
+                grid.innerHTML = '';
+                doc.querySelectorAll('.destination-card, .package-card').forEach(card => {
+                    grid.appendChild(document.importNode(card, true));
+                });
+            }
+
+            if (document.getElementById('results-count'))
+                document.getElementById('results-count').textContent = total;
+            if (showingText)
+                showingText.textContent = `Showing ${shown} of ${total} destinations`;
+
+            if (loadMoreBtn) {
+                loadMoreBtn.dataset.offset    = shown;
+                loadMoreBtn.dataset.total     = total;
+                loadMoreBtn.dataset.citySlug  = '';
+                loadMoreBtn.style.display     = hasMore ? 'inline-block' : 'none';
+                loadMoreBtn.onclick           = () => loadMoreByCountry(countrySlug);
+            }
+
+            if (grid) { waitForImagesAndInit(grid); initFlashTimers(); initCompareCheckboxes(); }
+        })
+        .catch(() => {
+            if (grid) grid.innerHTML =
+                '<p style="text-align:center;padding:40px;color:red;">Error loading destinations.</p>';
+        });
+
+    if (mainDestinations) mainDestinations.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function loadMoreByCountry(countrySlug) {
+    const btn         = document.getElementById('load-more-btn');
+    const showingText = document.getElementById('showing-text');
+    const grid        = document.getElementById('destinations-grid');
+    if (!btn || btn.disabled) return;
+
+    const offset = parseInt(btn.dataset.offset || 0);
+    const total  = parseInt(btn.dataset.total  || 0);
+    const lang   = getCurrentLang();
+
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.disabled  = true;
+
+    fetch(`/${lang}/filter-destinations/?country=${countrySlug}&offset=${offset}`)
+        .then(res => res.text())
+        .then(html => {
+            const doc     = new DOMParser().parseFromString(html, 'text/html');
+            const meta    = doc.getElementById('cards-meta');
+            const shown   = parseInt(meta?.dataset.shown   || 0);
+            const hasMore = meta?.dataset.hasMore === 'true';
+
+            doc.querySelectorAll('.destination-card, .package-card').forEach(card => {
+                grid.appendChild(document.importNode(card, true));
+            });
+
+            btn.dataset.offset = shown;
+            if (showingText) showingText.textContent = `Showing ${shown} of ${total} destinations`;
+            btn.disabled  = false;
+            btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';
+            if (!hasMore) btn.style.display = 'none';
+
+            if (grid) { waitForImagesAndInit(grid); initFlashTimers(); initCompareCheckboxes(); }
+        })
+        .catch(() => { btn.disabled = false; btn.innerHTML = '<i class="fas fa-redo"></i> Try Again'; });
+}
+
 function waitForImagesAndInit(grid) {
     const allImages = grid.querySelectorAll('img');
     let loadedCount = 0;
@@ -452,6 +561,210 @@ function loadMoreByCity(citySlug) {
         });
 }
 
+// ============================================================
+// GLOBAL SEARCH — query bo'yicha filter
+// ============================================================
+
+function filterByQuery(q) {
+    if (!q || !q.trim()) return;
+    q = q.trim();
+
+    const exploreSection   = document.getElementById('explore-section');
+    const mainDestinations = document.getElementById('main-destinations');
+    const grid             = document.getElementById('destinations-grid');
+    const loadMoreBtn      = document.getElementById('load-more-btn');
+    const showingText      = document.getElementById('showing-text');
+    const lang             = getCurrentLang();
+
+    if (exploreSection)   exploreSection.style.display = 'none';
+    if (mainDestinations) mainDestinations.classList.add('visible');
+
+    // URL ni yangilash
+    const url = new URL(window.location);
+    url.searchParams.set('q', q);
+    url.searchParams.delete('city');
+    url.searchParams.delete('city_name');
+    window.history.replaceState({}, '', url);
+
+    // Banner ko'rsatish
+    _showSearchBanner(q, null);
+
+    // Loading holati
+    if (grid) {
+        grid.innerHTML =
+            '<div style="grid-column:1/-1;text-align:center;padding:80px 20px;">' +
+            '<div style="width:52px;height:52px;border:3px solid #e2e8f0;border-top-color:var(--primary);' +
+            'border-radius:50%;animation:rotate 0.7s linear infinite;margin:0 auto 20px;"></div>' +
+            '<p style="font-size:16px;color:var(--gray);font-weight:600;">Searching for "' + q + '"…</p>' +
+            '</div>';
+    }
+
+    fetch('/' + lang + '/destinations/load-more/?q=' + encodeURIComponent(q) + '&offset=0', {
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+    })
+    .then(data => {
+        const total = data.total || 0;
+        const shown = data.count || 0;
+
+        if (grid) {
+            if (data.html && data.html.trim()) {
+                grid.innerHTML = data.html;
+            } else {
+                grid.innerHTML = _noResultsHTML(q);
+            }
+        }
+
+        _showSearchBanner(q, total);
+        if (showingText) showingText.textContent = total > 0
+            ? 'Showing ' + shown + ' of ' + total + ' destinations'
+            : '0 destinations found';
+
+        const countEl = document.getElementById('results-count');
+        if (countEl) countEl.textContent = total;
+
+        if (loadMoreBtn) {
+            loadMoreBtn.dataset.offset   = shown;
+            loadMoreBtn.dataset.total    = total;
+            loadMoreBtn.dataset.citySlug = '';
+            loadMoreBtn.dataset.query    = q;
+            loadMoreBtn.style.display    = data.has_more ? 'inline-block' : 'none';
+            loadMoreBtn.onclick          = () => loadMoreByQuery(q);
+            if (data.has_more) {
+                loadMoreBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';
+            }
+        }
+
+        if (grid) {
+            waitForImagesAndInit(grid);
+            initFlashTimers();
+            if (typeof initCompareCheckboxes === 'function') initCompareCheckboxes();
+        }
+    })
+    .catch(err => {
+        console.error('filterByQuery error:', err);
+        if (grid) grid.innerHTML = _searchErrorHTML(q);
+        _showSearchBanner(q, 0);
+    });
+
+    if (mainDestinations) mainDestinations.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function loadMoreByQuery(q) {
+    const btn         = document.getElementById('load-more-btn');
+    const showingText = document.getElementById('showing-text');
+    const grid        = document.getElementById('destinations-grid');
+    if (!btn || btn.disabled) return;
+
+    const offset = parseInt(btn.dataset.offset || 0);
+    const total  = parseInt(btn.dataset.total  || 0);
+    const lang   = getCurrentLang();
+
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.disabled  = true;
+
+    fetch('/' + lang + '/destinations/load-more/?q=' + encodeURIComponent(q) + '&offset=' + offset, {
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+    })
+    .then(data => {
+        if (grid && data.html && data.html.trim()) {
+            grid.insertAdjacentHTML('beforeend', data.html);
+        }
+        const newShown = offset + (data.count || 0);
+        btn.dataset.offset = newShown;
+
+        if (showingText) showingText.textContent = 'Showing ' + newShown + ' of ' + total + ' destinations';
+
+        btn.disabled  = false;
+        btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';
+        if (!data.has_more) btn.style.display = 'none';
+
+        if (grid) {
+            waitForImagesAndInit(grid);
+            initFlashTimers();
+            if (typeof initCompareCheckboxes === 'function') initCompareCheckboxes();
+        }
+    })
+    .catch(err => {
+        console.error('loadMoreByQuery error:', err);
+        btn.disabled  = false;
+        btn.innerHTML = '<i class="fas fa-redo"></i> Try Again';
+    });
+}
+
+function _showSearchBanner(q, total) {
+    const banner   = document.getElementById('search-results-banner');
+    const qEl      = document.getElementById('srb-query');
+    const countEl  = document.getElementById('srb-count');
+
+    if (!banner) return;
+    if (qEl)     qEl.textContent    = q;
+    if (countEl && total !== null) countEl.textContent = total;
+    banner.style.display = 'block';
+
+    // Smooth entrance
+    banner.style.opacity   = '0';
+    banner.style.transform = 'translateY(-10px)';
+    requestAnimationFrame(() => {
+        banner.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+        banner.style.opacity    = '1';
+        banner.style.transform  = 'translateY(0)';
+    });
+}
+
+function _noResultsHTML(q) {
+    return '<div style="grid-column:1/-1;text-align:center;padding:80px 30px;">' +
+        '<div style="width:90px;height:90px;background:linear-gradient(135deg,#f1f5f9,#e2e8f0);' +
+        'border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">' +
+        '<i class="fas fa-search" style="font-size:36px;color:#94a3b8;"></i></div>' +
+        '<h3 style="font-size:22px;font-weight:900;color:#1e293b;margin-bottom:10px;">No results for "' + q + '"</h3>' +
+        '<p style="color:#64748b;font-size:15px;margin-bottom:24px;">Try different keywords or browse all destinations</p>' +
+        '<button onclick="clearSearch()" style="padding:12px 28px;background:linear-gradient(135deg,#667eea,#764ba2);' +
+        'color:white;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;' +
+        'font-family:Poppins,sans-serif;box-shadow:0 6px 20px rgba(102,126,234,0.4);">' +
+        '<i class="fas fa-arrow-left" style="margin-right:8px;"></i>Browse All Destinations</button>' +
+        '</div>';
+}
+
+function _searchErrorHTML(q) {
+    return '<div style="grid-column:1/-1;text-align:center;padding:80px 30px;">' +
+        '<div style="width:90px;height:90px;background:#fff0f0;border-radius:50%;' +
+        'display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">' +
+        '<i class="fas fa-exclamation-triangle" style="font-size:36px;color:#ef4444;"></i></div>' +
+        '<h3 style="font-size:20px;font-weight:900;color:#1e293b;margin-bottom:10px;">Something went wrong</h3>' +
+        '<p style="color:#64748b;font-size:15px;margin-bottom:24px;">Could not load results for "' + q + '"</p>' +
+        '<button onclick="filterByQuery(\'' + q.replace(/'/g, "\\'") + '\')" ' +
+        'style="padding:12px 28px;background:linear-gradient(135deg,#667eea,#764ba2);' +
+        'color:white;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;' +
+        'font-family:Poppins,sans-serif;box-shadow:0 6px 20px rgba(102,126,234,0.4);">' +
+        '<i class="fas fa-redo" style="margin-right:8px;"></i>Try Again</button>' +
+        '</div>';
+}
+
+function clearSearch() {
+    const banner = document.getElementById('search-results-banner');
+    if (banner) banner.style.display = 'none';
+
+    const url = new URL(window.location);
+    url.searchParams.delete('q');
+    window.history.replaceState({}, '', url);
+
+    const exploreSection   = document.getElementById('explore-section');
+    const mainDestinations = document.getElementById('main-destinations');
+
+    if (mainDestinations) mainDestinations.classList.remove('visible');
+    if (exploreSection)   exploreSection.style.display = '';
+
+    exploreSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function switchView(mode) {
     const grid = document.getElementById('destinations-grid');
     if (!grid) return;
@@ -491,7 +804,11 @@ function backToExplore() {
     const url = new URL(window.location);
     url.searchParams.delete('city');
     url.searchParams.delete('city_name');
+    url.searchParams.delete('q');
     window.history.pushState({}, '', url);
+
+    const banner = document.getElementById('search-results-banner');
+    if (banner) banner.style.display = 'none';
 
     if (document.getElementById('active-city-name')) document.getElementById('active-city-name').textContent = 'All';
     if (mainDestinations) mainDestinations.classList.remove('visible');
@@ -574,6 +891,10 @@ function applyFilters() {
 
     const duration = document.querySelector('input[name="duration"]:checked')?.value;
     if (duration) params.set('duration', duration); else params.delete('duration');
+
+    // Popular quick filter
+    if (_activeQuickFilter === 'popular') params.set('popular', '1');
+    else params.delete('popular');
 
     // Filtrlash boshlanganda offset doim 0 bo'ladi
     params.set('offset', 0);
@@ -686,8 +1007,13 @@ function clearAllFilters() {
         document.getElementById('max-price-value').textContent = maxSlider.max;
     }
 
-    // 3. Filtrlarni qayta ishga tushirish
-    applyFilters();
+    // 3. Restore state: if search was active, go back to search results; otherwise re-apply (empty) filters
+    const currentQ = new URLSearchParams(window.location.search).get('q');
+    if (currentQ) {
+        filterByQuery(currentQ);
+    } else {
+        applyFilters();
+    }
 }
 
 // ============================================================
@@ -714,7 +1040,7 @@ function updateCompareCount() {
     if (countEl) countEl.textContent = list.length;
     const btn = document.querySelector('.compare-btn');
     if (btn) {
-        btn.style.display = list.length > 0 ? 'inline-flex' : 'inline-flex';
+        btn.style.display = list.length > 0 ? 'inline-flex' : 'none';
     }
 }
 
@@ -941,3 +1267,268 @@ function initCompareCheckboxes() {
 document.addEventListener('DOMContentLoaded', () => {
     initCompareCheckboxes();
 });
+
+// ============================================================
+// HERO SEARCH — region / country / city / destination filter
+// ============================================================
+
+let _heroTimer         = null;
+let _heroResults       = [];
+let _activeQuickFilter = 'all';
+
+// Positions the suggestions box in viewport coords (called once on open)
+function _positionSuggestions() {
+    const input   = document.getElementById('destination-search');
+    const suggBox = document.getElementById('search-suggestions');
+    if (!input || !suggBox) return;
+
+    const rect  = input.getBoundingClientRect();
+    const minW  = 480;
+    const w     = Math.max(rect.width, minW);
+    let   left  = rect.left;
+    if (left + w > window.innerWidth - 8) left = Math.max(8, window.innerWidth - w - 8);
+
+    suggBox.style.top   = (rect.bottom + 6) + 'px';
+    suggBox.style.left  = left + 'px';
+    suggBox.style.width = w + 'px';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // ── Suggestions box ni body ga ko'chirish ──────────────────
+    // body ga o'tkazilmasa, search-wrapper:hover { transform } qo'llanilganda
+    // position:fixed child viewport emas, o'sha transformlangan elementga
+    // nisbatan pozitsiyalanadi → flickering + klik bo'lmaydi.
+    const suggBox = document.getElementById('search-suggestions');
+    if (suggBox) document.body.appendChild(suggBox);
+
+    // Scroll/resize da qayta pozitsiyalash
+    const reposition = () => {
+        if (document.getElementById('search-suggestions')?.classList.contains('active')) {
+            _positionSuggestions();
+        }
+    };
+    window.addEventListener('scroll',  reposition, { passive: true });
+    window.addEventListener('resize',  reposition, { passive: true });
+
+    // Tashqariga bosish — yopish
+    document.addEventListener('click', (e) => {
+        const input   = document.getElementById('destination-search');
+        const suggBox = document.getElementById('search-suggestions');
+        if (!input?.contains(e.target) && !suggBox?.contains(e.target)) {
+            hideSuggestions();
+        }
+    });
+});
+
+// ── Real-time input handler ───────────────────────────────────
+function onHeroSearchInput(value) {
+    clearTimeout(_heroTimer);
+    const q = value.trim();
+    if (q.length < 2) { hideSuggestions(); return; }
+    _showSuggestionsLoading();
+    _heroTimer = setTimeout(() => _fetchHeroSuggestions(q), q.length === 2 ? 380 : 160);
+}
+
+async function _fetchHeroSuggestions(q) {
+    const lang = getCurrentLang();
+    try {
+        const res = await fetch('/' + lang + '/api/global-search/?q=' + encodeURIComponent(q));
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        _heroResults = data.results || [];
+        _renderHeroSuggestions(_heroResults, q);
+    } catch {
+        hideSuggestions();
+    }
+}
+
+function _showSuggestionsLoading() {
+    const box = document.getElementById('search-suggestions');
+    if (!box) return;
+    box.innerHTML =
+        '<div class="suggestion-loading">' +
+        '<div class="suggestion-spinner"></div>' +
+        '<span>Searching…</span>' +
+        '</div>';
+    if (!box.classList.contains('active')) {
+        _positionSuggestions();
+        box.classList.add('active');
+    }
+}
+
+function _hl(text, q) {
+    if (!text || !q) return text || '';
+    return text.replace(
+        new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'),
+        '<mark class="hs-hl">$1</mark>'
+    );
+}
+
+const _typeIcon = {
+    region:      'fas fa-globe-asia',
+    country:     'fas fa-flag',
+    city:        'fas fa-city',
+    destination: 'fas fa-map-marker-alt',
+};
+const _typeLabel = {
+    region: 'Regions', country: 'Countries', city: 'Cities', destination: 'Destinations',
+};
+
+function _renderHeroSuggestions(results, q) {
+    const box = document.getElementById('search-suggestions');
+    if (!box) return;
+
+    if (!results.length) {
+        box.innerHTML =
+            '<div class="hs-empty">' +
+            '<i class="fas fa-search"></i>' +
+            '<p>No results for "<strong>' + q + '</strong>"</p>' +
+            '<span>Try a different keyword</span>' +
+            '</div>';
+        if (!box.classList.contains('active')) {
+            _positionSuggestions();
+            box.classList.add('active');
+        }
+        return;
+    }
+
+    // Group by type, maintain order: region → country → city → destination
+    const order   = ['region', 'country', 'city', 'destination'];
+    const grouped = {};
+    results.forEach(r => {
+        const t = r.type || 'destination';
+        (grouped[t] = grouped[t] || []).push(r);
+    });
+
+    let html = '';
+    order.forEach(type => {
+        if (!grouped[type]?.length) return;
+        const icon = _typeIcon[type] || 'fas fa-search';
+        html += '<div class="hs-section-label"><i class="' + icon + '"></i> ' + _typeLabel[type] + '</div>';
+        grouped[type].slice(0, 5).forEach(r => {
+            const idx   = results.indexOf(r);
+            const thumb = r.image
+                ? '<div class="hs-thumb"><img src="' + r.image + '" alt="" loading="lazy"></div>'
+                : '<div class="hs-thumb hs-thumb-icon"><i class="' + icon + '"></i></div>';
+            const meta  = r.count != null
+                ? '<div class="hs-meta"><div class="hs-count">' + r.count + ' ' + (r.count_label || 'destinations') + '</div></div>'
+                : '';
+            html +=
+                '<div class="suggestion-item hs-item" data-idx="' + idx + '">' +
+                thumb +
+                '<div class="hs-info">' +
+                '<div class="hs-title">' + _hl(r.title, q) + '</div>' +
+                '<div class="hs-sub">'  + (r.subtitle || '') + '</div>' +
+                '</div>' + meta + '</div>';
+        });
+    });
+
+    html +=
+        '<div class="hs-footer" data-action="search-all">' +
+        '<i class="fas fa-search"></i> Show all for "<strong>' + q + '</strong>"' +
+        '<i class="fas fa-arrow-right" style="margin-left:auto;font-size:10px;opacity:0.5;"></i>' +
+        '</div>';
+
+    box.innerHTML = html;
+
+    // Event delegation — bitta listener, onclick inline yo'q
+    box.onclick = (e) => {
+        const item = e.target.closest('[data-idx]');
+        const foot = e.target.closest('[data-action="search-all"]');
+        if (item)  _selectHeroResult(parseInt(item.dataset.idx));
+        if (foot)  searchDestinations();
+    };
+
+    if (!box.classList.contains('active')) {
+        _positionSuggestions();
+        box.classList.add('active');
+    }
+}
+
+function _selectHeroResult(idx) {
+    const r = _heroResults[idx];
+    if (!r) return;
+    document.getElementById('destination-search').value = r.title;
+    hideSuggestions();
+
+    if (r.type === 'city' && r.slug) {
+        filterByCity(r.slug, r.title);
+    } else if (r.type === 'country' && r.code) {
+        _showCountryCities(r.code, r.region_slug || '');
+    } else {
+        filterByQuery(r.title);
+    }
+}
+
+// Country bosilganda explore section'da o'sha countryning city grid'ini ko'rsatish
+function _showCountryCities(countryCode, regionSlug) {
+    const exploreSection = document.getElementById('explore-section');
+    if (exploreSection) exploreSection.style.display = '';
+
+    const mainDestinations = document.getElementById('main-destinations');
+    if (mainDestinations) mainDestinations.classList.remove('visible');
+
+    // Step 1: avval to'g'ri region tabiga o'tamiz
+    if (regionSlug) {
+        const regionBtn = document.querySelector('.region-btn[data-region="' + regionSlug + '"]');
+        if (regionBtn && !regionBtn.classList.contains('active')) {
+            switchRegion(regionSlug, regionBtn);
+        }
+    }
+
+    // Step 2: endi country button ko'rinadi (region aktivlashgach) — uni bosamiz
+    const countryBtn = document.querySelector('.country-btn[data-country="' + countryCode + '"]');
+    if (countryBtn) {
+        countryBtn.click();
+    } else if (typeof switchCountry === 'function') {
+        const dummy = document.createElement('button');
+        dummy.className = 'country-btn';
+        switchCountry(countryCode, dummy);
+    }
+
+    setTimeout(() => exploreSection?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+}
+
+function hideSuggestions() {
+    const box = document.getElementById('search-suggestions');
+    if (box) {
+        box.classList.remove('active');
+        box.onclick = null;
+    }
+}
+
+// ── Search button ─────────────────────────────────────────────
+function searchDestinations() {
+    const q = (document.getElementById('destination-search')?.value || '').trim();
+    hideSuggestions();
+    if (!q) return;
+    filterByQuery(q);
+}
+
+// ── Quick filters ─────────────────────────────────────────────
+function onQuickFilter(filter, btn) {
+    document.querySelectorAll('.quick-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    _activeQuickFilter = filter;
+
+    const exploreSection   = document.getElementById('explore-section');
+    const mainDestinations = document.getElementById('main-destinations');
+
+    if (filter === 'all') {
+        if (exploreSection)   exploreSection.style.display = '';
+        if (mainDestinations) mainDestinations.classList.remove('visible');
+        return;
+    }
+
+    if (exploreSection)   exploreSection.style.display = 'none';
+    if (mainDestinations) mainDestinations.classList.add('visible');
+
+    document.querySelectorAll('input[name="type"]').forEach(cb => { cb.checked = false; });
+    if (filter !== 'popular') {
+        const cb = document.querySelector('input[name="type"][value="' + filter + '"]');
+        if (cb) cb.checked = true;
+    }
+
+    applyFilters();
+    mainDestinations?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}

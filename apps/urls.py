@@ -9,7 +9,8 @@ from apps.views import (AboutTemplateView, ActivateAccountView,
                         ForgotPasswordView, GoogleCallbackView,
                         GoogleLoginView, HelpCenterTemplateView,
                         HomeTemplateView, InstagramTemplateView, LoginFormView,
-                        MyBookingsTemplateView, NotificationTemplateView,
+                        MyBookingsTemplateView, MyBookingsApiView,
+                        NotificationTemplateView,
                         NotificationMarkReadView, NotificationMarkAllReadView,
                         NotificationDeleteView, NotificationSettingsSaveView,
                         CancelBookingView,
@@ -20,7 +21,8 @@ from apps.views import (AboutTemplateView, ActivateAccountView,
                         TermsOfServiceTemplateView, WishlistTemplateView, DestinationByCityView,
                         LoadMoreDestinationsView, BookingStep1View, BookingStep2View, SubmitReviewView,
                         ToggleReviewLikeView, DestinationAllReviewsView, CheckPromoCodeView,
-                        FilterDestinationsTemplateView, CompareDestinationsView)
+                        FilterDestinationsTemplateView, CompareDestinationsView,
+                        GlobalSearchView, ToggleWishlistView)
 
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home_page'),
@@ -63,11 +65,20 @@ urlpatterns = [
     path('filter-destinations/', FilterDestinationsTemplateView.as_view(), name='filter_destinations'),
     path('compare-destinations/', CompareDestinationsView.as_view(), name='compare_destinations'),
 
+    # ── Global Search API ─────────────────────────────────────────────────────
+    path('api/global-search/', GlobalSearchView.as_view(), name='global_search'),
+
+    # ── Wishlist API ──────────────────────────────────────────────────────────
+    path('api/wishlist/toggle/', ToggleWishlistView.as_view(), name='toggle_wishlist'),
+
     # ── Notification API ──────────────────────────────────────────────────────
     path('api/notifications/<int:pk>/read/', NotificationMarkReadView.as_view(), name='notification_mark_read'),
     path('api/notifications/read-all/', NotificationMarkAllReadView.as_view(), name='notification_mark_all_read'),
     path('api/notifications/<int:pk>/delete/', NotificationDeleteView.as_view(), name='notification_delete'),
     path('api/notifications/settings/', NotificationSettingsSaveView.as_view(), name='notification_settings_save'),
+
+    # ── My Bookings API ───────────────────────────────────────────────────────
+    path('my_bookings/api/', MyBookingsApiView.as_view(), name='my_bookings_api'),
 
     # ── Booking Cancel ────────────────────────────────────────────────────────
     path('my_bookings/<str:booking_number>/cancel/', CancelBookingView.as_view(), name='cancel_booking'),

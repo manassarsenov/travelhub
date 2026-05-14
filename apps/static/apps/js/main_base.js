@@ -97,10 +97,8 @@ function toggleUserMenu() {
 // Close dropdowns on outside click
 document.addEventListener('click', function (e) {
     if (!e.target.closest('.user-menu')) {
-        document.getElementById('user-dropdown').classList.remove('show');
-    }
-    if (!e.target.closest('.search-field')) {
-        document.getElementById('autocomplete-results').classList.remove('show');
+        const dd = document.getElementById('user-dropdown');
+        if (dd) dd.classList.remove('show');
     }
 });
 
@@ -391,18 +389,313 @@ function doSearch() {
     const q = document.getElementById('global-search-input').value.trim();
     if (!q) return;
     addRecentSearch(q);
-    hideRecentSearches();
-    if (typeof performGlobalSearch === 'function') performGlobalSearch();
+    hideLiveSuggestions();
+    performGlobalSearch();
 }
 
 function handleSearchKey(e) {
-    if (e.key === 'Enter') doSearch();
-    if (e.key === 'Escape') hideRecentSearches();
+    if (e.key === 'Enter') {
+        doSearch();
+    } else if (e.key === 'Escape') {
+        hideRecentSearches();
+        hideLiveSuggestions();
+        document.getElementById('global-search-input').blur();
+    } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        _focusSuggestionItem(1);
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        _focusSuggestionItem(-1);
+    }
+}
+
+function _focusSuggestionItem(dir) {
+    const dd = document.getElementById('live-suggestions-dropdown');
+    if (!dd || !dd.classList.contains('show')) return;
+    const items = Array.from(dd.querySelectorAll('.ls-item'));
+    if (!items.length) return;
+    const active = document.activeElement;
+    let idx = items.indexOf(active);
+    idx = Math.max(0, Math.min(items.length - 1, idx + dir));
+    items[idx].focus();
 }
 
 document.addEventListener('click', function (e) {
     const wrap = document.getElementById('navbar-search-wrap');
-    if (wrap && !wrap.contains(e.target)) hideRecentSearches();
+    if (wrap && !wrap.contains(e.target)) {
+        hideRecentSearches();
+        hideLiveSuggestions();
+    }
 });
 
+// ============================================================
+// PREMIUM GLOBAL SEARCH — real-time API + full results overlay
+// ============================================================
 
+let _searchTimer = null;
+let _lastSearchQuery = '';
+let _cachedResults = [];
+
+function onSearchFocus() {
+    const q = document.getElementById('global-search-input').value.trim();
+    if (q.length >= 1) {
+        if (_lastSearchQuery === q && _cachedResults.length > 0) {
+            renderLiveSuggestions(_cachedResults, q);
+        } else {
+            showLiveSuggestionsLoading();
+            fetchLiveSuggestions(q);
+        }
+    }
+}
+
+function onSearchInput(value) {
+    clearTimeout(_searchTimer);
+    const q = value.trim();
+
+    if (q.length < 1) {
+        hideLiveSuggestions();
+        return;
+    }
+
+    showLiveSuggestionsLoading();
+    // 1 harf bo'lsa 500ms, 2+ harf bo'lsa 250ms kutadi
+    const delay = q.length === 1 ? 500 : 250;
+    _searchTimer = setTimeout(() => fetchLiveSuggestions(q), delay);
+}
+
+function showLiveSuggestionsLoading() {
+    const dd = document.getElementById('live-suggestions-dropdown');
+    const loading = document.getElementById('ls-loading');
+    const results = document.getElementById('ls-results');
+    const footer = document.getElementById('ls-footer');
+
+    if (!dd) return;
+    loading.style.display = 'flex';
+    results.innerHTML = '';
+    footer.style.display = 'none';
+    dd.classList.add('show');
+}
+
+async function fetchLiveSuggestions(q) {
+    try {
+        const res = await fetch('/api/global-search/?q=' + encodeURIComponent(q));
+        if (!res.ok) throw new Error('Network error');
+        const data = await res.json();
+        _lastSearchQuery = q;
+        _cachedResults = data.results || [];
+        renderLiveSuggestions(_cachedResults, q);
+    } catch (err) {
+        hideLiveSuggestions();
+    }
+}
+
+function _escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function _highlightMatch(text, query) {
+    if (!text || !query) return text || '';
+    const re = new RegExp('(' + _escapeRegex(query) + ')', 'gi');
+    return text.replace(re, '<mark class="ls-highlight">$1</mark>');
+}
+
+function renderLiveSuggestions(results, q) {
+    const dd        = document.getElementById('live-suggestions-dropdown');
+    const loading   = document.getElementById('ls-loading');
+    const resultsEl = document.getElementById('ls-results');
+    const footer    = document.getElementById('ls-footer');
+    const countBadge = document.getElementById('ls-count-badge');
+
+    if (!dd) return;
+    loading.style.display = 'none';
+    dd.classList.add('show');
+
+    if (!results.length) {
+        resultsEl.innerHTML =
+            '<div class="ls-empty">' +
+            '<i class="fas fa-magnifying-glass"></i>' +
+            '<p>No results for "' + q + '"</p>' +
+            '<small>Try a different keyword</small>' +
+            '</div>';
+        footer.style.display = 'none';
+        return;
+    }
+
+    const destinations = results.filter(r => r.type === 'destination');
+    const hotels       = results.filter(r => r.type === 'hotel');
+    let html = '';
+
+    if (destinations.length) {
+        html += '<div class="ls-section-title">' +
+            '<i class="fas fa-map-marker-alt" style="color:var(--primary)"></i>Destinations' +
+            '</div>';
+
+        destinations.slice(0, 3).forEach(r => {
+            const thumb = r.image
+                ? '<div class="ls-thumb"><img src="' + r.image + '" alt="' + r.title + '" loading="lazy"></div>'
+                : '<div class="ls-thumb-icon"><i class="fas fa-map-marked-alt"></i></div>';
+
+            const ratingHtml = r.rating > 0
+                ? '<span class="ls-rating"><i class="fas fa-star"></i>' + r.rating + '</span>'
+                : '';
+
+            const locationHtml = r.subtitle
+                ? '<i class="fas fa-location-dot" style="font-size:10px;color:#94a3b8"></i><span>' + r.subtitle + '</span>'
+                : '';
+
+            html +=
+                '<a class="ls-item" href="' + r.url + '">' +
+                thumb +
+                '<div class="ls-info">' +
+                    '<div class="ls-title">' + _highlightMatch(r.title, q) + '</div>' +
+                    '<div class="ls-sub">' + locationHtml + (ratingHtml ? '<span style="color:#e2e8f0">·</span>' + ratingHtml : '') + '</div>' +
+                '</div>' +
+                '<div class="ls-meta">' +
+                    '<div class="ls-price">$' + r.price + '</div>' +
+                    '<div class="ls-price-label">per person</div>' +
+                '</div>' +
+                '</a>';
+        });
+    }
+
+    if (hotels.length) {
+        html += '<div class="ls-section-title">' +
+            '<i class="fas fa-hotel" style="color:#d97706"></i>Hotels' +
+            '</div>';
+
+        hotels.slice(0, 2).forEach(r => {
+            const thumb = r.image
+                ? '<div class="ls-thumb"><img src="' + r.image + '" alt="' + r.title + '" loading="lazy"></div>'
+                : '<div class="ls-thumb-icon hotel-icon"><i class="fas fa-hotel"></i></div>';
+
+            const starsHtml = r.stars
+                ? '<span class="ls-hotel-stars">' + '★'.repeat(r.stars) + '</span>'
+                : '';
+
+            const locationHtml = r.subtitle
+                ? '<i class="fas fa-location-dot" style="font-size:10px;color:#94a3b8"></i><span>' + r.subtitle + '</span>'
+                : '';
+
+            html +=
+                '<a class="ls-item" href="' + r.url + '">' +
+                thumb +
+                '<div class="ls-info">' +
+                    '<div class="ls-title">' + _highlightMatch(r.title, q) + '</div>' +
+                    '<div class="ls-sub">' + starsHtml + (locationHtml ? '<span style="color:#e2e8f0">·</span>' + locationHtml : '') + '</div>' +
+                '</div>' +
+                '<div class="ls-meta">' +
+                    '<div class="ls-price">$' + r.price + '</div>' +
+                    '<div class="ls-price-label">per night</div>' +
+                '</div>' +
+                '</a>';
+        });
+    }
+
+    resultsEl.innerHTML = html;
+    if (countBadge) countBadge.textContent = results.length;
+    footer.style.display = 'block';
+}
+
+function showLiveSuggestions() {
+    const dd = document.getElementById('live-suggestions-dropdown');
+    if (dd) dd.classList.add('show');
+}
+
+function hideLiveSuggestions() {
+    const dd = document.getElementById('live-suggestions-dropdown');
+    if (dd) dd.classList.remove('show');
+}
+
+// "See all results" → destinations sahifasiga yo'naltirish
+function performGlobalSearch() {
+    const q = document.getElementById('global-search-input').value.trim();
+    if (!q) return;
+    addRecentSearch(q);
+    hideLiveSuggestions();
+
+    const parts = window.location.pathname.split('/');
+    const supported = ['uz', 'en', 'ru'];
+    const langPrefix = supported.includes(parts[1]) ? '/' + parts[1] : '';
+    window.location.href = langPrefix + '/destinations/?q=' + encodeURIComponent(q);
+}
+
+function _renderSearchOverlay(results, q, total) {
+    const content = document.getElementById('search-results-content');
+    const headerH2 = document.querySelector('.search-results-header h2');
+
+    if (headerH2) {
+        headerH2.textContent = total > 0
+            ? total + ' result' + (total > 1 ? 's' : '') + ' for "' + q + '"'
+            : 'No results for "' + q + '"';
+    }
+
+    if (!results.length) {
+        content.innerHTML =
+            '<div class="no-results">' +
+            '<i class="fas fa-search"></i>' +
+            '<h3>No results found</h3>' +
+            '<p>Try different keywords or check your spelling.</p>' +
+            '</div>';
+        return;
+    }
+
+    const cards = results.map(r => {
+        const noImg = r.type === 'hotel'
+            ? 'background:linear-gradient(135deg,#f59e0b,#d97706);'
+            : 'background:linear-gradient(135deg,var(--primary),var(--secondary));';
+        const noImgIcon = r.type === 'hotel' ? 'fa-hotel' : 'fa-map-marked-alt';
+        const imgEl = r.image
+            ? '<img src="' + r.image + '" alt="' + r.title + '" loading="lazy">'
+            : '<div style="width:100%;height:100%;' + noImg + 'display:flex;align-items:center;justify-content:center"><i class="fas ' + noImgIcon + '" style="font-size:44px;color:white;opacity:0.45"></i></div>';
+
+        const badgeColor = r.type === 'hotel' ? 'color:#b45309;' : '';
+        const badgeText  = r.type === 'hotel' ? 'Hotel' : 'Destination';
+
+        const ratingLine = (r.type === 'destination' && r.rating > 0)
+            ? '<div style="margin:6px 0;display:flex;align-items:center;gap:4px;font-size:13px;"><span style="color:#f59e0b">&#9733;</span><strong>' + r.rating + '</strong></div>'
+            : '';
+        const starsLine = (r.type === 'hotel' && r.stars)
+            ? '<div style="color:#f59e0b;font-size:14px;margin:4px 0">' + '&#9733;'.repeat(r.stars) + '</div>'
+            : '';
+
+        const priceLabel = r.type === 'hotel' ? '/night' : '/person';
+
+        return '<div class="search-result-card" onclick="window.location.href=\'' + r.url + '\'">' +
+            '<div class="result-image">' + imgEl +
+            '<span class="result-type" style="' + badgeColor + '">' + badgeText + '</span>' +
+            '</div>' +
+            '<div class="result-content">' +
+            '<h3>' + r.title + '</h3>' +
+            (r.subtitle ? '<p class="result-location"><i class="fas fa-map-marker-alt"></i>' + r.subtitle + '</p>' : '') +
+            ratingLine + starsLine +
+            '<div class="result-price">$' + r.price + '<span> ' + priceLabel + '</span></div>' +
+            '</div>' +
+            '</div>';
+    }).join('');
+
+    content.innerHTML = '<div class="search-results-grid">' + cards + '</div>';
+}
+
+function closeSearchResults() {
+    const overlay = document.getElementById('search-results-overlay');
+    if (overlay) overlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Close overlay on Escape
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+        closeSearchResults();
+    }
+});
+
+// Active nav link auto-detection
+document.addEventListener('DOMContentLoaded', function () {
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.nav-link').forEach(link => {
+        try {
+            const linkPath = new URL(link.href, window.location.origin).pathname;
+            if (linkPath === currentPath) link.classList.add('active');
+        } catch (_) {}
+    });
+});

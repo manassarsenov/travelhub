@@ -1,463 +1,516 @@
 /* ================================
-   MY BOOKINGS PAGE - JAVASCRIPT
+   MY BOOKINGS — Dynamic / AJAX
    ================================ */
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    initializeBookingsPage();
-    setupSearchFunctionality();
-    setupViewPreference();
+const API_URL = '/my_bookings/api/';
+const DEFAULT_IMG = document.getElementById('bookings-container')?.dataset.defaultImg || '';
+
+// Central store keyed by booking_number
+const _bookings = new Map();
+
+const state = {
+    tab: 'all',
+    search: '',
+    sort: 'date-desc',
+    pages: { upcoming: 1, completed: 1, cancelled: 1 },
+};
+
+/* ─── Bootstrap ──────────────────────────────────────────────────────────── */
+
+document.addEventListener('DOMContentLoaded', function () {
+    applyViewPreference();
+    setupSearch();
+    loadAll();
 });
 
-/* ================================
-   INITIALIZATION
-   ================================ */
+/* ─── Load sections ──────────────────────────────────────────────────────── */
 
-function initializeBookingsPage() {
-    // Update counts
-    updateBookingCounts();
-
-    // Set default view
-    const savedView = localStorage.getItem('bookingsView') || 'grid';
-    toggleView(savedView);
-
-    console.log('My Bookings page initialized');
+function loadAll() {
+    showLoading('upcoming');
+    showLoading('completed');
+    showLoading('cancelled');
+    Promise.all([
+        fetchSection('upcoming',  state.pages.upcoming),
+        fetchSection('completed', state.pages.completed),
+        fetchSection('cancelled', state.pages.cancelled),
+    ]).then(checkGlobalEmpty);
 }
 
-function updateBookingCounts() {
-    // Count bookings by status
-    const allBookings = document.querySelectorAll('.booking-card');
-    const upcomingBookings = document.querySelectorAll('[data-status="upcoming"]');
-    const completedBookings = document.querySelectorAll('[data-status="completed"]');
-    const cancelledBookings = document.querySelectorAll('[data-status="cancelled"]');
-
-    // Update stat cards
-    document.getElementById('total-count').textContent = allBookings.length;
-    document.getElementById('upcoming-count').textContent = upcomingBookings.length;
-    document.getElementById('completed-count').textContent = completedBookings.length;
-    document.getElementById('cancelled-count').textContent = cancelledBookings.length;
+function loadSection(status) {
+    showLoading(status);
+    fetchSection(status, state.pages[status]).then(checkGlobalEmpty);
 }
 
-/* ================================
-   FILTER FUNCTIONALITY
-   ================================ */
+function fetchSection(status, page) {
+    const params = new URLSearchParams({
+        status, page,
+        search: state.search,
+        sort:   state.sort,
+    });
+    return fetch(`${API_URL}?${params}`)
+        .then(r => r.json())
+        .then(data => renderSection(status, data))
+        .catch(() => renderError(status));
+}
 
-function filterBookings(status) {
-    const tabs = document.querySelectorAll('.filter-tab');
-    const sections = document.querySelectorAll('.bookings-section');
-    const emptyState = document.getElementById('empty-state');
+/* ─── Render helpers ─────────────────────────────────────────────────────── */
 
-    // Update active tab
-    tabs.forEach(tab => {
-        if (tab.dataset.status === status) {
-            tab.classList.add('active');
+function showLoading(status) {
+    const grid = document.getElementById(`${status}-grid`);
+    if (grid) grid.innerHTML = '<div class="section-loading"><i class="fas fa-circle-notch fa-spin"></i></div>';
+    const sec = document.getElementById(`${status}-section`);
+    if (sec) sec.style.display = 'block';
+}
+
+function renderSection(status, data) {
+    const grid    = document.getElementById(`${status}-grid`);
+    const section = document.getElementById(`${status}-section`);
+    const countEl = document.getElementById(`count-${status}`);
+    const tabCnt  = document.getElementById(`tab-count-${status}`);
+    const paginEl = document.getElementById(`pagination-${status}`);
+
+    if (countEl)  countEl.textContent  = data.count ? `(${data.count})` : '';
+    if (tabCnt)   tabCnt.textContent   = data.count;
+
+    if (!data.bookings || data.bookings.length === 0) {
+        if (grid)    grid.innerHTML    = '';
+        if (section) section.style.display = 'none';
+        if (paginEl) paginEl.innerHTML = '';
+        return;
+    }
+
+    // Cache bookings for detail modal
+    data.bookings.forEach(b => _bookings.set(b.booking_number, b));
+
+    if (section) section.style.display = 'block';
+    if (grid) {
+        grid.innerHTML = data.bookings.map(b => buildCard(b, status)).join('');
+        applyCurrentView(grid);
+    }
+    if (paginEl) renderPagination(paginEl, status, data.page, data.total_pages);
+}
+
+function renderError(status) {
+    const grid = document.getElementById(`${status}-grid`);
+    if (grid) grid.innerHTML =
+        '<div class="section-loading" style="color:#ef4444;"><i class="fas fa-exclamation-circle"></i> Failed to load</div>';
+}
+
+/* ─── Card builder ───────────────────────────────────────────────────────── */
+
+function buildCard(b, status) {
+    const imgSrc      = b.image_url || DEFAULT_IMG;
+    const statusBadge = buildStatusBadge(b.status);
+    const num         = esc(b.booking_number);
+
+    let locationHtml = '';
+    if (b.destination_city) {
+        const loc = b.destination_location ? ` — ${esc(b.destination_location)}` : '';
+        locationHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i><span>${esc(b.destination_city)}${loc}</span></div>`;
+    }
+
+    let countdownHtml = '';
+    if (status === 'upcoming' && b.days_until > 0) {
+        countdownHtml = `<div class="countdown-timer"><i class="fas fa-clock"></i><span>Trip starts in <strong>${b.days_until} day${b.days_until !== 1 ? 's' : ''}</strong></span></div>`;
+    }
+
+    let metaHtml = `<span class="meta-item"><i class="fas fa-credit-card"></i>${esc(b.payment_method)}${b.card_mask ? ' · ' + esc(b.card_mask) : ''}</span>`;
+    if (b.promo_code)     metaHtml += `<span class="meta-item promo-tag"><i class="fas fa-tag"></i> ${esc(b.promo_code)}</span>`;
+    if (b.transaction_id) metaHtml += `<span class="meta-item"><i class="fas fa-receipt"></i> ${esc(b.transaction_id)}</span>`;
+    if (b.paid_at && status === 'completed') {
+        metaHtml += `<span class="meta-item"><i class="fas fa-check-circle" style="color:#10b981;"></i> Paid ${esc(b.paid_at)}</span>`;
+    }
+
+    // View details button — uses booking_number key into _bookings map
+    const viewBtn = `<button class="action-btn secondary" onclick="openDetails('${num}')"><i class="fas fa-eye"></i> View Details</button>`;
+
+    let actionHtml = '';
+    if (status === 'upcoming') {
+        if (b.status === 'pending') {
+            actionHtml += `<a href="/booking/step-2/${esc(b.destination_slug)}/" class="action-btn primary pulse"><i class="fas fa-credit-card"></i> Complete Payment</a>`;
+        }
+        actionHtml += viewBtn;
+        actionHtml += `<button class="action-btn danger"
+            data-num="${num}"
+            data-free="${b.is_free_cancellation}"
+            data-can-free="${b.can_free_cancel}"
+            data-cancel-text="${esc(b.cancellation_text)}"
+            onclick="cancelBooking(this)">
+            <i class="fas fa-times"></i> Cancel</button>`;
+    } else if (status === 'completed') {
+        actionHtml += viewBtn;
+        actionHtml += `<a href="/destination-detail/${esc(b.destination_slug)}/" class="action-btn secondary"><i class="fas fa-redo"></i> Book Again</a>`;
+        actionHtml += `<button class="action-btn secondary"
+            data-dest-slug="${esc(b.destination_slug)}"
+            data-dest-name="${esc(b.destination_name)}"
+            data-booking-num="${num}"
+            onclick="writeReview(this)"><i class="fas fa-star"></i> Review</button>`;
+    } else {
+        actionHtml += viewBtn;
+        actionHtml += `<a href="/destination-detail/${esc(b.destination_slug)}/" class="action-btn secondary"><i class="fas fa-search"></i> Book Similar Trip</a>`;
+    }
+
+    const cancelInfoHtml = status === 'cancelled'
+        ? `<div class="cancellation-info"><i class="fas fa-info-circle"></i><span>Cancelled · Booking #${num}</span></div>`
+        : '';
+
+    return `
+<div class="booking-card" data-status="${status}" data-booking-date="${esc(b.booking_date_iso)}" data-price="${esc(b.total_price)}" data-destination="${esc(b.destination_name)}">
+    <div class="booking-image">
+        <img src="${imgSrc}" alt="${esc(b.destination_name)}" onerror="this.src='${DEFAULT_IMG}'">
+        ${statusBadge}
+    </div>
+    <div class="booking-content">
+        <div class="booking-header">
+            <h3>${esc(b.destination_name)}</h3>
+            <p class="booking-id">#${num}</p>
+        </div>
+        <div class="booking-details">
+            <div class="detail-item"><i class="fas fa-calendar"></i><span>${esc(b.booking_date)}${b.time ? ' · ' + esc(b.time) : ''}</span></div>
+            <div class="detail-item"><i class="fas fa-users"></i><span>${esc(b.tickets)}</span></div>
+            ${locationHtml}
+            <div class="detail-item price"><i class="fas fa-dollar-sign"></i><span>$${parseFloat(b.total_price).toLocaleString()}</span></div>
+        </div>
+        <div class="booking-meta">${metaHtml}</div>
+        ${countdownHtml}
+        ${cancelInfoHtml}
+        <div class="booking-actions">${actionHtml}</div>
+    </div>
+</div>`;
+}
+
+function buildStatusBadge(status) {
+    const map = {
+        confirmed: '<span class="status-badge confirmed"><i class="fas fa-check-circle"></i> CONFIRMED</span>',
+        pending:   '<span class="status-badge pending"><i class="fas fa-exclamation-circle"></i> PENDING PAYMENT</span>',
+        completed: '<span class="status-badge completed"><i class="fas fa-check"></i> COMPLETED</span>',
+        cancelled: '<span class="status-badge cancelled"><i class="fas fa-times"></i> CANCELLED</span>',
+    };
+    return map[status] || '';
+}
+
+function esc(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+/* ─── Pagination ─────────────────────────────────────────────────────────── */
+
+function renderPagination(container, status, currentPage, totalPages) {
+    if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+    let html = `<button class="page-btn" onclick="goToPage('${status}',${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
+
+    pageRange(currentPage, totalPages).forEach(p => {
+        if (p === '…') {
+            html += `<span style="padding:0 4px;color:#94a3b8;align-self:center;">…</span>`;
         } else {
-            tab.classList.remove('active');
+            html += `<button class="page-btn${p === currentPage ? ' active' : ''}" onclick="goToPage('${status}',${p})">${p}</button>`;
         }
     });
 
-    // Show/hide sections based on filter
-    if (status === 'all') {
-        sections.forEach(section => section.style.display = 'block');
-        emptyState.style.display = 'none';
-    } else {
-        sections.forEach(section => {
-            const sectionId = section.id;
-            if (sectionId.includes(status)) {
-                section.style.display = 'block';
-            } else {
-                section.style.display = 'none';
-            }
-        });
+    html += `<button class="page-btn" onclick="goToPage('${status}',${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
+    container.innerHTML = html;
+}
 
-        // Check if any bookings are visible
-        const visibleBookings = document.querySelectorAll(`[data-status="${status}"]`);
-        if (visibleBookings.length === 0) {
-            emptyState.style.display = 'flex';
-        } else {
-            emptyState.style.display = 'none';
-        }
+function pageRange(current, total) {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    if (current <= 4)         return [1, 2, 3, 4, 5, '…', total];
+    if (current >= total - 3) return [1, '…', total-4, total-3, total-2, total-1, total];
+    return [1, '…', current - 1, current, current + 1, '…', total];
+}
+
+function goToPage(status, page) {
+    state.pages[status] = page;
+    loadSection(status);
+    document.getElementById(`${status}-section`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ─── Filter tabs ────────────────────────────────────────────────────────── */
+
+function filterBookings(tab) {
+    state.tab = tab;
+    state.pages = { upcoming: 1, completed: 1, cancelled: 1 };
+
+    document.querySelectorAll('.filter-tab').forEach(t =>
+        t.classList.toggle('active', t.dataset.status === tab)
+    );
+
+    const statuses = ['upcoming', 'completed', 'cancelled'];
+
+    if (tab === 'all') {
+        loadAll();
+    } else {
+        statuses.forEach(s => {
+            const sec  = document.getElementById(`${s}-section`);
+            const grid = document.getElementById(`${s}-grid`);
+            const pag  = document.getElementById(`pagination-${s}`);
+            if (sec)  sec.style.display  = s === tab ? 'block' : 'none';
+            if (grid) grid.innerHTML     = '';
+            if (pag)  pag.innerHTML      = '';
+        });
+        loadSection(tab);
     }
 
-    // Smooth scroll to top of bookings
-    document.querySelector('.bookings-container').scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+    document.querySelector('.bookings-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ─── Search ─────────────────────────────────────────────────────────────── */
+
+function setupSearch() {
+    const inp = document.getElementById('search-input');
+    if (!inp) return;
+    let timer;
+    inp.addEventListener('input', function () {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            state.search = this.value.trim();
+            state.pages  = { upcoming: 1, completed: 1, cancelled: 1 };
+            state.tab === 'all' ? loadAll() : loadSection(state.tab);
+        }, 350);
     });
 }
 
-/* ================================
-   SEARCH FUNCTIONALITY
-   ================================ */
+/* ─── Sort ───────────────────────────────────────────────────────────────── */
 
-function setupSearchFunctionality() {
-    const searchInput = document.getElementById('search-input');
-
-    searchInput.addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase();
-        const bookingCards = document.querySelectorAll('.booking-card');
-
-        bookingCards.forEach(card => {
-            const destination = card.querySelector('.booking-header h3').textContent.toLowerCase();
-            const hotel = card.querySelector('.detail-item:nth-child(2) span').textContent.toLowerCase();
-            const bookingId = card.querySelector('.booking-id').textContent.toLowerCase();
-
-            const matches = destination.includes(searchTerm) ||
-                          hotel.includes(searchTerm) ||
-                          bookingId.includes(searchTerm);
-
-            if (matches) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-
-        // Show empty state if no results
-        checkEmptyState();
-    });
+function onSortChange() {
+    state.sort  = document.getElementById('sort-select').value;
+    state.pages = { upcoming: 1, completed: 1, cancelled: 1 };
+    state.tab === 'all' ? loadAll() : loadSection(state.tab);
 }
 
-function checkEmptyState() {
-    const visibleCards = document.querySelectorAll('.booking-card[style="display: block"], .booking-card:not([style*="display: none"])');
-    const emptyState = document.getElementById('empty-state');
-
-    if (visibleCards.length === 0) {
-        emptyState.style.display = 'flex';
-    } else {
-        emptyState.style.display = 'none';
-    }
-}
-
-/* ================================
-   SORT FUNCTIONALITY
-   ================================ */
-
-function sortBookings() {
-    const sortValue = document.getElementById('sort-select').value;
-    const grids = document.querySelectorAll('.bookings-grid');
-
-    grids.forEach(grid => {
-        const cards = Array.from(grid.querySelectorAll('.booking-card'));
-
-        cards.sort((a, b) => {
-            switch(sortValue) {
-                case 'date-desc':
-                    return compareDates(b, a);
-                case 'date-asc':
-                    return compareDates(a, b);
-                case 'price-high':
-                    return comparePrice(b, a);
-                case 'price-low':
-                    return comparePrice(a, b);
-                case 'destination':
-                    return compareDestination(a, b);
-                default:
-                    return 0;
-            }
-        });
-
-        // Re-append sorted cards
-        cards.forEach(card => grid.appendChild(card));
-    });
-
-    // Show toast notification
-    showToast('Bookings sorted successfully', 'success');
-}
-
-function compareDates(a, b) {
-    const dateA = a.querySelector('.detail-item:first-child span').textContent;
-    const dateB = b.querySelector('.detail-item:first-child span').textContent;
-    return dateA.localeCompare(dateB);
-}
-
-function comparePrice(a, b) {
-    const priceA = parseFloat(a.querySelector('.detail-item.price span').textContent.replace(/[^0-9.]/g, ''));
-    const priceB = parseFloat(b.querySelector('.detail-item.price span').textContent.replace(/[^0-9.]/g, ''));
-    return priceA - priceB;
-}
-
-function compareDestination(a, b) {
-    const destA = a.querySelector('.booking-header h3').textContent;
-    const destB = b.querySelector('.booking-header h3').textContent;
-    return destA.localeCompare(destB);
-}
-
-/* ================================
-   VIEW TOGGLE
-   ================================ */
+/* ─── View toggle ────────────────────────────────────────────────────────── */
 
 function toggleView(view) {
-    const viewBtns = document.querySelectorAll('.view-btn');
-    const grids = document.querySelectorAll('.bookings-grid');
-
-    // Update active button
-    viewBtns.forEach(btn => {
-        if (btn.dataset.view === view) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
-
-    // Apply view style
-    if (view === 'list') {
-        grids.forEach(grid => {
-            grid.style.gridTemplateColumns = '1fr';
-        });
-    } else {
-        grids.forEach(grid => {
-            grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(500px, 1fr))';
-        });
-    }
-
-    // Save preference
+    document.querySelectorAll('.view-btn').forEach(btn =>
+        btn.classList.toggle('active', btn.dataset.view === view)
+    );
     localStorage.setItem('bookingsView', view);
+    document.querySelectorAll('.bookings-grid').forEach(g => applyCurrentView(g));
 }
 
-function setupViewPreference() {
-    const savedView = localStorage.getItem('bookingsView');
-    if (savedView) {
-        toggleView(savedView);
+function applyCurrentView(grid) {
+    const view = localStorage.getItem('bookingsView') || 'grid';
+    grid.style.gridTemplateColumns = view === 'list' ? '1fr' : 'repeat(auto-fill, minmax(480px, 1fr))';
+    document.querySelectorAll('.view-btn').forEach(btn =>
+        btn.classList.toggle('active', btn.dataset.view === view)
+    );
+}
+
+function applyViewPreference() {
+    const view = localStorage.getItem('bookingsView') || 'grid';
+    document.querySelectorAll('.view-btn').forEach(btn =>
+        btn.classList.toggle('active', btn.dataset.view === view)
+    );
+}
+
+/* ─── Global empty state ─────────────────────────────────────────────────── */
+
+function checkGlobalEmpty() {
+    const anyVisible = ['upcoming', 'completed', 'cancelled'].some(s => {
+        const sec = document.getElementById(`${s}-section`);
+        return sec && sec.style.display !== 'none';
+    });
+    const emptyState = document.getElementById('empty-state');
+    if (emptyState) emptyState.style.display = anyVisible ? 'none' : 'flex';
+}
+
+/* ─── View details modal ─────────────────────────────────────────────────── */
+
+function openDetails(bookingNum) {
+    const b = _bookings.get(bookingNum);
+    if (!b) return;
+
+    const statusColors = {
+        'Confirmed': '#10b981', 'Completed': '#3b82f6',
+        'Pending Payment': '#f59e0b', 'Cancelled': '#ef4444'
+    };
+    const color = statusColors[b.status_display] || '#64748b';
+
+    const freeCancelRow = (b.is_free_cancellation && b.cancellation_text) ? `
+        <div class="d-row">
+            <i class="fas fa-leaf" style="color:#10b981;width:20px;margin-top:2px;"></i>
+            <div><strong>Free Cancellation</strong><p style="color:#10b981;">${esc(b.cancellation_text)}</p></div>
+        </div>` : '';
+
+    document.getElementById('modal-title').textContent = 'Booking Details';
+    document.getElementById('modal-body').innerHTML = `
+        <div style="padding:25px;">
+            <div style="background:#f8fafc;border-radius:14px;padding:18px;margin-bottom:22px;border:1px dashed #cbd5e1;text-align:center;">
+                <span style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px;">Booking Reference</span>
+                <span style="font-size:22px;font-weight:800;color:#2563eb;font-family:monospace;letter-spacing:2px;">#${esc(b.booking_number)}</span>
+            </div>
+            <div style="display:grid;gap:2px;">
+                <div class="d-row">
+                    <i class="fas fa-map-marker-alt" style="color:var(--primary);width:20px;margin-top:2px;"></i>
+                    <div><strong>Destination</strong><p>${esc(b.destination_name)}</p></div>
+                </div>
+                <div class="d-row">
+                    <i class="fas fa-calendar" style="color:var(--primary);width:20px;margin-top:2px;"></i>
+                    <div><strong>Travel Date</strong><p>${esc(b.booking_date)}${b.time ? ' · ' + esc(b.time) : ''}</p></div>
+                </div>
+                <div class="d-row">
+                    <i class="fas fa-users" style="color:var(--primary);width:20px;margin-top:2px;"></i>
+                    <div><strong>Guests</strong><p>${esc(b.tickets)}</p></div>
+                </div>
+                <div class="d-row">
+                    <i class="fas fa-dollar-sign" style="color:var(--primary);width:20px;margin-top:2px;"></i>
+                    <div><strong>Total Paid</strong><p>$${parseFloat(b.total_price).toLocaleString()}</p></div>
+                </div>
+                <div class="d-row">
+                    <i class="fas fa-credit-card" style="color:var(--primary);width:20px;margin-top:2px;"></i>
+                    <div><strong>Payment Method</strong><p>${esc(b.payment_method)}${b.card_mask ? ' · ' + esc(b.card_mask) : ''}</p></div>
+                </div>
+                ${b.paid_at ? `<div class="d-row"><i class="fas fa-check-circle" style="color:#10b981;width:20px;margin-top:2px;"></i><div><strong>Paid On</strong><p>${esc(b.paid_at)}</p></div></div>` : ''}
+                <div class="d-row">
+                    <i class="fas fa-info-circle" style="color:${color};width:20px;margin-top:2px;"></i>
+                    <div><strong>Status</strong><p style="color:${color};font-weight:700;">${esc(b.status_display)}</p></div>
+                </div>
+                ${freeCancelRow}
+            </div>
+        </div>`;
+
+    document.getElementById('modal').classList.add('show');
+}
+
+function closeModal() {
+    document.getElementById('modal').classList.remove('show');
+}
+
+/* ─── Cancel ─────────────────────────────────────────────────────────────── */
+
+let _cancelId = null;
+
+function cancelBooking(btn) {
+    const bookingNum = btn.dataset.num;
+    const isFree     = btn.dataset.free === 'True';
+    const canFree    = btn.dataset.canFree === 'True';
+    const cancelText = btn.dataset.cancelText || '';
+
+    _cancelId = bookingNum;
+    document.getElementById('cancel-booking-display').textContent = '#' + bookingNum;
+
+    const infoEl = document.getElementById('cancel-free-info');
+    if (isFree && cancelText) {
+        infoEl.style.display = 'block';
+        if (canFree) {
+            infoEl.style.cssText = 'display:block;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:18px;';
+            infoEl.innerHTML = `<i class="fas fa-leaf" style="margin-right:6px;"></i><strong>Free cancellation available</strong><br>${esc(cancelText)}`;
+        } else {
+            infoEl.style.cssText = 'display:block;background:#fef2f2;color:#991b1b;border:1px solid #fecaca;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:18px;';
+            infoEl.innerHTML = `<i class="fas fa-exclamation-circle" style="margin-right:6px;"></i><strong>Free cancellation period has expired.</strong><br>Cancellation fees may apply.`;
+        }
+    } else {
+        infoEl.style.display = 'none';
     }
+
+    document.getElementById('cancel-modal').classList.add('show');
+    document.getElementById('confirm-cancel-btn').onclick = () => doCancel(bookingNum);
 }
 
-/* ================================
-   BOOKING ACTIONS
-   ================================ */
-
-function viewBookingDetails(bookingId) {
-    console.log('Viewing booking details:', bookingId);
-    showToast('Opening booking details...', 'info');
-
-    // Simulate loading
-    setTimeout(() => {
-        // In real app, redirect to details page
-        // window.location.href = `/bookings/${bookingId}/details`;
-        showModal('Booking Details', `
-            <div style="padding: 20px;">
-                <h3 style="margin-bottom: 15px;">Booking ID: ${bookingId}</h3>
-                <p style="color: var(--gray); margin-bottom: 20px;">This is a demo. In production, this would show full booking details.</p>
-                <button class="action-btn primary" onclick="closeModal()" style="width: 100%;">
-                    <i class="fas fa-times"></i> Close
-                </button>
-            </div>
-        `);
-    }, 500);
+function closeCancelModal() {
+    document.getElementById('cancel-modal').classList.remove('show');
+    _cancelId = null;
 }
 
-function checkInOnline(bookingId) {
-    console.log('Check-in online:', bookingId);
-    showToast('Redirecting to online check-in...', 'info');
+function doCancel(bookingNum) {
+    closeCancelModal();
+    showToast('Cancelling booking...', 'info');
 
-    setTimeout(() => {
-        showModal('Online Check-in', `
-            <div style="padding: 20px; text-align: center;">
-                <i class="fas fa-plane-departure" style="font-size: 60px; color: var(--primary); margin-bottom: 20px;"></i>
-                <h3 style="margin-bottom: 15px;">Online Check-in</h3>
-                <p style="color: var(--gray); margin-bottom: 25px;">Check-in will be available 24 hours before your flight.</p>
-                <button class="action-btn primary" onclick="closeModal()" style="width: 100%;">
-                    <i class="fas fa-check"></i> Got it
-                </button>
-            </div>
-        `);
-    }, 500);
+    fetch(`/my_bookings/${bookingNum}/cancel/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': CSRF_TOKEN, 'Content-Type': 'application/json' }
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Booking cancelled successfully.', 'success');
+            setTimeout(() => location.reload(), 1800);
+        } else {
+            showToast('Error: ' + data.message, 'error');
+        }
+    })
+    .catch(() => showToast('Network error. Please try again.', 'error'));
 }
 
-function downloadVoucher(bookingId) {
-    console.log('Downloading voucher:', bookingId);
-    showToast('Preparing your voucher for download...', 'info');
+/* ─── Write review ───────────────────────────────────────────────────────── */
 
-    setTimeout(() => {
-        showToast('Voucher downloaded successfully!', 'success');
-    }, 1500);
-}
+let _reviewRating = 0;
 
-function cancelBooking(bookingId) {
-    console.log('Cancel booking:', bookingId);
+function writeReview(btn) {
+    const destSlug = btn.dataset.destSlug;
+    const destName = btn.dataset.destName;
+    _reviewRating = 0;
 
-    showModal('Cancel Booking', `
-        <div style="padding: 20px; text-align: center;">
-            <i class="fas fa-exclamation-triangle" style="font-size: 60px; color: var(--danger); margin-bottom: 20px;"></i>
-            <h3 style="margin-bottom: 15px;">Cancel Booking?</h3>
-            <p style="color: var(--gray); margin-bottom: 25px;">
-                Are you sure you want to cancel booking ${bookingId}?<br>
-                Refund amount will depend on the cancellation policy.
+    document.getElementById('modal-title').textContent = 'Write a Review';
+    document.getElementById('modal-body').innerHTML = `
+        <div style="padding:22px;">
+            <p style="color:var(--text-muted);margin-bottom:18px;">
+                Reviewing: <strong style="color:var(--dark);">${esc(destName)}</strong>
             </p>
-            <div style="display: flex; gap: 10px;">
-                <button class="action-btn secondary" onclick="closeModal()" style="flex: 1;">
-                    <i class="fas fa-times"></i> No, Keep it
-                </button>
-                <button class="action-btn danger" onclick="confirmCancellation('${bookingId}')" style="flex: 1;">
-                    <i class="fas fa-check"></i> Yes, Cancel
-                </button>
-            </div>
-        </div>
-    `);
-}
-
-function confirmCancellation(bookingId) {
-    closeModal();
-    showToast('Booking cancelled successfully. Refund will be processed in 5-7 business days.', 'success');
-}
-
-function completePayment(bookingId) {
-    console.log('Complete payment:', bookingId);
-    showToast('Redirecting to payment gateway...', 'info');
-
-    setTimeout(() => {
-        showModal('Complete Payment', `
-            <div style="padding: 20px; text-align: center;">
-                <i class="fas fa-credit-card" style="font-size: 60px; color: var(--primary); margin-bottom: 20px;"></i>
-                <h3 style="margin-bottom: 15px;">Secure Payment</h3>
-                <p style="color: var(--gray); margin-bottom: 25px;">You will be redirected to our secure payment gateway to complete your booking.</p>
-                <button class="action-btn primary" onclick="closeModal()" style="width: 100%;">
-                    <i class="fas fa-arrow-right"></i> Proceed to Payment
-                </button>
-            </div>
-        `);
-    }, 500);
-}
-
-function viewPhotos(bookingId) {
-    console.log('View photos:', bookingId);
-    showToast('Loading trip photos...', 'info');
-}
-
-function bookAgain(bookingId) {
-    console.log('Book again:', bookingId);
-    showToast('Redirecting to booking page...', 'info');
-}
-
-function writeReview(bookingId) {
-    console.log('Write review:', bookingId);
-
-    showModal('Write a Review', `
-        <div style="padding: 20px;">
-            <h3 style="margin-bottom: 20px;">Share Your Experience</h3>
-            
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; margin-bottom: 10px; font-weight: 600;">Rating:</label>
-                <div style="display: flex; gap: 10px; font-size: 30px;">
-                    <i class="fas fa-star" style="color: #fbbf24; cursor: pointer;"></i>
-                    <i class="fas fa-star" style="color: #fbbf24; cursor: pointer;"></i>
-                    <i class="fas fa-star" style="color: #fbbf24; cursor: pointer;"></i>
-                    <i class="fas fa-star" style="color: #fbbf24; cursor: pointer;"></i>
-                    <i class="far fa-star" style="color: #d1d5db; cursor: pointer;"></i>
+            <div style="margin-bottom:18px;">
+                <label style="display:block;margin-bottom:8px;font-weight:700;font-size:13px;">Your Rating *</label>
+                <div id="star-row" style="display:flex;gap:10px;font-size:30px;">
+                    ${[1,2,3,4,5].map(i =>
+                        `<i class="fas fa-star" data-val="${i}" style="color:#d1d5db;cursor:pointer;"
+                            onmouseover="hoverStar(${i})" onmouseout="resetStars()" onclick="selectStar(${i})"></i>`
+                    ).join('')}
                 </div>
             </div>
-            
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; margin-bottom: 10px; font-weight: 600;">Your Review:</label>
-                <textarea placeholder="Tell us about your experience..." style="width: 100%; min-height: 120px; padding: 12px; border: 2px solid #e8ecf1; border-radius: 10px; font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
+            <div style="margin-bottom:20px;">
+                <label style="display:block;margin-bottom:8px;font-weight:700;font-size:13px;">Your Review *</label>
+                <textarea id="review-text" placeholder="Tell us about your experience..."
+                    style="width:100%;min-height:110px;padding:12px;border:2px solid #e8ecf1;border-radius:10px;
+                           font-family:inherit;resize:vertical;box-sizing:border-box;font-size:14px;"></textarea>
             </div>
-            
-            <button class="action-btn primary" onclick="submitReview('${bookingId}')" style="width: 100%;">
+            <button class="action-btn primary" style="width:100%;justify-content:center;"
+                    onclick="submitReview('${esc(destSlug)}')">
                 <i class="fas fa-paper-plane"></i> Submit Review
             </button>
-        </div>
-    `);
+        </div>`;
+
+    document.getElementById('modal').classList.add('show');
 }
 
-function submitReview(bookingId) {
+function hoverStar(val) {
+    document.querySelectorAll('#star-row i').forEach(s =>
+        s.style.color = parseInt(s.dataset.val) <= val ? '#fbbf24' : '#d1d5db'
+    );
+}
+function resetStars() {
+    document.querySelectorAll('#star-row i').forEach(s =>
+        s.style.color = parseInt(s.dataset.val) <= _reviewRating ? '#fbbf24' : '#d1d5db'
+    );
+}
+function selectStar(val) { _reviewRating = val; resetStars(); }
+
+function submitReview(destSlug) {
+    if (!_reviewRating) { showToast('Please select a star rating.', 'warning'); return; }
+    const text = document.getElementById('review-text')?.value?.trim();
+    if (!text) { showToast('Please write your review.', 'warning'); return; }
     closeModal();
     showToast('Thank you for your review!', 'success');
 }
 
-function bookSimilar(bookingId) {
-    console.log('Book similar trip:', bookingId);
-    showToast('Finding similar destinations...', 'info');
-}
-
-/* ================================
-   PAGINATION
-   ================================ */
-
-function changePage(page) {
-    const pageButtons = document.querySelectorAll('.page-btn');
-
-    if (page === 'prev' || page === 'next') {
-        console.log('Navigate:', page);
-        showToast(`Loading ${page} page...`, 'info');
-        return;
-    }
-
-    // Update active page
-    pageButtons.forEach(btn => {
-        if (btn.textContent === page.toString()) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
-
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    showToast(`Loading page ${page}...`, 'info');
-}
-
-/* ================================
-   HELPER FUNCTIONS
-   ================================ */
+/* ─── Toast ──────────────────────────────────────────────────────────────── */
 
 function showToast(message, type = 'info') {
+    const icons  = { success:'fa-check-circle', error:'fa-times-circle', info:'fa-info-circle', warning:'fa-exclamation-triangle' };
+    const colors = { success:'#10b981', error:'#ef4444', info:'#3b82f6', warning:'#f59e0b' };
+    const titles = { success:'Success', error:'Error', info:'Info', warning:'Warning' };
+
+    const icon = document.getElementById('toast-icon');
+    icon.className = `fas ${icons[type] || icons.info} toast-icon`;
+    icon.style.color = colors[type] || colors.info;
+    document.getElementById('toast-title').textContent   = titles[type] || 'Info';
+    document.getElementById('toast-message').textContent = message;
+
     const toast = document.getElementById('toast');
-    const toastIcon = document.getElementById('toast-icon');
-    const toastTitle = document.getElementById('toast-title');
-    const toastMessage = document.getElementById('toast-message');
-
-    // Set icon and title based on type
-    const types = {
-        success: { icon: 'fa-check-circle', title: 'Success', color: '#10b981' },
-        error: { icon: 'fa-times-circle', title: 'Error', color: '#ef4444' },
-        info: { icon: 'fa-info-circle', title: 'Info', color: '#3b82f6' },
-        warning: { icon: 'fa-exclamation-triangle', title: 'Warning', color: '#f59e0b' }
-    };
-
-    const config = types[type] || types.info;
-
-    toastIcon.className = `fas ${config.icon} toast-icon`;
-    toastIcon.style.color = config.color;
-    toastTitle.textContent = config.title;
-    toastMessage.textContent = message;
-
-    // Show toast
     toast.classList.add('show');
-
-    // Hide after 3 seconds
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 3000);
+    setTimeout(() => toast.classList.remove('show'), 3500);
 }
-
-function showModal(title, content) {
-    const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalBody = document.getElementById('modal-body');
-
-    modalTitle.textContent = title;
-    modalBody.innerHTML = content;
-
-    modal.classList.add('show');
-}
-
-function closeModal() {
-    const modal = document.getElementById('modal');
-    modal.classList.remove('show');
-}
-
-/* ================================
-   COUNTDOWN TIMER UPDATE
-   ================================ */
-
-// Update countdown timers every hour
-setInterval(() => {
-    const timers = document.querySelectorAll('.countdown-timer');
-    timers.forEach(timer => {
-        // In real app, calculate actual days remaining
-        console.log('Updating countdown timers...');
-    });
-}, 3600000); // Every hour
-
-console.log('My Bookings JavaScript loaded successfully');

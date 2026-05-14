@@ -63,12 +63,15 @@
                     </div>
 
                     <form id="booking-form" method="POST">
-                        {% csrf_token %} <input type="hidden" name="selected_date" value="{{ selected_date }}">
+                        {% csrf_token %}
+                        <input type="hidden" name="selected_date" value="{{ selected_date }}">
                         <input type="hidden" name="selected_time" value="{{ selected_time }}">
                         <input type="hidden" name="total_price" id="final-price-input" value="{{ total_price }}">
 
-                        {% for item in selected_tickets %}
-                            <input type="hidden" name="ticket_{{ item.id }}" value="{{ item.quantity }}">
+                        {# Barcha ticket types uchun hidden input — JS qiymatlari yangilaydi #}
+                        {% for ticket in destination.ticket_types.all %}
+                            <input type="hidden" name="ticket_{{ ticket.id }}"
+                                   id="h-ticket-{{ ticket.id }}" value="0">
                         {% endfor %}
 
                         <div class="form-row">

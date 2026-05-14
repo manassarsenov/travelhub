@@ -31,6 +31,7 @@ from apps.forms import (ForgotPasswordForm, LoginForm,
                         PasswordResetConfirmForm, RegisterModelForm, ReviewModelForm, BookingGuestForm)
 from apps.mixins import LoginNotRequiredMixin
 from apps.models import Destination, User, Country, Review, ActionLog, PromoCode, TicketType, Booking, Activity, Notification
+from apps.models.wishlist import Wishlist
 from apps.models.notifications import NotificationSetting
 from datetime import timedelta
 from apps.models.categories import City, Region
@@ -61,6 +62,19 @@ class FilterDestinationsTemplateView(TemplateView):
         if city_slug:
             qs = qs.filter(city__slug=city_slug)
 
+        country_slug = request.GET.get('country')
+        if country_slug:
+            qs = qs.filter(country__slug=country_slug)
+
+        q = request.GET.get('q', '').strip()
+        if q:
+            qs = qs.filter(
+                Q(name__icontains=q) |
+                Q(location__icontains=q) |
+                Q(city__name__icontains=q) |
+                Q(country__name__icontains=q)
+            )
+
         min_price = request.GET.get('min_price')
         max_price = request.GET.get('max_price')
         if min_price and max_price:
@@ -81,6 +95,10 @@ class FilterDestinationsTemplateView(TemplateView):
         activities = request.GET.get('activity')
         if activities:
             qs = qs.filter(activities__icon__in=activities.split(','))
+
+        popular = request.GET.get('popular')
+        if popular == '1':
+            qs = qs.filter(is_popular=True)
 
         ratings = request.GET.get('rating')
         if ratings:
@@ -1075,12 +1093,14 @@ class HomeTemplateView(TemplateView):
             flash_sale_end__gt=now,
             discount_percentage__gt=0
         ).select_related('city').prefetch_related('tags', 'images', 'reviews').annotate(
-            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True)),
+            db_avg_rating=Avg('reviews__rating', filter=Q(reviews__is_visible=True)),
         ).only(
             'slug', 'name', 'location', 'short_description',
             'hotels_count', 'duration', 'price', 'price_label',
             'discount_percentage', 'flash_sale_end',
-            'is_flash_sale', 'city__name', 'has_flights'
+            'is_flash_sale', 'city__name', 'has_flights',
+            'latitude', 'longitude',
         )
         context['flash_total'] = flash_qs.count()
         flash_batch = list(flash_qs[:3])
@@ -1092,11 +1112,13 @@ class HomeTemplateView(TemplateView):
         ).exclude(
             id__in=flash_ids
         ).select_related('city').prefetch_related('tags', 'images', 'reviews').annotate(
-            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True)),
+            db_avg_rating=Avg('reviews__rating', filter=Q(reviews__is_visible=True)),
         ).only(
             'slug', 'name', 'location', 'short_description',
             'hotels_count', 'duration', 'price_label',
-            'price', 'has_flights', 'city__name'
+            'price', 'discount_percentage', 'has_flights', 'city__name',
+            'latitude', 'longitude',
         )
         context['trending_total'] = trending_qs.count()
         trending_batch = list(trending_qs[:3])
@@ -1108,11 +1130,14 @@ class HomeTemplateView(TemplateView):
         ).exclude(
             id__in=flash_ids | trending_ids
         ).select_related('city').prefetch_related('tags', 'images', 'activities', 'reviews').annotate(
-            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True))
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True)),
+            db_avg_rating=Avg('reviews__rating', filter=Q(reviews__is_visible=True)),
         ).only(
             'slug', 'package_type', 'name', 'location',
             'short_description', 'duration', 'price_label', 'price',
-            'restaurants_count', 'has_flights', 'city__name'
+            'discount_percentage', 'hotels_count', 'restaurants_count',
+            'has_flights', 'city__name',
+            'latitude', 'longitude',
         )
         context['featured_total'] = featured_qs.count()
         context['featured_destinations'] = featured_qs[:3]
@@ -1158,11 +1183,21 @@ class LoadMoreDestinationsView(View):
             destinations = queryset.filter(is_trending=True)
             template_name = 'apps/partials/_trending_card.html'
 
-        # 🚀 YANGI: Umumiy ro'yxat va shahar bo'yicha filtr (Explore bo'limi uchun)
+        # 🚀 YANGI: Umumiy ro'yxat va shahar/qidiruv bo'yicha filtr
         else:
             destinations = queryset
             if city_slug:
                 destinations = destinations.filter(city__slug=city_slug)
+            q = request.GET.get('q', '').strip()
+            if q:
+                # distinct() + annotate() PostgreSQL da xatolik beradi
+                # FK joinlar duplicate yaratmaydi, shuning uchun distinct kerak emas
+                destinations = destinations.filter(
+                    Q(name__icontains=q) |
+                    Q(location__icontains=q) |
+                    Q(city__name__icontains=q) |
+                    Q(country__name__icontains=q)
+                )
             template_name = 'apps/partials/destination_cards.html'
 
         total = destinations.count()
@@ -1172,7 +1207,6 @@ class LoadMoreDestinationsView(View):
         has_more = (offset + limit) < total
 
         # HTML bo'lagini render qilish
-        from django.utils import timezone
         if section in ('flash', 'featured', 'trending'):
             html = "".join([
                 render_to_string(template_name, {'destination': d, 'now': timezone.now()}, request=request)
@@ -1187,7 +1221,14 @@ class LoadMoreDestinationsView(View):
                 'has_more': has_more
             }, request=request)
 
-        if not html and offset == 0:
+        # batch hajmi — sliced queryset.count() emas, xavfsiz yo'l
+        batch_size = len(list(batch)) if not hasattr(batch, '_result_cache') or batch._result_cache is None else len(batch._result_cache)
+
+        accept_json = 'application/json' in request.headers.get('accept', '') or 'api' in request.path
+
+        if not html.strip() and offset == 0:
+            if accept_json:
+                return JsonResponse({'html': '', 'count': 0, 'has_more': False, 'total': total})
             return HttpResponse('<p class="no-results">No destinations found.</p>')
 
         response = HttpResponse(html)
@@ -1195,12 +1236,10 @@ class LoadMoreDestinationsView(View):
         response['X-Total'] = str(total)
         response['X-Next-Offset'] = str(offset + limit)
 
-        # JSON response for destinations.js loadMoreDestinations
-        accept_header = request.headers.get('accept', '')
-        if 'application/json' in accept_header or 'api' in request.path:
+        if accept_json:
             return JsonResponse({
                 'html': html,
-                'count': batch.count(),
+                'count': batch_size,
                 'has_more': has_more,
                 'total': total
             })
@@ -1877,12 +1916,178 @@ class DashboardTemplateView(TemplateView):
     template_name = 'apps/dashboard.html'
 
 
-class MyBookingsTemplateView(TemplateView):
+class MyBookingsTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'apps/my_bookings.html'
+    login_url = '/auth/login/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        bookings = Booking.objects.filter(user=user)
+        upcoming = bookings.filter(status__in=[Booking.Status.CONFIRMED, Booking.Status.PENDING])
+        completed = bookings.filter(status=Booking.Status.COMPLETED)
+        cancelled = bookings.filter(status=Booking.Status.CANCELLED)
+        context.update({
+            'total_count': bookings.count(),
+            'upcoming_count': upcoming.count(),
+            'completed_count': completed.count(),
+            'cancelled_count': cancelled.count(),
+        })
+        return context
 
 
-class WishlistTemplateView(TemplateView):
+class MyBookingsApiView(LoginRequiredMixin, View):
+    PAGE_SIZE = 6
+    login_url = '/auth/login/'
+
+    def get(self, request):
+        import datetime as _dt
+        status_param = request.GET.get('status', 'upcoming')
+        try:
+            page = max(1, int(request.GET.get('page', 1) or 1))
+        except (ValueError, TypeError):
+            page = 1
+        search = request.GET.get('search', '').strip()
+        sort = request.GET.get('sort', 'date-desc')
+
+        qs = (Booking.objects
+              .filter(user=request.user)
+              .select_related('destination', 'destination__city')
+              .prefetch_related('destination__images'))
+
+        if search:
+            qs = qs.filter(
+                Q(destination__name__icontains=search) |
+                Q(booking_number__icontains=search)
+            )
+
+        if status_param == 'upcoming':
+            qs = qs.filter(status__in=[Booking.Status.CONFIRMED, Booking.Status.PENDING])
+        elif status_param == 'completed':
+            qs = qs.filter(status=Booking.Status.COMPLETED)
+        elif status_param == 'cancelled':
+            qs = qs.filter(status=Booking.Status.CANCELLED)
+
+        sort_map = {
+            'date-desc': '-booking_date',
+            'date-asc': 'booking_date',
+            'price-high': '-total_price',
+            'price-low': 'total_price',
+            'destination': 'destination__name',
+        }
+        qs = qs.order_by(sort_map.get(sort, '-booking_date'))
+
+        paginator = Paginator(qs, self.PAGE_SIZE)
+        try:
+            page_obj = paginator.page(page)
+        except (PageNotAnInteger, EmptyPage):
+            page_obj = paginator.page(1)
+
+        now = timezone.now()
+        today_date = now.date()
+        bookings_data = []
+
+        for b in page_obj:
+            first_img = b.destination.images.first()
+            image_url = first_img.image.url if first_img else None
+
+            can_free_cancel = False
+            cancellation_text = ''
+            if b.destination.is_free_cancellation and b.booking_date:
+                booking_time = b.time or _dt.time(0, 0)
+                trip_start_naive = _dt.datetime.combine(b.booking_date, booking_time)
+                try:
+                    trip_start = timezone.make_aware(trip_start_naive)
+                except Exception:
+                    import pytz
+                    trip_start = trip_start_naive.replace(tzinfo=pytz.utc)
+                hours_until = (trip_start - now).total_seconds() / 3600
+                can_free_cancel = hours_until >= b.destination.free_cancellation_hours
+                cancellation_text = b.destination.cancellation_text or ''
+
+            if b.tickets_data:
+                tickets_str = ', '.join(f"{qty} {name}" for name, qty in b.tickets_data.items())
+            else:
+                tickets_str = f"{b.total_guests} Guest(s)"
+
+            days_until = (b.booking_date - today_date).days if b.booking_date else 0
+
+            bookings_data.append({
+                'booking_number': b.booking_number,
+                'destination_name': b.destination.name,
+                'destination_slug': b.destination.slug,
+                'destination_city': b.destination.city.name if b.destination.city else '',
+                'destination_location': b.destination.location or '',
+                'image_url': image_url,
+                'booking_date': b.booking_date.strftime('%b %d, %Y') if b.booking_date else '',
+                'booking_date_iso': b.booking_date.isoformat() if b.booking_date else '',
+                'time': b.time.strftime('%H:%M') if b.time else '',
+                'tickets': tickets_str,
+                'total_price': str(b.total_price),
+                'status': b.status,
+                'status_display': b.get_status_display(),
+                'payment_method': b.get_payment_method_display(),
+                'card_mask': b.card_mask or '',
+                'promo_code': b.promo_code or '',
+                'transaction_id': b.transaction_id or '',
+                'paid_at': b.paid_at.strftime('%b %d, %Y') if b.paid_at else '',
+                'is_free_cancellation': b.destination.is_free_cancellation,
+                'can_free_cancel': can_free_cancel,
+                'cancellation_text': cancellation_text,
+                'days_until': days_until,
+            })
+
+        return JsonResponse({
+            'bookings': bookings_data,
+            'page': page_obj.number,
+            'total_pages': paginator.num_pages,
+            'count': paginator.count,
+            'has_next': page_obj.has_next(),
+            'has_prev': page_obj.has_previous(),
+        })
+
+
+class WishlistTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'apps/wishlist.html'
+    login_url = '/auth/login/'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        items = (
+            Wishlist.objects
+            .filter(user=self.request.user)
+            .select_related('destination', 'destination__city', 'destination__country')
+            .prefetch_related('destination__images', 'destination__tags')
+        )
+        total_cost = sum(item.destination.discounted_price for item in items)
+        countries = {
+            (item.destination.country.name if item.destination.country else item.destination.city.name)
+            for item in items
+        }
+        count = len(items)
+        ctx.update({
+            'wishlist_items': items,
+            'total_items': count,
+            'total_cost': total_cost,
+            'countries_count': len(countries),
+            'avg_price': total_cost // count if count else 0,
+        })
+        return ctx
+
+
+class ToggleWishlistView(LoginRequiredMixin, View):
+    login_url = '/auth/login/'
+
+    def post(self, request, *args, **kwargs):
+        slug = request.POST.get('slug') or request.GET.get('slug')
+        if not slug:
+            return JsonResponse({'error': 'slug required'}, status=400)
+        destination = get_object_or_404(Destination, slug=slug)
+        obj, created = Wishlist.objects.get_or_create(user=request.user, destination=destination)
+        if not created:
+            obj.delete()
+            return JsonResponse({'wishlisted': False})
+        return JsonResponse({'wishlisted': True})
 
 
 class ProfileSettingsTemplateView(LoginRequiredMixin, TemplateView):
@@ -2046,3 +2251,78 @@ class CompareDestinationsView(View):
             })
 
         return JsonResponse({'destinations': data})
+
+
+class GlobalSearchView(View):
+    def get(self, request):
+        q = request.GET.get('q', '').strip()
+        if len(q) < 2:
+            return JsonResponse({'results': [], 'count': 0, 'query': q})
+
+        results = []
+
+        # Regions
+        for r in Region.objects.filter(name__icontains=q)[:3]:
+            country_count = Country.objects.filter(region=r, is_active=True).count()
+            results.append({
+                'type': 'region',
+                'slug': r.slug,
+                'title': r.name,
+                'subtitle': '',
+                'image': '',
+                'count': country_count,
+                'count_label': 'countries',
+            })
+
+        # Countries
+        for c in Country.objects.filter(name__icontains=q, is_active=True).select_related('region')[:3]:
+            city_count = City.objects.filter(country=c).count()
+            results.append({
+                'type': 'country',
+                'slug': c.slug,
+                'code': c.code,
+                'region_slug': c.region.slug if c.region else '',
+                'title': c.name,
+                'subtitle': (c.flag or '') + (' ' + c.region.name if c.region else ''),
+                'image': '',
+                'count': city_count,
+                'count_label': 'cities',
+            })
+
+        # Cities
+        for city in City.objects.filter(name__icontains=q).select_related('country')[:4]:
+            img_url = request.build_absolute_uri(city.image.url) if city.image else ''
+            dest_count = Destination.objects.filter(city=city).count()
+            results.append({
+                'type': 'city',
+                'slug': city.slug,
+                'title': city.name,
+                'subtitle': city.country.name if city.country else '',
+                'image': img_url,
+                'count': dest_count,
+                'count_label': 'destinations',
+            })
+
+        # Destinations
+        destinations = (
+            Destination.objects
+            .filter(
+                Q(name__icontains=q) |
+                Q(location__icontains=q)
+            )
+            .select_related('city', 'country')
+            .prefetch_related('images')[:6]
+        )
+        for d in destinations:
+            first_img = d.images.first()
+            img_url = request.build_absolute_uri(first_img.image.url) if first_img and first_img.image else ''
+            results.append({
+                'type': 'destination',
+                'slug': d.slug,
+                'title': d.name,
+                'subtitle': d.location or (d.city.name if d.city else ''),
+                'image': img_url,
+                'count': None,
+            })
+
+        return JsonResponse({'results': results, 'count': len(results), 'query': q})

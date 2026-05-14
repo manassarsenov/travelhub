@@ -16,20 +16,36 @@
     {% block custom_css %}{% endblock %}
 
 
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=108926251', 'ym');
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) {
+                    return;
+                }
+            }
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=108926251', 'ym');
 
-    ym(108926251, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/108926251" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-
+        ym(108926251, 'init', {
+            ssr: true,
+            webvisor: true,
+            clickmap: true,
+            ecommerce: "dataLayer",
+            referrer: document.referrer,
+            url: location.href,
+            accurateTrackBounce: true,
+            trackLinks: true
+        });
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/108926251" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
 
 
 </head>
@@ -70,27 +86,48 @@
         <!-- ===== SEARCH BAR ===== -->
         <div class="navbar-search" id="navbar-search-wrap">
             <div class="search-inner">
+                <i class="fas fa-search search-prefix-icon"></i>
                 <input
                         type="text"
                         id="global-search-input"
                         class="search-input"
-                        placeholder="Search destinations, hotels..."
+                        placeholder="Destinations, hotels, cities..."
                         autocomplete="off"
+                        oninput="onSearchInput(this.value)"
                         onkeydown="handleSearchKey(event)"
-                        onfocus="showRecentSearches()"
+                        onfocus="onSearchFocus()"
                 >
-                <button class="search-icon-btn" onclick="doSearch()">
-                    <i class="fas fa-search"></i>
-                </button>
+{#                <span class="search-ai-badge">AI</span>#}
             </div>
 
             <!-- Recent Searches Dropdown -->
-            <div class="recent-searches" id="recent-searches-dropdown">
-                <div class="recent-header">
-                    <span class="recent-header-title">Recent Searches</span>
-                    <button class="recent-clear-btn" onclick="clearAllRecent()">Clear all</button>
+            {#            <div class="recent-searches" id="recent-searches-dropdown">#}
+            {#                <div class="recent-header">#}
+            {#                    <span class="recent-header-title"><i class="fas fa-clock-rotate-left" style="margin-right:5px;"></i>Recent Searches</span>#}
+            {#                    <button class="recent-clear-btn" onclick="clearAllRecent()">Clear all</button>#}
+            {#                </div>#}
+            {#                <div class="recent-list" id="recent-list"></div>#}
+            {#            </div>#}
+
+            <!-- Live Suggestions Dropdown -->
+            <div class="live-suggestions" id="live-suggestions-dropdown">
+                <div class="ls-loading" id="ls-loading">
+                    <div class="ls-spinner"></div>
+                    <span>Searching...</span>
                 </div>
-                <div class="recent-list" id="recent-list"></div>
+                <div class="ls-results" id="ls-results"></div>
+                <div class="ls-footer" id="ls-footer" style="display:none;">
+                    <button onclick="performGlobalSearch()" class="ls-view-all">
+                        <span class="ls-view-all-left">
+                            <i class="fas fa-magnifying-glass"></i>
+                            See all results
+                        </span>
+                        <span style="display:flex;align-items:center;gap:8px;">
+                            <span id="ls-count-badge" class="ls-count">0</span>
+                            <i class="fas fa-arrow-right ls-view-all-arrow"></i>
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
 

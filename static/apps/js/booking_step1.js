@@ -12,28 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// function proceedToPayment() {
-//     const firstName = document.getElementById('first-name').value.trim();
-//     const lastName = document.getElementById('last-name').value.trim();
-//     const email = document.getElementById('email').value.trim();
-//     const phone = document.getElementById('phone').value.trim();
-//
-//     if (!firstName || !lastName || !email || !phone) {
-//         alert('Please fill in all required fields.');
-//         return;
-//     }
-//
-//     // Checking overlay ni ko'rsatish
-//     document.getElementById('checkingOverlay').classList.add('show');
-//
-//     // Keyingi page urlini olish (Django `{% url %}` orqali HTML ga yashirilgan)
-//     const nextUrl = document.getElementById('next-step-url').value;
-//
-//     setTimeout(() => {
-//         window.location.href = nextUrl; // Mantiqiy to'g'ri URL ga o'tish
-//     }, 2000);
-// }
-
 function proceedToPayment() {
         // Animatsiyani ko'rsatish
         document.getElementById('checkingOverlay').classList.add('show');
