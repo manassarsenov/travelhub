@@ -2075,10 +2075,10 @@ class WishlistTemplateView(LoginRequiredMixin, TemplateView):
         return ctx
 
 
-class ToggleWishlistView(LoginRequiredMixin, View):
-    login_url = '/auth/login/'
-
+class ToggleWishlistView(View):
     def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return JsonResponse({'unauthenticated': True}, status=401)
         slug = request.POST.get('slug') or request.GET.get('slug')
         if not slug:
             return JsonResponse({'error': 'slug required'}, status=400)

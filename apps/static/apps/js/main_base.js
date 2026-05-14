@@ -102,30 +102,71 @@ document.addEventListener('click', function (e) {
     }
 });
 
-// Wishlist
-let wishlist = [];
-
 function toggleWishlist(btn) {
+    const slug = btn.dataset.slug;
+    if (!slug) return;
+
     const icon = btn.querySelector('i');
-    const isWishlisted = btn.classList.contains('wishlisted');
+    btn.disabled = true;
 
-    if (isWishlisted) {
-        btn.classList.remove('wishlisted');
-        icon.className = 'far fa-heart';
-        icon.style.color = '';
-        showToast('Removed', 'Removed from wishlist', 'error');
-    } else {
-        btn.classList.add('wishlisted');
-        icon.className = 'fas fa-heart';
-        icon.style.color = '#ef4444';
-        icon.style.transition = 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        icon.style.transform = 'scale(1.2)';
-        setTimeout(() => icon.style.transform = 'scale(1)', 250);
-        showToast('Added', 'Added to wishlist', 'success');
-    }
+    const csrfToken = document.cookie.split(';')
+        .find(c => c.trim().startsWith('csrftoken='))
+        ?.split('=')?.[1] || '';
 
-    const countEl = document.getElementById('wishlist-count');
-    if (countEl) countEl.textContent = document.querySelectorAll('.wishlist-btn.wishlisted').length;
+    const _lang = (function() {
+        const p = window.location.pathname.split('/');
+        return ['uz','en','ru'].includes(p[1]) ? p[1] : 'en';
+    })();
+
+    fetch('/' + _lang + '/api/wishlist/toggle/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken,
+        },
+        body: 'slug=' + encodeURIComponent(slug),
+    })
+    .then(r => {
+        if (r.status === 401) {
+            window.location.href = '/' + _lang + '/auth/login/?next=' + encodeURIComponent(window.location.pathname);
+            return null;
+        }
+        return r.json();
+    })
+    .then(data => {
+        if (!data) return;
+        btn.disabled = false;
+        if (data.wishlisted) {
+            btn.classList.add('wishlisted');
+            icon.className = 'fas fa-heart';
+            icon.style.transition = 'transform 0.25s cubic-bezier(0.34,1.56,0.64,1)';
+            icon.style.transform = 'scale(1.3)';
+            setTimeout(() => { icon.style.transform = 'scale(1)'; }, 260);
+            showToast("Qo'shildi", "Wishlistga qo'shildi!", 'success');
+        } else {
+            btn.classList.remove('wishlisted');
+            icon.className = 'far fa-heart';
+            showToast("O'chirildi", "Wishlistdan o'chirildi", 'info');
+            if (window.location.pathname.includes('/wishlist/')) {
+                const card = btn.closest('.wishlist-card');
+                if (card) {
+                    card.style.transition = 'opacity 0.3s, transform 0.3s';
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(() => { card.remove(); updateWishlistStats(); }, 310);
+                }
+            }
+        }
+        const countEl = document.getElementById('wishlist-count');
+        if (countEl) {
+            const cur = parseInt(countEl.textContent || '0', 10);
+            countEl.textContent = Math.max(0, data.wishlisted ? cur + 1 : cur - 1);
+        }
+    })
+    .catch(() => {
+        btn.disabled = false;
+        showToast('Xatolik', "Qaytadan urinib ko'ring", 'error');
+    });
 }
 
 // Autocomplete

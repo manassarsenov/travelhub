@@ -159,7 +159,9 @@
                     </div>
                 {% endif %}
 
-                <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i></button>
+                <button class="wishlist-btn{% if destination.slug in user_wishlist_slugs %} wishlisted{% endif %}" data-slug="{{ destination.slug }}" onclick="toggleWishlist(this)">
+                    <i class="{% if destination.slug in user_wishlist_slugs %}fas{% else %}far{% endif %} fa-heart"></i>
+                </button>
                 {% if 'destinations' in request.path %}
                 <label class="compare-checkbox">
                     <input type="checkbox" data-slug="{{ destination.slug }}" data-name="{{ destination.name }}" data-image="{% if destination.images.first %}{{ destination.images.first.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}" data-price="{{ destination.discounted_price|default:destination.price }}" data-rating="{{ destination.rating }}" onchange="addToCompare(this)">

@@ -179,7 +179,7 @@
             <!-- Wishlist -->
             <button class="icon-btn tooltip" onclick="window.location.href='{% url 'wishlist_page' %}'">
                 <i class="far fa-heart"></i>
-                <span id="wishlist-count" class="badge">0</span>
+                <span id="wishlist-count" class="badge">{{ user_wishlist_count }}</span>
             </button>
 
             <!-- Notifications -->
