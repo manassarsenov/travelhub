@@ -512,9 +512,9 @@
     </section>
 
     <!-- COMPARISON MODAL -->
-        <div id="comparison-modal" class="modal-overlay" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; padding: 20px;">
-        <div class="modal-container comparison-modal" style="background: #fff; border-radius: 16px; width: 100%; max-width: 1200px; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column;">
-            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid #e5e7eb;">
+    <div id="comparison-modal" class="modal-overlay" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; padding: 20px;">
+        <div class="modal-container comparison-modal" style="background: #fff; border-radius: 16px; width: 100%; max-width: 1200px; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column;">
+            <div class="modal-header" style="flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid #e5e7eb;">
                 <div>
                     <h2 style="margin: 0; font-size: 1.25rem; font-weight: 700; color: #111827;">Compare Destinations</h2>
                     <p style="margin: 4px 0 0; font-size: 0.875rem; color: #6b7280;">Compare up to 4 destinations side by side</p>
@@ -526,7 +526,7 @@
                     </button>
                 </div>
             </div>
-            <div class="modal-body" style="padding: 0;">
+            <div class="modal-body" style="flex: 1; overflow: hidden; display: flex; flex-direction: column; padding: 0;">
                 <div id="comparison-grid" class="comparison-wrapper"></div>
             </div>
         </div>
@@ -562,6 +562,8 @@
     #comparison-modal.active { display: flex !important; }
 
     .comparison-wrapper {
+        flex: 1;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         gap: 0;
@@ -571,7 +573,9 @@
     .compare-header-row {
         display: grid;
         gap: 0;
+        flex-shrink: 0;
         border-bottom: 1px solid #e5e7eb;
+        overflow-x: auto;
     }
     .compare-header-cell {
         padding: 20px 16px;
@@ -693,8 +697,9 @@
 
     /* ===== COMPARISON TABLE BODY ===== */
     .compare-body {
+        flex: 1;
         overflow-y: auto;
-        max-height: 55vh;
+        overflow-x: auto;
     }
     .compare-row {
         display: grid;
@@ -767,8 +772,9 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-        .comparison-wrapper { min-width: 600px; }
-        .modal-body { overflow-x: auto; }
+        .comparison-wrapper { min-width: 600px; overflow-x: auto; }
+        .compare-header-row { min-width: 600px; }
+        .compare-row { min-width: 600px; }
     }
 </style>
 {% endblock %}

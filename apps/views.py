@@ -32,6 +32,8 @@ from apps.forms import (ForgotPasswordForm, LoginForm,
 from apps.mixins import LoginNotRequiredMixin
 from apps.models import Destination, User, Country, Review, ActionLog, PromoCode, TicketType, Booking, Activity, Notification
 from apps.models.wishlist import Wishlist
+from apps.models.price_alert import PriceAlert
+from apps.models.trip_plan import TripPlan, TripPlanItem
 from apps.models.notifications import NotificationSetting
 from datetime import timedelta
 from apps.models.categories import City, Region
@@ -2051,26 +2053,91 @@ class WishlistTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'apps/wishlist.html'
     login_url = '/auth/login/'
 
+    QUOTES = [
+        {'text': 'Travel is the only thing you buy that makes you richer.', 'author': 'Anonymous'},
+        {'text': 'The world is a book, and those who do not travel read only one page.', 'author': 'Saint Augustine'},
+        {'text': 'Life is short and the world is wide.', 'author': 'Simon Raven'},
+        {'text': 'To travel is to live.', 'author': 'Hans Christian Andersen'},
+        {'text': 'Adventure is worthwhile in itself.', 'author': 'Amelia Earhart'},
+        {'text': 'Not all those who wander are lost.', 'author': 'J.R.R. Tolkien'},
+    ]
+    TIPS = [
+        'Book 2–3 months in advance for the best deals!',
+        'Travel on Tuesdays and Wednesdays for cheaper flights.',
+        'Pack light — you can always buy what you need.',
+        'Get travel insurance before every international trip.',
+        'Learn a few phrases in the local language — locals love it!',
+        'Always keep digital copies of your important documents.',
+    ]
+
     def get_context_data(self, **kwargs):
+        import random
         ctx = super().get_context_data(**kwargs)
-        items = (
+        items = list(
             Wishlist.objects
             .filter(user=self.request.user)
             .select_related('destination', 'destination__city', 'destination__country')
-            .prefetch_related('destination__images', 'destination__tags')
+            .prefetch_related('destination__images')
+            .order_by('-created_at')
         )
-        total_cost = sum(item.destination.discounted_price for item in items)
-        countries = {
-            (item.destination.country.name if item.destination.country else item.destination.city.name)
-            for item in items
-        }
+        destinations = [i.destination for i in items]
+        total_cost = sum(d.discounted_price for d in destinations)
         count = len(items)
+        countries_count = (
+            Wishlist.objects
+            .filter(user=self.request.user)
+            .values('destination__country')
+            .distinct()
+            .count()
+        )
+        wishlisted_ids = [d.id for d in destinations]
+
+        # Season distribution from wishlist destinations
+        season_map = {
+            'spring': {'label': 'Spring', 'months': 'Mar – May', 'icon': 'spring'},
+            'Summer': {'label': 'Summer', 'months': 'Jun – Aug', 'icon': 'summer'},
+            'autumn': {'label': 'Autumn', 'months': 'Sep – Nov', 'icon': 'autumn'},
+            'winter': {'label': 'Winter', 'months': 'Dec – Feb', 'icon': 'winter'},
+        }
+        season_counts = {}
+        for d in destinations:
+            if d.season:
+                season_counts[d.season] = season_counts.get(d.season, 0) + 1
+        seasons = [
+            {**season_map[k], 'count': season_counts.get(k, 0)}
+            for k in season_map
+        ]
+
+        # Similar destinations — same trip_type, not already wishlisted
+        wishlist_trip_types = list({d.trip_type for d in destinations if d.trip_type})
+        similar_destinations = (
+            Destination.objects
+            .filter(trip_type__in=wishlist_trip_types)
+            .exclude(id__in=wishlisted_ids)
+            .select_related('city', 'country')
+            .prefetch_related('images')
+            .order_by('-is_trending', '-is_featured')[:5]
+        ) if wishlist_trip_types else []
+
+        # Active price alerts for this user's wishlist destinations
+        active_alert_slugs = set(
+            PriceAlert.objects
+            .filter(user=self.request.user, destination__in=wishlisted_ids, is_active=True)
+            .values_list('destination__slug', flat=True)
+        )
+
         ctx.update({
             'wishlist_items': items,
             'total_items': count,
             'total_cost': total_cost,
-            'countries_count': len(countries),
-            'avg_price': total_cost // count if count else 0,
+            'countries_count': countries_count,
+            'avg_price': round(total_cost / count) if count else 0,
+            'trip_types': Destination.TripType.choices,
+            'quote': random.choice(self.QUOTES),
+            'travel_tip': random.choice(self.TIPS),
+            'seasons': seasons,
+            'similar_destinations': similar_destinations,
+            'active_alert_slugs': active_alert_slugs,
         })
         return ctx
 
@@ -2088,6 +2155,48 @@ class ToggleWishlistView(View):
             obj.delete()
             return JsonResponse({'wishlisted': False})
         return JsonResponse({'wishlisted': True})
+
+
+class TogglePriceAlertView(View):
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return JsonResponse({'unauthenticated': True}, status=401)
+
+        import json
+        try:
+            data = json.loads(request.body)
+        except (ValueError, TypeError):
+            data = request.POST
+
+        slug = data.get('slug')
+        target_price = data.get('target_price')
+
+        if not slug:
+            return JsonResponse({'error': 'slug required'}, status=400)
+
+        destination = get_object_or_404(Destination, slug=slug)
+
+        alert = PriceAlert.objects.filter(user=request.user, destination=destination).first()
+
+        if alert:
+            if alert.is_active:
+                alert.is_active = False
+                alert.save(update_fields=['is_active'])
+                return JsonResponse({'active': False})
+            else:
+                alert.is_active = True
+                if target_price is not None:
+                    alert.target_price = int(target_price)
+                alert.save(update_fields=['is_active', 'target_price'])
+                return JsonResponse({'active': True})
+        else:
+            PriceAlert.objects.create(
+                user=request.user,
+                destination=destination,
+                target_price=int(target_price) if target_price else None,
+                last_notified_price=destination.discounted_price,
+            )
+            return JsonResponse({'active': True})
 
 
 class ProfileSettingsTemplateView(LoginRequiredMixin, TemplateView):
@@ -2326,3 +2435,177 @@ class GlobalSearchView(View):
             })
 
         return JsonResponse({'results': results, 'count': len(results), 'query': q})
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TRIP PLANNER
+# ══════════════════════════════════════════════════════════════════════════════
+
+def _item_to_dict(item):
+    dest = item.destination
+    img = dest.images.first()
+    img_url = img.image.url if img and img.image else ''
+    location = dest.location or (dest.city.name if dest.city else '')
+    return {
+        'slug': dest.slug,
+        'name': dest.name,
+        'price': dest.discounted_price,
+        'image': img_url,
+        'url': f'/destination-detail/{dest.slug}/',
+        'location': location,
+        'day_number': item.day_number,
+        'note': item.note,
+    }
+
+
+def _plan_to_dict(plan):
+    return {
+        'id': plan.id,
+        'name': plan.name,
+        'description': plan.description,
+        'start_date': str(plan.start_date) if plan.start_date else None,
+        'items': [_item_to_dict(it) for it in plan.items.select_related('destination', 'destination__city').prefetch_related('destination__images').all()],
+    }
+
+
+class TripPlannerTemplateView(LoginRequiredMixin, TemplateView):
+    template_name = 'apps/trip_planner.html'
+    login_url = '/auth/login/'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        plans = list(
+            TripPlan.objects.filter(user=self.request.user)
+            .prefetch_related(
+                'items',
+                'items__destination',
+                'items__destination__city',
+                'items__destination__images',
+            )
+        )
+        plans_data = [_plan_to_dict(p) for p in plans]
+
+        wishlist_dests = list(
+            Wishlist.objects.filter(user=self.request.user)
+            .select_related('destination', 'destination__city')
+            .prefetch_related('destination__images')
+            .order_by('destination__name')
+        )
+        wishlist_data = []
+        for w in wishlist_dests:
+            d = w.destination
+            img = d.images.first()
+            wishlist_data.append({
+                'slug': d.slug,
+                'name': d.name,
+                'price': d.discounted_price,
+                'image': img.image.url if img and img.image else '',
+                'location': d.location or (d.city.name if d.city else ''),
+            })
+
+        ctx.update({
+            'plans_json': json.dumps(plans_data, cls=DjangoJSONEncoder),
+            'wishlist_json': json.dumps(wishlist_data, cls=DjangoJSONEncoder),
+            'plans_count': len(plans),
+        })
+        return ctx
+
+
+class CreateTripPlanView(LoginRequiredMixin, View):
+    login_url = '/auth/login/'
+
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+        except (ValueError, TypeError):
+            data = request.POST
+
+        name = (data.get('name') or '').strip()
+        if not name:
+            return JsonResponse({'error': 'Name required'}, status=400)
+
+        plan = TripPlan.objects.create(
+            user=request.user,
+            name=name,
+            description=data.get('description', ''),
+            start_date=data.get('start_date') or None,
+        )
+        return JsonResponse(_plan_to_dict(plan))
+
+
+class DeleteTripPlanView(LoginRequiredMixin, View):
+    login_url = '/auth/login/'
+
+    def post(self, request, plan_id):
+        plan = get_object_or_404(TripPlan, id=plan_id, user=request.user)
+        plan.delete()
+        return JsonResponse({'deleted': True})
+
+
+class TripPlanAddDestView(LoginRequiredMixin, View):
+    login_url = '/auth/login/'
+
+    def post(self, request, plan_id):
+        plan = get_object_or_404(TripPlan, id=plan_id, user=request.user)
+        try:
+            data = json.loads(request.body)
+        except (ValueError, TypeError):
+            data = request.POST
+
+        slug = data.get('slug')
+        day_number = max(1, int(data.get('day_number', 1)))
+        dest = get_object_or_404(Destination, slug=slug)
+
+        item, created = TripPlanItem.objects.get_or_create(
+            trip_plan=plan,
+            destination=dest,
+            defaults={'day_number': day_number},
+        )
+        if not created:
+            item.day_number = day_number
+            item.save(update_fields=['day_number'])
+
+        item.destination = dest
+        return JsonResponse(_item_to_dict(item))
+
+
+class TripPlanRemoveDestView(LoginRequiredMixin, View):
+    login_url = '/auth/login/'
+
+    def post(self, request, plan_id):
+        plan = get_object_or_404(TripPlan, id=plan_id, user=request.user)
+        try:
+            data = json.loads(request.body)
+        except (ValueError, TypeError):
+            data = request.POST
+
+        slug = data.get('slug')
+        TripPlanItem.objects.filter(trip_plan=plan, destination__slug=slug).delete()
+        return JsonResponse({'removed': True})
+
+
+class TripPlanUpdateItemView(LoginRequiredMixin, View):
+    login_url = '/auth/login/'
+
+    def post(self, request, plan_id):
+        plan = get_object_or_404(TripPlan, id=plan_id, user=request.user)
+        try:
+            data = json.loads(request.body)
+        except (ValueError, TypeError):
+            data = request.POST
+
+        slug = data.get('slug')
+        item = get_object_or_404(TripPlanItem, trip_plan=plan, destination__slug=slug)
+
+        update_fields = []
+        if 'day_number' in data:
+            item.day_number = max(1, int(data['day_number']))
+            update_fields.append('day_number')
+        if 'note' in data:
+            item.note = data['note']
+            update_fields.append('note')
+
+        if update_fields:
+            item.save(update_fields=update_fields)
+
+        return JsonResponse({'day_number': item.day_number, 'note': item.note})

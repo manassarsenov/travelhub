@@ -11,5 +11,7 @@ from apps.models.tags import Tag
 from apps.models.ticket_details import TicketType
 from apps.models.users import User
 from apps.models.wishlist import Wishlist
+from apps.models.price_alert import PriceAlert
+from apps.models.trip_plan import TripPlan, TripPlanItem
 
 

@@ -1,0 +1,167 @@
+
+
+    {% extends 'apps/main_base.html' %}
+{% load static %}
+
+{% block title %}<title>Trip Planner — TravelHub</title>{% endblock %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'apps/css/trip_planner.css' %}">
+{% endblock %}
+
+{% block main_content %}
+<div class="trip-page">
+
+    <!-- ── Header ─────────────────────────────────────────────────────────── -->
+    <div class="trip-header">
+        <div class="trip-header-inner">
+            <a href="{% url 'wishlist_page' %}" class="trip-back-btn">
+                <i class="fas fa-arrow-left"></i> Wishlistga qaytish
+            </a>
+            <div class="trip-header-title">
+                <div>
+                    <h1><i class="fas fa-route"></i> Trip Planner</h1>
+                    <p>Dream destinatsiyalaringizdan mukammal marshrut tuzing</p>
+                </div>
+                <button class="trip-new-plan-btn" onclick="openCreateModal()">
+                    <i class="fas fa-plus"></i> Yangi Reja
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Body ───────────────────────────────────────────────────────────── -->
+    <div class="trip-body">
+
+        <!-- ── Plans Panel (left) ─────────────────────────────────────────── -->
+        <div class="plans-panel">
+            <div class="plans-panel-head">
+                <h3><i class="fas fa-map"></i> Rejalarim</h3>
+                <span class="plan-count-badge" id="plan-count">{{ plans_count }}</span>
+            </div>
+
+            <div class="plans-list" id="plan-list">
+                <!-- Rendered by JS -->
+            </div>
+
+            <div class="plans-empty" id="plans-empty" style="display:none;">
+                <i class="fas fa-map-marked-alt"></i>
+                <p>Hali reja yo'q.<br>Birinchi rejangizni yarating!</p>
+            </div>
+        </div>
+
+        <!-- ── Itinerary Panel (right) ────────────────────────────────────── -->
+        <div class="itinerary-panel" id="itinerary-panel">
+
+            <!-- Empty state -->
+            <div class="itinerary-empty" id="itinerary-empty">
+                <i class="fas fa-route"></i>
+                <h3>Reja tanlanmagan</h3>
+                <p>Chap paneldan reja tanlang yoki yangi reja yarating.</p>
+            </div>
+
+            <!-- Active plan content -->
+            <div id="itinerary-content" style="display:none;">
+
+                <!-- Plan header -->
+                <div class="itinerary-head">
+                    <div class="itinerary-head-title">
+                        <h2 id="i-plan-name"></h2>
+                        <p id="i-plan-desc"></p>
+                        <div class="itinerary-stats">
+                            <div class="i-stat">
+                                <span class="val" id="i-stat-days">0</span>
+                                <span class="lbl">Kun</span>
+                            </div>
+                            <div class="i-stat">
+                                <span class="val" id="i-stat-dests">0</span>
+                                <span class="lbl">Joy</span>
+                            </div>
+                            <div class="i-stat">
+                                <span class="val" id="i-stat-cost">$0</span>
+                                <span class="lbl">Umumiy</span>
+                            </div>
+                            <div class="i-stat">
+                                <span class="val" id="i-stat-avg">$0</span>
+                                <span class="lbl">O'rtacha</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick-add from wishlist -->
+                <div class="quick-add-bar">
+                    <div class="quick-add-label">
+                        <i class="fas fa-heart"></i> Wishlistdan qo'shing:
+                    </div>
+                    <div class="quick-add-wrap">
+                        <div class="quick-add-scroll" id="quick-add-scroll">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Days -->
+                <div class="days-container" id="days-container">
+                    <!-- Rendered by JS -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ── Create Plan Modal ──────────────────────────────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeCreateModal()">
+    <div class="modal-box">
+        <div class="modal-title"><i class="fas fa-map-marked-alt"></i> Yangi Reja</div>
+        <button class="modal-close" onclick="closeCreateModal()"><i class="fas fa-times"></i></button>
+
+        <div class="form-group">
+            <label>Reja nomi *</label>
+            <input type="text" id="plan-name-input" placeholder="Masalan: Yevropa safarim 2026"
+                   onkeydown="if(event.key==='Enter')submitCreatePlan()">
+        </div>
+        <div class="form-group">
+            <label>Izoh (ixtiyoriy)</label>
+            <textarea id="plan-desc-input" placeholder="Bu safardan maqsadim..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>Boshlanish sanasi (ixtiyoriy)</label>
+            <input type="date" id="plan-date-input">
+        </div>
+
+        <div class="modal-actions">
+            <button class="modal-btn secondary" onclick="closeCreateModal()">Bekor qilish</button>
+            <button class="modal-btn primary" onclick="submitCreatePlan()">
+                <i class="fas fa-plus"></i> Yaratish
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Inline JSON data for JS (avoids extra AJAX calls) -->
+<script id="plans-data" type="application/json">{{ plans_json|safe }}</script>
+<script id="wishlist-data" type="application/json">{{ wishlist_json|safe }}</script>
+
+<!-- Til prefiksi (en/uz/ru) dan mustaqil universal URL lar -->
+<script>
+(function () {
+    var lang = window.location.pathname.split('/').filter(Boolean)[0] || 'en';
+    var base = '/' + lang + '/api/trip-plan/';
+    window.TRIP_URLS = {
+        create:         base + 'create/',
+        delete: function (id) { return base + id + '/delete/'; },
+        add:    function (id) { return base + id + '/add/'; },
+        remove: function (id) { return base + id + '/remove/'; },
+        update: function (id) { return base + id + '/update/'; },
+    };
+})();
+</script>
+
+{% endblock %}
+
+{% block custom_js %}
+<script src="{% static 'apps/js/trip_planner.js' %}"></script>
+{% endblock %}

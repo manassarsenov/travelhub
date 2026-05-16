@@ -22,7 +22,9 @@ from apps.views import (AboutTemplateView, ActivateAccountView,
                         LoadMoreDestinationsView, BookingStep1View, BookingStep2View, SubmitReviewView,
                         ToggleReviewLikeView, DestinationAllReviewsView, CheckPromoCodeView,
                         FilterDestinationsTemplateView, CompareDestinationsView,
-                        GlobalSearchView, ToggleWishlistView)
+                        GlobalSearchView, ToggleWishlistView, TogglePriceAlertView,
+                TripPlannerTemplateView, CreateTripPlanView, DeleteTripPlanView,
+                TripPlanAddDestView, TripPlanRemoveDestView, TripPlanUpdateItemView)
 
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home_page'),
@@ -70,6 +72,15 @@ urlpatterns = [
 
     # ── Wishlist API ──────────────────────────────────────────────────────────
     path('api/wishlist/toggle/', ToggleWishlistView.as_view(), name='toggle_wishlist'),
+    path('api/price-alert/toggle/', TogglePriceAlertView.as_view(), name='toggle_price_alert'),
+
+    # ── Trip Planner ──────────────────────────────────────────────────────────
+    path('trip-planner/', TripPlannerTemplateView.as_view(), name='trip_planner_page'),
+    path('api/trip-plan/create/', CreateTripPlanView.as_view(), name='create_trip_plan'),
+    path('api/trip-plan/<int:plan_id>/delete/', DeleteTripPlanView.as_view(), name='delete_trip_plan'),
+    path('api/trip-plan/<int:plan_id>/add/', TripPlanAddDestView.as_view(), name='trip_plan_add'),
+    path('api/trip-plan/<int:plan_id>/remove/', TripPlanRemoveDestView.as_view(), name='trip_plan_remove'),
+    path('api/trip-plan/<int:plan_id>/update/', TripPlanUpdateItemView.as_view(), name='trip_plan_update'),
 
     # ── Notification API ──────────────────────────────────────────────────────
     path('api/notifications/<int:pk>/read/', NotificationMarkReadView.as_view(), name='notification_mark_read'),

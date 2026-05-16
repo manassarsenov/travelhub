@@ -43,7 +43,7 @@
 {#            </div>#}
 {#        {% endif %}#}
 {##}
-{#        <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="far fa-heart"></i>#}
+{#        <button class="wishlist-btn" onclick="toggleWishlist(this, event)"><i class="far fa-heart"></i>#}
 {#        </button>#}
 {#    </div>#}
 {##}
@@ -174,7 +174,7 @@
                 {% endfor %}
             </div>
         {% endif %}
-        <button class="wishlist-btn{% if destination.slug in user_wishlist_slugs %} wishlisted{% endif %}" data-slug="{{ destination.slug }}" onclick="toggleWishlist(this)">
+        <button class="wishlist-btn{% if destination.slug in user_wishlist_slugs %} wishlisted{% endif %}" data-slug="{{ destination.slug }}" onclick="toggleWishlist(this, event)">
             <i class="{% if destination.slug in user_wishlist_slugs %}fas{% else %}far{% endif %} fa-heart"></i>
         </button>
         {% if 'destinations' in request.path %}

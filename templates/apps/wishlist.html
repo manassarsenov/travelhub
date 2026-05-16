@@ -11,8 +11,13 @@
 
 {% block main_content %}
 <div class="wishlist-page">
+
     <!-- Page Header -->
     <div class="page-header">
+        <div class="hero-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+        </div>
         <div class="header-content">
             <a href="{% url 'dashboard_page' %}" class="back-btn">
                 <i class="fas fa-arrow-left"></i>
@@ -21,7 +26,7 @@
 
             <div class="header-title">
                 <h1><i class="fas fa-heart"></i> My Wishlist</h1>
-                <p>Your dream destinations await - start planning your next adventure</p>
+                <p>Your dream destinations await — start planning your next adventure</p>
             </div>
 
             <!-- Quick Stats -->
@@ -36,7 +41,7 @@
                 <div class="stat-card">
                     <div class="stat-icon cost"><i class="fas fa-dollar-sign"></i></div>
                     <div class="stat-info">
-                        <h3 id="total-cost">${{ total_cost }}</h3>
+                        <h3 id="total-cost">${{ total_cost|floatformat:0 }}</h3>
                         <p>Total Value</p>
                     </div>
                 </div>
@@ -60,8 +65,10 @@
 
     <!-- Main Container -->
     <div class="wishlist-container">
+
         <!-- Left Section -->
         <div class="wishlist-main">
+
             <!-- Filter & Search -->
             <div class="filter-section">
                 <div class="filter-content">
@@ -73,27 +80,70 @@
                         </button>
                     </div>
 
+                    <!-- Dynamic category tabs from DB TripType choices -->
                     <div class="filter-tabs">
                         <button class="filter-tab active" data-category="all" onclick="filterByCategory('all')">
                             <i class="fas fa-globe"></i>
                             <span>All</span>
-                            <span class="tab-count">{{ total_items }}</span>
+                            <span class="tab-count" id="tab-count-all">{{ total_items }}</span>
                         </button>
-                        <button class="filter-tab" data-category="beach" onclick="filterByCategory('beach')">
-                            <i class="fas fa-umbrella-beach"></i><span>Beach</span>
+                        {% for value, label in trip_types %}
+                        <button class="filter-tab" data-category="{{ value }}" onclick="filterByCategory('{{ value }}')">
+                            {% if value == 'beach' %}<i class="fas fa-umbrella-beach"></i>
+                            {% elif value == 'city' %}<i class="fas fa-city"></i>
+                            {% elif value == 'adventure' %}<i class="fas fa-mountain"></i>
+                            {% elif value == 'nature' %}<i class="fas fa-leaf"></i>
+                            {% elif value == 'cultural' %}<i class="fas fa-landmark"></i>
+                            {% elif value == 'romantic' %}<i class="fas fa-heart"></i>
+                            {% elif value == 'family' %}<i class="fas fa-users"></i>
+                            {% else %}<i class="fas fa-map-pin"></i>{% endif %}
+                            <span>{{ label }}</span>
+                            <span class="tab-count" id="tab-count-{{ value }}">0</span>
                         </button>
-                        <button class="filter-tab" data-category="city" onclick="filterByCategory('city')">
-                            <i class="fas fa-city"></i><span>City</span>
-                        </button>
-                        <button class="filter-tab" data-category="adventure" onclick="filterByCategory('adventure')">
-                            <i class="fas fa-mountain"></i><span>Adventure</span>
-                        </button>
-                        <button class="filter-tab" data-category="nature" onclick="filterByCategory('nature')">
-                            <i class="fas fa-leaf"></i><span>Nature</span>
-                        </button>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Price Range Slider -->
+                    <div class="price-range-section">
+                        <div class="price-range-header">
+                            <span class="price-range-label"><i class="fas fa-dollar-sign"></i> Price Range</span>
+                            <span class="price-range-values">
+                                $<span id="range-min-val">0</span> — $<span id="range-max-val">0</span>
+                            </span>
+                            <button class="price-range-reset" id="price-reset-btn" onclick="resetPriceRange()" style="display:none;">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                        </div>
+                        <div class="range-slider-wrap">
+                            <div class="range-track">
+                                <div class="range-fill" id="range-fill"></div>
+                            </div>
+                            <input type="range" id="range-min" class="range-input range-min" min="0" max="10000" value="0" step="10" oninput="onRangeInput()">
+                            <input type="range" id="range-max" class="range-input range-max" min="0" max="10000" value="10000" step="10" oninput="onRangeInput()">
+                        </div>
+                        <div class="price-range-ticks">
+                            <span id="tick-min">$0</span>
+                            <span id="tick-mid"></span>
+                            <span id="tick-max">$0</span>
+                        </div>
                     </div>
 
                     <div class="options-bar">
+                        <!-- Bulk Actions -->
+                        <div class="bulk-actions">
+                            <button class="bulk-btn" id="bulk-toggle-btn" onclick="toggleBulkSelect()">
+                                <i class="fas fa-check-square"></i> Select
+                            </button>
+                            <div class="bulk-action-buttons" id="bulk-action-buttons" style="display:none;">
+                                <button class="bulk-action-btn remove" onclick="bulkRemove()">
+                                    <i class="fas fa-trash"></i> Remove (<span id="selected-count">0</span>)
+                                </button>
+                                <button class="bulk-action-btn cancel" onclick="cancelBulkSelect()">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="sort-options">
                             <label><i class="fas fa-sort"></i> Sort:</label>
                             <select id="sort-select" onchange="sortWishlist()">
@@ -117,7 +167,7 @@
                 </div>
             </div>
 
-            <!-- Wishlist Grid -->
+            <!-- Wishlist Items -->
             <div class="wishlist-items-section">
                 <div class="section-header">
                     <h2>
@@ -125,6 +175,14 @@
                         <span id="section-title">All Destinations</span>
                         <span class="section-count" id="visible-count">({{ total_items }})</span>
                     </h2>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <a href="{% url 'trip_planner_page' %}" class="share-wishlist-btn" title="Trip Planner">
+                            <i class="fas fa-route"></i> Trip Planner
+                        </a>
+                        <button class="share-wishlist-btn" onclick="shareWishlist()" title="Share wishlist">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                    </div>
                 </div>
 
                 {% if wishlist_items %}
@@ -139,11 +197,15 @@
                          data-slug="{{ d.slug }}"
                          data-added="{{ item.created_at|date:'U' }}">
 
+                        <div class="card-checkbox" id="checkbox-{{ d.slug }}">
+                            <input type="checkbox" data-slug="{{ d.slug }}" onchange="onCardCheck(this)">
+                        </div>
+
                         <div class="card-image">
                             {% if d.images.first %}
-                                <img src="{{ d.images.first.image.url }}" alt="{{ d.name }}">
+                                <img src="{{ d.images.first.image.url }}" alt="{{ d.name }}" loading="lazy">
                             {% else %}
-                                <img src="{% static 'apps/img/default.avif' %}" alt="{{ d.name }}">
+                                <img src="{% static 'apps/img/default.avif' %}" alt="{{ d.name }}" loading="lazy">
                             {% endif %}
                             <div class="image-overlay">
                                 <a href="{% url 'destination_detail_page' d.slug %}" class="quick-view-btn">
@@ -157,7 +219,7 @@
                             {% elif d.is_featured %}
                                 <span class="deal-badge new"><i class="fas fa-star"></i> Featured</span>
                             {% endif %}
-                            <button class="wishlist-heart active" data-slug="{{ d.slug }}" onclick="toggleWishlist(this)">
+                            <button class="wishlist-heart wishlisted" data-slug="{{ d.slug }}" onclick="toggleWishlist(this, event)">
                                 <i class="fas fa-heart"></i>
                             </button>
                         </div>
@@ -176,7 +238,7 @@
 
                             <p class="country-name">
                                 <i class="fas fa-map-marker-alt"></i>
-                                {{ d.location|default:d.city.name }}{% if d.country %}, {{ d.country.name }}{% endif %}
+                                {% if d.location %}{{ d.location }}{% elif d.city %}{{ d.city.name }}{% else %}Unknown location{% endif %}{% if d.country %}, {{ d.country.name }}{% endif %}
                             </p>
 
                             <div class="rating-row">
@@ -193,12 +255,15 @@
                                     {% endfor %}
                                     {% endwith %}
                                 </div>
-                                <span class="rating-text">{{ d.rating }} ({{ d.visible_reviews.count }} reviews)</span>
+                                <!-- visible_reviews_count: denormalized field, no extra DB query -->
+                                <span class="rating-text">{{ d.rating }} ({{ d.visible_reviews_count }} reviews)</span>
                             </div>
 
+                            {% if d.short_description %}
                             <p class="card-description">
                                 {{ d.short_description|striptags|truncatechars:110 }}
                             </p>
+                            {% endif %}
 
                             <div class="card-features">
                                 {% if d.duration %}
@@ -261,11 +326,11 @@
                 </div>
                 {% endif %}
 
-                <!-- Empty State -->
+                <!-- Empty State (shown when no items OR no filter results) -->
                 <div class="empty-state" id="empty-state" {% if wishlist_items %}style="display:none;"{% endif %}>
                     <i class="fas fa-heart-broken"></i>
-                    <h3>Your wishlist is empty</h3>
-                    <p>Start adding your dream destinations!</p>
+                    <h3 id="empty-title">Your wishlist is empty</h3>
+                    <p id="empty-msg">Start adding your dream destinations!</p>
                     <a href="{% url 'destinations_page' %}" class="btn-explore">
                         <i class="fas fa-compass"></i> Explore Destinations
                     </a>
@@ -275,14 +340,15 @@
 
         <!-- Right Sidebar -->
         <div class="wishlist-sidebar">
-            <!-- Budget Calculator -->
+
+            <!-- Budget Summary -->
             <section class="sidebar-section budget-section">
                 <div class="section-header">
                     <h3><i class="fas fa-calculator"></i> Budget Summary</h3>
                 </div>
                 <div class="budget-content">
                     <div class="budget-item">
-                        <span>Total Places:</span>
+                        <span>Showing:</span>
                         <span class="budget-value" id="sidebar-count">{{ total_items }}</span>
                     </div>
                     <div class="budget-item">
@@ -307,21 +373,108 @@
                 <div class="inspiration-content">
                     <div class="quote-card">
                         <i class="fas fa-quote-left"></i>
-                        <p>"Travel is the only thing you buy that makes you richer."</p>
-                        <span class="quote-author">— Anonymous</span>
+                        <p>"{{ quote.text }}"</p>
+                        <span class="quote-author">— {{ quote.author }}</span>
                     </div>
                     <div class="tip-card">
                         <i class="fas fa-info-circle"></i>
                         <h4>Travel Tip</h4>
-                        <p>Book 2–3 months in advance for the best deals!</p>
+                        <p>{{ travel_tip }}</p>
                     </div>
                 </div>
             </section>
+
+            <!-- Best Seasons -->
+            {% if seasons %}
+            <section class="sidebar-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-calendar-alt"></i> Best Seasons</h3>
+                </div>
+                <div class="timeline-content">
+                    {% for s in seasons %}
+                    <div class="season-item">
+                        <div class="season-icon {{ s.icon }}">
+                            {% if s.icon == 'spring' %}<i class="fas fa-seedling"></i>
+                            {% elif s.icon == 'summer' %}<i class="fas fa-sun"></i>
+                            {% elif s.icon == 'autumn' %}<i class="fas fa-leaf"></i>
+                            {% else %}<i class="fas fa-snowflake"></i>{% endif %}
+                        </div>
+                        <div class="season-info">
+                            <h4>{{ s.label }} <span style="color:var(--primary-color);font-size:12px;">({{ s.count }} places)</span></h4>
+                            <p>{{ s.months }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Price Alerts -->
+            <section class="sidebar-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-bell"></i> Price Alerts</h3>
+                </div>
+                <div class="alerts-content" id="alerts-list">
+                    {% for item in wishlist_items %}
+                    {% with d=item.destination %}
+                    <div class="alert-item{% if d.slug in active_alert_slugs %} active{% endif %}" id="alert-{{ d.slug }}">
+                        <i class="fas {% if d.slug in active_alert_slugs %}fa-bell{% else %}fa-bell-slash{% endif %}"
+                           id="alert-icon-{{ d.slug }}"></i>
+                        <div class="alert-info">
+                            <h4>{{ d.name|truncatechars:22 }}</h4>
+                            <p>Current: <strong>${{ d.discounted_price }}</strong></p>
+                        </div>
+                        <button class="add-wishlist-btn" onclick="toggleAlert('{{ d.slug }}', '{{ d.name|escapejs }}')"
+                                id="alert-btn-{{ d.slug }}" style="margin-left:auto;">
+                            <i class="fas {% if d.slug in active_alert_slugs %}fa-bell{% else %}fa-bell-slash{% endif %}"></i>
+                        </button>
+                    </div>
+                    {% endwith %}
+                    {% endfor %}
+                </div>
+                <button class="set-alerts-btn" onclick="enableAllAlerts()">
+                    <i class="fas fa-bell"></i> Enable All Alerts
+                </button>
+            </section>
+
+            <!-- Similar Destinations -->
+            {% if similar_destinations %}
+            <section class="sidebar-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-map-marked-alt"></i> You May Also Like</h3>
+                </div>
+                <div class="similar-content">
+                    {% for d in similar_destinations %}
+                    <div class="similar-card">
+                        {% if d.images.first %}
+                            <img src="{{ d.images.first.image.url }}" alt="{{ d.name }}" loading="lazy">
+                        {% else %}
+                            <img src="{% static 'apps/img/default.avif' %}" alt="{{ d.name }}" loading="lazy">
+                        {% endif %}
+                        <div class="similar-info">
+                            <h4><a href="{% url 'destination_detail_page' d.slug %}" style="color:inherit;text-decoration:none;">{{ d.name|truncatechars:28 }}</a></h4>
+                            <span class="similar-price">${{ d.discounted_price }}</span>
+                            <button class="add-wishlist-btn" data-slug="{{ d.slug }}" onclick="toggleWishlist(this, event)">
+                                <i class="far fa-heart"></i> Save
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block custom_js %}
+<script>
+window.WISHLIST_URLS = {
+    alertToggle:    "{% url 'toggle_price_alert' %}",
+    wishlistToggle: "{% url 'toggle_wishlist' %}",
+};
+</script>
 <script src="{% static 'apps/js/wishlist.js' %}"></script>
 {% endblock %}

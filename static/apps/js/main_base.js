@@ -102,7 +102,8 @@ document.addEventListener('click', function (e) {
     }
 });
 
-function toggleWishlist(btn) {
+function toggleWishlist(btn, event) {
+    if (event) { event.stopPropagation(); event.preventDefault(); }
     const slug = btn.dataset.slug;
     if (!slug) return;
 
@@ -113,7 +114,8 @@ function toggleWishlist(btn) {
         .find(c => c.trim().startsWith('csrftoken='))
         ?.split('=')?.[1] || '';
 
-    fetch('/api/wishlist/toggle/', {
+    const _lang = '/' + window.location.pathname.split('/').filter(Boolean)[0] + '/';
+    fetch(_lang + 'api/wishlist/toggle/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -142,13 +144,19 @@ function toggleWishlist(btn) {
             btn.classList.remove('wishlisted');
             icon.className = 'far fa-heart';
             showToast("O'chirildi", "Wishlistdan o'chirildi", 'info');
-            // wishlist sahifasida bo'lsak kartani o'chiramiz
-            const card = btn.closest('[data-slug]');
-            if (card && window.location.pathname.includes('/wishlist/')) {
-                card.style.transition = 'opacity 0.3s, transform 0.3s';
-                card.style.opacity = '0';
-                card.style.transform = 'scale(0.95)';
-                setTimeout(() => { card.remove(); updateWishlistStats(); }, 300);
+            // wishlist sahifasida bo'lsak kartani real-time o'chiramiz
+            if (window.location.pathname.includes('/wishlist/')) {
+                const card = btn.closest('.wishlist-card');
+                if (card) {
+                    card.style.transition = 'opacity 0.3s, transform 0.3s';
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        card.remove();
+                        if (typeof updateWishlistStats === 'function') updateWishlistStats();
+                        if (typeof updateTabCounts   === 'function') updateTabCounts();
+                    }, 300);
+                }
             }
         }
         const countEl = document.getElementById('wishlist-count');

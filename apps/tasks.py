@@ -669,3 +669,89 @@ def broadcast_maintenance_task(start_time, end_time, reason="texnik xizmat"):
         logger.info(f"Maintenance warning yuborildi: {len(notifications)} users.")
 
     return f"Maintenance warning to {len(notifications)} users."
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PRICE DROP ALERTS — Wishlist narx ogohlantirishlari
+# Celery beat: har kuni bir marta ishga tushadi
+# ─────────────────────────────────────────────────────────────────────────────
+@shared_task(name="check_price_drop_alerts")
+def check_price_drop_alerts():
+    """
+    Faol price alert'larini tekshiradi.
+    Agar destinationning joriy narxi last_notified_price dan past bo'lsa
+    va (agar target_price belgilangan bo'lsa) target_price dan ham past bo'lsa —
+    email yuboradi va last_notified_price ni yangilaydi.
+    """
+    from django.core.mail import EmailMultiAlternatives
+    from django.template.loader import render_to_string
+    from django.conf import settings
+    from apps.models import PriceAlert
+
+    alerts = (
+        PriceAlert.objects
+        .filter(is_active=True)
+        .select_related('user', 'destination', 'destination__city', 'destination__country')
+        .prefetch_related('destination__images')
+    )
+
+    sent = 0
+    for alert in alerts:
+        dest = alert.destination
+        current_price = dest.discounted_price
+
+        # Oldingi narx — birinchi marta uchun destination narxini asosga olamiz
+        reference_price = alert.last_notified_price or dest.price
+
+        # Narx oshgan yoki o'zgarmagan bo'lsa — o'tkazib yuboramiz
+        if current_price >= reference_price:
+            continue
+
+        # Agar target_price belgilangan bo'lsa — faqat u narxdan pastganda xabar
+        if alert.target_price and current_price > alert.target_price:
+            continue
+
+        saved_amount = reference_price - current_price
+
+        # Email context
+        image_url = ''
+        first_image = dest.images.first()
+        if first_image and hasattr(first_image, 'image') and first_image.image:
+            image_url = first_image.image.url
+
+        location = dest.location or (dest.city.name if dest.city else '') or ''
+
+        site_url = getattr(settings, 'SITE_URL', 'http://127.0.0.1:8000')
+        context = {
+            'username': alert.user.get_full_name() or alert.user.username,
+            'destination_name': dest.name,
+            'location': location,
+            'old_price': reference_price,
+            'new_price': current_price,
+            'saved_amount': saved_amount,
+            'image_url': image_url,
+            'action_url': f'{site_url}/en/destination-detail/{dest.slug}/',
+            'wishlist_url': f'{site_url}/en/wishlist/',
+            'site_url': site_url,
+            'discount_pct': round((saved_amount / reference_price) * 100) if reference_price else 0,
+        }
+
+        html_content = render_to_string('apps/price_drop_email.html', context)
+        email = EmailMultiAlternatives(
+            subject=f"Narx Tushdi! {dest.name} endi ${current_price}",
+            body=f"{dest.name} narxi ${reference_price} dan ${current_price} ga tushdi!",
+            from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@travelhub.uz'),
+            to=[alert.user.email],
+        )
+        email.attach_alternative(html_content, 'text/html')
+
+        try:
+            email.send()
+            alert.last_notified_price = current_price
+            alert.save(update_fields=['last_notified_price'])
+            sent += 1
+            logger.info(f"Price alert email sent: {alert.user.email} ← {dest.name} (${reference_price}→${current_price})")
+        except Exception as exc:
+            logger.error(f"Failed to send price alert to {alert.user.email}: {exc}")
+
+    return f"Price drop alerts: {sent} emails sent"

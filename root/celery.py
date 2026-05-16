@@ -20,7 +20,11 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'expire-flash-sales-every-5-minutes': {
         'task': 'expire_flash_sales',
-        'schedule': 300.0,  # 5 daqiqa (sekundlarda)
+        'schedule': 300.0,  # har 5 daqiqada
+    },
+    'check-price-drop-alerts-daily': {
+        'task': 'check_price_drop_alerts',
+        'schedule': 86400.0,  # har kuni (24 soat = 86400 sekund)
     },
 }
 
