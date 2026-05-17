@@ -156,20 +156,21 @@
         <div class="timer-item"><span class="seconds">00</span><small>Secs</small></div>
     </div>
 
+    {% with images=destination.images.all %}
     <div class="card-image-wrapper">
         <div class="image-slider">
-            {% for img in destination.images.all %}
+            {% for img in images %}
                 <img src="{{ img.image.url }}" alt="{{ destination.name }}">
             {% empty %}
                 <img src="{% static 'apps/img/default.avif' %}" alt="No image">
             {% endfor %}
             <div class="discount-badge">-{{ destination.discount_percentage }}%</div>
         </div>
-        {% if destination.images.count > 1 %}
+        {% if images|length > 1 %}
             <button class="slider-btn prev" onclick="slideImage(this,-1)"><i class="fas fa-chevron-left"></i></button>
             <button class="slider-btn next" onclick="slideImage(this,1)"><i class="fas fa-chevron-right"></i></button>
             <div class="image-dots">
-                {% for img in destination.images.all %}
+                {% for img in images %}
                     <span class="dot {% if forloop.first %}active{% endif %}" onclick="goToSlide(this, {{ forloop.counter0 }})"></span>
                 {% endfor %}
             </div>
@@ -179,11 +180,12 @@
         </button>
         {% if 'destinations' in request.path %}
         <label class="compare-checkbox">
-            <input type="checkbox" data-slug="{{ destination.slug }}" data-name="{{ destination.name }}" data-image="{% if destination.images.first %}{{ destination.images.first.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}" data-price="{{ destination.discounted_price|default:destination.price }}" data-rating="{{ destination.rating }}" onchange="addToCompare(this)">
+            <input type="checkbox" data-slug="{{ destination.slug }}" data-name="{{ destination.name }}" data-image="{% if images.0 %}{{ images.0.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}" data-price="{{ destination.discounted_price|default:destination.price }}" data-rating="{{ destination.rating }}" onchange="addToCompare(this)">
             <span>Compare</span>
         </label>
         {% endif %}
     </div>
+    {% endwith %}
 
     <div class="card-content">
         <div class="card-header">

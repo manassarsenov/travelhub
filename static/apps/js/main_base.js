@@ -1,8 +1,9 @@
 // Initialize
 window.addEventListener('load', function () {
-    setTimeout(() => {
-        document.getElementById('loading-screen').style.display = 'none';
-    }, 2000);
+    const screen = document.getElementById('loading-screen');
+    screen.style.transition = 'opacity 0.3s ease';
+    screen.style.opacity = '0';
+    setTimeout(() => { screen.style.display = 'none'; }, 300);
 
     setupScrollEffects();
     // --- DJANGO XABARLARINI USHLAB OLISH ---
@@ -140,6 +141,25 @@ function toggleWishlist(btn, event) {
             icon.style.transform = 'scale(1.3)';
             setTimeout(() => { icon.style.transform = 'scale(1)'; }, 260);
             showToast("Qo'shildi", "Wishlistga qo'shildi!", 'success');
+            // "You May Also Like" kartani real-time o'chirish + wishlist gridga qo'shish
+            const similarCard = btn.closest('.similar-card');
+            if (similarCard) {
+                similarCard.style.transition = 'opacity 0.3s, transform 0.3s';
+                similarCard.style.opacity = '0';
+                similarCard.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    similarCard.remove();
+                    const section = document.querySelector('.similar-content');
+                    if (section && !section.querySelector('.similar-card')) {
+                        const wrapper = section.closest('.similar-section') || section.parentElement;
+                        if (wrapper) wrapper.style.display = 'none';
+                    }
+                    // Wishlist gridga yangi karta qo'shamiz
+                    if (data.destination && window.location.pathname.includes('/wishlist/')) {
+                        _addToWishlistGrid(data.destination);
+                    }
+                }, 300);
+            }
         } else {
             btn.classList.remove('wishlisted');
             icon.className = 'far fa-heart';
@@ -148,6 +168,16 @@ function toggleWishlist(btn, event) {
             if (window.location.pathname.includes('/wishlist/')) {
                 const card = btn.closest('.wishlist-card');
                 if (card) {
+                    // "You May Also Like" ga qo'shish uchun oldindan ma'lumot olamiz
+                    const destSlug  = card.dataset.slug;
+                    const nameEl    = card.querySelector('h3');
+                    const destName  = nameEl ? nameEl.textContent.trim() : destSlug;
+                    const destPrice = card.dataset.price;
+                    const imgEl     = card.querySelector('.card-image img');
+                    const destImg   = imgEl ? imgEl.src : '';
+                    const linkEl    = card.querySelector('.quick-view-btn');
+                    const destUrl   = linkEl ? linkEl.href : '#';
+
                     card.style.transition = 'opacity 0.3s, transform 0.3s';
                     card.style.opacity = '0';
                     card.style.transform = 'scale(0.95)';
@@ -155,6 +185,7 @@ function toggleWishlist(btn, event) {
                         card.remove();
                         if (typeof updateWishlistStats === 'function') updateWishlistStats();
                         if (typeof updateTabCounts   === 'function') updateTabCounts();
+                        _addToSimilar(destSlug, destName, destPrice, destImg, destUrl);
                     }, 300);
                 }
             }

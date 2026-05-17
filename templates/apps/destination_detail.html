@@ -70,22 +70,13 @@
         </div>
 
         <!-- GALLERY -->
+        {% with dest_images=destination.images.all %}
         <div class="dcd-gallery">
             <!-- Main image -->
             <div class="dcd-gallery-main" onclick="openGalleryModal(0)">
-                {% with main_img=destination.images.first %}
                     <img id="gallery-main-img"
-                         src="
-
-
-
-
-
-
-
-                                 {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
+                         src="{% if dest_images.0 %}{{ dest_images.0.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
                          alt="{{ destination.name }}" class="dcd-main-img">
-                {% endwith %}
 
 
                 <div class="dcd-gallery-hover-overlay">
@@ -143,7 +134,7 @@
 
             <!-- Thumbnails -->
             <div class="dcd-gallery-thumbs">
-                {% for img in destination.images.all|slice:"1:5" %}
+                {% for img in dest_images|slice:"1:5" %}
                     <div class="dcd-thumb {% if forloop.last %} dcd-thumb-last {% endif %}"
                          onclick="openGalleryModal({{ forloop.counter }})">
                         {% if img.image %}
@@ -151,16 +142,17 @@
                         {% else %}
                             <img src="{% static 'apps/img/default.avif' %}" alt="No image">
                         {% endif %}
-                        {% if forloop.last and destination.images.count > 5 %}
+                        {% if forloop.last and dest_images|length > 5 %}
                             <div class="dcd-thumb-overlay">
                                 <i class="fas fa-images"></i>
-                                <span>Show all {{ destination.images.count }} photos</span>
+                                <span>Show all {{ dest_images|length }} photos</span>
                             </div>
                         {% endif %}
                     </div>
                 {% endfor %}
             </div>
         </div>
+        {% endwith %}
 
         <!-- QUICK STRIP -->
         {% if destination.is_free_cancellation or destination.duration %}
@@ -471,12 +463,13 @@
         </div>
 
         <!-- TRAVELLER PHOTOS -->
-        {% if destination.images.count > 1 %}
+        {% with tp_images=destination.images.all %}
+        {% if tp_images|length > 1 %}
             <div class="dcd-section">
             <h2 class="dcd-section-title">Traveller photos</h2>
             <div class="dcd-tp-wrap">
                 <div class="dcd-tp-track" id="dcd-tp-track">
-                    {% for img in destination.images.all %}
+                    {% for img in tp_images %}
                         <div class="dcd-tp-item" onclick="openGalleryModal({{ forloop.counter0 }})">
                         {% if img.image %}
                             <img src="{{ img.image.url }}" alt="{{ destination.name }}">
@@ -495,12 +488,14 @@
             </div>
             </div>
         {% endif %}
-        {% if destination.faqs.exists %}
+        {% endwith %}
+        {% with dest_faqs=destination.faqs.all %}
+        {% if dest_faqs %}
             <div class="dcd-section">
                 <h2 class="dcd-section-title">Frequently asked questions</h2>
                 <div class="dcd-faq">
 
-                    {% for faq in destination.faqs.all %}
+                    {% for faq in dest_faqs %}
                         <div class="dcd-faq-item">
                             <button class="dcd-faq-btn" onclick="toggleFaq(this)">
                                 <span>{{ faq.question }}</span><i class="fas fa-chevron-down"></i>
@@ -516,6 +511,7 @@
                 </div>
             </div>
         {% endif %}
+        {% endwith %}
 
         <!-- SIMILAR / BESTSELLERS -->
         <div class="dcd-section">
@@ -539,8 +535,8 @@
                                         </div>
                                     {% endif %}
 
-                                    {% with s_img=s_destination.images.first %}
-                                        <img src="{% if s_img %} {{ s_img.image.url }} {% else %} {% static 'apps/img/default.avif' %} {% endif %}"
+                                    {% with s_imgs=s_destination.images.all %}
+                                        <img src="{% if s_imgs.0 %} {{ s_imgs.0.image.url }} {% else %} {% static 'apps/img/default.avif' %} {% endif %}"
                                              alt="{{ s_destination.name }}">
                                     {% endwith %}
                                 </div>
@@ -715,37 +711,22 @@
             <div class="dcd-gm-body">
                 <!-- Photos grid -->
                 <div class="dcd-gm-photos" id="dcd-gm-photos">
-                    {% with main_img=destination.images.first %}
+                    {% with gm_images=destination.images.all %}
                         <div class="dcd-gm-photo-item dcd-gm-large">
-                            <img src="
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                    {% if main_img %}{{ main_img.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
+                            <img src="{% if gm_images.0 %}{{ gm_images.0.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
                                  alt="{{ destination.name }}">
                         </div>
-                    {% endwith %}
 
-                    {% for img in destination.images.all|slice:"1:" %}
-                        <div class="dcd-gm-photo-item">
-                            {% if img.image %}
-                                <img src="{{ img.image.url }}" alt="{{ destination.name }}">
-                            {% else %}
-                                <img src="{% static 'apps/img/default.avif' %}" alt="No image">
-                            {% endif %}                        </div>
-                    {% endfor %}
+                        {% for img in gm_images|slice:"1:" %}
+                            <div class="dcd-gm-photo-item">
+                                {% if img.image %}
+                                    <img src="{{ img.image.url }}" alt="{{ destination.name }}">
+                                {% else %}
+                                    <img src="{% static 'apps/img/default.avif' %}" alt="No image">
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endwith %}
                 </div>
 
                 <!-- Reviews sidebar -->

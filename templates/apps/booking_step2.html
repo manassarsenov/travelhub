@@ -353,7 +353,17 @@
 {% endblock %}
 
 {% block custom_js %}
-    <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+    <script>
+    // PayPal SDK faqat PayPal tanlanganida yuklanadi
+    let paypalLoaded = false;
+    function loadPaypalSdk() {
+        if (paypalLoaded) return;
+        paypalLoaded = true;
+        const s = document.createElement('script');
+        s.src = 'https://www.paypal.com/sdk/js?client-id=test&currency=USD';
+        document.head.appendChild(s);
+    }
+    </script>
     <script>
         /* ==========================================
            1. GLOBAL O'ZGARUVCHILAR VA INITIALIZATION
@@ -385,7 +395,7 @@
                 // Agar Karta bo'lsa, asosiy binafsha tugmani ko'rsatamiz
                 mainProceedBtn.style.display = 'flex';
             } else if (method === 'paypal') {
-                // Agar PayPal bo'lsa, uni ko'rsatamiz va binafsha tugmani yashiramiz
+                loadPaypalSdk();
                 document.getElementById('redirect-paypal').style.display = 'block';
                 mainProceedBtn.style.display = 'none';
             } else {

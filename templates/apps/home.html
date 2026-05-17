@@ -215,9 +215,15 @@
 
                                 <div style="display: flex; align-items: center; gap: 15px; margin-top: 20px;">
 
-                                    <img src="https://ui-avatars.com/api/?name={{ review.author_name|default:review.user.username }}&background={% if forloop.counter == 1 %}667eea{% elif forloop.counter == 2 %}764ba2{% else %}c084fc{% endif %}&color=fff&size=70"
-                                         style="border-radius: 50%; width: 55px; height: 55px; object-fit: cover;"
-                                         alt="Avatar">
+                                    {% if review.user.avatar %}
+                                        <img src="{{ review.user.avatar.url }}"
+                                             style="border-radius: 50%; width: 55px; height: 55px; object-fit: cover;"
+                                             alt="Avatar">
+                                    {% else %}
+                                        <div style="border-radius:50%;width:55px;height:55px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#fff;background:{% if forloop.counter == 1 %}#667eea{% elif forloop.counter == 2 %}#764ba2{% else %}#c084fc{% endif %};flex-shrink:0;">
+                                            {{ review.author_name|default:review.user.username|first|upper }}
+                                        </div>
+                                    {% endif %}
 
                                     <div>
                                         <h4 style="font-size: 17px; font-weight: 800; margin-bottom: 4px; color: var(--text-primary);">

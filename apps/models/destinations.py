@@ -1,4 +1,5 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 from django.db.models import (CASCADE, SET_NULL, BooleanField, CharField,
                               ForeignKey, ManyToManyField,
                               PositiveIntegerField, PositiveSmallIntegerField, ImageField, TimeField, Avg)
@@ -67,8 +68,8 @@ class Destination(SlugBaseModel, CreatedBaseModel):
     has_flights = BooleanField(default=True, help_text="Direct FLights ko'rsatilsinmi")
     restaurants_count = PositiveIntegerField(default=0, help_text="120 → '120+ Restaurants'")
 
-    is_flash_sale = BooleanField(default=False)
-    flash_sale_end = DateTimeField(null=True, blank=True)
+    is_flash_sale = BooleanField(default=False, db_index=True)
+    flash_sale_end = DateTimeField(null=True, blank=True, db_index=True)
 
     trip_type = CharField(max_length=20, choices=TripType.choices, blank=True)
     duration = CharField(max_length=20, choices=Duration.choices, blank=True)
@@ -82,9 +83,9 @@ class Destination(SlugBaseModel, CreatedBaseModel):
         help_text="Sayohat boshlanishidan necha soat oldingacha bepul bekor qilish mumkin?"
     )
 
-    is_popular = BooleanField(default=False)
-    is_trending = BooleanField(default=False)
-    is_featured = BooleanField(default=False)
+    is_popular = BooleanField(default=False, db_index=True)
+    is_trending = BooleanField(default=False, db_index=True)
+    is_featured = BooleanField(default=False, db_index=True)
     featured_badge = CharField(max_length=50, blank=True, help_text="#1 Best seller in London")
 
     why_visit = CKEditor5Field(blank=True, help_text="Nima uchun tashrif buyurish kerak")
@@ -130,30 +131,40 @@ class Destination(SlugBaseModel, CreatedBaseModel):
 
     @property
     def service_score(self):
+        if hasattr(self, 'db_avg_service'):
+            return round(self.db_avg_service or 0, 1)
         from django.db.models import Avg
         result = self.reviews.filter(is_visible=True).aggregate(Avg('service_quality'))
         return round(result['service_quality__avg'] or 0, 1)
 
     @property
     def cleanliness_score(self):
+        if hasattr(self, 'db_avg_cleanliness'):
+            return round(self.db_avg_cleanliness or 0, 1)
         from django.db.models import Avg
         result = self.reviews.filter(is_visible=True).aggregate(Avg('cleanliness'))
         return round(result['cleanliness__avg'] or 0, 1)
 
     @property
     def facilities_score(self):
+        if hasattr(self, 'db_avg_facilities'):
+            return round(self.db_avg_facilities or 0, 1)
         from django.db.models import Avg
         result = self.reviews.filter(is_visible=True).aggregate(Avg('facilities'))
         return round(result['facilities__avg'] or 0, 1)
 
     @property
     def access_score(self):
+        if hasattr(self, 'db_avg_access'):
+            return round(self.db_avg_access or 0, 1)
         from django.db.models import Avg
         result = self.reviews.filter(is_visible=True).aggregate(Avg('location_rating'))
         return round(result['location_rating__avg'] or 0, 1)
 
     @property
     def value_score(self):
+        if hasattr(self, 'db_avg_value'):
+            return round(self.db_avg_value or 0, 1)
         from django.db.models import Avg
         result = self.reviews.filter(is_visible=True).aggregate(Avg('value_for_money'))
         return round(result['value_for_money__avg'] or 0, 1)
@@ -173,6 +184,11 @@ class Destination(SlugBaseModel, CreatedBaseModel):
         verbose_name = 'Destination'
         verbose_name_plural = 'Destinations'
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['city', 'is_featured']),
+            models.Index(fields=['city', 'is_trending']),
+            models.Index(fields=['country']),
+        ]
 
     def __str__(self):
         return self.name

@@ -6,11 +6,8 @@
 {% endblock %}
 
 {% block custom_css %}
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
-    <!-- AOS Animation CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" href="{% static 'apps/vendor/leaflet/leaflet.min.css' %}">
+    <link rel="stylesheet" href="{% static 'apps/vendor/aos/aos.css' %}">
 
     <!-- Contact Page CSS -->
     <link rel="stylesheet" href="{% static 'apps/css/contact.css' %}">
@@ -553,10 +550,8 @@
 {% endblock %}
 
 {% block custom_js %}
-    <!-- AOS Animation JS -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <!-- Contact Page JS -->
+    <script src="{% static 'apps/vendor/leaflet/leaflet.min.js' %}"></script>
+    <script src="{% static 'apps/vendor/aos/aos.js' %}"></script>
     <script src="{% static 'apps/js/contact.js' %}"></script>
 
     <script>

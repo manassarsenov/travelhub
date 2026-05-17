@@ -1040,26 +1040,36 @@ class DestinationDetailView(DetailView):
     template_name = 'apps/destination_detail.html'
     context_object_name = 'destination'
     queryset = Destination.objects.select_related('city', 'country').prefetch_related(
-        'images', 'reviews', 'tags',
-        'activities',
-        'reviews__author_country',
-        'time_slots'
+        'images', 'tags', 'activities', 'time_slots', 'faqs', 'ticket_types',
+        Prefetch('reviews', queryset=Review.objects.select_related('user', 'author_country').filter(is_visible=True)),
+    ).annotate(
+        db_avg_rating=Avg('reviews__rating', filter=Q(reviews__is_visible=True)),
+        db_avg_service=Avg('reviews__service_quality', filter=Q(reviews__is_visible=True)),
+        db_avg_cleanliness=Avg('reviews__cleanliness', filter=Q(reviews__is_visible=True)),
+        db_avg_facilities=Avg('reviews__facilities', filter=Q(reviews__is_visible=True)),
+        db_avg_access=Avg('reviews__location_rating', filter=Q(reviews__is_visible=True)),
+        db_avg_value=Avg('reviews__value_for_money', filter=Q(reviews__is_visible=True)),
+        reviews_count=Count('reviews', filter=Q(reviews__is_visible=True)),
     )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         destination = self.object
 
-        # 🚀 1. TARTIBLASH: helpful_count (Integer) bo'yicha saralaymiz.
-        # total_likes property bo'lgani uchun order_by ichida ishlamaydi.
-        context['sidebar_reviews'] = destination.reviews.filter(
-            is_visible=True
-        ).order_by('-helpful_count', '-created_at', '-rating')[:10]
+        # 1. Prefetch cachedan foydalanib sidebar uchun reviewlarni tartiblash (qo'shimcha query yo'q)
+        all_reviews = list(destination.reviews.all())
+        context['sidebar_reviews'] = sorted(
+            all_reviews,
+            key=lambda r: (-r.helpful_count, -r.created_at.timestamp(), -r.rating)
+        )[:10]
 
-        # 2. O'XSHASH MANZILLAR
+        # 2. O'XSHASH MANZILLAR — rating annotate qilingan holda
         context['similar_destinations'] = Destination.objects.filter(
             city=destination.city,
-        ).exclude(id=destination.id).prefetch_related('images')[:5]
+        ).exclude(id=destination.id).prefetch_related('images').annotate(
+            db_avg_rating=Avg('reviews__rating', filter=Q(reviews__is_visible=True)),
+            reviews_count=Count('reviews', filter=Q(reviews__is_visible=True)),
+        )[:5]
 
         context['today'] = timezone.now().date()
 
@@ -1264,9 +1274,9 @@ class DestinationsListView(ListView):
         # Sidebar va Menyu uchun faqat ID va Nomlar kerak. Rasm, text kabi og'ir maydonlarni RAMga tortmaymiz
         countries_qs = Country.objects.annotate(
             city_count=Count('cities')
-        ).order_by('-city_count', 'name').only('id', 'name', 'code')
+        ).order_by('-city_count', 'name').only('id', 'name', 'code', 'flag')
 
-        cities_qs = City.objects.only('id', 'name', 'slug', 'country_id')
+        cities_qs = City.objects.only('id', 'name', 'slug', 'country_id', 'things_to_do', 'image')
 
         context['regions'] = Region.objects.filter(level=0).order_by('id').prefetch_related(
             Prefetch('countries', queryset=countries_qs),
@@ -2151,10 +2161,33 @@ class ToggleWishlistView(View):
             return JsonResponse({'error': 'slug required'}, status=400)
         destination = get_object_or_404(Destination, slug=slug)
         obj, created = Wishlist.objects.get_or_create(user=request.user, destination=destination)
+        cache.delete(f'wishlist_slugs_{request.user.pk}')
         if not created:
             obj.delete()
             return JsonResponse({'wishlisted': False})
-        return JsonResponse({'wishlisted': True})
+
+        first_image = destination.images.first()
+        image_url = request.build_absolute_uri(first_image.image.url) if first_image else ''
+        detail_url = request.build_absolute_uri(
+            f'/{request.LANGUAGE_CODE}/destination-detail/{destination.slug}/'
+        )
+        location = destination.location or (destination.city.name if destination.city_id else '')
+        if destination.country_id:
+            location = (location + ', ' + destination.country.name).strip(', ')
+
+        return JsonResponse({
+            'wishlisted': True,
+            'destination': {
+                'slug': destination.slug,
+                'name': destination.name,
+                'price': str(destination.discounted_price),
+                'image': image_url,
+                'url': detail_url,
+                'location': location,
+                'rating': str(destination.rating),
+                'trip_type': destination.trip_type or '',
+            }
+        })
 
 
 class TogglePriceAlertView(View):
@@ -2370,22 +2403,24 @@ class GlobalSearchView(View):
 
         results = []
 
-        # Regions
-        for r in Region.objects.filter(name__icontains=q)[:3]:
-            country_count = Country.objects.filter(region=r, is_active=True).count()
+        # Regions — bitta query bilan country sonini olamiz
+        for r in Region.objects.filter(name__icontains=q).annotate(
+            country_count=Count('countries', filter=Q(countries__is_active=True))
+        )[:3]:
             results.append({
                 'type': 'region',
                 'slug': r.slug,
                 'title': r.name,
                 'subtitle': '',
                 'image': '',
-                'count': country_count,
+                'count': r.country_count,
                 'count_label': 'countries',
             })
 
-        # Countries
-        for c in Country.objects.filter(name__icontains=q, is_active=True).select_related('region')[:3]:
-            city_count = City.objects.filter(country=c).count()
+        # Countries — bitta query bilan city sonini olamiz
+        for c in Country.objects.filter(name__icontains=q, is_active=True).select_related('region').annotate(
+            city_count=Count('cities')
+        )[:3]:
             results.append({
                 'type': 'country',
                 'slug': c.slug,
@@ -2394,21 +2429,22 @@ class GlobalSearchView(View):
                 'title': c.name,
                 'subtitle': (c.flag or '') + (' ' + c.region.name if c.region else ''),
                 'image': '',
-                'count': city_count,
+                'count': c.city_count,
                 'count_label': 'cities',
             })
 
-        # Cities
-        for city in City.objects.filter(name__icontains=q).select_related('country')[:4]:
+        # Cities — bitta query bilan destination sonini olamiz
+        for city in City.objects.filter(name__icontains=q).select_related('country').annotate(
+            dest_count=Count('destinations')
+        )[:4]:
             img_url = request.build_absolute_uri(city.image.url) if city.image else ''
-            dest_count = Destination.objects.filter(city=city).count()
             results.append({
                 'type': 'city',
                 'slug': city.slug,
                 'title': city.name,
                 'subtitle': city.country.name if city.country else '',
                 'image': img_url,
-                'count': dest_count,
+                'count': city.dest_count,
                 'count_label': 'destinations',
             })
 
