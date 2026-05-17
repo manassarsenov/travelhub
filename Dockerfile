@@ -1,10 +1,9 @@
 FROM python:3.13-slim
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
 
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
-ENV UV_SYSTEM_PYTHON=1
 
 WORKDIR /app
 
@@ -16,6 +15,8 @@ RUN apt-get update && apt-get install -y \
 
 COPY pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-dev
+
+ENV PATH="/app/.venv/bin:$PATH"
 
 COPY . .
 
