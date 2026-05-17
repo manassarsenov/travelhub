@@ -453,7 +453,7 @@ function showRecentSearches() {
 }
 
 function hideRecentSearches() {
-    document.getElementById('recent-searches-dropdown').classList.remove('show');
+    document.getElementById('recent-searches-dropdown')?.classList.remove('show');
 }
 
 function doSearch() {
