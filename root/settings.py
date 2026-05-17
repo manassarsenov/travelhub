@@ -44,12 +44,13 @@ INSTALLED_APPS = [
     'apps',
     'rosetta',
     'mptt',
-    'debug_toolbar',
     'django_ckeditor_5',
     'django_celery_results',
     'django_celery_beat',
-
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ['debug_toolbar']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
