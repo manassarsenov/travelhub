@@ -1206,6 +1206,7 @@ dependencies = [
     { name = "pillow" },
     { name = "psycopg2-binary" },
     { name = "pycountry" },
+    { name = "python-dotenv" },
     { name = "redis" },
     { name = "requests" },
     { name = "six" },
@@ -1218,7 +1219,6 @@ dev = [
     { name = "flake8" },
     { name = "git-filter-repo" },
     { name = "isort" },
-    { name = "python-dotenv" },
 ]
 
 [package.metadata]
@@ -1240,6 +1240,7 @@ requires-dist = [
     { name = "pillow", specifier = ">=12.0.0" },
     { name = "psycopg2-binary", specifier = ">=2.9.11" },
     { name = "pycountry", specifier = ">=26.2.16" },
+    { name = "python-dotenv", specifier = ">=1.2.2" },
     { name = "redis", specifier = ">=7.4.0" },
     { name = "requests", specifier = ">=2.32.5" },
     { name = "six", specifier = ">=1.17.0" },
@@ -1252,7 +1253,6 @@ dev = [
     { name = "flake8", specifier = ">=7.3.0" },
     { name = "git-filter-repo", specifier = ">=2.47.0" },
     { name = "isort", specifier = ">=7.0.0" },
-    { name = "python-dotenv", specifier = ">=1.2.1" },
 ]
 
 [[package]]
