@@ -11,7 +11,8 @@
       "phone_code": "+297",
       "flag": "🇦🇼",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -26,7 +27,8 @@
       "phone_code": "+93",
       "flag": "🇦🇫",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -41,7 +43,8 @@
       "phone_code": "+244",
       "flag": "🇦🇴",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -56,7 +59,8 @@
       "phone_code": "+1",
       "flag": "🇦🇮",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -71,7 +75,8 @@
       "phone_code": "+358",
       "flag": "🇦🇽",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -86,7 +91,8 @@
       "phone_code": "+355",
       "flag": "🇦🇱",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -101,7 +107,8 @@
       "phone_code": "+376",
       "flag": "🇦🇩",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -116,7 +123,8 @@
       "phone_code": "+971",
       "flag": "🇦🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -131,7 +139,8 @@
       "phone_code": "+54",
       "flag": "🇦🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -146,7 +155,8 @@
       "phone_code": "+374",
       "flag": "🇦🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -161,7 +171,8 @@
       "phone_code": "+1",
       "flag": "🇦🇸",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -176,7 +187,8 @@
       "phone_code": "",
       "flag": "🇦🇶",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -191,7 +203,8 @@
       "phone_code": "",
       "flag": "🇹🇫",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -206,7 +219,8 @@
       "phone_code": "+1",
       "flag": "🇦🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -221,7 +235,8 @@
       "phone_code": "+61",
       "flag": "🇦🇺",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -236,7 +251,8 @@
       "phone_code": "+43",
       "flag": "🇦🇹",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -251,7 +267,8 @@
       "phone_code": "+994",
       "flag": "🇦🇿",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -266,7 +283,8 @@
       "phone_code": "+257",
       "flag": "🇧🇮",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -281,7 +299,8 @@
       "phone_code": "+32",
       "flag": "🇧🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -296,7 +315,8 @@
       "phone_code": "+229",
       "flag": "🇧🇯",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -311,7 +331,8 @@
       "phone_code": "+599",
       "flag": "🇧🇶",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -326,7 +347,8 @@
       "phone_code": "+226",
       "flag": "🇧🇫",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -341,7 +363,8 @@
       "phone_code": "+880",
       "flag": "🇧🇩",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -356,7 +379,8 @@
       "phone_code": "+359",
       "flag": "🇧🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -371,7 +395,8 @@
       "phone_code": "+973",
       "flag": "🇧🇭",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -386,7 +411,8 @@
       "phone_code": "+1",
       "flag": "🇧🇸",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -401,7 +427,8 @@
       "phone_code": "+387",
       "flag": "🇧🇦",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -416,7 +443,8 @@
       "phone_code": "+590",
       "flag": "🇧🇱",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -431,7 +459,8 @@
       "phone_code": "+375",
       "flag": "🇧🇾",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -446,7 +475,8 @@
       "phone_code": "+501",
       "flag": "🇧🇿",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -461,7 +491,8 @@
       "phone_code": "+1",
       "flag": "🇧🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -476,7 +507,8 @@
       "phone_code": "+591",
       "flag": "🇧🇴",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -491,7 +523,8 @@
       "phone_code": "+55",
       "flag": "🇧🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -506,7 +539,8 @@
       "phone_code": "+1",
       "flag": "🇧🇧",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -521,7 +555,8 @@
       "phone_code": "+673",
       "flag": "🇧🇳",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -536,7 +571,8 @@
       "phone_code": "+975",
       "flag": "🇧🇹",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -551,7 +587,8 @@
       "phone_code": "",
       "flag": "🇧🇻",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -566,7 +603,8 @@
       "phone_code": "+267",
       "flag": "🇧🇼",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -581,7 +619,8 @@
       "phone_code": "+236",
       "flag": "🇨🇫",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -596,7 +635,8 @@
       "phone_code": "+1",
       "flag": "🇨🇦",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -611,7 +651,8 @@
       "phone_code": "+61",
       "flag": "🇨🇨",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -626,7 +667,8 @@
       "phone_code": "+41",
       "flag": "🇨🇭",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -641,7 +683,8 @@
       "phone_code": "+56",
       "flag": "🇨🇱",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -656,7 +699,8 @@
       "phone_code": "+86",
       "flag": "🇨🇳",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -671,7 +715,8 @@
       "phone_code": "+225",
       "flag": "🇨🇮",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -686,7 +731,8 @@
       "phone_code": "+237",
       "flag": "🇨🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -701,7 +747,8 @@
       "phone_code": "+243",
       "flag": "🇨🇩",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -716,7 +763,8 @@
       "phone_code": "+242",
       "flag": "🇨🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -731,7 +779,8 @@
       "phone_code": "+682",
       "flag": "🇨🇰",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -746,7 +795,8 @@
       "phone_code": "+57",
       "flag": "🇨🇴",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -761,7 +811,8 @@
       "phone_code": "+269",
       "flag": "🇰🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -776,7 +827,8 @@
       "phone_code": "+238",
       "flag": "🇨🇻",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -791,7 +843,8 @@
       "phone_code": "+506",
       "flag": "🇨🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -806,7 +859,8 @@
       "phone_code": "+53",
       "flag": "🇨🇺",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -821,7 +875,8 @@
       "phone_code": "+599",
       "flag": "🇨🇼",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -836,7 +891,8 @@
       "phone_code": "+61",
       "flag": "🇨🇽",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -851,7 +907,8 @@
       "phone_code": "+1",
       "flag": "🇰🇾",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -866,7 +923,8 @@
       "phone_code": "+357",
       "flag": "🇨🇾",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -881,7 +939,8 @@
       "phone_code": "+420",
       "flag": "🇨🇿",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -896,7 +955,8 @@
       "phone_code": "+49",
       "flag": "🇩🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -911,7 +971,8 @@
       "phone_code": "+253",
       "flag": "🇩🇯",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -926,7 +987,8 @@
       "phone_code": "+1",
       "flag": "🇩🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -941,7 +1003,8 @@
       "phone_code": "+45",
       "flag": "🇩🇰",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -956,7 +1019,8 @@
       "phone_code": "+1",
       "flag": "🇩🇴",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -971,7 +1035,8 @@
       "phone_code": "+213",
       "flag": "🇩🇿",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -986,7 +1051,8 @@
       "phone_code": "+593",
       "flag": "🇪🇨",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1001,7 +1067,8 @@
       "phone_code": "+20",
       "flag": "🇪🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1016,7 +1083,8 @@
       "phone_code": "+291",
       "flag": "🇪🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1031,7 +1099,8 @@
       "phone_code": "+212",
       "flag": "🇪🇭",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1046,7 +1115,8 @@
       "phone_code": "+34",
       "flag": "🇪🇸",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1061,7 +1131,8 @@
       "phone_code": "+372",
       "flag": "🇪🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1076,7 +1147,8 @@
       "phone_code": "+251",
       "flag": "🇪🇹",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1091,7 +1163,8 @@
       "phone_code": "+358",
       "flag": "🇫🇮",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1106,7 +1179,8 @@
       "phone_code": "+679",
       "flag": "🇫🇯",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1121,7 +1195,8 @@
       "phone_code": "+500",
       "flag": "🇫🇰",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1136,7 +1211,8 @@
       "phone_code": "+33",
       "flag": "🇫🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1151,7 +1227,8 @@
       "phone_code": "+298",
       "flag": "🇫🇴",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1166,7 +1243,8 @@
       "phone_code": "+691",
       "flag": "🇫🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1181,7 +1259,8 @@
       "phone_code": "+241",
       "flag": "🇬🇦",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1196,7 +1275,8 @@
       "phone_code": "+44",
       "flag": "🇬🇧",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1211,7 +1291,8 @@
       "phone_code": "+995",
       "flag": "🇬🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1226,7 +1307,8 @@
       "phone_code": "+44",
       "flag": "🇬🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1241,7 +1323,8 @@
       "phone_code": "+233",
       "flag": "🇬🇭",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1256,7 +1339,8 @@
       "phone_code": "+350",
       "flag": "🇬🇮",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1271,7 +1355,8 @@
       "phone_code": "+224",
       "flag": "🇬🇳",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1286,7 +1371,8 @@
       "phone_code": "+590",
       "flag": "🇬🇵",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1301,7 +1387,8 @@
       "phone_code": "+220",
       "flag": "🇬🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1316,7 +1403,8 @@
       "phone_code": "+245",
       "flag": "🇬🇼",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1331,7 +1419,8 @@
       "phone_code": "+240",
       "flag": "🇬🇶",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1346,7 +1435,8 @@
       "phone_code": "+30",
       "flag": "🇬🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1361,7 +1451,8 @@
       "phone_code": "+1",
       "flag": "🇬🇩",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1376,7 +1467,8 @@
       "phone_code": "+299",
       "flag": "🇬🇱",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1391,7 +1483,8 @@
       "phone_code": "+502",
       "flag": "🇬🇹",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1406,7 +1499,8 @@
       "phone_code": "+594",
       "flag": "🇬🇫",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1421,7 +1515,8 @@
       "phone_code": "+1",
       "flag": "🇬🇺",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1436,7 +1531,8 @@
       "phone_code": "+592",
       "flag": "🇬🇾",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1451,7 +1547,8 @@
       "phone_code": "+852",
       "flag": "🇭🇰",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1466,7 +1563,8 @@
       "phone_code": "",
       "flag": "🇭🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1481,7 +1579,8 @@
       "phone_code": "+504",
       "flag": "🇭🇳",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1496,7 +1595,8 @@
       "phone_code": "+385",
       "flag": "🇭🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1511,7 +1611,8 @@
       "phone_code": "+509",
       "flag": "🇭🇹",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1526,7 +1627,8 @@
       "phone_code": "+36",
       "flag": "🇭🇺",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1541,7 +1643,8 @@
       "phone_code": "+62",
       "flag": "🇮🇩",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1556,7 +1659,8 @@
       "phone_code": "+44",
       "flag": "🇮🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1571,7 +1675,8 @@
       "phone_code": "+91",
       "flag": "🇮🇳",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1586,7 +1691,8 @@
       "phone_code": "+246",
       "flag": "🇮🇴",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1601,7 +1707,8 @@
       "phone_code": "+353",
       "flag": "🇮🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1616,7 +1723,8 @@
       "phone_code": "+98",
       "flag": "🇮🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1631,7 +1739,8 @@
       "phone_code": "+964",
       "flag": "🇮🇶",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1646,7 +1755,8 @@
       "phone_code": "+354",
       "flag": "🇮🇸",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1661,7 +1771,8 @@
       "phone_code": "+972",
       "flag": "🇮🇱",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1676,7 +1787,8 @@
       "phone_code": "+39",
       "flag": "🇮🇹",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1691,7 +1803,8 @@
       "phone_code": "+1",
       "flag": "🇯🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1706,7 +1819,8 @@
       "phone_code": "+44",
       "flag": "🇯🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1721,7 +1835,8 @@
       "phone_code": "+962",
       "flag": "🇯🇴",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1736,7 +1851,8 @@
       "phone_code": "+81",
       "flag": "🇯🇵",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1751,7 +1867,8 @@
       "phone_code": "+7",
       "flag": "🇰🇿",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1766,7 +1883,8 @@
       "phone_code": "+254",
       "flag": "🇰🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1781,7 +1899,8 @@
       "phone_code": "+996",
       "flag": "🇰🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1796,7 +1915,8 @@
       "phone_code": "+855",
       "flag": "🇰🇭",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1811,7 +1931,8 @@
       "phone_code": "+686",
       "flag": "🇰🇮",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1826,7 +1947,8 @@
       "phone_code": "+1",
       "flag": "🇰🇳",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1841,7 +1963,8 @@
       "phone_code": "+82",
       "flag": "🇰🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1856,7 +1979,8 @@
       "phone_code": "+965",
       "flag": "🇰🇼",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1871,7 +1995,8 @@
       "phone_code": "+856",
       "flag": "🇱🇦",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1886,7 +2011,8 @@
       "phone_code": "+961",
       "flag": "🇱🇧",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1901,7 +2027,8 @@
       "phone_code": "+231",
       "flag": "🇱🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1916,7 +2043,8 @@
       "phone_code": "+218",
       "flag": "🇱🇾",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1931,7 +2059,8 @@
       "phone_code": "+1",
       "flag": "🇱🇨",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1946,7 +2075,8 @@
       "phone_code": "+423",
       "flag": "🇱🇮",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1961,7 +2091,8 @@
       "phone_code": "+94",
       "flag": "🇱🇰",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1976,7 +2107,8 @@
       "phone_code": "+266",
       "flag": "🇱🇸",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -1991,7 +2123,8 @@
       "phone_code": "+370",
       "flag": "🇱🇹",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2006,7 +2139,8 @@
       "phone_code": "+352",
       "flag": "🇱🇺",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2021,7 +2155,8 @@
       "phone_code": "+371",
       "flag": "🇱🇻",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2036,7 +2171,8 @@
       "phone_code": "+853",
       "flag": "🇲🇴",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2051,7 +2187,8 @@
       "phone_code": "+590",
       "flag": "🇲🇫",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2066,7 +2203,8 @@
       "phone_code": "+212",
       "flag": "🇲🇦",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2081,7 +2219,8 @@
       "phone_code": "+377",
       "flag": "🇲🇨",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2096,7 +2235,8 @@
       "phone_code": "+373",
       "flag": "🇲🇩",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2111,7 +2251,8 @@
       "phone_code": "+261",
       "flag": "🇲🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2126,7 +2267,8 @@
       "phone_code": "+960",
       "flag": "🇲🇻",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2141,7 +2283,8 @@
       "phone_code": "+52",
       "flag": "🇲🇽",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2156,7 +2299,8 @@
       "phone_code": "+692",
       "flag": "🇲🇭",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2171,7 +2315,8 @@
       "phone_code": "+389",
       "flag": "🇲🇰",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2186,7 +2331,8 @@
       "phone_code": "+223",
       "flag": "🇲🇱",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2201,7 +2347,8 @@
       "phone_code": "+356",
       "flag": "🇲🇹",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2216,7 +2363,8 @@
       "phone_code": "+95",
       "flag": "🇲🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2231,7 +2379,8 @@
       "phone_code": "+382",
       "flag": "🇲🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2246,7 +2395,8 @@
       "phone_code": "+976",
       "flag": "🇲🇳",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2261,7 +2411,8 @@
       "phone_code": "+1",
       "flag": "🇲🇵",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2276,7 +2427,8 @@
       "phone_code": "+258",
       "flag": "🇲🇿",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2291,7 +2443,8 @@
       "phone_code": "+222",
       "flag": "🇲🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2306,7 +2459,8 @@
       "phone_code": "+1",
       "flag": "🇲🇸",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2321,7 +2475,8 @@
       "phone_code": "+596",
       "flag": "🇲🇶",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2336,7 +2491,8 @@
       "phone_code": "+230",
       "flag": "🇲🇺",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2351,7 +2507,8 @@
       "phone_code": "+265",
       "flag": "🇲🇼",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2366,7 +2523,8 @@
       "phone_code": "+60",
       "flag": "🇲🇾",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2381,7 +2539,8 @@
       "phone_code": "+262",
       "flag": "🇾🇹",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2396,7 +2555,8 @@
       "phone_code": "+264",
       "flag": "🇳🇦",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2411,7 +2571,8 @@
       "phone_code": "+687",
       "flag": "🇳🇨",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2426,7 +2587,8 @@
       "phone_code": "+227",
       "flag": "🇳🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2441,7 +2603,8 @@
       "phone_code": "+672",
       "flag": "🇳🇫",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2456,7 +2619,8 @@
       "phone_code": "+234",
       "flag": "🇳🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2471,7 +2635,8 @@
       "phone_code": "+505",
       "flag": "🇳🇮",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2486,7 +2651,8 @@
       "phone_code": "+683",
       "flag": "🇳🇺",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2501,7 +2667,8 @@
       "phone_code": "+31",
       "flag": "🇳🇱",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2516,7 +2683,8 @@
       "phone_code": "+47",
       "flag": "🇳🇴",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2531,7 +2699,8 @@
       "phone_code": "+977",
       "flag": "🇳🇵",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2546,7 +2715,8 @@
       "phone_code": "+674",
       "flag": "🇳🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2561,7 +2731,8 @@
       "phone_code": "+64",
       "flag": "🇳🇿",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2576,7 +2747,8 @@
       "phone_code": "+968",
       "flag": "🇴🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2591,7 +2763,8 @@
       "phone_code": "+92",
       "flag": "🇵🇰",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2606,7 +2779,8 @@
       "phone_code": "+507",
       "flag": "🇵🇦",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2621,7 +2795,8 @@
       "phone_code": "",
       "flag": "🇵🇳",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2636,7 +2811,8 @@
       "phone_code": "+51",
       "flag": "🇵🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2651,7 +2827,8 @@
       "phone_code": "+63",
       "flag": "🇵🇭",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2666,7 +2843,8 @@
       "phone_code": "+680",
       "flag": "🇵🇼",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2681,7 +2859,8 @@
       "phone_code": "+675",
       "flag": "🇵🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2696,7 +2875,8 @@
       "phone_code": "+48",
       "flag": "🇵🇱",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2711,7 +2891,8 @@
       "phone_code": "+1",
       "flag": "🇵🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2726,7 +2907,8 @@
       "phone_code": "+850",
       "flag": "🇰🇵",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2741,7 +2923,8 @@
       "phone_code": "+351",
       "flag": "🇵🇹",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2756,7 +2939,8 @@
       "phone_code": "+595",
       "flag": "🇵🇾",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2771,7 +2955,8 @@
       "phone_code": "+970",
       "flag": "🇵🇸",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2786,7 +2971,8 @@
       "phone_code": "+689",
       "flag": "🇵🇫",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2801,7 +2987,8 @@
       "phone_code": "+974",
       "flag": "🇶🇦",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2816,7 +3003,8 @@
       "phone_code": "+262",
       "flag": "🇷🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2831,7 +3019,8 @@
       "phone_code": "+40",
       "flag": "🇷🇴",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2846,7 +3035,8 @@
       "phone_code": "+7",
       "flag": "🇷🇺",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2861,7 +3051,8 @@
       "phone_code": "+250",
       "flag": "🇷🇼",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2876,7 +3067,8 @@
       "phone_code": "+966",
       "flag": "🇸🇦",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2891,7 +3083,8 @@
       "phone_code": "+249",
       "flag": "🇸🇩",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2906,7 +3099,8 @@
       "phone_code": "+221",
       "flag": "🇸🇳",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2921,7 +3115,8 @@
       "phone_code": "+65",
       "flag": "🇸🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2936,7 +3131,8 @@
       "phone_code": "",
       "flag": "🇬🇸",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2951,7 +3147,8 @@
       "phone_code": "+290",
       "flag": "🇸🇭",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2966,7 +3163,8 @@
       "phone_code": "+47",
       "flag": "🇸🇯",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2981,7 +3179,8 @@
       "phone_code": "+677",
       "flag": "🇸🇧",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -2996,7 +3195,8 @@
       "phone_code": "+232",
       "flag": "🇸🇱",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3011,7 +3211,8 @@
       "phone_code": "+503",
       "flag": "🇸🇻",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3026,7 +3227,8 @@
       "phone_code": "+378",
       "flag": "🇸🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3041,7 +3243,8 @@
       "phone_code": "+252",
       "flag": "🇸🇴",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3056,7 +3259,8 @@
       "phone_code": "+508",
       "flag": "🇵🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3071,7 +3275,8 @@
       "phone_code": "+381",
       "flag": "🇷🇸",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3086,7 +3291,8 @@
       "phone_code": "+211",
       "flag": "🇸🇸",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3101,7 +3307,8 @@
       "phone_code": "+239",
       "flag": "🇸🇹",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3116,7 +3323,8 @@
       "phone_code": "+597",
       "flag": "🇸🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3131,7 +3339,8 @@
       "phone_code": "+421",
       "flag": "🇸🇰",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3146,7 +3355,8 @@
       "phone_code": "+386",
       "flag": "🇸🇮",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3161,7 +3371,8 @@
       "phone_code": "+46",
       "flag": "🇸🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3176,7 +3387,8 @@
       "phone_code": "+268",
       "flag": "🇸🇿",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3191,7 +3403,8 @@
       "phone_code": "+1",
       "flag": "🇸🇽",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3206,7 +3419,8 @@
       "phone_code": "+248",
       "flag": "🇸🇨",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3221,7 +3435,8 @@
       "phone_code": "+963",
       "flag": "🇸🇾",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3236,7 +3451,8 @@
       "phone_code": "+1",
       "flag": "🇹🇨",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3251,7 +3467,8 @@
       "phone_code": "+235",
       "flag": "🇹🇩",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3266,7 +3483,8 @@
       "phone_code": "+228",
       "flag": "🇹🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3281,7 +3499,8 @@
       "phone_code": "+66",
       "flag": "🇹🇭",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3296,7 +3515,8 @@
       "phone_code": "+992",
       "flag": "🇹🇯",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3311,7 +3531,8 @@
       "phone_code": "+690",
       "flag": "🇹🇰",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3326,7 +3547,8 @@
       "phone_code": "+993",
       "flag": "🇹🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3341,7 +3563,8 @@
       "phone_code": "+670",
       "flag": "🇹🇱",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3356,7 +3579,8 @@
       "phone_code": "+676",
       "flag": "🇹🇴",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3371,7 +3595,8 @@
       "phone_code": "+1",
       "flag": "🇹🇹",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3386,7 +3611,8 @@
       "phone_code": "+216",
       "flag": "🇹🇳",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3401,7 +3627,8 @@
       "phone_code": "+90",
       "flag": "🇹🇷",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3416,7 +3643,8 @@
       "phone_code": "+688",
       "flag": "🇹🇻",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3431,7 +3659,8 @@
       "phone_code": "+886",
       "flag": "🇹🇼",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3446,7 +3675,8 @@
       "phone_code": "+255",
       "flag": "🇹🇿",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3461,7 +3691,8 @@
       "phone_code": "+256",
       "flag": "🇺🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3476,7 +3707,8 @@
       "phone_code": "+380",
       "flag": "🇺🇦",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3491,7 +3723,8 @@
       "phone_code": "",
       "flag": "🇺🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3506,7 +3739,8 @@
       "phone_code": "+598",
       "flag": "🇺🇾",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3521,7 +3755,8 @@
       "phone_code": "+1",
       "flag": "🇺🇸",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3536,7 +3771,8 @@
       "phone_code": "+998",
       "flag": "🇺🇿",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3551,7 +3787,8 @@
       "phone_code": "+39",
       "flag": "🇻🇦",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3566,7 +3803,8 @@
       "phone_code": "+1",
       "flag": "🇻🇨",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3581,7 +3819,8 @@
       "phone_code": "+58",
       "flag": "🇻🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3596,7 +3835,8 @@
       "phone_code": "+1",
       "flag": "🇻🇬",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3611,7 +3851,8 @@
       "phone_code": "+1",
       "flag": "🇻🇮",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3626,7 +3867,8 @@
       "phone_code": "+84",
       "flag": "🇻🇳",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3641,7 +3883,8 @@
       "phone_code": "+678",
       "flag": "🇻🇺",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3656,7 +3899,8 @@
       "phone_code": "+681",
       "flag": "🇼🇫",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3671,7 +3915,8 @@
       "phone_code": "+685",
       "flag": "🇼🇸",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3686,7 +3931,8 @@
       "phone_code": "+967",
       "flag": "🇾🇪",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3701,7 +3947,8 @@
       "phone_code": "+27",
       "flag": "🇿🇦",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3716,7 +3963,8 @@
       "phone_code": "+260",
       "flag": "🇿🇲",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   },
   {
@@ -3731,7 +3979,8 @@
       "phone_code": "+263",
       "flag": "🇿🇼",
       "phone_length": 15,
-      "is_active": true
+      "is_active": true,
+      "region": null
     }
   }
 ]
