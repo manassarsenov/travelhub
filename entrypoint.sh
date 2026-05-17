@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+echo "==> Container started, PORT=${PORT}"
+echo "==> Activating venv..."
 . /app/.venv/bin/activate
 
 echo "==> Running migrations..."
