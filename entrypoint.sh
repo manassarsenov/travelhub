@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+. /app/.venv/bin/activate
+
 echo "==> Running migrations..."
 python manage.py migrate --noinput
 
