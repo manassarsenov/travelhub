@@ -177,7 +177,7 @@ CELERY_RESULT_BACKEND = 'django-db'
 
 CSRF_TRUSTED_ORIGINS = [
     origin for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if origin
-]
+] + ["https://*.railway.app", "https://*.up.railway.app"]
 
 CACHES = {
     "default": {
