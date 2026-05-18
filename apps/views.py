@@ -1,5 +1,6 @@
 import json
 import logging
+import threading
 import urllib.parse
 import uuid
 
@@ -1430,7 +1431,10 @@ class RegisterCreateView(CreateView):
         user.is_active = False
         user.save()
 
-        send_user_email(user, f"{self.request.scheme}://{self.request.get_host()}", email_type='registration')
+        host = f"{self.request.scheme}://{self.request.get_host()}"
+        threading.Thread(
+            target=send_user_email, args=(user, host), kwargs={'email_type': 'registration'}, daemon=True
+        ).start()
         messages.success(self.request, "Ro'yxatdan muvaffaqiyatli o'tdingiz! Pochtangizni tekshiring.")
         return redirect(self.success_url)
 
