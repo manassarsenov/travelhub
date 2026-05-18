@@ -9,8 +9,6 @@ pyvenv.cfg
 .venv
 .idea
 media/
-!media/destinationimage/
-!media/city/
 .mo
 staticfiles/
 .env.prod
