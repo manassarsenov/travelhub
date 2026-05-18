@@ -1,0 +1,101 @@
+/home/manas/PycharmProjects/travelhub/apps/ai_moderator.py:5: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[
+{
+  "model": "apps.destinationimage",
+  "pk": 1,
+  "fields": {
+    "image": "destinationimage/2026/04/27/Admission_to_the_London_Eye.webp",
+    "destination": 5,
+    "order": 1
+  }
+},
+{
+  "model": "apps.destinationimage",
+  "pk": 2,
+  "fields": {
+    "image": "destinationimage/2026/05/01/paradox_1.webp",
+    "destination": 15,
+    "order": 1
+  }
+},
+{
+  "model": "apps.destinationimage",
+  "pk": 3,
+  "fields": {
+    "image": "destinationimage/2026/05/01/paradox_2.webp",
+    "destination": 15,
+    "order": 2
+  }
+},
+{
+  "model": "apps.destinationimage",
+  "pk": 4,
+  "fields": {
+    "image": "destinationimage/2026/05/08/Admission_to_the_London_Eye_2.webp",
+    "destination": 5,
+    "order": 2
+  }
+},
+{
+  "model": "apps.destinationimage",
+  "pk": 5,
+  "fields": {
+    "image": "destinationimage/2026/05/11/Hop-on_Hop-off_Bus_Tour_1.webp",
+    "destination": 17,
+    "order": 1
+  }
+},
+{
+  "model": "apps.destinationimage",
+  "pk": 6,
+  "fields": {
+    "image": "destinationimage/2026/05/11/Hop-on_Hop-off_Bus_Tour_2.webp",
+    "destination": 17,
+    "order": 0
+  }
+},
+{
+  "model": "apps.destinationimage",
+  "pk": 7,
+  "fields": {
+    "image": "destinationimage/2026/05/11/Admission-5.webp",
+    "destination": 9,
+    "order": 0
+  }
+},
+{
+  "model": "apps.destinationimage",
+  "pk": 8,
+  "fields": {
+    "image": "destinationimage/2026/05/11/London_Soho_Rock_and_Roll_Pub_Tour_with_Guide.webp",
+    "destination": 11,
+    "order": 0
+  }
+},
+{
+  "model": "apps.destinationimage",
+  "pk": 9,
+  "fields": {
+    "image": "destinationimage/2026/05/11/Frameless_-_Immersive_Art_Experience_in_London.webp",
+    "destination": 13,
+    "order": 0
+  }
+},
+{
+  "model": "apps.destinationimage",
+  "pk": 10,
+  "fields": {
+    "image": "destinationimage/2026/05/14/River_Thames_Cruise_1.webp",
+    "destination": 14,
+    "order": 1
+  }
+}
+]

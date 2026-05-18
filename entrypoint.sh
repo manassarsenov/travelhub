@@ -26,6 +26,7 @@ if not Destination.objects.exists():
         'apps/fixtures/tags.json',
         'apps/fixtures/activities.json',
         'apps/fixtures/destinations.json',
+        'apps/fixtures/destinationimages.json',
     ]:
         call_command('loaddata', fixture)
         print(f'Loaded {fixture}')

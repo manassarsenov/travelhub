@@ -8,10 +8,8 @@
 pyvenv.cfg
 .venv
 .idea
-media
-!city/2026/03
-!city/2026/02
-!destinationimage/2026/03
+media/
+!media/destinationimage/
 .mo
 staticfiles/
 .env.prod
