@@ -39,7 +39,7 @@
     gap: 20px;
 }
 
-.header-title > i {
+.header-title>i {
     font-size: 48px;
     color: var(--primary);
     background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -48,7 +48,8 @@
 }
 
 :root {
-    --text-dark: #1e293b;   /* yoki qora rang (#000) */
+    --text-dark: #1e293b;
+    /* yoki qora rang (#000) */
 }
 
 
@@ -267,22 +268,22 @@
     color: white;
 }
 
-/* Priority Badges in Filter */
-.priority-badge {
+/* Sidebar Priority Dot Badges (●) */
+.dot-badge {
     font-size: 20px;
     width: 20px;
     text-align: center;
 }
 
-.priority-badge.high {
+.dot-badge.dot-high {
     color: var(--danger);
 }
 
-.priority-badge.medium {
+.dot-badge.dot-medium {
     color: var(--warning);
 }
 
-.priority-badge.low {
+.dot-badge.dot-low {
     color: var(--success);
 }
 
@@ -440,7 +441,8 @@
     flex-wrap: wrap;
 }
 
-.category-badge {
+/* Card Level Badges */
+.cat-badge {
     padding: 5px 12px;
     border-radius: 20px;
     font-size: 12px;
@@ -448,32 +450,38 @@
     text-transform: uppercase;
 }
 
-.category-badge.booking {
-    background: rgba(99, 102, 241, 0.1);
+.cat-badge.cat-bookings {
+    background: rgba(99, 102, 241, .1);
     color: #6366f1;
 }
 
-.category-badge.promotion {
-    background: rgba(245, 158, 11, 0.1);
+.cat-badge.cat-promotions {
+    background: rgba(245, 158, 11, .1);
     color: #f59e0b;
 }
 
-.category-badge.security {
-    background: rgba(239, 68, 68, 0.1);
+.cat-badge.cat-security {
+    background: rgba(239, 68, 68, .1);
     color: #ef4444;
 }
 
-.category-badge.message {
-    background: rgba(59, 130, 246, 0.1);
+.cat-badge.cat-messages {
+    background: rgba(59, 130, 246, .1);
     color: #3b82f6;
 }
 
-.category-badge.update {
-    background: rgba(139, 92, 246, 0.1);
+.cat-badge.cat-updates {
+    background: rgba(139, 92, 246, .1);
     color: #8b5cf6;
 }
 
-.priority-badge {
+.cat-badge.cat-all {
+    background: rgba(99, 102, 241, .1);
+    color: #6366f1;
+}
+
+/* Card Priority Badges */
+.prio-badge {
     padding: 5px 12px;
     border-radius: 20px;
     font-size: 12px;
@@ -481,18 +489,18 @@
     text-transform: uppercase;
 }
 
-.priority-badge.high {
-    background: rgba(239, 68, 68, 0.1);
+.prio-badge.prio-high {
+    background: rgba(239, 68, 68, .1);
     color: #ef4444;
 }
 
-.priority-badge.medium {
-    background: rgba(245, 158, 11, 0.1);
+.prio-badge.prio-medium {
+    background: rgba(245, 158, 11, .1);
     color: #f59e0b;
 }
 
-.priority-badge.low {
-    background: rgba(16, 185, 129, 0.1);
+.prio-badge.prio-low {
+    background: rgba(16, 185, 129, .1);
     color: #10b981;
 }
 
@@ -703,7 +711,8 @@
 }
 
 :root {
-    --gray-light: #f1f5f9;   /* Light gray */
+    --gray-light: #f1f5f9;
+    /* Light gray */
 }
 
 .btn-secondary:hover {
@@ -928,11 +937,11 @@
     border-radius: 50%;
 }
 
-input:checked + .slider {
+input:checked+.slider {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
     transform: translateX(22px);
 }
 
@@ -997,7 +1006,7 @@ input:checked + .slider:before {
         gap: 15px;
     }
 
-    .header-title > i {
+    .header-title>i {
         font-size: 36px;
     }
 

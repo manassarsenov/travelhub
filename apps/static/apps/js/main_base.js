@@ -1,8 +1,14 @@
+function getCurrentLang() {
+    const parts = window.location.pathname.split('/');
+    return ['uz', 'en', 'ru'].includes(parts[1]) ? parts[1] : (document.documentElement.lang || 'en');
+}
+
 // Initialize
 window.addEventListener('load', function () {
-    setTimeout(() => {
-        document.getElementById('loading-screen').style.display = 'none';
-    }, 2000);
+    const screen = document.getElementById('loading-screen');
+    screen.style.transition = 'opacity 0.3s ease';
+    screen.style.opacity = '0';
+    setTimeout(() => { screen.style.display = 'none'; }, 300);
 
     setupScrollEffects();
     // --- DJANGO XABARLARINI USHLAB OLISH ---
@@ -102,7 +108,8 @@ document.addEventListener('click', function (e) {
     }
 });
 
-function toggleWishlist(btn) {
+function toggleWishlist(btn, event) {
+    if (event) { event.stopPropagation(); event.preventDefault(); }
     const slug = btn.dataset.slug;
     if (!slug) return;
 
@@ -113,22 +120,18 @@ function toggleWishlist(btn) {
         .find(c => c.trim().startsWith('csrftoken='))
         ?.split('=')?.[1] || '';
 
-    const _lang = (function() {
-        const p = window.location.pathname.split('/');
-        return ['uz','en','ru'].includes(p[1]) ? p[1] : 'en';
-    })();
-
-    fetch('/' + _lang + '/api/wishlist/toggle/', {
+    const _lang = '/' + window.location.pathname.split('/').filter(Boolean)[0] + '/';
+    fetch(_lang + 'api/wishlist/toggle/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-CSRFToken': csrfToken,
         },
-        body: 'slug=' + encodeURIComponent(slug),
+        body: `slug=${encodeURIComponent(slug)}`,
     })
     .then(r => {
-        if (r.status === 401) {
-            window.location.href = '/' + _lang + '/auth/login/?next=' + encodeURIComponent(window.location.pathname);
+        if (r.status === 302 || r.redirected) {
+            window.location.href = '/auth/login/?next=' + window.location.pathname;
             return null;
         }
         return r.json();
@@ -143,29 +146,61 @@ function toggleWishlist(btn) {
             icon.style.transform = 'scale(1.3)';
             setTimeout(() => { icon.style.transform = 'scale(1)'; }, 260);
             showToast("Qo'shildi", "Wishlistga qo'shildi!", 'success');
+            // "You May Also Like" kartani real-time o'chirish + wishlist gridga qo'shish
+            const similarCard = btn.closest('.similar-card');
+            if (similarCard) {
+                similarCard.style.transition = 'opacity 0.3s, transform 0.3s';
+                similarCard.style.opacity = '0';
+                similarCard.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    similarCard.remove();
+                    const section = document.querySelector('.similar-content');
+                    if (section && !section.querySelector('.similar-card')) {
+                        const wrapper = section.closest('.similar-section') || section.parentElement;
+                        if (wrapper) wrapper.style.display = 'none';
+                    }
+                    // Wishlist gridga yangi karta qo'shamiz
+                    if (data.destination && window.location.pathname.includes('/wishlist/')) {
+                        _addToWishlistGrid(data.destination);
+                    }
+                }, 300);
+            }
         } else {
             btn.classList.remove('wishlisted');
             icon.className = 'far fa-heart';
             showToast("O'chirildi", "Wishlistdan o'chirildi", 'info');
+            // wishlist sahifasida bo'lsak kartani real-time o'chiramiz
             if (window.location.pathname.includes('/wishlist/')) {
                 const card = btn.closest('.wishlist-card');
                 if (card) {
+                    // "You May Also Like" ga qo'shish uchun oldindan ma'lumot olamiz
+                    const destSlug  = card.dataset.slug;
+                    const nameEl    = card.querySelector('h3');
+                    const destName  = nameEl ? nameEl.textContent.trim() : destSlug;
+                    const destPrice = card.dataset.price;
+                    const imgEl     = card.querySelector('.card-image img');
+                    const destImg   = imgEl ? imgEl.src : '';
+                    const linkEl    = card.querySelector('.quick-view-btn');
+                    const destUrl   = linkEl ? linkEl.href : '#';
+
                     card.style.transition = 'opacity 0.3s, transform 0.3s';
                     card.style.opacity = '0';
                     card.style.transform = 'scale(0.95)';
-                    setTimeout(() => { card.remove(); updateWishlistStats(); }, 310);
+                    setTimeout(() => {
+                        card.remove();
+                        if (typeof updateWishlistStats === 'function') updateWishlistStats();
+                        if (typeof updateTabCounts   === 'function') updateTabCounts();
+                        _addToSimilar(destSlug, destName, destPrice, destImg, destUrl);
+                    }, 300);
                 }
             }
         }
         const countEl = document.getElementById('wishlist-count');
-        if (countEl) {
-            const cur = parseInt(countEl.textContent || '0', 10);
-            countEl.textContent = Math.max(0, data.wishlisted ? cur + 1 : cur - 1);
-        }
+        if (countEl) countEl.textContent = document.querySelectorAll('.wishlist-btn.wishlisted').length;
     })
     .catch(() => {
         btn.disabled = false;
-        showToast('Xatolik', "Qaytadan urinib ko'ring", 'error');
+        showToast('Xatolik', 'Iltimos, qaytadan urinib ko\'ring', 'error');
     });
 }
 
@@ -423,7 +458,7 @@ function showRecentSearches() {
 }
 
 function hideRecentSearches() {
-    document.getElementById('recent-searches-dropdown').classList.remove('show');
+    document.getElementById('recent-searches-dropdown')?.classList.remove('show');
 }
 
 function doSearch() {
@@ -519,7 +554,7 @@ function showLiveSuggestionsLoading() {
 
 async function fetchLiveSuggestions(q) {
     try {
-        const res = await fetch('/api/global-search/?q=' + encodeURIComponent(q));
+        const res = await fetch('/' + getCurrentLang() + '/api/global-search/?q=' + encodeURIComponent(q));
         if (!res.ok) throw new Error('Network error');
         const data = await res.json();
         _lastSearchQuery = q;
@@ -654,10 +689,7 @@ function performGlobalSearch() {
     addRecentSearch(q);
     hideLiveSuggestions();
 
-    const parts = window.location.pathname.split('/');
-    const supported = ['uz', 'en', 'ru'];
-    const langPrefix = supported.includes(parts[1]) ? '/' + parts[1] : '';
-    window.location.href = langPrefix + '/destinations/?q=' + encodeURIComponent(q);
+    window.location.href = '/' + getCurrentLang() + '/destinations/?q=' + encodeURIComponent(q);
 }
 
 function _renderSearchOverlay(results, q, total) {

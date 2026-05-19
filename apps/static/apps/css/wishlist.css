@@ -12,12 +12,12 @@ WISHLIST PAGE STYLES - TO'LIQ VERSIYA
     --warning-color: #f59e0b;
     --info-color: #06b6d4;
 
-    --bg-light: #379e37;
+    --bg-light: #f1f5f9;
     --bg-white: #ffffff;
     --bg-dark: #0f172a;
 
     --text-primary: #1e293b;
-    --text-secondary: #347aae;
+    --text-secondary: #64748b;
     --text-light: #94a3b8;
 
     --border-color: #e2e8f0;
@@ -36,22 +36,77 @@ WISHLIST PAGE STYLES - TO'LIQ VERSIYA
 /* Page Layout */
 .wishlist-page {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+    background: #f8fafc;
     padding-bottom: 60px;
 }
 
-/* Page Header */
+/* Page Header — home page hero bilan bir xil */
 .page-header {
-    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-    padding: 40px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 110px 0 50px;
     margin-bottom: 40px;
-    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.page-header .hero-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.page-header .shape {
+    position: absolute;
+    opacity: 0.1;
+    background: white;
+}
+
+.page-header .shape-1 {
+    top: 10%;
+    left: 5%;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.page-header .shape-2 {
+    top: 50%;
+    right: 5%;
+    width: 180px;
+    height: 180px;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    animation: float 8s ease-in-out infinite;
+    animation-delay: 1s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-20px); }
 }
 
 .header-content {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 30px;
+    position: relative;
+    z-index: 2;
 }
 
 .back-btn {
@@ -64,14 +119,15 @@ WISHLIST PAGE STYLES - TO'LIQ VERSIYA
     font-weight: 500;
     padding: 8px 16px;
     border-radius: var(--border-radius-sm);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     transition: var(--transition);
     margin-bottom: 20px;
 }
 
 .back-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.25);
     color: #ffffff;
     transform: translateX(-5px);
 }
@@ -82,37 +138,38 @@ WISHLIST PAGE STYLES - TO'LIQ VERSIYA
 }
 
 .header-title h1 {
-    font-size: 42px;
-    font-weight: 700;
+    font-size: 48px;
+    font-weight: 900;
     color: #ffffff;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
+    animation: fadeInUp 0.8s ease;
 }
 
 .header-title h1 i {
-    font-size: 38px;
-    color: #ef4444;
+    font-size: 42px;
+    color: #fca5a5;
     animation: heartbeat 1.5s infinite;
 }
 
 @keyframes heartbeat {
-    0%, 100% {
-        transform: scale(1);
-    }
-    25% {
-        transform: scale(1.1);
-    }
-    50% {
-        transform: scale(1);
-    }
+    0%, 100% { transform: scale(1); }
+    25%       { transform: scale(1.15); }
+    50%       { transform: scale(1); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .header-title p {
-    font-size: 16px;
+    font-size: 18px;
     color: rgba(255, 255, 255, 0.9);
+    animation: fadeInUp 0.8s ease 0.15s backwards;
 }
 
 /* Quick Stats */
@@ -120,18 +177,18 @@ WISHLIST PAGE STYLES - TO'LIQ VERSIYA
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
-    margin-top: 30px;
+    margin-top: 35px;
 }
 
 .stat-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: var(--border-radius);
     padding: 24px;
     display: flex;
     align-items: center;
     gap: 20px;
-    box-shadow: var(--shadow-md);
     transition: var(--transition);
 }
 
@@ -174,13 +231,13 @@ WISHLIST PAGE STYLES - TO'LIQ VERSIYA
 .stat-info h3 {
     font-size: 28px;
     font-weight: 700;
-    color: var(--text-primary);
+    color: #ffffff;
     margin-bottom: 4px;
 }
 
 .stat-info p {
     font-size: 14px;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.85);
     font-weight: 500;
 }
 
@@ -305,6 +362,135 @@ WISHLIST PAGE STYLES - TO'LIQ VERSIYA
 
 .filter-tab.active .tab-count {
     background: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Price Range Slider ─────────────────────────────────────────────────── */
+.price-range-section {
+    padding: 16px 20px;
+    background: var(--bg-light);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.price-range-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.price-range-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.price-range-label i {
+    color: var(--primary-color);
+}
+
+.price-range-values {
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-color);
+    background: rgba(37, 99, 235, 0.08);
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.price-range-reset {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 12px;
+    transition: var(--transition);
+}
+
+.price-range-reset:hover {
+    background: var(--danger-color);
+    color: white;
+    border-color: var(--danger-color);
+}
+
+.range-slider-wrap {
+    position: relative;
+    height: 36px;
+    display: flex;
+    align-items: center;
+}
+
+.range-track {
+    position: absolute;
+    width: 100%;
+    height: 6px;
+    background: var(--border-color);
+    border-radius: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.range-fill {
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), #3b82f6);
+    border-radius: 3px;
+}
+
+.range-input {
+    position: absolute;
+    width: 100%;
+    height: 6px;
+    background: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+    pointer-events: none;
+    outline: none;
+}
+
+.range-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+    cursor: pointer;
+    pointer-events: all;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.range-input::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
+}
+
+.range-input::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+    cursor: pointer;
+    pointer-events: all;
+}
+
+.price-range-ticks {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
 }
 
 /* Options Bar */
@@ -671,11 +857,11 @@ WISHLIST PAGE STYLES - TO'LIQ VERSIYA
     transform: scale(1.1);
 }
 
-.wishlist-heart.active {
+.wishlist-heart.wishlisted {
     color: #ef4444;
 }
 
-.wishlist-heart.active:hover {
+.wishlist-heart.wishlisted:hover {
     animation: heartPop 0.5s ease;
 }
 
@@ -1837,25 +2023,6 @@ a:focus-visible {
     }
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg-light: rgba(99, 135, 135, 0.95);
-        --bg-white: #0f172a;
-        --bg-dark: #f8fafc;
-        --text-primary: #3778bc;
-        --text-secondary: #67a0d8;
-        --text-light: #94a3b8;
-        --border-color: #334155;
-    }
-
-    .wishlist-page {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    }
-
-    .modal-overlay {
-        background: rgba(0, 0, 0, 0.8);
-    }
-}
 
 /* ========================================
    UTILITY CLASSES
