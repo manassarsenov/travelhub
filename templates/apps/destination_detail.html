@@ -531,14 +531,21 @@
 
                                 <div class="dcd-sim-img-wrap">
                                     {% if s_destination.is_popular %}
-                                        <div class="dcd-sim-badge">#{{ s_destination.featured_badge }} Best seller
+                                        <div class="dcd-sim-badge">
+                                            <i class="fas fa-crown"></i>
+                                            {% if s_destination.featured_badge %}#{{ s_destination.featured_badge }}{% endif %}
+                                            Best seller
                                         </div>
+                                    {% endif %}
+                                    {% if s_destination.discount_percentage > 0 %}
+                                        <div class="dcd-sim-discount">-{{ s_destination.discount_percentage }}%</div>
                                     {% endif %}
 
                                     {% with s_imgs=s_destination.images.all %}
-                                        <img src="{% if s_imgs.0 %} {{ s_imgs.0.image.url }} {% else %} {% static 'apps/img/default.avif' %} {% endif %}"
-                                             alt="{{ s_destination.name }}">
+                                        <img src="{% if s_imgs.0 %}{{ s_imgs.0.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}"
+                                             alt="{{ s_destination.name }}" loading="lazy">
                                     {% endwith %}
+                                    <div class="dcd-sim-overlay"></div>
                                 </div>
 
                                 <div class="dcd-sim-info">
@@ -546,9 +553,9 @@
 
                                     <div class="dcd-sim-footer">
                                         <div class="dcd-sim-rating">
-                                            <i class="fas fa-star" style="color:#fbbf24;"></i>
+                                            <i class="fas fa-star"></i>
                                             <span>{{ s_destination.rating }}</span>
-                                            <span style="color:var(--gray); font-size: 11px;">({{ s_destination.visible_reviews_count }})</span>
+                                            <span class="dcd-sim-rating-count">({{ s_destination.visible_reviews_count }})</span>
                                         </div>
 
                                         <div class="dcd-sim-price">

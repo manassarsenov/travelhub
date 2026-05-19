@@ -442,20 +442,34 @@ def booking_reminder_task():
 @shared_task(name="booking_completed_task")
 def booking_completed_task():
     """
-    Bugun tugagan bronlarga 'Sayohat yakunlandi, izoh qoldiring' notification yuboradi.
-    Bronni COMPLETED holatiga o'tkazadi va review so'rovi yuboradi.
+    Sayohat vaqti o'tib ketgan CONFIRMED bronlarni COMPLETED ga o'tkazadi
+    va review so'rovi notification yuboradi.
+    Vaqt hisobga olinadi (booking_date + time < now).
     """
+    import datetime as _dt
     from django.utils import timezone
     from apps.models import Booking, Notification, Review
 
-    today = timezone.now().date()
+    now = timezone.now()
+    today = now.date()
 
-    # Bugun tugagan va hali COMPLETED bo'lmagan bronlarni topamiz
-    finished_bookings = Booking.objects.filter(
+    # Avval kun bo'yicha keng filtr (DB-side), keyin vaqt aniqligi (Python)
+    candidates = Booking.objects.filter(
         booking_date__lte=today,
         status=Booking.Status.CONFIRMED,
-        user__isnull=False
+        user__isnull=False,
     ).select_related('user', 'destination')
+
+    finished_bookings = []
+    for b in candidates:
+        booking_time = b.time or _dt.time(23, 59)
+        trip_naive = _dt.datetime.combine(b.booking_date, booking_time)
+        try:
+            trip_end = timezone.make_aware(trip_naive)
+        except Exception:
+            continue
+        if trip_end < now:
+            finished_bookings.append(b)
 
     count = 0
     for booking in finished_bookings:

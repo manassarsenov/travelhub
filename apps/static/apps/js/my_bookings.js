@@ -2,7 +2,9 @@
    MY BOOKINGS — Dynamic / AJAX
    ================================ */
 
-const API_URL = '/my_bookings/api/';
+/* i18n_patterns sababli URLlar oldidan til prefiksi kerak: /en/, /uz/, /ru/ ... */
+const LANG_PREFIX = '/' + (window.location.pathname.split('/').filter(Boolean)[0] || 'en') + '/';
+const API_URL = LANG_PREFIX + 'my_bookings/api/';
 const DEFAULT_IMG = document.getElementById('bookings-container')?.dataset.defaultImg || '';
 
 // Central store keyed by booking_number
@@ -72,6 +74,9 @@ function renderSection(status, data) {
     if (countEl)  countEl.textContent  = data.count ? `(${data.count})` : '';
     if (tabCnt)   tabCnt.textContent   = data.count;
 
+    // Dynamic stats — refreshed from every API response
+    if (data.stats) updateStats(data.stats);
+
     if (!data.bookings || data.bookings.length === 0) {
         if (grid)    grid.innerHTML    = '';
         if (section) section.style.display = 'none';
@@ -94,6 +99,21 @@ function renderError(status) {
     const grid = document.getElementById(`${status}-grid`);
     if (grid) grid.innerHTML =
         '<div class="section-loading" style="color:#ef4444;"><i class="fas fa-exclamation-circle"></i> Failed to load</div>';
+}
+
+function updateStats(stats) {
+    const set = (id, v) => {
+        const el = document.getElementById(id);
+        if (el && v !== undefined && v !== null) el.textContent = v;
+    };
+    set('stat-total',     stats.total);
+    set('stat-upcoming',  stats.upcoming);
+    set('stat-completed', stats.completed);
+    set('stat-cancelled', stats.cancelled);
+    set('tab-count-all',       stats.total);
+    set('tab-count-upcoming',  stats.upcoming);
+    set('tab-count-completed', stats.completed);
+    set('tab-count-cancelled', stats.cancelled);
 }
 
 /* ─── Card builder ───────────────────────────────────────────────────────── */
@@ -135,6 +155,10 @@ function buildCard(b, status) {
             data-free="${b.is_free_cancellation}"
             data-can-free="${b.can_free_cancel}"
             data-cancel-text="${esc(b.cancellation_text)}"
+            data-total="${esc(b.total_price)}"
+            data-fee-percent="${esc(b.preview_fee_percent)}"
+            data-fee="${esc(b.preview_fee)}"
+            data-refund="${esc(b.preview_refund)}"
             onclick="cancelBooking(this)">
             <i class="fas fa-times"></i> Cancel</button>`;
     } else if (status === 'completed') {
@@ -150,9 +174,33 @@ function buildCard(b, status) {
         actionHtml += `<a href="/destination-detail/${esc(b.destination_slug)}/" class="action-btn secondary"><i class="fas fa-search"></i> Book Similar Trip</a>`;
     }
 
-    const cancelInfoHtml = status === 'cancelled'
-        ? `<div class="cancellation-info"><i class="fas fa-info-circle"></i><span>Cancelled · Booking #${num}</span></div>`
-        : '';
+    let cancelInfoHtml = '';
+    if (status === 'cancelled') {
+        const fee    = parseFloat(b.cancellation_fee || '0');
+        const refund = parseFloat(b.refund_amount    || '0');
+        const fmt    = n => n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        if (fee > 0) {
+            cancelInfoHtml = `
+                <div class="cancellation-info" style="flex-direction:column;align-items:stretch;gap:4px;">
+                    <div style="display:flex;align-items:center;gap:8px;font-weight:700;">
+                        <i class="fas fa-info-circle"></i>Cancelled${b.cancelled_at ? ' · ' + esc(b.cancelled_at) : ''}
+                    </div>
+                    <div style="display:flex;justify-content:space-between;font-weight:500;">
+                        <span>Fee ushlandi:</span><span>− $${fmt(fee)}</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;color:#065f46;font-weight:700;">
+                        <span>Qaytarildi:</span><span>$${fmt(refund)}</span>
+                    </div>
+                </div>`;
+        } else {
+            cancelInfoHtml = `
+                <div class="cancellation-info" style="background:#ecfdf5;color:#065f46;">
+                    <i class="fas fa-leaf"></i>
+                    <span>Bepul bekor qilindi · $${fmt(refund)} qaytarildi</span>
+                </div>`;
+        }
+    }
 
     return `
 <div class="booking-card" data-status="${status}" data-booking-date="${esc(b.booking_date_iso)}" data-price="${esc(b.total_price)}" data-destination="${esc(b.destination_name)}">
@@ -296,7 +344,7 @@ function toggleView(view) {
 
 function applyCurrentView(grid) {
     const view = localStorage.getItem('bookingsView') || 'grid';
-    grid.style.gridTemplateColumns = view === 'list' ? '1fr' : 'repeat(auto-fill, minmax(480px, 1fr))';
+    grid.style.gridTemplateColumns = view === 'list' ? '1fr' : '';
     document.querySelectorAll('.view-btn').forEach(btn =>
         btn.classList.toggle('active', btn.dataset.view === view)
     );
@@ -338,6 +386,27 @@ function openDetails(bookingNum) {
             <div><strong>Free Cancellation</strong><p style="color:#10b981;">${esc(b.cancellation_text)}</p></div>
         </div>` : '';
 
+    // Cancelled bookinglar uchun fee / refund details
+    let cancelDetailsRow = '';
+    if (b.status === 'cancelled') {
+        const fee    = parseFloat(b.cancellation_fee || '0');
+        const refund = parseFloat(b.refund_amount    || '0');
+        const fmt    = n => n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        cancelDetailsRow = `
+            <div class="d-row">
+                <i class="fas fa-undo" style="color:#10b981;width:20px;margin-top:2px;"></i>
+                <div>
+                    <strong>Refund</strong>
+                    <p style="color:#10b981;">$${fmt(refund)} qaytarildi${fee > 0 ? ` (15% / $${fmt(fee)} ushlandi)` : ' (to\'liq summa)'}</p>
+                </div>
+            </div>
+            ${b.cancelled_at ? `
+            <div class="d-row">
+                <i class="fas fa-calendar-times" style="color:#ef4444;width:20px;margin-top:2px;"></i>
+                <div><strong>Cancelled On</strong><p>${esc(b.cancelled_at)}</p></div>
+            </div>` : ''}`;
+    }
+
     document.getElementById('modal-title').textContent = 'Booking Details';
     document.getElementById('modal-body').innerHTML = `
         <div style="padding:25px;">
@@ -372,6 +441,7 @@ function openDetails(bookingNum) {
                     <div><strong>Status</strong><p style="color:${color};font-weight:700;">${esc(b.status_display)}</p></div>
                 </div>
                 ${freeCancelRow}
+                ${cancelDetailsRow}
             </div>
         </div>`;
 
@@ -392,21 +462,48 @@ function cancelBooking(btn) {
     const canFree    = btn.dataset.canFree === 'True';
     const cancelText = btn.dataset.cancelText || '';
 
+    const total       = parseFloat(btn.dataset.total       || '0');
+    const feePercent  = parseFloat(btn.dataset.feePercent  || '0');
+    const feeAmount   = parseFloat(btn.dataset.fee         || '0');
+    const refundAmt   = parseFloat(btn.dataset.refund      || '0');
+
     _cancelId = bookingNum;
     document.getElementById('cancel-booking-display').textContent = '#' + bookingNum;
 
     const infoEl = document.getElementById('cancel-free-info');
-    if (isFree && cancelText) {
-        infoEl.style.display = 'block';
-        if (canFree) {
-            infoEl.style.cssText = 'display:block;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:18px;';
-            infoEl.innerHTML = `<i class="fas fa-leaf" style="margin-right:6px;"></i><strong>Free cancellation available</strong><br>${esc(cancelText)}`;
-        } else {
-            infoEl.style.cssText = 'display:block;background:#fef2f2;color:#991b1b;border:1px solid #fecaca;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:18px;';
-            infoEl.innerHTML = `<i class="fas fa-exclamation-circle" style="margin-right:6px;"></i><strong>Free cancellation period has expired.</strong><br>Cancellation fees may apply.`;
-        }
+    const fmt = n => n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    infoEl.style.display = 'block';
+    if (feePercent === 0) {
+        // Bepul bekor qilish — to'liq qaytariladi
+        infoEl.style.cssText = 'display:block;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.6;margin-bottom:18px;text-align:left;';
+        infoEl.innerHTML = `
+            <div style="font-weight:700;margin-bottom:4px;">
+                <i class="fas fa-leaf" style="margin-right:6px;"></i>Bepul bekor qilish
+            </div>
+            <div>Sizga to'liq summa qaytariladi:
+                <strong style="color:#065f46;">$${fmt(refundAmt)}</strong>
+            </div>
+            ${cancelText ? `<div style="margin-top:4px;font-size:12px;opacity:.85;">${esc(cancelText)}</div>` : ''}`;
     } else {
-        infoEl.style.display = 'none';
+        // Fee ushlanadi
+        infoEl.style.cssText = 'display:block;background:#fef2f2;color:#991b1b;border:1px solid #fecaca;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.6;margin-bottom:18px;text-align:left;';
+        const reason = isFree
+            ? "Bepul bekor qilish muddati o'tib ketgan."
+            : "Bu destination uchun bepul bekor qilish mavjud emas.";
+        infoEl.innerHTML = `
+            <div style="font-weight:700;margin-bottom:6px;">
+                <i class="fas fa-exclamation-circle" style="margin-right:6px;"></i>${esc(reason)}
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                <span>Jami summa:</span><strong>$${fmt(total)}</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:2px 0;color:#991b1b;">
+                <span>Ushlanadi (${feePercent}%):</span><strong>− $${fmt(feeAmount)}</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px dashed #fecaca;margin-top:4px;color:#065f46;font-weight:700;">
+                <span>Qaytariladi:</span><strong>$${fmt(refundAmt)}</strong>
+            </div>`;
     }
 
     document.getElementById('cancel-modal').classList.add('show');
@@ -422,15 +519,18 @@ function doCancel(bookingNum) {
     closeCancelModal();
     showToast('Cancelling booking...', 'info');
 
-    fetch(`/my_bookings/${bookingNum}/cancel/`, {
+    fetch(`${LANG_PREFIX}my_bookings/${bookingNum}/cancel/`, {
         method: 'POST',
         headers: { 'X-CSRFToken': CSRF_TOKEN, 'Content-Type': 'application/json' }
     })
     .then(r => r.json())
     .then(data => {
         if (data.success) {
-            showToast('Booking cancelled successfully.', 'success');
-            setTimeout(() => location.reload(), 1800);
+            showToast(data.message || 'Booking cancelled successfully.', 'success');
+            _bookings.delete(bookingNum);
+            // Dinamik refresh — reload qilmaymiz
+            state.pages = { upcoming: 1, completed: 1, cancelled: 1 };
+            state.tab === 'all' ? loadAll() : loadSection(state.tab);
         } else {
             showToast('Error: ' + data.message, 'error');
         }

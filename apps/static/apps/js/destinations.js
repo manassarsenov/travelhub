@@ -268,6 +268,19 @@ function switchCountry(countryCode, btn) {
         .then(data => {
             grid.innerHTML = '';
             panel.dataset.loaded = 'true';
+            panel.dataset.total = data.total;
+
+            if (!data.cities || data.cities.length === 0) {
+                const countryName = data.country_name || btn.textContent.trim();
+                grid.innerHTML = `
+                    <div class="cities-empty">
+                        <div class="cities-empty-icon"><i class="fas fa-city"></i></div>
+                        <h4>No cities yet for ${countryName}</h4>
+                        <p>We're still adding destinations here. Check back soon — new cities and tours are on the way.</p>
+                    </div>`;
+                updateLoadMoreUI(panel);
+                return;
+            }
 
             data.cities.forEach(city => {
                 grid.insertAdjacentHTML('beforeend', `
@@ -281,7 +294,6 @@ function switchCountry(countryCode, btn) {
                     </div>`);
             });
 
-            panel.dataset.total = data.total;
             updateLoadMoreUI(panel);
         })
         .catch(() => {
@@ -1099,10 +1111,10 @@ function openComparison() {
 
     if (list.length === 0) {
         grid.innerHTML = `
-            <div style="text-align: center; padding: 80px 60px; color: #6b7280;">
-                <i class="fas fa-balance-scale" style="font-size: 3rem; margin-bottom: 20px; display: block;"></i>
-                <h3 style="margin: 0 0 10px; color: #374151;">No destinations selected</h3>
-                <p style="margin: 0;">Choose destinations from the list to compare them side by side.</p>
+            <div class="compare-empty-state">
+                <div class="compare-empty-icon"><i class="fas fa-balance-scale"></i></div>
+                <h3>No destinations selected</h3>
+                <p>Choose destinations from the list to compare them side by side.</p>
             </div>
         `;
         modal.classList.add('active');
@@ -1111,17 +1123,23 @@ function openComparison() {
 
     if (list.length === 1) {
         grid.innerHTML = `
-            <div style="text-align: center; padding: 80px 60px; color: #6b7280;">
-                <i class="fas fa-balance-scale" style="font-size: 3rem; margin-bottom: 20px; display: block;"></i>
-                <h3 style="margin: 0 0 10px; color: #374151;">Select at least 2 destinations</h3>
-                <p style="margin: 0;">You have 1 destination selected. Please select one more to start comparing.</p>
+            <div class="compare-empty-state">
+                <div class="compare-empty-icon"><i class="fas fa-balance-scale"></i></div>
+                <h3>Select at least 2 destinations</h3>
+                <p>You have 1 destination selected. Please select one more to start comparing.</p>
             </div>
         `;
         modal.classList.add('active');
         return;
     }
 
-    grid.innerHTML = '<div style="text-align: center; padding: 80px 60px;"><i class="fas fa-spinner fa-spin fa-2x" style="color:#4f46e5;"></i><p style="margin-top: 15px; color: #6b7280;">Loading comparison...</p></div>';
+    grid.innerHTML = `
+        <div class="compare-empty-state">
+            <div class="compare-empty-icon"><i class="fas fa-spinner fa-spin"></i></div>
+            <h3>Loading comparison…</h3>
+            <p>Fetching the latest details for your selected destinations.</p>
+        </div>
+    `;
     modal.classList.add('active');
 
     const lang = getCurrentLang();
@@ -1134,13 +1152,32 @@ function openComparison() {
         })
         .then(data => renderComparison(data.destinations))
         .catch(() => {
-            grid.innerHTML = '<div style="text-align: center; padding: 60px; color: #dc2626;"><i class="fas fa-exclamation-circle" style="font-size: 2rem; margin-bottom: 15px; display: block;"></i><h3 style="margin: 0 0 10px;">Error loading comparison data.</h3></div>';
+            grid.innerHTML = `
+                <div class="compare-empty-state is-error">
+                    <div class="compare-empty-icon"><i class="fas fa-exclamation-circle"></i></div>
+                    <h3>Could not load comparison</h3>
+                    <p>Something went wrong while fetching the data. Please try again.</p>
+                </div>
+            `;
         });
 }
 
 function closeComparison() {
     const modal = document.getElementById('comparison-modal');
     if (modal) modal.classList.remove('active');
+}
+
+function cmpSlide(btn, direction) {
+    const slider = btn.closest('.cmp-slider');
+    if (!slider) return;
+    const track = slider.querySelector('.cmp-slider-track');
+    const imgs = track ? track.querySelectorAll('img') : [];
+    if (!imgs.length) return;
+    let current = parseInt(slider.dataset.current || 0);
+    current = (current + direction + imgs.length) % imgs.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    slider.dataset.current = current;
+    slider.querySelectorAll('.cmp-dot').forEach((d, i) => d.classList.toggle('active', i === current));
 }
 
 function renderComparison(destinations) {
@@ -1153,9 +1190,15 @@ function renderComparison(destinations) {
     }
 
     const n = destinations.length;
-    const gridCols = `200px repeat(${n}, 1fr)`;
+    const gridCols = `170px repeat(${n}, minmax(200px, 1fr))`;
 
-    const imgUrl = (d) => d.image && d.image.length > 5 && !d.image.includes('vectorstock') ? d.image : '/static/apps/img/default.avif';
+    const DEFAULT_IMG = '/static/apps/img/default.avif';
+    const cleanUrl = (u) => (u && u.length > 5 && !u.includes('vectorstock')) ? u : DEFAULT_IMG;
+    const imgList = (d) => {
+        const arr = Array.isArray(d.images) ? d.images.filter(Boolean).map(cleanUrl) : [];
+        if (arr.length) return arr;
+        return [cleanUrl(d.image)];
+    };
 
     const fmtBool = (v) => v
         ? '<span class="bool-yes"><i class="fas fa-check-circle"></i> Yes</span>'
@@ -1170,12 +1213,27 @@ function renderComparison(destinations) {
             ? `<span class="compare-header-original">$${d.price}</span><span class="compare-header-current">$${d.discounted_price}</span>`
             : `<span class="compare-header-current">$${d.price}</span>`;
 
+        const imgs = imgList(d);
+        const multi = imgs.length > 1;
+        const sliderHtml = `
+            <div class="cmp-slider" data-current="0">
+                <div class="cmp-slider-track">
+                    ${imgs.map(url => `<img src="${url}" alt="${d.name}" onerror="this.src='${DEFAULT_IMG}'">`).join('')}
+                </div>
+                ${multi ? `
+                    <button class="cmp-slider-btn prev" onclick="cmpSlide(this,-1)" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                    <button class="cmp-slider-btn next" onclick="cmpSlide(this,1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="cmp-slider-dots">
+                        ${imgs.map((_, i) => `<span class="cmp-dot ${i === 0 ? 'active' : ''}"></span>`).join('')}
+                    </div>
+                ` : ''}
+            </div>
+        `;
+
         html += `
         <div class="compare-header-cell">
             <button class="compare-header-remove" onclick="removeFromCompare('${d.slug}')" title="Remove">&times;</button>
-            <div class="compare-header-img">
-                <img src="${imgUrl(d)}" alt="${d.name}" onerror="this.parentElement.innerHTML='<div class=\\'no-img\\'><i class=\\'fas fa-image\\'></i> No Image</div>'">
-            </div>
+            ${sliderHtml}
             <h4 class="compare-header-name">${d.name}</h4>
             <p class="compare-header-location"><i class="fas fa-map-marker-alt"></i> ${d.location || d.city || 'N/A'}</p>
             <div class="compare-header-meta">

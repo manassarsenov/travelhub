@@ -765,22 +765,22 @@ class ToggleReviewLikeView(View):
 
             # 4. ASOSIY MANTIQ
             is_liked = review.likes.filter(id=user.id).exists()
-            old_likes_count = review.helpful_count  # Integer field dan olamiz
+            old_likes_count = review.likes.count()  # M2M = autoritativ manba
 
             if is_liked:
                 review.likes.remove(user)
                 liked = False
                 verb_type = "unliked"
-                # 🚀 ATOMIK YANGILASH (F expression)
-                Review.objects.filter(id=review.id).update(helpful_count=F('helpful_count') - 1)
-                new_likes_count = old_likes_count - 1
             else:
                 review.likes.add(user)
                 liked = True
                 verb_type = "liked"
-                # 🚀 ATOMIK YANGILASH (F expression)
-                Review.objects.filter(id=review.id).update(helpful_count=F('helpful_count') + 1)
-                new_likes_count = old_likes_count + 1
+
+            # M2M o'zgargandan keyin yangi count olamiz (autoritativ)
+            new_likes_count = review.likes.count()
+
+            # helpful_count ni M2M bilan sinxron tutamiz (sorting/filtering uchun)
+            Review.objects.filter(id=review.id).update(helpful_count=new_likes_count)
 
             # 5. ACTION LOG (Audit Trail)
             try:
@@ -1369,6 +1369,7 @@ class DestinationByCityView(View):
             'total': total,
             'has_more': has_more,
             'shown': shown,
+            'now': timezone.now(),
         })
 
 
@@ -1892,11 +1893,29 @@ class CancelBookingView(LoginRequiredMixin, View):
     """1.2 NOTIFICATION: Booking bekor qilish."""
     def post(self, request, booking_number):
         booking = get_object_or_404(
-            Booking, booking_number=booking_number, user=request.user
+            Booking.objects.select_related('destination'),
+            booking_number=booking_number, user=request.user
         )
         if booking.status in [Booking.Status.CONFIRMED, Booking.Status.PENDING]:
+            percent, fee, refund = booking.compute_cancellation_amounts()
+
             booking.status = Booking.Status.CANCELLED
-            booking.save(update_fields=['status'])
+            booking.cancelled_at = timezone.now()
+            booking.cancellation_fee = fee
+            booking.refund_amount = refund
+            booking.save(update_fields=[
+                'status', 'cancelled_at', 'cancellation_fee', 'refund_amount'
+            ])
+
+            # Foydalanuvchiga ko'rsatiladigan xabar
+            if percent == 0:
+                msg = "Bron bepul bekor qilindi. To'liq summa qaytariladi."
+                refund_line = f"Qaytariladi: ${refund:,.2f}"
+            else:
+                msg = (f"Bron bekor qilindi. "
+                       f"{percent}% ushlanadi (${fee:,.2f}), "
+                       f"qaytariladi ${refund:,.2f}.")
+                refund_line = f"Qaytariladi: ${refund:,.2f} (15% ushlandi)"
 
             # 1.2 Notification: Booking bekor qilindi
             try:
@@ -1904,7 +1923,7 @@ class CancelBookingView(LoginRequiredMixin, View):
                     recipient=request.user,
                     verb='booking_cancelled',
                     description=f"'{booking.destination.name}' broningiz bekor qilindi. "
-                                f"Bron raqami: {booking.booking_number}.",
+                                f"Bron raqami: {booking.booking_number}. {refund_line}",
                     level=Notification.Level.WARNING,
                     priority=Notification.Priority.HIGH,
                     target_content_type=ContentType.objects.get_for_model(Booking),
@@ -1917,6 +1936,9 @@ class CancelBookingView(LoginRequiredMixin, View):
                         'booking_number': booking.booking_number,
                         'destination_name': booking.destination.name,
                         'booking_date': booking.booking_date.strftime('%b %d, %Y'),
+                        'cancellation_fee_percent': str(percent),
+                        'cancellation_fee': str(fee),
+                        'refund_amount': str(refund),
                         'action_url': '/my_bookings/',
                         'action_label': 'Bronlarimni Ko\'rish',
                     }
@@ -1924,7 +1946,13 @@ class CancelBookingView(LoginRequiredMixin, View):
             except Exception as e:
                 logger.error(f"Cancel booking notification failed: {e}")
 
-            return JsonResponse({'success': True, 'message': 'Bron bekor qilindi.'})
+            return JsonResponse({
+                'success': True,
+                'message': msg,
+                'cancellation_fee_percent': str(percent),
+                'cancellation_fee': str(fee),
+                'refund_amount': str(refund),
+            })
         return JsonResponse({'success': False, 'message': 'Bu bronni bekor qilib bo\'lmaydi.'})
 
 
@@ -1956,6 +1984,35 @@ class MyBookingsApiView(LoginRequiredMixin, View):
     PAGE_SIZE = 6
     login_url = '/auth/login/'
 
+    @staticmethod
+    def _auto_complete_finished(user):
+        """Sayohat vaqti o'tib ketgan CONFIRMED bronlarni COMPLETED ga o'tkazadi."""
+        import datetime as _dt
+        now = timezone.now()
+        today = now.date()
+        # Avval kun bo'yicha ko'p qismini filtrlaymiz (DB-side, indexed)
+        candidates = Booking.objects.filter(
+            user=user,
+            status=Booking.Status.CONFIRMED,
+            booking_date__lte=today,
+        ).only('id', 'booking_date', 'time', 'status')
+
+        to_complete = []
+        for b in candidates:
+            booking_time = b.time or _dt.time(23, 59)
+            trip_naive = _dt.datetime.combine(b.booking_date, booking_time)
+            try:
+                trip_end = timezone.make_aware(trip_naive)
+            except Exception:
+                continue
+            if trip_end < now:
+                to_complete.append(b.id)
+
+        if to_complete:
+            Booking.objects.filter(id__in=to_complete).update(
+                status=Booking.Status.COMPLETED
+            )
+
     def get(self, request):
         import datetime as _dt
         status_param = request.GET.get('status', 'upcoming')
@@ -1966,17 +2023,32 @@ class MyBookingsApiView(LoginRequiredMixin, View):
         search = request.GET.get('search', '').strip()
         sort = request.GET.get('sort', 'date-desc')
 
-        qs = (Booking.objects
-              .filter(user=request.user)
-              .select_related('destination', 'destination__city')
-              .prefetch_related('destination__images'))
+        # Auto-complete: vaqti o'tib ketgan confirmed bronlarni COMPLETED ga o'tkazamiz.
+        # Celery beat ishlamasligi mumkin, shuning uchun bu yerda lazy backstop.
+        self._auto_complete_finished(request.user)
+
+        base_qs = (Booking.objects
+                   .filter(user=request.user)
+                   .select_related('destination', 'destination__city')
+                   .prefetch_related('destination__images'))
 
         if search:
-            qs = qs.filter(
+            base_qs = base_qs.filter(
                 Q(destination__name__icontains=search) |
                 Q(booking_number__icontains=search)
             )
 
+        # Dynamic stats — counts respect current search filter
+        stats = {
+            'upcoming': base_qs.filter(
+                status__in=[Booking.Status.CONFIRMED, Booking.Status.PENDING]
+            ).count(),
+            'completed': base_qs.filter(status=Booking.Status.COMPLETED).count(),
+            'cancelled': base_qs.filter(status=Booking.Status.CANCELLED).count(),
+        }
+        stats['total'] = stats['upcoming'] + stats['completed'] + stats['cancelled']
+
+        qs = base_qs
         if status_param == 'upcoming':
             qs = qs.filter(status__in=[Booking.Status.CONFIRMED, Booking.Status.PENDING])
         elif status_param == 'completed':
@@ -2028,6 +2100,9 @@ class MyBookingsApiView(LoginRequiredMixin, View):
 
             days_until = (b.booking_date - today_date).days if b.booking_date else 0
 
+            # Cancel preview — agar hozir cancel qilsa qancha qaytariladi
+            preview_percent, preview_fee, preview_refund = b.compute_cancellation_amounts()
+
             bookings_data.append({
                 'booking_number': b.booking_number,
                 'destination_name': b.destination.name,
@@ -2051,6 +2126,14 @@ class MyBookingsApiView(LoginRequiredMixin, View):
                 'can_free_cancel': can_free_cancel,
                 'cancellation_text': cancellation_text,
                 'days_until': days_until,
+                # Cancel preview (cancel oldidan ko'rsatish)
+                'preview_fee_percent': str(preview_percent),
+                'preview_fee': str(preview_fee),
+                'preview_refund': str(preview_refund),
+                # Saqlangan cancel snapshot (status=cancelled bo'lganlar uchun)
+                'cancellation_fee': str(b.cancellation_fee or 0),
+                'refund_amount': str(b.refund_amount or 0),
+                'cancelled_at': b.cancelled_at.strftime('%b %d, %Y') if b.cancelled_at else '',
             })
 
         return JsonResponse({
@@ -2060,6 +2143,7 @@ class MyBookingsApiView(LoginRequiredMixin, View):
             'count': paginator.count,
             'has_next': page_obj.has_next(),
             'has_prev': page_obj.has_previous(),
+            'stats': stats,
         })
 
 
@@ -2339,8 +2423,8 @@ class CompareDestinationsView(View):
 
         data = []
         for d in destinations:
-            first_image = d.images.first()
-            image_url = first_image.image.url if first_image and first_image.image else ''
+            image_urls = [img.image.url for img in d.images.all() if img.image]
+            image_url = image_urls[0] if image_urls else ''
 
             # Hotels ma'lumotlari
             hotels = []
@@ -2377,6 +2461,7 @@ class CompareDestinationsView(View):
                 'location': d.location or (d.city.name if d.city else ''),
                 'city': d.city.name if d.city else '',
                 'image': image_url,
+                'images': image_urls,
                 'price': d.price,
                 'discount_percentage': d.discount_percentage,
                 'discounted_price': d.discounted_price,

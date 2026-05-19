@@ -104,6 +104,5 @@ Yuqoridagi muammolarni bartaraf etish va loyihani "Production Ready" (to'liq foy
 
 ---
 
-### Xulosa
-
+### Xulos
 Hozirgi vaqtda platformaning logikasi va funksionali (Frontend+Backend) katta hajmdagi ishlarni bajarib bo'lgan. AI va Celery qo'llanganligi loyiha darajasini ancha yuqori qilib turibdi. Ammo tizimning eng asosiy muammosi — kod tuzilishi (`views.py` ning kattaligi). Birinchi navbatda albatta `views.py` ni bo'lib chiqish vazifasidan boshlash shart, shundan so'ng boshqa texnik qarzlar (to'lov va testlar) ustida ishlash loyihani mukammal darajaga olib chiqadi.

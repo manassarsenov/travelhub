@@ -134,10 +134,20 @@ function toggleWishlist(btn, event) {
             window.location.href = '/auth/login/?next=' + window.location.pathname;
             return null;
         }
+        if (r.status === 401 || r.status === 403) {
+            btn.disabled = false;
+            showToast('Tizimga kiring', "Wishlistga qo'shish uchun avval tizimga kiring", 'info');
+            return null;
+        }
         return r.json();
     })
     .then(data => {
         if (!data) return;
+        if (data.unauthenticated) {
+            btn.disabled = false;
+            showToast('Tizimga kiring', "Wishlistga qo'shish uchun avval tizimga kiring", 'info');
+            return;
+        }
         btn.disabled = false;
         if (data.wishlisted) {
             btn.classList.add('wishlisted');
@@ -278,6 +288,8 @@ function showToast(title, message, type = 'success') {
 
     if (type === 'success') {
         icon.classList.add('fa-check-circle');
+    } else if (type === 'info') {
+        icon.classList.add('fa-info-circle');
     } else {
         icon.classList.add('fa-exclamation-circle');
     }

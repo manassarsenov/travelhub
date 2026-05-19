@@ -26,6 +26,10 @@ app.conf.beat_schedule = {
         'task': 'check_price_drop_alerts',
         'schedule': 86400.0,  # har kuni (24 soat = 86400 sekund)
     },
+    'booking-completed-hourly': {
+        'task': 'booking_completed_task',
+        'schedule': 3600.0,  # har soatda — sayohat vaqti o'tganlarni COMPLETED ga o'tkazadi
+    },
 }
 
 

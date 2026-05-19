@@ -1,5 +1,6 @@
 import datetime
 import uuid
+from decimal import Decimal
 from django.db.models import ForeignKey, CASCADE, PROTECT, Index, JSONField
 from django.db.models.enums import TextChoices
 from django.db.models.fields import (CharField, DateField, TimeField,
@@ -7,6 +8,9 @@ from django.db.models.fields import (CharField, DateField, TimeField,
                                      BooleanField, DateTimeField, TextField)
 from django.utils.translation import gettext_lazy as _
 from apps.models.base import CreatedBaseModel
+
+# Free cancellation bo'lmagan yoki muddati o'tib ketgan bronlar uchun ushlanadigan foiz
+CANCELLATION_FEE_PERCENT = Decimal('15')
 
 
 def generate_booking_number():
@@ -64,6 +68,11 @@ class Booking(CreatedBaseModel):
 
     notes = TextField(null=True, blank=True, verbose_name=_("Special Requests"))
 
+    # --- CANCELLATION SNAPSHOT ---
+    cancelled_at = DateTimeField(null=True, blank=True)
+    cancellation_fee = DecimalField(max_digits=10, decimal_places=2, default=0)
+    refund_amount = DecimalField(max_digits=10, decimal_places=2, default=0)
+
     def save(self, *args, **kwargs):
 
         # 2. total_guests hisoblash
@@ -77,6 +86,57 @@ class Booking(CreatedBaseModel):
 
     def __str__(self):
         return f"{self.booking_number} - {self.destination.name}"
+
+    # ── LIFECYCLE HELPERS ─────────────────────────────────────────────────
+    def trip_end_datetime(self):
+        """Sayohat tugash vaqti (booking_date + time, aware datetime)."""
+        from django.utils import timezone
+        if not self.booking_date:
+            return None
+        booking_time = self.time or datetime.time(23, 59)
+        trip_naive = datetime.datetime.combine(self.booking_date, booking_time)
+        try:
+            return timezone.make_aware(trip_naive)
+        except Exception:
+            return trip_naive
+
+    @property
+    def is_finished(self):
+        """Sayohat vaqti o'tib ketganmi?"""
+        from django.utils import timezone
+        end = self.trip_end_datetime()
+        return bool(end and end < timezone.now())
+
+    # ── CANCELLATION LOGIC ────────────────────────────────────────────────
+    def can_free_cancel_now(self):
+        """Hozircha bepul bekor qilish mumkinmi? (vaqt cheklovi bilan)"""
+        from django.utils import timezone
+        if not self.destination.is_free_cancellation:
+            return False
+        if not self.booking_date:
+            return False
+        booking_time = self.time or datetime.time(0, 0)
+        trip_start_naive = datetime.datetime.combine(self.booking_date, booking_time)
+        try:
+            trip_start = timezone.make_aware(trip_start_naive)
+        except Exception:
+            return False
+        hours_until = (trip_start - timezone.now()).total_seconds() / 3600
+        return hours_until >= self.destination.free_cancellation_hours
+
+    def get_cancellation_fee_percent(self):
+        """Bekor qilishda ushlanadigan foiz."""
+        if self.can_free_cancel_now():
+            return Decimal('0')
+        return CANCELLATION_FEE_PERCENT
+
+    def compute_cancellation_amounts(self):
+        """Joriy holatda fee va refund summalarini hisoblaydi (saqlamasdan)."""
+        percent = self.get_cancellation_fee_percent()
+        total = Decimal(self.total_price or 0)
+        fee = (total * percent / Decimal('100')).quantize(Decimal('0.01'))
+        refund = (total - fee).quantize(Decimal('0.01'))
+        return percent, fee, refund
 
     class Meta:
         verbose_name = _("Booking")

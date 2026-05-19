@@ -28,28 +28,28 @@
                 <div class="stat-card">
                     <div class="stat-icon total"><i class="fas fa-list"></i></div>
                     <div class="stat-info">
-                        <h3>{{ total_count }}</h3>
+                        <h3 id="stat-total">{{ total_count }}</h3>
                         <p>Total Bookings</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon upcoming"><i class="fas fa-clock"></i></div>
                     <div class="stat-info">
-                        <h3>{{ upcoming_count }}</h3>
+                        <h3 id="stat-upcoming">{{ upcoming_count }}</h3>
                         <p>Upcoming</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon completed"><i class="fas fa-check-circle"></i></div>
                     <div class="stat-info">
-                        <h3>{{ completed_count }}</h3>
+                        <h3 id="stat-completed">{{ completed_count }}</h3>
                         <p>Completed</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon cancelled"><i class="fas fa-times-circle"></i></div>
                     <div class="stat-info">
-                        <h3>{{ cancelled_count }}</h3>
+                        <h3 id="stat-cancelled">{{ cancelled_count }}</h3>
                         <p>Cancelled</p>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                 <button class="filter-tab active" data-status="all" onclick="filterBookings('all')">
                     <i class="fas fa-list"></i>
                     <span>All</span>
-                    <span class="tab-count">{{ total_count }}</span>
+                    <span class="tab-count" id="tab-count-all">{{ total_count }}</span>
                 </button>
                 <button class="filter-tab" data-status="upcoming" onclick="filterBookings('upcoming')">
                     <i class="fas fa-clock"></i>

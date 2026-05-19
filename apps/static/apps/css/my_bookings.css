@@ -349,8 +349,8 @@
 /* Bookings Grid */
 .bookings-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
 }
 
 /* ================================
@@ -374,7 +374,7 @@
 /* Booking Image */
 .booking-image {
     position: relative;
-    height: 250px;
+    height: 200px;
     overflow: hidden;
 }
 
@@ -428,34 +428,58 @@
 
 /* Booking Content */
 .booking-content {
-    padding: 30px;
+    padding: 22px;
 }
 
 .booking-header {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .booking-header h3 {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 800;
     color: var(--dark);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    line-height: 1.3;
 }
 
 .booking-id {
-    font-size: 14px;
+    font-size: 12px;
     color: var(--gray);
     font-weight: 600;
     font-family: 'Courier New', monospace;
+}
+
+/* Booking Meta Tags */
+.booking-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+.booking-meta .meta-item {
+    font-size: 11.5px;
+    color: var(--text-muted, #64748b);
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+}
+.booking-meta .meta-item.promo-tag {
+    background: #ecfdf5;
+    color: #065f46;
 }
 
 /* Booking Details */
 .booking-details {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
     border-bottom: 2px solid #f5f7fa;
 }
 :root {
@@ -465,20 +489,20 @@
 .detail-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 15px;
+    gap: 10px;
+    font-size: 13.5px;
     color: var(--text);
     font-weight: 500;
 }
 
 .detail-item i {
-    font-size: 18px;
+    font-size: 15px;
     color: var(--primary);
-    width: 20px;
+    width: 18px;
 }
 
 .detail-item.price {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
     color: var(--primary);
 }
@@ -491,19 +515,19 @@
 /* Countdown Timer */
 .countdown-timer {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 15px 20px;
-    border-radius: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 10px;
+    margin-bottom: 14px;
     color: white;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
 }
 
 .countdown-timer i {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .countdown-timer strong {
@@ -561,19 +585,19 @@
 /* Cancellation Info */
 .cancellation-info {
     background: #fef2f2;
-    padding: 15px 20px;
-    border-radius: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 10px;
+    margin-bottom: 14px;
     color: #dc2626;
-    font-size: 14px;
+    font-size: 12.5px;
     font-weight: 600;
 }
 
 .cancellation-info i {
-    font-size: 18px;
+    font-size: 15px;
 }
 
 /* ================================
@@ -582,27 +606,28 @@
 
 .booking-actions {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 8px;
 }
 
 .action-btn {
-    padding: 14px 20px;
+    padding: 10px 14px;
     border: none;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     font-family: 'Inter', sans-serif;
+    white-space: nowrap;
 }
 
 .action-btn i {
-    font-size: 16px;
+    font-size: 13px;
 }
 
 .action-btn.primary {
@@ -764,7 +789,7 @@
 /* Tablet (768px - 1199px) */
 @media (max-width: 1199px) {
     .bookings-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 
     .header-title h1 {
@@ -852,15 +877,16 @@
     }
 
     .bookings-grid {
-        gap: 20px;
+        grid-template-columns: 1fr;
+        gap: 18px;
     }
 
     .booking-image {
-        height: 200px;
+        height: 180px;
     }
 
     .booking-content {
-        padding: 20px;
+        padding: 18px;
     }
 
     .booking-header h3 {

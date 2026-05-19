@@ -602,7 +602,9 @@ function slideReviews(dir) {
     const cards = track.querySelectorAll('.dcd-review-card-v2');
     if (cards.length <= 2) return;
 
-    const cardW = cards[0].offsetWidth + 30; // 30px gap for V2
+    // Gap CSS dan dinamik olinadi — CSS o'zgarsa ham mos keladi
+    const gap = parseFloat(getComputedStyle(track).gap) || 18;
+    const cardW = cards[0].offsetWidth + gap;
     const max = Math.max(0, cards.length - 2);
 
     S.reviewIdx = Math.max(0, Math.min(max, S.reviewIdx + dir));
@@ -1112,12 +1114,20 @@ function getCsrfToken() {
 
 // Izohlarga Like bosish funksiyasi
 function toggleLike(buttonElement) {
-    const url = buttonElement.getAttribute('data-url');
-    const icon = buttonElement.querySelector('i');
-    const countSpan = buttonElement.querySelector('.count');
+    if (buttonElement.dataset.busy === '1') return; // ikki marta bosishni oldini olamiz
+    buttonElement.dataset.busy = '1';
 
-    // Kichik loading effekti
-    icon.style.opacity = '0.5';
+    const url = buttonElement.getAttribute('data-url');
+    const countSpan = buttonElement.querySelector('.count');
+    const wasLiked = buttonElement.classList.contains('is-liked');
+
+    // Optimistik UI — darhol javob beramiz, server tasdiqlasa qoldiramiz
+    buttonElement.classList.toggle('is-liked');
+    if (countSpan) {
+        const cur = parseInt(countSpan.textContent, 10) || 0;
+        countSpan.textContent = wasLiked ? Math.max(0, cur - 1) : cur + 1;
+    }
+    buttonElement.style.opacity = '0.7';
 
     fetch(url, {
         method: 'POST',
@@ -1129,32 +1139,38 @@ function toggleLike(buttonElement) {
     })
     .then(response => {
         if (!response.ok) {
-            if(response.status === 403 || response.status === 401) {
-                showToast('Info', 'Please login to like reviews', 'info');
-                throw new Error('Unauthorized');
+            if (response.status === 403 || response.status === 401) {
+                showToast('Tizimga kiring', 'Izohga like bosish uchun avval tizimga kiring', 'info');
+                const err = new Error('Unauthorized');
+                err.unauthorized = true;
+                throw err;
             }
             throw new Error('Network error');
         }
         return response.json();
     })
     .then(data => {
-        icon.style.opacity = '1';
+        buttonElement.style.opacity = '1';
+        buttonElement.dataset.busy = '0';
 
-        // Ekranda raqamni yangilash
-        if (countSpan) countSpan.textContent = data.total_likes;
-
-        // Tugma holatini o'zgartirish
-        if (data.liked) {
-            buttonElement.classList.add('is-liked');
-            icon.className = 'fas fa-heart'; // To'ldirilgan yurak
-        } else {
-            buttonElement.classList.remove('is-liked');
-            icon.className = 'far fa-heart'; // Bo'sh yurak
+        // Server javobini ishonchli holat sifatida qabul qilamiz
+        if (countSpan && typeof data.total_likes !== 'undefined') {
+            countSpan.textContent = data.total_likes;
         }
+        buttonElement.classList.toggle('is-liked', !!data.liked);
     })
     .catch(error => {
-        icon.style.opacity = '1';
-        console.error('Like error:', error);
+        // Optimistik o'zgarishni qaytaramiz
+        buttonElement.style.opacity = '1';
+        buttonElement.dataset.busy = '0';
+        buttonElement.classList.toggle('is-liked', wasLiked);
+        if (countSpan) {
+            const cur = parseInt(countSpan.textContent, 10) || 0;
+            countSpan.textContent = wasLiked ? cur + 1 : Math.max(0, cur - 1);
+        }
+        if (!error.unauthorized) {
+            console.error('Like error:', error);
+        }
     });
 }
 

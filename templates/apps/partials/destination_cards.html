@@ -124,7 +124,7 @@
 
 {% for destination in destinations %}
 
-    {% if destination.is_flash_sale and destination.flash_sale_end > now %}
+    {% if destination.is_flash_sale and destination.flash_sale_end and destination.flash_sale_end > now %}
         {% include 'apps/partials/_flash_card.html' with destination=destination %}
 
     {% elif destination.is_featured %}

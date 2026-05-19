@@ -1738,6 +1738,11 @@ footer {
     border-left: 5px solid var(--danger);
 }
 
+.toast.info,
+.toast.warning {
+    border-left: 5px solid #f59e0b;
+}
+
 .toast-content {
     display: flex;
     align-items: center;
@@ -1754,6 +1759,11 @@ footer {
 
 .toast-icon.error {
     color: var(--danger);
+}
+
+.toast-icon.info,
+.toast-icon.warning {
+    color: #f59e0b;
 }
 
 /* ===== RESPONSIVE ===== */
