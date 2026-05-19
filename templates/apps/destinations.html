@@ -29,17 +29,28 @@
             <div class="hero-search-container">
                 <div class="search-wrapper">
                     <div class="search-input-group dest-group">
-                        <i class="fas fa-map-marker-alt"></i>
+                        <i class="fas fa-search" style="color:var(--gray-400)"></i>
                         <input type="text" id="destination-search"
                                placeholder="Search by region, country, city or destination…"
                                autocomplete="off"
                                oninput="onHeroSearchInput(this.value)"
                                onkeydown="if(event.key==='Enter') searchDestinations()">
-                        <div id="search-suggestions" class="search-suggestions"></div>
+                        <div id="hero-suggestions" class="hero-suggestions">
+                            <div class="ls-results" id="hero-ls-results"></div>
+                            <div class="ls-footer" id="hero-ls-footer" style="display:none;">
+                                <button class="ls-view-all" data-action="search-all">
+                                    <span class="ls-view-all-left">
+                                        <i class="fas fa-magnifying-glass"></i>
+                                        See all results
+                                    </span>
+                                    <span style="display:flex;align-items:center;gap:8px;">
+                                        <span id="hero-ls-count" class="ls-count">0</span>
+                                        <i class="fas fa-arrow-right ls-view-all-arrow"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <button class="search-btn" onclick="searchDestinations()">
-                        <i class="fas fa-search"></i><span>Search</span>
-                    </button>
                 </div>
 
                 <div class="quick-filters">

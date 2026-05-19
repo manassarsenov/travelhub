@@ -1274,201 +1274,242 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let _heroTimer         = null;
 let _heroResults       = [];
+let _heroAbort         = null;
 let _activeQuickFilter = 'all';
 
-// Positions the suggestions box in viewport coords (called once on open)
+function _heroBox()        { return document.getElementById('hero-suggestions'); }
+function _heroResults_el() { return document.getElementById('hero-ls-results'); }
+function _heroFooter()     { return document.getElementById('hero-ls-footer'); }
+
 function _positionSuggestions() {
-    const input   = document.getElementById('destination-search');
-    const suggBox = document.getElementById('search-suggestions');
-    if (!input || !suggBox) return;
-
-    const rect  = input.getBoundingClientRect();
-    const minW  = 480;
-    const w     = Math.max(rect.width, minW);
-    let   left  = rect.left;
-    if (left + w > window.innerWidth - 8) left = Math.max(8, window.innerWidth - w - 8);
-
-    suggBox.style.top   = (rect.bottom + 6) + 'px';
-    suggBox.style.left  = left + 'px';
-    suggBox.style.width = w + 'px';
+    const wrapper = document.querySelector('.hero-search-container .search-wrapper');
+    const box     = _heroBox();
+    if (!wrapper || !box) return;
+    const rect = wrapper.getBoundingClientRect();
+    box.style.top   = (rect.bottom + 10) + 'px';
+    box.style.left  = rect.left + 'px';
+    box.style.width = rect.width + 'px';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // ── Suggestions box ni body ga ko'chirish ──────────────────
-    // body ga o'tkazilmasa, search-wrapper:hover { transform } qo'llanilganda
-    // position:fixed child viewport emas, o'sha transformlangan elementga
-    // nisbatan pozitsiyalanadi → flickering + klik bo'lmaydi.
-    const suggBox = document.getElementById('search-suggestions');
-    if (suggBox) document.body.appendChild(suggBox);
+    const box = _heroBox();
+    if (box) document.body.appendChild(box);
 
-    // Scroll/resize da qayta pozitsiyalash
-    const reposition = () => {
-        if (document.getElementById('search-suggestions')?.classList.contains('active')) {
-            _positionSuggestions();
-        }
-    };
-    window.addEventListener('scroll',  reposition, { passive: true });
-    window.addEventListener('resize',  reposition, { passive: true });
+    window.addEventListener('resize', () => {
+        if (_heroBox()?.classList.contains('show')) _positionSuggestions();
+    }, { passive: true });
 
-    // Tashqariga bosish — yopish
+    window.addEventListener('scroll', () => {
+        if (_heroBox()?.classList.contains('show')) _positionSuggestions();
+    }, { passive: true });
+
     document.addEventListener('click', (e) => {
         const input   = document.getElementById('destination-search');
-        const suggBox = document.getElementById('search-suggestions');
-        if (!input?.contains(e.target) && !suggBox?.contains(e.target)) {
+        const box     = _heroBox();
+        const wrapper = document.querySelector('.dest-group');
+        if (!input?.contains(e.target) && !box?.contains(e.target) && !wrapper?.contains(e.target)) {
             hideSuggestions();
         }
     });
 });
 
-// ── Real-time input handler ───────────────────────────────────
+// ── Input handler ─────────────────────────────────────────────
 function onHeroSearchInput(value) {
     clearTimeout(_heroTimer);
+    if (_heroAbort) { _heroAbort.abort(); _heroAbort = null; }
     const q = value.trim();
-    if (q.length < 2) { hideSuggestions(); return; }
-    _showSuggestionsLoading();
-    _heroTimer = setTimeout(() => _fetchHeroSuggestions(q), q.length === 2 ? 380 : 160);
+    if (q.length < 1) { hideSuggestions(); return; }
+    _heroTimer = setTimeout(() => _heroFetch(q), 250);
 }
 
-async function _fetchHeroSuggestions(q) {
+async function _heroFetch(q) {
+    _heroAbort = new AbortController();
     const lang = getCurrentLang();
     try {
-        const res = await fetch('/' + lang + '/api/global-search/?q=' + encodeURIComponent(q));
-        if (!res.ok) throw new Error();
+        const res = await fetch(
+            '/' + lang + '/api/global-search/?q=' + encodeURIComponent(q),
+            { signal: _heroAbort.signal }
+        );
+        if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
         _heroResults = data.results || [];
-        _renderHeroSuggestions(_heroResults, q);
-    } catch {
-        hideSuggestions();
+        _heroRender(_heroResults, q);
+    } catch (err) {
+        if (err.name === 'AbortError') return;
+        _heroShowError();
+    } finally {
+        _heroAbort = null;
     }
 }
 
-function _showSuggestionsLoading() {
-    const box = document.getElementById('search-suggestions');
+function _heroShowError() {
+    const box = _heroBox(), r = _heroResults_el(), f = _heroFooter();
     if (!box) return;
-    box.innerHTML =
-        '<div class="suggestion-loading">' +
-        '<div class="suggestion-spinner"></div>' +
-        '<span>Searching…</span>' +
+    if (r) r.innerHTML =
+        '<div class="ls-empty">' +
+        '<i class="fas fa-wifi" style="color:#ef4444"></i>' +
+        '<p>Could not load results</p>' +
+        '<small>Check your connection</small>' +
         '</div>';
-    if (!box.classList.contains('active')) {
-        _positionSuggestions();
-        box.classList.add('active');
-    }
+    if (f) f.style.display = 'none';
+    _positionSuggestions();
+    box.classList.add('show');
 }
 
 function _hl(text, q) {
     if (!text || !q) return text || '';
     return text.replace(
         new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'),
-        '<mark class="hs-hl">$1</mark>'
+        '<mark class="ls-highlight">$1</mark>'
     );
 }
 
-const _typeIcon = {
-    region:      'fas fa-globe-asia',
-    country:     'fas fa-flag',
-    city:        'fas fa-city',
-    destination: 'fas fa-map-marker-alt',
-};
-const _typeLabel = {
-    region: 'Regions', country: 'Countries', city: 'Cities', destination: 'Destinations',
-};
+const _ICON  = { region: 'fas fa-globe-asia', country: 'fas fa-flag', city: 'fas fa-city', destination: 'fas fa-map-marker-alt' };
+const _COLOR = { region: '#10b981', country: '#3b82f6', city: '#8b5cf6', destination: 'var(--primary)' };
+const _LABEL = { region: 'Regions', country: 'Countries', city: 'Cities', destination: 'Destinations' };
+const _ALLOWED_TYPES = ['region', 'country', 'city', 'destination'];
 
-function _renderHeroSuggestions(results, q) {
-    const box = document.getElementById('search-suggestions');
-    if (!box) return;
+function _heroRender(results, q) {
+    const box = _heroBox(), resDiv = _heroResults_el(), f = _heroFooter();
+    if (!box || !resDiv) return;
 
-    if (!results.length) {
-        box.innerHTML =
-            '<div class="hs-empty">' +
-            '<i class="fas fa-search"></i>' +
-            '<p>No results for "<strong>' + q + '</strong>"</p>' +
-            '<span>Try a different keyword</span>' +
+    const filtered = (results || []).filter(r => _ALLOWED_TYPES.includes(r.type));
+
+    if (!filtered.length) {
+        resDiv.innerHTML =
+            '<div class="ls-empty">' +
+            '<i class="fas fa-magnifying-glass"></i>' +
+            '<p>No results for "' + q + '"</p>' +
+            '<small>Try a different keyword</small>' +
             '</div>';
-        if (!box.classList.contains('active')) {
-            _positionSuggestions();
-            box.classList.add('active');
-        }
+        if (f) f.style.display = 'none';
+        _positionSuggestions();
+        box.classList.add('show');
         return;
     }
 
-    // Group by type, maintain order: region → country → city → destination
-    const order   = ['region', 'country', 'city', 'destination'];
     const grouped = {};
-    results.forEach(r => {
-        const t = r.type || 'destination';
-        (grouped[t] = grouped[t] || []).push(r);
-    });
+    filtered.forEach(r => { (grouped[r.type] = grouped[r.type] || []).push(r); });
 
     let html = '';
-    order.forEach(type => {
+    _ALLOWED_TYPES.forEach(type => {
         if (!grouped[type]?.length) return;
-        const icon = _typeIcon[type] || 'fas fa-search';
-        html += '<div class="hs-section-label"><i class="' + icon + '"></i> ' + _typeLabel[type] + '</div>';
-        grouped[type].slice(0, 5).forEach(r => {
-            const idx   = results.indexOf(r);
+        const icon  = _ICON[type];
+        const color = _COLOR[type];
+        const label = _LABEL[type];
+
+        html += '<div class="ls-section-title">'
+              + '<i class="' + icon + '" style="color:' + color + '"></i>'
+              + label
+              + '</div>';
+
+        grouped[type].slice(0, 3).forEach(r => {
             const thumb = r.image
-                ? '<div class="hs-thumb"><img src="' + r.image + '" alt="" loading="lazy"></div>'
-                : '<div class="hs-thumb hs-thumb-icon"><i class="' + icon + '"></i></div>';
-            const meta  = r.count != null
-                ? '<div class="hs-meta"><div class="hs-count">' + r.count + ' ' + (r.count_label || 'destinations') + '</div></div>'
+                ? '<div class="ls-thumb"><img src="' + r.image + '" alt="' + r.title + '" loading="lazy"></div>'
+                : '<div class="ls-thumb-icon"><i class="' + icon + '"></i></div>';
+
+            const locationHtml = r.subtitle
+                ? '<i class="fas fa-location-dot" style="font-size:10px;color:#94a3b8"></i><span>' + r.subtitle + '</span>'
                 : '';
-            html +=
-                '<div class="suggestion-item hs-item" data-idx="' + idx + '">' +
-                thumb +
-                '<div class="hs-info">' +
-                '<div class="hs-title">' + _hl(r.title, q) + '</div>' +
-                '<div class="hs-sub">'  + (r.subtitle || '') + '</div>' +
-                '</div>' + meta + '</div>';
+
+            let subInner = locationHtml;
+            let meta     = '';
+
+            if (type === 'destination') {
+                const ratingHtml = r.rating > 0
+                    ? '<span class="ls-rating"><i class="fas fa-star"></i>' + r.rating + '</span>'
+                    : '';
+                if (ratingHtml) {
+                    subInner = locationHtml
+                        ? locationHtml + '<span style="color:#e2e8f0">·</span>' + ratingHtml
+                        : ratingHtml;
+                }
+                if (r.price != null) {
+                    meta = '<div class="ls-meta">'
+                         +   '<div class="ls-price">$' + r.price + '</div>'
+                         +   '<div class="ls-price-label">per person</div>'
+                         + '</div>';
+                }
+            } else if (r.count != null) {
+                meta = '<div class="ls-meta">'
+                     +   '<div class="ls-price" style="font-size:13px">' + r.count + '</div>'
+                     +   '<div class="ls-price-label">' + (r.count_label || '') + '</div>'
+                     + '</div>';
+            }
+
+            const idx   = filtered.indexOf(r);
+            const isNav = (type === 'destination');
+            const href  = isNav ? (r.url || '#') : '#';
+
+            html += '<a class="ls-item" href="' + href + '" data-idx="' + idx + '" data-nav="' + (isNav ? '1' : '0') + '">'
+                  +   thumb
+                  +   '<div class="ls-info">'
+                  +     '<div class="ls-title">' + _hl(r.title, q) + '</div>'
+                  +     '<div class="ls-sub">' + subInner + '</div>'
+                  +   '</div>'
+                  +   meta
+                  + '</a>';
         });
     });
 
-    html +=
-        '<div class="hs-footer" data-action="search-all">' +
-        '<i class="fas fa-search"></i> Show all for "<strong>' + q + '</strong>"' +
-        '<i class="fas fa-arrow-right" style="margin-left:auto;font-size:10px;opacity:0.5;"></i>' +
-        '</div>';
+    _heroResults = filtered;
 
-    box.innerHTML = html;
+    resDiv.innerHTML = html;
 
-    // Event delegation — bitta listener, onclick inline yo'q
+    const countEl = document.getElementById('hero-ls-count');
+    if (countEl) countEl.textContent = String(filtered.length);
+    if (f) f.style.display = 'block';
+
     box.onclick = (e) => {
+        const btn = e.target.closest('[data-action="search-all"]');
+        if (btn) { e.preventDefault(); searchDestinations(); return; }
         const item = e.target.closest('[data-idx]');
-        const foot = e.target.closest('[data-action="search-all"]');
-        if (item)  _selectHeroResult(parseInt(item.dataset.idx));
-        if (foot)  searchDestinations();
+        if (!item) return;
+        if (item.dataset.nav === '0') e.preventDefault();
+        _heroSelect(parseInt(item.dataset.idx));
     };
 
-    if (!box.classList.contains('active')) {
-        _positionSuggestions();
-        box.classList.add('active');
-    }
+    _positionSuggestions();
+    box.classList.add('show');
 }
 
-function _selectHeroResult(idx) {
+// region/country/city → drill into explore-section tabs (russian-doll style)
+// destination → navigate to detail page (handled natively via href)
+function _heroSelect(idx) {
     const r = _heroResults[idx];
     if (!r) return;
     document.getElementById('destination-search').value = r.title;
     hideSuggestions();
 
-    if (r.type === 'city' && r.slug) {
-        filterByCity(r.slug, r.title);
+    if (r.type === 'region' && r.slug) {
+        _heroDrillRegion(r.slug);
     } else if (r.type === 'country' && r.code) {
-        _showCountryCities(r.code, r.region_slug || '');
-    } else {
-        filterByQuery(r.title);
+        _heroDrillCountry(r.code, r.region_slug || '');
+    } else if (r.type === 'city' && r.slug) {
+        _heroDrillCity(r.slug, r.title, r.country_code || '', r.region_slug || '');
+    } else if (r.type === 'destination' && r.url) {
+        window.location.href = r.url;
     }
 }
 
-// Country bosilganda explore section'da o'sha countryning city grid'ini ko'rsatish
-function _showCountryCities(countryCode, regionSlug) {
-    const exploreSection = document.getElementById('explore-section');
-    if (exploreSection) exploreSection.style.display = '';
-
+function _heroShowExplore() {
+    const exploreSection   = document.getElementById('explore-section');
     const mainDestinations = document.getElementById('main-destinations');
+    if (exploreSection) exploreSection.style.display = '';
     if (mainDestinations) mainDestinations.classList.remove('visible');
+    return exploreSection;
+}
 
-    // Step 1: avval to'g'ri region tabiga o'tamiz
+function _heroDrillRegion(regionSlug) {
+    const exploreSection = _heroShowExplore();
+    const regionBtn = document.querySelector('.region-btn[data-region="' + regionSlug + '"]');
+    if (regionBtn) switchRegion(regionSlug, regionBtn);
+    setTimeout(() => exploreSection?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+}
+
+function _heroDrillCountry(countryCode, regionSlug) {
+    const exploreSection = _heroShowExplore();
+
     if (regionSlug) {
         const regionBtn = document.querySelector('.region-btn[data-region="' + regionSlug + '"]');
         if (regionBtn && !regionBtn.classList.contains('active')) {
@@ -1476,25 +1517,33 @@ function _showCountryCities(countryCode, regionSlug) {
         }
     }
 
-    // Step 2: endi country button ko'rinadi (region aktivlashgach) — uni bosamiz
     const countryBtn = document.querySelector('.country-btn[data-country="' + countryCode + '"]');
-    if (countryBtn) {
-        countryBtn.click();
-    } else if (typeof switchCountry === 'function') {
-        const dummy = document.createElement('button');
-        dummy.className = 'country-btn';
-        switchCountry(countryCode, dummy);
-    }
+    if (countryBtn) countryBtn.click();
 
-    setTimeout(() => exploreSection?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+    setTimeout(() => exploreSection?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+function _heroDrillCity(citySlug, cityName, countryCode, regionSlug) {
+    // Activate region & country tabs so the user sees the full breadcrumb,
+    // then filter the destinations grid by the chosen city.
+    if (regionSlug) {
+        const regionBtn = document.querySelector('.region-btn[data-region="' + regionSlug + '"]');
+        if (regionBtn && !regionBtn.classList.contains('active')) {
+            switchRegion(regionSlug, regionBtn);
+        }
+    }
+    if (countryCode) {
+        const countryBtn = document.querySelector('.country-btn[data-country="' + countryCode + '"]');
+        if (countryBtn && !countryBtn.classList.contains('active')) {
+            countryBtn.click();
+        }
+    }
+    filterByCity(citySlug, cityName);
 }
 
 function hideSuggestions() {
-    const box = document.getElementById('search-suggestions');
-    if (box) {
-        box.classList.remove('active');
-        box.onclick = null;
-    }
+    const box = _heroBox();
+    if (box) { box.classList.remove('show'); box.onclick = null; }
 }
 
 // ── Search button ─────────────────────────────────────────────
@@ -1502,7 +1551,7 @@ function searchDestinations() {
     const q = (document.getElementById('destination-search')?.value || '').trim();
     hideSuggestions();
     if (!q) return;
-    filterByQuery(q);
+    window.location.href = '/' + getCurrentLang() + '/destinations/?q=' + encodeURIComponent(q);
 }
 
 // ── Quick filters ─────────────────────────────────────────────

@@ -2402,12 +2402,14 @@ class CompareDestinationsView(View):
 class GlobalSearchView(View):
     def get(self, request):
         q = request.GET.get('q', '').strip()
-        if len(q) < 2:
+        if len(q) < 1:
             return JsonResponse({'results': [], 'count': 0, 'query': q})
 
         results = []
 
-        # Regions — bitta query bilan country sonini olamiz
+        lang = request.LANGUAGE_CODE or 'en'
+
+        # Regions
         for r in Region.objects.filter(name__icontains=q).annotate(
             country_count=Count('countries', filter=Q(countries__is_active=True))
         )[:3]:
@@ -2419,9 +2421,10 @@ class GlobalSearchView(View):
                 'image': '',
                 'count': r.country_count,
                 'count_label': 'countries',
+                'url': f'/{lang}/destinations/',
             })
 
-        # Countries — bitta query bilan city sonini olamiz
+        # Countries
         for c in Country.objects.filter(name__icontains=q, is_active=True).select_related('region').annotate(
             city_count=Count('cities')
         )[:3]:
@@ -2435,21 +2438,25 @@ class GlobalSearchView(View):
                 'image': '',
                 'count': c.city_count,
                 'count_label': 'cities',
+                'url': f'/{lang}/destinations/?country={c.slug}&country_name={c.name}',
             })
 
-        # Cities — bitta query bilan destination sonini olamiz
-        for city in City.objects.filter(name__icontains=q).select_related('country').annotate(
+        # Cities
+        for city in City.objects.filter(name__icontains=q).select_related('country', 'country__region').annotate(
             dest_count=Count('destinations')
         )[:4]:
             img_url = request.build_absolute_uri(city.image.url) if city.image else ''
             results.append({
                 'type': 'city',
                 'slug': city.slug,
+                'country_code': city.country.code if city.country else '',
+                'region_slug': city.country.region.slug if city.country and city.country.region else '',
                 'title': city.name,
                 'subtitle': city.country.name if city.country else '',
                 'image': img_url,
                 'count': city.dest_count,
                 'count_label': 'destinations',
+                'url': f'/{lang}/destinations/?city={city.slug}&city_name={city.name}',
             })
 
         # Destinations
@@ -2471,7 +2478,10 @@ class GlobalSearchView(View):
                 'title': d.name,
                 'subtitle': d.location or (d.city.name if d.city else ''),
                 'image': img_url,
+                'price': d.discounted_price or 0,
+                'rating': d.rating or 0,
                 'count': None,
+                'url': f'/{lang}/destination-detail/{d.slug}/',
             })
 
         return JsonResponse({'results': results, 'count': len(results), 'query': q})
