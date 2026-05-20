@@ -188,7 +188,7 @@ body {
 }
 
 /* ===== NAVIGATION ===== */
-nav {
+#navbar {
     position: fixed;
     top: 0;
     width: 100%;
@@ -201,7 +201,7 @@ nav {
     overflow: visible;
 }
 
-nav::after {
+#navbar::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -214,12 +214,12 @@ nav::after {
     pointer-events: none;
 }
 
-nav.scrolled {
+#navbar.scrolled {
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10), 0 1px 0 rgba(0, 0, 0, 0.06);
     background: rgba(255, 255, 255, 0.99);
 }
 
-nav.scrolled::after {
+#navbar.scrolled::after {
     opacity: 1;
 }
 
@@ -2848,7 +2848,7 @@ mark.ls-highlight {
 }
 
 /* Navbar scrolled — tighter */
-nav.scrolled .navbar-top {
+#navbar.scrolled .navbar-top {
     height: 64px;
 }
 
