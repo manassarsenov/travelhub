@@ -15,7 +15,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction, IntegrityError
-from django.db.models import F, Q, Prefetch, Count, Avg, Min, Max
+from django.db.models import F, Q, Prefetch, Count, Avg, Min, Max, Sum
 from django.forms.models import model_to_dict
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
@@ -29,7 +29,8 @@ from django.views.generic import CreateView, FormView, ListView, TemplateView, D
 
 from apps.ai_moderator import check_review_with_ai
 from apps.forms import (ForgotPasswordForm, LoginForm,
-                        PasswordResetConfirmForm, RegisterModelForm, ReviewModelForm, BookingGuestForm)
+                        PasswordResetConfirmForm, RegisterModelForm, ReviewModelForm, BookingGuestForm,
+                        ProfileForm)
 from apps.mixins import LoginNotRequiredMixin
 from apps.models import Destination, User, Country, Review, ActionLog, PromoCode, TicketType, Booking, Activity, Notification
 from apps.models.wishlist import Wishlist
@@ -1956,8 +1957,241 @@ class CancelBookingView(LoginRequiredMixin, View):
         return JsonResponse({'success': False, 'message': 'Bu bronni bekor qilib bo\'lmaydi.'})
 
 
-class DashboardTemplateView(TemplateView):
+class DashboardTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'apps/dashboard.html'
+    login_url = '/auth/login/'
+
+    # (threshold_points, name, css_class, fa_icon)
+    LOYALTY_TIERS = [
+        (0, 'Bronze', 'bronze', 'fa-medal'),
+        (1000, 'Silver', 'silver', 'fa-award'),
+        (3000, 'Gold', 'gold', 'fa-crown'),
+        (8000, 'Platinum', 'platinum', 'fa-gem'),
+    ]
+
+    TIER_BENEFITS = {
+        'bronze': [
+            'Standard booking support',
+            'Access to seasonal deals',
+            'Earn 1 point per $1 spent',
+        ],
+        'silver': [
+            '5% discount on all bookings',
+            'Priority email support',
+            'Free booking date changes',
+            'Earn bonus loyalty points',
+        ],
+        'gold': [
+            '15% discount on all bookings',
+            'Free airport lounge access',
+            'Priority customer support 24/7',
+            'Early access to flash sales',
+        ],
+        'platinum': [
+            '25% discount on all bookings',
+            'Free airport lounge + fast-track',
+            'Dedicated personal travel manager',
+            'Complimentary trip upgrades',
+        ],
+    }
+
+    QUOTES = [
+        'Your next adventure is just a click away!',
+        'Travel far, travel often, travel happy.',
+        'The world is wide — go explore it.',
+        'Collect moments, not things.',
+        'Adventure is calling, and you must go.',
+    ]
+
+    ACTIVITY_ICONS = {
+        'booking': 'fa-check-circle',
+        'payment': 'fa-dollar-sign',
+        'wishlist': 'fa-heart',
+        'review': 'fa-star',
+        'cancel': 'fa-times-circle',
+    }
+
+    def _resolve_tier(self, points):
+        current = self.LOYALTY_TIERS[0]
+        nxt = None
+        for i, tier in enumerate(self.LOYALTY_TIERS):
+            if points >= tier[0]:
+                current = tier
+                nxt = self.LOYALTY_TIERS[i + 1] if i + 1 < len(self.LOYALTY_TIERS) else None
+        return current, nxt
+
+    @staticmethod
+    def _trip_card(booking, today):
+        first_img = booking.destination.images.first()
+        if booking.tickets_data:
+            guests = ', '.join(f"{qty} {name}" for name, qty in booking.tickets_data.items())
+        else:
+            guests = f"{booking.total_guests} Guest(s)"
+        days_until = (booking.booking_date - today).days if booking.booking_date else None
+        country = booking.destination.country
+        return {
+            'obj': booking,
+            'image_url': first_img.image.url if first_img else None,
+            'flag': country.flag if country and country.flag else '📍',
+            'guests': guests,
+            'days_until': days_until,
+        }
+
+    def _build_activity(self, bookings, reviews_qs, wishlist_qs):
+        events = []
+        for b in bookings.order_by('-created_at')[:8]:
+            if b.status == Booking.Status.CANCELLED:
+                events.append((b.cancelled_at or b.created_at, 'cancel',
+                               'Booking cancelled', b.destination.name))
+            elif b.is_paid:
+                events.append((b.paid_at or b.created_at, 'payment',
+                               'Payment successful', f"${b.total_price}"))
+            elif b.status == Booking.Status.CONFIRMED:
+                events.append((b.created_at, 'booking',
+                               'Booking confirmed', b.destination.name))
+            else:
+                events.append((b.created_at, 'booking',
+                               'Booking created', b.destination.name))
+        for r in reviews_qs.order_by('-created_at')[:5]:
+            events.append((r.created_at, 'review',
+                           f'Review posted — {r.rating} stars', r.destination.name))
+        for w in wishlist_qs.order_by('-created_at')[:5]:
+            events.append((w.created_at, 'wishlist',
+                           'Added to wishlist', w.destination.name))
+
+        events = [e for e in events if e[0] is not None]
+        events.sort(key=lambda e: e[0], reverse=True)
+        return [
+            {
+                'time': t,
+                'icon': icon,
+                'fa': self.ACTIVITY_ICONS.get(icon, 'fa-circle'),
+                'title': title,
+                'detail': detail,
+            }
+            for t, icon, title, detail in events[:6]
+        ]
+
+    def get_context_data(self, **kwargs):
+        import random
+        ctx = super().get_context_data(**kwargs)
+        user = self.request.user
+        today = timezone.localdate()
+        year_start = today.replace(month=1, day=1)
+
+        bookings = (Booking.objects
+                    .filter(user=user)
+                    .select_related('destination', 'destination__city', 'destination__country')
+                    .prefetch_related('destination__images'))
+
+        active_bookings = bookings.exclude(status=Booking.Status.CANCELLED)
+        paid_bookings = bookings.filter(is_paid=True)
+
+        # ── Statistika ──
+        trips_total = active_bookings.count()
+        trips_this_year = active_bookings.filter(booking_date__gte=year_start).count()
+
+        total_spent = paid_bookings.aggregate(s=Sum('total_price'))['s'] or 0
+        spent_this_year = (paid_bookings.filter(paid_at__date__gte=year_start)
+                           .aggregate(s=Sum('total_price'))['s'] or 0)
+
+        countries_total = (active_bookings
+                           .exclude(destination__country__isnull=True)
+                           .values('destination__country').distinct().count())
+        countries_this_year = (active_bookings
+                               .filter(booking_date__gte=year_start)
+                               .exclude(destination__country__isnull=True)
+                               .values('destination__country').distinct().count())
+
+        reviews_qs = Review.objects.filter(user=user).select_related('destination')
+        reviews_count = reviews_qs.count()
+        avg_rating = round(reviews_qs.aggregate(a=Avg('rating'))['a'] or 0)
+
+        # ── Loyalty ──
+        points = int(total_spent) + trips_total * 100 + reviews_count * 50
+        current_tier, next_tier = self._resolve_tier(points)
+        if next_tier:
+            span = next_tier[0] - current_tier[0]
+            progress = int(min(100, max(0, (points - current_tier[0]) * 100 / span))) if span else 100
+            next_name, next_threshold = next_tier[1], next_tier[0]
+        else:
+            progress, next_name, next_threshold = 100, None, points
+
+        # ── Yaqinlashayotgan sayohatlar ──
+        upcoming_qs = (bookings
+                       .filter(status__in=[Booking.Status.CONFIRMED, Booking.Status.PENDING])
+                       .order_by('booking_date'))
+        upcoming_count = upcoming_qs.count()
+        upcoming_trips = [self._trip_card(b, today) for b in upcoming_qs[:4]]
+
+        # ── Sayohatlar tarixi (timeline) — destination bo'yicha takrorlanmaydigan ──
+        history_qs = bookings.filter(status=Booking.Status.COMPLETED).order_by('-booking_date')
+        history_count = history_qs.count()
+        user_reviews = {r.destination_id: r for r in reviews_qs}
+
+        # Har joydan faqat eng oxirgi tashrif olinadi, tashriflar soni sanaladi.
+        # history_qs -booking_date bo'yicha tartiblangani uchun dict ham
+        # eng so'nggi tashrif sanasi kamayish tartibida bo'ladi.
+        visited = {}
+        for b in history_qs:
+            entry = visited.get(b.destination_id)
+            if entry is None:
+                country = b.destination.country
+                visited[b.destination_id] = {
+                    'destination': b.destination,
+                    'flag': country.flag if country and country.flag else '📍',
+                    'date': b.booking_date,
+                    'visits': 1,
+                    'review': user_reviews.get(b.destination_id),
+                }
+            else:
+                entry['visits'] += 1
+
+        timeline, timeline_map = [], {}
+        for t in list(visited.values())[:12]:
+            year = t['date'].year if t['date'] else 0
+            if year not in timeline_map:
+                timeline_map[year] = []
+                timeline.append({'year': year, 'items': timeline_map[year]})
+            timeline_map[year].append(t)
+
+        # ── Wishlist ──
+        wishlist_qs = (Wishlist.objects
+                       .filter(user=user)
+                       .select_related('destination', 'destination__city', 'destination__country')
+                       .prefetch_related('destination__images'))
+        wishlist_count = wishlist_qs.count()
+        wishlist_items = [w.destination for w in wishlist_qs[:4]]
+
+        ctx.update({
+            'dash_user_name': user.get_full_name() or user.first_name or user.username,
+            'member_since': user.date_joined,
+            'welcome_quote': random.choice(self.QUOTES),
+            'tier_name': current_tier[1],
+            'tier_class': current_tier[2],
+            'tier_icon': current_tier[3],
+            'stat_trips': trips_total,
+            'stat_trips_new': trips_this_year,
+            'stat_spent': total_spent,
+            'stat_spent_new': spent_this_year,
+            'stat_countries': countries_total,
+            'stat_countries_new': countries_this_year,
+            'stat_reviews': reviews_count,
+            'avg_rating': avg_rating,
+            'loyalty_points': points,
+            'loyalty_progress': progress,
+            'loyalty_next_tier': next_name,
+            'loyalty_next_threshold': next_threshold,
+            'loyalty_benefits': self.TIER_BENEFITS.get(current_tier[2], []),
+            'upcoming_trips': upcoming_trips,
+            'upcoming_count': upcoming_count,
+            'timeline': timeline,
+            'history_count': history_count,
+            'wishlist_items': wishlist_items,
+            'wishlist_count': wishlist_count,
+            'recent_activity': self._build_activity(bookings, reviews_qs, wishlist_qs),
+        })
+        return ctx
 
 
 class MyBookingsTemplateView(LoginRequiredMixin, TemplateView):
@@ -2322,69 +2556,221 @@ class TogglePriceAlertView(View):
 
 class ProfileSettingsTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'apps/profile_settings.html'
+    login_url = '/auth/login/'
 
-    def post(self, request, *args, **kwargs):
-        action = request.POST.get('action')
+    # Loyalty — Dashboard bilan bir xil qoida
+    LOYALTY_TIERS = [
+        (0, 'Bronze', 'bronze'),
+        (1000, 'Silver', 'silver'),
+        (3000, 'Gold', 'gold'),
+        (8000, 'Platinum', 'platinum'),
+    ]
 
-        if action == 'delete_account':
-            # ✅ 6.3 NOTIFICATION: Hisob o'chirilishi
-            # Real loyihada bu yerda hisob o'chiriladi. 
-            # Biz uni inactive qilib notification (email orqali) yuborishimiz yoki
-            # xavfsizlik uchun faqat xabar berishimiz mumkin.
-            try:
-                Notification.objects.create(
-                    recipient=request.user,
-                    verb='account_deleted',
-                    description=(
-                        f"Hisobingizni o'chirish so'rovi qabul qilindi. "
-                        f"Sizning hisobingiz 30 kundan so'ng butunlay o'chiriladi. "
-                        f"Agar fikringizdan qaytsangiz, biz bilan bog'laning."
-                    ),
-                    level=Notification.Level.ERROR,
-                    priority=Notification.Priority.HIGH,
-                    extra_data={
-                        'category': 'account',
-                        'title': 'Hisob O\'chirilmoqda ⚠️',
-                        'icon_class': 'fa-user-slash',
-                        'icon_bg': 'security',
-                        'action_danger_url': '/contact/',
-                        'action_danger_label': 'Bekor Qilish',
-                    }
-                )
-            except Exception as e:
-                logger.error(f"Account delete logic error: {e}")
-            
-            # user.is_active = False
-            # user.save()
-            return JsonResponse({'success': True, 'message': 'Hisobni o\'chirish so\'rovi yuborildi.'})
+    def _loyalty(self, total_spent, trips, reviews):
+        points = int(total_spent) + trips * 100 + reviews * 50
+        name, css = self.LOYALTY_TIERS[0][1], self.LOYALTY_TIERS[0][2]
+        for threshold, n, c in self.LOYALTY_TIERS:
+            if points >= threshold:
+                name, css = n, c
+        return points, name, css
 
-        # Boshqa hollarda (Profil ma'lumotlarini saqlash)
-        # ✅ 6.2 NOTIFICATION: Profil yangilandi
+    @staticmethod
+    def _notify(user, verb, description, title, level=Notification.Level.SUCCESS):
         try:
-            # Agar real data save bo'lsa: request.user.first_name = ...; request.user.save()
-            # Hozir shunchaki notification yaratamiz
             Notification.objects.create(
-                recipient=request.user,
-                verb='profile_updated',
-                description=(
-                    f"Profil ma'lumotlaringiz muvaffaqiyatli yangilandi. "
-                    f"O'zgarishlar tizimda saqlandi."
-                ),
-                level=Notification.Level.SUCCESS,
+                recipient=user,
+                verb=verb,
+                description=description,
+                level=level,
                 priority=Notification.Priority.LOW,
                 extra_data={
                     'category': 'account',
-                    'title': 'Profil Yangilandi',
+                    'title': title,
                     'icon_class': 'fa-user-check',
                     'icon_bg': 'booking',
                     'action_url': '/profile-settings/',
                     'action_label': 'Profilni Ko\'rish',
-                }
+                },
             )
         except Exception as e:
-            logger.error(f"Profile update notification failed: {e}")
+            logger.error(f"Profile notification failed: {e}")
 
-        return JsonResponse({'success': True, 'message': 'Profil muvaffaqiyatli saqlandi!'})
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        notif_settings, _ = NotificationSetting.objects.get_or_create(user=user)
+
+        bookings = Booking.objects.filter(user=user)
+        active = bookings.exclude(status=Booking.Status.CANCELLED)
+        total_spent = bookings.filter(is_paid=True).aggregate(s=Sum('total_price'))['s'] or 0
+        trips_count = active.count()
+        completed_count = bookings.filter(status=Booking.Status.COMPLETED).count()
+        reviews_count = Review.objects.filter(user=user).count()
+        wishlist_count = Wishlist.objects.filter(user=user).count()
+        countries_count = (active.exclude(destination__country__isnull=True)
+                           .values('destination__country').distinct().count())
+        points, tier_name, tier_class = self._loyalty(total_spent, trips_count, reviews_count)
+
+        ctx.update({
+            'profile_user': user,
+            'completion': user.profile_completion,
+            'notif': notif_settings,
+            'countries': Country.objects.filter(is_active=True).order_by('name'),
+            'gender_choices': User.Gender.choices,
+            'theme_choices': User.Theme.choices,
+            'budget_choices': User.BudgetRange.choices,
+            'travel_style_cards': [
+                ('adventure', 'Adventure', 'fa-mountain', 'Thrills & outdoor action'),
+                ('beach', 'Beach', 'fa-umbrella-beach', 'Sun, sand & relaxation'),
+                ('cultural', 'Cultural', 'fa-landmark', 'History, art & heritage'),
+                ('nature', 'Nature', 'fa-tree', 'Wildlife & landscapes'),
+                ('city', 'City Tours', 'fa-city', 'Urban exploration'),
+                ('romantic', 'Romantic', 'fa-heart', 'Getaways for two'),
+                ('family', 'Family', 'fa-users', 'Fun for all ages'),
+                ('luxury', 'Luxury', 'fa-gem', 'Premium experiences'),
+            ],
+            'selected_styles': user.travel_styles or [],
+            'languages': user.languages_spoken or [],
+            'stats': {
+                'bookings': bookings.count(),
+                'completed': completed_count,
+                'spent': total_spent,
+                'countries': countries_count,
+                'reviews': reviews_count,
+                'wishlist': wishlist_count,
+                'points': points,
+                'tier_name': tier_name,
+                'tier_class': tier_class,
+            },
+        })
+        return ctx
+
+    # ── POST: action bo'yicha dispatch ────────────────────────────────────
+    def post(self, request, *args, **kwargs):
+        handlers = {
+            'update_profile': self._update_profile,
+            'update_photo': self._update_photo,
+            'change_password': self._change_password,
+            'update_notifications': self._update_notifications,
+            'update_appearance': self._update_appearance,
+            'update_travel': self._update_travel,
+            'delete_account': self._delete_account,
+        }
+        handler = handlers.get(request.POST.get('action'))
+        if handler is None:
+            return JsonResponse({'success': False, 'message': "Noma'lum amal."}, status=400)
+        return handler(request)
+
+    @staticmethod
+    def _form_error_response(form):
+        errors = {f: [str(e) for e in errs] for f, errs in form.errors.items()}
+        first = next(iter(errors.values()))[0] if errors else 'Formada xatolik bor.'
+        return JsonResponse({'success': False, 'message': first, 'errors': errors}, status=400)
+
+    def _update_profile(self, request):
+        user = request.user
+        form = ProfileForm(request.POST, request.FILES, instance=user)
+        if not form.is_valid():
+            return self._form_error_response(form)
+
+        user = form.save(commit=False)
+
+        langs = request.POST.get('languages_spoken', '')
+        user.languages_spoken = [l.strip() for l in langs.split(',') if l.strip()][:15]
+
+        if request.FILES.get('avatar'):
+            user.avatar = request.FILES['avatar']
+        if request.FILES.get('cover_photo'):
+            user.cover_photo = request.FILES['cover_photo']
+
+        user.save()
+        self._notify(user, 'profile_updated',
+                     "Profil ma'lumotlaringiz muvaffaqiyatli yangilandi.",
+                     'Profil Yangilandi')
+        return JsonResponse({
+            'success': True,
+            'message': 'Profil muvaffaqiyatli saqlandi!',
+            'completion': user.profile_completion,
+            'avatar_url': user.avatar.url if user.avatar else '',
+            'cover_url': user.cover_photo.url if user.cover_photo else '',
+        })
+
+    def _update_photo(self, request):
+        user = request.user
+        updated = False
+        if request.FILES.get('avatar'):
+            user.avatar = request.FILES['avatar']
+            updated = True
+        if request.FILES.get('cover_photo'):
+            user.cover_photo = request.FILES['cover_photo']
+            updated = True
+        if not updated:
+            return JsonResponse({'success': False, 'message': 'Rasm tanlanmadi.'}, status=400)
+        user.save()
+        return JsonResponse({
+            'success': True,
+            'message': 'Rasm muvaffaqiyatli yangilandi!',
+            'avatar_url': user.avatar.url if user.avatar else '',
+            'cover_url': user.cover_photo.url if user.cover_photo else '',
+            'completion': user.profile_completion,
+        })
+
+    def _change_password(self, request):
+        from django.contrib.auth.forms import PasswordChangeForm
+        from django.contrib.auth import update_session_auth_hash
+
+        form = PasswordChangeForm(request.user, request.POST)
+        if not form.is_valid():
+            return self._form_error_response(form)
+
+        user = form.save()
+        update_session_auth_hash(request, user)
+        self._notify(user, 'password_changed',
+                     "Hisob parolingiz muvaffaqiyatli o'zgartirildi.",
+                     'Parol O\'zgartirildi')
+        return JsonResponse({'success': True, 'message': "Parol muvaffaqiyatli o'zgartirildi!"})
+
+    def _update_notifications(self, request):
+        notif, _ = NotificationSetting.objects.get_or_create(user=request.user)
+        fields = ['enable_email', 'enable_push', 'enable_in_app',
+                  'notify_bookings', 'notify_promotions', 'notify_price_alerts']
+        for f in fields:
+            setattr(notif, f, request.POST.get(f) in ('true', 'on', '1', 'True'))
+        notif.save()
+        return JsonResponse({'success': True, 'message': 'Bildirishnoma sozlamalari saqlandi!'})
+
+    def _update_appearance(self, request):
+        theme = request.POST.get('theme', '')
+        if theme not in dict(User.Theme.choices):
+            return JsonResponse({'success': False, 'message': "Noto'g'ri tema."}, status=400)
+        request.user.theme = theme
+        request.user.save(update_fields=['theme'])
+        return JsonResponse({'success': True, 'message': "Ko'rinish sozlamalari saqlandi!",
+                             'theme': theme})
+
+    def _update_travel(self, request):
+        user = request.user
+        valid_styles = dict(User.TravelStyle.choices)
+        user.travel_styles = [s for s in request.POST.getlist('travel_styles')
+                              if s in valid_styles]
+
+        budget = request.POST.get('budget_range', '')
+        user.budget_range = budget if budget in dict(User.BudgetRange.choices) else ''
+
+        user.save(update_fields=['travel_styles', 'budget_range'])
+        return JsonResponse({'success': True, 'message': 'Sayohat afzalliklari saqlandi!',
+                             'completion': user.profile_completion})
+
+    def _delete_account(self, request):
+        self._notify(
+            request.user, 'account_deleted',
+            "Hisobingizni o'chirish so'rovi qabul qilindi. Hisobingiz 30 kundan "
+            "so'ng butunlay o'chiriladi. Fikringizdan qaytsangiz, biz bilan bog'laning.",
+            "Hisob O'chirilmoqda", level=Notification.Level.ERROR,
+        )
+        return JsonResponse({'success': True,
+                             'message': "Hisobni o'chirish so'rovi yuborildi."})
 
 
 class AdminPanelTemplateView(TemplateView):

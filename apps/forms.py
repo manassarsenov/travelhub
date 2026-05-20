@@ -136,6 +136,44 @@ class PasswordResetConfirmForm(Form):
         return password
 
 
+class ProfileForm(ModelForm):
+    """Profil sozlamalari — shaxsiy ma'lumotlarni tahrirlash."""
+
+    class Meta:
+        model = User
+        fields = [
+            'first_name', 'last_name', 'username', 'bio', 'gender',
+            'date_of_birth', 'phone_number', 'website', 'current_location',
+            'country',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['country'].queryset = Country.objects.filter(is_active=True)
+        self.fields['country'].required = False
+        for name in ('first_name', 'last_name', 'username'):
+            self.fields[name].required = True
+
+    def clean_username(self):
+        username = (self.cleaned_data.get('username') or '').strip()
+        if not username:
+            raise ValidationError("Username bo'sh bo'lishi mumkin emas.")
+        qs = User.objects.filter(username__iexact=username).exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise ValidationError("Bu username allaqachon band.")
+        return username
+
+    def clean_phone_number(self):
+        # Bo'sh telefon NULL bo'lib saqlanadi — unique cheklov bo'sh qiymatlarni to'qnashtirmasligi uchun.
+        phone = (self.cleaned_data.get('phone_number') or '').strip()
+        if not phone:
+            return None
+        qs = User.objects.filter(phone_number=phone).exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise ValidationError("Bu telefon raqami allaqachon ro'yxatdan o'tgan.")
+        return phone
+
+
 class ReviewModelForm(ModelForm):
     class Meta:
         model = Review

@@ -141,6 +141,10 @@ class NotificationSetting(CreatedBaseModel):
     enable_push = BooleanField(default=True, verbose_name=_("Enable Push"))
     enable_in_app = BooleanField(default=True, verbose_name=_("Enable In-App"))
 
+    notify_bookings = BooleanField(default=True, verbose_name=_("Booking Updates"))
+    notify_promotions = BooleanField(default=True, verbose_name=_("Promotions & Offers"))
+    notify_price_alerts = BooleanField(default=True, verbose_name=_("Price Alerts"))
+
     class Meta:
         verbose_name = _("Notification Setting")
         verbose_name_plural = _("Notification Settings")

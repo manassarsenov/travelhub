@@ -14,20 +14,20 @@
 <!-- Dashboard Page -->
 <div class="dashboard-page">
     <div class="dashboard-container">
-        
+
         <!-- Welcome Header -->
         <div class="welcome-header">
             <div class="welcome-content">
                 <div class="welcome-text">
-                    <h1>👋 Welcome back, <span class="user-name">John Doe</span>!</h1>
+                    <h1>👋 Welcome back, <span class="user-name">{{ dash_user_name }}</span>!</h1>
                     <p class="welcome-subtitle">
-                        <span class="member-badge gold">
-                            <i class="fas fa-crown"></i> Gold Member
+                        <span class="member-badge {{ tier_class }}">
+                            <i class="fas {{ tier_icon }}"></i> {{ tier_name }} Member
                         </span>
                         <span class="separator">•</span>
-                        <span>Member since Jan 2024</span>
+                        <span>Member since {{ member_since|date:"M Y" }}</span>
                     </p>
-                    <p class="welcome-quote">"Your next adventure is just a click away!"</p>
+                    <p class="welcome-quote">"{{ welcome_quote }}"</p>
                 </div>
                 <div class="welcome-actions">
                     <button class="btn-action primary" onclick="window.location.href='{% url 'destinations_page' %}'">
@@ -53,11 +53,15 @@
                     <i class="fas fa-suitcase-rolling"></i>
                 </div>
                 <div class="stat-content">
-                    <h3 class="stat-value">12</h3>
+                    <h3 class="stat-value">{{ stat_trips }}</h3>
                     <p class="stat-label">My Trips</p>
-                    <span class="stat-change positive">
-                        <i class="fas fa-arrow-up"></i> +2 this year
-                    </span>
+                    {% if stat_trips_new %}
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +{{ stat_trips_new }} this year
+                        </span>
+                    {% else %}
+                        <span class="stat-change">No trips this year yet</span>
+                    {% endif %}
                 </div>
             </div>
 
@@ -66,11 +70,15 @@
                     <i class="fas fa-dollar-sign"></i>
                 </div>
                 <div class="stat-content">
-                    <h3 class="stat-value">$8,450</h3>
+                    <h3 class="stat-value">${{ stat_spent|floatformat:0 }}</h3>
                     <p class="stat-label">Total Spent</p>
-                    <span class="stat-change positive">
-                        <i class="fas fa-arrow-up"></i> +$1,200
-                    </span>
+                    {% if stat_spent_new %}
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +${{ stat_spent_new|floatformat:0 }} this year
+                        </span>
+                    {% else %}
+                        <span class="stat-change">No spending this year</span>
+                    {% endif %}
                 </div>
             </div>
 
@@ -79,11 +87,15 @@
                     <i class="fas fa-globe-americas"></i>
                 </div>
                 <div class="stat-content">
-                    <h3 class="stat-value">8</h3>
-                    <p class="stat-label">Countries</p>
-                    <span class="stat-change positive">
-                        <i class="fas fa-plus"></i> 2 new
-                    </span>
+                    <h3 class="stat-value">{{ stat_countries }}</h3>
+                    <p class="stat-label">{{ stat_countries|pluralize:"Country,Countries" }}</p>
+                    {% if stat_countries_new %}
+                        <span class="stat-change positive">
+                            <i class="fas fa-plus"></i> {{ stat_countries_new }} this year
+                        </span>
+                    {% else %}
+                        <span class="stat-change">Start exploring!</span>
+                    {% endif %}
                 </div>
             </div>
 
@@ -92,260 +104,198 @@
                     <i class="fas fa-star"></i>
                 </div>
                 <div class="stat-content">
-                    <h3 class="stat-value">15</h3>
-                    <p class="stat-label">Reviews</p>
-                    <div class="rating-stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
+                    <h3 class="stat-value">{{ stat_reviews }}</h3>
+                    <p class="stat-label">{{ stat_reviews|pluralize:"Review,Reviews" }}</p>
+                    {% if stat_reviews %}
+                        <div class="rating-stars">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= avg_rating %}
+                                    <i class="fas fa-star"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <span class="stat-change">No reviews yet</span>
+                    {% endif %}
                 </div>
             </div>
         </div>
 
         <!-- Main Content Grid -->
         <div class="dashboard-grid">
-            
+
             <!-- Left Column -->
             <div class="dashboard-left">
-                
+
                 <!-- Upcoming Trips -->
                 <section class="dashboard-section">
                     <div class="section-header">
-                        <h2><i class="fas fa-plane-departure"></i> Upcoming Trips (2)</h2>
-                        <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                        <h2><i class="fas fa-plane-departure"></i> Upcoming Trips ({{ upcoming_count }})</h2>
+                        <a href="{% url 'my_bookings_page' %}" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
                     </div>
 
                     <div class="trips-list">
-                        <!-- Trip Card 1 -->
-                        <div class="trip-card confirmed">
+                        {% for trip in upcoming_trips %}
+                        {% with b=trip.obj %}
+                        <div class="trip-card {{ b.status }}">
                             <div class="trip-image">
-                                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400" alt="Dubai" loading="lazy">
-                                <span class="trip-status confirmed">
-                                    <i class="fas fa-check-circle"></i> Confirmed
+                                {% if trip.image_url %}
+                                    <img src="{{ trip.image_url }}" alt="{{ b.destination.name }}" loading="lazy">
+                                {% else %}
+                                    <img src="{% static 'apps/img/default.avif' %}" alt="{{ b.destination.name }}" loading="lazy">
+                                {% endif %}
+                                <span class="trip-status {{ b.status }}">
+                                    {% if b.status == 'confirmed' %}
+                                        <i class="fas fa-check-circle"></i> Confirmed
+                                    {% else %}
+                                        <i class="fas fa-clock"></i> Pending Payment
+                                    {% endif %}
                                 </span>
                             </div>
                             <div class="trip-content">
                                 <div class="trip-destination">
-                                    <span class="flag">🇦🇪</span>
-                                    <h3>Dubai, United Arab Emirates</h3>
+                                    <span class="flag">{{ trip.flag }}</span>
+                                    <h3>{{ b.destination.name }}</h3>
                                 </div>
                                 <div class="trip-details">
                                     <div class="detail-item">
                                         <i class="far fa-calendar"></i>
-                                        <span>Jan 15 - Jan 22, 2025 (7 days, 6 nights)</span>
+                                        <span>{{ b.booking_date|date:"M d, Y" }}{% if b.time %} · {{ b.time|time:"H:i" }}{% endif %}</span>
                                     </div>
+                                    {% if b.destination.location %}
                                     <div class="detail-item">
-                                        <i class="fas fa-hotel"></i>
-                                        <span>Burj Al Arab Hotel</span>
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>{{ b.destination.location }}</span>
                                     </div>
+                                    {% endif %}
                                     <div class="detail-item">
                                         <i class="fas fa-users"></i>
-                                        <span>2 Adults</span>
+                                        <span>{{ trip.guests }}</span>
                                     </div>
                                     <div class="detail-item">
                                         <i class="fas fa-dollar-sign"></i>
-                                        <span class="price">$1,299</span>
+                                        <span class="price">${{ b.total_price|floatformat:0 }}</span>
                                     </div>
                                     <div class="detail-item">
                                         <i class="fas fa-hashtag"></i>
-                                        <span>Booking ID: #TH-2024-001234</span>
+                                        <span>Booking ID: #{{ b.booking_number }}</span>
                                     </div>
                                 </div>
+                                {% if b.status == 'confirmed' %}
                                 <div class="trip-countdown">
                                     <i class="far fa-clock"></i>
-                                    <span>Trip starts in <strong>38 days</strong></span>
+                                    {% if trip.days_until > 0 %}
+                                        <span>Trip starts in <strong>{{ trip.days_until }} day{{ trip.days_until|pluralize }}</strong></span>
+                                    {% elif trip.days_until == 0 %}
+                                        <span><strong>Your trip is today!</strong></span>
+                                    {% else %}
+                                        <span>Trip is in progress</span>
+                                    {% endif %}
                                 </div>
-                                <div class="trip-actions">
-                                    <button class="btn-trip primary">
-                                        <i class="fas fa-eye"></i> View Details
-                                    </button>
-                                    <button class="btn-trip secondary">
-                                        <i class="fas fa-plane-arrival"></i> Check-in Online
-                                    </button>
-                                    <button class="btn-trip download">
-                                        <i class="fas fa-download"></i> Download Voucher
-                                    </button>
-                                    <button class="btn-trip danger">
-                                        <i class="fas fa-times"></i> Cancel
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Trip Card 2 -->
-                        <div class="trip-card pending">
-                            <div class="trip-image">
-                                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400" alt="Paris" loading="lazy">
-                                <span class="trip-status pending">
-                                    <i class="fas fa-clock"></i> Pending Payment
-                                </span>
-                            </div>
-                            <div class="trip-content">
-                                <div class="trip-destination">
-                                    <span class="flag">🇫🇷</span>
-                                    <h3>Paris, France</h3>
-                                </div>
-                                <div class="trip-details">
-                                    <div class="detail-item">
-                                        <i class="far fa-calendar"></i>
-                                        <span>Mar 10 - Mar 17, 2025 (7 days, 6 nights)</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-hotel"></i>
-                                        <span>Le Meurice</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-users"></i>
-                                        <span>2 Adults, 1 Child</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-dollar-sign"></i>
-                                        <span class="price">$2,499</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-hashtag"></i>
-                                        <span>Booking ID: #TH-2024-001567</span>
-                                    </div>
-                                </div>
+                                {% else %}
                                 <div class="trip-warning">
                                     <i class="fas fa-exclamation-triangle"></i>
-                                    <span>Complete payment within <strong>24 hours</strong></span>
+                                    <span>Complete your payment to confirm this booking</span>
                                 </div>
+                                {% endif %}
                                 <div class="trip-actions">
-                                    <button class="btn-trip primary">
-                                        <i class="fas fa-credit-card"></i> Complete Payment
-                                    </button>
-                                    <button class="btn-trip secondary">
+                                    <button class="btn-trip primary" onclick="window.location.href='{% url 'destination_detail_page' b.destination.slug %}'">
                                         <i class="fas fa-eye"></i> View Details
                                     </button>
-                                    <button class="btn-trip danger">
-                                        <i class="fas fa-times"></i> Cancel Booking
+                                    <button class="btn-trip secondary" onclick="window.location.href='{% url 'my_bookings_page' %}'">
+                                        <i class="fas fa-cog"></i> Manage Booking
                                     </button>
                                 </div>
                             </div>
                         </div>
+                        {% endwith %}
+                        {% empty %}
+                        <div class="dashboard-empty">
+                            <i class="fas fa-plane-departure"></i>
+                            <p>You have no upcoming trips yet.</p>
+                            <button class="btn-trip primary" onclick="window.location.href='{% url 'destinations_page' %}'">
+                                <i class="fas fa-search"></i> Explore Destinations
+                            </button>
+                        </div>
+                        {% endfor %}
                     </div>
                 </section>
 
                 <!-- Travel Timeline -->
                 <section class="dashboard-section">
                     <div class="section-header">
-                        <h2><i class="fas fa-history"></i> My Travel History</h2>
-                        <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                        <h2><i class="fas fa-history"></i> My Travel History ({{ history_count }})</h2>
+                        <a href="{% url 'my_bookings_page' %}" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
                     </div>
 
                     <div class="timeline">
+                        {% for group in timeline %}
                         <div class="timeline-year">
-                            <h3>2024</h3>
+                            <h3>{{ group.year }}</h3>
                         </div>
-                        
+
+                        {% for t in group.items %}
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="timeline-content">
                                 <div class="timeline-header">
-                                    <span class="flag">🇹🇷</span>
-                                    <h4>Istanbul, Turkey</h4>
+                                    <span class="flag">{{ t.flag }}</span>
+                                    <h4>{{ t.destination.name }}</h4>
+                                    {% if t.visits > 1 %}
+                                    <span class="visit-count" title="Visited {{ t.visits }} times">×{{ t.visits }}</span>
+                                    {% endif %}
                                 </div>
                                 <p class="timeline-date">
-                                    <i class="far fa-calendar"></i> Nov 15-22, 2024
+                                    <i class="far fa-calendar"></i>
+                                    {% if t.visits > 1 %}
+                                        Last visit: {{ t.date|date:"M d, Y" }}
+                                    {% else %}
+                                        {{ t.date|date:"M d, Y" }}
+                                    {% endif %}
                                 </p>
+                                {% if t.destination.location %}
                                 <p class="timeline-hotel">
-                                    <i class="fas fa-hotel"></i> Four Seasons Sultanahmet
+                                    <i class="fas fa-map-marker-alt"></i> {{ t.destination.location }}
                                 </p>
+                                {% endif %}
+                                {% if t.review %}
                                 <div class="timeline-review">
                                     <div class="stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= t.review.rating %}
+                                                <i class="fas fa-star"></i>
+                                            {% else %}
+                                                <i class="far fa-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
                                     </div>
-                                    <p>"Absolutely amazing trip! The culture and food were incredible."</p>
+                                    <p>"{{ t.review.text|truncatewords:25 }}"</p>
                                 </div>
+                                {% endif %}
                                 <div class="timeline-actions">
-                                    <button class="btn-small">
+                                    <button class="btn-small" onclick="window.location.href='{% url 'destination_detail_page' t.destination.slug %}'">
                                         <i class="fas fa-eye"></i> View Details
                                     </button>
-                                    <button class="btn-small">
-                                        <i class="fas fa-images"></i> Photos
+                                    {% if not t.review %}
+                                    <button class="btn-small" onclick="window.location.href='{% url 'destination_detail_page' t.destination.slug %}'">
+                                        <i class="fas fa-edit"></i> Write Review
                                     </button>
-                                    <button class="btn-small">
+                                    {% endif %}
+                                    <button class="btn-small" onclick="window.location.href='{% url 'booking_step1_page' t.destination.slug %}'">
                                         <i class="fas fa-redo"></i> Book Again
                                     </button>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <div class="timeline-header">
-                                    <span class="flag">🇮🇹</span>
-                                    <h4>Rome, Italy</h4>
-                                </div>
-                                <p class="timeline-date">
-                                    <i class="far fa-calendar"></i> Aug 5-12, 2024
-                                </p>
-                                <p class="timeline-hotel">
-                                    <i class="fas fa-hotel"></i> Hotel Artemide
-                                </p>
-                                <div class="timeline-review">
-                                    <div class="stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                    <p>"Beautiful city with rich history. Highly recommend!"</p>
-                                </div>
-                                <div class="timeline-actions">
-                                    <button class="btn-small">
-                                        <i class="fas fa-edit"></i> Write Review
-                                    </button>
-                                    <button class="btn-small">
-                                        <i class="fas fa-eye"></i> Details
-                                    </button>
-                                </div>
-                            </div>
+                        {% endfor %}
+                        {% empty %}
+                        <div class="dashboard-empty">
+                            <i class="fas fa-history"></i>
+                            <p>No completed trips yet — your travel story starts here.</p>
                         </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <div class="timeline-header">
-                                    <span class="flag">🇯🇵</span>
-                                    <h4>Tokyo, Japan</h4>
-                                </div>
-                                <p class="timeline-date">
-                                    <i class="far fa-calendar"></i> May 20-30, 2024
-                                </p>
-                                <p class="timeline-hotel">
-                                    <i class="fas fa-hotel"></i> Park Hyatt Tokyo
-                                </p>
-                                <div class="timeline-review">
-                                    <div class="stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <p>"Dream destination fulfilled! Everything was perfect."</p>
-                                </div>
-                                <div class="timeline-actions">
-                                    <button class="btn-small">
-                                        <i class="fas fa-share"></i> Share
-                                    </button>
-                                    <button class="btn-small">
-                                        <i class="fas fa-eye"></i> Details
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </section>
 
@@ -353,51 +303,63 @@
 
             <!-- Right Column -->
             <div class="dashboard-right">
-                
+
                 <!-- Loyalty Program -->
                 <section class="dashboard-section loyalty-section">
                     <div class="section-header">
                         <h2><i class="fas fa-trophy"></i> Loyalty Rewards</h2>
                     </div>
-                    
+
                     <div class="loyalty-card">
                         <div class="loyalty-status">
-                            <div class="status-badge gold">
-                                <i class="fas fa-crown"></i>
-                                <span>GOLD MEMBER</span>
+                            <div class="status-badge {{ tier_class }}">
+                                <i class="fas {{ tier_icon }}"></i>
+                                <span>{{ tier_name|upper }} MEMBER</span>
                             </div>
                         </div>
-                        
+
                         <div class="loyalty-progress">
+                            {% if loyalty_next_tier %}
                             <div class="progress-header">
-                                <span>Progress to Platinum</span>
-                                <span class="progress-percent">65%</span>
+                                <span>Progress to {{ loyalty_next_tier }}</span>
+                                <span class="progress-percent">{{ loyalty_progress }}%</span>
                             </div>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: 65%"></div>
+                                <div class="progress-fill" style="width: {{ loyalty_progress }}%"></div>
                             </div>
                             <div class="progress-points">
-                                <span class="current">6,500 points</span>
-                                <span class="target">/ 10,000</span>
+                                <span class="current">{{ loyalty_points }} points</span>
+                                <span class="target">/ {{ loyalty_next_threshold }}</span>
                             </div>
+                            {% else %}
+                            <div class="progress-header">
+                                <span>Highest tier reached 🎉</span>
+                                <span class="progress-percent">100%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                            <div class="progress-points">
+                                <span class="current">{{ loyalty_points }} points</span>
+                            </div>
+                            {% endif %}
                         </div>
 
                         <div class="loyalty-benefits">
                             <h4>Your Current Benefits:</h4>
                             <ul class="benefits-list">
-                                <li><i class="fas fa-check"></i> 15% discount on all bookings</li>
-                                <li><i class="fas fa-check"></i> Free airport lounge access</li>
-                                <li><i class="fas fa-check"></i> Priority customer support 24/7</li>
-                                <li><i class="fas fa-check"></i> Early access to flash sales</li>
+                                {% for benefit in loyalty_benefits %}
+                                <li><i class="fas fa-check"></i> {{ benefit }}</li>
+                                {% endfor %}
                             </ul>
                         </div>
 
                         <div class="loyalty-actions">
-                            <button class="btn-loyalty primary">
+                            <button class="btn-loyalty primary" onclick="window.location.href='{% url 'destinations_page' %}'">
                                 <i class="fas fa-gift"></i> Earn More Points
                             </button>
-                            <button class="btn-loyalty secondary">
-                                <i class="fas fa-list"></i> View All Benefits
+                            <button class="btn-loyalty secondary" onclick="window.location.href='{% url 'recommendation_page' %}'">
+                                <i class="fas fa-list"></i> Explore Rewards
                             </button>
                         </div>
                     </div>
@@ -406,78 +368,41 @@
                 <!-- Wishlist -->
                 <section class="dashboard-section">
                     <div class="section-header">
-                        <h2><i class="fas fa-heart"></i> My Wishlist (8)</h2>
-                        <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                        <h2><i class="fas fa-heart"></i> My Wishlist ({{ wishlist_count }})</h2>
+                        <a href="{% url 'wishlist_page' %}" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
                     </div>
 
                     <div class="wishlist-grid">
+                        {% for d in wishlist_items %}
                         <div class="wishlist-card">
-                            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=300" alt="Paris" loading="lazy">
+                            {% if d.images.first %}
+                                <img src="{{ d.images.first.image.url }}" alt="{{ d.name }}" loading="lazy">
+                            {% else %}
+                                <img src="{% static 'apps/img/default.avif' %}" alt="{{ d.name }}" loading="lazy">
+                            {% endif %}
                             <div class="wishlist-content">
-                                <h4>🗼 Paris</h4>
-                                <p class="country">France</p>
-                                <p class="price">From $1,899</p>
+                                <h4>{% if d.country.flag %}{{ d.country.flag }} {% endif %}{{ d.name }}</h4>
+                                <p class="country">{{ d.country.name|default:d.city.name }}</p>
+                                <p class="price">From ${{ d.discounted_price }}</p>
                                 <div class="wishlist-actions">
-                                    <button class="btn-wishlist remove">
+                                    <button class="btn-wishlist remove" onclick="window.location.href='{% url 'wishlist_page' %}'">
                                         <i class="fas fa-heart-broken"></i>
                                     </button>
-                                    <button class="btn-wishlist book">
+                                    <button class="btn-wishlist book" onclick="window.location.href='{% url 'booking_step1_page' d.slug %}'">
                                         <i class="fas fa-plane"></i> Book
                                     </button>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="wishlist-card">
-                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300" alt="Swiss" loading="lazy">
-                            <div class="wishlist-content">
-                                <h4>🏔️ Swiss Alps</h4>
-                                <p class="country">Switzerland</p>
-                                <p class="price">From $2,499</p>
-                                <div class="wishlist-actions">
-                                    <button class="btn-wishlist remove">
-                                        <i class="fas fa-heart-broken"></i>
-                                    </button>
-                                    <button class="btn-wishlist book">
-                                        <i class="fas fa-plane"></i> Book
-                                    </button>
-                                </div>
-                            </div>
+                        {% empty %}
+                        <div class="dashboard-empty">
+                            <i class="fas fa-heart"></i>
+                            <p>Your wishlist is empty.</p>
+                            <button class="btn-trip primary" onclick="window.location.href='{% url 'destinations_page' %}'">
+                                <i class="fas fa-search"></i> Find Destinations
+                            </button>
                         </div>
-
-                        <div class="wishlist-card">
-                            <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=300" alt="Maldives" loading="lazy">
-                            <div class="wishlist-content">
-                                <h4>🏖️ Maldives</h4>
-                                <p class="country">Indian Ocean</p>
-                                <p class="price">From $3,299</p>
-                                <div class="wishlist-actions">
-                                    <button class="btn-wishlist remove">
-                                        <i class="fas fa-heart-broken"></i>
-                                    </button>
-                                    <button class="btn-wishlist book">
-                                        <i class="fas fa-plane"></i> Book
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="wishlist-card">
-                            <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=300" alt="Istanbul" loading="lazy">
-                            <div class="wishlist-content">
-                                <h4>🕌 Istanbul</h4>
-                                <p class="country">Turkey</p>
-                                <p class="price">From $1,199</p>
-                                <div class="wishlist-actions">
-                                    <button class="btn-wishlist remove">
-                                        <i class="fas fa-heart-broken"></i>
-                                    </button>
-                                    <button class="btn-wishlist book">
-                                        <i class="fas fa-plane"></i> Book
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </section>
 
@@ -488,60 +413,23 @@
                     </div>
 
                     <div class="activity-feed">
+                        {% for a in recent_activity %}
                         <div class="activity-item">
-                            <div class="activity-icon booking">
-                                <i class="fas fa-check-circle"></i>
+                            <div class="activity-icon {{ a.icon }}">
+                                <i class="fas {{ a.fa }}"></i>
                             </div>
                             <div class="activity-content">
-                                <p><strong>Booking confirmed</strong> for Dubai</p>
-                                <span class="activity-time">2 hours ago</span>
+                                <p><strong>{{ a.title }}</strong> — {{ a.detail }}</p>
+                                <span class="activity-time">{{ a.time|timesince }} ago</span>
                             </div>
                         </div>
-
-                        <div class="activity-item">
-                            <div class="activity-icon payment">
-                                <i class="fas fa-dollar-sign"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p><strong>Payment successful</strong> - $1,299</p>
-                                <span class="activity-time">5 hours ago</span>
-                            </div>
+                        {% empty %}
+                        <div class="dashboard-empty">
+                            <i class="fas fa-chart-line"></i>
+                            <p>No recent activity yet.</p>
                         </div>
-
-                        <div class="activity-item">
-                            <div class="activity-icon wishlist">
-                                <i class="fas fa-heart"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p><strong>Added to wishlist</strong> - Santorini, Greece</p>
-                                <span class="activity-time">Yesterday</span>
-                            </div>
-                        </div>
-
-                        <div class="activity-item">
-                            <div class="activity-icon review">
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p><strong>Review posted</strong> - 5 stars for Bali</p>
-                                <span class="activity-time">2 days ago</span>
-                            </div>
-                        </div>
-
-                        <div class="activity-item">
-                            <div class="activity-icon points">
-                                <i class="fas fa-gift"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p><strong>Loyalty points earned</strong> - +500 points</p>
-                                <span class="activity-time">3 days ago</span>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
-
-                    <button class="btn-view-all">
-                        View All Activity <i class="fas fa-arrow-right"></i>
-                    </button>
                 </section>
 
                 <!-- Quick Actions -->
@@ -555,11 +443,11 @@
                             <i class="fas fa-search"></i>
                             <span>Search Destinations</span>
                         </button>
-                        <button class="quick-action-btn">
+                        <button class="quick-action-btn" onclick="window.location.href='{% url 'my_bookings_page' %}'">
                             <i class="fas fa-calendar-check"></i>
                             <span>My Bookings</span>
                         </button>
-                        <button class="quick-action-btn">
+                        <button class="quick-action-btn" onclick="window.location.href='{% url 'wishlist_page' %}'">
                             <i class="fas fa-heart"></i>
                             <span>Wishlist</span>
                         </button>
@@ -567,13 +455,13 @@
                             <i class="fas fa-headset"></i>
                             <span>Support</span>
                         </button>
-                        <button class="quick-action-btn">
+                        <button class="quick-action-btn" onclick="window.location.href='{% url 'profile_settings_page' %}'">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
                         </button>
-                        <button class="quick-action-btn">
-                            <i class="fas fa-gift"></i>
-                            <span>Offers</span>
+                        <button class="quick-action-btn" onclick="window.location.href='{% url 'trip_planner_page' %}'">
+                            <i class="fas fa-route"></i>
+                            <span>Trip Planner</span>
                         </button>
                     </div>
                 </section>
@@ -585,8 +473,4 @@
     </div>
 </div>
 
-{% endblock %}
-
-{% block custom_js %}
-    <script src="{% static 'apps/js/dashboard.js' %}"></script>
 {% endblock %}

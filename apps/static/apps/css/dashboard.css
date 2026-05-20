@@ -1052,3 +1052,79 @@
         font-size: 18px;
     }
 }
+
+/* ── Loyalty tier badges (dynamic) ───────────────────────────────────── */
+.member-badge.bronze {
+    background: linear-gradient(135deg, #cd7f32, #a05a2c);
+    color: #fff;
+}
+
+.member-badge.silver {
+    background: linear-gradient(135deg, #d7d7d7, #a8a8a8);
+    color: #000;
+}
+
+.member-badge.platinum {
+    background: linear-gradient(135deg, #e5e4e2, #b0c4de);
+    color: #000;
+}
+
+.status-badge.bronze {
+    background: linear-gradient(135deg, #cd7f32, #a05a2c);
+    color: #fff;
+}
+
+.status-badge.silver {
+    background: linear-gradient(135deg, #d7d7d7, #a8a8a8);
+    color: #000;
+}
+
+.status-badge.gold {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #000;
+}
+
+.status-badge.platinum {
+    background: linear-gradient(135deg, #e5e4e2, #b0c4de);
+    color: #000;
+}
+
+.activity-icon.cancel {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
+
+/* ── Empty states (dynamic) ──────────────────────────────────────────── */
+.dashboard-empty {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 14px;
+    padding: 40px 20px;
+    color: #6b7280;
+}
+
+.dashboard-empty i {
+    font-size: 42px;
+    color: #cbd5e1;
+}
+
+.dashboard-empty p {
+    font-size: 15px;
+    margin: 0;
+}
+
+/* ── Travel history: visit count badge ───────────────────────────────── */
+.visit-count {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 8px;
+    padding: 2px 9px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
