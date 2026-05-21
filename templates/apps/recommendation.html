@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    <title>AI Travel Recommendations - TravelHub</title>
+    <title>AI Recommendations — TravelHub</title>
 {% endblock %}
 
 {% block custom_css %}
@@ -10,344 +10,765 @@
 {% endblock %}
 
 {% block main_content %}
+<div class="rec-page">
 
-    <!-- Hero Section with AI Questionnaire -->
-    <section class="recommendation-hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="hero-text">
-            <span class="hero-badge">
-                <i class="fas fa-magic"></i>
-                AI-Powered Recommendations
+    {# ============================================================
+       HERO  —  AI tabiiy tilda qidiruv (AI feature #1)
+       Backend: forma "ai_query" ni POST qiladi, Gemini structured
+       filterga aylantiradi.
+    ============================================================ #}
+    <section class="rec-hero">
+        <div class="rec-hero__bg"></div>
+        <div class="rec-hero__glow rec-hero__glow--1"></div>
+        <div class="rec-hero__glow rec-hero__glow--2"></div>
+
+        <div class="container rec-hero__inner">
+            <span class="rec-badge">
+                <i class="fas fa-wand-magic-sparkles"></i> AI-Powered Recommendations
             </span>
-                <h1 class="hero-title">Discover Your Perfect <span class="gradient-text">Destination</span></h1>
-                <p class="hero-subtitle">Let our intelligent AI analyze your preferences and find the ideal travel
-                    destinations tailored just for you.</p>
-            </div>
-            <!-- AI Recommendation CTA -->
-            <section class="section"
-                     style="background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); color: white; text-align: center;">
-                <i class="fas fa-robot" style="font-size: 90px; margin-bottom: 35px; animation: pulse 2s infinite;"></i>
-                <h2 style="font-size: 52px; font-weight: 900; margin-bottom: 25px;">Get AI-Powered Recommendations</h2>
-                <p style="font-size: 24px; margin-bottom: 50px; opacity: 0.95;">Answer quick questions and let AI find
-                    your
-                    perfect
-                    destination</p>
-                <button class="btn"
-                        style="background: white; color: #a855f7; padding: 20px 50px; font-size: 20px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);"
-                        onclick="startQuiz()">
-                    <i class="fas fa-brain"></i> Start Quiz Now
+            <h1 class="rec-hero__title">
+                Discover Your <span class="grad-text">Perfect Destination</span>
+            </h1>
+            <p class="rec-hero__sub">
+                Tell us your dream trip in your own words — our AI reads it,
+                understands your taste and finds the best matches.
+            </p>
+
+            <form class="ai-search" onsubmit="return recAiSearch(event)">
+                <i class="fas fa-wand-magic-sparkles ai-search__icon"></i>
+                <input type="text" id="aiSearchInput" class="ai-search__input"
+                       autocomplete="off"
+                       placeholder="e.g. A quiet beach escape under $600 for 2 in summer…">
+                <button type="submit" class="ai-search__btn">
+                    <span>Ask AI</span> <i class="fas fa-arrow-right-long"></i>
                 </button>
-            </section>
-            <div style="height: 150px;"></div>
+            </form>
 
-
-            <div class="questionnaire-card">
-                <div class="questionnaire-header">
-                    <h3>
-                        <i class="fas fa-brain ai-icon"></i>
-                        Tell us about your dream trip
-                    </h3>
-                    <div class="step-indicator">
-                        <span class="step active" data-step="1">1</span>
-                        <span class="step" data-step="2">2</span>
-                        <span class="step" data-step="3">3</span>
-                    </div>
-                </div>
-
-                <form id="recommendation-form">
-                    <!-- Step 1: Basic Info -->
-                    <div class="form-step active" data-step="1">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label><i class="fas fa-wallet"></i> Budget Range</label>
-                                <div class="budget-slider-container">
-                                    <input type="range" id="budget-slider" min="500" max="10000" value="3000"
-                                           step="100">
-                                    <div class="budget-display">
-                                        <span id="budget-value">$3,000</span>
-                                        <small>per person</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label><i class="fas fa-calendar-alt"></i> Travel Dates</label>
-                                <input type="date" id="travel-date" class="input-field">
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fas fa-clock"></i> Trip Duration</label>
-                                <select id="trip-duration" class="input-field">
-                                    <option value="">Select duration</option>
-                                    <option value="1-3">1-3 days</option>
-                                    <option value="4-7">4-7 days</option>
-                                    <option value="8-14">1-2 weeks</option>
-                                    <option value="15-30">2-4 weeks</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label><i class="fas fa-users"></i> Number of Travelers</label>
-                                <div class="counter-group">
-                                    <button type="button" class="counter-btn" onclick="changeTravelers(-1)">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="number" id="travelers-count" value="2" min="1" max="20" readonly>
-                                    <button type="button" class="counter-btn" onclick="changeTravelers(1)">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="button" class="btn-next" onclick="nextStep()">
-                            Continue <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-
-                    <!-- Step 2: Interests & Preferences -->
-                    <div class="form-step" data-step="2">
-                        <div class="form-group">
-                            <label><i class="fas fa-heart"></i> Your Interests (Select multiple)</label>
-                            <div class="interests-grid">
-                                <div class="interest-card" data-interest="adventure">
-                                    <i class="fas fa-hiking"></i>
-                                    <span>Adventure</span>
-                                </div>
-                                <div class="interest-card" data-interest="beach">
-                                    <i class="fas fa-umbrella-beach"></i>
-                                    <span>Beach</span>
-                                </div>
-                                <div class="interest-card" data-interest="culture">
-                                    <i class="fas fa-landmark"></i>
-                                    <span>Culture</span>
-                                </div>
-                                <div class="interest-card" data-interest="food">
-                                    <i class="fas fa-utensils"></i>
-                                    <span>Food & Wine</span>
-                                </div>
-                                <div class="interest-card" data-interest="nature">
-                                    <i class="fas fa-tree"></i>
-                                    <span>Nature</span>
-                                </div>
-                                <div class="interest-card" data-interest="shopping">
-                                    <i class="fas fa-shopping-bag"></i>
-                                    <span>Shopping</span>
-                                </div>
-                                <div class="interest-card" data-interest="nightlife">
-                                    <i class="fas fa-glass-cheers"></i>
-                                    <span>Nightlife</span>
-                                </div>
-                                <div class="interest-card" data-interest="photography">
-                                    <i class="fas fa-camera"></i>
-                                    <span>Photography</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label><i class="fas fa-sun"></i> Climate Preference</label>
-                            <div class="climate-options">
-                                <label class="radio-card">
-                                    <input type="radio" name="climate" value="hot">
-                                    <div class="radio-content">
-                                        <i class="fas fa-sun" style="color: #ff6b6b;"></i>
-                                        <span>Hot & Sunny</span>
-                                    </div>
-                                </label>
-                                <label class="radio-card">
-                                    <input type="radio" name="climate" value="mild" checked>
-                                    <div class="radio-content">
-                                        <i class="fas fa-cloud-sun" style="color: #51cf66;"></i>
-                                        <span>Mild & Pleasant</span>
-                                    </div>
-                                </label>
-                                <label class="radio-card">
-                                    <input type="radio" name="climate" value="cold">
-                                    <div class="radio-content">
-                                        <i class="fas fa-snowflake" style="color: #339af0;"></i>
-                                        <span>Cool & Cold</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-actions">
-                            <button type="button" class="btn-back" onclick="prevStep()">
-                                <i class="fas fa-arrow-left"></i> Back
-                            </button>
-                            <button type="button" class="btn-next" onclick="nextStep()">
-                                Continue <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Step 3: Travel Style -->
-                    <div class="form-step" data-step="3">
-                        <div class="form-group">
-                            <label><i class="fas fa-suitcase"></i> Travel Style</label>
-                            <div class="travel-style-grid">
-                                <label class="style-card">
-                                    <input type="radio" name="travel-style" value="budget">
-                                    <div class="style-content">
-                                        <i class="fas fa-piggy-bank"></i>
-                                        <h4>Budget Traveler</h4>
-                                        <p>Hostels & local experiences</p>
-                                    </div>
-                                </label>
-                                <label class="style-card">
-                                    <input type="radio" name="travel-style" value="comfort" checked>
-                                    <div class="style-content">
-                                        <i class="fas fa-hotel"></i>
-                                        <h4>Comfort Seeker</h4>
-                                        <p>Mid-range hotels & tours</p>
-                                    </div>
-                                </label>
-                                <label class="style-card">
-                                    <input type="radio" name="travel-style" value="luxury">
-                                    <div class="style-content">
-                                        <i class="fas fa-gem"></i>
-                                        <h4>Luxury Explorer</h4>
-                                        <p>5-star hotels & premium experiences</p>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label><i class="fas fa-map-marked-alt"></i> Destination Type</label>
-                            <div class="destination-type">
-                                <label class="checkbox-card">
-                                    <input type="checkbox" value="popular">
-                                    <span>Popular Destinations</span>
-                                </label>
-                                <label class="checkbox-card">
-                                    <input type="checkbox" value="hidden">
-                                    <span>Hidden Gems</span>
-                                </label>
-                                <label class="checkbox-card">
-                                    <input type="checkbox" value="adventure">
-                                    <span>Adventure Spots</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-actions">
-                            <button type="button" class="btn-back" onclick="prevStep()">
-                                <i class="fas fa-arrow-left"></i> Back
-                            </button>
-                            <button type="button" class="btn-submit" onclick="getRecommendations()">
-                                <i class="fas fa-magic"></i> Get AI Recommendations
-                            </button>
-                        </div>
-                    </div>
-                </form>
+            <div class="ai-search__hints">
+                <span class="ai-search__hints-lbl">Try:</span>
+                <button type="button" class="ai-chip" onclick="recFillSearch(this)">Romantic city break in Europe</button>
+                <button type="button" class="ai-chip" onclick="recFillSearch(this)">Adventure trip with mountains &amp; hiking</button>
+                <button type="button" class="ai-chip" onclick="recFillSearch(this)">Family-friendly beach under $1000</button>
             </div>
         </div>
     </section>
 
-    <!-- AI Processing Animation -->
-    <div id="ai-loading" class="ai-loading">
-        <div class="ai-animation">
-            <div class="brain-icon">
-                <i class="fas fa-brain"></i>
-            </div>
-            <div class="loading-text">
-                <h3>AI is analyzing your preferences...</h3>
-                <p id="loading-fact">Exploring thousands of destinations worldwide</p>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
-            <div class="loading-stats">
-                <div class="stat">
-                    <span class="stat-value" id="destinations-checked">0</span>
-                    <span class="stat-label">Destinations Analyzed</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" id="match-score">0%</span>
-                    <span class="stat-label">Best Match Found</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recommendations Results -->
-    <section id="recommendations-section" class="recommendations-section">
-        <div class="container">
-            <div class="section-header">
-                <div>
-                    <h2>Your Personalized Recommendations</h2>
-                    <p>Based on your preferences, we found <span id="results-count">9</span> perfect destinations for
-                        you</p>
-                </div>
-                <div class="view-toggle">
-                    <button class="toggle-btn active" data-view="grid" onclick="toggleView('grid')">
-                        <i class="fas fa-th"></i>
-                    </button>
-                    <button class="toggle-btn" data-view="list" onclick="toggleView('list')">
-                        <i class="fas fa-list"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Filters & Sort -->
-            <div class="filters-bar">
-                <div class="filter-chips">
-                    <button class="chip active" data-filter="all">All Results</button>
-                    <button class="chip" data-filter="best-match">Best Match</button>
-                    <button class="chip" data-filter="budget">Budget Friendly</button>
-                    <button class="chip" data-filter="popular">Most Popular</button>
-                </div>
-
-                <div class="sort-dropdown">
-                    <button class="sort-btn" onclick="toggleSort()">
-                        <i class="fas fa-sort"></i>
-                        Sort by: <span id="sort-label">Best Match</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div id="sort-menu" class="sort-menu">
-                        <button onclick="sortResults('match')">Best Match</button>
-                        <button onclick="sortResults('price-low')">Price: Low to High</button>
-                        <button onclick="sortResults('price-high')">Price: High to Low</button>
-                        <button onclick="sortResults('rating')">Highest Rated</button>
+    {# ============================================================
+       TASTE DNA  —  foydalanuvchi profili + AI Taste portreti (#3)
+       Backend: faqat user.is_authenticated va tarixi bo'lsa
+       ko'rsatiladi. AI portret matni keshlanadi.
+    ============================================================ #}
+    <section class="container">
+        <div class="taste-dna reveal">
+            <div class="taste-dna__left">
+                <span class="taste-dna__tag"><i class="fas fa-dna"></i> Your Taste DNA</span>
+                <div class="ai-portrait">
+                    <div class="ai-portrait__avatar"><i class="fas fa-robot"></i></div>
+                    <div class="ai-portrait__bubble">
+                        <p>
+                            “You're a <strong>Cultural Explorer</strong> at heart — you chase
+                            calm, scenic places with soul, lean mid-range on budget, and
+                            keep coming back to Europe &amp; Asia.”
+                        </p>
+                        <span class="ai-portrait__by"><i class="fas fa-wand-magic-sparkles"></i> Generated by AI from your activity</span>
                     </div>
                 </div>
-            </div>
-
-            <!-- Results Grid -->
-            <div id="results-grid" class="results-grid">
-                <!-- Results will be dynamically inserted here -->
-            </div>
-
-            <div class="load-more">
-                <button class="btn-load-more" onclick="loadMoreResults()">
-                    <i class="fas fa-plus-circle"></i>
-                    Load More Destinations
+                <button class="btn-ghost" onclick="recOpenQuiz()">
+                    <i class="fas fa-sliders"></i> Refine my taste
                 </button>
+            </div>
+
+            <div class="taste-dna__right">
+                <h3 class="taste-dna__h">Your top travel styles</h3>
+                <div class="dna-bars">
+                    <div class="dna-bar">
+                        <div class="dna-bar__top"><span>Cultural</span><b>64%</b></div>
+                        <div class="dna-bar__track"><i style="--w:64%"></i></div>
+                    </div>
+                    <div class="dna-bar">
+                        <div class="dna-bar__top"><span>Beach &amp; Relax</span><b>22%</b></div>
+                        <div class="dna-bar__track"><i style="--w:22%"></i></div>
+                    </div>
+                    <div class="dna-bar">
+                        <div class="dna-bar__top"><span>Adventure</span><b>14%</b></div>
+                        <div class="dna-bar__track"><i style="--w:14%"></i></div>
+                    </div>
+                </div>
+                <div class="dna-stats">
+                    <div class="dna-stat">
+                        <i class="fas fa-wallet"></i>
+                        <div><b>Mid-range</b><span>Budget style</span></div>
+                    </div>
+                    <div class="dna-stat">
+                        <i class="fas fa-earth-europe"></i>
+                        <div><b>Europe</b><span>Favorite region</span></div>
+                    </div>
+                    <div class="dna-stat">
+                        <i class="fas fa-chart-line"></i>
+                        <div><b>27 signals</b><span>Analyzed</span></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-
-    <!-- Compare Modal -->
-    <div id="compare-modal" class="compare-modal">
-        <div class="compare-content">
-            <div class="compare-header">
-                <h3><i class="fas fa-balance-scale"></i> Compare Destinations</h3>
-                <button class="close-btn" onclick="closeCompare()">
-                    <i class="fas fa-times"></i>
+    {# ============================================================
+       TOP PICKS  —  asosiy personallashtirilgan grid
+       Har kartada: Match %, sabab chiplari, AI pitch (#2), feedback
+       Backend: {% for d in top_picks %} bilan almashtiriladi.
+    ============================================================ #}
+    <section class="container rec-section" id="topPicks">
+        <div class="rec-section__head">
+            <div>
+                <h2 class="rec-section__title">
+                    <i class="fas fa-bullseye"></i> Top Picks for You
+                </h2>
+                <p class="rec-section__sub">
+                    <span id="resultsCount">6</span> destinations matched to your Taste DNA
+                </p>
+            </div>
+            <div class="rec-view">
+                <button class="rec-view__btn is-active" data-view="grid" onclick="recSetView('grid')" aria-label="Grid view">
+                    <i class="fas fa-table-cells-large"></i>
+                </button>
+                <button class="rec-view__btn" data-view="list" onclick="recSetView('list')" aria-label="List view">
+                    <i class="fas fa-list"></i>
                 </button>
             </div>
-            <div id="compare-table" class="compare-table">
-                <!-- Comparison table will be inserted here -->
+        </div>
+
+        <div class="rec-toolbar">
+            <div class="rec-filters">
+                <button class="rec-filter is-active" data-filter="all" onclick="recFilter(this)">All</button>
+                <button class="rec-filter" data-filter="cultural" onclick="recFilter(this)">Cultural</button>
+                <button class="rec-filter" data-filter="beach" onclick="recFilter(this)">Beach</button>
+                <button class="rec-filter" data-filter="adventure" onclick="recFilter(this)">Adventure</button>
+                <button class="rec-filter" data-filter="romantic" onclick="recFilter(this)">Romantic</button>
+            </div>
+            <div class="rec-sort">
+                <button class="rec-sort__btn" onclick="recToggleSort()">
+                    <i class="fas fa-arrow-down-wide-short"></i>
+                    Sort: <span id="sortLabel">Best Match</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="rec-sort__menu" id="sortMenu">
+                    <button onclick="recSort('match','Best Match')">Best Match</button>
+                    <button onclick="recSort('price-asc','Price: Low to High')">Price: Low to High</button>
+                    <button onclick="recSort('price-desc','Price: High to Low')">Price: High to Low</button>
+                    <button onclick="recSort('rating','Highest Rated')">Highest Rated</button>
+                </div>
             </div>
         </div>
+
+        <div class="rec-grid" id="recGrid">
+
+            {# ---- card 1 ---- #}
+            <article class="rec-card reveal" data-tags="cultural beach romantic" data-match="96" data-price="540" data-rating="4.9">
+                <div class="rec-card__media">
+                    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=720&q=70" alt="Bali" loading="lazy">
+                    <div class="rec-card__match" tabindex="0">
+                        <span class="rec-card__match-pct">96%</span>
+                        <span class="rec-card__match-lbl">Match</span>
+                        <div class="match-pop">
+                            <h5>Why 96%?</h5>
+                            <div class="match-pop__row"><span>Your taste</span><i style="--w:94%"></i><b>94</b></div>
+                            <div class="match-pop__row"><span>Similar travelers</span><i style="--w:90%"></i><b>90</b></div>
+                            <div class="match-pop__row"><span>Trending now</span><i style="--w:78%"></i><b>78</b></div>
+                        </div>
+                    </div>
+                    <button class="rec-card__fav" onclick="recToggleFav(this)" aria-label="Save"><i class="fas fa-heart"></i></button>
+                    <span class="rec-card__flag rec-card__flag--sale"><i class="fas fa-bolt"></i> Flash Sale</span>
+                </div>
+                <div class="rec-card__body">
+                    <div class="rec-card__loc"><i class="fas fa-location-dot"></i> Bali, Indonesia</div>
+                    <h3 class="rec-card__title">Ubud Rice Terraces &amp; Temples</h3>
+                    <p class="rec-card__ai">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                        “Calm, green and soulful — exactly the slow escape your saved trips point to.”
+                    </p>
+                    <div class="rec-card__reasons">
+                        <span class="reason"><i class="fas fa-bookmark"></i> Because you saved Santorini</span>
+                        <span class="reason"><i class="fas fa-compass"></i> Matches your Cultural style</span>
+                    </div>
+                    <div class="rec-card__meta">
+                        <span class="rec-rating"><i class="fas fa-star"></i> 4.9 <small>(2.1k)</small></span>
+                        <span class="rec-price"><small>from</small> $540<em>/person</em></span>
+                    </div>
+                    <div class="rec-card__foot">
+                        <a href="#" class="btn-view">View Details <i class="fas fa-arrow-right-long"></i></a>
+                        <div class="rec-fb" aria-label="Feedback">
+                            <button class="rec-fb__btn" data-fb="up" onclick="recFeedback(this)" aria-label="Good match"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="rec-fb__btn" data-fb="down" onclick="recFeedback(this)" aria-label="Bad match"><i class="fas fa-thumbs-down"></i></button>
+                            <button class="rec-fb__btn" data-fb="dismiss" onclick="recDismiss(this)" aria-label="Not interested"><i class="fas fa-xmark"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            {# ---- card 2 ---- #}
+            <article class="rec-card reveal" data-tags="beach romantic" data-match="93" data-price="780" data-rating="4.8">
+                <div class="rec-card__media">
+                    <img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=720&q=70" alt="Santorini" loading="lazy">
+                    <div class="rec-card__match" tabindex="0">
+                        <span class="rec-card__match-pct">93%</span>
+                        <span class="rec-card__match-lbl">Match</span>
+                        <div class="match-pop">
+                            <h5>Why 93%?</h5>
+                            <div class="match-pop__row"><span>Your taste</span><i style="--w:88%"></i><b>88</b></div>
+                            <div class="match-pop__row"><span>Similar travelers</span><i style="--w:95%"></i><b>95</b></div>
+                            <div class="match-pop__row"><span>Trending now</span><i style="--w:86%"></i><b>86</b></div>
+                        </div>
+                    </div>
+                    <button class="rec-card__fav is-fav" onclick="recToggleFav(this)" aria-label="Save"><i class="fas fa-heart"></i></button>
+                </div>
+                <div class="rec-card__body">
+                    <div class="rec-card__loc"><i class="fas fa-location-dot"></i> Santorini, Greece</div>
+                    <h3 class="rec-card__title">Caldera Sunset &amp; Wine Tour</h3>
+                    <p class="rec-card__ai">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                        “Iconic sunsets and quiet luxury — a perfect fit for your romantic streak.”
+                    </p>
+                    <div class="rec-card__reasons">
+                        <span class="reason"><i class="fas fa-users"></i> Loved by travelers like you</span>
+                        <span class="reason"><i class="fas fa-heart"></i> Romantic</span>
+                    </div>
+                    <div class="rec-card__meta">
+                        <span class="rec-rating"><i class="fas fa-star"></i> 4.8 <small>(3.4k)</small></span>
+                        <span class="rec-price"><small>from</small> $780<em>/person</em></span>
+                    </div>
+                    <div class="rec-card__foot">
+                        <a href="#" class="btn-view">View Details <i class="fas fa-arrow-right-long"></i></a>
+                        <div class="rec-fb" aria-label="Feedback">
+                            <button class="rec-fb__btn" data-fb="up" onclick="recFeedback(this)" aria-label="Good match"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="rec-fb__btn" data-fb="down" onclick="recFeedback(this)" aria-label="Bad match"><i class="fas fa-thumbs-down"></i></button>
+                            <button class="rec-fb__btn" data-fb="dismiss" onclick="recDismiss(this)" aria-label="Not interested"><i class="fas fa-xmark"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            {# ---- card 3 ---- #}
+            <article class="rec-card reveal" data-tags="cultural" data-match="91" data-price="990" data-rating="4.9">
+                <div class="rec-card__media">
+                    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=720&q=70" alt="Kyoto" loading="lazy">
+                    <div class="rec-card__match" tabindex="0">
+                        <span class="rec-card__match-pct">91%</span>
+                        <span class="rec-card__match-lbl">Match</span>
+                        <div class="match-pop">
+                            <h5>Why 91%?</h5>
+                            <div class="match-pop__row"><span>Your taste</span><i style="--w:96%"></i><b>96</b></div>
+                            <div class="match-pop__row"><span>Similar travelers</span><i style="--w:82%"></i><b>82</b></div>
+                            <div class="match-pop__row"><span>Trending now</span><i style="--w:80%"></i><b>80</b></div>
+                        </div>
+                    </div>
+                    <button class="rec-card__fav" onclick="recToggleFav(this)" aria-label="Save"><i class="fas fa-heart"></i></button>
+                    <span class="rec-card__flag"><i class="fas fa-arrow-trend-up"></i> Trending</span>
+                </div>
+                <div class="rec-card__body">
+                    <div class="rec-card__loc"><i class="fas fa-location-dot"></i> Kyoto, Japan</div>
+                    <h3 class="rec-card__title">Temples, Gardens &amp; Tea Houses</h3>
+                    <p class="rec-card__ai">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                        “The richest cultural pick on your list — history at every corner.”
+                    </p>
+                    <div class="rec-card__reasons">
+                        <span class="reason"><i class="fas fa-compass"></i> 96% Cultural match</span>
+                        <span class="reason"><i class="fas fa-bookmark"></i> Because you reviewed Tokyo</span>
+                    </div>
+                    <div class="rec-card__meta">
+                        <span class="rec-rating"><i class="fas fa-star"></i> 4.9 <small>(1.8k)</small></span>
+                        <span class="rec-price"><small>from</small> $990<em>/person</em></span>
+                    </div>
+                    <div class="rec-card__foot">
+                        <a href="#" class="btn-view">View Details <i class="fas fa-arrow-right-long"></i></a>
+                        <div class="rec-fb" aria-label="Feedback">
+                            <button class="rec-fb__btn" data-fb="up" onclick="recFeedback(this)" aria-label="Good match"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="rec-fb__btn" data-fb="down" onclick="recFeedback(this)" aria-label="Bad match"><i class="fas fa-thumbs-down"></i></button>
+                            <button class="rec-fb__btn" data-fb="dismiss" onclick="recDismiss(this)" aria-label="Not interested"><i class="fas fa-xmark"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            {# ---- card 4 ---- #}
+            <article class="rec-card reveal" data-tags="adventure" data-match="89" data-price="1240" data-rating="4.7">
+                <div class="rec-card__media">
+                    <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=720&q=70" alt="Swiss Alps" loading="lazy">
+                    <div class="rec-card__match" tabindex="0">
+                        <span class="rec-card__match-pct">89%</span>
+                        <span class="rec-card__match-lbl">Match</span>
+                        <div class="match-pop">
+                            <h5>Why 89%?</h5>
+                            <div class="match-pop__row"><span>Your taste</span><i style="--w:84%"></i><b>84</b></div>
+                            <div class="match-pop__row"><span>Similar travelers</span><i style="--w:88%"></i><b>88</b></div>
+                            <div class="match-pop__row"><span>Trending now</span><i style="--w:92%"></i><b>92</b></div>
+                        </div>
+                    </div>
+                    <button class="rec-card__fav" onclick="recToggleFav(this)" aria-label="Save"><i class="fas fa-heart"></i></button>
+                </div>
+                <div class="rec-card__body">
+                    <div class="rec-card__loc"><i class="fas fa-location-dot"></i> Interlaken, Switzerland</div>
+                    <h3 class="rec-card__title">Swiss Alps Adventure Week</h3>
+                    <p class="rec-card__ai">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                        “A bolder pick to stretch your taste — scenic, active and unforgettable.”
+                    </p>
+                    <div class="rec-card__reasons">
+                        <span class="reason"><i class="fas fa-arrow-trend-up"></i> Trending in Spring</span>
+                        <span class="reason"><i class="fas fa-mountain-sun"></i> Adventure</span>
+                    </div>
+                    <div class="rec-card__meta">
+                        <span class="rec-rating"><i class="fas fa-star"></i> 4.7 <small>(950)</small></span>
+                        <span class="rec-price"><small>from</small> $1,240<em>/person</em></span>
+                    </div>
+                    <div class="rec-card__foot">
+                        <a href="#" class="btn-view">View Details <i class="fas fa-arrow-right-long"></i></a>
+                        <div class="rec-fb" aria-label="Feedback">
+                            <button class="rec-fb__btn" data-fb="up" onclick="recFeedback(this)" aria-label="Good match"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="rec-fb__btn" data-fb="down" onclick="recFeedback(this)" aria-label="Bad match"><i class="fas fa-thumbs-down"></i></button>
+                            <button class="rec-fb__btn" data-fb="dismiss" onclick="recDismiss(this)" aria-label="Not interested"><i class="fas fa-xmark"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            {# ---- card 5 ---- #}
+            <article class="rec-card reveal" data-tags="cultural romantic" data-match="87" data-price="610" data-rating="4.6">
+                <div class="rec-card__media">
+                    <img src="https://images.unsplash.com/photo-1592906209472-a36b1f3782ef?auto=format&fit=crop&w=720&q=70" alt="Prague" loading="lazy">
+                    <div class="rec-card__match" tabindex="0">
+                        <span class="rec-card__match-pct">87%</span>
+                        <span class="rec-card__match-lbl">Match</span>
+                        <div class="match-pop">
+                            <h5>Why 87%?</h5>
+                            <div class="match-pop__row"><span>Your taste</span><i style="--w:90%"></i><b>90</b></div>
+                            <div class="match-pop__row"><span>Similar travelers</span><i style="--w:80%"></i><b>80</b></div>
+                            <div class="match-pop__row"><span>Trending now</span><i style="--w:84%"></i><b>84</b></div>
+                        </div>
+                    </div>
+                    <button class="rec-card__fav" onclick="recToggleFav(this)" aria-label="Save"><i class="fas fa-heart"></i></button>
+                    <span class="rec-card__flag rec-card__flag--gem"><i class="fas fa-gem"></i> Within budget</span>
+                </div>
+                <div class="rec-card__body">
+                    <div class="rec-card__loc"><i class="fas fa-location-dot"></i> Prague, Czechia</div>
+                    <h3 class="rec-card__title">Old Town &amp; Castle Discovery</h3>
+                    <p class="rec-card__ai">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                        “Fairytale streets at a mid-range price — squarely in your comfort zone.”
+                    </p>
+                    <div class="rec-card__reasons">
+                        <span class="reason"><i class="fas fa-wallet"></i> Fits your budget</span>
+                        <span class="reason"><i class="fas fa-earth-europe"></i> Europe — your favorite</span>
+                    </div>
+                    <div class="rec-card__meta">
+                        <span class="rec-rating"><i class="fas fa-star"></i> 4.6 <small>(2.7k)</small></span>
+                        <span class="rec-price"><small>from</small> $610<em>/person</em></span>
+                    </div>
+                    <div class="rec-card__foot">
+                        <a href="#" class="btn-view">View Details <i class="fas fa-arrow-right-long"></i></a>
+                        <div class="rec-fb" aria-label="Feedback">
+                            <button class="rec-fb__btn" data-fb="up" onclick="recFeedback(this)" aria-label="Good match"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="rec-fb__btn" data-fb="down" onclick="recFeedback(this)" aria-label="Bad match"><i class="fas fa-thumbs-down"></i></button>
+                            <button class="rec-fb__btn" data-fb="dismiss" onclick="recDismiss(this)" aria-label="Not interested"><i class="fas fa-xmark"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            {# ---- card 6 ---- #}
+            <article class="rec-card reveal" data-tags="beach romantic" data-match="85" data-price="1980" data-rating="4.9">
+                <div class="rec-card__media">
+                    <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=720&q=70" alt="Maldives" loading="lazy">
+                    <div class="rec-card__match" tabindex="0">
+                        <span class="rec-card__match-pct">85%</span>
+                        <span class="rec-card__match-lbl">Match</span>
+                        <div class="match-pop">
+                            <h5>Why 85%?</h5>
+                            <div class="match-pop__row"><span>Your taste</span><i style="--w:78%"></i><b>78</b></div>
+                            <div class="match-pop__row"><span>Similar travelers</span><i style="--w:92%"></i><b>92</b></div>
+                            <div class="match-pop__row"><span>Trending now</span><i style="--w:88%"></i><b>88</b></div>
+                        </div>
+                    </div>
+                    <button class="rec-card__fav" onclick="recToggleFav(this)" aria-label="Save"><i class="fas fa-heart"></i></button>
+                </div>
+                <div class="rec-card__body">
+                    <div class="rec-card__loc"><i class="fas fa-location-dot"></i> Malé, Maldives</div>
+                    <h3 class="rec-card__title">Overwater Villa Escape</h3>
+                    <p class="rec-card__ai">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                        “A splurge — but travelers with your profile rate it their best trip ever.”
+                    </p>
+                    <div class="rec-card__reasons">
+                        <span class="reason"><i class="fas fa-users"></i> Loved by travelers like you</span>
+                        <span class="reason"><i class="fas fa-umbrella-beach"></i> Beach</span>
+                    </div>
+                    <div class="rec-card__meta">
+                        <span class="rec-rating"><i class="fas fa-star"></i> 4.9 <small>(4.1k)</small></span>
+                        <span class="rec-price"><small>from</small> $1,980<em>/person</em></span>
+                    </div>
+                    <div class="rec-card__foot">
+                        <a href="#" class="btn-view">View Details <i class="fas fa-arrow-right-long"></i></a>
+                        <div class="rec-fb" aria-label="Feedback">
+                            <button class="rec-fb__btn" data-fb="up" onclick="recFeedback(this)" aria-label="Good match"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="rec-fb__btn" data-fb="down" onclick="recFeedback(this)" aria-label="Bad match"><i class="fas fa-thumbs-down"></i></button>
+                            <button class="rec-fb__btn" data-fb="dismiss" onclick="recDismiss(this)" aria-label="Not interested"><i class="fas fa-xmark"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <div class="rec-empty" id="recEmpty" hidden>
+            <i class="fas fa-compass"></i>
+            <p>No destinations match this filter.</p>
+        </div>
+    </section>
+
+    {# ============================================================
+       CAROUSEL — "Because you saved …" (content-based, per-seed)
+    ============================================================ #}
+    <section class="container rec-row reveal">
+        <div class="rec-row__head">
+            <h2 class="rec-section__title"><i class="fas fa-bookmark"></i> Because you saved <span class="grad-text">Santorini</span></h2>
+            <div class="rec-row__nav">
+                <button onclick="recScroll('rowSaved',-1)" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="recScroll('rowSaved',1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+        <div class="rec-track" id="rowSaved">
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=520&q=65" alt="Venice" loading="lazy">
+                    <span class="mini-card__match">94%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Venice, Italy</div>
+                    <h4>Canals &amp; Hidden Squares</h4>
+                    <span class="reason reason--sm"><i class="fas fa-heart"></i> Same romantic vibe</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.8</span><span class="rec-price">$720</span></div>
+                </div>
+            </article>
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=520&q=65" alt="Paris" loading="lazy">
+                    <span class="mini-card__match">91%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Paris, France</div>
+                    <h4>Romantic City of Lights</h4>
+                    <span class="reason reason--sm"><i class="fas fa-heart"></i> Couples favorite</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.7</span><span class="rec-price">$860</span></div>
+                </div>
+            </article>
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=520&q=65" alt="Rome" loading="lazy">
+                    <span class="mini-card__match">89%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Rome, Italy</div>
+                    <h4>Ancient Rome &amp; Sunsets</h4>
+                    <span class="reason reason--sm"><i class="fas fa-compass"></i> Cultural &amp; scenic</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.8</span><span class="rec-price">$690</span></div>
+                </div>
+            </article>
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1583422409516-2895a77efded?auto=format&fit=crop&w=520&q=65" alt="Barcelona" loading="lazy">
+                    <span class="mini-card__match">87%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Barcelona, Spain</div>
+                    <h4>Gaudí Art &amp; Beaches</h4>
+                    <span class="reason reason--sm"><i class="fas fa-umbrella-beach"></i> Coast + culture</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.7</span><span class="rec-price">$640</span></div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    {# ============================================================
+       CAROUSEL — "Travelers like you also loved" (collaborative)
+    ============================================================ #}
+    <section class="container rec-row reveal">
+        <div class="rec-row__head">
+            <h2 class="rec-section__title"><i class="fas fa-user-group"></i> Travelers like you also loved</h2>
+            <div class="rec-row__nav">
+                <button onclick="recScroll('rowSimilar',-1)" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="recScroll('rowSimilar',1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+        <div class="rec-track" id="rowSimilar">
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1504829857797-ddff29c27927?auto=format&fit=crop&w=520&q=65" alt="Iceland" loading="lazy">
+                    <span class="mini-card__match">92%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Reykjavik, Iceland</div>
+                    <h4>Northern Lights Hunt</h4>
+                    <span class="reason reason--sm"><i class="fas fa-users"></i> 1,240 similar travelers</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.9</span><span class="rec-price">$1,150</span></div>
+                </div>
+            </article>
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=520&q=65" alt="New Zealand" loading="lazy">
+                    <span class="mini-card__match">90%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Queenstown, New Zealand</div>
+                    <h4>Adventure Capital Tour</h4>
+                    <span class="reason reason--sm"><i class="fas fa-users"></i> 980 similar travelers</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.8</span><span class="rec-price">$1,420</span></div>
+                </div>
+            </article>
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=520&q=65" alt="Dubai" loading="lazy">
+                    <span class="mini-card__match">86%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Dubai, UAE</div>
+                    <h4>Desert &amp; Skyline Luxury</h4>
+                    <span class="reason reason--sm"><i class="fas fa-users"></i> 1,560 similar travelers</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.7</span><span class="rec-price">$1,080</span></div>
+                </div>
+            </article>
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=520&q=65" alt="Tokyo" loading="lazy">
+                    <span class="mini-card__match">84%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Tokyo, Japan</div>
+                    <h4>Neon Nights &amp; Old Temples</h4>
+                    <span class="reason reason--sm"><i class="fas fa-users"></i> 2,030 similar travelers</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.8</span><span class="rec-price">$1,260</span></div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    {# ============================================================
+       CAROUSEL — "Perfect for this season" (context-aware)
+    ============================================================ #}
+    <section class="container rec-row reveal">
+        <div class="rec-row__head">
+            <h2 class="rec-section__title"><i class="fas fa-seedling"></i> Perfect for <span class="grad-text">Spring 2026</span></h2>
+            <div class="rec-row__nav">
+                <button onclick="recScroll('rowSeason',-1)" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="recScroll('rowSeason',1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+        <div class="rec-track" id="rowSeason">
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=520&q=65" alt="Kyoto" loading="lazy">
+                    <span class="mini-card__match">95%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Kyoto, Japan</div>
+                    <h4>Cherry Blossom Season</h4>
+                    <span class="reason reason--sm"><i class="fas fa-seedling"></i> Best in Spring</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.9</span><span class="rec-price">$990</span></div>
+                </div>
+            </article>
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=520&q=65" alt="Alps" loading="lazy">
+                    <span class="mini-card__match">88%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Interlaken, Switzerland</div>
+                    <h4>Green Valley Hikes</h4>
+                    <span class="reason reason--sm"><i class="fas fa-seedling"></i> Mild Spring weather</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.7</span><span class="rec-price">$1,240</span></div>
+                </div>
+            </article>
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1592906209472-a36b1f3782ef?auto=format&fit=crop&w=520&q=65" alt="Prague" loading="lazy">
+                    <span class="mini-card__match">86%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Prague, Czechia</div>
+                    <h4>Blooming Old Town</h4>
+                    <span class="reason reason--sm"><i class="fas fa-seedling"></i> Fewer crowds now</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.6</span><span class="rec-price">$610</span></div>
+                </div>
+            </article>
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=520&q=65" alt="Bali" loading="lazy">
+                    <span class="mini-card__match">83%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Bali, Indonesia</div>
+                    <h4>Dry Season Begins</h4>
+                    <span class="reason reason--sm"><i class="fas fa-seedling"></i> Great Spring climate</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.9</span><span class="rec-price">$540</span></div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    {# ============================================================
+       HIDDEN GEMS — yuqori reyting, kam mashhur (diversity)
+    ============================================================ #}
+    <section class="container rec-row reveal">
+        <div class="rec-row__head">
+            <h2 class="rec-section__title"><i class="fas fa-gem"></i> Hidden Gems for You</h2>
+            <div class="rec-row__nav">
+                <button onclick="recScroll('rowGems',-1)" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="recScroll('rowGems',1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+        <div class="rec-track" id="rowGems">
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=520&q=65" alt="Tbilisi" loading="lazy">
+                    <span class="mini-card__match">88%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Tbilisi, Georgia</div>
+                    <h4>Old Town &amp; Wine Country</h4>
+                    <span class="reason reason--sm"><i class="fas fa-gem"></i> Underrated · 4.8★</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.8</span><span class="rec-price">$380</span></div>
+                </div>
+            </article>
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=520&q=65" alt="Ljubljana" loading="lazy">
+                    <span class="mini-card__match">85%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Ljubljana, Slovenia</div>
+                    <h4>Riverside Fairytale Town</h4>
+                    <span class="reason reason--sm"><i class="fas fa-gem"></i> Few crowds · 4.9★</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.9</span><span class="rec-price">$520</span></div>
+                </div>
+            </article>
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=520&q=65" alt="Hoi An" loading="lazy">
+                    <span class="mini-card__match">83%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Hoi An, Vietnam</div>
+                    <h4>Lantern-lit Ancient Town</h4>
+                    <span class="reason reason--sm"><i class="fas fa-gem"></i> Budget gem · 4.8★</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.8</span><span class="rec-price">$410</span></div>
+                </div>
+            </article>
+            <article class="mini-card">
+                <div class="mini-card__media">
+                    <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=520&q=65" alt="Salzburg" loading="lazy">
+                    <span class="mini-card__match">81%</span>
+                </div>
+                <div class="mini-card__body">
+                    <div class="mini-card__loc"><i class="fas fa-location-dot"></i> Salzburg, Austria</div>
+                    <h4>Alpine Music &amp; Castles</h4>
+                    <span class="reason reason--sm"><i class="fas fa-gem"></i> Quiet escape · 4.7★</span>
+                    <div class="mini-card__meta"><span class="rec-rating"><i class="fas fa-star"></i> 4.7</span><span class="rec-price">$700</span></div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    {# ============================================================
+       CTA — quiz / cold-start
+    ============================================================ #}
+    <section class="container">
+        <div class="rec-cta reveal">
+            <div class="rec-cta__icon"><i class="fas fa-brain"></i></div>
+            <h2>Want sharper recommendations?</h2>
+            <p>Answer 3 quick questions and our AI will instantly re-tune your Taste DNA.</p>
+            <button class="btn-primary" onclick="recOpenQuiz()">
+                <i class="fas fa-wand-magic-sparkles"></i> Take the 30-second quiz
+            </button>
+        </div>
+    </section>
+
+</div>
+
+{# ================================================================
+   QUIZ MODAL  —  3 bosqichli (cold-start / Taste DNA refine)
+================================================================ #}
+<div class="rec-modal" id="quizModal" hidden>
+    <div class="rec-modal__overlay" onclick="recCloseQuiz()"></div>
+    <div class="rec-modal__box" role="dialog" aria-modal="true" aria-label="Taste quiz">
+        <button class="rec-modal__x" onclick="recCloseQuiz()" aria-label="Close"><i class="fas fa-xmark"></i></button>
+
+        <div class="quiz-progress">
+            <span class="quiz-progress__fill" id="quizFill" style="width:33%"></span>
+        </div>
+        <p class="quiz-step-label">Step <b id="quizStepNum">1</b> of 3</p>
+
+        {# step 1 #}
+        <div class="quiz-step is-active" data-step="1">
+            <h3><i class="fas fa-heart"></i> What kind of trips do you love?</h3>
+            <p class="quiz-hint">Pick all that apply.</p>
+            <div class="quiz-grid">
+                <button type="button" class="quiz-opt" onclick="recQuizPick(this)"><i class="fas fa-mountain-sun"></i> Adventure</button>
+                <button type="button" class="quiz-opt" onclick="recQuizPick(this)"><i class="fas fa-umbrella-beach"></i> Beach</button>
+                <button type="button" class="quiz-opt" onclick="recQuizPick(this)"><i class="fas fa-landmark"></i> Cultural</button>
+                <button type="button" class="quiz-opt" onclick="recQuizPick(this)"><i class="fas fa-tree"></i> Nature</button>
+                <button type="button" class="quiz-opt" onclick="recQuizPick(this)"><i class="fas fa-city"></i> City Tours</button>
+                <button type="button" class="quiz-opt" onclick="recQuizPick(this)"><i class="fas fa-heart"></i> Romantic</button>
+            </div>
+        </div>
+
+        {# step 2 #}
+        <div class="quiz-step" data-step="2">
+            <h3><i class="fas fa-wallet"></i> What's your budget style?</h3>
+            <p class="quiz-hint">Per person, per day.</p>
+            <div class="quiz-grid quiz-grid--2">
+                <button type="button" class="quiz-opt quiz-opt--lg" onclick="recQuizPickOne(this)"><i class="fas fa-piggy-bank"></i><b>Budget</b><span>$0–50 / day</span></button>
+                <button type="button" class="quiz-opt quiz-opt--lg" onclick="recQuizPickOne(this)"><i class="fas fa-hotel"></i><b>Mid-range</b><span>$50–150 / day</span></button>
+                <button type="button" class="quiz-opt quiz-opt--lg" onclick="recQuizPickOne(this)"><i class="fas fa-gem"></i><b>Luxury</b><span>$150+ / day</span></button>
+            </div>
+        </div>
+
+        {# step 3 #}
+        <div class="quiz-step" data-step="3">
+            <h3><i class="fas fa-user-group"></i> Who do you usually travel with?</h3>
+            <p class="quiz-hint">Pick one.</p>
+            <div class="quiz-grid quiz-grid--2">
+                <button type="button" class="quiz-opt quiz-opt--lg" onclick="recQuizPickOne(this)"><i class="fas fa-person"></i><b>Solo</b></button>
+                <button type="button" class="quiz-opt quiz-opt--lg" onclick="recQuizPickOne(this)"><i class="fas fa-heart"></i><b>Partner</b></button>
+                <button type="button" class="quiz-opt quiz-opt--lg" onclick="recQuizPickOne(this)"><i class="fas fa-people-roof"></i><b>Family</b></button>
+                <button type="button" class="quiz-opt quiz-opt--lg" onclick="recQuizPickOne(this)"><i class="fas fa-people-group"></i><b>Friends</b></button>
+            </div>
+        </div>
+
+        <div class="quiz-nav">
+            <button class="btn-ghost" id="quizBack" onclick="recQuizStep(-1)" hidden>
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button class="btn-primary" id="quizNext" onclick="recQuizStep(1)">
+                Continue <i class="fas fa-arrow-right-long"></i>
+            </button>
+        </div>
     </div>
+</div>
+
+{# ================================================================
+   AI LOADING OVERLAY  —  tabiiy qidiruv ishlayotganda
+================================================================ #}
+<div class="ai-loading" id="aiLoading" hidden>
+    <div class="ai-loading__box">
+        <div class="ai-loading__brain"><i class="fas fa-brain"></i></div>
+        <h3>AI is reading your request…</h3>
+        <p id="aiLoadingFact">Understanding your travel intent</p>
+        <div class="ai-loading__bar"><span></span></div>
+        <div class="ai-loading__stats">
+            <div><b id="aiCount">0</b><span>Destinations scanned</span></div>
+            <div><b id="aiBest">0%</b><span>Best match</span></div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
