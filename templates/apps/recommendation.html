@@ -12,11 +12,11 @@
 {% block main_content %}
 <div class="rec-page">
 
-    {# ============================================================
+    {% comment %}
        HERO  —  AI tabiiy tilda qidiruv (AI feature #1)
        Backend: forma "ai_query" ni POST qiladi, Gemini structured
        filterga aylantiradi.
-    ============================================================ #}
+    {% endcomment %}
     <section class="rec-hero">
         <div class="rec-hero__bg"></div>
         <div class="rec-hero__glow rec-hero__glow--1"></div>
@@ -53,11 +53,11 @@
         </div>
     </section>
 
-    {# ============================================================
+    {% comment %}
        TASTE DNA  —  foydalanuvchi profili + AI Taste portreti (#3)
        Backend: faqat user.is_authenticated va tarixi bo'lsa
        ko'rsatiladi. AI portret matni keshlanadi.
-    ============================================================ #}
+    {% endcomment %}
     <section class="container">
         <div class="taste-dna reveal">
             <div class="taste-dna__left">
@@ -112,11 +112,11 @@
         </div>
     </section>
 
-    {# ============================================================
+    {% comment %}
        TOP PICKS  —  asosiy personallashtirilgan grid
        Har kartada: Match %, sabab chiplari, AI pitch (#2), feedback
-       Backend: {% for d in top_picks %} bilan almashtiriladi.
-    ============================================================ #}
+       Backend: top_picks ustidan for-loop bilan almashtiriladi.
+    {% endcomment %}
     <section class="container rec-section" id="topPicks">
         <div class="rec-section__head">
             <div>
@@ -425,9 +425,9 @@
         </div>
     </section>
 
-    {# ============================================================
+    {% comment %}
        CAROUSEL — "Because you saved …" (content-based, per-seed)
-    ============================================================ #}
+    {% endcomment %}
     <section class="container rec-row reveal">
         <div class="rec-row__head">
             <h2 class="rec-section__title"><i class="fas fa-bookmark"></i> Because you saved <span class="grad-text">Santorini</span></h2>
@@ -488,9 +488,9 @@
         </div>
     </section>
 
-    {# ============================================================
+    {% comment %}
        CAROUSEL — "Travelers like you also loved" (collaborative)
-    ============================================================ #}
+    {% endcomment %}
     <section class="container rec-row reveal">
         <div class="rec-row__head">
             <h2 class="rec-section__title"><i class="fas fa-user-group"></i> Travelers like you also loved</h2>
@@ -551,9 +551,9 @@
         </div>
     </section>
 
-    {# ============================================================
+    {% comment %}
        CAROUSEL — "Perfect for this season" (context-aware)
-    ============================================================ #}
+    {% endcomment %}
     <section class="container rec-row reveal">
         <div class="rec-row__head">
             <h2 class="rec-section__title"><i class="fas fa-seedling"></i> Perfect for <span class="grad-text">Spring 2026</span></h2>
@@ -614,9 +614,9 @@
         </div>
     </section>
 
-    {# ============================================================
+    {% comment %}
        HIDDEN GEMS — yuqori reyting, kam mashhur (diversity)
-    ============================================================ #}
+    {% endcomment %}
     <section class="container rec-row reveal">
         <div class="rec-row__head">
             <h2 class="rec-section__title"><i class="fas fa-gem"></i> Hidden Gems for You</h2>
@@ -677,9 +677,9 @@
         </div>
     </section>
 
-    {# ============================================================
+    {% comment %}
        CTA — quiz / cold-start
-    ============================================================ #}
+    {% endcomment %}
     <section class="container">
         <div class="rec-cta reveal">
             <div class="rec-cta__icon"><i class="fas fa-brain"></i></div>
@@ -693,9 +693,9 @@
 
 </div>
 
-{# ================================================================
+{% comment %}
    QUIZ MODAL  —  3 bosqichli (cold-start / Taste DNA refine)
-================================================================ #}
+{% endcomment %}
 <div class="rec-modal" id="quizModal" hidden>
     <div class="rec-modal__overlay" onclick="recCloseQuiz()"></div>
     <div class="rec-modal__box" role="dialog" aria-modal="true" aria-label="Taste quiz">
@@ -754,9 +754,9 @@
     </div>
 </div>
 
-{# ================================================================
+{% comment %}
    AI LOADING OVERLAY  —  tabiiy qidiruv ishlayotganda
-================================================================ #}
+{% endcomment %}
 <div class="ai-loading" id="aiLoading" hidden>
     <div class="ai-loading__box">
         <div class="ai-loading__brain"><i class="fas fa-brain"></i></div>
