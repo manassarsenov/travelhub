@@ -131,6 +131,7 @@ class FilterDestinationsTemplateView(TemplateView):
         context['shown'] = offset + destinations.count()
         context['has_more'] = (offset + limit) < total_count
         context['now'] = timezone.now()
+        context['show_compare'] = True  # Compare faqat destinations sahifasida
 
         return context
 
@@ -1232,7 +1233,8 @@ class LoadMoreDestinationsView(View):
                 'now': timezone.now(),
                 'total': total,
                 'shown': offset + len(batch),
-                'has_more': has_more
+                'has_more': has_more,
+                'show_compare': True,  # Compare faqat destinations ro'yxatida
             }, request=request)
 
         # batch hajmi — sliced queryset.count() emas, xavfsiz yo'l
@@ -1371,6 +1373,7 @@ class DestinationByCityView(View):
             'has_more': has_more,
             'shown': shown,
             'now': timezone.now(),
+            'show_compare': True,  # Compare faqat destinations sahifasida
         })
 
 
@@ -1758,6 +1761,116 @@ class FAQTemplateView(TemplateView):
 
 class RecommendationTemplateView(TemplateView):
     template_name = 'apps/recommendation.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from apps.recommendations import ai
+        from apps.recommendations.engine import RecommendationEngine, TRIP_TYPE_LABELS
+
+        engine = RecommendationEngine(user=self.request.user)
+        taste = engine.taste_dna()
+        top_picks = engine.top_picks(6)
+
+        # Gemini: AI portreti + pitchlar (xato/sekinlik bo'lsa shablonli matn qoladi)
+        ai.enrich(taste, top_picks)
+
+        # filtr tugmalari — Top Picks'da aslida bor trip_type'lardan tuziladi
+        seen = []
+        for p in top_picks:
+            tt = p['d'].trip_type
+            if tt and tt not in seen:
+                seen.append(tt)
+        context['filter_types'] = [
+            {'key': tt, 'label': TRIP_TYPE_LABELS.get(tt, tt.title())} for tt in seen
+        ]
+
+        context['taste'] = taste
+        context['season_label'] = taste['season_label']
+        context['top_picks'] = top_picks
+        context['because_saved'] = engine.because_you_saved()
+        context['also_loved'] = engine.travelers_also_loved(8)
+        context['season_picks'] = engine.perfect_for_season(8)
+        context['hidden_gems'] = engine.hidden_gems(8)
+        return context
+
+
+class RecommendationAiSearchView(View):
+    """AI tabiiy tilda qidiruv — POST query → Gemini structured filter → engine."""
+
+    def post(self, request, *args, **kwargs):
+        query = (request.POST.get('query') or '').strip()
+        if not query:
+            return JsonResponse({'error': 'empty query'}, status=400)
+
+        from apps.recommendations import ai
+        from apps.recommendations.engine import RecommendationEngine
+
+        filters = ai.parse_search_query(query)          # None → Gemini ishlamadi
+        engine = RecommendationEngine(user=request.user)
+        ai_used = filters is not None
+        if filters is None:                             # zaxira: mahalliy parser
+            filters = engine.fallback_parse(query)
+        cards = engine.search(filters, n=6)
+
+        html = ''.join(
+            render_to_string('apps/partials/_rec_card.html', {'pick': c}, request=request)
+            for c in cards
+        )
+        return JsonResponse({
+            'html': html,
+            'count': len(cards),
+            'scanned': len(engine.candidates),          # nechta destination ko'rib chiqildi
+            'best': cards[0]['match'] if cards else 0,   # eng yuqori haqiqiy match %
+            'filters': filters,
+            'ai': ai_used,                               # Gemini ishladimi yoki zaxira
+        })
+
+
+class RecommendationFeedbackView(View):
+    """Tavsiya kartasiga 👍 / 👎 / 'Qiziq emas' — tizim shu asosda qayta o'rganadi."""
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return JsonResponse({'unauthenticated': True}, status=401)
+
+        from apps.models.recommendations import RecommendationFeedback
+
+        slug = (request.POST.get('slug') or '').strip()
+        action = (request.POST.get('action') or '').strip()
+        valid = {a for a, _ in RecommendationFeedback.Action.choices}
+        if not slug or action not in valid:
+            return JsonResponse({'error': 'bad request'}, status=400)
+
+        destination = get_object_or_404(Destination, slug=slug)
+        RecommendationFeedback.objects.update_or_create(
+            user=request.user, destination=destination,
+            defaults={'action': action},
+        )
+        return JsonResponse({'ok': True, 'action': action})
+
+
+class RecommendationQuizView(View):
+    """Quiz javoblarini RecommendationProfile ga saqlaydi (cold-start personalizatsiyasi)."""
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return JsonResponse({'unauthenticated': True}, status=401)
+
+        from apps.models.recommendations import RecommendationProfile
+
+        styles = [s.strip() for s in (request.POST.get('styles') or '').split(',') if s.strip()]
+        budget = (request.POST.get('budget') or '').strip()
+        party = (request.POST.get('party') or '').strip()
+
+        RecommendationProfile.objects.update_or_create(
+            user=request.user,
+            defaults={
+                'quiz_styles': ','.join(styles[:6]),
+                'quiz_budget': budget[:20],
+                'quiz_party': party[:20],
+            },
+        )
+        return JsonResponse({'ok': True})
 
 
 class AboutTemplateView(TemplateView):
@@ -2486,7 +2599,10 @@ class ToggleWishlistView(View):
         cache.delete(f'wishlist_slugs_{request.user.pk}')
         if not created:
             obj.delete()
-            return JsonResponse({'wishlisted': False})
+            return JsonResponse({
+                'wishlisted': False,
+                'wishlist_count': Wishlist.objects.filter(user=request.user).count(),
+            })
 
         first_image = destination.images.first()
         image_url = request.build_absolute_uri(first_image.image.url) if first_image else ''
@@ -2499,6 +2615,7 @@ class ToggleWishlistView(View):
 
         return JsonResponse({
             'wishlisted': True,
+            'wishlist_count': Wishlist.objects.filter(user=request.user).count(),
             'destination': {
                 'slug': destination.slug,
                 'name': destination.name,

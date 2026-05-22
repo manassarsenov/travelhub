@@ -1,0 +1,28 @@
+{% load static %}
+{# Karusellar uchun kichik tavsiya kartasi — `card` = engine pick dict #}
+<a class="mini-card" href="{% url 'destination_detail_page' card.d.slug %}">
+    <div class="mini-card__media">
+        {% if card.d.images.first %}
+            <img src="{{ card.d.images.first.image.url }}" alt="{{ card.d.name }}" loading="lazy">
+        {% else %}
+            <img src="{% static 'apps/img/default.avif' %}" alt="{{ card.d.name }}" loading="lazy">
+        {% endif %}
+        <span class="mini-card__match">{{ card.match }}%</span>
+    </div>
+    <div class="mini-card__body">
+        <div class="mini-card__loc">
+            <i class="fas fa-location-dot"></i>
+            {{ card.d.city.name }}{% if card.d.country %}, {{ card.d.country.name }}{% endif %}
+        </div>
+        <h4>{{ card.d.name }}</h4>
+        {% with r=card.reasons.0 %}
+            {% if r %}
+                <span class="reason reason--sm"><i class="fas {{ r.icon }}"></i> {{ r.text }}</span>
+            {% endif %}
+        {% endwith %}
+        <div class="mini-card__meta">
+            <span class="rec-rating"><i class="fas fa-star"></i> {{ card.d.rating }}</span>
+            <span class="rec-price">{% if card.d.is_free %}Free{% else %}${{ card.d.discounted_price }}{% endif %}</span>
+        </div>
+    </div>
+</a>

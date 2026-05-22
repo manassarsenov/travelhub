@@ -152,6 +152,8 @@ function toggleWishlist(btn, event) {
         if (data.wishlisted) {
             btn.classList.add('wishlisted');
             icon.className = 'fas fa-heart';
+            const wl = btn.querySelector('.wl-label');
+            if (wl) wl.textContent = 'Saved';
             icon.style.transition = 'transform 0.25s cubic-bezier(0.34,1.56,0.64,1)';
             icon.style.transform = 'scale(1.3)';
             setTimeout(() => { icon.style.transform = 'scale(1)'; }, 260);
@@ -178,6 +180,8 @@ function toggleWishlist(btn, event) {
         } else {
             btn.classList.remove('wishlisted');
             icon.className = 'far fa-heart';
+            const wl = btn.querySelector('.wl-label');
+            if (wl) wl.textContent = 'Save';
             showToast("O'chirildi", "Wishlistdan o'chirildi", 'info');
             // wishlist sahifasida bo'lsak kartani real-time o'chiramiz
             if (window.location.pathname.includes('/wishlist/')) {
@@ -205,8 +209,12 @@ function toggleWishlist(btn, event) {
                 }
             }
         }
+        // Navbar soni — serverdan kelgan haqiqiy umumiy wishlist soni
+        // (sahifadagi kartalar soni emas — shuning uchun home/destination/detail hammasida to'g'ri)
         const countEl = document.getElementById('wishlist-count');
-        if (countEl) countEl.textContent = document.querySelectorAll('.wishlist-btn.wishlisted').length;
+        if (countEl && typeof data.wishlist_count === 'number') {
+            countEl.textContent = data.wishlist_count;
+        }
     })
     .catch(() => {
         btn.disabled = false;

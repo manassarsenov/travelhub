@@ -120,6 +120,11 @@ class Destination(SlugBaseModel, CreatedBaseModel):
         return int(discounted_price)
 
     @property
+    def is_free(self):
+        """Real hayotda kirish bepul bo'lgan joy (narx 0)."""
+        return self.price == 0
+
+    @property
     def rating(self):
         if hasattr(self, 'db_avg_rating'):
             return round(self.db_avg_rating or 0, 1)

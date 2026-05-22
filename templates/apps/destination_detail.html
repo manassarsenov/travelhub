@@ -60,8 +60,10 @@
                     <button class="dcd-share-btn" onclick="shareDestination()">
                         <i class="fas fa-share-alt"></i> Share
                     </button>
-                    <button class="dcd-wishlist-inline-btn" id="wishlist-btn" onclick="toggleWishlist(this, event)">
-                        <i class="far fa-heart"></i> Save
+                    <button class="dcd-wishlist-inline-btn{% if destination.slug in user_wishlist_slugs %} wishlisted{% endif %}"
+                            id="wishlist-btn" data-slug="{{ destination.slug }}" onclick="toggleWishlist(this, event)">
+                        <i class="{% if destination.slug in user_wishlist_slugs %}fas{% else %}far{% endif %} fa-heart"></i>
+                        <span class="wl-label">{% if destination.slug in user_wishlist_slugs %}Saved{% else %}Save{% endif %}</span>
                     </button>
                 </div>
             </div>
@@ -98,7 +100,7 @@
                                     {% endif %}
                                 </span>
                         </div>
-                        <div class="dcd-rating-count">{{ destination.visible_reviews_count }} reviews</div>
+                        <div class="dcd-rating-count">{{ destination.reviews_count }} reviews</div>
                         <h5 class="dcd-loved-title">What guests loved most</h5>
 
                         <div id="dcd-rating-slides">
@@ -349,10 +351,12 @@
                             <i class="fas fa-pen-nib"></i>
                             <span>Write a review</span>
                         </button>
+                        {% if destination.reviews_count > 0 %}
                         <a href="{% url 'destination_reviews_page' destination.slug %}" class="view-all-link">
-                            Explore all {{ destination.visible_reviews_count }} reviews
+                            Explore all {{ destination.reviews_count }} reviews
                             <span class="link-icon"><i class="fas fa-arrow-right"></i></span>
                         </a>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -555,15 +559,19 @@
                                         <div class="dcd-sim-rating">
                                             <i class="fas fa-star"></i>
                                             <span>{{ s_destination.rating }}</span>
-                                            <span class="dcd-sim-rating-count">({{ s_destination.visible_reviews_count }})</span>
+                                            <span class="dcd-sim-rating-count">({{ s_destination.reviews_count }})</span>
                                         </div>
 
                                         <div class="dcd-sim-price">
-                                            <span class="price-label">From</span>
-                                            {% if s_destination.discount_percentage > 0 %}
-                                                <strong>${{ s_destination.discounted_price }}</strong>
+                                            {% if s_destination.is_free %}
+                                                <strong>Free</strong>
                                             {% else %}
-                                                <strong>${{ s_destination.price }}</strong>
+                                                <span class="price-label">From</span>
+                                                {% if s_destination.discount_percentage > 0 %}
+                                                    <strong>${{ s_destination.discounted_price }}</strong>
+                                                {% else %}
+                                                    <strong>${{ s_destination.price }}</strong>
+                                                {% endif %}
                                             {% endif %}
                                         </div>
                                     </div>
@@ -591,6 +599,46 @@
         <div class="dcd-right">
             <div class="dcd-panel" id="dcd-booking-panel">
 
+                {% if destination.is_free %}
+
+                    <div class="dcd-panel-title">
+                        <h3>Visitor information</h3>
+                    </div>
+
+                    <div class="dcd-panel-block">
+                        <div style="display:flex;gap:14px;align-items:flex-start;padding:16px;
+                                    background:#e8f8ef;border-radius:12px;">
+                            <i class="fas fa-circle-check" style="color:#1ca65b;font-size:26px;"></i>
+                            <div>
+                                <div style="font-weight:700;font-size:17px;margin-bottom:4px;">Free entry</div>
+                                <p style="margin:0;font-size:14px;color:var(--gray,#667085);line-height:1.5;">
+                                    This place is free to visit — no ticket or booking required.
+                                    Just turn up and explore.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;font-size:14px;">
+                            {% if destination.location %}
+                            <div style="display:flex;gap:10px;align-items:center;color:var(--gray,#667085);">
+                                <i class="fas fa-location-dot" style="width:18px;text-align:center;"></i>
+                                <span>{{ destination.location }}</span>
+                            </div>
+                            {% endif %}
+                            <div style="display:flex;gap:10px;align-items:center;color:var(--gray,#667085);">
+                                <i class="fas fa-city" style="width:18px;text-align:center;"></i>
+                                <span>{{ destination.city.name }}{% if destination.country %}, {{ destination.country.name }}{% endif %}</span>
+                            </div>
+                        </div>
+
+                        <a href="{% url 'destinations_page' %}" class="dcd-book-btn"
+                           style="margin-top:18px;text-decoration:none;display:flex;
+                                  align-items:center;justify-content:center;gap:8px;">
+                            Discover more places <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                {% else %}
                 <form action="{% url 'booking_step1_page' destination.slug %}" method="GET" id="bookingForm">
 
                     <div class="dcd-panel-title">
@@ -699,6 +747,7 @@
                     </div>
 
                 </form>
+                {% endif %}
             </div>
         </div>
     </div><!-- /dcd-page -->
@@ -709,7 +758,9 @@
             <div class="dcd-gm-topbar">
                 <h3>{{ destination.name }}</h3>
                 <div class="dcd-gm-actions">
+                    {% if not destination.is_free %}
                     <button class="dcd-gm-select-btn" onclick="selectTicketsFromModal()">Select tickets</button>
+                    {% endif %}
                     <button class="dcd-gm-close-btn" onclick="closeGalleryModal()">
                         Close <i class="fas fa-times"></i>
                     </button>
@@ -749,7 +800,7 @@
                                 Poor
                             {% endif %}
                         </strong>
-                        <span>({{ destination.visible_reviews_count }} reviews)</span>
+                        <span>({{ destination.reviews_count }} reviews)</span>
                     </div>
                     <h4>What guests loved most:</h4>
                     {#                    <div class="dcd-gm-reviews">#}

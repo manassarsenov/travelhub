@@ -255,8 +255,7 @@
                                     {% endfor %}
                                     {% endwith %}
                                 </div>
-                                <!-- visible_reviews_count: denormalized field, no extra DB query -->
-                                <span class="rating-text">{{ d.rating }} ({{ d.visible_reviews_count }} reviews)</span>
+                                <span class="rating-text">{{ d.rating }} ({{ d.visible_reviews.count }} reviews)</span>
                             </div>
 
                             {% if d.short_description %}
@@ -294,14 +293,20 @@
 
                             <div class="card-price">
                                 <div class="price-info">
-                                    <span class="price-label">Starting from</span>
-                                    <div class="price-display">
-                                        {% if d.discount_percentage > 0 %}
-                                            <span class="old-price">${{ d.price }}</span>
-                                        {% endif %}
-                                        <span class="current-price">${{ d.discounted_price }}</span>
-                                    </div>
-                                    <span class="price-note">/ {{ d.price_label }}</span>
+                                    {% if d.is_free %}
+                                        <div class="price-display">
+                                            <span class="current-price">Free</span>
+                                        </div>
+                                    {% else %}
+                                        <span class="price-label">Starting from</span>
+                                        <div class="price-display">
+                                            {% if d.discount_percentage > 0 %}
+                                                <span class="old-price">${{ d.price }}</span>
+                                            {% endif %}
+                                            <span class="current-price">${{ d.discounted_price }}</span>
+                                        </div>
+                                        <span class="price-note">/ {{ d.price_label }}</span>
+                                    {% endif %}
                                 </div>
                             </div>
 
@@ -422,7 +427,7 @@
                            id="alert-icon-{{ d.slug }}"></i>
                         <div class="alert-info">
                             <h4>{{ d.name|truncatechars:22 }}</h4>
-                            <p>Current: <strong>${{ d.discounted_price }}</strong></p>
+                            <p>Current: <strong>{% if d.is_free %}Free{% else %}${{ d.discounted_price }}{% endif %}</strong></p>
                         </div>
                         <button class="add-wishlist-btn" onclick="toggleAlert('{{ d.slug }}', '{{ d.name|escapejs }}')"
                                 id="alert-btn-{{ d.slug }}" style="margin-left:auto;">
@@ -453,7 +458,7 @@
                         {% endif %}
                         <div class="similar-info">
                             <h4><a href="{% url 'destination_detail_page' d.slug %}" style="color:inherit;text-decoration:none;">{{ d.name|truncatechars:28 }}</a></h4>
-                            <span class="similar-price">${{ d.discounted_price }}</span>
+                            <span class="similar-price">{% if d.is_free %}Free{% else %}${{ d.discounted_price }}{% endif %}</span>
                             <button class="add-wishlist-btn" data-slug="{{ d.slug }}" onclick="toggleWishlist(this, event)">
                                 <i class="far fa-heart"></i> Save
                             </button>

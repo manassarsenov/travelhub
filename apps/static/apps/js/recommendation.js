@@ -19,6 +19,27 @@
         }
     }
 
+    /* ---- backend yordamchilari (CSRF bilan POST) ---- */
+    function recCsrf() {
+        var ck = document.cookie.split(";").find(function (c) {
+            return c.trim().indexOf("csrftoken=") === 0;
+        });
+        return ck ? ck.split("=")[1] : "";
+    }
+    function recLang() {
+        return "/" + (window.location.pathname.split("/").filter(Boolean)[0] || "en") + "/";
+    }
+    function recPost(path, body) {
+        return fetch(recLang() + path, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": recCsrf()
+            },
+            body: body
+        });
+    }
+
     /* ========================================================
        1. SCROLL REVEAL  —  .reveal elementlari ko'rinishga kirsa
     ======================================================== */
@@ -72,13 +93,13 @@
         var factEl = document.getElementById("aiLoadingFact");
         var countEl = document.getElementById("aiCount");
         var bestEl = document.getElementById("aiBest");
-        if (!overlay) return false;
 
-        /* overlayni ochish */
-        overlay.hidden = false;
-        void overlay.offsetWidth;            // reflow — transition uchun
-        overlay.classList.add("is-open");
-
+        /* overlay + animatsiyalar (javob kelguncha aylanaveradi) */
+        if (overlay) {
+            overlay.hidden = false;
+            void overlay.offsetWidth;
+            overlay.classList.add("is-open");
+        }
         var factIdx = 0;
         if (factEl) factEl.textContent = AI_FACTS[0];
         var factTimer = setInterval(function () {
@@ -91,30 +112,87 @@
                 }, 200);
             }
         }, 620);
-
-        /* hisoblagichlarni animatsiya qilish */
         var scanned = 0, best = 0;
         var countTimer = setInterval(function () {
-            scanned = Math.min(scanned + Math.floor(Math.random() * 11) + 4, 128);
-            best = Math.min(best + Math.floor(Math.random() * 7) + 2, 96);
+            scanned = Math.min(scanned + Math.floor(Math.random() * 9) + 3, 120);
+            best = Math.min(best + Math.floor(Math.random() * 6) + 2, 95);
             if (countEl) countEl.textContent = scanned;
             if (bestEl) bestEl.textContent = best + "%";
-        }, 130);
+        }, 140);
 
-        /* ~2.8s dan keyin yopish */
-        setTimeout(function () {
+        function stopTimers() {
             clearInterval(factTimer);
             clearInterval(countTimer);
-            if (countEl) countEl.textContent = 128;
-            if (bestEl) bestEl.textContent = "96%";
+        }
+        function closeOverlay() {
+            stopTimers();
+            if (overlay) {
+                overlay.classList.remove("is-open");
+                setTimeout(function () { overlay.hidden = true; }, 320);
+            }
+        }
 
-            overlay.classList.remove("is-open");
-            setTimeout(function () { overlay.hidden = true; }, 320);
+        /* CSRF tokeni */
+        var csrf = "";
+        var ck = document.cookie.split(";").find(function (c) {
+            return c.trim().indexOf("csrftoken=") === 0;
+        });
+        if (ck) csrf = ck.split("=")[1];
 
-            toast("AI match ready", '6 destinations matched “' + query + '”.', "success");
-            var picks = document.getElementById("topPicks");
-            if (picks) picks.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 2800);
+        var lang = "/" + (window.location.pathname.split("/").filter(Boolean)[0] || "en") + "/";
+
+        /* BACKEND: Gemini structured filter → engine → kartalar HTML */
+        fetch(lang + "recommendation/ai-search/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": csrf
+            },
+            body: "query=" + encodeURIComponent(query)
+        })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+            if (!data || typeof data.html !== "string") {
+                closeOverlay();
+                toast("Search failed", "Please try again.", "error");
+                return;
+            }
+            /* loading oynasida serverdan kelgan HAQIQIY raqamlarni ko'rsatamiz */
+            stopTimers();
+            if (countEl) countEl.textContent = data.scanned;
+            if (bestEl) bestEl.textContent = data.best + "%";
+
+            setTimeout(function () {
+                closeOverlay();
+                var grid = document.getElementById("recGrid");
+                if (grid) {
+                    grid.innerHTML = data.html;
+                    /* yangi kartalar darhol ko'rinsin (reveal kuzatuvchisi ularni ko'rmaydi) */
+                    grid.querySelectorAll(".rec-card").forEach(function (c) {
+                        c.classList.add("is-in");
+                        c.classList.remove("is-hidden");
+                        c.dataset.dismissed = "";
+                    });
+                }
+                var rc = document.getElementById("resultsCount");
+                if (rc) rc.textContent = data.count;
+                /* filtrni "All" ga qaytaramiz */
+                document.querySelectorAll(".rec-filter").forEach(function (b) {
+                    b.classList.toggle("is-active", b.dataset.filter === "all");
+                });
+                var empty = document.getElementById("recEmpty");
+                if (empty) empty.hidden = data.count !== 0;
+
+                toast(data.ai ? "AI match ready" : "Results ready",
+                      data.count + ' destinations for “' + query + '”.', "success");
+                var picks = document.getElementById("topPicks");
+                if (picks) picks.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 600);
+        })
+        .catch(function () {
+            closeOverlay();
+            toast("Search failed", "Please try again.", "error");
+        });
 
         return false;
     };
@@ -212,45 +290,112 @@
        4. KARTA AMALLARI  —  fav / feedback / dismiss
     ======================================================== */
 
-    /* sevimlilarga qo'shish/olib tashlash
-       BACKEND HOOK: bu yerda /api/wishlist/toggle/ ga POST qilinadi */
-    window.recToggleFav = function (btn) {
-        var on = btn.classList.toggle("is-fav");
-        toast(on ? "Saved" : "Removed",
-              on ? "Added to your wishlist." : "Removed from wishlist.",
-              on ? "success" : "info");
+    /* sevimlilarga qo'shish/olib tashlash — haqiqiy wishlist API
+       (navbar soni ham yangilanadi — main_base.js bilan bir xil xulq) */
+    window.recToggleFav = function (btn, event) {
+        if (event) { event.stopPropagation(); event.preventDefault(); }
+        var slug = btn.dataset.slug;
+        if (!slug) return;
+        btn.disabled = true;
+
+        var csrf = "";
+        var ck = document.cookie.split(";").find(function (c) {
+            return c.trim().indexOf("csrftoken=") === 0;
+        });
+        if (ck) csrf = ck.split("=")[1];
+
+        var lang = "/" + (window.location.pathname.split("/").filter(Boolean)[0] || "en") + "/";
+
+        fetch(lang + "api/wishlist/toggle/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": csrf
+            },
+            body: "slug=" + encodeURIComponent(slug)
+        })
+        .then(function (r) {
+            if (r.status === 302 || r.redirected) {
+                window.location.href = "/auth/login/?next=" + window.location.pathname;
+                return null;
+            }
+            if (r.status === 401 || r.status === 403) {
+                btn.disabled = false;
+                toast("Sign in", "Sign in to save destinations.", "info");
+                return null;
+            }
+            return r.json();
+        })
+        .then(function (data) {
+            btn.disabled = false;
+            if (!data) return;
+            if (data.unauthenticated) {
+                toast("Sign in", "Sign in to save destinations.", "info");
+                return;
+            }
+            var on = !!data.wishlisted;
+            btn.classList.toggle("is-fav", on);
+            toast(on ? "Saved" : "Removed",
+                  on ? "Added to your wishlist." : "Removed from wishlist.",
+                  on ? "success" : "info");
+            /* navbar wishlist sonini serverdan kelgan haqiqiy songa moslaymiz */
+            var countEl = document.getElementById("wishlist-count");
+            if (countEl && typeof data.wishlist_count === "number") {
+                countEl.textContent = data.wishlist_count;
+            }
+        })
+        .catch(function () {
+            btn.disabled = false;
+            toast("Error", "Please try again.", "error");
+        });
     };
 
-    /* 👍 / 👎 feedback
-       BACKEND HOOK: RecommendationFeedback modeliga POST qilinadi */
+    /* 👍 / 👎 feedback — RecommendationFeedback modeliga yoziladi */
     window.recFeedback = function (btn) {
         var group = btn.closest(".rec-fb");
-        var fb = btn.dataset.fb;
-        var wasActive = btn.classList.contains("is-active");
+        var fb = btn.dataset.fb;                 // "up" | "down"
+        var slug = btn.dataset.slug;
+        if (!slug || !group) return;
 
-        /* up va down o'zaro istisno */
+        /* up va down o'zaro istisno — bosilgani faollashadi */
         group.querySelectorAll('.rec-fb__btn[data-fb="up"], .rec-fb__btn[data-fb="down"]')
             .forEach(function (b) { b.classList.remove("is-active"); });
+        btn.classList.add("is-active");
 
-        if (!wasActive) {
-            btn.classList.add("is-active");
-            if (fb === "up")   toast("Thanks!", "We'll show more like this.", "success");
-            if (fb === "down") toast("Got it", "We'll show fewer like this.", "info");
-        }
+        recPost("recommendation/feedback/", "slug=" + encodeURIComponent(slug) + "&action=" + fb)
+            .then(function (r) {
+                if (r.status === 401) {
+                    btn.classList.remove("is-active");
+                    toast("Sign in", "Sign in to train your recommendations.", "info");
+                    return;
+                }
+                if (fb === "up")   toast("Thanks!", "We'll show more like this.", "success");
+                if (fb === "down") toast("Got it", "We'll show fewer like this next time.", "info");
+            })
+            .catch(function () { toast("Error", "Please try again.", "error"); });
     };
 
-    /* "Qiziq emas" → kartani olib tashlash
-       BACKEND HOOK: RecommendationFeedback(dismiss=true) yoziladi */
+    /* "Qiziq emas" → kartani olib tashlash + RecommendationFeedback(dismiss) */
     window.recDismiss = function (btn) {
         var card = btn.closest(".rec-card");
-        if (!card) return;
-        card.classList.add("is-dismissed");
-        setTimeout(function () {
-            card.dataset.dismissed = "1";
-            card.classList.add("is-hidden");
-            refreshCount();
-        }, 360);
-        toast("Hidden", "We won't recommend this again.", "info");
+        var slug = btn.dataset.slug;
+        if (!card || !slug) return;
+
+        recPost("recommendation/feedback/", "slug=" + encodeURIComponent(slug) + "&action=dismiss")
+            .then(function (r) {
+                if (r.status === 401) {
+                    toast("Sign in", "Sign in to train your recommendations.", "info");
+                    return;
+                }
+                card.classList.add("is-dismissed");
+                setTimeout(function () {
+                    card.dataset.dismissed = "1";
+                    card.classList.add("is-hidden");
+                    refreshCount();
+                }, 360);
+                toast("Hidden", "We won't recommend this again.", "info");
+            })
+            .catch(function () { toast("Error", "Please try again.", "error"); });
     };
 
     /* ========================================================
@@ -318,9 +463,31 @@
     /* keyingi/oldingi qadam */
     window.recQuizStep = function (dir) {
         if (dir > 0 && quizStep === QUIZ_TOTAL) {
-            /* BACKEND HOOK: quiz javoblari profilga POST qilinadi */
-            closeModal("quizModal");
-            toast("Taste DNA updated", "Your recommendations are being re-tuned.", "success");
+            /* quiz javoblarini yig'ib RecommendationProfile ga yuboramiz */
+            var styles = [];
+            document.querySelectorAll('.quiz-step[data-step="1"] .quiz-opt.is-picked')
+                .forEach(function (o) { if (o.dataset.val) styles.push(o.dataset.val); });
+            var bEl = document.querySelector('.quiz-step[data-step="2"] .quiz-opt.is-picked');
+            var pEl = document.querySelector('.quiz-step[data-step="3"] .quiz-opt.is-picked');
+
+            var body = "styles=" + encodeURIComponent(styles.join(",")) +
+                       "&budget=" + encodeURIComponent(bEl ? bEl.dataset.val : "") +
+                       "&party=" + encodeURIComponent(pEl ? pEl.dataset.val : "");
+
+            recPost("recommendation/quiz/", body)
+                .then(function (r) {
+                    closeModal("quizModal");
+                    if (r.status === 401) {
+                        toast("Sign in", "Sign in to save your taste quiz.", "info");
+                        return;
+                    }
+                    toast("Taste DNA updated", "Re-tuning your recommendations…", "success");
+                    setTimeout(function () { window.location.reload(); }, 900);
+                })
+                .catch(function () {
+                    closeModal("quizModal");
+                    toast("Error", "Please try again.", "error");
+                });
             return;
         }
         quizStep = Math.min(QUIZ_TOTAL, Math.max(1, quizStep + dir));

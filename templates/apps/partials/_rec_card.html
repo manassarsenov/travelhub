@@ -1,0 +1,73 @@
+{% load static %}
+{# Top Picks katta tavsiya kartasi — `pick` = engine pick dict #}
+<article class="rec-card reveal"
+         data-tags="{{ pick.d.trip_type }}"
+         data-match="{{ pick.match }}"
+         data-price="{{ pick.d.discounted_price }}"
+         data-rating="{{ pick.d.rating }}">
+    <div class="rec-card__media">
+        {% if pick.d.images.first %}
+            <img src="{{ pick.d.images.first.image.url }}" alt="{{ pick.d.name }}" loading="lazy">
+        {% else %}
+            <img src="{% static 'apps/img/default.avif' %}" alt="{{ pick.d.name }}" loading="lazy">
+        {% endif %}
+        <div class="rec-card__match" tabindex="0">
+            <span class="rec-card__match-pct">{{ pick.match }}%</span>
+            <span class="rec-card__match-lbl">Match</span>
+            <div class="match-pop">
+                <h5>Why {{ pick.match }}%?</h5>
+                <div class="match-pop__row"><span>Your taste</span><i style="--w:{{ pick.taste_pct }}%"></i><b>{{ pick.taste_pct }}</b></div>
+                <div class="match-pop__row"><span>Similar travelers</span><i style="--w:{{ pick.similar_pct }}%"></i><b>{{ pick.similar_pct }}</b></div>
+                <div class="match-pop__row"><span>Trending now</span><i style="--w:{{ pick.trending_pct }}%"></i><b>{{ pick.trending_pct }}</b></div>
+            </div>
+        </div>
+        <button class="rec-card__fav{% if pick.d.slug in user_wishlist_slugs %} is-fav{% endif %}"
+                data-slug="{{ pick.d.slug }}" onclick="recToggleFav(this, event)" aria-label="Save">
+            <i class="fas fa-heart"></i>
+        </button>
+        {% if pick.flag %}
+            <span class="rec-card__flag {{ pick.flag.cls }}">
+                <i class="fas {{ pick.flag.icon }}"></i> {{ pick.flag.text }}
+            </span>
+        {% endif %}
+    </div>
+    <div class="rec-card__body">
+        <div class="rec-card__loc">
+            <i class="fas fa-location-dot"></i>
+            {{ pick.d.city.name }}{% if pick.d.country %}, {{ pick.d.country.name }}{% endif %}
+        </div>
+        <h3 class="rec-card__title">{{ pick.d.name }}</h3>
+        <p class="rec-card__ai">
+            <i class="fas fa-wand-magic-sparkles"></i>
+            “{{ pick.ai_pitch }}”
+        </p>
+        <div class="rec-card__reasons">
+            {% for r in pick.reasons %}
+                <span class="reason"><i class="fas {{ r.icon }}"></i> {{ r.text }}</span>
+            {% endfor %}
+        </div>
+        <div class="rec-card__meta">
+            <span class="rec-rating">
+                <i class="fas fa-star"></i> {{ pick.d.rating }}
+                <small>({{ pick.d.rev_count }})</small>
+            </span>
+            <span class="rec-price">
+                {% if pick.d.is_free %}
+                    <em>Free entry</em>
+                {% else %}
+                    <small>from</small> ${{ pick.d.discounted_price }}<em>/person</em>
+                {% endif %}
+            </span>
+        </div>
+        <div class="rec-card__foot">
+            <a href="{% url 'destination_detail_page' pick.d.slug %}" class="btn-view">
+                View Details <i class="fas fa-arrow-right-long"></i>
+            </a>
+            <div class="rec-fb" aria-label="Feedback">
+                <button class="rec-fb__btn" data-fb="up" data-slug="{{ pick.d.slug }}" onclick="recFeedback(this)" aria-label="Good match"><i class="fas fa-thumbs-up"></i></button>
+                <button class="rec-fb__btn" data-fb="down" data-slug="{{ pick.d.slug }}" onclick="recFeedback(this)" aria-label="Bad match"><i class="fas fa-thumbs-down"></i></button>
+                <button class="rec-fb__btn" data-fb="dismiss" data-slug="{{ pick.d.slug }}" onclick="recDismiss(this)" aria-label="Not interested"><i class="fas fa-xmark"></i></button>
+            </div>
+        </div>
+    </div>
+</article>

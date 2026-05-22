@@ -162,7 +162,7 @@
                 <button class="wishlist-btn{% if destination.slug in user_wishlist_slugs %} wishlisted{% endif %}" data-slug="{{ destination.slug }}" onclick="toggleWishlist(this, event)">
                     <i class="{% if destination.slug in user_wishlist_slugs %}fas{% else %}far{% endif %} fa-heart"></i>
                 </button>
-                {% if 'destinations' in request.path %}
+                {% if show_compare %}
                 <label class="compare-checkbox">
                     <input type="checkbox" data-slug="{{ destination.slug }}" data-name="{{ destination.name }}" data-image="{% if destination.images.first %}{{ destination.images.first.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}" data-price="{{ destination.discounted_price|default:destination.price }}" data-rating="{{ destination.rating }}" onchange="addToCompare(this)">
                     <span>Compare</span>
@@ -228,14 +228,20 @@
 
                 <div class="card-footer">
                     <div class="price-box">
-                        {% if destination.discount_percentage > 0 %}
-                            <div class="price-original">${{ destination.price }}</div>
+                        {% if destination.is_free %}
+                            <div class="price-current">
+                                <span class="amount">Free</span>
+                            </div>
+                        {% else %}
+                            {% if destination.discount_percentage > 0 %}
+                                <div class="price-original">${{ destination.price }}</div>
+                            {% endif %}
+                            <div class="price-current">
+                                <span class="from">From</span>
+                                <span class="amount">${{ destination.discounted_price }}</span>
+                                <span class="per">/ {{ destination.get_price_label_display|default:"person" }}</span>
+                            </div>
                         {% endif %}
-                        <div class="price-current">
-                            <span class="from">From</span>
-                            <span class="amount">${{ destination.discounted_price }}</span>
-                            <span class="per">/ {{ destination.get_price_label_display|default:"person" }}</span>
-                        </div>
                     </div>
                     <div class="card-actions">
                         <a href="{% url 'destination_detail_page' destination.slug %}" class="btn-outline">

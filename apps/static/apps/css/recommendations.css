@@ -400,6 +400,26 @@
     gap: 16px;
 }
 
+/* cold-start: tarixsiz foydalanuvchi uchun bo'sh holat */
+.taste-dna__empty {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--rec-muted, #6b7280);
+    background: rgba(102, 126, 234, .06);
+    border: 1px dashed rgba(102, 126, 234, .35);
+    border-radius: 14px;
+    padding: 16px 18px;
+}
+
+.taste-dna__empty i {
+    color: var(--rec-primary, #667eea);
+    font-size: 18px;
+    margin-top: 2px;
+}
+
 .dna-bar__top {
     display: flex;
     justify-content: space-between;
