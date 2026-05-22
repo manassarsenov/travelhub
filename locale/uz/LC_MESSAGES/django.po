@@ -8,19 +8,964 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-21 16:05+0500\n"
+"POT-Creation-Date: 2026-05-23 01:29+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: uz\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-#: apps/models/users.py:9
+
+#: apps/models/logs.py:17
+msgid "Authentication"
+msgstr ""
+
+#: apps/models/logs.py:18
+msgid "Data Mutation"
+msgstr ""
+
+#: apps/models/logs.py:19
+msgid "Access Control"
+msgstr ""
+
+#: apps/models/logs.py:20
+msgid "System Event"
+msgstr ""
+
+#: apps/models/logs.py:21
+msgid "Financial Activity"
+msgstr ""
+
+#: apps/models/logs.py:22
+msgid "Security Alert"
+msgstr ""
+
+#: apps/models/logs.py:25
+msgid "Debug"
+msgstr ""
+
+#: apps/models/logs.py:26 apps/models/notifications.py:16
+msgid "Info"
+msgstr ""
+
+#: apps/models/logs.py:27 apps/models/notifications.py:17
+msgid "Warning"
+msgstr ""
+
+#: apps/models/logs.py:28 apps/models/notifications.py:18
+msgid "Error"
+msgstr ""
+
+#: apps/models/logs.py:29
+msgid "Critical"
+msgstr ""
+
+#: apps/models/logs.py:30
+msgid "Alert"
+msgstr ""
+
+#: apps/models/logs.py:39 apps/models/notifications.py:39
+msgid "Actor"
+msgstr ""
+
+#: apps/models/logs.py:48
+msgid "Impersonated By"
+msgstr ""
+
+#: apps/models/logs.py:52
+msgid "Action"
+msgstr ""
+
+#: apps/models/logs.py:53 apps/models/notifications.py:42
+msgid "Verb"
+msgstr ""
+
+#: apps/models/logs.py:55
+msgid "Message"
+msgstr ""
+
+#: apps/models/logs.py:66
+msgid "Object Representation"
+msgstr ""
+
+#: apps/models/logs.py:68
+msgid "Pre Change Data"
+msgstr ""
+
+#: apps/models/logs.py:69
+msgid "Post Change Data"
+msgstr ""
+
+#: apps/models/logs.py:70
+msgid "Changes Diff"
+msgstr ""
+
+#: apps/models/logs.py:72
+msgid "Request ID"
+msgstr ""
+
+#: apps/models/logs.py:73
+msgid "IP Address"
+msgstr ""
+
+#: apps/models/logs.py:74
+msgid "User Agent"
+msgstr ""
+
+#: apps/models/logs.py:75
+msgid "Request Path"
+msgstr ""
+
+#: apps/models/logs.py:76
+msgid "HTTP Method"
+msgstr ""
+
+#: apps/models/logs.py:78
+msgid "Is Suspicious"
+msgstr ""
+
+#: apps/models/logs.py:79
+msgid "Execution Time (s)"
+msgstr ""
+
+#: apps/models/logs.py:80
+msgid "Extra Info"
+msgstr ""
+
+#: apps/models/logs.py:83
+msgid "Action Log"
+msgstr ""
+
+#: apps/models/logs.py:84
+msgid "Action Logs"
+msgstr ""
+
+#: apps/models/notifications.py:15
+msgid "Success"
+msgstr ""
+
+#: apps/models/notifications.py:21
+msgid "Low"
+msgstr ""
+
+#: apps/models/notifications.py:22
+msgid "Medium"
+msgstr ""
+
+#: apps/models/notifications.py:23
+msgid "High"
+msgstr ""
+
+#: apps/models/notifications.py:24
+msgid "Urgent"
+msgstr ""
+
+#: apps/models/notifications.py:30
+msgid "Recipient"
+msgstr ""
+
+#: apps/models/notifications.py:43
+msgid "Description"
+msgstr ""
+
+#: apps/models/notifications.py:49
+msgid "Level"
+msgstr ""
+
+#: apps/models/notifications.py:55
+msgid "Priority"
+msgstr ""
+
+#: apps/models/notifications.py:68
+msgid "Is Read"
+msgstr ""
+
+#: apps/models/notifications.py:69
+msgid "Read At"
+msgstr ""
+
+#: apps/models/notifications.py:71
+msgid "Email Sent"
+msgstr ""
+
+#: apps/models/notifications.py:72
+msgid "Push Sent"
+msgstr ""
+
+#: apps/models/notifications.py:74
+msgid "Extra Data"
+msgstr ""
+
+#: apps/models/notifications.py:77
+msgid "Notification"
+msgstr ""
+
+#: apps/models/notifications.py:78
+msgid "Notifications"
+msgstr ""
+
+#: apps/models/notifications.py:137 apps/models/users.py:11
+#: apps/models/users.py:85
 msgid "User"
 msgstr ""
 
-#: apps/models/users.py:10
+#: apps/models/notifications.py:140
+msgid "Enable Email"
+msgstr ""
+
+#: apps/models/notifications.py:141
+msgid "Enable Push"
+msgstr ""
+
+#: apps/models/notifications.py:142
+msgid "Enable In-App"
+msgstr ""
+
+#: apps/models/notifications.py:144
+msgid "Booking Updates"
+msgstr ""
+
+#: apps/models/notifications.py:145
+msgid "Promotions & Offers"
+msgstr ""
+
+#: apps/models/notifications.py:146
+msgid "Price Alerts"
+msgstr ""
+
+#: apps/models/notifications.py:149
+msgid "Notification Setting"
+msgstr ""
+
+#: apps/models/notifications.py:150
+msgid "Notification Settings"
+msgstr ""
+
+#: apps/models/orders.py:24
+msgid "Pending Payment"
+msgstr ""
+
+#: apps/models/orders.py:25
+msgid "Confirmed"
+msgstr ""
+
+#: apps/models/orders.py:26
+msgid "Completed"
+msgstr ""
+
+#: apps/models/orders.py:27
+msgid "Cancelled"
+msgstr ""
+
+#: apps/models/orders.py:31
+msgid "Credit Card"
+msgstr ""
+
+#: apps/models/orders.py:32
+msgid "PayPal"
+msgstr ""
+
+#: apps/models/orders.py:33
+msgid "Kaspi.kz"
+msgstr ""
+
+#: apps/models/orders.py:34
+msgid "Apple Pay"
+msgstr ""
+
+#: apps/models/orders.py:35
+msgid "Payme"
+msgstr ""
+
+#: apps/models/orders.py:36
+msgid "Click"
+msgstr ""
+
+#: apps/models/orders.py:69
+msgid "Special Requests"
+msgstr ""
+
+#: apps/models/orders.py:142
+msgid "Booking"
+msgstr ""
+
+#: apps/models/orders.py:143
+msgid "Bookings"
+msgstr ""
+
+#: apps/models/users.py:12
 msgid "Admin"
 msgstr ""
+
+#: apps/models/users.py:15
+msgid "Male"
+msgstr ""
+
+#: apps/models/users.py:16
+msgid "Female"
+msgstr ""
+
+#: apps/models/users.py:17
+msgid "Other"
+msgstr ""
+
+#: apps/models/users.py:20
+msgid "Light"
+msgstr ""
+
+#: apps/models/users.py:21
+msgid "Dark"
+msgstr ""
+
+#: apps/models/users.py:24
+msgid "Budget ($0-50/day)"
+msgstr ""
+
+#: apps/models/users.py:25
+msgid "Mid-Range ($50-150/day)"
+msgstr ""
+
+#: apps/models/users.py:26
+msgid "Luxury ($150+/day)"
+msgstr ""
+
+#: apps/models/users.py:29 templates/apps/recommendation.html:285
+msgid "Adventure"
+msgstr "Sarguzasht"
+
+#: apps/models/users.py:30 templates/apps/recommendation.html:286
+msgid "Beach"
+msgstr "Plyaj"
+
+#: apps/models/users.py:31 templates/apps/recommendation.html:287
+msgid "Cultural"
+msgstr "Madaniy"
+
+#: apps/models/users.py:32
+msgid "Nature & Wildlife"
+msgstr ""
+
+#: apps/models/users.py:33 templates/apps/recommendation.html:289
+msgid "City Tours"
+msgstr "Shahar sayohatlari"
+
+#: apps/models/users.py:34 templates/apps/recommendation.html:290
+msgid "Romantic"
+msgstr "Romantik"
+
+#: apps/models/users.py:35 templates/apps/recommendation.html:312
+msgid "Family"
+msgstr "Oila bilan"
+
+#: apps/models/users.py:36 templates/apps/recommendation.html:301
+msgid "Luxury"
+msgstr "Hashamatli"
+
+#: apps/models/users.py:40
+msgid ""
+"Telefon raqami formati: '+998991234567'. 15 tagacha raqam ruxsat etiladi."
+msgstr ""
+
+#: apps/models/users.py:43
+msgid "User Role"
+msgstr ""
+
+#: apps/models/users.py:44
+msgid "email address"
+msgstr ""
+
+#: apps/models/users.py:46
+msgid "PhoneNumber"
+msgstr ""
+
+#: apps/models/users.py:48
+msgid "Avatar"
+msgstr ""
+
+#: apps/models/users.py:49
+msgid "Gender"
+msgstr ""
+
+#: apps/models/users.py:50
+msgid "Date of Birth"
+msgstr ""
+
+#: apps/models/users.py:52
+msgid "Country"
+msgstr ""
+
+#: apps/models/users.py:54
+msgid "Bio"
+msgstr ""
+
+#: apps/models/users.py:58
+msgid "Cover Photo"
+msgstr ""
+
+#: apps/models/users.py:59
+msgid "Website"
+msgstr ""
+
+#: apps/models/users.py:60
+msgid "Current Location"
+msgstr ""
+
+#: apps/models/users.py:61
+msgid "Languages Spoken"
+msgstr ""
+
+#: apps/models/users.py:62
+msgid "Travel Styles"
+msgstr ""
+
+#: apps/models/users.py:64
+msgid "Budget Range"
+msgstr ""
+
+#: apps/models/users.py:66
+msgid "Theme"
+msgstr ""
+
+#: apps/models/users.py:86
+msgid "Users"
+msgstr ""
+
+#: templates/apps/home.html:6
+#, fuzzy
+#| msgid "AI-Powered Recommendations"
+msgid "AI-powered travel recommendations"
+msgstr "AI asosidagi tavsiyalar"
+
+#: templates/apps/home.html:23
+#, fuzzy
+#| msgid "Perfect Destination"
+msgid "Discover Your Dream Destination"
+msgstr "manzilni kashf eting"
+
+#: templates/apps/home.html:24
+msgid ""
+"AI-powered recommendations for unforgettable travel experiences worldwide"
+msgstr ""
+
+#: templates/apps/home.html:33
+msgid "Flash Sale"
+msgstr "Chaqmoq chegirma"
+
+#: templates/apps/home.html:34
+msgid "Today's Best Deals"
+msgstr ""
+
+#: templates/apps/home.html:35
+msgid "Limited time offers — Book now"
+msgstr ""
+
+#: templates/apps/home.html:47 templates/apps/home.html:74
+#: templates/apps/home.html:105
+#, fuzzy
+#| msgid "Perfect Destination"
+msgid "Load More Destinations"
+msgstr "manzilni kashf eting"
+
+#: templates/apps/home.html:61
+msgid "All-Inclusive Packages"
+msgstr ""
+
+#: templates/apps/home.html:62
+msgid "Flight + Hotel + Activities — Everything you need in one package"
+msgstr ""
+
+#: templates/apps/home.html:88
+msgid "Trending"
+msgstr "Trendda"
+
+#: templates/apps/home.html:89
+#, fuzzy
+#| msgid "Destinations scanned"
+msgid "Destinations"
+msgstr "Ko‘rib chiqilgan manzillar"
+
+#: templates/apps/home.html:91
+msgid "Handpicked by our travel experts"
+msgstr ""
+
+#: templates/apps/home.html:117
+msgid "How It Works"
+msgstr ""
+
+#: templates/apps/home.html:118
+msgid "Book your dream vacation in 4 simple steps"
+msgstr ""
+
+#: templates/apps/home.html:125
+msgid "Search & Explore"
+msgstr ""
+
+#: templates/apps/home.html:126
+msgid "Browse 450+ destinations or let our AI recommend perfect spots for you"
+msgstr ""
+
+#: templates/apps/home.html:132
+msgid "Compare & Choose"
+msgstr ""
+
+#: templates/apps/home.html:133
+msgid "Compare prices, amenities, and reviews to find the best deal"
+msgstr ""
+
+#: templates/apps/home.html:139
+msgid "Secure Booking"
+msgstr ""
+
+#: templates/apps/home.html:140
+msgid "Book instantly with secure payment and instant confirmation"
+msgstr ""
+
+#: templates/apps/home.html:146
+msgid "Travel & Enjoy"
+msgstr ""
+
+#: templates/apps/home.html:147
+msgid "Pack your bags and enjoy your perfect vacation with 24/7 support"
+msgstr ""
+
+#: templates/apps/home.html:159
+msgid "Secure Payments"
+msgstr ""
+
+#: templates/apps/home.html:160
+msgid "SSL encrypted transactions"
+msgstr ""
+
+#: templates/apps/home.html:164
+msgid "Best Price Guarantee"
+msgstr ""
+
+#: templates/apps/home.html:165
+msgid "Find it cheaper, we'll refund the difference"
+msgstr ""
+
+#: templates/apps/home.html:169
+msgid "24/7 Support"
+msgstr ""
+
+#: templates/apps/home.html:170
+msgid "Always here to help you"
+msgstr ""
+
+#: templates/apps/home.html:174
+msgid "Free Cancellation"
+msgstr ""
+
+#: templates/apps/home.html:175
+msgid "Cancel up to 24hrs before"
+msgstr ""
+
+#: templates/apps/home.html:181
+msgid "What Our Travelers Say"
+msgstr ""
+
+#: templates/apps/home.html:218
+msgid "Traveled to"
+msgstr ""
+
+#: templates/apps/home.html:230
+msgid "We Accept:"
+msgstr ""
+
+#: templates/apps/home.html:247
+msgid "Trusted Partners:"
+msgstr ""
+
+#: templates/apps/home.html:264
+msgid "Travel Smarter with Our Mobile App"
+msgstr ""
+
+#: templates/apps/home.html:265
+msgid "Get exclusive mobile-only deals and manage your bookings on the go"
+msgstr ""
+
+#: templates/apps/home.html:270
+msgid "Instant booking confirmations"
+msgstr ""
+
+#: templates/apps/home.html:274
+msgid "Real-time flight updates"
+msgstr ""
+
+#: templates/apps/home.html:278
+msgid "Offline access to itineraries"
+msgstr ""
+
+#: templates/apps/home.html:282
+msgid "Mobile-exclusive discounts"
+msgstr ""
+
+#: templates/apps/home.html:290
+msgid "Download on the"
+msgstr ""
+
+#: templates/apps/home.html:297
+msgid "GET IT ON"
+msgstr ""
+
+#: templates/apps/home.html:313
+msgid "Scan to Download"
+msgstr ""
+
+#: templates/apps/partials/_rec_card.html:17
+msgid "Match"
+msgstr "Moslik"
+
+#: templates/apps/partials/_rec_card.html:19
+msgid "Why"
+msgstr "Nega"
+
+#: templates/apps/partials/_rec_card.html:20
+msgid "Your taste"
+msgstr "Sizning didingiz"
+
+#: templates/apps/partials/_rec_card.html:21
+msgid "Similar travelers"
+msgstr "O‘xshash sayohatchilar"
+
+#: templates/apps/partials/_rec_card.html:22
+msgid "Trending now"
+msgstr "Hozir trendda"
+
+#: templates/apps/partials/_rec_card.html:26
+msgid "Save"
+msgstr "Saqlash"
+
+#: templates/apps/partials/_rec_card.html:57
+msgid "Free entry"
+msgstr "Bepul kirish"
+
+#: templates/apps/partials/_rec_card.html:59
+msgid "from"
+msgstr "narxi"
+
+#: templates/apps/partials/_rec_card.html:59
+msgid "/person"
+msgstr "/kishi"
+
+#: templates/apps/partials/_rec_card.html:65
+msgid "View Details"
+msgstr "Batafsil ko‘rish"
+
+#: templates/apps/partials/_rec_card.html:67
+msgid "Feedback"
+msgstr "Fikr bildirish"
+
+#: templates/apps/partials/_rec_card.html:68
+msgid "Good match"
+msgstr "Yaxshi moslik"
+
+#: templates/apps/partials/_rec_card.html:69
+msgid "Bad match"
+msgstr "Yomon moslik"
+
+#: templates/apps/partials/_rec_card.html:70
+msgid "Not interested"
+msgstr "Qiziq emas"
+
+#: templates/apps/partials/_rec_mini_card.html:26
+msgid "Free"
+msgstr "Bepul"
+
+#: templates/apps/recommendation.html:6
+msgid "AI Recommendations"
+msgstr "AI tavsiyalar"
+
+#: templates/apps/recommendation.html:27
+msgid "AI-Powered Recommendations"
+msgstr "AI asosidagi tavsiyalar"
+
+#: templates/apps/recommendation.html:30
+msgid "Discover Your"
+msgstr "O‘zingizga mos"
+
+#: templates/apps/recommendation.html:30
+msgid "Perfect Destination"
+msgstr "manzilni kashf eting"
+
+#: templates/apps/recommendation.html:33
+msgid ""
+"Tell us your dream trip in your own words — our AI reads it, understands "
+"your taste and finds the best matches."
+msgstr ""
+"Orzu sayohatingizni o‘z so‘zlaringiz bilan ayting — AI uni o‘qiydi, "
+"didingizni tushunadi va eng mos joylarni topadi."
+
+#: templates/apps/recommendation.html:40
+msgid "e.g. A quiet beach escape under $600 for 2 in summer…"
+msgstr "masalan: yozda 2 kishiga $600gacha tinch plyaj dam olishi…"
+
+#: templates/apps/recommendation.html:42
+msgid "Ask AI"
+msgstr "AI’dan so‘rash"
+
+#: templates/apps/recommendation.html:47
+msgid "Try:"
+msgstr "Sinab ko‘ring:"
+
+#: templates/apps/recommendation.html:48
+msgid "Romantic city break in Europe"
+msgstr "Yevropada romantik shahar sayohati"
+
+#: templates/apps/recommendation.html:49
+msgid "Adventure trip with mountains & hiking"
+msgstr "Tog‘lar va piyoda sayr bilan sarguzasht"
+
+#: templates/apps/recommendation.html:50
+msgid "Family-friendly beach under $1000"
+msgstr "$1000gacha oilaviy plyaj"
+
+#: templates/apps/recommendation.html:60
+msgid "Your Taste DNA"
+msgstr "Sizning Did-DNK’ngiz"
+
+#: templates/apps/recommendation.html:66
+msgid "Generated from your activity"
+msgstr "Faoliyatingiz asosida yaratilgan"
+
+#: templates/apps/recommendation.html:71
+msgid "Refine my taste"
+msgstr "Didimni aniqlashtirish"
+
+#: templates/apps/recommendation.html:76
+msgid "Your top travel styles"
+msgstr "Sizning asosiy sayohat uslublaringiz"
+
+#: templates/apps/recommendation.html:89
+msgid ""
+"Save a few trips you like — your travel styles will appear here and every "
+"recommendation gets sharper."
+msgstr ""
+"Yoqtirgan bir nechta sayohatni saqlang — sayohat uslublaringiz shu yerda "
+"paydo bo‘ladi va har bir tavsiya aniqroq bo‘ladi."
+
+#: templates/apps/recommendation.html:95
+msgid "Budget style"
+msgstr "Byudjet uslubi"
+
+#: templates/apps/recommendation.html:99
+msgid "Favorite place"
+msgstr "Sevimli joy"
+
+#: templates/apps/recommendation.html:103
+msgid "signals"
+msgstr "signal"
+
+#: templates/apps/recommendation.html:103
+msgid "Analyzed"
+msgstr "Tahlil qilindi"
+
+#: templates/apps/recommendation.html:116
+msgid "Top Picks for You"
+msgstr "Siz uchun eng yaxshi tanlovlar"
+
+#: templates/apps/recommendation.html:119
+msgid "destinations matched to your Taste DNA"
+msgstr "ta manzil Did-DNK’ngizga mos keldi"
+
+#: templates/apps/recommendation.html:123
+msgid "Grid view"
+msgstr "Katak ko‘rinishi"
+
+#: templates/apps/recommendation.html:126
+msgid "List view"
+msgstr "Ro‘yxat ko‘rinishi"
+
+#: templates/apps/recommendation.html:134
+msgid "All"
+msgstr "Hammasi"
+
+#: templates/apps/recommendation.html:142
+msgid "Sort:"
+msgstr "Saralash:"
+
+#: templates/apps/recommendation.html:142
+#: templates/apps/recommendation.html:146
+msgid "Best Match"
+msgstr "Eng mos"
+
+#: templates/apps/recommendation.html:147
+msgid "Price: Low to High"
+msgstr "Narx: arzondan qimmatga"
+
+#: templates/apps/recommendation.html:148
+msgid "Price: High to Low"
+msgstr "Narx: qimmatdan arzonga"
+
+#: templates/apps/recommendation.html:149
+msgid "Highest Rated"
+msgstr "Eng yuqori baholangan"
+
+#: templates/apps/recommendation.html:160
+msgid "No destinations available yet."
+msgstr "Hozircha manzillar yo‘q."
+
+#: templates/apps/recommendation.html:167
+msgid "No destinations match this filter."
+msgstr "Bu filtrga mos manzil yo‘q."
+
+#: templates/apps/recommendation.html:177
+msgid "Because you saved"
+msgstr "Siz saqlaganingiz uchun:"
+
+#: templates/apps/recommendation.html:181
+#: templates/apps/recommendation.html:200
+#: templates/apps/recommendation.html:222
+#: templates/apps/recommendation.html:241
+msgid "Previous"
+msgstr "Oldingi"
+
+#: templates/apps/recommendation.html:182
+#: templates/apps/recommendation.html:201
+#: templates/apps/recommendation.html:223
+#: templates/apps/recommendation.html:242
+msgid "Next"
+msgstr "Keyingi"
+
+#: templates/apps/recommendation.html:198
+msgid "Travelers like you also loved"
+msgstr "Sizga o‘xshash sayohatchilar yana yoqtirgani"
+
+#: templates/apps/recommendation.html:218
+msgid "Perfect for"
+msgstr "Ayni mos:"
+
+#: templates/apps/recommendation.html:239
+msgid "Hidden Gems for You"
+msgstr "Siz uchun yashirin durdonalar"
+
+#: templates/apps/recommendation.html:258
+msgid "Want sharper recommendations?"
+msgstr "Aniqroq tavsiyalar xohlaysizmi?"
+
+#: templates/apps/recommendation.html:259
+msgid ""
+"Answer 3 quick questions and our AI will instantly re-tune your Taste DNA."
+msgstr ""
+"3 ta qisqa savolga javob bering — AI Did-DNK’ngizni darhol qayta sozlaydi."
+
+#: templates/apps/recommendation.html:261
+msgid "Take the 30-second quiz"
+msgstr "30 soniyalik anketani to‘ldiring"
+
+#: templates/apps/recommendation.html:272
+msgid "Taste quiz"
+msgstr "Did anketasi"
+
+#: templates/apps/recommendation.html:273
+msgid "Close"
+msgstr "Yopish"
+
+#: templates/apps/recommendation.html:278
+msgid "Step"
+msgstr "Bosqich"
+
+#: templates/apps/recommendation.html:278
+msgid "of 3"
+msgstr "/ 3"
+
+#: templates/apps/recommendation.html:282
+msgid "What kind of trips do you love?"
+msgstr "Qanday sayohatlarni yoqtirasiz?"
+
+#: templates/apps/recommendation.html:283
+msgid "Pick all that apply."
+msgstr "Mos kelganlarini belgilang."
+
+#: templates/apps/recommendation.html:288
+msgid "Nature"
+msgstr "Tabiat"
+
+#: templates/apps/recommendation.html:296
+msgid "What's your budget style?"
+msgstr "Byudjet uslubingiz qanday?"
+
+#: templates/apps/recommendation.html:297
+msgid "Per person, per day."
+msgstr "Bir kishiga, bir kunga."
+
+#: templates/apps/recommendation.html:299
+msgid "Budget"
+msgstr "Tejamkor"
+
+#: templates/apps/recommendation.html:299
+msgid "$0–50 / day"
+msgstr "$0–50 / kun"
+
+#: templates/apps/recommendation.html:300
+msgid "Mid-range"
+msgstr "O‘rtacha"
+
+#: templates/apps/recommendation.html:300
+msgid "$50–150 / day"
+msgstr "$50–150 / kun"
+
+#: templates/apps/recommendation.html:301
+msgid "$150+ / day"
+msgstr "$150+ / kun"
+
+#: templates/apps/recommendation.html:307
+msgid "Who do you usually travel with?"
+msgstr "Odatda kim bilan sayohat qilasiz?"
+
+#: templates/apps/recommendation.html:308
+msgid "Pick one."
+msgstr "Bittasini tanlang."
+
+#: templates/apps/recommendation.html:310
+msgid "Solo"
+msgstr "Yolg‘iz"
+
+#: templates/apps/recommendation.html:311
+msgid "Partner"
+msgstr "Juftim bilan"
+
+#: templates/apps/recommendation.html:313
+msgid "Friends"
+msgstr "Do‘stlar bilan"
+
+#: templates/apps/recommendation.html:319
+msgid "Back"
+msgstr "Orqaga"
+
+#: templates/apps/recommendation.html:322
+msgid "Continue"
+msgstr "Davom etish"
+
+#: templates/apps/recommendation.html:333
+msgid "AI is reading your request…"
+msgstr "AI so‘rovingizni o‘qiyapti…"
+
+#: templates/apps/recommendation.html:334
+msgid "Understanding your travel intent"
+msgstr "Sayohat niyatingizni tushunmoqda"
+
+#: templates/apps/recommendation.html:337
+msgid "Destinations scanned"
+msgstr "Ko‘rib chiqilgan manzillar"
+
+#: templates/apps/recommendation.html:338
+msgid "Best match"
+msgstr "Eng yuqori moslik"
+
+#~ msgid "Spring"
+#~ msgstr "Bahor"
+
+#~ msgid "Summer"
+#~ msgstr "Yoz"
+
+#~ msgid "Autumn"
+#~ msgstr "Kuz"
+
+#~ msgid "Winter"
+#~ msgstr "Qish"
+
+#~ msgid "Within budget"
+#~ msgstr "Byudjetga mos"

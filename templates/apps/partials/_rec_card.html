@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 {# Top Picks katta tavsiya kartasi — `pick` = engine pick dict #}
 <article class="rec-card reveal"
          data-tags="{{ pick.d.trip_type }}"
@@ -13,16 +14,16 @@
         {% endif %}
         <div class="rec-card__match" tabindex="0">
             <span class="rec-card__match-pct">{{ pick.match }}%</span>
-            <span class="rec-card__match-lbl">Match</span>
+            <span class="rec-card__match-lbl">{% trans "Match" %}</span>
             <div class="match-pop">
-                <h5>Why {{ pick.match }}%?</h5>
-                <div class="match-pop__row"><span>Your taste</span><i style="--w:{{ pick.taste_pct }}%"></i><b>{{ pick.taste_pct }}</b></div>
-                <div class="match-pop__row"><span>Similar travelers</span><i style="--w:{{ pick.similar_pct }}%"></i><b>{{ pick.similar_pct }}</b></div>
-                <div class="match-pop__row"><span>Trending now</span><i style="--w:{{ pick.trending_pct }}%"></i><b>{{ pick.trending_pct }}</b></div>
+                <h5>{% trans "Why" %} {{ pick.match }}%?</h5>
+                <div class="match-pop__row"><span>{% trans "Your taste" %}</span><i style="--w:{{ pick.taste_pct }}%"></i><b>{{ pick.taste_pct }}</b></div>
+                <div class="match-pop__row"><span>{% trans "Similar travelers" %}</span><i style="--w:{{ pick.similar_pct }}%"></i><b>{{ pick.similar_pct }}</b></div>
+                <div class="match-pop__row"><span>{% trans "Trending now" %}</span><i style="--w:{{ pick.trending_pct }}%"></i><b>{{ pick.trending_pct }}</b></div>
             </div>
         </div>
         <button class="rec-card__fav{% if pick.d.slug in user_wishlist_slugs %} is-fav{% endif %}"
-                data-slug="{{ pick.d.slug }}" onclick="recToggleFav(this, event)" aria-label="Save">
+                data-slug="{{ pick.d.slug }}" onclick="recToggleFav(this, event)" aria-label="{% trans 'Save' %}">
             <i class="fas fa-heart"></i>
         </button>
         {% if pick.flag %}
@@ -53,20 +54,20 @@
             </span>
             <span class="rec-price">
                 {% if pick.d.is_free %}
-                    <em>Free entry</em>
+                    <em>{% trans "Free entry" %}</em>
                 {% else %}
-                    <small>from</small> ${{ pick.d.discounted_price }}<em>/person</em>
+                    <small>{% trans "from" %}</small> ${{ pick.d.discounted_price }}<em>{% trans "/person" %}</em>
                 {% endif %}
             </span>
         </div>
         <div class="rec-card__foot">
             <a href="{% url 'destination_detail_page' pick.d.slug %}" class="btn-view">
-                View Details <i class="fas fa-arrow-right-long"></i>
+                {% trans "View Details" %} <i class="fas fa-arrow-right-long"></i>
             </a>
-            <div class="rec-fb" aria-label="Feedback">
-                <button class="rec-fb__btn" data-fb="up" data-slug="{{ pick.d.slug }}" onclick="recFeedback(this)" aria-label="Good match"><i class="fas fa-thumbs-up"></i></button>
-                <button class="rec-fb__btn" data-fb="down" data-slug="{{ pick.d.slug }}" onclick="recFeedback(this)" aria-label="Bad match"><i class="fas fa-thumbs-down"></i></button>
-                <button class="rec-fb__btn" data-fb="dismiss" data-slug="{{ pick.d.slug }}" onclick="recDismiss(this)" aria-label="Not interested"><i class="fas fa-xmark"></i></button>
+            <div class="rec-fb" aria-label="{% trans 'Feedback' %}">
+                <button class="rec-fb__btn" data-fb="up" data-slug="{{ pick.d.slug }}" onclick="recFeedback(this)" aria-label="{% trans 'Good match' %}"><i class="fas fa-thumbs-up"></i></button>
+                <button class="rec-fb__btn" data-fb="down" data-slug="{{ pick.d.slug }}" onclick="recFeedback(this)" aria-label="{% trans 'Bad match' %}"><i class="fas fa-thumbs-down"></i></button>
+                <button class="rec-fb__btn" data-fb="dismiss" data-slug="{{ pick.d.slug }}" onclick="recDismiss(this)" aria-label="{% trans 'Not interested' %}"><i class="fas fa-xmark"></i></button>
             </div>
         </div>
     </div>

@@ -1,8 +1,9 @@
 {% extends 'apps/main_base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}
-    <title>AI Recommendations — TravelHub</title>
+    <title>{% trans "AI Recommendations" %} — TravelHub</title>
 {% endblock %}
 
 {% block custom_css %}
@@ -22,31 +23,30 @@
 
         <div class="container rec-hero__inner">
             <span class="rec-badge">
-                <i class="fas fa-wand-magic-sparkles"></i> AI-Powered Recommendations
+                <i class="fas fa-wand-magic-sparkles"></i> {% trans "AI-Powered Recommendations" %}
             </span>
             <h1 class="rec-hero__title">
-                Discover Your <span class="grad-text">Perfect Destination</span>
+                {% trans "Discover Your" %} <span class="grad-text">{% trans "Perfect Destination" %}</span>
             </h1>
             <p class="rec-hero__sub">
-                Tell us your dream trip in your own words — our AI reads it,
-                understands your taste and finds the best matches.
+                {% trans "Tell us your dream trip in your own words — our AI reads it, understands your taste and finds the best matches." %}
             </p>
 
             <form class="ai-search" onsubmit="return recAiSearch(event)">
                 <i class="fas fa-wand-magic-sparkles ai-search__icon"></i>
                 <input type="text" id="aiSearchInput" class="ai-search__input"
                        autocomplete="off"
-                       placeholder="e.g. A quiet beach escape under $600 for 2 in summer…">
+                       placeholder="{% trans 'e.g. A quiet beach escape under $600 for 2 in summer…' %}">
                 <button type="submit" class="ai-search__btn">
-                    <span>Ask AI</span> <i class="fas fa-arrow-right-long"></i>
+                    <span>{% trans "Ask AI" %}</span> <i class="fas fa-arrow-right-long"></i>
                 </button>
             </form>
 
             <div class="ai-search__hints">
-                <span class="ai-search__hints-lbl">Try:</span>
-                <button type="button" class="ai-chip" onclick="recFillSearch(this)">Romantic city break in Europe</button>
-                <button type="button" class="ai-chip" onclick="recFillSearch(this)">Adventure trip with mountains &amp; hiking</button>
-                <button type="button" class="ai-chip" onclick="recFillSearch(this)">Family-friendly beach under $1000</button>
+                <span class="ai-search__hints-lbl">{% trans "Try:" %}</span>
+                <button type="button" class="ai-chip" onclick="recFillSearch(this)">{% trans "Romantic city break in Europe" %}</button>
+                <button type="button" class="ai-chip" onclick="recFillSearch(this)">{% trans "Adventure trip with mountains & hiking" %}</button>
+                <button type="button" class="ai-chip" onclick="recFillSearch(this)">{% trans "Family-friendly beach under $1000" %}</button>
             </div>
         </div>
     </section>
@@ -55,23 +55,23 @@
     <section class="container">
         <div class="taste-dna reveal">
             <div class="taste-dna__left">
-                <span class="taste-dna__tag"><i class="fas fa-dna"></i> Your Taste DNA</span>
+                <span class="taste-dna__tag"><i class="fas fa-dna"></i> {% trans "Your Taste DNA" %}</span>
                 <div class="ai-portrait">
                     <div class="ai-portrait__avatar"><i class="fas fa-robot"></i></div>
                     <div class="ai-portrait__bubble">
                         <p>“{{ taste.portrait }}”</p>
                         <span class="ai-portrait__by">
-                            <i class="fas fa-wand-magic-sparkles"></i> Generated from your activity
+                            <i class="fas fa-wand-magic-sparkles"></i> {% trans "Generated from your activity" %}
                         </span>
                     </div>
                 </div>
                 <button class="btn-ghost" onclick="recOpenQuiz()">
-                    <i class="fas fa-sliders"></i> Refine my taste
+                    <i class="fas fa-sliders"></i> {% trans "Refine my taste" %}
                 </button>
             </div>
 
             <div class="taste-dna__right">
-                <h3 class="taste-dna__h">Your top travel styles</h3>
+                <h3 class="taste-dna__h">{% trans "Your top travel styles" %}</h3>
                 {% if taste.styles %}
                     <div class="dna-bars">
                         {% for s in taste.styles %}
@@ -84,22 +84,21 @@
                 {% else %}
                     <p class="taste-dna__empty">
                         <i class="fas fa-compass"></i>
-                        Save a few trips you like — your travel styles will appear here and
-                        every recommendation gets sharper.
+                        {% trans "Save a few trips you like — your travel styles will appear here and every recommendation gets sharper." %}
                     </p>
                 {% endif %}
                 <div class="dna-stats">
                     <div class="dna-stat">
                         <i class="fas fa-wallet"></i>
-                        <div><b>{{ taste.budget }}</b><span>Budget style</span></div>
+                        <div><b>{{ taste.budget }}</b><span>{% trans "Budget style" %}</span></div>
                     </div>
                     <div class="dna-stat">
                         <i class="fas fa-earth-europe"></i>
-                        <div><b>{{ taste.favorite_region }}</b><span>Favorite place</span></div>
+                        <div><b>{{ taste.favorite_region }}</b><span>{% trans "Favorite place" %}</span></div>
                     </div>
                     <div class="dna-stat">
                         <i class="fas fa-chart-line"></i>
-                        <div><b>{{ taste.signals }} signal{{ taste.signals|pluralize }}</b><span>Analyzed</span></div>
+                        <div><b>{{ taste.signals }} {% trans "signals" %}</b><span>{% trans "Analyzed" %}</span></div>
                     </div>
                 </div>
             </div>
@@ -111,17 +110,17 @@
         <div class="rec-section__head">
             <div>
                 <h2 class="rec-section__title">
-                    <i class="fas fa-bullseye"></i> Top Picks for You
+                    <i class="fas fa-bullseye"></i> {% trans "Top Picks for You" %}
                 </h2>
                 <p class="rec-section__sub">
-                    <span id="resultsCount">{{ top_picks|length }}</span> destinations matched to your Taste DNA
+                    <span id="resultsCount">{{ top_picks|length }}</span> {% trans "destinations matched to your Taste DNA" %}
                 </p>
             </div>
             <div class="rec-view">
-                <button class="rec-view__btn is-active" data-view="grid" onclick="recSetView('grid')" aria-label="Grid view">
+                <button class="rec-view__btn is-active" data-view="grid" onclick="recSetView('grid')" aria-label="{% trans 'Grid view' %}">
                     <i class="fas fa-table-cells-large"></i>
                 </button>
-                <button class="rec-view__btn" data-view="list" onclick="recSetView('list')" aria-label="List view">
+                <button class="rec-view__btn" data-view="list" onclick="recSetView('list')" aria-label="{% trans 'List view' %}">
                     <i class="fas fa-list"></i>
                 </button>
             </div>
@@ -129,7 +128,7 @@
 
         <div class="rec-toolbar">
             <div class="rec-filters">
-                <button class="rec-filter is-active" data-filter="all" onclick="recFilter(this)">All</button>
+                <button class="rec-filter is-active" data-filter="all" onclick="recFilter(this)">{% trans "All" %}</button>
                 {% for f in filter_types %}
                     <button class="rec-filter" data-filter="{{ f.key }}" onclick="recFilter(this)">{{ f.label }}</button>
                 {% endfor %}
@@ -137,14 +136,14 @@
             <div class="rec-sort">
                 <button class="rec-sort__btn" onclick="recToggleSort()">
                     <i class="fas fa-arrow-down-wide-short"></i>
-                    Sort: <span id="sortLabel">Best Match</span>
+                    {% trans "Sort:" %} <span id="sortLabel">{% trans "Best Match" %}</span>
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="rec-sort__menu" id="sortMenu">
-                    <button onclick="recSort('match','Best Match')">Best Match</button>
-                    <button onclick="recSort('price-asc','Price: Low to High')">Price: Low to High</button>
-                    <button onclick="recSort('price-desc','Price: High to Low')">Price: High to Low</button>
-                    <button onclick="recSort('rating','Highest Rated')">Highest Rated</button>
+                    <button onclick="recSort('match','{% trans "Best Match" %}')">{% trans "Best Match" %}</button>
+                    <button onclick="recSort('price-asc','{% trans "Price: Low to High" %}')">{% trans "Price: Low to High" %}</button>
+                    <button onclick="recSort('price-desc','{% trans "Price: High to Low" %}')">{% trans "Price: High to Low" %}</button>
+                    <button onclick="recSort('rating','{% trans "Highest Rated" %}')">{% trans "Highest Rated" %}</button>
                 </div>
             </div>
         </div>
@@ -155,14 +154,14 @@
             {% empty %}
             <div class="rec-empty">
                 <i class="fas fa-compass"></i>
-                <p>No destinations available yet.</p>
+                <p>{% trans "No destinations available yet." %}</p>
             </div>
             {% endfor %}
         </div>
 
         <div class="rec-empty" id="recEmpty" hidden>
             <i class="fas fa-compass"></i>
-            <p>No destinations match this filter.</p>
+            <p>{% trans "No destinations match this filter." %}</p>
         </div>
     </section>
 
@@ -171,12 +170,12 @@
     <section class="container rec-row reveal">
         <div class="rec-row__head">
             <h2 class="rec-section__title">
-                <i class="fas fa-bookmark"></i> Because you saved
+                <i class="fas fa-bookmark"></i> {% trans "Because you saved" %}
                 <span class="grad-text">{{ because_saved.seed.name }}</span>
             </h2>
             <div class="rec-row__nav">
-                <button onclick="recScroll('rowSaved',-1)" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
-                <button onclick="recScroll('rowSaved',1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                <button onclick="recScroll('rowSaved',-1)" aria-label="{% trans 'Previous' %}"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="recScroll('rowSaved',1)" aria-label="{% trans 'Next' %}"><i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
         <div class="rec-track" id="rowSaved">
@@ -191,10 +190,10 @@
     {% if also_loved %}
     <section class="container rec-row reveal">
         <div class="rec-row__head">
-            <h2 class="rec-section__title"><i class="fas fa-user-group"></i> Travelers like you also loved</h2>
+            <h2 class="rec-section__title"><i class="fas fa-user-group"></i> {% trans "Travelers like you also loved" %}</h2>
             <div class="rec-row__nav">
-                <button onclick="recScroll('rowSimilar',-1)" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
-                <button onclick="recScroll('rowSimilar',1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                <button onclick="recScroll('rowSimilar',-1)" aria-label="{% trans 'Previous' %}"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="recScroll('rowSimilar',1)" aria-label="{% trans 'Next' %}"><i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
         <div class="rec-track" id="rowSimilar">
@@ -210,12 +209,12 @@
     <section class="container rec-row reveal">
         <div class="rec-row__head">
             <h2 class="rec-section__title">
-                <i class="fas fa-seedling"></i> Perfect for
-                <span class="grad-text">{{ season_label }} {% now "Y" %}</span>
+                <i class="fas fa-seedling"></i> {% trans "Perfect for" %}
+                <span class="grad-text">{% trans season_label %} {% now "Y" %}</span>
             </h2>
             <div class="rec-row__nav">
-                <button onclick="recScroll('rowSeason',-1)" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
-                <button onclick="recScroll('rowSeason',1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                <button onclick="recScroll('rowSeason',-1)" aria-label="{% trans 'Previous' %}"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="recScroll('rowSeason',1)" aria-label="{% trans 'Next' %}"><i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
         <div class="rec-track" id="rowSeason">
@@ -230,10 +229,10 @@
     {% if hidden_gems %}
     <section class="container rec-row reveal">
         <div class="rec-row__head">
-            <h2 class="rec-section__title"><i class="fas fa-gem"></i> Hidden Gems for You</h2>
+            <h2 class="rec-section__title"><i class="fas fa-gem"></i> {% trans "Hidden Gems for You" %}</h2>
             <div class="rec-row__nav">
-                <button onclick="recScroll('rowGems',-1)" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
-                <button onclick="recScroll('rowGems',1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                <button onclick="recScroll('rowGems',-1)" aria-label="{% trans 'Previous' %}"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="recScroll('rowGems',1)" aria-label="{% trans 'Next' %}"><i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
         <div class="rec-track" id="rowGems">
@@ -248,10 +247,10 @@
     <section class="container">
         <div class="rec-cta reveal">
             <div class="rec-cta__icon"><i class="fas fa-brain"></i></div>
-            <h2>Want sharper recommendations?</h2>
-            <p>Answer 3 quick questions and our AI will instantly re-tune your Taste DNA.</p>
+            <h2>{% trans "Want sharper recommendations?" %}</h2>
+            <p>{% trans "Answer 3 quick questions and our AI will instantly re-tune your Taste DNA." %}</p>
             <button class="btn-primary" onclick="recOpenQuiz()">
-                <i class="fas fa-wand-magic-sparkles"></i> Take the 30-second quiz
+                <i class="fas fa-wand-magic-sparkles"></i> {% trans "Take the 30-second quiz" %}
             </button>
         </div>
     </section>
@@ -261,57 +260,57 @@
 {% comment %}  QUIZ MODAL — 3 bosqichli (3-bosqichda backendga ulanadi)  {% endcomment %}
 <div class="rec-modal" id="quizModal" hidden>
     <div class="rec-modal__overlay" onclick="recCloseQuiz()"></div>
-    <div class="rec-modal__box" role="dialog" aria-modal="true" aria-label="Taste quiz">
-        <button class="rec-modal__x" onclick="recCloseQuiz()" aria-label="Close"><i class="fas fa-xmark"></i></button>
+    <div class="rec-modal__box" role="dialog" aria-modal="true" aria-label="{% trans 'Taste quiz' %}">
+        <button class="rec-modal__x" onclick="recCloseQuiz()" aria-label="{% trans 'Close' %}"><i class="fas fa-xmark"></i></button>
 
         <div class="quiz-progress">
             <span class="quiz-progress__fill" id="quizFill" style="width:33%"></span>
         </div>
-        <p class="quiz-step-label">Step <b id="quizStepNum">1</b> of 3</p>
+        <p class="quiz-step-label">{% trans "Step" %} <b id="quizStepNum">1</b> {% trans "of 3" %}</p>
 
         {# step 1 #}
         <div class="quiz-step is-active" data-step="1">
-            <h3><i class="fas fa-heart"></i> What kind of trips do you love?</h3>
-            <p class="quiz-hint">Pick all that apply.</p>
+            <h3><i class="fas fa-heart"></i> {% trans "What kind of trips do you love?" %}</h3>
+            <p class="quiz-hint">{% trans "Pick all that apply." %}</p>
             <div class="quiz-grid">
-                <button type="button" class="quiz-opt" data-val="adventure" onclick="recQuizPick(this)"><i class="fas fa-mountain-sun"></i> Adventure</button>
-                <button type="button" class="quiz-opt" data-val="beach" onclick="recQuizPick(this)"><i class="fas fa-umbrella-beach"></i> Beach</button>
-                <button type="button" class="quiz-opt" data-val="cultural" onclick="recQuizPick(this)"><i class="fas fa-landmark"></i> Cultural</button>
-                <button type="button" class="quiz-opt" data-val="nature" onclick="recQuizPick(this)"><i class="fas fa-tree"></i> Nature</button>
-                <button type="button" class="quiz-opt" data-val="city" onclick="recQuizPick(this)"><i class="fas fa-city"></i> City Tours</button>
-                <button type="button" class="quiz-opt" data-val="romantic" onclick="recQuizPick(this)"><i class="fas fa-heart"></i> Romantic</button>
+                <button type="button" class="quiz-opt" data-val="adventure" onclick="recQuizPick(this)"><i class="fas fa-mountain-sun"></i> {% trans "Adventure" %}</button>
+                <button type="button" class="quiz-opt" data-val="beach" onclick="recQuizPick(this)"><i class="fas fa-umbrella-beach"></i> {% trans "Beach" %}</button>
+                <button type="button" class="quiz-opt" data-val="cultural" onclick="recQuizPick(this)"><i class="fas fa-landmark"></i> {% trans "Cultural" %}</button>
+                <button type="button" class="quiz-opt" data-val="nature" onclick="recQuizPick(this)"><i class="fas fa-tree"></i> {% trans "Nature" %}</button>
+                <button type="button" class="quiz-opt" data-val="city" onclick="recQuizPick(this)"><i class="fas fa-city"></i> {% trans "City Tours" %}</button>
+                <button type="button" class="quiz-opt" data-val="romantic" onclick="recQuizPick(this)"><i class="fas fa-heart"></i> {% trans "Romantic" %}</button>
             </div>
         </div>
 
         {# step 2 #}
         <div class="quiz-step" data-step="2">
-            <h3><i class="fas fa-wallet"></i> What's your budget style?</h3>
-            <p class="quiz-hint">Per person, per day.</p>
+            <h3><i class="fas fa-wallet"></i> {% trans "What's your budget style?" %}</h3>
+            <p class="quiz-hint">{% trans "Per person, per day." %}</p>
             <div class="quiz-grid quiz-grid--2">
-                <button type="button" class="quiz-opt quiz-opt--lg" data-val="budget" onclick="recQuizPickOne(this)"><i class="fas fa-piggy-bank"></i><b>Budget</b><span>$0–50 / day</span></button>
-                <button type="button" class="quiz-opt quiz-opt--lg" data-val="mid" onclick="recQuizPickOne(this)"><i class="fas fa-hotel"></i><b>Mid-range</b><span>$50–150 / day</span></button>
-                <button type="button" class="quiz-opt quiz-opt--lg" data-val="luxury" onclick="recQuizPickOne(this)"><i class="fas fa-gem"></i><b>Luxury</b><span>$150+ / day</span></button>
+                <button type="button" class="quiz-opt quiz-opt--lg" data-val="budget" onclick="recQuizPickOne(this)"><i class="fas fa-piggy-bank"></i><b>{% trans "Budget" %}</b><span>{% trans "$0–50 / day" %}</span></button>
+                <button type="button" class="quiz-opt quiz-opt--lg" data-val="mid" onclick="recQuizPickOne(this)"><i class="fas fa-hotel"></i><b>{% trans "Mid-range" %}</b><span>{% trans "$50–150 / day" %}</span></button>
+                <button type="button" class="quiz-opt quiz-opt--lg" data-val="luxury" onclick="recQuizPickOne(this)"><i class="fas fa-gem"></i><b>{% trans "Luxury" %}</b><span>{% trans "$150+ / day" %}</span></button>
             </div>
         </div>
 
         {# step 3 #}
         <div class="quiz-step" data-step="3">
-            <h3><i class="fas fa-user-group"></i> Who do you usually travel with?</h3>
-            <p class="quiz-hint">Pick one.</p>
+            <h3><i class="fas fa-user-group"></i> {% trans "Who do you usually travel with?" %}</h3>
+            <p class="quiz-hint">{% trans "Pick one." %}</p>
             <div class="quiz-grid quiz-grid--2">
-                <button type="button" class="quiz-opt quiz-opt--lg" data-val="solo" onclick="recQuizPickOne(this)"><i class="fas fa-person"></i><b>Solo</b></button>
-                <button type="button" class="quiz-opt quiz-opt--lg" data-val="partner" onclick="recQuizPickOne(this)"><i class="fas fa-heart"></i><b>Partner</b></button>
-                <button type="button" class="quiz-opt quiz-opt--lg" data-val="family" onclick="recQuizPickOne(this)"><i class="fas fa-people-roof"></i><b>Family</b></button>
-                <button type="button" class="quiz-opt quiz-opt--lg" data-val="friends" onclick="recQuizPickOne(this)"><i class="fas fa-people-group"></i><b>Friends</b></button>
+                <button type="button" class="quiz-opt quiz-opt--lg" data-val="solo" onclick="recQuizPickOne(this)"><i class="fas fa-person"></i><b>{% trans "Solo" %}</b></button>
+                <button type="button" class="quiz-opt quiz-opt--lg" data-val="partner" onclick="recQuizPickOne(this)"><i class="fas fa-heart"></i><b>{% trans "Partner" %}</b></button>
+                <button type="button" class="quiz-opt quiz-opt--lg" data-val="family" onclick="recQuizPickOne(this)"><i class="fas fa-people-roof"></i><b>{% trans "Family" %}</b></button>
+                <button type="button" class="quiz-opt quiz-opt--lg" data-val="friends" onclick="recQuizPickOne(this)"><i class="fas fa-people-group"></i><b>{% trans "Friends" %}</b></button>
             </div>
         </div>
 
         <div class="quiz-nav">
             <button class="btn-ghost" id="quizBack" onclick="recQuizStep(-1)" hidden>
-                <i class="fas fa-arrow-left"></i> Back
+                <i class="fas fa-arrow-left"></i> {% trans "Back" %}
             </button>
             <button class="btn-primary" id="quizNext" onclick="recQuizStep(1)">
-                Continue <i class="fas fa-arrow-right-long"></i>
+                {% trans "Continue" %} <i class="fas fa-arrow-right-long"></i>
             </button>
         </div>
     </div>
@@ -321,12 +320,12 @@
 <div class="ai-loading" id="aiLoading" hidden>
     <div class="ai-loading__box">
         <div class="ai-loading__brain"><i class="fas fa-brain"></i></div>
-        <h3>AI is reading your request…</h3>
-        <p id="aiLoadingFact">Understanding your travel intent</p>
+        <h3>{% trans "AI is reading your request…" %}</h3>
+        <p id="aiLoadingFact">{% trans "Understanding your travel intent" %}</p>
         <div class="ai-loading__bar"><span></span></div>
         <div class="ai-loading__stats">
-            <div><b id="aiCount">0</b><span>Destinations scanned</span></div>
-            <div><b id="aiBest">0%</b><span>Best match</span></div>
+            <div><b id="aiCount">0</b><span>{% trans "Destinations scanned" %}</span></div>
+            <div><b id="aiBest">0%</b><span>{% trans "Best match" %}</span></div>
         </div>
     </div>
 </div>

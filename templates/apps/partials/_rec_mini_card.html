@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 {# Karusellar uchun kichik tavsiya kartasi — `card` = engine pick dict #}
 <a class="mini-card" href="{% url 'destination_detail_page' card.d.slug %}">
     <div class="mini-card__media">
@@ -22,7 +23,7 @@
         {% endwith %}
         <div class="mini-card__meta">
             <span class="rec-rating"><i class="fas fa-star"></i> {{ card.d.rating }}</span>
-            <span class="rec-price">{% if card.d.is_free %}Free{% else %}${{ card.d.discounted_price }}{% endif %}</span>
+            <span class="rec-price">{% if card.d.is_free %}{% trans "Free" %}{% else %}${{ card.d.discounted_price }}{% endif %}</span>
         </div>
     </div>
 </a>

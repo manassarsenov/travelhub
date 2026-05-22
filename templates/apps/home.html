@@ -1,8 +1,9 @@
 {% extends 'apps/main_base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}
-    <title>TravelHub - AI-Powered Travel Recommendations | Book Your Dream Vacation</title>
+    <title>TravelHub — {% trans "AI-powered travel recommendations" %}</title>
 {% endblock %}
 
 {% block custom_css %}
@@ -19,8 +20,8 @@
             <div class="shape shape-2"></div>
         </div>
         <div class="hero-content">
-            <h1>Discover Your Dream Destination</h1>
-            <p>AI-powered recommendations for unforgettable travel experiences worldwide</p>
+            <h1>{% trans "Discover Your Dream Destination" %}</h1>
+            <p>{% trans "AI-powered recommendations for unforgettable travel experiences worldwide" %}</p>
         </div>
     </section>
 
@@ -29,9 +30,9 @@
         <section class="flash-deals" data-section="flash" data-total="{{ flash_total }}">
             <div class="container-custom">
                 <div class="section-header-custom">
-                    <div class="flash-badge"><i class="fas fa-bolt"></i><span>Flash Sale</span></div>
-                    <h2>Today's Best Deals</h2>
-                    <p>Limited time offers - Book now </p>
+                    <div class="flash-badge"><i class="fas fa-bolt"></i><span>{% trans "Flash Sale" %}</span></div>
+                    <h2>{% trans "Today's Best Deals" %}</h2>
+                    <p>{% trans "Limited time offers — Book now" %}</p>
                 </div>
 
                 <div id="destinations-grid" class="destinations-grid">
@@ -43,7 +44,7 @@
             <div class="load-more-container">
                 <button class="btn-load-more" onclick="loadMore('flash')">
                     <i class="fas fa-spinner"></i>
-                    Load More Destinations
+                    {% trans "Load More Destinations" %}
                 </button>
                 <p class="showing-text"></p>
             </div>
@@ -57,8 +58,8 @@
         <section class="package-deals" data-section="featured" data-total="{{ featured_total }}">
             <div class="container-custom">
                 <div class="section-header-custom">
-                    <h2>All-Inclusive Packages</h2>
-                    <p>Flight + Hotel + Activities - Everything you need in one package</p>
+                    <h2>{% trans "All-Inclusive Packages" %}</h2>
+                    <p>{% trans "Flight + Hotel + Activities — Everything you need in one package" %}</p>
                 </div>
 
                 <div class="packages-grid">
@@ -70,7 +71,7 @@
             <div class="load-more-container">
                 <button class="btn-load-more" onclick="loadMore('featured')">
                     <i class="fas fa-spinner"></i>
-                    Load More Destinations
+                    {% trans "Load More Destinations" %}
                 </button>
                 <p class="showing-text"></p>
             </div>
@@ -84,10 +85,10 @@
         <section class="trending-deals" data-section="trending" data-total="{{ trending_total }}">
             <div class="container-custom">
                 <div class="section-header-custom">
-                    <h2>Trending <span
-                            style="background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Destinations</span>
+                    <h2>{% trans "Trending" %} <span
+                            style="background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">{% trans "Destinations" %}</span>
                     </h2>
-                    <p>Handpicked by our travel experts</p>
+                    <p>{% trans "Handpicked by our travel experts" %}</p>
                 </div>
 
                 <div id="trending-grid" class="destinations-grid">
@@ -101,7 +102,7 @@
             <div class="load-more-container">
                 <button class="btn-load-more" onclick="loadMore('trending')">
                     <i class="fas fa-spinner"></i>
-                    Load More Destinations
+                    {% trans "Load More Destinations" %}
                 </button>
                 <p class="showing-text"></p>
             </div>
@@ -109,57 +110,41 @@
         </section>
     {% endif %}
 
-
-
-    <!-- LIVE ACTIVITY FEED -->
-{#    <section class="live-feed">#}
-{#        <div class="container-custom">#}
-{#            <div class="feed-header">#}
-{#                <div class="live-indicator">#}
-{#                    <span class="pulse-dot"></span>#}
-{#                    <span>LIVE</span>#}
-{#                </div>#}
-{#                <h3>Recent Bookings</h3>#}
-{#            </div>#}
-{#            <div class="feed-container" id="live-feed"></div>#}
-{#        </div>#}
-{#    </section>#}
-
     <!-- HOW IT WORKS -->
     <section class="how-it-works">
         <div class="container-custom">
             <div class="section-header-custom">
-                <h2>How It Works</h2>
-                <p>Book your dream vacation in 4 simple steps</p>
+                <h2>{% trans "How It Works" %}</h2>
+                <p>{% trans "Book your dream vacation in 4 simple steps" %}</p>
             </div>
 
             <div class="steps-container">
                 <div class="step-card">
                     <div class="step-number">01</div>
                     <div class="step-icon"><i class="fas fa-search"></i></div>
-                    <h3>Search & Explore</h3>
-                    <p>Browse 450+ destinations or let our AI recommend perfect spots for you</p>
+                    <h3>{% trans "Search & Explore" %}</h3>
+                    <p>{% trans "Browse 450+ destinations or let our AI recommend perfect spots for you" %}</p>
                 </div>
                 <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
                 <div class="step-card">
                     <div class="step-number">02</div>
                     <div class="step-icon"><i class="fas fa-balance-scale"></i></div>
-                    <h3>Compare & Choose</h3>
-                    <p>Compare prices, amenities, and reviews to find the best deal</p>
+                    <h3>{% trans "Compare & Choose" %}</h3>
+                    <p>{% trans "Compare prices, amenities, and reviews to find the best deal" %}</p>
                 </div>
                 <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
                 <div class="step-card">
                     <div class="step-number">03</div>
                     <div class="step-icon"><i class="fas fa-credit-card"></i></div>
-                    <h3>Secure Booking</h3>
-                    <p>Book instantly with secure payment and instant confirmation</p>
+                    <h3>{% trans "Secure Booking" %}</h3>
+                    <p>{% trans "Book instantly with secure payment and instant confirmation" %}</p>
                 </div>
                 <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
                 <div class="step-card">
                     <div class="step-number">04</div>
                     <div class="step-icon"><i class="fas fa-plane-departure"></i></div>
-                    <h3>Travel & Enjoy</h3>
-                    <p>Pack your bags and enjoy your perfect vacation with 24/7 support</p>
+                    <h3>{% trans "Travel & Enjoy" %}</h3>
+                    <p>{% trans "Pack your bags and enjoy your perfect vacation with 24/7 support" %}</p>
                 </div>
             </div>
         </div>
@@ -171,29 +156,29 @@
             <div class="trust-grid">
                 <div class="trust-item">
                     <i class="fas fa-shield-alt"></i>
-                    <h4>Secure Payments</h4>
-                    <p>SSL encrypted transactions</p>
+                    <h4>{% trans "Secure Payments" %}</h4>
+                    <p>{% trans "SSL encrypted transactions" %}</p>
                 </div>
                 <div class="trust-item">
                     <i class="fas fa-award"></i>
-                    <h4>Best Price Guarantee</h4>
-                    <p>Find it cheaper, we'll refund the difference</p>
+                    <h4>{% trans "Best Price Guarantee" %}</h4>
+                    <p>{% trans "Find it cheaper, we'll refund the difference" %}</p>
                 </div>
                 <div class="trust-item">
                     <i class="fas fa-headset"></i>
-                    <h4>24/7 Support</h4>
-                    <p>Always here to help you</p>
+                    <h4>{% trans "24/7 Support" %}</h4>
+                    <p>{% trans "Always here to help you" %}</p>
                 </div>
                 <div class="trust-item">
                     <i class="fas fa-undo"></i>
-                    <h4>Free Cancellation</h4>
-                    <p>Cancel up to 24hrs before</p>
+                    <h4>{% trans "Free Cancellation" %}</h4>
+                    <p>{% trans "Cancel up to 24hrs before" %}</p>
                 </div>
             </div>
 
             <!-- Testimonials -->
             <section class="section" style="background: var(--light);">
-                <h2 class="section-title">What Our Travelers Say</h2>
+                <h2 class="section-title">{% trans "What Our Travelers Say" %}</h2>
                 <div class="card-grid">
                     {% for review in top_reviews %}
                         <div class="destination-card">
@@ -230,7 +215,7 @@
                                             {{ review.author_name|default:review.user.username }}
                                         </h4>
                                         <p style="color: #667eea; font-size: 13px; font-weight: 600;">
-                                            Traveled to {{ review.destination.name }}
+                                            {% trans "Traveled to" %} {{ review.destination.name }}
                                         </p>
                                     </div>
                                 </div>
@@ -242,7 +227,7 @@
             </section>
 
             <div class="payment-methods">
-                <p>We Accept:</p>
+                <p>{% trans "We Accept:" %}</p>
                 <div class="payment-icons">
                     <i class="fab fa-cc-visa"></i>
                     <i class="fab fa-cc-mastercard"></i>
@@ -259,7 +244,7 @@
             </div>
 
             <div class="partners-section">
-                <p>Trusted Partners:</p>
+                <p>{% trans "Trusted Partners:" %}</p>
                 <div class="partners-logos">
                     <div class="partner-logo">Emirates</div>
                     <div class="partner-logo">Marriott</div>
@@ -276,25 +261,25 @@
         <div class="container-custom">
             <div class="app-content">
                 <div class="app-text">
-                    <h2>Travel Smarter with Our Mobile App</h2>
-                    <p>Get exclusive mobile-only deals and manage your bookings on the go</p>
+                    <h2>{% trans "Travel Smarter with Our Mobile App" %}</h2>
+                    <p>{% trans "Get exclusive mobile-only deals and manage your bookings on the go" %}</p>
 
                     <div class="app-features">
                         <div class="feature">
                             <i class="fas fa-check-circle"></i>
-                            <span>Instant booking confirmations</span>
+                            <span>{% trans "Instant booking confirmations" %}</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check-circle"></i>
-                            <span>Real-time flight updates</span>
+                            <span>{% trans "Real-time flight updates" %}</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check-circle"></i>
-                            <span>Offline access to itineraries</span>
+                            <span>{% trans "Offline access to itineraries" %}</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check-circle"></i>
-                            <span>Mobile-exclusive discounts</span>
+                            <span>{% trans "Mobile-exclusive discounts" %}</span>
                         </div>
                     </div>
 
@@ -302,14 +287,14 @@
                         <a href="#" class="store-btn">
                             <i class="fab fa-apple"></i>
                             <div>
-                                <small>Download on the</small>
+                                <small>{% trans "Download on the" %}</small>
                                 <strong>App Store</strong>
                             </div>
                         </a>
                         <a href="#" class="store-btn">
                             <i class="fab fa-google-play"></i>
                             <div>
-                                <small>GET IT ON</small>
+                                <small>{% trans "GET IT ON" %}</small>
                                 <strong>Google Play</strong>
                             </div>
                         </a>
@@ -325,7 +310,7 @@
                     <div class="qr-code">
                         <div class="qr-box">
                             <div class="qr-pattern"></div>
-                            <p>Scan to Download</p>
+                            <p>{% trans "Scan to Download" %}</p>
                         </div>
                     </div>
                 </div>
@@ -346,4 +331,3 @@
     <script src="{% static 'apps/js/slider.js' %}"></script>
     <script src="{% static 'apps/js/load_more.js' %}"></script>
 {% endblock %}
-
