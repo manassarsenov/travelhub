@@ -1,7 +1,8 @@
 {% extends 'apps/main_base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}<title>Admission to the London Eye — TravelHub</title>{% endblock %}
+{% block title %}<title>{{ destination.name }} — TravelHub</title>{% endblock %}
 
 {% block custom_css %}
     <link rel="stylesheet" href="{% static 'apps/css/destination_detail.css' %}?v=123">
@@ -16,10 +17,10 @@
                 <div class="dcd-rm-success-icon">
                     <i class="fas fa-check-circle"></i>
                 </div>
-                <h3>Thank you for your review!</h3>
+                <h3>{% trans "Thank you for your review!" %}</h3>
                 <p>{{ message }}</p>
                 <button class="dcd-rm-success-btn" onclick="closeReviewModal()">
-                    Close <i class="fas fa-times"></i>
+                    {% trans "Close" %} <i class="fas fa-times"></i>
                 </button>
             </div>
         {% endif %}
@@ -32,9 +33,9 @@
     <!-- ===== BREADCRUMB ===== -->
     <div class="dcd-breadcrumb">
         <div class="dcd-breadcrumb-inner">
-            <a href="{% url 'home_page' %}"><i class="fas fa-home"></i> Home</a>
+            <a href="{% url 'home_page' %}"><i class="fas fa-home"></i> {% trans "Home" %}</a>
             <i class="fas fa-chevron-right"></i>
-            <a href="{% url 'destinations_page' %}">Destinations</a>
+            <a href="{% url 'destinations_page' %}">{% trans "Destinations" %}</a>
             <i class="fas fa-chevron-right"></i>
             <span id="bc-name">{{ destination.name }}</span>
         </div>
@@ -58,12 +59,12 @@
                 <h1 class="dcd-main-title" id="dest-name">{{ destination.name }}</h1>
                 <div class="dcd-title-actions">
                     <button class="dcd-share-btn" onclick="shareDestination()">
-                        <i class="fas fa-share-alt"></i> Share
+                        <i class="fas fa-share-alt"></i> {% trans "Share" %}
                     </button>
                     <button class="dcd-wishlist-inline-btn{% if destination.slug in user_wishlist_slugs %} wishlisted{% endif %}"
                             id="wishlist-btn" data-slug="{{ destination.slug }}" onclick="toggleWishlist(this, event)">
                         <i class="{% if destination.slug in user_wishlist_slugs %}fas{% else %}far{% endif %} fa-heart"></i>
-                        <span class="wl-label">{% if destination.slug in user_wishlist_slugs %}Saved{% else %}Save{% endif %}</span>
+                        <span class="wl-label">{% if destination.slug in user_wishlist_slugs %}{% trans "Saved" %}{% else %}{% trans "Save" %}{% endif %}</span>
                     </button>
                 </div>
             </div>
@@ -91,17 +92,17 @@
                             <i class="fas fa-star" style="color:#fbbf24;font-size:18px;"></i>
                             <span class="dcd-rating-num">{{ destination.rating }}</span>
                             <span class="dcd-rating-label">
-                                    {% if destination.rating >= 4.5 %}Excellent
-                                    {% elif destination.rating >= 4.0 %}Fabulous
-                                    {% elif destination.rating >= 3.5 %}Good
-                                    {% elif destination.rating >= 3.0 %}Average
+                                    {% if destination.rating >= 4.5 %}{% trans "Excellent" %}
+                                    {% elif destination.rating >= 4.0 %}{% trans "Fabulous" %}
+                                    {% elif destination.rating >= 3.5 %}{% trans "Good" %}
+                                    {% elif destination.rating >= 3.0 %}{% trans "Average" %}
                                     {% else %}
-                                        Poor
+                                        {% trans "Poor" %}
                                     {% endif %}
                                 </span>
                         </div>
-                        <div class="dcd-rating-count">{{ destination.reviews_count }} reviews</div>
-                        <h5 class="dcd-loved-title">What guests loved most</h5>
+                        <div class="dcd-rating-count">{{ destination.reviews_count }} {% trans "reviews" %}</div>
+                        <h5 class="dcd-loved-title">{% trans "What guests loved most" %}</h5>
 
                         <div id="dcd-rating-slides">
                             {% for review in sidebar_reviews %}
@@ -117,7 +118,7 @@
                                 </div>
                             {% empty %}
                                 <p style="color: var(--gray); font-size: 13px; font-style: italic; margin-top: 10px;">
-                                    No reviews yet.
+                                    {% trans "No reviews yet." %}
                                 </p>
                             {% endfor %}
                         </div>
@@ -142,12 +143,12 @@
                         {% if img.image %}
                             <img src="{{ img.image.url }}" alt="{{ destination.name }}">
                         {% else %}
-                            <img src="{% static 'apps/img/default.avif' %}" alt="No image">
+                            <img src="{% static 'apps/img/default.avif' %}" alt="{% trans 'No image' %}">
                         {% endif %}
                         {% if forloop.last and dest_images|length > 5 %}
                             <div class="dcd-thumb-overlay">
                                 <i class="fas fa-images"></i>
-                                <span>Show all {{ dest_images|length }} photos</span>
+                                <span>{% blocktrans with n=dest_images|length %}Show all {{ n }} photos{% endblocktrans %}</span>
                             </div>
                         {% endif %}
                     </div>
@@ -163,14 +164,14 @@
                 <div class="dcd-strip-item dcd-strip-green">
                     <i class="fas fa-check-circle"></i>
                     <div>
-                        <strong>Free cancellation available</strong>
+                        <strong>{% trans "Free cancellation available" %}</strong>
                         <span>{{ destination.cancellation_text }}</span>
                     </div>
                 </div>
 
                 <div class="dcd-strip-item">
                     <i class="far fa-clock"></i>
-                    <div><strong>Duration: {{ destination.get_duration_display }}</strong></div>
+                    <div><strong>{% trans "Duration:" %} {{ destination.get_duration_display }}</strong></div>
                 </div>
             </div>
         {% endif %}
@@ -184,7 +185,7 @@
                     {{ destination.description|safe }}
                 </div>
                 <button class="dcd-toggle-btn" id="dcd-desc-btn" onclick="toggleDescription()">
-                    Show more <i class="fas fa-chevron-down"></i>
+                    {% trans "Show more" %} <i class="fas fa-chevron-down"></i>
                 </button>
             </div>
         {% endif %}
@@ -193,7 +194,7 @@
         <!-- WHY VISIT -->
         {% if destination.why_visit %}
             <div class="dcd-section">
-                <h2 class="dcd-section-title">Why visit</h2>
+                <h2 class="dcd-section-title">{% trans "Why visit" %}</h2>
                 <div class="dcd-check-list">
                     {{ destination.why_visit|safe }}
                 </div>
@@ -201,20 +202,9 @@
         {% endif %}
 
         <!-- WHAT'S INCLUDED -->
-        {#            {% if destination.whats_included %}#}
-        {#                <div class="dcd-section">#}
-        {#                    <h2 class="dcd-section-title">What's included</h2>#}
-        {#                    <div class="dcd-check-list dcd-included">#}
-        {#                        <li><i class="fas fa-check"></i> Admission to the London Eye</li>#}
-        {#                        <li><i class="fas fa-check"></i> 30-minute capsule ride</li>#}
-        {#                        <li><i class="fas fa-check"></i> Panoramic views of London's skyline</li>#}
-        {#                    </div>#}
-        {#                </div>#}
-        {#            {% endif %}#}
-
         {% if destination.whats_included %}
             <div class="dcd-section">
-                <h2 class="dcd-section-title">What's included</h2>
+                <h2 class="dcd-section-title">{% trans "What's included" %}</h2>
                 <div class="dcd-check-list dcd-included">
                     {{ destination.whats_included|safe }}
                 </div>
@@ -222,19 +212,9 @@
         {% endif %}
 
         <!-- RESTRICTIONS -->
-        {#            <div class="dcd-section">#}
-        {#                <h2 class="dcd-section-title">Restrictions</h2>#}
-        {#                <ul class="dcd-bullet-list">#}
-        {#                    <li>Children under 16 years old must be accompanied by an adult.</li>#}
-        {#                    <li>Visitors must show a valid photo ID.</li>#}
-        {#                    <li>Not recommended for people with vertigo or severe acrophobia.</li>#}
-        {#                    <li>Wheelchair accessible — please notify in advance.</li>#}
-        {#                </ul>#}
-        {#            </div>#}
-
         {% if destination.restrictions %}
             <div class="dcd-section">
-                <h2 class="dcd-section-title">Restrictions</h2>
+                <h2 class="dcd-section-title">{% trans "Restrictions" %}</h2>
                 <div class="dcd-bullet-list">
                     {{ destination.restrictions|safe }}
                 </div>
@@ -245,19 +225,19 @@
         <!-- ADDITIONAL INFO -->
         {% if destination.additional_info %}
             <div class="dcd-section">
-                <h2 class="dcd-section-title">Additional information</h2>
+                <h2 class="dcd-section-title">{% trans "Additional information" %}</h2>
                 <div class="dcd-description collapsed" id="dcd-additional">
                     {{ destination.additional_info|safe }}
                 </div>
                 <button class="dcd-toggle-btn" id="dcd-add-btn" onclick="toggleAdditional()">
-                    Show more <i class="fas fa-chevron-down"></i>
+                    {% trans "Show more" %} <i class="fas fa-chevron-down"></i>
                 </button>
             </div>
         {% endif %}
 
         <!-- LOCATION -->
         <div class="dcd-section">
-            <h2 class="dcd-section-title">Location</h2>
+            <h2 class="dcd-section-title">{% trans "Location" %}</h2>
             {% if destination.latitude and destination.longitude %}
                 <div class="dcd-map-wrap">
                     <iframe
@@ -282,25 +262,25 @@
 
         <!-- USER RATINGS -->
         <div class="dcd-section">
-            <h2 class="dcd-section-title">User ratings</h2>
+            <h2 class="dcd-section-title">{% trans "User ratings" %}</h2>
             <div class="dcd-ratings-wrap">
                 <div class="dcd-overall">
                     <div class="dcd-overall-score">
                         <i class="fas fa-star" style="color:#fbbf24;font-size:28px;"></i>
                         <span class="dcd-big-num">{{ destination.rating|floatformat:1 }}</span>
                         <span class="dcd-big-label">·
-                            {% if destination.rating >= 4.5 %}Excellent
-                            {% elif destination.rating >= 4.0 %}Fabulous
-                            {% elif destination.rating >= 3.5 %}Good
-                            {% elif destination.rating >= 3.0 %}Average
-                            {% else %}Poor{% endif %}
+                            {% if destination.rating >= 4.5 %}{% trans "Excellent" %}
+                            {% elif destination.rating >= 4.0 %}{% trans "Fabulous" %}
+                            {% elif destination.rating >= 3.5 %}{% trans "Good" %}
+                            {% elif destination.rating >= 3.0 %}{% trans "Average" %}
+                            {% else %}{% trans "Poor" %}{% endif %}
                             </span>
                     </div>
                 </div>
                 <div class="dcd-score-grid">
 
                     <div class="dcd-score-row">
-                        <span>Good value</span>
+                        <span>{% trans "Good value" %}</span>
                         <div class="dcd-score-bar">
                             <div class="dcd-score-fill"
                                  data-width="{% widthratio destination.value_score 5 100 %}"></div>
@@ -309,7 +289,7 @@
                     </div>
 
                     <div class="dcd-score-row">
-                        <span>Facilities</span>
+                        <span>{% trans "Facilities" %}</span>
                         <div class="dcd-score-bar">
                             <div class="dcd-score-fill"
                                  data-width="{% widthratio destination.facilities_score 5 100 %}"></div>
@@ -318,7 +298,7 @@
                     </div>
 
                     <div class="dcd-score-row">
-                        <span>Quality of service</span>
+                        <span>{% trans "Quality of service" %}</span>
                         <div class="dcd-score-bar">
                             <div class="dcd-score-fill"
                                  data-width="{% widthratio destination.service_score 5 100 %}"></div>
@@ -327,7 +307,7 @@
                     </div>
 
                     <div class="dcd-score-row">
-                        <span>Ease of access</span>
+                        <span>{% trans "Ease of access" %}</span>
                         <div class="dcd-score-bar">
                             <div class="dcd-score-fill"
                                  data-width="{% widthratio destination.access_score 5 100 %}"></div>
@@ -343,17 +323,17 @@
                 {% include 'apps/partials/_review_modal.html' %}
                 <div class="dcd-reviews-advanced-header">
                     <div class="header-titles">
-                        <span class="header-badge">Experiences</span>
-                        <h2 class="dcd-section-title">What travellers are saying</h2>
+                        <span class="header-badge">{% trans "Experiences" %}</span>
+                        <h2 class="dcd-section-title">{% trans "What travellers are saying" %}</h2>
                     </div>
                     <div class="header-actions">
                         <button class="header-write-btn" onclick="openReviewModal()">
                             <i class="fas fa-pen-nib"></i>
-                            <span>Write a review</span>
+                            <span>{% trans "Write a review" %}</span>
                         </button>
                         {% if destination.reviews_count > 0 %}
                         <a href="{% url 'destination_reviews_page' destination.slug %}" class="view-all-link">
-                            Explore all {{ destination.reviews_count }} reviews
+                            {% blocktrans with n=destination.reviews_count %}Explore all {{ n }} reviews{% endblocktrans %}
                             <span class="link-icon"><i class="fas fa-arrow-right"></i></span>
                         </a>
                         {% endif %}
@@ -379,7 +359,7 @@
                                                 {{ review.author_name|default:review.user.username|first|upper }}
                                             </div>
                                             {% if review.is_verified %}
-                                                <div class="verified-indicator" title="Verified Traveller">
+                                                <div class="verified-indicator" title="{% trans 'Verified Traveller' %}">
                                                     <i class="fas fa-check"></i>
                                                 </div>
                                             {% endif %}
@@ -438,9 +418,9 @@
                                 <div class="empty-art">
                                     <i class="fas fa-feather-alt"></i>
                                 </div>
-                                <h3>The stage is yours</h3>
-                                <p>No stories have been shared yet. Be the pioneer and share your thoughts.</p>
-                                <button class="btn-primary-v2" onclick="openReviewModal()">Share your experience
+                                <h3>{% trans "The stage is yours" %}</h3>
+                                <p>{% trans "No stories have been shared yet. Be the pioneer and share your thoughts." %}</p>
+                                <button class="btn-primary-v2" onclick="openReviewModal()">{% trans "Share your experience" %}
                                 </button>
                             </div>
                         {% endfor %}
@@ -470,7 +450,7 @@
         {% with tp_images=destination.images.all %}
         {% if tp_images|length > 1 %}
             <div class="dcd-section">
-            <h2 class="dcd-section-title">Traveller photos</h2>
+            <h2 class="dcd-section-title">{% trans "Traveller photos" %}</h2>
             <div class="dcd-tp-wrap">
                 <div class="dcd-tp-track" id="dcd-tp-track">
                     {% for img in tp_images %}
@@ -478,7 +458,7 @@
                         {% if img.image %}
                             <img src="{{ img.image.url }}" alt="{{ destination.name }}">
                         {% else %}
-                            <img src="{% static 'apps/img/default.avif' %}" alt="No image">
+                            <img src="{% static 'apps/img/default.avif' %}" alt="{% trans 'No image' %}">
                         {% endif %}
                         </div>
                     {% endfor %}
@@ -496,7 +476,7 @@
         {% with dest_faqs=destination.faqs.all %}
         {% if dest_faqs %}
             <div class="dcd-section">
-                <h2 class="dcd-section-title">Frequently asked questions</h2>
+                <h2 class="dcd-section-title">{% trans "Frequently asked questions" %}</h2>
                 <div class="dcd-faq">
 
                     {% for faq in dest_faqs %}
@@ -520,9 +500,9 @@
         <!-- SIMILAR / BESTSELLERS -->
         <div class="dcd-section">
             <div class="dcd-similar-head">
-                <h2 class="dcd-section-title" style="position:static;transform:none;left:auto;">Bestsellers in
+                <h2 class="dcd-section-title" style="position:static;transform:none;left:auto;">{% trans "Bestsellers in" %}
                     {{ destination.city.name }}</h2>
-                <a href="{% url 'destinations_page' %}" class="dcd-see-all-link">See all</a>
+                <a href="{% url 'destinations_page' %}" class="dcd-see-all-link">{% trans "See all" %}</a>
             </div>
 
             <div class="dcd-similar-wrap">
@@ -538,7 +518,7 @@
                                         <div class="dcd-sim-badge">
                                             <i class="fas fa-crown"></i>
                                             {% if s_destination.featured_badge %}#{{ s_destination.featured_badge }}{% endif %}
-                                            Best seller
+                                            {% trans "Best seller" %}
                                         </div>
                                     {% endif %}
                                     {% if s_destination.discount_percentage > 0 %}
@@ -564,9 +544,9 @@
 
                                         <div class="dcd-sim-price">
                                             {% if s_destination.is_free %}
-                                                <strong>Free</strong>
+                                                <strong>{% trans "Free" %}</strong>
                                             {% else %}
-                                                <span class="price-label">From</span>
+                                                <span class="price-label">{% trans "From" %}</span>
                                                 {% if s_destination.discount_percentage > 0 %}
                                                     <strong>${{ s_destination.discounted_price }}</strong>
                                                 {% else %}
@@ -579,7 +559,7 @@
 
                             </div>
                         {% empty %}
-                            <p style="color:var(--gray);">No similar destinations found.</p>
+                            <p style="color:var(--gray);">{% trans "No similar destinations found." %}</p>
                         {% endfor %}
                     </div>
                 </div>
@@ -602,7 +582,7 @@
                 {% if destination.is_free %}
 
                     <div class="dcd-panel-title">
-                        <h3>Visitor information</h3>
+                        <h3>{% trans "Visitor information" %}</h3>
                     </div>
 
                     <div class="dcd-panel-block">
@@ -610,10 +590,9 @@
                                     background:#e8f8ef;border-radius:12px;">
                             <i class="fas fa-circle-check" style="color:#1ca65b;font-size:26px;"></i>
                             <div>
-                                <div style="font-weight:700;font-size:17px;margin-bottom:4px;">Free entry</div>
+                                <div style="font-weight:700;font-size:17px;margin-bottom:4px;">{% trans "Free entry" %}</div>
                                 <p style="margin:0;font-size:14px;color:var(--gray,#667085);line-height:1.5;">
-                                    This place is free to visit — no ticket or booking required.
-                                    Just turn up and explore.
+                                    {% trans "This place is free to visit — no ticket or booking required. Just turn up and explore." %}
                                 </p>
                             </div>
                         </div>
@@ -634,7 +613,7 @@
                         <a href="{% url 'destinations_page' %}" class="dcd-book-btn"
                            style="margin-top:18px;text-decoration:none;display:flex;
                                   align-items:center;justify-content:center;gap:8px;">
-                            Discover more places <i class="fas fa-arrow-right"></i>
+                            {% trans "Discover more places" %} <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
 
@@ -642,11 +621,11 @@
                 <form action="{% url 'booking_step1_page' destination.slug %}" method="GET" id="bookingForm">
 
                     <div class="dcd-panel-title">
-                        <h3>Tickets and prices</h3>
+                        <h3>{% trans "Tickets and prices" %}</h3>
                     </div>
 
                     <div class="dcd-panel-block">
-                        <div class="dcd-panel-label">Search ticket availability by date</div>
+                        <div class="dcd-panel-label">{% trans "Search ticket availability by date" %}</div>
 
                         <div class="dcd-month-nav">
                             <button type="button" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
@@ -657,12 +636,12 @@
                         <div class="dcd-date-chips" id="dcd-date-chips"></div>
 
                         <a href="#" class="dcd-panel-link" style="margin-top: 10px; display: inline-block;"
-                           onclick="toggleCalendar(event)">Show more dates</a>
+                           onclick="toggleCalendar(event)">{% trans "Show more dates" %}</a>
 
                         <div class="dcd-full-calendar" id="dcd-full-calendar" style="display:none;">
                             <div class="dcd-cal-weekdays">
-                                <span>Mo</span><span>Tu</span><span>We</span>
-                                <span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+                                <span>{% trans "Mo" %}</span><span>{% trans "Tu" %}</span><span>{% trans "We" %}</span>
+                                <span>{% trans "Th" %}</span><span>{% trans "Fr" %}</span><span>{% trans "Sa" %}</span><span>{% trans "Su" %}</span>
                             </div>
                             <div class="dcd-cal-grid" id="dcd-cal-grid"></div>
                         </div>
@@ -671,11 +650,11 @@
                     </div>
 
                     <div class="dcd-panel-block">
-                        <div class="dcd-panel-label">Select time</div>
+                        <div class="dcd-panel-label">{% trans "Select time" %}</div>
                         <div class="dcd-time-grid" id="dcd-time-grid"></div>
                         <button type="button" class="dcd-show-more-times-btn" id="dcd-times-toggle"
                                 onclick="toggleMoreTimes()">
-                            <i class="fas fa-chevron-down"></i> Show more
+                            <i class="fas fa-chevron-down"></i> {% trans "Show more" %}
                         </button>
 
                         <input type="hidden" name="time" id="form-selected-time" value="">
@@ -684,11 +663,11 @@
                     <div class="dcd-panel-block dcd-ticket-block">
                         <div class="dcd-ticket-header">
                             {% if not destination.is_free_cancellation %}
-                                <span><i class="fas fa-info-circle"></i> Standard Experience</span>
-                                <span class="dcd-non-ref-badge">Non-refundable</span>
+                                <span><i class="fas fa-info-circle"></i> {% trans "Standard Experience" %}</span>
+                                <span class="dcd-non-ref-badge">{% trans "Non-refundable" %}</span>
                             {% endif %}
                         </div>
-                        <div class="dcd-tickets-title">How many tickets?</div>
+                        <div class="dcd-tickets-title">{% trans "How many tickets?" %}</div>
 
                         {% for ticket in destination.ticket_types.all %}
                             <div class="dcd-ticket-row">
@@ -698,7 +677,7 @@
                                     </div>
                                     <div class="dcd-ticket-price-tag">
                                         {% if ticket.is_free or ticket.price == 0 %}
-                                            Free
+                                            {% trans "Free" %}
                                         {% else %}
                                             ${{ ticket.price }}
                                         {% endif %}
@@ -716,19 +695,19 @@
                                 <input type="hidden" name="ticket_{{ ticket.id }}" id="form-{{ ticket.id }}" value="0">
                             </div>
                         {% empty %}
-                            <p style="color: var(--gray); font-size: 14px;">No tickets available at the moment.</p>
+                            <p style="color: var(--gray); font-size: 14px;">{% trans "No tickets available at the moment." %}</p>
                         {% endfor %}
 
                         <div class="dcd-total">
-                            <span>Total</span>
+                            <span>{% trans "Total" %}</span>
                             <span class="dcd-total-val">$<span id="total-num">0</span></span>
                         </div>
-                        <div class="dcd-tax-note">Includes taxes and charges</div>
+                        <div class="dcd-tax-note">{% trans "Includes taxes and charges" %}</div>
 
                         <input type="hidden" name="total_price" id="form-total-price" value="0">
 
                         <button type="submit" class="dcd-book-btn">
-                            Next <i class="fas fa-arrow-right"></i>
+                            {% trans "Next" %} <i class="fas fa-arrow-right"></i>
                         </button>
 
                         {% if destination.is_free_cancellation %}
@@ -736,7 +715,7 @@
                                  style="margin-top: 15px; text-align: center; display: block;">
                                 <div>
                                     <i class="fas fa-check-circle" style="color:var(--success);"></i>
-                                    <span style="font-weight: 600;">Free cancellation available</span>
+                                    <span style="font-weight: 600;">{% trans "Free cancellation available" %}</span>
                                 </div>
                                 <div style="font-size: 13px; color: var(--gray); margin-top: 4px;">
                                     {{ destination.cancellation_text }}
@@ -759,10 +738,10 @@
                 <h3>{{ destination.name }}</h3>
                 <div class="dcd-gm-actions">
                     {% if not destination.is_free %}
-                    <button class="dcd-gm-select-btn" onclick="selectTicketsFromModal()">Select tickets</button>
+                    <button class="dcd-gm-select-btn" onclick="selectTicketsFromModal()">{% trans "Select tickets" %}</button>
                     {% endif %}
                     <button class="dcd-gm-close-btn" onclick="closeGalleryModal()">
-                        Close <i class="fas fa-times"></i>
+                        {% trans "Close" %} <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
@@ -780,7 +759,7 @@
                                 {% if img.image %}
                                     <img src="{{ img.image.url }}" alt="{{ destination.name }}">
                                 {% else %}
-                                    <img src="{% static 'apps/img/default.avif' %}" alt="No image">
+                                    <img src="{% static 'apps/img/default.avif' %}" alt="{% trans 'No image' %}">
                                 {% endif %}
                             </div>
                         {% endfor %}
@@ -792,45 +771,17 @@
                     <div class="dcd-gm-rating">
                         <i class="fas fa-star" style="color:#fbbf24;"></i>
                         <strong>{{ destination.rating }}
-                            {% if destination.rating >= 4.5 %}Excellent
-                            {% elif destination.rating >= 4.0 %}Fabulous
-                            {% elif destination.rating >= 3.5 %}Good
-                            {% elif destination.rating >= 3.0 %}Average
+                            {% if destination.rating >= 4.5 %}{% trans "Excellent" %}
+                            {% elif destination.rating >= 4.0 %}{% trans "Fabulous" %}
+                            {% elif destination.rating >= 3.5 %}{% trans "Good" %}
+                            {% elif destination.rating >= 3.0 %}{% trans "Average" %}
                             {% else %}
-                                Poor
+                                {% trans "Poor" %}
                             {% endif %}
                         </strong>
-                        <span>({{ destination.reviews_count }} reviews)</span>
+                        <span>({{ destination.reviews_count }} {% trans "reviews" %})</span>
                     </div>
-                    <h4>What guests loved most:</h4>
-                    {#                    <div class="dcd-gm-reviews">#}
-                    {#                        {% for review in destination.reviews.all|slice:":4" %}#}
-                    {#                            {% if review.is_visible %}#}
-                    {#                                <div class="dcd-gm-review-item">#}
-                    {#                                    <div class="dcd-gm-rev-head">#}
-                    {#                                        <div class="dcd-gm-rev-avatar"#}
-                    {#                                             style="background:linear-gradient(135deg,#667eea,#764ba2)">{{ review.author_name|first|upper }}#}
-                    {#                                        </div>#}
-                    {#                                        <div>#}
-                    {#                                            <strong>{{ review.author_name }}</strong><span>{% if review.author_country %}#}
-                    {#                                            {{ review.author_counter.name }}{% endif %}</span></div>#}
-                    {#                                    </div>#}
-                    {#                                    <p>{{ review.text|truncatechars:120 }}</p>#}
-                    {#                                    <small>#}
-                    {#                                        {% if review.visit_type == 'family' %}<i class="fas fa-users"></i> Visited with#}
-                    {#                                            family#}
-                    {#                                        {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i> Visited#}
-                    {#                                            with a partner#}
-                    {#                                        {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i> Solo traveller#}
-                    {#                                        {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i>#}
-                    {#                                            Visited with friends#}
-                    {#                                        {% endif %}#}
-                    {#                                        · {{ review.created_at|date:"d F Y" }}#}
-                    {#                                    </small>#}
-                    {#                                </div>#}
-                    {#                            {% endif %}#}
-                    {#                        {% endfor %}#}
-                    {#                    </div>#}
+                    <h4>{% trans "What guests loved most:" %}</h4>
                     <div class="dcd-gm-reviews">
                         {% for review in sidebar_reviews %}
                             <div class="dcd-gm-review-item">
@@ -848,27 +799,23 @@
                                 </div>
                                 <p>{{ review.text|truncatechars:120 }}</p>
                                 <small>
-                                    {% if review.visit_type == 'family' %}<i class="fas fa-users"></i> Visited with
-                                        family
-                                    {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i> Visited with a
-                                        partner
-                                    {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i> Solo traveller
-                                    {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i> Visited
-                                        with friends
+                                    {% if review.visit_type == 'family' %}<i class="fas fa-users"></i> {% trans "Visited with family" %}
+                                    {% elif review.visit_type == 'partner' %}<i class="fas fa-heart"></i> {% trans "Visited with a partner" %}
+                                    {% elif review.visit_type == 'solo' %}<i class="fas fa-user"></i> {% trans "Solo traveller" %}
+                                    {% elif review.visit_type == 'friends' %}<i class="fas fa-user-friends"></i> {% trans "Visited with friends" %}
                                     {% endif %}
                                     • {{ review.created_at|date:"d F Y" }}
                                 </small>
                             </div>
                         {% empty %}
-                            <p style="color: var(--text-muted); font-size: 13px; font-style: italic;">No reviews
-                                found.</p>
+                            <p style="color: var(--text-muted); font-size: 13px; font-style: italic;">{% trans "No reviews found." %}</p>
                         {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
 
 {% endblock %}
 

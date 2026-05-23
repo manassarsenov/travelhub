@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-23 01:29+0500\n"
+"POT-Creation-Date: 2026-05-23 02:43+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -432,22 +432,388 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
+#: templates/apps/destination_detail.html:20
+msgid "Thank you for your review!"
+msgstr "Sharhingiz uchun rahmat!"
+
+#: templates/apps/destination_detail.html:23
+#: templates/apps/destination_detail.html:744
+#: templates/apps/recommendation.html:273
+msgid "Close"
+msgstr "Yopish"
+
+#: templates/apps/destination_detail.html:36
+msgid "Home"
+msgstr "Bosh sahifa"
+
+#: templates/apps/destination_detail.html:38 templates/apps/home.html:89
+msgid "Destinations"
+msgstr "Manzillar"
+
+#: templates/apps/destination_detail.html:62
+msgid "Share"
+msgstr "Ulashish"
+
+#: templates/apps/destination_detail.html:67
+#| msgid "Save"
+msgid "Saved"
+msgstr "Saqlangan"
+
+#: templates/apps/destination_detail.html:67
+#: templates/apps/partials/_rec_card.html:26
+msgid "Save"
+msgstr "Saqlash"
+
+#: templates/apps/destination_detail.html:95
+#: templates/apps/destination_detail.html:272
+#: templates/apps/destination_detail.html:774
+msgid "Excellent"
+msgstr "A‘lo"
+
+#: templates/apps/destination_detail.html:96
+#: templates/apps/destination_detail.html:273
+#: templates/apps/destination_detail.html:775
+msgid "Fabulous"
+msgstr "Ajoyib"
+
+#: templates/apps/destination_detail.html:97
+#: templates/apps/destination_detail.html:274
+#: templates/apps/destination_detail.html:776
+msgid "Good"
+msgstr "Yaxshi"
+
+#: templates/apps/destination_detail.html:98
+#: templates/apps/destination_detail.html:275
+#: templates/apps/destination_detail.html:777
+msgid "Average"
+msgstr "O‘rtacha"
+
+#: templates/apps/destination_detail.html:100
+#: templates/apps/destination_detail.html:276
+#: templates/apps/destination_detail.html:779
+msgid "Poor"
+msgstr "Past"
+
+#: templates/apps/destination_detail.html:104
+#: templates/apps/destination_detail.html:782
+#: templates/apps/partials/_featured_card.html:49
+#: templates/apps/partials/_flash_card.html:52
+#: templates/apps/partials/_trending_card.html:54
+#: templates/apps/partials/destination_cards.html:69
+msgid "reviews"
+msgstr "sharh"
+
+#: templates/apps/destination_detail.html:105
+msgid "What guests loved most"
+msgstr "Mehmonlarga eng yoqqani"
+
+#: templates/apps/destination_detail.html:121
+#| msgid "reviews"
+msgid "No reviews yet."
+msgstr "Hozircha sharhlar yo‘q."
+
+#: templates/apps/destination_detail.html:146
+#: templates/apps/destination_detail.html:461
+#: templates/apps/destination_detail.html:762
+#: templates/apps/partials/_featured_card.html:15
+#: templates/apps/partials/_featured_card.html:18
+#: templates/apps/partials/_flash_card.html:20
+#: templates/apps/partials/_trending_card.html:12
+#: templates/apps/partials/_trending_card.html:15
+#: templates/apps/partials/destination_cards.html:30
+#: templates/apps/partials/destination_cards.html:33
+msgid "No image"
+msgstr "Rasm yo‘q"
+
+#: templates/apps/destination_detail.html:151
+#, python-format
+msgid "Show all %(n)s photos"
+msgstr "Barcha %(n)s ta rasmni ko‘rish"
+
+#: templates/apps/destination_detail.html:167
+#: templates/apps/destination_detail.html:718
+#| msgid "Free Cancellation"
+msgid "Free cancellation available"
+msgstr "Bepul bekor qilish mavjud"
+
+#: templates/apps/destination_detail.html:174
+msgid "Duration:"
+msgstr "Davomiyligi:"
+
+#: templates/apps/destination_detail.html:188
+#: templates/apps/destination_detail.html:233
+#: templates/apps/destination_detail.html:657
+msgid "Show more"
+msgstr "Ko‘proq"
+
+#: templates/apps/destination_detail.html:197
+msgid "Why visit"
+msgstr "Nega tashrif buyurish kerak"
+
+#: templates/apps/destination_detail.html:207
+msgid "What's included"
+msgstr "Nimalar kiradi"
+
+#: templates/apps/destination_detail.html:217
+#| msgid "Destinations"
+msgid "Restrictions"
+msgstr "Cheklovlar"
+
+#: templates/apps/destination_detail.html:228
+msgid "Additional information"
+msgstr "Qo‘shimcha ma‘lumot"
+
+#: templates/apps/destination_detail.html:240
+msgid "Location"
+msgstr "Joylashuv"
+
+#: templates/apps/destination_detail.html:265
+msgid "User ratings"
+msgstr "Foydalanuvchi baholari"
+
+#: templates/apps/destination_detail.html:283
+#| msgid "Good match"
+msgid "Good value"
+msgstr "Yaxshi narx"
+
+#: templates/apps/destination_detail.html:292
+msgid "Facilities"
+msgstr "Qulayliklar"
+
+#: templates/apps/destination_detail.html:301
+msgid "Quality of service"
+msgstr "Xizmat sifati"
+
+#: templates/apps/destination_detail.html:310
+msgid "Ease of access"
+msgstr "Qulay yetib borish"
+
+#: templates/apps/destination_detail.html:326
+msgid "Experiences"
+msgstr "Tajribalar"
+
+#: templates/apps/destination_detail.html:327
+#| msgid "What Our Travelers Say"
+msgid "What travellers are saying"
+msgstr "Sayohatchilar nima deydi"
+
+#: templates/apps/destination_detail.html:332
+#| msgid "Grid view"
+msgid "Write a review"
+msgstr "Sharh yozish"
+
+#: templates/apps/destination_detail.html:336
+#, python-format
+msgid "Explore all %(n)s reviews"
+msgstr "Barcha %(n)s ta sharhni ko‘rish"
+
+#: templates/apps/destination_detail.html:362
+msgid "Verified Traveller"
+msgstr "Tasdiqlangan sayohatchi"
+
+#: templates/apps/destination_detail.html:421
+msgid "The stage is yours"
+msgstr "Sahna sizniki"
+
+#: templates/apps/destination_detail.html:422
+msgid ""
+"No stories have been shared yet. Be the pioneer and share your thoughts."
+msgstr ""
+"Hali hech kim hikoya ulashmagan. Birinchi bo‘lib fikringizni bildiring."
+
+#: templates/apps/destination_detail.html:423
+msgid "Share your experience"
+msgstr "Tajribangizni ulashing"
+
+#: templates/apps/destination_detail.html:453
+#| msgid "Traveled to"
+msgid "Traveller photos"
+msgstr "Sayohatchilar suratlari"
+
+#: templates/apps/destination_detail.html:479
+msgid "Frequently asked questions"
+msgstr "Ko‘p so‘raladigan savollar"
+
+#: templates/apps/destination_detail.html:503
+msgid "Bestsellers in"
+msgstr "Eng mashhur joylar —"
+
+#: templates/apps/destination_detail.html:505
+#| msgid "See Details"
+msgid "See all"
+msgstr "Hammasini ko‘rish"
+
+#: templates/apps/destination_detail.html:521
+msgid "Best seller"
+msgstr "Eng ko‘p sotilgan"
+
+#: templates/apps/destination_detail.html:547
+#: templates/apps/destination_detail.html:680
+#: templates/apps/partials/_featured_card.html:92
+#: templates/apps/partials/_flash_card.html:95
+#: templates/apps/partials/_rec_mini_card.html:26
+#: templates/apps/partials/_trending_card.html:97
+#: templates/apps/partials/destination_cards.html:119
+msgid "Free"
+msgstr "Bepul"
+
+#: templates/apps/destination_detail.html:549
+#: templates/apps/partials/_featured_card.html:99
+#: templates/apps/partials/_flash_card.html:102
+#: templates/apps/partials/_trending_card.html:104
+#: templates/apps/partials/destination_cards.html:126
+msgid "From"
+msgstr "Narxi"
+
+#: templates/apps/destination_detail.html:562
+#| msgid "No destinations found"
+msgid "No similar destinations found."
+msgstr "O‘xshash manzillar topilmadi."
+
+#: templates/apps/destination_detail.html:585
+msgid "Visitor information"
+msgstr "Tashrif ma‘lumoti"
+
+#: templates/apps/destination_detail.html:593
+#: templates/apps/partials/_rec_card.html:57
+msgid "Free entry"
+msgstr "Bepul kirish"
+
+#: templates/apps/destination_detail.html:595
+msgid ""
+"This place is free to visit — no ticket or booking required. Just turn up "
+"and explore."
+msgstr ""
+"Bu joyga tashrif bepul — chipta yoki bron talab qilinmaydi. Shunchaki keling"
+" va sayr qiling."
+
+#: templates/apps/destination_detail.html:616
+#| msgid "Discover Your"
+msgid "Discover more places"
+msgstr "Boshqa joylarni kashf eting"
+
+#: templates/apps/destination_detail.html:624
+msgid "Tickets and prices"
+msgstr "Chiptalar va narxlar"
+
+#: templates/apps/destination_detail.html:628
+msgid "Search ticket availability by date"
+msgstr "Sana bo‘yicha chipta mavjudligini tekshiring"
+
+#: templates/apps/destination_detail.html:639
+msgid "Show more dates"
+msgstr "Ko‘proq sanalar"
+
+#: templates/apps/destination_detail.html:643
+msgid "Mo"
+msgstr "Du"
+
+#: templates/apps/destination_detail.html:643
+msgid "Tu"
+msgstr "Se"
+
+#: templates/apps/destination_detail.html:643
+msgid "We"
+msgstr "Ch"
+
+#: templates/apps/destination_detail.html:644
+msgid "Th"
+msgstr "Pa"
+
+#: templates/apps/destination_detail.html:644
+#| msgid "Free"
+msgid "Fr"
+msgstr "Ju"
+
+#: templates/apps/destination_detail.html:644
+#| msgid "Save"
+msgid "Sa"
+msgstr "Sh"
+
+#: templates/apps/destination_detail.html:644
+msgid "Su"
+msgstr "Ya"
+
+#: templates/apps/destination_detail.html:653
+msgid "Select time"
+msgstr "Vaqtni tanlang"
+
+#: templates/apps/destination_detail.html:666
+msgid "Standard Experience"
+msgstr "Standart tajriba"
+
+#: templates/apps/destination_detail.html:667
+msgid "Non-refundable"
+msgstr "Qaytarilmaydi"
+
+#: templates/apps/destination_detail.html:670
+msgid "How many tickets?"
+msgstr "Nechta chipta?"
+
+#: templates/apps/destination_detail.html:698
+#| msgid "No destinations available yet."
+msgid "No tickets available at the moment."
+msgstr "Hozircha chiptalar mavjud emas."
+
+#: templates/apps/destination_detail.html:702
+msgid "Total"
+msgstr "Jami"
+
+#: templates/apps/destination_detail.html:705
+msgid "Includes taxes and charges"
+msgstr "Soliq va yig‘imlar kiritilgan"
+
+#: templates/apps/destination_detail.html:710
+#: templates/apps/recommendation.html:182
+#: templates/apps/recommendation.html:201
+#: templates/apps/recommendation.html:223
+#: templates/apps/recommendation.html:242
+msgid "Next"
+msgstr "Keyingisi"
+
+#: templates/apps/destination_detail.html:741
+msgid "Select tickets"
+msgstr "Chiptalarni tanlash"
+
+#: templates/apps/destination_detail.html:784
+msgid "What guests loved most:"
+msgstr "Mehmonlarga eng yoqqani:"
+
+#: templates/apps/destination_detail.html:802
+msgid "Visited with family"
+msgstr "Oila bilan tashrif buyurgan"
+
+#: templates/apps/destination_detail.html:803
+msgid "Visited with a partner"
+msgstr "Juft bilan tashrif buyurgan"
+
+#: templates/apps/destination_detail.html:804
+#| msgid "Similar travelers"
+msgid "Solo traveller"
+msgstr "Yakka sayohatchi"
+
+#: templates/apps/destination_detail.html:805
+msgid "Visited with friends"
+msgstr "Do‘stlar bilan tashrif buyurgan"
+
+#: templates/apps/destination_detail.html:811
+#| msgid "No destinations found"
+msgid "No reviews found."
+msgstr "Sharhlar topilmadi."
+
 #: templates/apps/home.html:6
-#, fuzzy
-#| msgid "AI-Powered Recommendations"
 msgid "AI-powered travel recommendations"
-msgstr "AI asosidagi tavsiyalar"
+msgstr "AI asosidagi sayohat tavsiyalari"
 
 #: templates/apps/home.html:23
-#, fuzzy
-#| msgid "Perfect Destination"
 msgid "Discover Your Dream Destination"
-msgstr "manzilni kashf eting"
+msgstr "Orzuyingizdagi manzilni kashf eting"
 
 #: templates/apps/home.html:24
 msgid ""
 "AI-powered recommendations for unforgettable travel experiences worldwide"
 msgstr ""
+"Butun dunyo bo‘ylab unutilmas sayohatlar uchun AI asosidagi tavsiyalar"
 
 #: templates/apps/home.html:33
 msgid "Flash Sale"
@@ -455,164 +821,227 @@ msgstr "Chaqmoq chegirma"
 
 #: templates/apps/home.html:34
 msgid "Today's Best Deals"
-msgstr ""
+msgstr "Bugungi eng yaxshi takliflar"
 
 #: templates/apps/home.html:35
 msgid "Limited time offers — Book now"
-msgstr ""
+msgstr "Cheklangan vaqtli takliflar — hoziroq bron qiling"
 
 #: templates/apps/home.html:47 templates/apps/home.html:74
 #: templates/apps/home.html:105
-#, fuzzy
-#| msgid "Perfect Destination"
 msgid "Load More Destinations"
-msgstr "manzilni kashf eting"
+msgstr "Yana manzillar yuklash"
 
 #: templates/apps/home.html:61
 msgid "All-Inclusive Packages"
-msgstr ""
+msgstr "Hammasi kiritilgan paketlar"
 
 #: templates/apps/home.html:62
 msgid "Flight + Hotel + Activities — Everything you need in one package"
-msgstr ""
+msgstr "Parvoz + Mehmonxona + Mashg‘ulotlar — bitta paketda barchasi"
 
 #: templates/apps/home.html:88
 msgid "Trending"
-msgstr "Trendda"
-
-#: templates/apps/home.html:89
-#, fuzzy
-#| msgid "Destinations scanned"
-msgid "Destinations"
-msgstr "Ko‘rib chiqilgan manzillar"
+msgstr "Trenddagi"
 
 #: templates/apps/home.html:91
 msgid "Handpicked by our travel experts"
-msgstr ""
+msgstr "Sayohat mutaxassislarimiz tomonidan tanlangan"
 
 #: templates/apps/home.html:117
 msgid "How It Works"
-msgstr ""
+msgstr "Bu qanday ishlaydi"
 
 #: templates/apps/home.html:118
 msgid "Book your dream vacation in 4 simple steps"
-msgstr ""
+msgstr "Orzuyingizdagi ta‘tilni 4 oddiy qadamda bron qiling"
 
 #: templates/apps/home.html:125
 msgid "Search & Explore"
-msgstr ""
+msgstr "Qidiring va kashf eting"
 
 #: templates/apps/home.html:126
 msgid "Browse 450+ destinations or let our AI recommend perfect spots for you"
 msgstr ""
+"450+ manzilni ko‘rib chiqing yoki AI siz uchun eng yaxshi joylarni tavsiya "
+"qilsin"
 
 #: templates/apps/home.html:132
 msgid "Compare & Choose"
-msgstr ""
+msgstr "Solishtiring va tanlang"
 
 #: templates/apps/home.html:133
 msgid "Compare prices, amenities, and reviews to find the best deal"
 msgstr ""
+"Eng yaxshi taklifni topish uchun narx, qulayliklar va sharhlarni "
+"solishtiring"
 
 #: templates/apps/home.html:139
 msgid "Secure Booking"
-msgstr ""
+msgstr "Xavfsiz bron"
 
 #: templates/apps/home.html:140
 msgid "Book instantly with secure payment and instant confirmation"
-msgstr ""
+msgstr "Xavfsiz to‘lov va darhol tasdiqlash bilan zudlik bilan bron qiling"
 
 #: templates/apps/home.html:146
 msgid "Travel & Enjoy"
-msgstr ""
+msgstr "Sayohat qiling va rohatlaning"
 
 #: templates/apps/home.html:147
 msgid "Pack your bags and enjoy your perfect vacation with 24/7 support"
 msgstr ""
+"Sumkangizni yig‘ing va 24/7 yordam bilan ajoyib ta‘tilingizdan bahramand "
+"bo‘ling"
 
 #: templates/apps/home.html:159
 msgid "Secure Payments"
-msgstr ""
+msgstr "Xavfsiz to‘lovlar"
 
 #: templates/apps/home.html:160
 msgid "SSL encrypted transactions"
-msgstr ""
+msgstr "SSL shifrlangan tranzaksiyalar"
 
 #: templates/apps/home.html:164
 msgid "Best Price Guarantee"
-msgstr ""
+msgstr "Eng yaxshi narx kafolati"
 
 #: templates/apps/home.html:165
 msgid "Find it cheaper, we'll refund the difference"
-msgstr ""
+msgstr "Arzonroq topsangiz — farqini qaytaramiz"
 
 #: templates/apps/home.html:169
 msgid "24/7 Support"
-msgstr ""
+msgstr "24/7 qo‘llab-quvvatlash"
 
 #: templates/apps/home.html:170
 msgid "Always here to help you"
-msgstr ""
+msgstr "Sizga yordam berishga doim tayyormiz"
 
 #: templates/apps/home.html:174
 msgid "Free Cancellation"
-msgstr ""
+msgstr "Bepul bekor qilish"
 
 #: templates/apps/home.html:175
 msgid "Cancel up to 24hrs before"
-msgstr ""
+msgstr "24 soat oldin bekor qilish mumkin"
 
 #: templates/apps/home.html:181
 msgid "What Our Travelers Say"
-msgstr ""
+msgstr "Sayohatchilarimiz nima deydi"
 
 #: templates/apps/home.html:218
 msgid "Traveled to"
-msgstr ""
+msgstr "Sayohat qilgan joyi:"
 
 #: templates/apps/home.html:230
 msgid "We Accept:"
-msgstr ""
+msgstr "Biz qabul qilamiz:"
 
 #: templates/apps/home.html:247
 msgid "Trusted Partners:"
-msgstr ""
+msgstr "Ishonchli hamkorlar:"
 
 #: templates/apps/home.html:264
 msgid "Travel Smarter with Our Mobile App"
-msgstr ""
+msgstr "Mobil ilovamiz bilan aqlliroq sayohat qiling"
 
 #: templates/apps/home.html:265
 msgid "Get exclusive mobile-only deals and manage your bookings on the go"
-msgstr ""
+msgstr "Faqat mobil takliflarni oling va bronlaringizni yo‘lda boshqaring"
 
 #: templates/apps/home.html:270
 msgid "Instant booking confirmations"
-msgstr ""
+msgstr "Bronni darhol tasdiqlash"
 
 #: templates/apps/home.html:274
 msgid "Real-time flight updates"
-msgstr ""
+msgstr "Parvozlar haqida jonli yangilanishlar"
 
 #: templates/apps/home.html:278
 msgid "Offline access to itineraries"
-msgstr ""
+msgstr "Sayohat rejalariga oflayn kirish"
 
 #: templates/apps/home.html:282
 msgid "Mobile-exclusive discounts"
-msgstr ""
+msgstr "Faqat mobil chegirmalar"
 
 #: templates/apps/home.html:290
 msgid "Download on the"
-msgstr ""
+msgstr "Yuklab oling —"
 
 #: templates/apps/home.html:297
 msgid "GET IT ON"
-msgstr ""
+msgstr "YUKLAB OLING —"
 
 #: templates/apps/home.html:313
 msgid "Scan to Download"
-msgstr ""
+msgstr "Yuklash uchun skanerlang"
+
+#: templates/apps/partials/_featured_card.html:36
+#: templates/apps/partials/_flash_card.html:39
+#: templates/apps/partials/_trending_card.html:35
+#: templates/apps/partials/destination_cards.html:54
+msgid "Compare"
+msgstr "Solishtirish"
+
+#: templates/apps/partials/_featured_card.html:73
+#: templates/apps/partials/_flash_card.html:76
+#: templates/apps/partials/_trending_card.html:78
+#: templates/apps/partials/destination_cards.html:93
+msgid "Hotels"
+msgstr "Mehmonxona"
+
+#: templates/apps/partials/_featured_card.html:78
+#: templates/apps/partials/_flash_card.html:81
+#: templates/apps/partials/_trending_card.html:83
+#: templates/apps/partials/destination_cards.html:100
+msgid "Flights"
+msgstr "Parvozlar"
+
+#: templates/apps/partials/_featured_card.html:78
+#: templates/apps/partials/_flash_card.html:81
+#: templates/apps/partials/_trending_card.html:83
+#: templates/apps/partials/destination_cards.html:100
+msgid "Tours"
+msgstr "Turlar"
+
+#: templates/apps/partials/_featured_card.html:81
+#: templates/apps/partials/_flash_card.html:84
+#: templates/apps/partials/_trending_card.html:86
+#: templates/apps/partials/destination_cards.html:106
+msgid "Load..."
+msgstr "Yuklanmoqda..."
+
+#: templates/apps/partials/_featured_card.html:101
+#: templates/apps/partials/_flash_card.html:104
+#: templates/apps/partials/_trending_card.html:106
+#: templates/apps/partials/destination_cards.html:128
+msgid "person"
+msgstr "kishi"
+
+#: templates/apps/partials/_featured_card.html:107
+#: templates/apps/partials/_flash_card.html:110
+#: templates/apps/partials/_trending_card.html:112
+#: templates/apps/partials/destination_cards.html:134
+msgid "See Details"
+msgstr "Batafsil"
+
+#: templates/apps/partials/_flash_card.html:7
+msgid "Days"
+msgstr "Kun"
+
+#: templates/apps/partials/_flash_card.html:9
+msgid "Hours"
+msgstr "Soat"
+
+#: templates/apps/partials/_flash_card.html:10
+msgid "Mins"
+msgstr "Daqiqa"
+
+#: templates/apps/partials/_flash_card.html:11
+msgid "Secs"
+msgstr "Soniya"
 
 #: templates/apps/partials/_rec_card.html:17
 msgid "Match"
@@ -633,14 +1062,6 @@ msgstr "O‘xshash sayohatchilar"
 #: templates/apps/partials/_rec_card.html:22
 msgid "Trending now"
 msgstr "Hozir trendda"
-
-#: templates/apps/partials/_rec_card.html:26
-msgid "Save"
-msgstr "Saqlash"
-
-#: templates/apps/partials/_rec_card.html:57
-msgid "Free entry"
-msgstr "Bepul kirish"
 
 #: templates/apps/partials/_rec_card.html:59
 msgid "from"
@@ -670,9 +1091,23 @@ msgstr "Yomon moslik"
 msgid "Not interested"
 msgstr "Qiziq emas"
 
-#: templates/apps/partials/_rec_mini_card.html:26
-msgid "Free"
-msgstr "Bepul"
+#: templates/apps/partials/_trending_card.html:41
+msgid "TRENDING"
+msgstr "TRENDDA"
+
+#: templates/apps/partials/destination_cards.html:145
+msgid "No destinations found"
+msgstr "Manzillar topilmadi"
+
+#: templates/apps/partials/destination_cards.html:146
+msgid "Try adjusting your price range or other filters to find more options."
+msgstr ""
+"Ko‘proq variant topish uchun narx oralig‘i yoki boshqa filtrlarni "
+"o‘zgartiring."
+
+#: templates/apps/partials/destination_cards.html:147
+msgid "Clear All Filters"
+msgstr "Barcha filtrlarni tozalash"
 
 #: templates/apps/recommendation.html:6
 msgid "AI Recommendations"
@@ -822,13 +1257,6 @@ msgstr "Siz saqlaganingiz uchun:"
 msgid "Previous"
 msgstr "Oldingi"
 
-#: templates/apps/recommendation.html:182
-#: templates/apps/recommendation.html:201
-#: templates/apps/recommendation.html:223
-#: templates/apps/recommendation.html:242
-msgid "Next"
-msgstr "Keyingi"
-
 #: templates/apps/recommendation.html:198
 msgid "Travelers like you also loved"
 msgstr "Sizga o‘xshash sayohatchilar yana yoqtirgani"
@@ -858,10 +1286,6 @@ msgstr "30 soniyalik anketani to‘ldiring"
 #: templates/apps/recommendation.html:272
 msgid "Taste quiz"
 msgstr "Did anketasi"
-
-#: templates/apps/recommendation.html:273
-msgid "Close"
-msgstr "Yopish"
 
 #: templates/apps/recommendation.html:278
 msgid "Step"

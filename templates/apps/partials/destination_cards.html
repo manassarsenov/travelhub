@@ -1,119 +1,5 @@
-{#{% load static %}#}
-{#<div id="cards-meta"#}
-{#     data-total="{{ total }}"#}
-{#     data-shown="{{ shown }}"#}
-{#     data-has-more="{{ has_more|yesno:'true,false' }}"#}
-{#     style="display:none;">#}
-{#</div>#}
-{##}
-{#{% for destination in destinations %}#}
-{#    <article class="destination-card" data-slug="{{ destination.slug }}">#}
-{#         data-city="Samarkand" data-lat="39.6542" data-lon="66.9597"#}
-{#         data-hotels-url="/hotels/?city=samarkand"#}
-{#         data-flights-url="/flights/?to=samarkand">#}
-{#        <div class="card-image-wrapper">#}
-{#            <div class="image-slider">#}
-{#                {% for img in destination.images.all %}#}
-{#                    <img src="{{ img.image.url }}"#}
-{#                         alt="{{ destination.name }}">#}
-{#                {% endfor %}#}
-{##}
-{#            </div>#}
-{##}
-{#            <div class="image-slider">#}
-{#                {% for img in destination.images.all %}#}
-{#                    {% if img.image %}#}
-{#                        <img src="{{ img.image.url }}" alt="{{ destination.name }}">#}
-{#                    {% else %}#}
-{#                        <!-- Default rasm yoki bo'sh placeholder -->#}
-{#                        <img src="{% static 'apps/img/default.jpg' %}" alt="No image">#}
-{#                    {% endif %}#}
-{#                {% empty %}#}
-{#                    <!-- Agar umuman rasm bo'lmasa -->#}
-{#                    <img src="{% static 'apps/img/default.jpg' %}" alt="No image">#}
-{#                {% endfor %}#}
-{#            </div>#}
-{#            {% if destination.images.count > 1 %}#}
-{#                <button class="slider-btn prev" onclick="slideImage(this,-1)"><i#}
-{#                        class="fas fa-chevron-left"></i></button>#}
-{#                <button class="slider-btn next" onclick="slideImage(this,1)"><i#}
-{#                        class="fas fa-chevron-right"></i></button>#}
-{##}
-{#                <div class="image-dots">#}
-{#                    {% for img in destination.images.all %}#}
-{#                        <span class="dot {% if forloop.first %}active{% endif %}"#}
-{#                              onclick="goToSlide(this, {{ forloop.counter0 }})">#}
-{#        </span>#}
-{#                    {% endfor %}#}
-{#                </div>#}
-{##}
-{#            {% endif %}#}
-{##}
-{#            <button class="wishlist-btn" onclick="toggleWishlist(this, event)"><i class="far fa-heart"></i>#}
-{#            </button>#}
-{#            <label class="compare-checkbox">#}
-{#                <input type="checkbox" onchange="addToCompare(this)">#}
-{#                <span>Compare</span>#}
-{#            </label>#}
-{#        </div>#}
-{#        <div class="card-content">#}
-{#            <div class="card-header">#}
-{#                <div class="destination-info">#}
-{#                    <h3>{{ destination.name }}</h3>#}
-{#                    <p class="card-location"><i class="fas fa-map-marker-alt"></i> {{ destination.location }}</p>#}
-{#                </div>#}
-{#                <div class="rating-box">#}
-{#                    <div class="rating-stars"><i class="fas fa-star"></i><span>{{ destination.avg_rating|floatformat:1|default:"0.0" }}</span></div>#}
-{#                    <p class="reviews">({{ destination.reviews_count }} reviews)</p>#}
-{#                </div>#}
-{#            </div>#}
-{#            <p class="card-description">{{ destination.short_description|safe }}</p>#}
-{#            <div class="card-tags">#}
-{#                {% for tag in destination.tags.all %}#}
-{##}
-{#                    <span class="tag"><i class="fas {{ tag.icon }}"></i> {{ tag.name }}</span>#}
-{#                {% endfor %}#}
-{##}
-{#            </div>#}
-{##}
-{##}
-{#            <div class="card-stats">#}
-{#                <button class="stat-item stat-hotels" onclick="goToHotels(this)"><i#}
-{#                        class="fas fa-hotel"></i><span>120+ Hotels</span></button>#}
-{#                <button class="stat-item stat-flights" onclick="goToFlights(this)" data-slug="{{ destination.slug }}"#}
-{#                        data-name="{{ destination.name }}"><i#}
-{#                        class="fas fa-plane"></i><span>Direct Flights</span></button>#}
-{#                <button class="stat-item stat-weather" onclick="openWeatherModal(this)"#}
-{#                        data-lat="{{ destination.latitude }}"#}
-{#                        data-lon="{{ destination.longitude }}"#}
-{#                        data-city="{{ destination.location }}"><i class="fas fa-sun weather-icon"></i><span#}
-{#                        class="weather-temp">25°C</span></button>#}
-{#                <div class="stat-item"><i class="fas fa-clock"></i><span>5-7 Days</span></div>#}
-{#            </div>#}
-{#            <div class="card-footer">#}
-{#                <div class="price-box">#}
-{#                    <div class="price-current">#}
-{#                        <span class="from">From</span>#}
-{#                        <span class="amount">${{ destination.price }}</span>#}
-{#                    </div>#}
-{#                    <span class="price-per">/ person</span>#}
-{#                </div>#}
-{#                <div class="card-actions">#}
-{#                    <button class="btn-outline"#}
-{#                            onclick="window.location.href='{% url 'destination_detail_page'  destination.slug %}'">See#}
-{#                        Details <i#}
-{#                                class="fas fa-arrow-right"></i></button>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </article>#}
-{##}
-{#{% endfor %}#}
-{##}
-{#onclick="window.location.href='{% url 'login_page' %}'#}
-
-
 {% load static %}
+{% load i18n %}
 
 <div id="cards-meta"
      data-total="{{ total|default:0 }}"
@@ -141,10 +27,10 @@
                         {% if img.image %}
                             <img src="{{ img.image.url }}" alt="{{ destination.name }}">
                         {% else %}
-                            <img src="{% static 'apps/img/default.avif' %}" alt="No image">
+                            <img src="{% static 'apps/img/default.avif' %}" alt="{% trans 'No image' %}">
                         {% endif %}
                     {% empty %}
-                        <img src="{% static 'apps/img/default.avif' %}" alt="No image">
+                        <img src="{% static 'apps/img/default.avif' %}" alt="{% trans 'No image' %}">
                     {% endfor %}
                 </div>
 
@@ -165,7 +51,7 @@
                 {% if show_compare %}
                 <label class="compare-checkbox">
                     <input type="checkbox" data-slug="{{ destination.slug }}" data-name="{{ destination.name }}" data-image="{% if destination.images.first %}{{ destination.images.first.image.url }}{% else %}{% static 'apps/img/default.avif' %}{% endif %}" data-price="{{ destination.discounted_price|default:destination.price }}" data-rating="{{ destination.rating }}" onchange="addToCompare(this)">
-                    <span>Compare</span>
+                    <span>{% trans "Compare" %}</span>
                 </label>
                 {% endif %}
             </div>
@@ -180,7 +66,7 @@
                             <i class="fas fa-star"></i>
                             <span>{{ destination.rating|floatformat:1 }}</span>
                         </div>
-                        <p class="reviews">({{ destination.reviews_count|default:"0" }} reviews)</p>
+                        <p class="reviews">({{ destination.reviews_count|default:"0" }} {% trans "reviews" %})</p>
                     </div>
                 </div>
 
@@ -204,20 +90,20 @@
                 <div class="card-stats">
                     {% if destination.hotels_count > 0 %}
                         <button class="stat-item stat-hotels" onclick="goToHotels(this)">
-                            <i class="fas fa-hotel"></i><span>{{ destination.hotels_count }} Hotels</span>
+                            <i class="fas fa-hotel"></i><span>{{ destination.hotels_count }} {% trans "Hotels" %}</span>
                         </button>
                     {% endif %}
 
                     <button class="stat-item stat-flights" onclick="goToFlights(this)"
                             data-slug="{{ destination.slug }}" data-name="{{ destination.name }}">
                         <i class="fas {% if destination.has_flights %}fa-plane{% else %}fa-route{% endif %}"></i>
-                        <span>{% if destination.has_flights %}Flights{% else %}Tours{% endif %}</span>
+                        <span>{% if destination.has_flights %}{% trans "Flights" %}{% else %}{% trans "Tours" %}{% endif %}</span>
                     </button>
 
                     <button class="stat-item stat-weather" onclick="openWeatherModal(this)"
                             data-lat="{{ destination.latitude }}" data-lon="{{ destination.longitude }}"
                             data-city="{{ destination.location|default:destination.city.name }}">
-                        <i class="fas fa-sun weather-icon"></i><span class="weather-temp">Load...</span>
+                        <i class="fas fa-sun weather-icon"></i><span class="weather-temp">{% trans "Load..." %}</span>
                     </button>
 
                     <div class="stat-item">
@@ -230,22 +116,22 @@
                     <div class="price-box">
                         {% if destination.is_free %}
                             <div class="price-current">
-                                <span class="amount">Free</span>
+                                <span class="amount">{% trans "Free" %}</span>
                             </div>
                         {% else %}
                             {% if destination.discount_percentage > 0 %}
                                 <div class="price-original">${{ destination.price }}</div>
                             {% endif %}
                             <div class="price-current">
-                                <span class="from">From</span>
+                                <span class="from">{% trans "From" %}</span>
                                 <span class="amount">${{ destination.discounted_price }}</span>
-                                <span class="per">/ {{ destination.get_price_label_display|default:"person" }}</span>
+                                <span class="per">/ {% trans "person" %}</span>
                             </div>
                         {% endif %}
                     </div>
                     <div class="card-actions">
                         <a href="{% url 'destination_detail_page' destination.slug %}" class="btn-outline">
-                            See Details <i class="fas fa-arrow-right"></i>
+                            {% trans "See Details" %} <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -256,8 +142,8 @@
 {% empty %}
     <div style="grid-column: 1/-1; text-align: center; padding: 60px; background: var(--gray-50); border-radius: 12px; border: 2px dashed var(--gray-200);">
         <i class="fas fa-search" style="font-size: 3rem; color: var(--gray-300); margin-bottom: 20px;"></i>
-        <h3 style="color: var(--gray-700); margin-bottom: 10px;">No destinations found</h3>
-        <p style="color: var(--gray-500);">Try adjusting your price range or other filters to find more options.</p>
-        <button class="btn-primary" style="margin-top: 20px;" onclick="clearAllFilters()">Clear All Filters</button>
+        <h3 style="color: var(--gray-700); margin-bottom: 10px;">{% trans "No destinations found" %}</h3>
+        <p style="color: var(--gray-500);">{% trans "Try adjusting your price range or other filters to find more options." %}</p>
+        <button class="btn-primary" style="margin-top: 20px;" onclick="clearAllFilters()">{% trans "Clear All Filters" %}</button>
     </div>
 {% endfor %}
