@@ -19,239 +19,162 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "Authentication"
-msgstr ""
-
+msgstr "Autentifikatsiya"
 msgid "Data Mutation"
-msgstr ""
-
+msgstr "Ma'lumot o'zgarishi"
 msgid "Access Control"
-msgstr ""
-
+msgstr "Kirish nazorati"
 msgid "System Event"
-msgstr ""
-
+msgstr "Tizim hodisasi"
 msgid "Financial Activity"
-msgstr ""
-
+msgstr "Moliyaviy faoliyat"
 msgid "Security Alert"
-msgstr ""
-
+msgstr "Xavfsizlik ogohlantirishi"
 msgid "Debug"
-msgstr ""
-
+msgstr "Debug"
 msgid "Info"
-msgstr ""
-
+msgstr "Ma'lumot"
 msgid "Warning"
-msgstr ""
-
+msgstr "Ogohlantirish"
 msgid "Error"
-msgstr ""
-
+msgstr "Xato"
 msgid "Critical"
-msgstr ""
-
+msgstr "Kritik"
 msgid "Alert"
-msgstr ""
-
+msgstr "Ogohlantirish"
 msgid "Actor"
-msgstr ""
-
+msgstr "Bajaruvchi"
 msgid "Impersonated By"
-msgstr ""
-
+msgstr "Kim sifatida"
 msgid "Action"
-msgstr ""
-
+msgstr "Amal"
 msgid "Verb"
-msgstr ""
-
+msgstr "Harakat"
 msgid "Message"
-msgstr ""
-
+msgstr "Xabar"
 msgid "Object Representation"
-msgstr ""
-
+msgstr "Obyekt ko'rinishi"
 msgid "Pre Change Data"
-msgstr ""
-
+msgstr "O'zgarishdan oldingi ma'lumot"
 msgid "Post Change Data"
-msgstr ""
-
+msgstr "O'zgarishdan keyingi ma'lumot"
 msgid "Changes Diff"
-msgstr ""
-
+msgstr "O'zgarishlar farqi"
 msgid "Request ID"
-msgstr ""
-
+msgstr "So'rov ID"
 msgid "IP Address"
-msgstr ""
-
+msgstr "IP manzil"
 msgid "User Agent"
-msgstr ""
-
+msgstr "User Agent"
 msgid "Request Path"
-msgstr ""
-
+msgstr "So'rov yo'li"
 msgid "HTTP Method"
-msgstr ""
-
+msgstr "HTTP metodi"
 msgid "Is Suspicious"
-msgstr ""
-
+msgstr "Shubhalimi"
 msgid "Execution Time (s)"
-msgstr ""
-
+msgstr "Bajarilish vaqti (s)"
 msgid "Extra Info"
-msgstr ""
-
+msgstr "Qo'shimcha ma'lumot"
 msgid "Action Log"
-msgstr ""
-
+msgstr "Amallar jurnali"
 msgid "Action Logs"
-msgstr ""
-
+msgstr "Amallar jurnali"
 msgid "Success"
 msgstr "Muvaffaqiyat"
 
 msgid "Low"
-msgstr ""
-
+msgstr "Past"
 msgid "Medium"
-msgstr ""
-
+msgstr "O'rtacha"
 msgid "High"
-msgstr ""
-
+msgstr "Yuqori"
 msgid "Urgent"
-msgstr ""
-
+msgstr "Shoshilinch"
 msgid "Recipient"
-msgstr ""
-
+msgstr "Qabul qiluvchi"
 msgid "Description"
-msgstr ""
-
+msgstr "Tavsif"
 msgid "Level"
-msgstr ""
-
+msgstr "Daraja"
 msgid "Priority"
-msgstr ""
-
+msgstr "Muhimlik"
 msgid "Is Read"
-msgstr ""
-
+msgstr "O'qilganmi"
 msgid "Read At"
-msgstr ""
-
+msgstr "O'qilgan vaqt"
 msgid "Email Sent"
-msgstr ""
-
+msgstr "Email yuborildi"
 msgid "Push Sent"
-msgstr ""
-
+msgstr "Push yuborildi"
 msgid "Extra Data"
-msgstr ""
-
+msgstr "Qo'shimcha ma'lumot"
 msgid "Notification"
-msgstr ""
-
+msgstr "Bildirishnoma"
 msgid "Notifications"
-msgstr ""
-
+msgstr "Bildirishnomalar"
 msgid "User"
-msgstr ""
-
+msgstr "Foydalanuvchi"
 msgid "Enable Email"
-msgstr ""
-
+msgstr "Email yoqilgan"
 msgid "Enable Push"
-msgstr ""
-
+msgstr "Push yoqilgan"
 msgid "Enable In-App"
-msgstr ""
-
+msgstr "Ilova ichida yoqilgan"
 msgid "Booking Updates"
-msgstr ""
-
+msgstr "Bron yangiliklari"
 msgid "Promotions & Offers"
-msgstr ""
-
+msgstr "Aksiyalar va takliflar"
 msgid "Price Alerts"
-msgstr ""
-
+msgstr "Narx ogohlantirishlari"
 msgid "Notification Setting"
-msgstr ""
-
+msgstr "Bildirishnoma sozlamasi"
 msgid "Notification Settings"
-msgstr ""
-
+msgstr "Bildirishnoma sozlamalari"
 msgid "Pending Payment"
-msgstr ""
-
+msgstr "To'lov kutilmoqda"
 msgid "Confirmed"
-msgstr ""
-
+msgstr "Tasdiqlangan"
 msgid "Completed"
-msgstr ""
-
+msgstr "Tugallangan"
 msgid "Cancelled"
-msgstr ""
-
+msgstr "Bekor qilingan"
 msgid "Credit Card"
-msgstr ""
-
+msgstr "Bank kartasi"
 msgid "PayPal"
-msgstr ""
-
+msgstr "PayPal"
 msgid "Kaspi.kz"
-msgstr ""
-
+msgstr "Kaspi.kz"
 msgid "Apple Pay"
-msgstr ""
-
+msgstr "Apple Pay"
 msgid "Payme"
-msgstr ""
-
+msgstr "Payme"
 msgid "Click"
-msgstr ""
-
+msgstr "Click"
 msgid "Special Requests"
-msgstr ""
-
+msgstr "Maxsus so'rovlar"
 msgid "Booking"
-msgstr ""
-
+msgstr "Bron"
 msgid "Bookings"
-msgstr ""
-
+msgstr "Bronlar"
 msgid "Admin"
-msgstr ""
-
+msgstr "Administrator"
 msgid "Male"
-msgstr ""
-
+msgstr "Erkak"
 msgid "Female"
-msgstr ""
-
+msgstr "Ayol"
 msgid "Other"
-msgstr ""
-
+msgstr "Boshqa"
 msgid "Light"
-msgstr ""
-
+msgstr "Och"
 msgid "Dark"
-msgstr ""
-
+msgstr "Quyuq"
 msgid "Budget ($0-50/day)"
-msgstr ""
-
+msgstr "Tejamkor ($0-50/kun)"
 msgid "Mid-Range ($50-150/day)"
-msgstr ""
-
+msgstr "O'rtacha ($50-150/kun)"
 msgid "Luxury ($150+/day)"
-msgstr ""
-
+msgstr "Hashamatli ($150+/kun)"
 msgid "Adventure"
 msgstr "Sarguzasht"
 
@@ -262,8 +185,7 @@ msgid "Cultural"
 msgstr "Madaniy"
 
 msgid "Nature & Wildlife"
-msgstr ""
-
+msgstr "Tabiat va yovvoyi hayot"
 msgid "City Tours"
 msgstr "Shahar sayohatlari"
 
@@ -278,56 +200,40 @@ msgstr "Hashamatli"
 
 msgid ""
 "Telefon raqami formati: '+998991234567'. 15 tagacha raqam ruxsat etiladi."
-msgstr ""
-
+msgstr "Telefon raqami formati: '+998991234567'. 15 tagacha raqam ruxsat etiladi."
 msgid "User Role"
-msgstr ""
-
+msgstr "Foydalanuvchi roli"
 msgid "email address"
-msgstr ""
-
+msgstr "elektron pochta manzili"
 msgid "PhoneNumber"
-msgstr ""
-
+msgstr "Telefon raqami"
 msgid "Avatar"
-msgstr ""
-
+msgstr "Avatar"
 msgid "Gender"
-msgstr ""
-
+msgstr "Jinsi"
 msgid "Date of Birth"
-msgstr ""
-
+msgstr "Tug'ilgan sana"
 msgid "Country"
 msgstr "Davlat"
 
 msgid "Bio"
-msgstr ""
-
+msgstr "Bio"
 msgid "Cover Photo"
-msgstr ""
-
+msgstr "Muqova rasm"
 msgid "Website"
-msgstr ""
-
+msgstr "Veb-sayt"
 msgid "Current Location"
-msgstr ""
-
+msgstr "Hozirgi joylashuv"
 msgid "Languages Spoken"
-msgstr ""
-
+msgstr "Tillar"
 msgid "Travel Styles"
-msgstr ""
-
+msgstr "Sayohat uslublari"
 msgid "Budget Range"
-msgstr ""
-
+msgstr "Byudjet darajasi"
 msgid "Theme"
-msgstr ""
-
+msgstr "Mavzu"
 msgid "Users"
-msgstr ""
-
+msgstr "Foydalanuvchilar"
 msgid "Thank you for your review!"
 msgstr "Sharhingiz uchun rahmat!"
 
@@ -440,7 +346,7 @@ msgstr "Sahna sizniki"
 
 msgid ""
 "No stories have been shared yet. Be the pioneer and share your thoughts."
-msgstr ""
+msgstr "Hali hech kim hikoya yozmagan. Birinchi bo'lib o'z fikrlaringizni ulashing."
 "Hali hech kim hikoya ulashmagan. Birinchi bo‘lib fikringizni bildiring."
 
 msgid "Share your experience"
@@ -479,7 +385,7 @@ msgstr "Bepul kirish"
 msgid ""
 "This place is free to visit — no ticket or booking required. Just turn up "
 "and explore."
-msgstr ""
+msgstr "Bu joyga tashrif bepul — chipta yoki bron talab qilinmaydi. Kelib, kashf eting."
 "Bu joyga tashrif bepul — chipta yoki bron talab qilinmaydi. Shunchaki keling "
 "va sayr qiling."
 
@@ -573,7 +479,7 @@ msgstr "ajoyib"
 msgid ""
 "From ancient wonders to modern marvels, discover your next unforgettable "
 "journey"
-msgstr ""
+msgstr "Qadimgi mo'jizalardan zamonaviy ajoyibotlargacha — keyingi unutilmas sayohatingizni kashf eting"
 "Qadimiy mo‘jizalardan zamonaviy ajoyibotlargacha — keyingi unutilmas "
 "sayohatingizni kashf eting"
 
@@ -621,7 +527,7 @@ msgstr "%(name)s uchun hali shaharlar yo‘q"
 msgid ""
 "We're still adding destinations here. Check back soon — new cities and tours "
 "are on the way."
-msgstr ""
+msgstr "Biz bu yerga manzillar qo'shishni davom ettirmoqdamiz. Tez orada qayta tashrif buyuring — yangi shaharlar va sayohatlar yo'lda."
 "Bu yerga hali manzillar qo‘shilmoqda. Tez orada qayting — yangi shaharlar "
 "va sayohatlar yo‘lda."
 
@@ -763,7 +669,7 @@ msgid "Search & Explore"
 msgstr "Qidiring va kashf eting"
 
 msgid "Browse 450+ destinations or let our AI recommend perfect spots for you"
-msgstr ""
+msgstr "450+ manzilni ko'ring yoki sun'iy intellektimiz siz uchun mukammal joylarni tavsiya qilsin"
 "450+ manzilni ko‘rib chiqing yoki AI siz uchun eng yaxshi joylarni tavsiya "
 "qilsin"
 
@@ -771,7 +677,7 @@ msgid "Compare & Choose"
 msgstr "Solishtiring va tanlang"
 
 msgid "Compare prices, amenities, and reviews to find the best deal"
-msgstr ""
+msgstr "Eng yaxshi taklifni topish uchun narx, qulayliklar va sharhlarni solishtiring"
 "Eng yaxshi taklifni topish uchun narx, qulayliklar va sharhlarni solishtiring"
 
 msgid "Secure Booking"
@@ -784,7 +690,7 @@ msgid "Travel & Enjoy"
 msgstr "Sayohat qiling va rohatlaning"
 
 msgid "Pack your bags and enjoy your perfect vacation with 24/7 support"
-msgstr ""
+msgstr "Sumkalaringizni yig'ing va 24/7 yordam bilan mukammal ta'tildan zavqlaning"
 "Sumkangizni yig‘ing va 24/7 yordam bilan ajoyib ta‘tilingizdan bahramand "
 "bo‘ling"
 
@@ -912,7 +818,7 @@ msgstr "Qidiruv natijalari"
 msgid ""
 "Your trusted partner in discovering amazing destinations worldwide. AI-"
 "powered recommendations for unforgettable travel experiences."
-msgstr ""
+msgstr "Dunyodagi ajoyib manzillarni kashf etishda ishonchli hamkoringiz. Unutilmas sayohat tajribasi uchun sun'iy intellekt asosidagi tavsiyalar."
 "Dunyo bo‘ylab ajoyib manzillarni kashf etishda ishonchli hamkoringiz. "
 "Unutilmas sayohat tajribalari uchun sun’iy intellekt yordamida tavsiyalar."
 
@@ -1103,7 +1009,7 @@ msgid "No destinations found"
 msgstr "Manzillar topilmadi"
 
 msgid "Try adjusting your price range or other filters to find more options."
-msgstr ""
+msgstr "Ko'proq variantlarni topish uchun narx oralig'i yoki boshqa filtrlarni o'zgartirib ko'ring."
 "Ko‘proq variant topish uchun narx oralig‘i yoki boshqa filtrlarni "
 "o‘zgartiring."
 
@@ -1125,7 +1031,7 @@ msgstr "manzilni kashf eting"
 msgid ""
 "Tell us your dream trip in your own words — our AI reads it, understands "
 "your taste and finds the best matches."
-msgstr ""
+msgstr "Orzudagi sayohatingizni o'z so'zlaringiz bilan ayting — AI uni o'qiydi, ta'mingizni tushunadi va eng yaxshi mosliklarni topadi."
 "Orzu sayohatingizni o‘z so‘zlaringiz bilan ayting — AI uni o‘qiydi, "
 "didingizni tushunadi va eng mos joylarni topadi."
 
@@ -1162,7 +1068,7 @@ msgstr "Sizning asosiy sayohat uslublaringiz"
 msgid ""
 "Save a few trips you like — your travel styles will appear here and every "
 "recommendation gets sharper."
-msgstr ""
+msgstr "Yoqtirgan sayohatlaringizni saqlang — sayohat uslublaringiz shu yerda paydo bo'ladi va har bir tavsiya yanada aniqroq bo'ladi."
 "Yoqtirgan bir nechta sayohatni saqlang — sayohat uslublaringiz shu yerda "
 "paydo bo‘ladi va har bir tavsiya aniqroq bo‘ladi."
 
@@ -1222,7 +1128,7 @@ msgstr "Aniqroq tavsiyalar xohlaysizmi?"
 
 msgid ""
 "Answer 3 quick questions and our AI will instantly re-tune your Taste DNA."
-msgstr ""
+msgstr "3 ta tez savolga javob bering, sun'iy intellekt darhol Ta'm DNK'ingizni qayta sozlaydi."
 "3 ta qisqa savolga javob bering — AI Did-DNK’ngizni darhol qayta sozlaydi."
 
 msgid "Take the 30-second quiz"

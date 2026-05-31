@@ -1,0 +1,332 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-31 13:46+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+#: apps/static/apps/js/destinations.js:62
+#: apps/static/apps/js/destinations.js:313
+#: apps/static/apps/js/destinations.js:485
+#: apps/static/apps/js/destinations.js:542
+#: apps/static/apps/js/destinations.js:678
+#: apps/static/apps/js/destinations.js:970 apps/static/apps/js/load_more.js:20
+msgid "Loading..."
+msgstr "Yuklanmoqda..."
+#: apps/static/apps/js/destinations.js:75
+#: apps/static/apps/js/destinations.js:292
+#, javascript-format
+msgid "%s+ curated things to do"
+msgstr "%s+ tanlab olingan tadbirlar"
+#: apps/static/apps/js/destinations.js:86
+#: apps/static/apps/js/destinations.js:210
+#: apps/static/apps/js/destinations.js:300
+msgid "Load More Cities"
+msgstr "Yana shaharlarni yuklash"
+#: apps/static/apps/js/destinations.js:91
+#: apps/static/apps/js/destinations.js:508
+#: apps/static/apps/js/destinations.js:572
+#: apps/static/apps/js/destinations.js:710
+#: apps/static/apps/js/destinations.js:759
+msgid "Try Again"
+msgstr "Qayta urinish"
+#: apps/static/apps/js/destinations.js:204
+msgid "Showing %(shown)s of %(total)s cities"
+msgstr "%(total)s ta shahardan %(shown)s tasi ko'rsatilmoqda"
+#: apps/static/apps/js/destinations.js:278
+#, javascript-format
+msgid "No cities yet for %s"
+msgstr "%s uchun hali shaharlar yo'q"
+#: apps/static/apps/js/destinations.js:279
+msgid ""
+"We're still adding destinations here. Check back soon — new cities and tours "
+"are on the way."
+msgstr "Biz bu yerga manzillar qo'shishni davom ettirmoqdamiz. Tez orada qayta tashrif buyuring — yangi shaharlar va sayohatlar yo'lda."
+#: apps/static/apps/js/destinations.js:328
+#, javascript-format
+msgid "Showing %s destinations"
+msgstr "%s ta manzil ko'rsatilmoqda"
+#: apps/static/apps/js/destinations.js:334
+#: apps/static/apps/js/destinations.js:341
+msgid "Load More"
+msgstr "Yana yuklash"
+#: apps/static/apps/js/destinations.js:386
+#: apps/static/apps/js/destinations.js:455
+#: apps/static/apps/js/destinations.js:501
+#: apps/static/apps/js/destinations.js:559
+#: apps/static/apps/js/destinations.js:635
+#: apps/static/apps/js/destinations.js:695
+#: apps/static/apps/js/destinations.js:940
+#: apps/static/apps/js/destinations.js:993 apps/static/apps/js/load_more.js:53
+#: apps/static/apps/js/load_more.js:89
+msgid "Showing %(shown)s of %(total)s destinations"
+msgstr "%(total)s ta manzildan %(shown)s tasi ko'rsatilmoqda"
+#: apps/static/apps/js/destinations.js:404
+#: apps/static/apps/js/destinations.js:469
+msgid "Error loading destinations."
+msgstr "Manzillarni yuklashda xato."
+#: apps/static/apps/js/destinations.js:503
+#: apps/static/apps/js/destinations.js:561
+#: apps/static/apps/js/destinations.js:649
+#: apps/static/apps/js/destinations.js:698
+#: apps/static/apps/js/destinations.js:996 apps/static/apps/js/load_more.js:63
+msgid "Load More Destinations"
+msgstr "Yana manzillarni yuklash"
+#: apps/static/apps/js/destinations.js:610
+#, javascript-format
+msgid "Searching for \"%s\"…"
+msgstr "\"%s\" qidirilmoqda…"
+#: apps/static/apps/js/destinations.js:636
+msgid "0 destinations found"
+msgstr "0 ta manzil topilmadi"
+#: apps/static/apps/js/destinations.js:739
+#: apps/static/apps/js/destinations.js:1440
+#, javascript-format
+msgid "No results for \"%s\""
+msgstr "\"%s\" uchun natija yo'q"
+#: apps/static/apps/js/destinations.js:740
+msgid "Try different keywords or browse all destinations"
+msgstr "Boshqa kalit so'zlar bilan urining yoki barcha manzillarni ko'ring"
+#: apps/static/apps/js/destinations.js:744
+msgid "Browse All Destinations"
+msgstr "Barcha manzillarni ko'rish"
+#: apps/static/apps/js/destinations.js:753
+msgid "Something went wrong"
+msgstr "Nimadir noto'g'ri ketdi"
+#: apps/static/apps/js/destinations.js:754
+#, javascript-format
+msgid "Could not load results for \"%s\""
+msgstr "\"%s\" uchun natijalarni yuklab bo'lmadi"
+#: apps/static/apps/js/destinations.js:825
+msgid "All"
+msgstr "Hammasi"
+#: apps/static/apps/js/destinations.js:915
+msgid "Searching..."
+msgstr "Qidirilmoqda..."
+#: apps/static/apps/js/destinations.js:1075
+#, javascript-format
+msgid "You can only compare up to %s destinations."
+msgstr "Faqat %s tagacha manzilni solishtira olasiz."
+#: apps/static/apps/js/destinations.js:1116
+msgid "No destinations selected"
+msgstr "Hech qanday manzil tanlanmagan"
+#: apps/static/apps/js/destinations.js:1117
+msgid "Choose destinations from the list to compare them side by side."
+msgstr "Solishtirish uchun ro'yxatdan manzillar tanlang."
+#: apps/static/apps/js/destinations.js:1128
+msgid "Select at least 2 destinations"
+msgstr "Kamida 2 ta manzil tanlang"
+#: apps/static/apps/js/destinations.js:1129
+msgid ""
+"You have 1 destination selected. Please select one more to start comparing."
+msgstr "Sizda 1 ta manzil tanlangan. Solishtirishni boshlash uchun yana bittasini tanlang."
+#: apps/static/apps/js/destinations.js:1139
+msgid "Loading comparison…"
+msgstr "Solishtirish yuklanmoqda…"
+#: apps/static/apps/js/destinations.js:1140
+msgid "Fetching the latest details for your selected destinations."
+msgstr "Tanlangan manzillar bo'yicha so'nggi ma'lumotlar yuklanmoqda."
+#: apps/static/apps/js/destinations.js:1158
+msgid "Could not load comparison"
+msgstr "Solishtirishni yuklab bo'lmadi"
+#: apps/static/apps/js/destinations.js:1159
+msgid "Something went wrong while fetching the data. Please try again."
+msgstr "Ma'lumotlarni olishda xato yuz berdi. Qayta urinib ko'ring."
+#: apps/static/apps/js/destinations.js:1188
+msgid "No data available"
+msgstr "Ma'lumot yo'q"
+#: apps/static/apps/js/destinations.js:1204
+msgid "Yes"
+msgstr "Ha"
+#: apps/static/apps/js/destinations.js:1205
+msgid "No"
+msgstr "Yo'q"
+#: apps/static/apps/js/destinations.js:1209
+#: apps/static/apps/js/destinations.js:1427
+msgid "Destinations"
+msgstr "Manzillar"
+#: apps/static/apps/js/destinations.js:1224
+msgid "Previous"
+msgstr "Oldingi"
+#: apps/static/apps/js/destinations.js:1225
+msgid "Next"
+msgstr "Keyingi"
+#: apps/static/apps/js/destinations.js:1235
+msgid "Remove"
+msgstr "O'chirish"
+#: apps/static/apps/js/destinations.js:1243
+msgid "See Details"
+msgstr "Batafsil ko'rish"
+#: apps/static/apps/js/destinations.js:1265
+msgid "Trip Type"
+msgstr "Sayohat turi"
+#: apps/static/apps/js/destinations.js:1266
+msgid "Duration"
+msgstr "Davomiyligi"
+#: apps/static/apps/js/destinations.js:1267
+msgid "Season"
+msgstr "Mavsum"
+#: apps/static/apps/js/destinations.js:1268
+msgid "Package Type"
+msgstr "Paket turi"
+#: apps/static/apps/js/destinations.js:1269
+msgid "Hotels"
+msgstr "Mehmonxonalar"
+#: apps/static/apps/js/destinations.js:1270
+msgid "Flights"
+msgstr "Reyslar"
+#: apps/static/apps/js/destinations.js:1271
+msgid "Cancellation"
+msgstr "Bekor qilish"
+#: apps/static/apps/js/destinations.js:1272
+#: apps/static/apps/js/destinations.js:1306
+msgid "Free"
+msgstr "Bepul"
+#: apps/static/apps/js/destinations.js:1273
+msgid "Non-refundable"
+msgstr "Qaytarib berilmaydi"
+#: apps/static/apps/js/destinations.js:1274
+msgid "Discount"
+msgstr "Chegirma"
+#: apps/static/apps/js/destinations.js:1281
+msgid "Available Flights"
+msgstr "Mavjud reyslar"
+#: apps/static/apps/js/destinations.js:1282
+msgid "Flight Options"
+msgstr "Reys variantlari"
+#: apps/static/apps/js/destinations.js:1283
+msgid "No flights"
+msgstr "Reyslar yo'q"
+#: apps/static/apps/js/destinations.js:1291
+msgid "Available Hotels"
+msgstr "Mavjud mehmonxonalar"
+#: apps/static/apps/js/destinations.js:1292
+msgid "Hotel Options"
+msgstr "Mehmonxona variantlari"
+#: apps/static/apps/js/destinations.js:1293
+msgid "No hotels"
+msgstr "Mehmonxonalar yo'q"
+#: apps/static/apps/js/destinations.js:1294
+msgid "night"
+msgstr "kecha"
+#: apps/static/apps/js/destinations.js:1301
+msgid "Ticket Types"
+msgstr "Chipta turlari"
+#: apps/static/apps/js/destinations.js:1302
+msgid "Tickets"
+msgstr "Chiptalar"
+#: apps/static/apps/js/destinations.js:1303
+msgid "No tickets"
+msgstr "Chiptalar yo'q"
+#: apps/static/apps/js/destinations.js:1409
+msgid "Could not load results"
+msgstr "Natijalarni yuklab bo'lmadi"
+#: apps/static/apps/js/destinations.js:1410
+msgid "Check your connection"
+msgstr "Internet aloqasini tekshiring"
+#: apps/static/apps/js/destinations.js:1427
+msgid "Regions"
+msgstr "Hududlar"
+#: apps/static/apps/js/destinations.js:1427
+msgid "Countries"
+msgstr "Davlatlar"
+#: apps/static/apps/js/destinations.js:1427
+msgid "Cities"
+msgstr "Shaharlar"
+#: apps/static/apps/js/destinations.js:1441
+msgid "Try a different keyword"
+msgstr "Boshqa kalit so'z bilan urining"
+#: apps/static/apps/js/destinations.js:1488
+msgid "per person"
+msgstr "har bir kishi uchun"
+#: apps/static/apps/js/load_more.js:70
+msgid "Error – Try Again"
+msgstr "Xato – Qayta urinish"
+#: apps/static/apps/js/wishlist.js:30
+msgid "All Destinations"
+msgstr "Barcha manzillar"
+#: apps/static/apps/js/wishlist.js:154
+msgid "No results found"
+msgstr "Natija topilmadi"
+#: apps/static/apps/js/wishlist.js:155
+msgid "Try a different search or category filter."
+msgstr "Boshqa qidiruv yoki kategoriya filtri bilan urining."
+#: apps/static/apps/js/wishlist.js:157
+msgid "Your wishlist is empty"
+msgstr "Sizning istaklar ro'yxatingiz bo'sh"
+#: apps/static/apps/js/wishlist.js:158
+msgid "Start adding your dream destinations!"
+msgstr "Orzudagi manzillaringizni qo'shishni boshlang!"
+#: apps/static/apps/js/wishlist.js:175
+msgid "Cancel"
+msgstr "Bekor qilish"
+#: apps/static/apps/js/wishlist.js:176 apps/static/apps/js/wishlist.js:193
+msgid "Select"
+msgstr "Tanlash"
+#: apps/static/apps/js/wishlist.js:244
+msgid "Removed"
+msgstr "O'chirildi"
+#: apps/static/apps/js/wishlist.js:244
+#, javascript-format
+msgid "%s destination(s) removed from wishlist."
+msgstr "%s ta manzil istaklar ro'yxatidan o'chirildi."
+#: apps/static/apps/js/wishlist.js:286
+msgid "Login required"
+msgstr "Tizimga kirish kerak"
+#: apps/static/apps/js/wishlist.js:286
+msgid "Please log in to set price alerts."
+msgstr "Narx bildirishnomalarini sozlash uchun tizimga kiring."
+#: apps/static/apps/js/wishlist.js:292
+msgid "Alert on"
+msgstr "Bildirishnoma yoqildi"
+#: apps/static/apps/js/wishlist.js:292
+#, javascript-format
+msgid "You'll be notified when %s price drops!"
+msgstr "%s narxi tushganda sizga xabar beriladi!"
+#: apps/static/apps/js/wishlist.js:294
+msgid "Alert off"
+msgstr "Bildirishnoma o'chirildi"
+#: apps/static/apps/js/wishlist.js:294
+#, javascript-format
+msgid "Price alert disabled for %s"
+msgstr "%s uchun narx bildirishnomasi o'chirildi"
+#: apps/static/apps/js/wishlist.js:297
+msgid "Error"
+msgstr "Xato"
+#: apps/static/apps/js/wishlist.js:297
+msgid "Could not update alert. Try again."
+msgstr "Bildirishnomani yangilab bo'lmadi. Qayta urinib ko'ring."
+#: apps/static/apps/js/wishlist.js:310 apps/static/apps/js/wishlist.js:326
+msgid "All alerts on"
+msgstr "Barcha bildirishnomalar yoqilgan"
+#: apps/static/apps/js/wishlist.js:310
+msgid "All price alerts are already active!"
+msgstr "Barcha narx bildirishnomalari allaqachon faol!"
+#: apps/static/apps/js/wishlist.js:326
+#, javascript-format
+msgid "Price alerts enabled for %s destination(s)!"
+msgstr "%s ta manzil uchun narx bildirishnomalari yoqildi!"
+#: apps/static/apps/js/wishlist.js:341
+msgid "My TravelHub Wishlist"
+msgstr "Mening TravelHub istaklar ro'yxatim"
+#: apps/static/apps/js/wishlist.js:346
+msgid "Link copied!"
+msgstr "Havola nusxalandi!"
+#: apps/static/apps/js/wishlist.js:346
+msgid "Wishlist link copied to clipboard."
+msgstr "Istaklar ro'yxati havolasi nusxalandi."
+#: apps/static/apps/js/wishlist.js:348
+msgid "Share"
+msgstr "Ulashish"

@@ -1,0 +1,334 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-31 13:46+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+#: apps/static/apps/js/destinations.js:62
+#: apps/static/apps/js/destinations.js:313
+#: apps/static/apps/js/destinations.js:485
+#: apps/static/apps/js/destinations.js:542
+#: apps/static/apps/js/destinations.js:678
+#: apps/static/apps/js/destinations.js:970 apps/static/apps/js/load_more.js:20
+msgid "Loading..."
+msgstr "Загрузка..."
+#: apps/static/apps/js/destinations.js:75
+#: apps/static/apps/js/destinations.js:292
+#, javascript-format
+msgid "%s+ curated things to do"
+msgstr "%s+ подобранных занятий"
+#: apps/static/apps/js/destinations.js:86
+#: apps/static/apps/js/destinations.js:210
+#: apps/static/apps/js/destinations.js:300
+msgid "Load More Cities"
+msgstr "Загрузить ещё города"
+#: apps/static/apps/js/destinations.js:91
+#: apps/static/apps/js/destinations.js:508
+#: apps/static/apps/js/destinations.js:572
+#: apps/static/apps/js/destinations.js:710
+#: apps/static/apps/js/destinations.js:759
+msgid "Try Again"
+msgstr "Повторить"
+#: apps/static/apps/js/destinations.js:204
+msgid "Showing %(shown)s of %(total)s cities"
+msgstr "Показано %(shown)s из %(total)s городов"
+#: apps/static/apps/js/destinations.js:278
+#, javascript-format
+msgid "No cities yet for %s"
+msgstr "Пока нет городов для %s"
+#: apps/static/apps/js/destinations.js:279
+msgid ""
+"We're still adding destinations here. Check back soon — new cities and tours "
+"are on the way."
+msgstr "Мы продолжаем добавлять направления. Возвращайтесь позже — новые города и туры уже в пути."
+#: apps/static/apps/js/destinations.js:328
+#, javascript-format
+msgid "Showing %s destinations"
+msgstr "Показано %s направлений"
+#: apps/static/apps/js/destinations.js:334
+#: apps/static/apps/js/destinations.js:341
+msgid "Load More"
+msgstr "Загрузить ещё"
+#: apps/static/apps/js/destinations.js:386
+#: apps/static/apps/js/destinations.js:455
+#: apps/static/apps/js/destinations.js:501
+#: apps/static/apps/js/destinations.js:559
+#: apps/static/apps/js/destinations.js:635
+#: apps/static/apps/js/destinations.js:695
+#: apps/static/apps/js/destinations.js:940
+#: apps/static/apps/js/destinations.js:993 apps/static/apps/js/load_more.js:53
+#: apps/static/apps/js/load_more.js:89
+msgid "Showing %(shown)s of %(total)s destinations"
+msgstr "Показано %(shown)s из %(total)s направлений"
+#: apps/static/apps/js/destinations.js:404
+#: apps/static/apps/js/destinations.js:469
+msgid "Error loading destinations."
+msgstr "Ошибка при загрузке направлений."
+#: apps/static/apps/js/destinations.js:503
+#: apps/static/apps/js/destinations.js:561
+#: apps/static/apps/js/destinations.js:649
+#: apps/static/apps/js/destinations.js:698
+#: apps/static/apps/js/destinations.js:996 apps/static/apps/js/load_more.js:63
+msgid "Load More Destinations"
+msgstr "Загрузить ещё направления"
+#: apps/static/apps/js/destinations.js:610
+#, javascript-format
+msgid "Searching for \"%s\"…"
+msgstr "Идёт поиск \"%s\"…"
+#: apps/static/apps/js/destinations.js:636
+msgid "0 destinations found"
+msgstr "Не найдено ни одного направления"
+#: apps/static/apps/js/destinations.js:739
+#: apps/static/apps/js/destinations.js:1440
+#, javascript-format
+msgid "No results for \"%s\""
+msgstr "Нет результатов для \"%s\""
+#: apps/static/apps/js/destinations.js:740
+msgid "Try different keywords or browse all destinations"
+msgstr "Попробуйте другие слова или посмотрите все направления"
+#: apps/static/apps/js/destinations.js:744
+msgid "Browse All Destinations"
+msgstr "Посмотреть все направления"
+#: apps/static/apps/js/destinations.js:753
+msgid "Something went wrong"
+msgstr "Что-то пошло не так"
+#: apps/static/apps/js/destinations.js:754
+#, javascript-format
+msgid "Could not load results for \"%s\""
+msgstr "Не удалось загрузить результаты для \"%s\""
+#: apps/static/apps/js/destinations.js:825
+msgid "All"
+msgstr "Все"
+#: apps/static/apps/js/destinations.js:915
+msgid "Searching..."
+msgstr "Поиск..."
+#: apps/static/apps/js/destinations.js:1075
+#, javascript-format
+msgid "You can only compare up to %s destinations."
+msgstr "Можно сравнивать не более %s направлений."
+#: apps/static/apps/js/destinations.js:1116
+msgid "No destinations selected"
+msgstr "Направления не выбраны"
+#: apps/static/apps/js/destinations.js:1117
+msgid "Choose destinations from the list to compare them side by side."
+msgstr "Выберите направления из списка, чтобы сравнить их."
+#: apps/static/apps/js/destinations.js:1128
+msgid "Select at least 2 destinations"
+msgstr "Выберите минимум 2 направления"
+#: apps/static/apps/js/destinations.js:1129
+msgid ""
+"You have 1 destination selected. Please select one more to start comparing."
+msgstr "Выбрано 1 направление. Выберите ещё одно, чтобы начать сравнение."
+#: apps/static/apps/js/destinations.js:1139
+msgid "Loading comparison…"
+msgstr "Загрузка сравнения…"
+#: apps/static/apps/js/destinations.js:1140
+msgid "Fetching the latest details for your selected destinations."
+msgstr "Загружаем актуальные данные по выбранным направлениям."
+#: apps/static/apps/js/destinations.js:1158
+msgid "Could not load comparison"
+msgstr "Не удалось загрузить сравнение"
+#: apps/static/apps/js/destinations.js:1159
+msgid "Something went wrong while fetching the data. Please try again."
+msgstr "При загрузке данных произошла ошибка. Попробуйте ещё раз."
+#: apps/static/apps/js/destinations.js:1188
+msgid "No data available"
+msgstr "Нет данных"
+#: apps/static/apps/js/destinations.js:1204
+msgid "Yes"
+msgstr "Да"
+#: apps/static/apps/js/destinations.js:1205
+msgid "No"
+msgstr "Нет"
+#: apps/static/apps/js/destinations.js:1209
+#: apps/static/apps/js/destinations.js:1427
+msgid "Destinations"
+msgstr "Направления"
+#: apps/static/apps/js/destinations.js:1224
+msgid "Previous"
+msgstr "Назад"
+#: apps/static/apps/js/destinations.js:1225
+msgid "Next"
+msgstr "Далее"
+#: apps/static/apps/js/destinations.js:1235
+msgid "Remove"
+msgstr "Удалить"
+#: apps/static/apps/js/destinations.js:1243
+msgid "See Details"
+msgstr "Подробнее"
+#: apps/static/apps/js/destinations.js:1265
+msgid "Trip Type"
+msgstr "Тип поездки"
+#: apps/static/apps/js/destinations.js:1266
+msgid "Duration"
+msgstr "Длительность"
+#: apps/static/apps/js/destinations.js:1267
+msgid "Season"
+msgstr "Сезон"
+#: apps/static/apps/js/destinations.js:1268
+msgid "Package Type"
+msgstr "Тип пакета"
+#: apps/static/apps/js/destinations.js:1269
+msgid "Hotels"
+msgstr "Отели"
+#: apps/static/apps/js/destinations.js:1270
+msgid "Flights"
+msgstr "Рейсы"
+#: apps/static/apps/js/destinations.js:1271
+msgid "Cancellation"
+msgstr "Отмена брони"
+#: apps/static/apps/js/destinations.js:1272
+#: apps/static/apps/js/destinations.js:1306
+msgid "Free"
+msgstr "Бесплатно"
+#: apps/static/apps/js/destinations.js:1273
+msgid "Non-refundable"
+msgstr "Без возврата"
+#: apps/static/apps/js/destinations.js:1274
+msgid "Discount"
+msgstr "Скидка"
+#: apps/static/apps/js/destinations.js:1281
+msgid "Available Flights"
+msgstr "Доступные рейсы"
+#: apps/static/apps/js/destinations.js:1282
+msgid "Flight Options"
+msgstr "Варианты рейсов"
+#: apps/static/apps/js/destinations.js:1283
+msgid "No flights"
+msgstr "Нет рейсов"
+#: apps/static/apps/js/destinations.js:1291
+msgid "Available Hotels"
+msgstr "Доступные отели"
+#: apps/static/apps/js/destinations.js:1292
+msgid "Hotel Options"
+msgstr "Варианты отелей"
+#: apps/static/apps/js/destinations.js:1293
+msgid "No hotels"
+msgstr "Нет отелей"
+#: apps/static/apps/js/destinations.js:1294
+msgid "night"
+msgstr "ночь"
+#: apps/static/apps/js/destinations.js:1301
+msgid "Ticket Types"
+msgstr "Типы билетов"
+#: apps/static/apps/js/destinations.js:1302
+msgid "Tickets"
+msgstr "Билеты"
+#: apps/static/apps/js/destinations.js:1303
+msgid "No tickets"
+msgstr "Нет билетов"
+#: apps/static/apps/js/destinations.js:1409
+msgid "Could not load results"
+msgstr "Не удалось загрузить результаты"
+#: apps/static/apps/js/destinations.js:1410
+msgid "Check your connection"
+msgstr "Проверьте подключение к интернету"
+#: apps/static/apps/js/destinations.js:1427
+msgid "Regions"
+msgstr "Регионы"
+#: apps/static/apps/js/destinations.js:1427
+msgid "Countries"
+msgstr "Страны"
+#: apps/static/apps/js/destinations.js:1427
+msgid "Cities"
+msgstr "Города"
+#: apps/static/apps/js/destinations.js:1441
+msgid "Try a different keyword"
+msgstr "Попробуйте другое слово"
+#: apps/static/apps/js/destinations.js:1488
+msgid "per person"
+msgstr "за человека"
+#: apps/static/apps/js/load_more.js:70
+msgid "Error – Try Again"
+msgstr "Ошибка – Повторить"
+#: apps/static/apps/js/wishlist.js:30
+msgid "All Destinations"
+msgstr "Все направления"
+#: apps/static/apps/js/wishlist.js:154
+msgid "No results found"
+msgstr "Ничего не найдено"
+#: apps/static/apps/js/wishlist.js:155
+msgid "Try a different search or category filter."
+msgstr "Попробуйте другой поиск или фильтр категории."
+#: apps/static/apps/js/wishlist.js:157
+msgid "Your wishlist is empty"
+msgstr "Ваш список желаний пуст"
+#: apps/static/apps/js/wishlist.js:158
+msgid "Start adding your dream destinations!"
+msgstr "Начните добавлять направления своей мечты!"
+#: apps/static/apps/js/wishlist.js:175
+msgid "Cancel"
+msgstr "Отмена"
+#: apps/static/apps/js/wishlist.js:176 apps/static/apps/js/wishlist.js:193
+msgid "Select"
+msgstr "Выбрать"
+#: apps/static/apps/js/wishlist.js:244
+msgid "Removed"
+msgstr "Удалено"
+#: apps/static/apps/js/wishlist.js:244
+#, javascript-format
+msgid "%s destination(s) removed from wishlist."
+msgstr "Удалено %s направлений из списка желаний."
+#: apps/static/apps/js/wishlist.js:286
+msgid "Login required"
+msgstr "Требуется вход"
+#: apps/static/apps/js/wishlist.js:286
+msgid "Please log in to set price alerts."
+msgstr "Войдите, чтобы настроить ценовые уведомления."
+#: apps/static/apps/js/wishlist.js:292
+msgid "Alert on"
+msgstr "Уведомление включено"
+#: apps/static/apps/js/wishlist.js:292
+#, javascript-format
+msgid "You'll be notified when %s price drops!"
+msgstr "Вы получите уведомление, когда цена на %s упадёт!"
+#: apps/static/apps/js/wishlist.js:294
+msgid "Alert off"
+msgstr "Уведомление выключено"
+#: apps/static/apps/js/wishlist.js:294
+#, javascript-format
+msgid "Price alert disabled for %s"
+msgstr "Ценовое уведомление для %s отключено"
+#: apps/static/apps/js/wishlist.js:297
+msgid "Error"
+msgstr "Ошибка"
+#: apps/static/apps/js/wishlist.js:297
+msgid "Could not update alert. Try again."
+msgstr "Не удалось обновить уведомление. Попробуйте ещё раз."
+#: apps/static/apps/js/wishlist.js:310 apps/static/apps/js/wishlist.js:326
+msgid "All alerts on"
+msgstr "Все уведомления включены"
+#: apps/static/apps/js/wishlist.js:310
+msgid "All price alerts are already active!"
+msgstr "Все ценовые уведомления уже активны!"
+#: apps/static/apps/js/wishlist.js:326
+#, javascript-format
+msgid "Price alerts enabled for %s destination(s)!"
+msgstr "Ценовые уведомления включены для %s направлений!"
+#: apps/static/apps/js/wishlist.js:341
+msgid "My TravelHub Wishlist"
+msgstr "Мой список желаний TravelHub"
+#: apps/static/apps/js/wishlist.js:346
+msgid "Link copied!"
+msgstr "Ссылка скопирована!"
+#: apps/static/apps/js/wishlist.js:346
+msgid "Wishlist link copied to clipboard."
+msgstr "Ссылка на список желаний скопирована."
+#: apps/static/apps/js/wishlist.js:348
+msgid "Share"
+msgstr "Поделиться"

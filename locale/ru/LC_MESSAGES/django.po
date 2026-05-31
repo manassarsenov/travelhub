@@ -25,142 +25,99 @@ msgid "Authentication"
 msgstr "Направления"
 
 msgid "Data Mutation"
-msgstr ""
-
+msgstr "Изменение данных"
 msgid "Access Control"
-msgstr ""
-
+msgstr "Контроль доступа"
 msgid "System Event"
-msgstr ""
-
+msgstr "Системное событие"
 msgid "Financial Activity"
-msgstr ""
-
+msgstr "Финансовая активность"
 msgid "Security Alert"
-msgstr ""
-
+msgstr "Уведомление безопасности"
 msgid "Debug"
-msgstr ""
-
+msgstr "Отладка"
 msgid "Info"
-msgstr ""
-
+msgstr "Информация"
 msgid "Warning"
-msgstr ""
-
+msgstr "Предупреждение"
 msgid "Error"
-msgstr ""
-
+msgstr "Ошибка"
 msgid "Critical"
-msgstr ""
-
+msgstr "Критическое"
 msgid "Alert"
-msgstr ""
-
+msgstr "Тревога"
 msgid "Actor"
-msgstr ""
-
+msgstr "Исполнитель"
 msgid "Impersonated By"
-msgstr ""
-
+msgstr "От имени"
 msgid "Action"
-msgstr ""
-
+msgstr "Действие"
 msgid "Verb"
-msgstr ""
-
+msgstr "Глагол"
 msgid "Message"
-msgstr ""
-
+msgstr "Сообщение"
 msgid "Object Representation"
-msgstr ""
-
+msgstr "Представление объекта"
 msgid "Pre Change Data"
-msgstr ""
-
+msgstr "Данные до изменения"
 msgid "Post Change Data"
-msgstr ""
-
+msgstr "Данные после изменения"
 msgid "Changes Diff"
-msgstr ""
-
+msgstr "Различия изменений"
 msgid "Request ID"
-msgstr ""
-
+msgstr "ID запроса"
 msgid "IP Address"
-msgstr ""
-
+msgstr "IP-адрес"
 msgid "User Agent"
-msgstr ""
-
+msgstr "User Agent"
 msgid "Request Path"
-msgstr ""
-
+msgstr "Путь запроса"
 msgid "HTTP Method"
-msgstr ""
-
+msgstr "HTTP-метод"
 msgid "Is Suspicious"
-msgstr ""
-
+msgstr "Подозрительно"
 msgid "Execution Time (s)"
-msgstr ""
-
+msgstr "Время выполнения (с)"
 msgid "Extra Info"
-msgstr ""
-
+msgstr "Доп. информация"
 msgid "Action Log"
-msgstr ""
-
+msgstr "Журнал действий"
 msgid "Action Logs"
-msgstr ""
-
+msgstr "Журналы действий"
 msgid "Success"
 msgstr "Успешно"
 
 msgid "Low"
-msgstr ""
-
+msgstr "Низкий"
 msgid "Medium"
-msgstr ""
-
+msgstr "Средний"
 msgid "High"
-msgstr ""
-
+msgstr "Высокий"
 msgid "Urgent"
-msgstr ""
-
+msgstr "Срочный"
 msgid "Recipient"
-msgstr ""
-
+msgstr "Получатель"
 #, fuzzy
 #| msgid "Destinations"
 msgid "Description"
 msgstr "Направления"
 
 msgid "Level"
-msgstr ""
-
+msgstr "Уровень"
 msgid "Priority"
-msgstr ""
-
+msgstr "Приоритет"
 msgid "Is Read"
-msgstr ""
-
+msgstr "Прочитано"
 msgid "Read At"
-msgstr ""
-
+msgstr "Прочитано в"
 msgid "Email Sent"
-msgstr ""
-
+msgstr "Email отправлен"
 msgid "Push Sent"
-msgstr ""
-
+msgstr "Push отправлен"
 msgid "Extra Data"
-msgstr ""
-
+msgstr "Доп. данные"
 msgid "Notification"
-msgstr ""
-
+msgstr "Уведомление"
 #, fuzzy
 #| msgid "Destinations"
 msgid "Notifications"
@@ -170,25 +127,20 @@ msgid "User"
 msgstr "Пользователь"
 
 msgid "Enable Email"
-msgstr ""
-
+msgstr "Включить Email"
 msgid "Enable Push"
-msgstr ""
-
+msgstr "Включить Push"
 msgid "Enable In-App"
-msgstr ""
-
+msgstr "Включить в приложении"
 #, fuzzy
 #| msgid "My Bookings"
 msgid "Booking Updates"
 msgstr "Мои бронирования"
 
 msgid "Promotions & Offers"
-msgstr ""
-
+msgstr "Акции и предложения"
 msgid "Price Alerts"
-msgstr ""
-
+msgstr "Ценовые уведомления"
 #, fuzzy
 #| msgid "Profile Settings"
 msgid "Notification Setting"
@@ -205,37 +157,28 @@ msgid "Pending Payment"
 msgstr "Безопасные платежи"
 
 msgid "Confirmed"
-msgstr ""
-
+msgstr "Подтверждено"
 msgid "Completed"
-msgstr ""
-
+msgstr "Завершено"
 #, fuzzy
 #| msgid "Cancellation"
 msgid "Cancelled"
 msgstr "Отмена"
 
 msgid "Credit Card"
-msgstr ""
-
+msgstr "Банковская карта"
 msgid "PayPal"
-msgstr ""
-
+msgstr "PayPal"
 msgid "Kaspi.kz"
-msgstr ""
-
+msgstr "Kaspi.kz"
 msgid "Apple Pay"
-msgstr ""
-
+msgstr "Apple Pay"
 msgid "Payme"
-msgstr ""
-
+msgstr "Payme"
 msgid "Click"
-msgstr ""
-
+msgstr "Click"
 msgid "Special Requests"
-msgstr ""
-
+msgstr "Особые пожелания"
 #, fuzzy
 #| msgid "My Bookings"
 msgid "Booking"
@@ -250,114 +193,84 @@ msgid "Admin"
 msgstr "Администратор"
 
 msgid "Male"
-msgstr ""
-
+msgstr "Мужской"
 msgid "Female"
-msgstr ""
-
+msgstr "Женский"
 msgid "Other"
-msgstr ""
-
+msgstr "Другой"
 msgid "Light"
-msgstr ""
-
+msgstr "Светлая"
 msgid "Dark"
-msgstr ""
-
+msgstr "Тёмная"
 msgid "Budget ($0-50/day)"
-msgstr ""
-
+msgstr "Эконом ($0-50/день)"
 msgid "Mid-Range ($50-150/day)"
-msgstr ""
-
+msgstr "Средний ($50-150/день)"
 msgid "Luxury ($150+/day)"
-msgstr ""
-
+msgstr "Люкс ($150+/день)"
 msgid "Adventure"
-msgstr ""
-
+msgstr "Приключения"
 msgid "Beach"
-msgstr ""
-
+msgstr "Пляж"
 msgid "Cultural"
-msgstr ""
-
+msgstr "Культурный"
 msgid "Nature & Wildlife"
-msgstr ""
-
+msgstr "Природа и дикий мир"
 msgid "City Tours"
-msgstr ""
-
+msgstr "Городские туры"
 msgid "Romantic"
-msgstr ""
-
+msgstr "Романтический"
 msgid "Family"
-msgstr ""
-
+msgstr "Семейный"
 msgid "Luxury"
-msgstr ""
-
+msgstr "Люкс"
 msgid ""
 "Telefon raqami formati: '+998991234567'. 15 tagacha raqam ruxsat etiladi."
-msgstr ""
-
+msgstr "Формат номера телефона: '+998991234567'. Разрешается до 15 цифр."
 #, fuzzy
 #| msgid "User"
 msgid "User Role"
 msgstr "Пользователь"
 
 msgid "email address"
-msgstr ""
-
+msgstr "адрес электронной почты"
 msgid "PhoneNumber"
-msgstr ""
-
+msgstr "Номер телефона"
 msgid "Avatar"
-msgstr ""
-
+msgstr "Аватар"
 msgid "Gender"
-msgstr ""
-
+msgstr "Пол"
 msgid "Date of Birth"
-msgstr ""
-
+msgstr "Дата рождения"
 msgid "Country"
 msgstr "Страна"
 
 msgid "Bio"
-msgstr ""
-
+msgstr "Биография"
 msgid "Cover Photo"
-msgstr ""
-
+msgstr "Обложка"
 msgid "Website"
-msgstr ""
-
+msgstr "Веб-сайт"
 msgid "Current Location"
-msgstr ""
-
+msgstr "Текущее местоположение"
 msgid "Languages Spoken"
-msgstr ""
-
+msgstr "Знание языков"
 #, fuzzy
 #| msgid "Traveled to"
 msgid "Travel Styles"
 msgstr "Побывал(а) в"
 
 msgid "Budget Range"
-msgstr ""
-
+msgstr "Бюджетный диапазон"
 msgid "Theme"
-msgstr ""
-
+msgstr "Тема"
 #, fuzzy
 #| msgid "User"
 msgid "Users"
 msgstr "Пользователь"
 
 msgid "Thank you for your review!"
-msgstr ""
-
+msgstr "Спасибо за ваш отзыв!"
 msgid "Close"
 msgstr "Закрыть"
 
@@ -368,62 +281,45 @@ msgid "Destinations"
 msgstr "Направления"
 
 msgid "Share"
-msgstr ""
-
+msgstr "Поделиться"
 msgid "Saved"
-msgstr ""
-
+msgstr "Сохранено"
 msgid "Save"
-msgstr ""
-
+msgstr "Сохранить"
 msgid "Excellent"
-msgstr ""
-
+msgstr "Отлично"
 msgid "Fabulous"
-msgstr ""
-
+msgstr "Великолепно"
 msgid "Good"
-msgstr ""
-
+msgstr "Хорошо"
 msgid "Average"
-msgstr ""
-
+msgstr "Средне"
 msgid "Poor"
-msgstr ""
-
+msgstr "Плохо"
 msgid "reviews"
-msgstr ""
-
+msgstr "отзывов"
 msgid "What guests loved most"
-msgstr ""
-
+msgstr "Что больше всего понравилось гостям"
 msgid "No reviews yet."
-msgstr ""
-
+msgstr "Пока нет отзывов."
 msgid "No image"
-msgstr ""
-
+msgstr "Нет изображения"
 #, python-format
 msgid "Show all %(n)s photos"
-msgstr ""
-
+msgstr "Показать все %(n)s фото"
 #, fuzzy
 #| msgid "Free Cancellation"
 msgid "Free cancellation available"
 msgstr "Бесплатная отмена"
 
 msgid "Duration:"
-msgstr ""
-
+msgstr "Длительность:"
 msgid "Show more"
-msgstr ""
-
+msgstr "Показать больше"
 msgid "Why visit"
-msgstr ""
-
+msgstr "Почему стоит посетить"
 msgid "What's included"
-msgstr ""
-
+msgstr "Что включено"
 #, fuzzy
 #| msgid "Destinations"
 msgid "Restrictions"
@@ -445,131 +341,97 @@ msgid "User ratings"
 msgstr "Настройки"
 
 msgid "Good value"
-msgstr ""
-
+msgstr "Хорошее соотношение"
 msgid "Facilities"
-msgstr ""
-
+msgstr "Удобства"
 msgid "Quality of service"
-msgstr ""
-
+msgstr "Качество обслуживания"
 msgid "Ease of access"
-msgstr ""
-
+msgstr "Удобство доступа"
 msgid "Experiences"
-msgstr ""
-
+msgstr "Впечатления"
 #, fuzzy
 #| msgid "What Our Travelers Say"
 msgid "What travellers are saying"
 msgstr "Что говорят наши путешественники"
 
 msgid "Write a review"
-msgstr ""
-
+msgstr "Написать отзыв"
 #, python-format
 msgid "Explore all %(n)s reviews"
-msgstr ""
-
+msgstr "Посмотреть все %(n)s отзывов"
 msgid "Verified Traveller"
-msgstr ""
-
+msgstr "Проверенный путешественник"
 msgid "The stage is yours"
-msgstr ""
-
+msgstr "Сцена ваша"
 msgid ""
 "No stories have been shared yet. Be the pioneer and share your thoughts."
-msgstr ""
-
+msgstr "Пока никто не делился впечатлениями. Будьте первым и поделитесь своими мыслями."
 msgid "Share your experience"
-msgstr ""
-
+msgstr "Поделитесь впечатлениями"
 #, fuzzy
 #| msgid "Traveled to"
 msgid "Traveller photos"
 msgstr "Побывал(а) в"
 
 msgid "Frequently asked questions"
-msgstr ""
-
+msgstr "Часто задаваемые вопросы"
 msgid "Bestsellers in"
-msgstr ""
-
+msgstr "Бестселлеры в"
 #, fuzzy
 #| msgid "See all results"
 msgid "See all"
 msgstr "Посмотреть все результаты"
 
 msgid "Best seller"
-msgstr ""
-
+msgstr "Бестселлер"
 msgid "Free"
-msgstr ""
-
+msgstr "Бесплатно"
 msgid "From"
-msgstr ""
-
+msgstr "От"
 msgid "No similar destinations found."
-msgstr ""
-
+msgstr "Похожие направления не найдены."
 #, fuzzy
 #| msgid "Detailed weather information"
 msgid "Visitor information"
 msgstr "Подробная информация о погоде"
 
 msgid "Free entry"
-msgstr ""
-
+msgstr "Бесплатный вход"
 msgid ""
 "This place is free to visit — no ticket or booking required. Just turn up "
 "and explore."
-msgstr ""
-
+msgstr "Это место можно посетить бесплатно — билет или бронирование не нужны. Просто приходите и исследуйте."
 msgid "Discover more places"
-msgstr ""
-
+msgstr "Откройте больше мест"
 msgid "Tickets and prices"
-msgstr ""
-
+msgstr "Билеты и цены"
 msgid "Search ticket availability by date"
-msgstr ""
-
+msgstr "Поиск билетов по дате"
 msgid "Show more dates"
-msgstr ""
-
+msgstr "Показать ещё даты"
 msgid "Mo"
-msgstr ""
-
+msgstr "Пн"
 msgid "Tu"
-msgstr ""
-
+msgstr "Вт"
 msgid "We"
-msgstr ""
-
+msgstr "Ср"
 msgid "Th"
-msgstr ""
-
+msgstr "Чт"
 msgid "Fr"
-msgstr ""
-
+msgstr "Пт"
 msgid "Sa"
-msgstr ""
-
+msgstr "Сб"
 msgid "Su"
-msgstr ""
-
+msgstr "Вс"
 msgid "Select time"
-msgstr ""
-
+msgstr "Выберите время"
 msgid "Standard Experience"
-msgstr ""
-
+msgstr "Стандартный опыт"
 msgid "Non-refundable"
-msgstr ""
-
+msgstr "Без возврата"
 msgid "How many tickets?"
-msgstr ""
-
+msgstr "Сколько билетов?"
 #, fuzzy
 #| msgid "No flights available for this destination"
 msgid "No tickets available at the moment."
@@ -579,32 +441,23 @@ msgid "Total"
 msgstr "Итого"
 
 msgid "Includes taxes and charges"
-msgstr ""
-
+msgstr "Включая налоги и сборы"
 msgid "Next"
-msgstr ""
-
+msgstr "Далее"
 msgid "Select tickets"
-msgstr ""
-
+msgstr "Выберите билеты"
 msgid "What guests loved most:"
-msgstr ""
-
+msgstr "Что больше всего понравилось гостям:"
 msgid "Visited with family"
-msgstr ""
-
+msgstr "С семьёй"
 msgid "Visited with a partner"
-msgstr ""
-
+msgstr "С партнёром"
 msgid "Solo traveller"
-msgstr ""
-
+msgstr "Одиночный путешественник"
 msgid "Visited with friends"
-msgstr ""
-
+msgstr "С друзьями"
 msgid "No reviews found."
-msgstr ""
-
+msgstr "Отзывы не найдены."
 msgid "Discover Amazing Destinations"
 msgstr "Откройте удивительные направления"
 
@@ -617,7 +470,7 @@ msgstr "удивительные"
 msgid ""
 "From ancient wonders to modern marvels, discover your next unforgettable "
 "journey"
-msgstr ""
+msgstr "От древних чудес до современных шедевров — откройте свое следующее незабываемое путешествие"
 "От древних чудес до современных шедевров — откройте для себя своё следующее "
 "незабываемое путешествие"
 
@@ -628,14 +481,12 @@ msgid "See all results"
 msgstr "Посмотреть все результаты"
 
 msgid "All"
-msgstr ""
-
+msgstr "Все"
 msgid "Popular"
 msgstr "Популярные"
 
 msgid "Nature"
-msgstr ""
-
+msgstr "Природа"
 msgid "City"
 msgstr "Город"
 
@@ -665,7 +516,7 @@ msgstr "Пока нет городов для %(name)s"
 msgid ""
 "We're still adding destinations here. Check back soon — new cities and tours "
 "are on the way."
-msgstr ""
+msgstr "Мы продолжаем добавлять направления. Возвращайтесь позже — новые города и туры уже в пути."
 "Мы всё ещё добавляем сюда направления. Заходите позже — новые города и туры "
 "уже в пути."
 
@@ -810,7 +661,7 @@ msgid "Search & Explore"
 msgstr "Ищите и исследуйте"
 
 msgid "Browse 450+ destinations or let our AI recommend perfect spots for you"
-msgstr ""
+msgstr "Просмотрите 450+ направлений или позвольте нашему ИИ подобрать идеальные места для вас"
 "Просматривайте 450+ направлений или доверьтесь ИИ — он подберёт идеальные "
 "места"
 
@@ -824,14 +675,14 @@ msgid "Secure Booking"
 msgstr "Безопасное бронирование"
 
 msgid "Book instantly with secure payment and instant confirmation"
-msgstr ""
+msgstr "Бронируйте мгновенно с безопасной оплатой и моментальным подтверждением"
 "Бронируйте мгновенно с безопасной оплатой и моментальным подтверждением"
 
 msgid "Travel & Enjoy"
 msgstr "Путешествуйте и наслаждайтесь"
 
 msgid "Pack your bags and enjoy your perfect vacation with 24/7 support"
-msgstr ""
+msgstr "Собирайте чемоданы и наслаждайтесь идеальным отпуском с поддержкой 24/7"
 "Собирайте чемоданы и наслаждайтесь идеальным отпуском с поддержкой 24/7"
 
 msgid "Secure Payments"
@@ -874,7 +725,7 @@ msgid "Travel Smarter with Our Mobile App"
 msgstr "Путешествуйте умнее с нашим мобильным приложением"
 
 msgid "Get exclusive mobile-only deals and manage your bookings on the go"
-msgstr ""
+msgstr "Получите эксклюзивные предложения в приложении и управляйте бронированиями в пути"
 "Получайте эксклюзивные предложения и управляйте бронированиями в дороге"
 
 msgid "Instant booking confirmations"
@@ -959,7 +810,7 @@ msgstr "Результаты поиска"
 msgid ""
 "Your trusted partner in discovering amazing destinations worldwide. AI-"
 "powered recommendations for unforgettable travel experiences."
-msgstr ""
+msgstr "Ваш надёжный партнёр в открытии удивительных направлений по всему миру. Рекомендации на основе ИИ для незабываемых путешествий."
 "Ваш надёжный партнёр в открытии удивительных направлений по всему миру. "
 "Рекомендации на основе ИИ для незабываемых путешествий."
 
@@ -1072,100 +923,79 @@ msgid "Detailed weather information"
 msgstr "Подробная информация о погоде"
 
 msgid "Weather data failed to load. Check your internet connection."
-msgstr ""
+msgstr "Не удалось загрузить данные о погоде. Проверьте подключение к интернету."
 "Не удалось загрузить данные о погоде. Проверьте подключение к интернету."
 
 msgid "Retry"
 msgstr "Повторить"
 
 msgid "Hotels"
-msgstr ""
-
+msgstr "Отели"
 #, fuzzy
 #| msgid "Book Flight"
 msgid "Flights"
 msgstr "Забронировать рейс"
 
 msgid "Tours"
-msgstr ""
-
+msgstr "Туры"
 #, fuzzy
 #| msgid "Loading..."
 msgid "Load..."
 msgstr "Загрузка..."
 
 msgid "person"
-msgstr ""
-
+msgstr "человек"
 msgid "See Details"
-msgstr ""
-
+msgstr "Подробнее"
 msgid "Days"
-msgstr ""
-
+msgstr "Дни"
 msgid "Hours"
-msgstr ""
-
+msgstr "Часы"
 msgid "Mins"
-msgstr ""
-
+msgstr "Минуты"
 msgid "Secs"
-msgstr ""
-
+msgstr "Секунды"
 msgid "Match"
-msgstr ""
-
+msgstr "Совпадение"
 msgid "Why"
-msgstr ""
-
+msgstr "Почему"
 #, fuzzy
 #| msgid "Your email"
 msgid "Your taste"
 msgstr "Ваш email"
 
 msgid "Similar travelers"
-msgstr ""
-
+msgstr "Похожие путешественники"
 #, fuzzy
 #| msgid "Trending"
 msgid "Trending now"
 msgstr "Популярные"
 
 msgid "from"
-msgstr ""
-
+msgstr "от"
 msgid "/person"
-msgstr ""
-
+msgstr "/человек"
 msgid "View Details"
-msgstr ""
-
+msgstr "Подробнее"
 msgid "Feedback"
-msgstr ""
-
+msgstr "Обратная связь"
 msgid "Good match"
-msgstr ""
-
+msgstr "Хорошее совпадение"
 msgid "Bad match"
-msgstr ""
-
+msgstr "Плохое совпадение"
 msgid "Not interested"
-msgstr ""
-
+msgstr "Не интересно"
 msgid "TRENDING"
-msgstr ""
-
+msgstr "ПОПУЛЯРНОЕ"
 #, fuzzy
 #| msgid "Destinations"
 msgid "No destinations found"
 msgstr "Направления"
 
 msgid "Try adjusting your price range or other filters to find more options."
-msgstr ""
-
+msgstr "Попробуйте изменить ценовой диапазон или другие фильтры, чтобы найти больше вариантов."
 msgid "Clear All Filters"
-msgstr ""
-
+msgstr "Очистить все фильтры"
 #, fuzzy
 #| msgid "Recommendations"
 msgid "AI Recommendations"
@@ -1178,8 +1008,7 @@ msgid "AI-Powered Recommendations"
 msgstr "Рекомендации для путешествий на основе ИИ"
 
 msgid "Discover Your"
-msgstr ""
-
+msgstr "Откройте свой"
 #, fuzzy
 #| msgid "Destinations"
 msgid "Perfect Destination"
@@ -1188,96 +1017,68 @@ msgstr "Направления"
 msgid ""
 "Tell us your dream trip in your own words — our AI reads it, understands "
 "your taste and finds the best matches."
-msgstr ""
-
+msgstr "Расскажите о поездке мечты своими словами — наш ИИ прочитает это, поймёт ваш вкус и подберёт лучшие варианты."
 msgid "e.g. A quiet beach escape under $600 for 2 in summer…"
-msgstr ""
-
+msgstr "напр. Тихий пляжный отдых до $600 для двоих летом…"
 msgid "Ask AI"
-msgstr ""
-
+msgstr "Спросить ИИ"
 msgid "Try:"
-msgstr ""
-
+msgstr "Попробуйте:"
 msgid "Romantic city break in Europe"
-msgstr ""
-
+msgstr "Романтическая поездка по Европе"
 msgid "Adventure trip with mountains & hiking"
-msgstr ""
-
+msgstr "Приключение с горами и треккингом"
 msgid "Family-friendly beach under $1000"
-msgstr ""
-
+msgstr "Семейный пляж до $1000"
 msgid "Your Taste DNA"
-msgstr ""
-
+msgstr "Ваша ДНК вкуса"
 msgid "Generated from your activity"
-msgstr ""
-
+msgstr "Сгенерировано на основе вашей активности"
 msgid "Refine my taste"
-msgstr ""
-
+msgstr "Уточнить мой вкус"
 msgid "Your top travel styles"
-msgstr ""
-
+msgstr "Ваши основные стили путешествий"
 msgid ""
 "Save a few trips you like — your travel styles will appear here and every "
 "recommendation gets sharper."
-msgstr ""
-
+msgstr "Сохраните несколько понравившихся поездок — ваши стили появятся здесь, а каждая рекомендация станет точнее."
 msgid "Budget style"
-msgstr ""
-
+msgstr "Эконом стиль"
 msgid "Favorite place"
-msgstr ""
-
+msgstr "Любимое место"
 msgid "signals"
-msgstr ""
-
+msgstr "сигналов"
 msgid "Analyzed"
-msgstr ""
-
+msgstr "Проанализировано"
 msgid "Top Picks for You"
-msgstr ""
-
+msgstr "Лучший выбор для вас"
 msgid "destinations matched to your Taste DNA"
-msgstr ""
-
+msgstr "направлений подобрано под вашу ДНК вкуса"
 msgid "Grid view"
-msgstr ""
-
+msgstr "Сетка"
 msgid "List view"
-msgstr ""
-
+msgstr "Список"
 msgid "Sort:"
-msgstr ""
-
+msgstr "Сортировать:"
 msgid "Best Match"
-msgstr ""
-
+msgstr "Лучшее совпадение"
 msgid "No destinations available yet."
-msgstr ""
-
+msgstr "Пока нет доступных направлений."
 #, fuzzy
 #| msgid "Destinations, hotels, cities..."
 msgid "No destinations match this filter."
 msgstr "Направления, отели, города..."
 
 msgid "Because you saved"
-msgstr ""
-
+msgstr "Так как вы сохранили"
 msgid "Previous"
-msgstr ""
-
+msgstr "Назад"
 msgid "Travelers like you also loved"
-msgstr ""
-
+msgstr "Путешественникам как вы также понравились"
 msgid "Perfect for"
-msgstr ""
-
+msgstr "Идеально для"
 msgid "Hidden Gems for You"
-msgstr ""
-
+msgstr "Скрытые жемчужины для вас"
 #, fuzzy
 #| msgid "Recommendations"
 msgid "Want sharper recommendations?"
@@ -1285,78 +1086,55 @@ msgstr "Рекомендации"
 
 msgid ""
 "Answer 3 quick questions and our AI will instantly re-tune your Taste DNA."
-msgstr ""
-
+msgstr "Ответьте на 3 быстрых вопроса, и наш ИИ мгновенно перенастроит вашу ДНК вкуса."
 msgid "Take the 30-second quiz"
-msgstr ""
-
+msgstr "Пройти 30-секундный опрос"
 msgid "Taste quiz"
-msgstr ""
-
+msgstr "Опрос о вкусах"
 msgid "Step"
-msgstr ""
-
+msgstr "Шаг"
 msgid "of 3"
-msgstr ""
-
+msgstr "из 3"
 msgid "What kind of trips do you love?"
-msgstr ""
-
+msgstr "Какие путешествия вы любите?"
 msgid "Pick all that apply."
-msgstr ""
-
+msgstr "Выберите все подходящие."
 msgid "What's your budget style?"
-msgstr ""
-
+msgstr "Какой ваш бюджетный стиль?"
 msgid "Per person, per day."
-msgstr ""
-
+msgstr "На человека в день."
 msgid "Budget"
-msgstr ""
-
+msgstr "Эконом"
 msgid "$0–50 / day"
-msgstr ""
-
+msgstr "$0–50 / день"
 msgid "Mid-range"
-msgstr ""
-
+msgstr "Средний"
 msgid "$50–150 / day"
-msgstr ""
-
+msgstr "$50–150 / день"
 msgid "$150+ / day"
-msgstr ""
-
+msgstr "$150+ / день"
 msgid "Who do you usually travel with?"
-msgstr ""
-
+msgstr "С кем вы обычно путешествуете?"
 msgid "Pick one."
-msgstr ""
-
+msgstr "Выберите один."
 msgid "Solo"
-msgstr ""
-
+msgstr "Один"
 msgid "Partner"
-msgstr ""
-
+msgstr "С партнёром"
 msgid "Friends"
-msgstr ""
-
+msgstr "С друзьями"
 msgid "Back"
-msgstr ""
-
+msgstr "Назад"
 msgid "Continue"
-msgstr ""
-
+msgstr "Продолжить"
 msgid "AI is reading your request…"
-msgstr ""
-
+msgstr "ИИ читает ваш запрос…"
 msgid "Understanding your travel intent"
-msgstr ""
-
+msgstr "Понимаем ваше намерение"
 #, fuzzy
 #| msgid "Destinations"
 msgid "Destinations scanned"
 msgstr "Направления"
 
 msgid "Best match"
-msgstr ""
+msgstr "Лучшее совпадение"
