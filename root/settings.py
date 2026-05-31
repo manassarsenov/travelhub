@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'jazzmin',
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -146,6 +147,12 @@ LANGUAGES = [
     # ('uz_CYrl', 'Ўзбек (Кирил)'),
     ('ru', 'Russian'),
 ]
+
+# django-modeltranslation
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_LANGUAGES = ('en', 'uz', 'ru')
+MODELTRANSLATION_FALLBACK_LANGUAGES = ('en', 'ru', 'uz')
+MODELTRANSLATION_CUSTOM_FIELDS = ('CKEditor5Field',)
 
 TIME_ZONE = 'Asia/Tashkent'
 

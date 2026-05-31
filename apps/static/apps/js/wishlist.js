@@ -27,7 +27,7 @@ function filterByCategory(cat) {
     const titleEl = document.getElementById('section-title');
     if (titleEl) {
         const label = cat === 'all'
-            ? 'All Destinations'
+            ? gettext('All Destinations')
             : (document.querySelector(`.filter-tab[data-category="${cat}"] span:not(.tab-count)`)?.textContent?.trim() || cat);
         titleEl.textContent = label;
     }
@@ -151,11 +151,11 @@ function updateWishlistStats() {
     }
     if (emptyTitle && emptyMsg) {
         if (noResults) {
-            emptyTitle.textContent = 'No results found';
-            emptyMsg.textContent   = 'Try a different search or category filter.';
+            emptyTitle.textContent = gettext('No results found');
+            emptyMsg.textContent   = gettext('Try a different search or category filter.');
         } else {
-            emptyTitle.textContent = 'Your wishlist is empty';
-            emptyMsg.textContent   = 'Start adding your dream destinations!';
+            emptyTitle.textContent = gettext('Your wishlist is empty');
+            emptyMsg.textContent   = gettext('Start adding your dream destinations!');
         }
     }
 }
@@ -172,8 +172,8 @@ function toggleBulkSelect() {
     checkboxes.forEach(cb => cb.style.display = bulkMode ? 'block' : 'none');
     if (btn) {
         btn.innerHTML = bulkMode
-            ? '<i class="fas fa-times"></i> Cancel'
-            : '<i class="fas fa-check-square"></i> Select';
+            ? '<i class="fas fa-times"></i> ' + gettext('Cancel')
+            : '<i class="fas fa-check-square"></i> ' + gettext('Select');
     }
     if (actionBtns) actionBtns.style.display = 'none';
     if (!bulkMode) {
@@ -190,7 +190,7 @@ function cancelBulkSelect() {
         cb.querySelector('input').checked = false;
     });
     const btn = document.getElementById('bulk-toggle-btn');
-    if (btn) btn.innerHTML = '<i class="fas fa-check-square"></i> Select';
+    if (btn) btn.innerHTML = '<i class="fas fa-check-square"></i> ' + gettext('Select');
     const actionBtns = document.getElementById('bulk-action-buttons');
     if (actionBtns) actionBtns.style.display = 'none';
     updateSelectedCount();
@@ -241,7 +241,7 @@ function bulkRemove() {
                         cancelBulkSelect();
                         updateWishlistStats();
                         updateTabCounts();
-                        showToast('Removed', `${done} destination(s) removed from wishlist.`, 'info');
+                        showToast(gettext('Removed'), interpolate(gettext('%s destination(s) removed from wishlist.'), [done]), 'info');
                     }
                 }, 300);
             }
@@ -283,18 +283,18 @@ function toggleAlert(slug, name) {
     .then(r => r.json())
     .then(data => {
         if (data.unauthenticated) {
-            showToast('Login required', 'Please log in to set price alerts.', 'error');
+            showToast(gettext('Login required'), gettext('Please log in to set price alerts.'), 'error');
             return;
         }
         const active = !!data.active;
         setAlertDom(slug, active);
         if (active) {
-            showToast('Alert on', `You'll be notified when ${name} price drops!`, 'success');
+            showToast(gettext('Alert on'), interpolate(gettext("You'll be notified when %s price drops!"), [name]), 'success');
         } else {
-            showToast('Alert off', `Price alert disabled for ${name}`, 'info');
+            showToast(gettext('Alert off'), interpolate(gettext('Price alert disabled for %s'), [name]), 'info');
         }
     })
-    .catch(() => showToast('Error', 'Could not update alert. Try again.', 'error'));
+    .catch(() => showToast(gettext('Error'), gettext('Could not update alert. Try again.'), 'error'));
 }
 
 function enableAllAlerts() {
@@ -307,7 +307,7 @@ function enableAllAlerts() {
     });
 
     if (!slugs.length) {
-        showToast('All alerts on', 'All price alerts are already active!', 'info');
+        showToast(gettext('All alerts on'), gettext('All price alerts are already active!'), 'info');
         return;
     }
 
@@ -323,7 +323,7 @@ function enableAllAlerts() {
             if (data.active) setAlertDom(slug, true);
             done++;
             if (done === slugs.length) {
-                showToast('All alerts on', `Price alerts enabled for ${done} destination(s)!`, 'success');
+                showToast(gettext('All alerts on'), interpolate(gettext('Price alerts enabled for %s destination(s)!'), [done]), 'success');
             }
         })
         .catch(() => {});
@@ -338,14 +338,14 @@ function initAlerts() {
 // ─── Share wishlist ───────────────────────────────────────────────────────────
 function shareWishlist() {
     const url   = window.location.href;
-    const title = 'My TravelHub Wishlist';
+    const title = gettext('My TravelHub Wishlist');
     if (navigator.share) {
         navigator.share({ title, url }).catch(() => {});
     } else {
         navigator.clipboard.writeText(url).then(() => {
-            showToast('Link copied!', 'Wishlist link copied to clipboard.', 'success');
+            showToast(gettext('Link copied!'), gettext('Wishlist link copied to clipboard.'), 'success');
         }).catch(() => {
-            showToast('Share', url, 'info');
+            showToast(gettext('Share'), url, 'info');
         });
     }
 }

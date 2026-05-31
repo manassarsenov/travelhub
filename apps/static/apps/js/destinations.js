@@ -59,7 +59,7 @@ function loadMoreCities() {
     const panel = document.getElementById('panel-' + countryCode);
     const grid = panel.querySelector('.cities-grid');
 
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + gettext('Loading...');
     btn.disabled = true;
 
     fetch(`/${lang}/destinations/cities/by-country/${countryCode}/?offset=${offset}`)
@@ -72,7 +72,7 @@ function loadMoreCities() {
                         <div class="city-card-overlay"></div>
                         <div class="city-card-info">
                             <div class="city-card-name">${city.name}, ${data.country_name || ''}</div>
-                            <div class="city-card-things">${city.things_to_do}+ curated things to do</div>
+                            <div class="city-card-things">${interpolate(gettext('%s+ curated things to do'), [city.things_to_do])}</div>
                         </div>
                     </div>`);
             });
@@ -83,12 +83,12 @@ function loadMoreCities() {
             if (!data.has_more) {
                 btn.style.display = 'none';
             } else {
-                btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Cities';
+                btn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + gettext('Load More Cities');
                 btn.disabled = false;
             }
         })
         .catch(() => {
-            btn.innerHTML = '<i class="fas fa-redo"></i> Try Again';
+            btn.innerHTML = '<i class="fas fa-redo"></i> ' + gettext('Try Again');
             btn.disabled = false;
         });
 }
@@ -201,13 +201,13 @@ function updateLoadMoreUI(panel) {
     // 🚀 ASOSIY MANTIQ: Jami 6 tadan ko'p bo'lsagina elementlarni ko'rsatamiz
     if (total > 6) {
         showingText.style.display = 'block';
-        showingText.textContent = `Showing ${shown} of ${total} cities`;
+        showingText.textContent = interpolate(gettext('Showing %(shown)s of %(total)s cities'), {shown: shown, total: total}, true);
 
         if (total > shown) {
             loadMoreBtn.style.display = 'inline-block';
             loadMoreBtn.dataset.country = countryCode;
             loadMoreBtn.dataset.offset = shown;
-            loadMoreBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Cities';
+            loadMoreBtn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + gettext('Load More Cities');
             loadMoreBtn.disabled = false;
         } else {
             loadMoreBtn.style.display = 'none';
@@ -275,8 +275,8 @@ function switchCountry(countryCode, btn) {
                 grid.innerHTML = `
                     <div class="cities-empty">
                         <div class="cities-empty-icon"><i class="fas fa-city"></i></div>
-                        <h4>No cities yet for ${countryName}</h4>
-                        <p>We're still adding destinations here. Check back soon — new cities and tours are on the way.</p>
+                        <h4>${interpolate(gettext('No cities yet for %s'), [countryName])}</h4>
+                        <p>${gettext("We're still adding destinations here. Check back soon — new cities and tours are on the way.")}</p>
                     </div>`;
                 updateLoadMoreUI(panel);
                 return;
@@ -289,7 +289,7 @@ function switchCountry(countryCode, btn) {
                         <div class="city-card-overlay"></div>
                         <div class="city-card-info">
                             <div class="city-card-name">${city.name}, ${data.country_name || ''}</div>
-                            <div class="city-card-things">${city.things_to_do}+ curated things to do</div>
+                            <div class="city-card-things">${interpolate(gettext('%s+ curated things to do'), [city.things_to_do])}</div>
                         </div>
                     </div>`);
             });
@@ -297,7 +297,7 @@ function switchCountry(countryCode, btn) {
             updateLoadMoreUI(panel);
         })
         .catch(() => {
-            btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Cities';
+            btn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + gettext('Load More Cities');
             btn.disabled = false;
         });
 }
@@ -310,7 +310,7 @@ function loadMoreDestinations() {
     const lang = getCurrentLang();
     const grid = document.getElementById('destinations-grid');
 
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + gettext('Loading...');
     btn.disabled = true;
 
     fetch(`/${lang}/destinations/load-more/?offset=${offset}&city=${citySlug}`, {
@@ -325,20 +325,20 @@ function loadMoreDestinations() {
 
             const showingText = document.getElementById('showing-text');
             if (showingText) {
-                showingText.textContent = `Showing ${offset + data.count} destinations`;
+                showingText.textContent = interpolate(gettext('Showing %s destinations'), [offset + data.count]);
             }
 
             if (!data.has_more) {
                 btn.style.display = 'none';
             } else {
-                btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More';
+                btn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + gettext('Load More');
                 btn.disabled = false;
             }
             initFlashTimers();
             initCompareCheckboxes();
         })
         .catch(() => {
-            btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More';
+            btn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + gettext('Load More');
             btn.disabled = false;
         });
 }
@@ -383,7 +383,7 @@ function filterByCity(citySlug, cityName) {
             }
 
             if (document.getElementById('results-count')) document.getElementById('results-count').textContent = total;
-            if (showingText) showingText.textContent = `Showing ${shown} of ${total} destinations`;
+            if (showingText) showingText.textContent = interpolate(gettext('Showing %(shown)s of %(total)s destinations'), {shown: shown, total: total}, true);
 
             if (loadMoreBtn) {
                 loadMoreBtn.dataset.offset = shown;
@@ -401,7 +401,7 @@ function filterByCity(citySlug, cityName) {
         })
         .catch(err => {
             console.error(err);
-            if (grid) grid.innerHTML = '<p style="text-align:center; padding:40px; color:red;">Error loading destinations.</p>';
+            if (grid) grid.innerHTML = '<p style="text-align:center; padding:40px; color:red;">' + gettext('Error loading destinations.') + '</p>';
         });
 
     if (mainDestinations) mainDestinations.scrollIntoView({behavior: 'smooth', block: 'start'});
@@ -452,7 +452,7 @@ function filterByCountry(countrySlug, countryName) {
             if (document.getElementById('results-count'))
                 document.getElementById('results-count').textContent = total;
             if (showingText)
-                showingText.textContent = `Showing ${shown} of ${total} destinations`;
+                showingText.textContent = interpolate(gettext('Showing %(shown)s of %(total)s destinations'), {shown: shown, total: total}, true);
 
             if (loadMoreBtn) {
                 loadMoreBtn.dataset.offset    = shown;
@@ -466,7 +466,7 @@ function filterByCountry(countrySlug, countryName) {
         })
         .catch(() => {
             if (grid) grid.innerHTML =
-                '<p style="text-align:center;padding:40px;color:red;">Error loading destinations.</p>';
+                '<p style="text-align:center;padding:40px;color:red;">' + gettext('Error loading destinations.') + '</p>';
         });
 
     if (mainDestinations) mainDestinations.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -482,7 +482,7 @@ function loadMoreByCountry(countrySlug) {
     const total  = parseInt(btn.dataset.total  || 0);
     const lang   = getCurrentLang();
 
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + gettext('Loading...');
     btn.disabled  = true;
 
     fetch(`/${lang}/filter-destinations/?country=${countrySlug}&offset=${offset}`)
@@ -498,14 +498,14 @@ function loadMoreByCountry(countrySlug) {
             });
 
             btn.dataset.offset = shown;
-            if (showingText) showingText.textContent = `Showing ${shown} of ${total} destinations`;
+            if (showingText) showingText.textContent = interpolate(gettext('Showing %(shown)s of %(total)s destinations'), {shown: shown, total: total}, true);
             btn.disabled  = false;
-            btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';
+            btn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + gettext('Load More Destinations');
             if (!hasMore) btn.style.display = 'none';
 
             if (grid) { waitForImagesAndInit(grid); initFlashTimers(); initCompareCheckboxes(); }
         })
-        .catch(() => { btn.disabled = false; btn.innerHTML = '<i class="fas fa-redo"></i> Try Again'; });
+        .catch(() => { btn.disabled = false; btn.innerHTML = '<i class="fas fa-redo"></i> ' + gettext('Try Again'); });
 }
 
 function waitForImagesAndInit(grid) {
@@ -539,7 +539,7 @@ function loadMoreByCity(citySlug) {
     const total = parseInt(btn.dataset.total);
     const lang = getCurrentLang();
 
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + gettext('Loading...');
     btn.disabled = true;
 
     fetch(`/${lang}/destinations/by-city/?city=${citySlug}&offset=${offset}`)
@@ -556,9 +556,9 @@ function loadMoreByCity(citySlug) {
             });
 
             btn.dataset.offset = shown;
-            if (showingText) showingText.textContent = `Showing ${shown} of ${total} destinations`;
+            if (showingText) showingText.textContent = interpolate(gettext('Showing %(shown)s of %(total)s destinations'), {shown: shown, total: total}, true);
             btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';
+            btn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + gettext('Load More Destinations');
             if (!hasMore) btn.style.display = 'none';
 
             if (grid) {
@@ -569,7 +569,7 @@ function loadMoreByCity(citySlug) {
         })
         .catch(() => {
             btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-redo"></i> Try Again';
+            btn.innerHTML = '<i class="fas fa-redo"></i> ' + gettext('Try Again');
         });
 }
 
@@ -607,7 +607,7 @@ function filterByQuery(q) {
             '<div style="grid-column:1/-1;text-align:center;padding:80px 20px;">' +
             '<div style="width:52px;height:52px;border:3px solid #e2e8f0;border-top-color:var(--primary);' +
             'border-radius:50%;animation:rotate 0.7s linear infinite;margin:0 auto 20px;"></div>' +
-            '<p style="font-size:16px;color:var(--gray);font-weight:600;">Searching for "' + q + '"…</p>' +
+            '<p style="font-size:16px;color:var(--gray);font-weight:600;">' + interpolate(gettext('Searching for "%s"…'), [q]) + '</p>' +
             '</div>';
     }
 
@@ -632,8 +632,8 @@ function filterByQuery(q) {
 
         _showSearchBanner(q, total);
         if (showingText) showingText.textContent = total > 0
-            ? 'Showing ' + shown + ' of ' + total + ' destinations'
-            : '0 destinations found';
+            ? interpolate(gettext('Showing %(shown)s of %(total)s destinations'), {shown: shown, total: total}, true)
+            : gettext('0 destinations found');
 
         const countEl = document.getElementById('results-count');
         if (countEl) countEl.textContent = total;
@@ -646,7 +646,7 @@ function filterByQuery(q) {
             loadMoreBtn.style.display    = data.has_more ? 'inline-block' : 'none';
             loadMoreBtn.onclick          = () => loadMoreByQuery(q);
             if (data.has_more) {
-                loadMoreBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';
+                loadMoreBtn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + gettext('Load More Destinations');
             }
         }
 
@@ -675,7 +675,7 @@ function loadMoreByQuery(q) {
     const total  = parseInt(btn.dataset.total  || 0);
     const lang   = getCurrentLang();
 
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + gettext('Loading...');
     btn.disabled  = true;
 
     fetch('/' + lang + '/destinations/load-more/?q=' + encodeURIComponent(q) + '&offset=' + offset, {
@@ -692,10 +692,10 @@ function loadMoreByQuery(q) {
         const newShown = offset + (data.count || 0);
         btn.dataset.offset = newShown;
 
-        if (showingText) showingText.textContent = 'Showing ' + newShown + ' of ' + total + ' destinations';
+        if (showingText) showingText.textContent = interpolate(gettext('Showing %(shown)s of %(total)s destinations'), {shown: newShown, total: total}, true);
 
         btn.disabled  = false;
-        btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';
+        btn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + gettext('Load More Destinations');
         if (!data.has_more) btn.style.display = 'none';
 
         if (grid) {
@@ -707,7 +707,7 @@ function loadMoreByQuery(q) {
     .catch(err => {
         console.error('loadMoreByQuery error:', err);
         btn.disabled  = false;
-        btn.innerHTML = '<i class="fas fa-redo"></i> Try Again';
+        btn.innerHTML = '<i class="fas fa-redo"></i> ' + gettext('Try Again');
     });
 }
 
@@ -736,12 +736,12 @@ function _noResultsHTML(q) {
         '<div style="width:90px;height:90px;background:linear-gradient(135deg,#f1f5f9,#e2e8f0);' +
         'border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">' +
         '<i class="fas fa-search" style="font-size:36px;color:#94a3b8;"></i></div>' +
-        '<h3 style="font-size:22px;font-weight:900;color:#1e293b;margin-bottom:10px;">No results for "' + q + '"</h3>' +
-        '<p style="color:#64748b;font-size:15px;margin-bottom:24px;">Try different keywords or browse all destinations</p>' +
+        '<h3 style="font-size:22px;font-weight:900;color:#1e293b;margin-bottom:10px;">' + interpolate(gettext('No results for "%s"'), [q]) + '</h3>' +
+        '<p style="color:#64748b;font-size:15px;margin-bottom:24px;">' + gettext('Try different keywords or browse all destinations') + '</p>' +
         '<button onclick="clearSearch()" style="padding:12px 28px;background:linear-gradient(135deg,#667eea,#764ba2);' +
         'color:white;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;' +
         'font-family:Poppins,sans-serif;box-shadow:0 6px 20px rgba(102,126,234,0.4);">' +
-        '<i class="fas fa-arrow-left" style="margin-right:8px;"></i>Browse All Destinations</button>' +
+        '<i class="fas fa-arrow-left" style="margin-right:8px;"></i>' + gettext('Browse All Destinations') + '</button>' +
         '</div>';
 }
 
@@ -750,13 +750,13 @@ function _searchErrorHTML(q) {
         '<div style="width:90px;height:90px;background:#fff0f0;border-radius:50%;' +
         'display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">' +
         '<i class="fas fa-exclamation-triangle" style="font-size:36px;color:#ef4444;"></i></div>' +
-        '<h3 style="font-size:20px;font-weight:900;color:#1e293b;margin-bottom:10px;">Something went wrong</h3>' +
-        '<p style="color:#64748b;font-size:15px;margin-bottom:24px;">Could not load results for "' + q + '"</p>' +
+        '<h3 style="font-size:20px;font-weight:900;color:#1e293b;margin-bottom:10px;">' + gettext('Something went wrong') + '</h3>' +
+        '<p style="color:#64748b;font-size:15px;margin-bottom:24px;">' + interpolate(gettext('Could not load results for "%s"'), [q]) + '</p>' +
         '<button onclick="filterByQuery(\'' + q.replace(/'/g, "\\'") + '\')" ' +
         'style="padding:12px 28px;background:linear-gradient(135deg,#667eea,#764ba2);' +
         'color:white;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;' +
         'font-family:Poppins,sans-serif;box-shadow:0 6px 20px rgba(102,126,234,0.4);">' +
-        '<i class="fas fa-redo" style="margin-right:8px;"></i>Try Again</button>' +
+        '<i class="fas fa-redo" style="margin-right:8px;"></i>' + gettext('Try Again') + '</button>' +
         '</div>';
 }
 
@@ -822,7 +822,7 @@ function backToExplore() {
     const banner = document.getElementById('search-results-banner');
     if (banner) banner.style.display = 'none';
 
-    if (document.getElementById('active-city-name')) document.getElementById('active-city-name').textContent = 'All';
+    if (document.getElementById('active-city-name')) document.getElementById('active-city-name').textContent = gettext('All');
     if (mainDestinations) mainDestinations.classList.remove('visible');
     if (exploreSection) exploreSection.style.display = '';
     if (grid) grid.innerHTML = '';
@@ -912,7 +912,7 @@ function applyFilters() {
     params.set('offset', 0);
 
     if (grid) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px;"><i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary);"></i><p>Searching...</p></div>';
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px;"><i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary);"></i><p>' + gettext('Searching...') + '</p></div>';
     }
 
     const lang = getCurrentLang();
@@ -937,7 +937,7 @@ function applyFilters() {
 
             // "Showing X of Y" matnini yangilash
             if (showingText) {
-                showingText.textContent = `Showing ${shown} of ${total} destinations`;
+                showingText.textContent = interpolate(gettext('Showing %(shown)s of %(total)s destinations'), {shown: shown, total: total}, true);
             }
 
             // "Load More" tugmasini holati
@@ -967,7 +967,7 @@ function loadMoreWithFilters(currentParams) {
     const offset = parseInt(btn.dataset.offset);
     currentParams.set('offset', offset);
 
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + gettext('Loading...');
     btn.disabled = true;
 
     const lang = getCurrentLang();
@@ -990,10 +990,10 @@ function loadMoreWithFilters(currentParams) {
             });
 
             btn.dataset.offset = shown;
-            if (showingText) showingText.textContent = `Showing ${shown} of ${total} destinations`;
+            if (showingText) showingText.textContent = interpolate(gettext('Showing %(shown)s of %(total)s destinations'), {shown: shown, total: total}, true);
 
             btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-plus-circle"></i> Load More Destinations';
+            btn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + gettext('Load More Destinations');
             btn.style.display = hasMore ? 'inline-block' : 'none';
 
             initFlashTimers();
@@ -1072,7 +1072,7 @@ function addToCompare(checkbox) {
     if (checkbox.checked) {
         if (isInCompare(slug)) return;
         if (list.length >= COMPARE_MAX) {
-            alert(`You can only compare up to ${COMPARE_MAX} destinations.`);
+            alert(interpolate(gettext('You can only compare up to %s destinations.'), [COMPARE_MAX]));
             checkbox.checked = false;
             return;
         }
@@ -1113,8 +1113,8 @@ function openComparison() {
         grid.innerHTML = `
             <div class="compare-empty-state">
                 <div class="compare-empty-icon"><i class="fas fa-balance-scale"></i></div>
-                <h3>No destinations selected</h3>
-                <p>Choose destinations from the list to compare them side by side.</p>
+                <h3>${gettext('No destinations selected')}</h3>
+                <p>${gettext('Choose destinations from the list to compare them side by side.')}</p>
             </div>
         `;
         modal.classList.add('active');
@@ -1125,8 +1125,8 @@ function openComparison() {
         grid.innerHTML = `
             <div class="compare-empty-state">
                 <div class="compare-empty-icon"><i class="fas fa-balance-scale"></i></div>
-                <h3>Select at least 2 destinations</h3>
-                <p>You have 1 destination selected. Please select one more to start comparing.</p>
+                <h3>${gettext('Select at least 2 destinations')}</h3>
+                <p>${gettext('You have 1 destination selected. Please select one more to start comparing.')}</p>
             </div>
         `;
         modal.classList.add('active');
@@ -1136,8 +1136,8 @@ function openComparison() {
     grid.innerHTML = `
         <div class="compare-empty-state">
             <div class="compare-empty-icon"><i class="fas fa-spinner fa-spin"></i></div>
-            <h3>Loading comparison…</h3>
-            <p>Fetching the latest details for your selected destinations.</p>
+            <h3>${gettext('Loading comparison…')}</h3>
+            <p>${gettext('Fetching the latest details for your selected destinations.')}</p>
         </div>
     `;
     modal.classList.add('active');
@@ -1155,8 +1155,8 @@ function openComparison() {
             grid.innerHTML = `
                 <div class="compare-empty-state is-error">
                     <div class="compare-empty-icon"><i class="fas fa-exclamation-circle"></i></div>
-                    <h3>Could not load comparison</h3>
-                    <p>Something went wrong while fetching the data. Please try again.</p>
+                    <h3>${gettext('Could not load comparison')}</h3>
+                    <p>${gettext('Something went wrong while fetching the data. Please try again.')}</p>
                 </div>
             `;
         });
@@ -1185,7 +1185,7 @@ function renderComparison(destinations) {
     if (!grid) return;
 
     if (!destinations || destinations.length === 0) {
-        grid.innerHTML = '<div style="text-align: center; padding: 60px;"><h3>No data available</h3></div>';
+        grid.innerHTML = '<div style="text-align: center; padding: 60px;"><h3>' + gettext('No data available') + '</h3></div>';
         return;
     }
 
@@ -1201,12 +1201,12 @@ function renderComparison(destinations) {
     };
 
     const fmtBool = (v) => v
-        ? '<span class="bool-yes"><i class="fas fa-check-circle"></i> Yes</span>'
-        : '<span class="bool-no"><i class="fas fa-times-circle"></i> No</span>';
+        ? '<span class="bool-yes"><i class="fas fa-check-circle"></i> ' + gettext('Yes') + '</span>'
+        : '<span class="bool-no"><i class="fas fa-times-circle"></i> ' + gettext('No') + '</span>';
 
     // ===== HEADER ROW =====
     let html = `<div class="compare-header-row" style="grid-template-columns: ${gridCols};">`;
-    html += `<div class="compare-header-cell label-col">Destinations</div>`;
+    html += `<div class="compare-header-cell label-col">${gettext('Destinations')}</div>`;
 
     destinations.forEach(d => {
         const priceHtml = d.discount_percentage > 0
@@ -1221,8 +1221,8 @@ function renderComparison(destinations) {
                     ${imgs.map(url => `<img src="${url}" alt="${d.name}" onerror="this.src='${DEFAULT_IMG}'">`).join('')}
                 </div>
                 ${multi ? `
-                    <button class="cmp-slider-btn prev" onclick="cmpSlide(this,-1)" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
-                    <button class="cmp-slider-btn next" onclick="cmpSlide(this,1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                    <button class="cmp-slider-btn prev" onclick="cmpSlide(this,-1)" aria-label="${gettext('Previous')}"><i class="fas fa-chevron-left"></i></button>
+                    <button class="cmp-slider-btn next" onclick="cmpSlide(this,1)" aria-label="${gettext('Next')}"><i class="fas fa-chevron-right"></i></button>
                     <div class="cmp-slider-dots">
                         ${imgs.map((_, i) => `<span class="cmp-dot ${i === 0 ? 'active' : ''}"></span>`).join('')}
                     </div>
@@ -1232,7 +1232,7 @@ function renderComparison(destinations) {
 
         html += `
         <div class="compare-header-cell">
-            <button class="compare-header-remove" onclick="removeFromCompare('${d.slug}')" title="Remove">&times;</button>
+            <button class="compare-header-remove" onclick="removeFromCompare('${d.slug}')" title="${gettext('Remove')}">&times;</button>
             ${sliderHtml}
             <h4 class="compare-header-name">${d.name}</h4>
             <p class="compare-header-location"><i class="fas fa-map-marker-alt"></i> ${d.location || d.city || 'N/A'}</p>
@@ -1240,7 +1240,7 @@ function renderComparison(destinations) {
                 <span class="compare-header-rating"><i class="fas fa-star"></i> ${d.rating || 0} <small>(${d.reviews_count || 0})</small></span>
             </div>
             <div class="compare-header-price">${priceHtml}</div>
-            <a href="${d.detail_url}" class="compare-header-btn">See Details <i class="fas fa-arrow-right" style="font-size:0.7em;"></i></a>
+            <a href="${d.detail_url}" class="compare-header-btn">${gettext('See Details')} <i class="fas fa-arrow-right" style="font-size:0.7em;"></i></a>
         </div>`;
     });
     html += '</div>';
@@ -1262,25 +1262,25 @@ function renderComparison(destinations) {
     };
 
     // Basic info rows
-    addRow('fa-route', 'Trip Type', destinations.map(d => d.trip_type || '-'));
-    addRow('fa-clock', 'Duration', destinations.map(d => d.duration || '-'));
-    addRow('fa-sun', 'Season', destinations.map(d => d.season || '-'));
-    addRow('fa-box', 'Package Type', destinations.map(d => d.package_type || '-'));
-    addRow('fa-hotel', 'Hotels', destinations.map(d => (d.hotels_count || 0).toString()));
-    addRow('fa-plane', 'Flights', destinations.map(d => fmtBool(d.has_flights)));
-    addRow('fa-undo', 'Cancellation', destinations.map(d => d.is_free_cancellation
-        ? '<span class="bool-yes"><i class="fas fa-check-circle"></i> Free</span>'
-        : '<span class="bool-no"><i class="fas fa-times-circle"></i> Non-refundable</span>'));
-    addRow('fa-tag', 'Discount', destinations.map(d => d.discount_percentage > 0
+    addRow('fa-route', gettext('Trip Type'), destinations.map(d => d.trip_type || '-'));
+    addRow('fa-clock', gettext('Duration'), destinations.map(d => d.duration || '-'));
+    addRow('fa-sun', gettext('Season'), destinations.map(d => d.season || '-'));
+    addRow('fa-box', gettext('Package Type'), destinations.map(d => d.package_type || '-'));
+    addRow('fa-hotel', gettext('Hotels'), destinations.map(d => (d.hotels_count || 0).toString()));
+    addRow('fa-plane', gettext('Flights'), destinations.map(d => fmtBool(d.has_flights)));
+    addRow('fa-undo', gettext('Cancellation'), destinations.map(d => d.is_free_cancellation
+        ? '<span class="bool-yes"><i class="fas fa-check-circle"></i> ' + gettext('Free') + '</span>'
+        : '<span class="bool-no"><i class="fas fa-times-circle"></i> ' + gettext('Non-refundable') + '</span>'));
+    addRow('fa-tag', gettext('Discount'), destinations.map(d => d.discount_percentage > 0
         ? `<span style="color:#dc2626;font-weight:700;">-${d.discount_percentage}%</span>`
         : '-'));
 
     // Flights section
     const hasFlights = destinations.some(d => d.flights && d.flights.length > 0);
     if (hasFlights) {
-        addSection('<i class="fas fa-plane"></i> Available Flights');
-        addRow('fa-plane', 'Flight Options', destinations.map(d => {
-            if (!d.flights || d.flights.length === 0) return '<span style="color:#9ca3af;">No flights</span>';
+        addSection('<i class="fas fa-plane"></i> ' + gettext('Available Flights'));
+        addRow('fa-plane', gettext('Flight Options'), destinations.map(d => {
+            if (!d.flights || d.flights.length === 0) return '<span style="color:#9ca3af;">' + gettext('No flights') + '</span>';
             return d.flights.map(f => `${f.airline_name}: <strong>$${f.price_economy}</strong>`).join('<br>');
         }));
     }
@@ -1288,22 +1288,22 @@ function renderComparison(destinations) {
     // Hotels section
     const hasHotels = destinations.some(d => d.hotels && d.hotels.length > 0);
     if (hasHotels) {
-        addSection('<i class="fas fa-hotel"></i> Available Hotels');
-        addRow('fa-hotel', 'Hotel Options', destinations.map(d => {
-            if (!d.hotels || d.hotels.length === 0) return '<span style="color:#9ca3af;">No hotels</span>';
-            return d.hotels.map(h => `${h.name}<br><small>${h.stars}⭐ · $${h.price_per_night}/night</small>`).join('<br><br>');
+        addSection('<i class="fas fa-hotel"></i> ' + gettext('Available Hotels'));
+        addRow('fa-hotel', gettext('Hotel Options'), destinations.map(d => {
+            if (!d.hotels || d.hotels.length === 0) return '<span style="color:#9ca3af;">' + gettext('No hotels') + '</span>';
+            return d.hotels.map(h => `${h.name}<br><small>${h.stars}⭐ · $${h.price_per_night}/${gettext('night')}</small>`).join('<br><br>');
         }));
     }
 
     // Tickets section
     const hasTickets = destinations.some(d => d.ticket_types && d.ticket_types.length > 0);
     if (hasTickets) {
-        addSection('<i class="fas fa-ticket-alt"></i> Ticket Types');
-        addRow('fa-ticket-alt', 'Tickets', destinations.map(d => {
-            if (!d.ticket_types || d.ticket_types.length === 0) return '<span style="color:#9ca3af;">No tickets</span>';
+        addSection('<i class="fas fa-ticket-alt"></i> ' + gettext('Ticket Types'));
+        addRow('fa-ticket-alt', gettext('Tickets'), destinations.map(d => {
+            if (!d.ticket_types || d.ticket_types.length === 0) return '<span style="color:#9ca3af;">' + gettext('No tickets') + '</span>';
             return d.ticket_types.map(t => {
                 const label = t.age_label ? `${t.name} (${t.age_label})` : t.name;
-                const price = t.is_free ? '<span class="bool-yes">Free</span>' : `<strong>$${t.price}</strong>`;
+                const price = t.is_free ? '<span class="bool-yes">' + gettext('Free') + '</span>' : `<strong>$${t.price}</strong>`;
                 return `${label}: ${price}`;
             }).join('<br>');
         }));
@@ -1406,8 +1406,8 @@ function _heroShowError() {
     if (r) r.innerHTML =
         '<div class="ls-empty">' +
         '<i class="fas fa-wifi" style="color:#ef4444"></i>' +
-        '<p>Could not load results</p>' +
-        '<small>Check your connection</small>' +
+        '<p>' + gettext('Could not load results') + '</p>' +
+        '<small>' + gettext('Check your connection') + '</small>' +
         '</div>';
     if (f) f.style.display = 'none';
     _positionSuggestions();
@@ -1424,7 +1424,7 @@ function _hl(text, q) {
 
 const _ICON  = { region: 'fas fa-globe-asia', country: 'fas fa-flag', city: 'fas fa-city', destination: 'fas fa-map-marker-alt' };
 const _COLOR = { region: '#10b981', country: '#3b82f6', city: '#8b5cf6', destination: 'var(--primary)' };
-const _LABEL = { region: 'Regions', country: 'Countries', city: 'Cities', destination: 'Destinations' };
+const _LABEL = { region: gettext('Regions'), country: gettext('Countries'), city: gettext('Cities'), destination: gettext('Destinations') };
 const _ALLOWED_TYPES = ['region', 'country', 'city', 'destination'];
 
 function _heroRender(results, q) {
@@ -1437,8 +1437,8 @@ function _heroRender(results, q) {
         resDiv.innerHTML =
             '<div class="ls-empty">' +
             '<i class="fas fa-magnifying-glass"></i>' +
-            '<p>No results for "' + q + '"</p>' +
-            '<small>Try a different keyword</small>' +
+            '<p>' + interpolate(gettext('No results for "%s"'), [q]) + '</p>' +
+            '<small>' + gettext('Try a different keyword') + '</small>' +
             '</div>';
         if (f) f.style.display = 'none';
         _positionSuggestions();
@@ -1485,7 +1485,7 @@ function _heroRender(results, q) {
                 if (r.price != null) {
                     meta = '<div class="ls-meta">'
                          +   '<div class="ls-price">$' + r.price + '</div>'
-                         +   '<div class="ls-price-label">per person</div>'
+                         +   '<div class="ls-price-label">' + gettext('per person') + '</div>'
                          + '</div>';
                 }
             } else if (r.count != null) {

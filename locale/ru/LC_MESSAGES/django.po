@@ -3,26 +3,1360 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-21 16:05+0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2026-05-25 23:54+0500\n"
+"PO-Revision-Date: 2026-05-25 00:00+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-#: apps/models/users.py:9
-msgid "User"
+
+#, fuzzy
+#| msgid "Destinations"
+msgid "Authentication"
+msgstr "Направления"
+
+msgid "Data Mutation"
 msgstr ""
 
-#: apps/models/users.py:10
+msgid "Access Control"
+msgstr ""
+
+msgid "System Event"
+msgstr ""
+
+msgid "Financial Activity"
+msgstr ""
+
+msgid "Security Alert"
+msgstr ""
+
+msgid "Debug"
+msgstr ""
+
+msgid "Info"
+msgstr ""
+
+msgid "Warning"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "Alert"
+msgstr ""
+
+msgid "Actor"
+msgstr ""
+
+msgid "Impersonated By"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Verb"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Object Representation"
+msgstr ""
+
+msgid "Pre Change Data"
+msgstr ""
+
+msgid "Post Change Data"
+msgstr ""
+
+msgid "Changes Diff"
+msgstr ""
+
+msgid "Request ID"
+msgstr ""
+
+msgid "IP Address"
+msgstr ""
+
+msgid "User Agent"
+msgstr ""
+
+msgid "Request Path"
+msgstr ""
+
+msgid "HTTP Method"
+msgstr ""
+
+msgid "Is Suspicious"
+msgstr ""
+
+msgid "Execution Time (s)"
+msgstr ""
+
+msgid "Extra Info"
+msgstr ""
+
+msgid "Action Log"
+msgstr ""
+
+msgid "Action Logs"
+msgstr ""
+
+msgid "Success"
+msgstr "Успешно"
+
+msgid "Low"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "High"
+msgstr ""
+
+msgid "Urgent"
+msgstr ""
+
+msgid "Recipient"
+msgstr ""
+
+#, fuzzy
+#| msgid "Destinations"
+msgid "Description"
+msgstr "Направления"
+
+msgid "Level"
+msgstr ""
+
+msgid "Priority"
+msgstr ""
+
+msgid "Is Read"
+msgstr ""
+
+msgid "Read At"
+msgstr ""
+
+msgid "Email Sent"
+msgstr ""
+
+msgid "Push Sent"
+msgstr ""
+
+msgid "Extra Data"
+msgstr ""
+
+msgid "Notification"
+msgstr ""
+
+#, fuzzy
+#| msgid "Destinations"
+msgid "Notifications"
+msgstr "Направления"
+
+msgid "User"
+msgstr "Пользователь"
+
+msgid "Enable Email"
+msgstr ""
+
+msgid "Enable Push"
+msgstr ""
+
+msgid "Enable In-App"
+msgstr ""
+
+#, fuzzy
+#| msgid "My Bookings"
+msgid "Booking Updates"
+msgstr "Мои бронирования"
+
+msgid "Promotions & Offers"
+msgstr ""
+
+msgid "Price Alerts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Profile Settings"
+msgid "Notification Setting"
+msgstr "Настройки профиля"
+
+#, fuzzy
+#| msgid "Profile Settings"
+msgid "Notification Settings"
+msgstr "Настройки профиля"
+
+#, fuzzy
+#| msgid "Secure Payments"
+msgid "Pending Payment"
+msgstr "Безопасные платежи"
+
+msgid "Confirmed"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Cancellation"
+msgid "Cancelled"
+msgstr "Отмена"
+
+msgid "Credit Card"
+msgstr ""
+
+msgid "PayPal"
+msgstr ""
+
+msgid "Kaspi.kz"
+msgstr ""
+
+msgid "Apple Pay"
+msgstr ""
+
+msgid "Payme"
+msgstr ""
+
+msgid "Click"
+msgstr ""
+
+msgid "Special Requests"
+msgstr ""
+
+#, fuzzy
+#| msgid "My Bookings"
+msgid "Booking"
+msgstr "Мои бронирования"
+
+#, fuzzy
+#| msgid "My Bookings"
+msgid "Bookings"
+msgstr "Мои бронирования"
+
 msgid "Admin"
+msgstr "Администратор"
+
+msgid "Male"
+msgstr ""
+
+msgid "Female"
+msgstr ""
+
+msgid "Other"
+msgstr ""
+
+msgid "Light"
+msgstr ""
+
+msgid "Dark"
+msgstr ""
+
+msgid "Budget ($0-50/day)"
+msgstr ""
+
+msgid "Mid-Range ($50-150/day)"
+msgstr ""
+
+msgid "Luxury ($150+/day)"
+msgstr ""
+
+msgid "Adventure"
+msgstr ""
+
+msgid "Beach"
+msgstr ""
+
+msgid "Cultural"
+msgstr ""
+
+msgid "Nature & Wildlife"
+msgstr ""
+
+msgid "City Tours"
+msgstr ""
+
+msgid "Romantic"
+msgstr ""
+
+msgid "Family"
+msgstr ""
+
+msgid "Luxury"
+msgstr ""
+
+msgid ""
+"Telefon raqami formati: '+998991234567'. 15 tagacha raqam ruxsat etiladi."
+msgstr ""
+
+#, fuzzy
+#| msgid "User"
+msgid "User Role"
+msgstr "Пользователь"
+
+msgid "email address"
+msgstr ""
+
+msgid "PhoneNumber"
+msgstr ""
+
+msgid "Avatar"
+msgstr ""
+
+msgid "Gender"
+msgstr ""
+
+msgid "Date of Birth"
+msgstr ""
+
+msgid "Country"
+msgstr "Страна"
+
+msgid "Bio"
+msgstr ""
+
+msgid "Cover Photo"
+msgstr ""
+
+msgid "Website"
+msgstr ""
+
+msgid "Current Location"
+msgstr ""
+
+msgid "Languages Spoken"
+msgstr ""
+
+#, fuzzy
+#| msgid "Traveled to"
+msgid "Travel Styles"
+msgstr "Побывал(а) в"
+
+msgid "Budget Range"
+msgstr ""
+
+msgid "Theme"
+msgstr ""
+
+#, fuzzy
+#| msgid "User"
+msgid "Users"
+msgstr "Пользователь"
+
+msgid "Thank you for your review!"
+msgstr ""
+
+msgid "Close"
+msgstr "Закрыть"
+
+msgid "Home"
+msgstr "Главная"
+
+msgid "Destinations"
+msgstr "Направления"
+
+msgid "Share"
+msgstr ""
+
+msgid "Saved"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Excellent"
+msgstr ""
+
+msgid "Fabulous"
+msgstr ""
+
+msgid "Good"
+msgstr ""
+
+msgid "Average"
+msgstr ""
+
+msgid "Poor"
+msgstr ""
+
+msgid "reviews"
+msgstr ""
+
+msgid "What guests loved most"
+msgstr ""
+
+msgid "No reviews yet."
+msgstr ""
+
+msgid "No image"
+msgstr ""
+
+#, python-format
+msgid "Show all %(n)s photos"
+msgstr ""
+
+#, fuzzy
+#| msgid "Free Cancellation"
+msgid "Free cancellation available"
+msgstr "Бесплатная отмена"
+
+msgid "Duration:"
+msgstr ""
+
+msgid "Show more"
+msgstr ""
+
+msgid "Why visit"
+msgstr ""
+
+msgid "What's included"
+msgstr ""
+
+#, fuzzy
+#| msgid "Destinations"
+msgid "Restrictions"
+msgstr "Направления"
+
+#, fuzzy
+#| msgid "Detailed weather information"
+msgid "Additional information"
+msgstr "Подробная информация о погоде"
+
+#, fuzzy
+#| msgid "Cancellation"
+msgid "Location"
+msgstr "Отмена"
+
+#, fuzzy
+#| msgid "Settings"
+msgid "User ratings"
+msgstr "Настройки"
+
+msgid "Good value"
+msgstr ""
+
+msgid "Facilities"
+msgstr ""
+
+msgid "Quality of service"
+msgstr ""
+
+msgid "Ease of access"
+msgstr ""
+
+msgid "Experiences"
+msgstr ""
+
+#, fuzzy
+#| msgid "What Our Travelers Say"
+msgid "What travellers are saying"
+msgstr "Что говорят наши путешественники"
+
+msgid "Write a review"
+msgstr ""
+
+#, python-format
+msgid "Explore all %(n)s reviews"
+msgstr ""
+
+msgid "Verified Traveller"
+msgstr ""
+
+msgid "The stage is yours"
+msgstr ""
+
+msgid ""
+"No stories have been shared yet. Be the pioneer and share your thoughts."
+msgstr ""
+
+msgid "Share your experience"
+msgstr ""
+
+#, fuzzy
+#| msgid "Traveled to"
+msgid "Traveller photos"
+msgstr "Побывал(а) в"
+
+msgid "Frequently asked questions"
+msgstr ""
+
+msgid "Bestsellers in"
+msgstr ""
+
+#, fuzzy
+#| msgid "See all results"
+msgid "See all"
+msgstr "Посмотреть все результаты"
+
+msgid "Best seller"
+msgstr ""
+
+msgid "Free"
+msgstr ""
+
+msgid "From"
+msgstr ""
+
+msgid "No similar destinations found."
+msgstr ""
+
+#, fuzzy
+#| msgid "Detailed weather information"
+msgid "Visitor information"
+msgstr "Подробная информация о погоде"
+
+msgid "Free entry"
+msgstr ""
+
+msgid ""
+"This place is free to visit — no ticket or booking required. Just turn up "
+"and explore."
+msgstr ""
+
+msgid "Discover more places"
+msgstr ""
+
+msgid "Tickets and prices"
+msgstr ""
+
+msgid "Search ticket availability by date"
+msgstr ""
+
+msgid "Show more dates"
+msgstr ""
+
+msgid "Mo"
+msgstr ""
+
+msgid "Tu"
+msgstr ""
+
+msgid "We"
+msgstr ""
+
+msgid "Th"
+msgstr ""
+
+msgid "Fr"
+msgstr ""
+
+msgid "Sa"
+msgstr ""
+
+msgid "Su"
+msgstr ""
+
+msgid "Select time"
+msgstr ""
+
+msgid "Standard Experience"
+msgstr ""
+
+msgid "Non-refundable"
+msgstr ""
+
+msgid "How many tickets?"
+msgstr ""
+
+#, fuzzy
+#| msgid "No flights available for this destination"
+msgid "No tickets available at the moment."
+msgstr "Нет доступных рейсов для этого направления"
+
+msgid "Total"
+msgstr "Итого"
+
+msgid "Includes taxes and charges"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "Select tickets"
+msgstr ""
+
+msgid "What guests loved most:"
+msgstr ""
+
+msgid "Visited with family"
+msgstr ""
+
+msgid "Visited with a partner"
+msgstr ""
+
+msgid "Solo traveller"
+msgstr ""
+
+msgid "Visited with friends"
+msgstr ""
+
+msgid "No reviews found."
+msgstr ""
+
+msgid "Discover Amazing Destinations"
+msgstr "Откройте удивительные направления"
+
+msgid "Explore"
+msgstr "Исследуйте"
+
+msgid "Amazing"
+msgstr "удивительные"
+
+msgid ""
+"From ancient wonders to modern marvels, discover your next unforgettable "
+"journey"
+msgstr ""
+"От древних чудес до современных шедевров — откройте для себя своё следующее "
+"незабываемое путешествие"
+
+msgid "Search by region, country, city or destination…"
+msgstr "Поиск по региону, стране, городу или направлению…"
+
+msgid "See all results"
+msgstr "Посмотреть все результаты"
+
+msgid "All"
+msgstr ""
+
+msgid "Popular"
+msgstr "Популярные"
+
+msgid "Nature"
+msgstr ""
+
+msgid "City"
+msgstr "Город"
+
+msgid "Explore more destinations"
+msgstr "Исследуйте больше направлений"
+
+msgid "Find things to do in cities around the world"
+msgstr "Найдите чем заняться в городах по всему миру"
+
+msgid "Region"
+msgstr "Регион"
+
+msgid "Premium"
+msgstr "Премиум"
+
+msgid "A rating"
+msgstr "Рейтинг A"
+
+#, python-format
+msgid "%(count)s+ curated things to do"
+msgstr "%(count)s+ отобранных занятий"
+
+#, python-format
+msgid "No cities yet for %(name)s"
+msgstr "Пока нет городов для %(name)s"
+
+msgid ""
+"We're still adding destinations here. Check back soon — new cities and tours "
+"are on the way."
+msgstr ""
+"Мы всё ещё добавляем сюда направления. Заходите позже — новые города и туры "
+"уже в пути."
+
+msgid "Load More Cities"
+msgstr "Загрузить ещё города"
+
+msgid "Search results for:"
+msgstr "Результаты поиска для:"
+
+msgid "destinations found"
+msgstr "найдено направлений"
+
+msgid "Clear"
+msgstr "Очистить"
+
+msgid "Back to Explore"
+msgstr "Назад к обзору"
+
+msgid "Filters"
+msgstr "Фильтры"
+
+msgid "Clear All"
+msgstr "Очистить всё"
+
+msgid "Price Range"
+msgstr "Диапазон цен"
+
+msgid "Trip Type"
+msgstr "Тип поездки"
+
+msgid "Duration"
+msgstr "Длительность"
+
+msgid "Rating"
+msgstr "Рейтинг"
+
+msgid "Only"
+msgstr "только"
+
+msgid "& up"
+msgstr "и выше"
+
+msgid "Activities"
+msgstr "Занятия"
+
+msgid "Best Season"
+msgstr "Лучший сезон"
+
+msgid "Found"
+msgstr "Найдено"
+
+msgid "destinations"
+msgstr "направлений"
+
+msgid "Based on your preferences"
+msgstr "На основе ваших предпочтений"
+
+msgid "Sort by"
+msgstr "Сортировка"
+
+msgid "Most Popular"
+msgstr "Самые популярные"
+
+msgid "Price: Low to High"
+msgstr "Цена: по возрастанию"
+
+msgid "Price: High to Low"
+msgstr "Цена: по убыванию"
+
+msgid "Highest Rated"
+msgstr "С высшим рейтингом"
+
+msgid "Name A-Z"
+msgstr "По названию (А-Я)"
+
+#, fuzzy
+#| msgid "Compare & Choose"
+msgid "Compare"
+msgstr "Сравнивайте и выбирайте"
+
+msgid "Load More Destinations"
+msgstr "Загрузить ещё направления"
+
+#, python-format
+msgid "Showing %(shown)s of %(total)s destinations"
+msgstr "Показано %(shown)s из %(total)s направлений"
+
+msgid "Explore on Map"
+msgstr "Исследовать на карте"
+
+msgid "Click on markers to view destination details"
+msgstr "Нажмите на метки, чтобы посмотреть подробности направления"
+
+msgid "Close Map"
+msgstr "Закрыть карту"
+
+msgid "Compare Destinations"
+msgstr "Сравнить направления"
+
+msgid "Compare up to 4 destinations side by side"
+msgstr "Сравните до 4 направлений рядом"
+
+# ===== home.html =====
+msgid "AI-powered travel recommendations"
+msgstr "Рекомендации для путешествий на основе ИИ"
+
+msgid "Discover Your Dream Destination"
+msgstr "Откройте направление своей мечты"
+
+msgid ""
+"AI-powered recommendations for unforgettable travel experiences worldwide"
+msgstr "Рекомендации на основе ИИ для незабываемых путешествий по всему миру"
+
+msgid "Flash Sale"
+msgstr "Горящие предложения"
+
+msgid "Today's Best Deals"
+msgstr "Лучшие предложения дня"
+
+msgid "Limited time offers — Book now"
+msgstr "Ограниченное предложение — бронируйте сейчас"
+
+msgid "All-Inclusive Packages"
+msgstr "Пакеты «всё включено»"
+
+msgid "Flight + Hotel + Activities — Everything you need in one package"
+msgstr "Перелёт + Отель + Развлечения — всё необходимое в одном пакете"
+
+msgid "Trending"
+msgstr "Популярные"
+
+msgid "Handpicked by our travel experts"
+msgstr "Отобраны нашими экспертами по путешествиям"
+
+msgid "How It Works"
+msgstr "Как это работает"
+
+msgid "Book your dream vacation in 4 simple steps"
+msgstr "Забронируйте отпуск мечты за 4 простых шага"
+
+msgid "Search & Explore"
+msgstr "Ищите и исследуйте"
+
+msgid "Browse 450+ destinations or let our AI recommend perfect spots for you"
+msgstr ""
+"Просматривайте 450+ направлений или доверьтесь ИИ — он подберёт идеальные "
+"места"
+
+msgid "Compare & Choose"
+msgstr "Сравнивайте и выбирайте"
+
+msgid "Compare prices, amenities, and reviews to find the best deal"
+msgstr "Сравнивайте цены, удобства и отзывы, чтобы найти лучшее предложение"
+
+msgid "Secure Booking"
+msgstr "Безопасное бронирование"
+
+msgid "Book instantly with secure payment and instant confirmation"
+msgstr ""
+"Бронируйте мгновенно с безопасной оплатой и моментальным подтверждением"
+
+msgid "Travel & Enjoy"
+msgstr "Путешествуйте и наслаждайтесь"
+
+msgid "Pack your bags and enjoy your perfect vacation with 24/7 support"
+msgstr ""
+"Собирайте чемоданы и наслаждайтесь идеальным отпуском с поддержкой 24/7"
+
+msgid "Secure Payments"
+msgstr "Безопасные платежи"
+
+msgid "SSL encrypted transactions"
+msgstr "Транзакции с SSL-шифрованием"
+
+msgid "Best Price Guarantee"
+msgstr "Гарантия лучшей цены"
+
+msgid "Find it cheaper, we'll refund the difference"
+msgstr "Найдёте дешевле — вернём разницу"
+
+msgid "24/7 Support"
+msgstr "Поддержка 24/7"
+
+msgid "Always here to help you"
+msgstr "Всегда готовы помочь"
+
+msgid "Free Cancellation"
+msgstr "Бесплатная отмена"
+
+msgid "Cancel up to 24hrs before"
+msgstr "Отмена за 24 часа"
+
+msgid "What Our Travelers Say"
+msgstr "Что говорят наши путешественники"
+
+msgid "Traveled to"
+msgstr "Побывал(а) в"
+
+msgid "We Accept:"
+msgstr "Мы принимаем:"
+
+msgid "Trusted Partners:"
+msgstr "Надёжные партнёры:"
+
+msgid "Travel Smarter with Our Mobile App"
+msgstr "Путешествуйте умнее с нашим мобильным приложением"
+
+msgid "Get exclusive mobile-only deals and manage your bookings on the go"
+msgstr ""
+"Получайте эксклюзивные предложения и управляйте бронированиями в дороге"
+
+msgid "Instant booking confirmations"
+msgstr "Мгновенное подтверждение бронирования"
+
+msgid "Real-time flight updates"
+msgstr "Обновления рейсов в реальном времени"
+
+msgid "Offline access to itineraries"
+msgstr "Офлайн-доступ к маршрутам"
+
+msgid "Mobile-exclusive discounts"
+msgstr "Скидки только для мобильных"
+
+msgid "Download on the"
+msgstr "Загрузите в"
+
+msgid "GET IT ON"
+msgstr "ДОСТУПНО В"
+
+msgid "Scan to Download"
+msgstr "Сканируйте для загрузки"
+
+# ===== main_base.html =====
+msgid "Preparing your journey..."
+msgstr "Подготовка вашего путешествия..."
+
+msgid "Recommendations"
+msgstr "Рекомендации"
+
+msgid "About"
+msgstr "О нас"
+
+msgid "Contact"
+msgstr "Контакты"
+
+msgid "Blog"
+msgstr "Блог"
+
+msgid "Destinations, hotels, cities..."
+msgstr "Направления, отели, города..."
+
+msgid "Searching..."
+msgstr "Поиск..."
+
+msgid "Dashboard"
+msgstr "Панель управления"
+
+msgid "My Bookings"
+msgstr "Мои бронирования"
+
+msgid "Wishlist"
+msgstr "Избранное"
+
+msgid "Profile Settings"
+msgstr "Настройки профиля"
+
+msgid "Admin Panel"
+msgstr "Админ-панель"
+
+msgid "Settings"
+msgstr "Настройки"
+
+msgid "Telegram Channel"
+msgstr "Telegram-канал"
+
+msgid "Instagram"
+msgstr "Instagram"
+
+msgid "Logout"
+msgstr "Выйти"
+
+msgid "Login"
+msgstr "Войти"
+
+msgid "Register"
+msgstr "Регистрация"
+
+msgid "Search Results"
+msgstr "Результаты поиска"
+
+msgid ""
+"Your trusted partner in discovering amazing destinations worldwide. AI-"
+"powered recommendations for unforgettable travel experiences."
+msgstr ""
+"Ваш надёжный партнёр в открытии удивительных направлений по всему миру. "
+"Рекомендации на основе ИИ для незабываемых путешествий."
+
+msgid "Quick Links"
+msgstr "Быстрые ссылки"
+
+msgid "About Us"
+msgstr "О нас"
+
+msgid "Support"
+msgstr "Поддержка"
+
+msgid "Help Center"
+msgstr "Центр помощи"
+
+msgid "Terms of Service"
+msgstr "Условия использования"
+
+msgid "Privacy Policy"
+msgstr "Политика конфиденциальности"
+
+msgid "Cancellation"
+msgstr "Отмена"
+
+msgid "FAQ"
+msgstr "Часто задаваемые вопросы"
+
+msgid "Newsletter"
+msgstr "Рассылка"
+
+msgid "Subscribe for exclusive deals and travel tips"
+msgstr "Подпишитесь на эксклюзивные предложения и советы по путешествиям"
+
+msgid "Your email"
+msgstr "Ваш email"
+
+msgid "All rights reserved. Made with"
+msgstr "Все права защищены. Сделано с"
+
+msgid "for travelers worldwide."
+msgstr "для путешественников по всему миру."
+
+msgid "Operation completed"
+msgstr "Операция выполнена"
+
+msgid "Modal Title"
+msgstr "Заголовок модального окна"
+
+msgid "Modal content goes here"
+msgstr "Содержимое модального окна"
+
+msgid "Available Flights"
+msgstr "Доступные рейсы"
+
+msgid "Loading..."
+msgstr "Загрузка..."
+
+msgid "Economy"
+msgstr "Эконом"
+
+msgid "Business"
+msgstr "Бизнес"
+
+msgid "First Class"
+msgstr "Первый класс"
+
+msgid "Adults"
+msgstr "Взрослые"
+
+msgid "Children"
+msgstr "Дети"
+
+msgid "Infants"
+msgstr "Младенцы"
+
+msgid "Searching flights..."
+msgstr "Поиск рейсов..."
+
+msgid "No flights available for this destination"
+msgstr "Нет доступных рейсов для этого направления"
+
+msgid "Book Flight"
+msgstr "Забронировать рейс"
+
+msgid "Flight Booked!"
+msgstr "Рейс забронирован!"
+
+msgid "Weather data is loading..."
+msgstr "Загрузка данных о погоде..."
+
+msgid "TODAY'S WEATHER"
+msgstr "СЕГОДНЯШНЯЯ ПОГОДА"
+
+msgid "Feels like:"
+msgstr "Ощущается как:"
+
+msgid "Humidity"
+msgstr "Влажность"
+
+msgid "Wind"
+msgstr "Ветер"
+
+msgid "Visibility"
+msgstr "Видимость"
+
+msgid "5-DAY FORECAST"
+msgstr "ПРОГНОЗ НА 5 ДНЕЙ"
+
+msgid "Detailed weather information"
+msgstr "Подробная информация о погоде"
+
+msgid "Weather data failed to load. Check your internet connection."
+msgstr ""
+"Не удалось загрузить данные о погоде. Проверьте подключение к интернету."
+
+msgid "Retry"
+msgstr "Повторить"
+
+msgid "Hotels"
+msgstr ""
+
+#, fuzzy
+#| msgid "Book Flight"
+msgid "Flights"
+msgstr "Забронировать рейс"
+
+msgid "Tours"
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading..."
+msgid "Load..."
+msgstr "Загрузка..."
+
+msgid "person"
+msgstr ""
+
+msgid "See Details"
+msgstr ""
+
+msgid "Days"
+msgstr ""
+
+msgid "Hours"
+msgstr ""
+
+msgid "Mins"
+msgstr ""
+
+msgid "Secs"
+msgstr ""
+
+msgid "Match"
+msgstr ""
+
+msgid "Why"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your email"
+msgid "Your taste"
+msgstr "Ваш email"
+
+msgid "Similar travelers"
+msgstr ""
+
+#, fuzzy
+#| msgid "Trending"
+msgid "Trending now"
+msgstr "Популярные"
+
+msgid "from"
+msgstr ""
+
+msgid "/person"
+msgstr ""
+
+msgid "View Details"
+msgstr ""
+
+msgid "Feedback"
+msgstr ""
+
+msgid "Good match"
+msgstr ""
+
+msgid "Bad match"
+msgstr ""
+
+msgid "Not interested"
+msgstr ""
+
+msgid "TRENDING"
+msgstr ""
+
+#, fuzzy
+#| msgid "Destinations"
+msgid "No destinations found"
+msgstr "Направления"
+
+msgid "Try adjusting your price range or other filters to find more options."
+msgstr ""
+
+msgid "Clear All Filters"
+msgstr ""
+
+#, fuzzy
+#| msgid "Recommendations"
+msgid "AI Recommendations"
+msgstr "Рекомендации"
+
+# ===== home.html =====
+#, fuzzy
+#| msgid "AI-powered travel recommendations"
+msgid "AI-Powered Recommendations"
+msgstr "Рекомендации для путешествий на основе ИИ"
+
+msgid "Discover Your"
+msgstr ""
+
+#, fuzzy
+#| msgid "Destinations"
+msgid "Perfect Destination"
+msgstr "Направления"
+
+msgid ""
+"Tell us your dream trip in your own words — our AI reads it, understands "
+"your taste and finds the best matches."
+msgstr ""
+
+msgid "e.g. A quiet beach escape under $600 for 2 in summer…"
+msgstr ""
+
+msgid "Ask AI"
+msgstr ""
+
+msgid "Try:"
+msgstr ""
+
+msgid "Romantic city break in Europe"
+msgstr ""
+
+msgid "Adventure trip with mountains & hiking"
+msgstr ""
+
+msgid "Family-friendly beach under $1000"
+msgstr ""
+
+msgid "Your Taste DNA"
+msgstr ""
+
+msgid "Generated from your activity"
+msgstr ""
+
+msgid "Refine my taste"
+msgstr ""
+
+msgid "Your top travel styles"
+msgstr ""
+
+msgid ""
+"Save a few trips you like — your travel styles will appear here and every "
+"recommendation gets sharper."
+msgstr ""
+
+msgid "Budget style"
+msgstr ""
+
+msgid "Favorite place"
+msgstr ""
+
+msgid "signals"
+msgstr ""
+
+msgid "Analyzed"
+msgstr ""
+
+msgid "Top Picks for You"
+msgstr ""
+
+msgid "destinations matched to your Taste DNA"
+msgstr ""
+
+msgid "Grid view"
+msgstr ""
+
+msgid "List view"
+msgstr ""
+
+msgid "Sort:"
+msgstr ""
+
+msgid "Best Match"
+msgstr ""
+
+msgid "No destinations available yet."
+msgstr ""
+
+#, fuzzy
+#| msgid "Destinations, hotels, cities..."
+msgid "No destinations match this filter."
+msgstr "Направления, отели, города..."
+
+msgid "Because you saved"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Travelers like you also loved"
+msgstr ""
+
+msgid "Perfect for"
+msgstr ""
+
+msgid "Hidden Gems for You"
+msgstr ""
+
+#, fuzzy
+#| msgid "Recommendations"
+msgid "Want sharper recommendations?"
+msgstr "Рекомендации"
+
+msgid ""
+"Answer 3 quick questions and our AI will instantly re-tune your Taste DNA."
+msgstr ""
+
+msgid "Take the 30-second quiz"
+msgstr ""
+
+msgid "Taste quiz"
+msgstr ""
+
+msgid "Step"
+msgstr ""
+
+msgid "of 3"
+msgstr ""
+
+msgid "What kind of trips do you love?"
+msgstr ""
+
+msgid "Pick all that apply."
+msgstr ""
+
+msgid "What's your budget style?"
+msgstr ""
+
+msgid "Per person, per day."
+msgstr ""
+
+msgid "Budget"
+msgstr ""
+
+msgid "$0–50 / day"
+msgstr ""
+
+msgid "Mid-range"
+msgstr ""
+
+msgid "$50–150 / day"
+msgstr ""
+
+msgid "$150+ / day"
+msgstr ""
+
+msgid "Who do you usually travel with?"
+msgstr ""
+
+msgid "Pick one."
+msgstr ""
+
+msgid "Solo"
+msgstr ""
+
+msgid "Partner"
+msgstr ""
+
+msgid "Friends"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Continue"
+msgstr ""
+
+msgid "AI is reading your request…"
+msgstr ""
+
+msgid "Understanding your travel intent"
+msgstr ""
+
+#, fuzzy
+#| msgid "Destinations"
+msgid "Destinations scanned"
+msgstr "Направления"
+
+msgid "Best match"
 msgstr ""

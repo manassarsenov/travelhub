@@ -17,7 +17,7 @@ function loadMore(section) {
 
     state.loading = true;
     btn.disabled  = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yuklanmoqda...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + gettext('Loading...');
 
     fetch(`/destinations/load-more/?section=${section}&offset=${state.offset}`, {
         headers: { 'X-Requested-With': 'XMLHttpRequest' }
@@ -49,21 +49,25 @@ function loadMore(section) {
         state.loading = false;
 
         if (showingTxt) {
-            showingTxt.textContent = `Showing ${Math.min(state.offset, total)} of ${total} destinations`;
+            showingTxt.textContent = interpolate(
+                gettext('Showing %(shown)s of %(total)s destinations'),
+                {shown: Math.min(state.offset, total), total: total},
+                true
+            );
         }
 
         if (!hasMore) {
             btn.closest('.load-more-container').style.display = 'none';
         } else {
             btn.disabled  = false;
-            btn.innerHTML = '<i class="fas fa-plus"></i> Load More Destinations';
+            btn.innerHTML = '<i class="fas fa-plus"></i> ' + gettext('Load More Destinations');
         }
     })
     .catch(err => {
         console.error('Load more xatosi:', err);
         state.loading = false;
         btn.disabled  = false;
-        btn.innerHTML = '<i class="fas fa-redo"></i> Xatolik – Qayta urinish';
+        btn.innerHTML = '<i class="fas fa-redo"></i> ' + gettext('Error – Try Again');
     });
 }
 
@@ -81,7 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const shown = Math.min(3, total);
 
         if (showingTxt) {
-            showingTxt.textContent = `Showing ${shown} of ${total} destinations`;
+            showingTxt.textContent = interpolate(
+                gettext('Showing %(shown)s of %(total)s destinations'),
+                {shown: shown, total: total},
+                true
+            );
         }
 
         // 3 ta yoki kam bo'lsa load more yashirish

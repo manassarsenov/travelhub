@@ -8,6 +8,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError
+from modeltranslation.admin import TabbedTranslationAdmin, TranslationStackedInline
 
 from apps.models import Destination
 
@@ -18,22 +19,22 @@ class DestinationImageInline(admin.StackedInline):
 
 
 @admin.register(Region)
-class RegionModelAdmin(admin.ModelAdmin):
+class RegionModelAdmin(TabbedTranslationAdmin):
     list_display = ['id', 'name']
 
 
 @admin.register(City)
-class CityModelAdmin(admin.ModelAdmin):
+class CityModelAdmin(TabbedTranslationAdmin):
     list_display = ['id', 'name', 'things_to_do']
 
 
 @admin.register(Tag)
-class TagModelAdmin(admin.ModelAdmin):
+class TagModelAdmin(TabbedTranslationAdmin):
     list_display = ['id', 'name']
 
 
 @admin.register(TicketType)
-class TicketTypeAdmin(admin.ModelAdmin):
+class TicketTypeAdmin(TabbedTranslationAdmin):
     list_display = ['id', 'name']
 
 
@@ -89,16 +90,16 @@ class UserAdmin(admin.ModelAdmin):
 
 
 @admin.register(Activity)
-class ActivityAdmin(admin.ModelAdmin):
+class ActivityAdmin(TabbedTranslationAdmin):
     list_display = ['id', 'name']
 
 
 @admin.register(Country)
-class CountryAdmin(admin.ModelAdmin):
+class CountryAdmin(TabbedTranslationAdmin):
     list_display = ['id', 'name']
 
 
-class DestinationFAQInline(admin.StackedInline):
+class DestinationFAQInline(TranslationStackedInline):
     model = DestinationFAQ
 
 
@@ -109,7 +110,7 @@ class DestinationTimeSlotInline(admin.StackedInline):
 
 
 @admin.register(Destination)
-class DestinationAdmin(admin.ModelAdmin):
+class DestinationAdmin(TabbedTranslationAdmin):
     inlines = [DestinationImageInline, DestinationFAQInline, DestinationTimeSlotInline]
 
     list_display = (

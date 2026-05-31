@@ -62,7 +62,7 @@
         <div class="spinner"></div>
         <i class="fas fa-plane" style="font-size: 90px; margin-bottom: 30px;"></i>
         <h2 style="font-size: 32px; font-weight: 900; margin-bottom: 15px;">TravelHub</h2>
-        <p style="font-size: 18px; opacity: 0.9;">Preparing your journey...</p>
+        <p style="font-size: 18px; opacity: 0.9;">{% trans "Preparing your journey..." %}</p>
     </div>
 </div>
 
@@ -80,12 +80,12 @@
 
         <!-- NAV LINKS -->
         <ul class="nav-links">
-            <li><a href="{% url 'home_page' %}" class="nav-link">Home</a></li>
-            <li><a href="{% url 'destinations_page' %}" class="nav-link">Destinations</a></li>
-            <li><a href="{% url 'recommendation_page' %}" class="nav-link">Recommendations</a></li>
-            <li><a href="{% url 'about_page' %}" class="nav-link">About</a></li>
-            <li><a href="{% url 'contact_page' %}" class="nav-link">Contact</a></li>
-            <li><a href="{% url 'blog_page' %}" class="nav-link">Blog</a></li>
+            <li><a href="{% url 'home_page' %}" class="nav-link">{% trans "Home" %}</a></li>
+            <li><a href="{% url 'destinations_page' %}" class="nav-link">{% trans "Destinations" %}</a></li>
+            <li><a href="{% url 'recommendation_page' %}" class="nav-link">{% trans "Recommendations" %}</a></li>
+            <li><a href="{% url 'about_page' %}" class="nav-link">{% trans "About" %}</a></li>
+            <li><a href="{% url 'contact_page' %}" class="nav-link">{% trans "Contact" %}</a></li>
+            <li><a href="{% url 'blog_page' %}" class="nav-link">{% trans "Blog" %}</a></li>
         </ul>
 
         <!-- ===== SEARCH BAR ===== -->
@@ -96,7 +96,7 @@
                         type="text"
                         id="global-search-input"
                         class="search-input"
-                        placeholder="Destinations, hotels, cities..."
+                        placeholder="{% trans 'Destinations, hotels, cities...' %}"
                         autocomplete="off"
                         oninput="onSearchInput(this.value)"
                         onkeydown="handleSearchKey(event)"
@@ -118,14 +118,14 @@
             <div class="live-suggestions" id="live-suggestions-dropdown">
                 <div class="ls-loading" id="ls-loading">
                     <div class="ls-spinner"></div>
-                    <span>Searching...</span>
+                    <span>{% trans "Searching..." %}</span>
                 </div>
                 <div class="ls-results" id="ls-results"></div>
                 <div class="ls-footer" id="ls-footer" style="display:none;">
                     <button onclick="performGlobalSearch()" class="ls-view-all">
                         <span class="ls-view-all-left">
                             <i class="fas fa-magnifying-glass"></i>
-                            See all results
+                            {% trans "See all results" %}
                         </span>
                         <span style="display:flex;align-items:center;gap:8px;">
                             <span id="ls-count-badge" class="ls-count">0</span>
@@ -207,31 +207,31 @@
                             <h4>{{ user.get_full_name|default:user.username }}</h4>
                             <p>{{ user.email }}</p>
                         </div>
-                        <a href="{% url 'dashboard_page' %}" class="dropdown-item"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                        <a href="{% url 'dashboard_page' %}" class="dropdown-item"><i class="fas fa-tachometer-alt"></i><span>{% trans "Dashboard" %}</span></a>
                         <a href="{% url 'my_bookings_page' %}" class="dropdown-item"><i
-                                class="fas fa-calendar-check"></i><span>My Bookings</span></a>
-                        <a href="{% url 'wishlist_page' %}" class="dropdown-item"><i class="fas fa-heart"></i><span>Wishlist</span></a>
+                                class="fas fa-calendar-check"></i><span>{% trans "My Bookings" %}</span></a>
+                        <a href="{% url 'wishlist_page' %}" class="dropdown-item"><i class="fas fa-heart"></i><span>{% trans "Wishlist" %}</span></a>
                         <a href="{% url 'profile_settings_page' %}" class="dropdown-item"><i
-                                class="fas fa-user-cog"></i><span>Profile Settings</span></a>
+                                class="fas fa-user-cog"></i><span>{% trans "Profile Settings" %}</span></a>
                         <a href="{% url 'admin_panel_page' %}" class="dropdown-item"><i
-                                class="fas fa-shield-alt"></i><span>Admin Panel</span></a>
-                        <a href="#" class="dropdown-item"><i class="fas fa-gear"></i><span>Settings</span></a>
+                                class="fas fa-shield-alt"></i><span>{% trans "Admin Panel" %}</span></a>
+                        <a href="#" class="dropdown-item"><i class="fas fa-gear"></i><span>{% trans "Settings" %}</span></a>
                         <a href="{% url 'telegram_channel_page' %}" class="dropdown-item"><i
-                                class="fab fa-telegram"></i><span>Telegram Channel</span></a>
+                                class="fab fa-telegram"></i><span>{% trans "Telegram Channel" %}</span></a>
                         <a href="{% url 'instagram_page' %}" class="dropdown-item"><i class="fab fa-instagram"
-                                                                                      style="color:#E4405F;"></i><span>Instagram</span></a>
+                                                                                      style="color:#E4405F;"></i><span>{% trans "Instagram" %}</span></a>
                         <a href="{% url 'logout_page' %}" class="dropdown-item" style="color:var(--danger);"><i
-                                class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+                                class="fas fa-sign-out-alt"></i><span>{% trans "Logout" %}</span></a>
                     </div>
                 </div>
                 <div class="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></div>
 
             {% else %}
                 <button class="user-btn" onclick="window.location.href='{% url 'login_page' %}'">
-                    <i class="fas fa-user"></i><span>Login</span>
+                    <i class="fas fa-user"></i><span>{% trans "Login" %}</span>
                 </button>
                 <button class="user-btn" onclick="window.location.href='{% url 'register_page' %}'">
-                    <i class="fas fa-user-plus"></i><span>Register</span>
+                    <i class="fas fa-user-plus"></i><span>{% trans "Register" %}</span>
                 </button>
                 <div class="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></div>
             {% endif %}
@@ -244,7 +244,7 @@
 <div id="search-results-overlay" class="search-overlay">
     <div class="search-results-container">
         <div class="search-results-header">
-            <h2>Search Results</h2>
+            <h2>{% trans "Search Results" %}</h2>
             <button class="close-results" onclick="closeSearchResults()"><i class="fas fa-times"></i></button>
         </div>
         <div id="search-results-content" class="search-results-content"></div>
@@ -256,17 +256,17 @@
     <div class="mobile-menu-content">
         <ul class="mobile-menu-links">
             <li><a href="{% url 'home_page' %}" class="mobile-menu-link"><i
-                    class="fas fa-home"></i><span>Home</span></a></li>
+                    class="fas fa-home"></i><span>{% trans "Home" %}</span></a></li>
             <li><a href="{% url 'destinations_page' %}" class="mobile-menu-link"><i
-                    class="fas fa-map-marked-alt"></i><span>Destinations</span></a></li>
-            <li><a href="{% url 'recommendation_page' %}" class="mobile-menu-link"><i class="fas fa-star"></i><span>Recommendations</span></a>
+                    class="fas fa-map-marked-alt"></i><span>{% trans "Destinations" %}</span></a></li>
+            <li><a href="{% url 'recommendation_page' %}" class="mobile-menu-link"><i class="fas fa-star"></i><span>{% trans "Recommendations" %}</span></a>
             </li>
             <li><a href="{% url 'about_page' %}" class="mobile-menu-link"><i
-                    class="fas fa-info-circle"></i><span>About</span></a></li>
+                    class="fas fa-info-circle"></i><span>{% trans "About" %}</span></a></li>
             <li><a href="{% url 'contact_page' %}" class="mobile-menu-link"><i
-                    class="fas fa-envelope"></i><span>Contact</span></a></li>
+                    class="fas fa-envelope"></i><span>{% trans "Contact" %}</span></a></li>
             <li><a href="{% url 'blog_page' %}" class="mobile-menu-link"><i
-                    class="fas fa-blog"></i><span>Blog</span></a></li>
+                    class="fas fa-blog"></i><span>{% trans "Blog" %}</span></a></li>
         </ul>
         <div class="mobile-menu-footer">
             <div class="mobile-lang-btns">
@@ -298,8 +298,7 @@
         <div class="footer-grid">
             <div class="footer-section">
                 <div class="footer-logo"><i class="fas fa-compass"></i><span>TravelHub</span></div>
-                <p>Your trusted partner in discovering amazing destinations worldwide. AI-powered recommendations for
-                    unforgettable travel experiences.</p>
+                <p>{% trans "Your trusted partner in discovering amazing destinations worldwide. AI-powered recommendations for unforgettable travel experiences." %}</p>
                 <div class="social-links">
                     <a href="https://www.facebook.com/ManasSarsenov/" class="social-link" target="_blank"
                        rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
@@ -314,30 +313,30 @@
                 </div>
             </div>
             <div class="footer-section">
-                <h4>Quick Links</h4>
+                <h4>{% trans "Quick Links" %}</h4>
                 <ul class="footer-links">
-                    <li><a href="{% url 'about_page' %}">About Us</a></li>
-                    <li><a href="{% url 'destinations_page' %}">Destinations</a></li>
-                    <li><a href="{% url 'recommendation_page' %}">Recommendations</a></li>
-                    <li><a href="{% url 'blog_page' %}">Blog</a></li>
-                    <li><a href="{% url 'contact_page' %}">Contact</a></li>
+                    <li><a href="{% url 'about_page' %}">{% trans "About Us" %}</a></li>
+                    <li><a href="{% url 'destinations_page' %}">{% trans "Destinations" %}</a></li>
+                    <li><a href="{% url 'recommendation_page' %}">{% trans "Recommendations" %}</a></li>
+                    <li><a href="{% url 'blog_page' %}">{% trans "Blog" %}</a></li>
+                    <li><a href="{% url 'contact_page' %}">{% trans "Contact" %}</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Support</h4>
+                <h4>{% trans "Support" %}</h4>
                 <ul class="footer-links">
-                    <li><a href="{% url 'help_center_page' %}">Help Center</a></li>
-                    <li><a href="{% url 'terms_of_service_page' %}">Terms of Service</a></li>
-                    <li><a href="{% url 'privacy_policy_page' %}">Privacy Policy</a></li>
-                    <li><a href="{% url 'cancellation_page' %}">Cancellation</a></li>
-                    <li><a href="{% url 'faq_page' %}">FAQ</a></li>
+                    <li><a href="{% url 'help_center_page' %}">{% trans "Help Center" %}</a></li>
+                    <li><a href="{% url 'terms_of_service_page' %}">{% trans "Terms of Service" %}</a></li>
+                    <li><a href="{% url 'privacy_policy_page' %}">{% trans "Privacy Policy" %}</a></li>
+                    <li><a href="{% url 'cancellation_page' %}">{% trans "Cancellation" %}</a></li>
+                    <li><a href="{% url 'faq_page' %}">{% trans "FAQ" %}</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Newsletter</h4>
-                <p>Subscribe for exclusive deals and travel tips</p>
+                <h4>{% trans "Newsletter" %}</h4>
+                <p>{% trans "Subscribe for exclusive deals and travel tips" %}</p>
                 <div class="newsletter-form">
-                    <input type="email" placeholder="Your email" id="newsletter-email">
+                    <input type="email" placeholder="{% trans 'Your email' %}" id="newsletter-email">
                     <button class="btn"
                             style="background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;padding:16px 25px;border:none;border-radius:12px;cursor:pointer;"
                             onclick="subscribeNewsletter()">
@@ -347,9 +346,8 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 TravelHub. All rights reserved. Made with <i class="fas fa-heart"
-                                                                        style="color:var(--danger);"></i> for travelers
-                worldwide.</p>
+            <p>&copy; 2024 TravelHub. {% trans "All rights reserved. Made with" %} <i class="fas fa-heart"
+                                                                        style="color:var(--danger);"></i> {% trans "for travelers worldwide." %}</p>
         </div>
     </div>
 </footer>
@@ -362,8 +360,8 @@
     <div class="toast-content">
         <i id="toast-icon" class="fas fa-check-circle toast-icon"></i>
         <div>
-            <h4 id="toast-title" style="font-weight:800;margin-bottom:6px;font-size:16px;">Success</h4>
-            <p id="toast-message" style="color:var(--gray);font-size:14px;">Operation completed</p>
+            <h4 id="toast-title" style="font-weight:800;margin-bottom:6px;font-size:16px;">{% trans "Success" %}</h4>
+            <p id="toast-message" style="color:var(--gray);font-size:14px;">{% trans "Operation completed" %}</p>
         </div>
     </div>
 </div>
@@ -371,10 +369,10 @@
 <div id="modal" class="modal-overlay">
     <div class="modal">
         <div class="modal-header">
-            <h2 id="modal-title">Modal Title</h2>
+            <h2 id="modal-title">{% trans "Modal Title" %}</h2>
             <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
         </div>
-        <div class="modal-body" id="modal-body">Modal content goes here</div>
+        <div class="modal-body" id="modal-body">{% trans "Modal content goes here" %}</div>
     </div>
 </div>
 
@@ -389,8 +387,8 @@
             <div class="fm-header-left">
                 <div class="fm-icon"><i class="fas fa-plane"></i></div>
                 <div>
-                    <h3>Available Flights</h3>
-                    <p id="fm-dest-name">Loading...</p>
+                    <h3>{% trans "Available Flights" %}</h3>
+                    <p id="fm-dest-name">{% trans "Loading..." %}</p>
                 </div>
             </div>
             <button class="fm-close" onclick="closeFlightsModal()">
@@ -401,20 +399,20 @@
         <!-- Cabin class tabs -->
         <div class="fm-tabs">
             <button class="fm-tab active" onclick="switchCabin('economy', this)">
-                <i class="fas fa-chair"></i> Economy
+                <i class="fas fa-chair"></i> {% trans "Economy" %}
             </button>
             <button class="fm-tab" onclick="switchCabin('business', this)">
-                <i class="fas fa-briefcase"></i> Business
+                <i class="fas fa-briefcase"></i> {% trans "Business" %}
             </button>
             <button class="fm-tab" onclick="switchCabin('first', this)">
-                <i class="fas fa-crown"></i> First Class
+                <i class="fas fa-crown"></i> {% trans "First Class" %}
             </button>
         </div>
 
         <!-- Passengers -->
         <div class="fm-passengers">
             <div class="fm-pass-item">
-                <span>Adults</span>
+                <span>{% trans "Adults" %}</span>
                 <div class="fm-counter">
                     <button onclick="updateFlightCount('adults', -1)">-</button>
                     <span id="fm-adults">1</span>
@@ -422,7 +420,7 @@
                 </div>
             </div>
             <div class="fm-pass-item">
-                <span>Children</span>
+                <span>{% trans "Children" %}</span>
                 <div class="fm-counter">
                     <button onclick="updateFlightCount('children', -1)">-</button>
                     <span id="fm-children">0</span>
@@ -430,7 +428,7 @@
                 </div>
             </div>
             <div class="fm-pass-item">
-                <span>Infants</span>
+                <span>{% trans "Infants" %}</span>
                 <div class="fm-counter">
                     <button onclick="updateFlightCount('infants', -1)">-</button>
                     <span id="fm-infants">0</span>
@@ -442,13 +440,13 @@
         <!-- Loading -->
         <div class="fm-loading" id="fm-loading">
             <i class="fas fa-spinner fa-spin"></i>
-            <p>Searching flights...</p>
+            <p>{% trans "Searching flights..." %}</p>
         </div>
 
         <!-- No flights -->
         <div class="fm-empty" id="fm-empty" style="display:none;">
             <i class="fas fa-plane-slash"></i>
-            <p>No flights available for this destination</p>
+            <p>{% trans "No flights available for this destination" %}</p>
         </div>
 
         <!-- Flights list -->
@@ -457,21 +455,21 @@
         <!-- Book button -->
         <div class="fm-footer" id="fm-footer" style="display:none;">
             <div class="fm-total">
-                <span>Total</span>
+                <span>{% trans "Total" %}</span>
                 <span class="fm-total-price">$<span id="fm-total-amount">0</span></span>
             </div>
             <button class="fm-book-btn" id="fm-book-btn" onclick="bookFlight()">
-                <i class="fas fa-ticket-alt"></i> Book Flight
+                <i class="fas fa-ticket-alt"></i> {% trans "Book Flight" %}
             </button>
         </div>
 
         <!-- Success -->
         <div class="fm-success" id="fm-success" style="display:none;">
             <div class="fm-success-icon"><i class="fas fa-check-circle"></i></div>
-            <h3>Flight Booked!</h3>
+            <h3>{% trans "Flight Booked!" %}</h3>
             <p id="fm-success-booking-number"></p>
             <button class="fm-success-btn" onclick="closeFlightsModal()">
-                Close <i class="fas fa-times"></i>
+                {% trans "Close" %} <i class="fas fa-times"></i>
             </button>
         </div>
 
@@ -485,7 +483,7 @@
 
         <div class="weather-modal-loading" id="weatherLoading">
             <div class="weather-spin"></div>
-            <p>Ob-havo ma'lumotlari yuklanmoqda...</p>
+            <p>{% trans "Weather data is loading..." %}</p>
         </div>
 
         <div id="weatherContent" style="display:none;">
@@ -493,14 +491,14 @@
                 <button class="weather-modal-close" onclick="closeWeatherModal()">
                     <i class="fas fa-times"></i>
                 </button>
-                <div class="weather-modal-city" id="wCityLabel">BUGUNGI OB-HAVO</div>
+                <div class="weather-modal-city" id="wCityLabel">{% trans "TODAY'S WEATHER" %}</div>
                 <div class="weather-modal-location" id="wLocation">—</div>
                 <div class="weather-modal-main">
                     <div class="weather-modal-icon" id="wIcon">🌤️</div>
                     <div class="weather-modal-temp-block">
                         <div class="weather-modal-temp" id="wTemp">—</div>
                         <div class="weather-modal-desc" id="wDesc">—</div>
-                        <div class="weather-modal-feels" id="wFeels">Sezilishi: —</div>
+                        <div class="weather-modal-feels" id="wFeels">{% trans "Feels like:" %} —</div>
                     </div>
                 </div>
             </div>
@@ -509,27 +507,27 @@
                 <div class="weather-modal-stats">
                     <div class="weather-stat-item">
                         <i class="fas fa-tint" style="color:#3b82f6;"></i>
-                        <div class="ws-label">Namlik</div>
+                        <div class="ws-label">{% trans "Humidity" %}</div>
                         <div class="ws-value" id="wHumidity">—</div>
                     </div>
                     <div class="weather-stat-item">
                         <i class="fas fa-wind" style="color:#64748b;"></i>
-                        <div class="ws-label">Shamol</div>
+                        <div class="ws-label">{% trans "Wind" %}</div>
                         <div class="ws-value" id="wWind">—</div>
                     </div>
                     <div class="weather-stat-item">
                         <i class="fas fa-eye" style="color:#8b5cf6;"></i>
-                        <div class="ws-label">Ko'rinish</div>
+                        <div class="ws-label">{% trans "Visibility" %}</div>
                         <div class="ws-value" id="wVisibility">—</div>
                     </div>
                 </div>
 
-                <div class="weather-forecast-title">5 KUNLIK PROGNOZ</div>
+                <div class="weather-forecast-title">{% trans "5-DAY FORECAST" %}</div>
                 <div class="weather-forecast" id="wForecast"></div>
 
                 <div class="weather-modal-footer">
                     <a href="#" id="wWeatherLink" target="_blank">
-                        Batafsil ob-havo ma'lumotlari
+                        {% trans "Detailed weather information" %}
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
@@ -538,9 +536,9 @@
 
         <div class="weather-modal-error" id="weatherError" style="display:none;">
             <i class="fas fa-exclamation-triangle"></i>
-            <p>Ob-havo ma'lumotlari yuklanmadi. Internet aloqasini tekshiring.</p>
+            <p>{% trans "Weather data failed to load. Check your internet connection." %}</p>
             <button class="weather-retry-btn" onclick="retryWeather()">
-                <i class="fas fa-redo"></i> Qayta urinish
+                <i class="fas fa-redo"></i> {% trans "Retry" %}
             </button>
         </div>
 
@@ -555,6 +553,7 @@
     {% endif %}
 </div>
 
+<script src="{% url 'javascript-catalog' %}"></script>
 <script src="{% static 'apps/js/main_base.js' %}"></script>
 <script src="{% static 'apps/js/flights_modal.js' %}"></script>
 <script src="{% static 'apps/js/weather.js' %}"></script>
