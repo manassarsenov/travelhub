@@ -3,6 +3,8 @@ import time
 from celery import shared_task
 from django.db import transaction
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q
+
 from .ai_moderator import check_review_with_ai
 from django.utils.translation import gettext_lazy as _
 
