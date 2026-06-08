@@ -7,11 +7,13 @@
          data-price="{{ pick.d.discounted_price }}"
          data-rating="{{ pick.d.rating }}">
     <div class="rec-card__media">
-        {% if pick.d.images.first %}
-            <img src="{{ pick.d.images.first.image.url }}" alt="{{ pick.d.name }}" loading="lazy">
+        {% with img=pick.d.images.all.0 %}
+        {% if img %}
+            <img src="{{ img.image.url }}" alt="{{ pick.d.name }}" loading="lazy">
         {% else %}
             <img src="{% static 'apps/img/default.avif' %}" alt="{{ pick.d.name }}" loading="lazy">
         {% endif %}
+        {% endwith %}
         <div class="rec-card__match" tabindex="0">
             <span class="rec-card__match-pct">{{ pick.match }}%</span>
             <span class="rec-card__match-lbl">{% trans "Match" %}</span>

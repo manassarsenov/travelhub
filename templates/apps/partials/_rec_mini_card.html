@@ -3,11 +3,13 @@
 {# Karusellar uchun kichik tavsiya kartasi — `card` = engine pick dict #}
 <a class="mini-card" href="{% url 'destination_detail_page' card.d.slug %}">
     <div class="mini-card__media">
-        {% if card.d.images.first %}
-            <img src="{{ card.d.images.first.image.url }}" alt="{{ card.d.name }}" loading="lazy">
+        {% with img=card.d.images.all.0 %}
+        {% if img %}
+            <img src="{{ img.image.url }}" alt="{{ card.d.name }}" loading="lazy">
         {% else %}
             <img src="{% static 'apps/img/default.avif' %}" alt="{{ card.d.name }}" loading="lazy">
         {% endif %}
+        {% endwith %}
         <span class="mini-card__match">{{ card.match }}%</span>
     </div>
     <div class="mini-card__body">

@@ -113,10 +113,10 @@ class Destination(SlugBaseModel, CreatedBaseModel):
 
     @property
     def discounted_price(self):
-        if not (0 <= self.discount_percentage <= 100):
-            raise ValueError("Discount percentage must be between 0 and 100")
-
-        discounted_price = self.price - (self.price * self.discount_percentage / 100)
+        # Noto'g'ri foiz (0–100 dan tashqari) butun sahifani yiqitmasligi uchun
+        # ko'rsatishda xavfsiz oraliqqa siqamiz (xato ko'tarmaymiz).
+        pct = min(100, max(0, self.discount_percentage))
+        discounted_price = self.price - (self.price * pct / 100)
         return int(discounted_price)
 
     @property

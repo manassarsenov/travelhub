@@ -606,59 +606,68 @@ class RecommendationEngine:
                 cards.append(self._card(dest, final, parts))
         return cards
 
-    def because_you_saved(self):
+    def because_you_saved(self, exclude_ids=None):
         """Eng so'nggi seed bo'yicha content-based karusel."""
         if not self.seed_objects:
             return None
+        block = self.excluded | set(exclude_ids or ())   # dismiss + boshqa bo'limda ko'rsatilganlar
         seed = self.seed_objects[0]
         items = []
         for final, parts, dest in self._ranked():
+            if dest.id in block:
+                continue
             if dest.trip_type == seed.trip_type or parts['content'] > 0.2:
                 items.append(self._card(dest, final, parts))
             if len(items) >= 8:
                 break
         return {'seed': seed, 'items': items} if items else None
 
-    def travelers_also_loved(self, n=8):
-        """Collaborative qator."""
-        if self._collab:
-            out = []
-            for dest_id, _cnt in self._collab.most_common(n * 3):
-                dest = self._by_id.get(dest_id)
-                if not dest or dest.id in self.excluded:
-                    continue
-                final, parts = self._score(dest)
-                out.append(self._card(dest, final, parts))
-                if len(out) >= n:
-                    break
-            if out:
-                return out
-        # zaxira — eng mashhurlari
-        pool = [d for d in self.candidates if d.id not in self.excluded]
-        return [self._card(d, *self._score(d))
-                for d in sorted(pool, key=lambda x: -self._popularity_score(x))[:n]]
+    def travelers_also_loved(self, n=8, exclude_ids=None):
+        """Collaborative qator — FAQAT haqiqiy co-occurrence signali bo'lganda.
 
-    def perfect_for_season(self, n=8):
+        Collaborative ma'lumot yo'q bo'lsa (yangi foydalanuvchi yoki o'xshash
+        sayohatchilar topilmasa) bo'sh ro'yxat qaytaradi — shunda shablon bu
+        bo'limni ko'rsatmaydi. Avval "mashhur joylar" zaxirasi bor edi, lekin u
+        "Travelers like you also loved" sarlavhasi ostida chalg'ituvchi edi.
+        """
+        if not self._collab:
+            return []
+        block = self.excluded | set(exclude_ids or ())
+        out = []
+        for dest_id, _cnt in self._collab.most_common(n * 3):
+            dest = self._by_id.get(dest_id)
+            if not dest or dest.id in block:
+                continue
+            final, parts = self._score(dest)
+            out.append(self._card(dest, final, parts))
+            if len(out) >= n:
+                break
+        return out
+
+    def perfect_for_season(self, n=8, exclude_ids=None):
         """Joriy mavsumga mos joylar."""
+        block = self.excluded | set(exclude_ids or ())
         seasonal = [d for d in self.candidates
-                    if (d.season or '').lower() == self.season and d.id not in self.excluded]
+                    if (d.season or '').lower() == self.season and d.id not in block]
         seasonal.sort(key=lambda d: -self._score(d)[0])
         if len(seasonal) < n:                       # mavsum kam bo'lsa — kontekst bali yuqorilar
-            extra = sorted((d for d in self.candidates if d not in seasonal),
+            seen = {d.id for d in seasonal} | block
+            extra = sorted((d for d in self.candidates if d.id not in seen),
                            key=lambda d: -self._context_score(d))
             seasonal += extra[:n - len(seasonal)]
         return [self._card(d, *self._score(d)) for d in seasonal[:n]]
 
-    def hidden_gems(self, n=8):
+    def hidden_gems(self, n=8, exclude_ids=None):
         """Yuqori reyting, kam mashhur — diversity uchun."""
+        block = self.excluded | set(exclude_ids or ())
         rated = [d for d in self.candidates
                  if (d.db_avg_rating or 0) >= 4.3 and (d.rev_count or 0) <= 12
-                 and d.id not in self.seeds and d.id not in self.excluded]
+                 and d.id not in self.seeds and d.id not in block]
         rated.sort(key=lambda d: -(d.db_avg_rating or 0))
         gems = rated[:n]
         if len(gems) < n:
             # zaxira: mashhur bo'lmagan, kam sharhli, lekin yaxshi ballga ega joylar
-            seen = {d.id for d in gems} | set(self.seeds.keys())
+            seen = {d.id for d in gems} | set(self.seeds.keys()) | block
             extra = [d for d in self.candidates
                      if d.id not in seen and not d.is_popular and (d.rev_count or 0) <= 12]
             extra.sort(key=lambda d: -self._score(d)[0])

@@ -1771,8 +1771,11 @@ class RecommendationTemplateView(TemplateView):
         taste = engine.taste_dna()
         top_picks = engine.top_picks(6)
 
-        # Gemini: AI portreti + pitchlar (xato/sekinlik bo'lsa shablonli matn qoladi)
+        # Gemini: AI portreti + pitchlar (xato/sekinlik bo'lsa shablonli matn qoladi).
+        # Portretni AI haqiqatan almashtirdimi — yorliqni to'g'ri ko'rsatish uchun belgilab qo'yamiz.
+        template_portrait = taste['portrait']
         ai.enrich(taste, top_picks)
+        taste['ai_portrait'] = taste['portrait'] != template_portrait
 
         # filtr tugmalari — Top Picks'da aslida bor trip_type'lardan tuziladi
         seen = []
@@ -1787,10 +1790,27 @@ class RecommendationTemplateView(TemplateView):
         context['taste'] = taste
         context['season_label'] = taste['season_label']
         context['top_picks'] = top_picks
-        context['because_saved'] = engine.because_you_saved()
-        context['also_loved'] = engine.travelers_also_loved(8)
-        context['season_picks'] = engine.perfect_for_season(8)
-        context['hidden_gems'] = engine.hidden_gems(8)
+
+        # Bo'limlar orasida bir joy takrorlanmasin: har bir bo'lim o'zidan
+        # oldingilarda ko'rsatilgan destinationlarni o'tkazib yuboradi.
+        shown = {p['d'].id for p in top_picks}
+
+        because_saved = engine.because_you_saved(exclude_ids=shown)
+        if because_saved:
+            shown |= {c['d'].id for c in because_saved['items']}
+
+        also_loved = engine.travelers_also_loved(8, exclude_ids=shown)
+        shown |= {c['d'].id for c in also_loved}
+
+        season_picks = engine.perfect_for_season(8, exclude_ids=shown)
+        shown |= {c['d'].id for c in season_picks}
+
+        hidden_gems = engine.hidden_gems(8, exclude_ids=shown)
+
+        context['because_saved'] = because_saved
+        context['also_loved'] = also_loved
+        context['season_picks'] = season_picks
+        context['hidden_gems'] = hidden_gems
         return context
 
 
