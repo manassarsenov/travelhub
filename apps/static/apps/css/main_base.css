@@ -2847,6 +2847,74 @@ mark.ls-highlight {
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8), 0 0 0 3px rgba(102, 126, 234, 0.3);
 }
 
+/* ==========================================================================
+   MOBILE RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* Base styles */
+    body {
+        font-size: 14px;
+    }
+    
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; }
+    h3 { font-size: 18px; }
+    
+    /* Images */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Container */
+    .container {
+        width: 100%;
+        padding: 0 15px;
+    }
+    
+    /* Navbar */
+    .navbar-top {
+        flex-direction: column;
+        padding: 10px;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .navbar-search {
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    .nav-actions {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+    
+    /* Mobile menu */
+    .mobile-menu-overlay {
+        display: block;
+    }
+    
+    .mobile-menu-content {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    /* Footer */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* Cards */
+    .card {
+        width: 100%;
+    }
+}
+
 /* Navbar scrolled — tighter */
 #navbar.scrolled .navbar-top {
     height: 64px;

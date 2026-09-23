@@ -184,7 +184,12 @@ CELERY_RESULT_BACKEND = 'django-db'
 
 CSRF_TRUSTED_ORIGINS = [
     origin for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if origin
-] + ["https://*.railway.app", "https://*.up.railway.app"]
+] + ["https://*.railway.app", "https://*.up.railway.app", "http://192.168.101.108:8000"]
+
+# Session settings for development
+SESSION_COOKIE_DOMAIN = None  # Allow session to work across different hosts
+SESSION_COOKIE_SECURE = False  # Allow HTTP in development
+CSRF_COOKIE_SECURE = False  # Allow HTTP in development
 
 CACHES = {
     "default": {

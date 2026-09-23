@@ -18,9 +18,9 @@ from django.db import transaction, IntegrityError
 from django.db.models import F, Q, Prefetch, Count, Avg, Min, Max, Sum
 from django.forms.models import model_to_dict
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render, reverse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode
@@ -1460,7 +1460,10 @@ class LoginFormView(LoginNotRequiredMixin, FormView):
         if next_url:
             return next_url
 
-        return super().get_success_url()
+        # Use request's host to redirect to correct IP
+        from django.urls import reverse
+        success_path = reverse('home_page')
+        return f"{self.request.scheme}://{self.request.get_host()}{success_path}"
 
     def form_valid(self, form):
         user = form.cleaned_data['user']

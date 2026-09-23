@@ -11,6 +11,7 @@ pyvenv.cfg
 media/
 .mo
 staticfiles/
+kamchiliklar/
 .env.prod
 .env.local
 pip-selfcheck.json
@@ -182,3 +183,7 @@ dmypy.json
 cython_debug/
 .env.local
 .env.prod
+!/Kamchiliklar/aws s3 vs minio
+!/Kamchiliklar/click-payme
+!/Kamchiliklar/shortcoming
+!/Other shortcoming
