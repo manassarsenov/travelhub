@@ -10,21 +10,10 @@ logger = logging.getLogger(__name__)
 
 
 def check_review_with_ai(text, destination_name):
-    """
-
-    Izohni Gemini AI orqali tekshirishning ENG MUKAMMAL (JSON + Timeout + Logging) usuli.
-
-    """
-
     if not text or not text.strip():
         return False, "SYSTEM_REJECT: Izoh bo'sh"
 
-    # 2-HIMOYA: Matnni kesish. Kimdir 1 millionta "A" harfini yozib yuborsa ham,
-
-    # AI faqat birinchi 3000 tasini o'qiydi. (Memory va Pulni tejash uchun)
-
     safe_text = text.strip()[:3000]
-
 
     api_key = getattr(settings, 'GEMINI_API_KEY', None)
 
